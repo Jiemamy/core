@@ -1,6 +1,6 @@
 /*
  * Copyright 2007-2009 Jiemamy Project and the Others.
- * Created on 2008/12/31
+ * Created on 2009/01/19
  *
  * This file is part of Jiemamy.
  *
@@ -16,34 +16,37 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.exception;
+package org.jiemamy.model.dbo;
+
+import java.util.UUID;
+
+import org.jiemamy.model.AbstractEntityReference;
 
 /**
- * モデル整合性が崩れる操作を行った場合。
+ * {@link TableModel}に対する参照オブジェクトの実装。Artemisにおける{@link TableRef}の実装クラス。
  * 
- * @since 0.2
  * @author daisuke
  */
-@SuppressWarnings("serial")
-public class ModelConsistenceException extends RuntimeException {
+public class DefaultTableRef extends AbstractEntityReference<TableModel> implements TableRef {
 	
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @since 0.2
+	 * @param decl 定義オブジェクト
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public ModelConsistenceException() {
-		super();
+	public DefaultTableRef(TableModel decl) {
+		super(decl);
 	}
 	
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param message 例外メッセージ
-	 * @since 0.2
+	 * @param referenceId 参照先のモデルID
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public ModelConsistenceException(String message) {
-		super(message);
+	public DefaultTableRef(UUID referenceId) {
+		super(referenceId);
 	}
 	
 }

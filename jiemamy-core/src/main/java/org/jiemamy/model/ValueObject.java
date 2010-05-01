@@ -1,6 +1,6 @@
 /*
- * Copyright 2007-2009 Jiemamy Project and the Others.
- * Created on 2008/09/17
+ * Copyright 2007-2010 Jiemamy Project and the Others.
+ * Created on 2010/05/01
  *
  * This file is part of Jiemamy.
  *
@@ -16,22 +16,15 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.model.entity;
+package org.jiemamy.model;
 
 /**
- * リレーショナルデータベースにおける「ビュー」を表すモデルインターフェイス。
+ * DDDにおけるVALUE OBJECTを表すインターフェイス。
  * 
- * @since 0.2
+ * @since 0.3
+ * @version $Id$
  * @author daisuke
  */
-public interface ViewModel extends EntityModel {
-	
-	/**
-	 * VIEW定義SELECT文を取得する。
-	 * 
-	 * @return VIEW定義SELECT文. 未設定の場合は{@code null}
-	 * @since 0.2
-	 */
-	String getDefinition();
+public interface ValueObject {
 	
 }

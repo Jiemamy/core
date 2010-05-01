@@ -19,12 +19,11 @@
 package org.jiemamy.model.dataset;
 
 import java.util.Map;
-import java.util.UUID;
 
+import org.apache.commons.collections15.MapUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-import org.jiemamy.model.AbstractJiemamyElement;
 import org.jiemamy.model.attribute.ColumnRef;
 
 /**
@@ -32,35 +31,24 @@ import org.jiemamy.model.attribute.ColumnRef;
  * 
  * @author daisuke
  */
-public class DefaultRecordModel extends AbstractJiemamyElement implements RecordModel {
+public class DefaultRecordModel implements RecordModel {
 	
 	/** カラムに対応するデータ */
-	private Map<ColumnRef, String> values;
+	private final Map<ColumnRef, String> values;
 	
 
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param id モデルID
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @param values カラムに対応するデータ
 	 */
-	public DefaultRecordModel(UUID id) {
-		super(id);
+	public DefaultRecordModel(Map<ColumnRef, String> values) {
+		this.values = MapUtils.unmodifiableMap(values);
 	}
 	
 	public Map<ColumnRef, String> getValues() {
 		assert values != null;
 		return values;
-	}
-	
-	/**
-	 * カラムに対応するデータを設定する。
-	 * 
-	 * @param values カラムに対応するデータ
-	 */
-	public void setValues(Map<ColumnRef, String> values) {
-		//ValidateUtil.injectionSetter(this.values);
-		this.values = values;
 	}
 	
 	@Override

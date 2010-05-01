@@ -21,16 +21,16 @@ package org.jiemamy.model;
 import java.util.UUID;
 
 /**
- * {@link JiemamyElement}に対する参照オブジェクトインターフェイス。
+ * {@link Entity}に対する参照オブジェクトインターフェイス。
  * 
  * <p>このインターフェイスの実装は、イミュータブルでなければならない。</p>
  * 
  * @param <T> 実体のモデル型
- * @see JiemamyElement
+ * @see Entity
  * @since 0.2
  * @author daisuke
  */
-public interface ElementReference<T extends JiemamyElement> {
+public interface EntityReference<T extends Entity> extends ValueObject {
 	
 	/**
 	 * 参照先要素の同一性を調べる。

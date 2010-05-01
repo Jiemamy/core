@@ -22,8 +22,6 @@ import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-import org.jiemamy.ReferenceResolver;
-
 /**
  * {@link BuiltinDataType}の実装クラス。
  * 
@@ -79,12 +77,6 @@ public class DefaultBuiltinDataType implements BuiltinDataType {
 	 */
 	public void setTypeName(String typeName) {
 		this.typeName = typeName;
-	}
-	
-	public BuiltinDataType toBuiltinDataType(ReferenceResolver resolver) {
-		Validate.notNull(resolver);
-		
-		return this;
 	}
 	
 	@Override

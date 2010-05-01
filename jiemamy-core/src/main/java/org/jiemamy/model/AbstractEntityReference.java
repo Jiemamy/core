@@ -24,14 +24,13 @@ import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-
 /**
  * 参照オブジェクトの骨格実装。
  * 
  * @param <T> 参照対象オブジェクトの型
  * @author daisuke
  */
-public abstract class AbstractElementReference<T extends JiemamyElement> implements ElementReference<T> {
+public abstract class AbstractEntityReference<T extends Entity> implements EntityReference<T> {
 	
 	private final UUID referenceId;
 	
@@ -42,7 +41,7 @@ public abstract class AbstractElementReference<T extends JiemamyElement> impleme
 	 * @param decl 定義オブジェクト
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public AbstractElementReference(T decl) {
+	public AbstractEntityReference(T decl) {
 		Validate.notNull(decl);
 		referenceId = decl.getId();
 	}
@@ -53,9 +52,8 @@ public abstract class AbstractElementReference<T extends JiemamyElement> impleme
 	 * @param referenceId 参照先のモデルID
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public AbstractElementReference(UUID referenceId) {
+	public AbstractEntityReference(UUID referenceId) {
 		Validate.notNull(referenceId);
-		
 		this.referenceId = referenceId;
 	}
 	
@@ -70,7 +68,7 @@ public abstract class AbstractElementReference<T extends JiemamyElement> impleme
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		AbstractElementReference<?> other = (AbstractElementReference<?>) obj;
+		AbstractEntityReference<?> other = (AbstractEntityReference<?>) obj;
 		if (referenceId == null) {
 			if (other.referenceId != null) {
 				return false;
@@ -97,9 +95,6 @@ public abstract class AbstractElementReference<T extends JiemamyElement> impleme
 	public String toString() {
 		ReflectionToStringBuilder toStringBuilder =
 				new ReflectionToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE);
-		toStringBuilder.setExcludeFieldNames(new String[] {
-			"jiemamy"
-		});
 		
 		return toStringBuilder.toString();
 	}

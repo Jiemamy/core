@@ -1,6 +1,6 @@
 /*
  * Copyright 2007-2009 Jiemamy Project and the Others.
- * Created on 2008/07/20
+ * Created on 2008/06/09
  *
  * This file is part of Jiemamy.
  *
@@ -16,23 +16,30 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.model.datatype;
+package org.jiemamy.model.dbo;
 
 /**
- * {@link DataType}用のアダプタ。
+ * ビューモデル
  * 
  * @author daisuke
  */
-public interface DataTypeAdapter {
+public class DefaultViewModel extends AbstractDatabaseObjectModel implements ViewModel {
 	
+	/** VIEW定義SELECT文 */
+	private String definition = "";
+	
+
 	/**
-	 * 渡されたアダプタが持つ型に対する追加情報を、自クラスにコピーする。
+	 * インスタンスを生成する。
 	 * 
-	 * @param src コピー元アダプタ
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 * @throws IllegalArgumentException 引数に自分と同じクラスのインスタンス以外を与えた場合
-	 * @since 0.2
+	 * @param definition SELECT文
 	 */
-	void copy(DataTypeAdapter src);
+	public DefaultViewModel(String definition) {
+		
+	}
+	
+	public String getDefinition() {
+		return definition;
+	}
 	
 }

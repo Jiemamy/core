@@ -18,12 +18,10 @@
  */
 package org.jiemamy.model.index;
 
-import java.util.UUID;
-
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-import org.jiemamy.model.AbstractJiemamyElement;
+import org.jiemamy.model.ValueObject;
 import org.jiemamy.model.attribute.ColumnRef;
 
 /**
@@ -31,23 +29,24 @@ import org.jiemamy.model.attribute.ColumnRef;
  * 
  * @author daisuke
  */
-public class DefaultIndexColumnModel extends AbstractJiemamyElement implements IndexColumnModel {
+public final class DefaultIndexColumnModel implements IndexColumnModel, ValueObject {
 	
 	/** インデックス対象カラム */
-	private ColumnRef columnRef;
+	private final ColumnRef columnRef;
 	
 	/** カラムソート方式 */
-	private SortOrder sortOrder;
+	private final SortOrder sortOrder;
 	
 
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param id モデルID
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @param columnRef インデックス対象カラム
+	 * @param sortOrder カラムソート方式
 	 */
-	public DefaultIndexColumnModel(UUID id) {
-		super(id);
+	public DefaultIndexColumnModel(ColumnRef columnRef, SortOrder sortOrder) {
+		this.columnRef = columnRef;
+		this.sortOrder = sortOrder;
 	}
 	
 	public ColumnRef getColumnRef() {
@@ -56,28 +55,6 @@ public class DefaultIndexColumnModel extends AbstractJiemamyElement implements I
 	
 	public SortOrder getSortOrder() {
 		return sortOrder;
-	}
-	
-	/**
-	 * 
-	 * インデックス対象カラムを設定する
-	 * 
-	 * @param columnRef インデックス対象カラム
-	 * @since 0.3
-	 */
-	public void setColumnRef(ColumnRef columnRef) {
-		this.columnRef = columnRef;
-	}
-	
-	/**
-	 * 
-	 * カラムソート方式を設定する
-	 * 
-	 * @param sortOrder カラムソート方式
-	 * @since 0.3
-	 */
-	public void setSortOrder(SortOrder sortOrder) {
-		this.sortOrder = sortOrder;
 	}
 	
 	@Override

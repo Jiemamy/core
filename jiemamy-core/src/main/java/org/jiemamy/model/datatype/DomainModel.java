@@ -18,7 +18,7 @@
  */
 package org.jiemamy.model.datatype;
 
-import org.jiemamy.model.JiemamyElement;
+import org.jiemamy.model.Entity;
 import org.jiemamy.model.attribute.constraint.ColumnCheckConstraint;
 import org.jiemamy.model.attribute.constraint.NotNullConstraint;
 
@@ -28,7 +28,7 @@ import org.jiemamy.model.attribute.constraint.NotNullConstraint;
  * @since 0.2
  * @author daisuke
  */
-public interface DomainModel extends JiemamyElement, DataTypeMold<DomainRef>, DataTypeHolder<BuiltinDataType> {
+public interface DomainModel extends Entity, DataTypeMold<DomainRef> {
 	
 	/**
 	 * チェック制約を取得する。
@@ -37,6 +37,14 @@ public interface DomainModel extends JiemamyElement, DataTypeMold<DomainRef>, Da
 	 * @since 0.2
 	 */
 	ColumnCheckConstraint getCheckConstraint();
+	
+	/**
+	 * 型記述子を取得する。
+	 * 
+	 * @return 型記述子. 未設定の場合は{@code null}
+	 * @since 0.2
+	 */
+	DataType getDataType();
 	
 	/**
 	 * 説明文を取得する。

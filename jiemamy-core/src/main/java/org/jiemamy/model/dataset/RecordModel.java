@@ -20,7 +20,6 @@ package org.jiemamy.model.dataset;
 
 import java.util.Map;
 
-import org.jiemamy.model.JiemamyElement;
 import org.jiemamy.model.attribute.ColumnRef;
 
 /**
@@ -29,7 +28,7 @@ import org.jiemamy.model.attribute.ColumnRef;
  * @since 0.2
  * @author daisuke
  */
-public interface RecordModel extends JiemamyElement {
+public interface RecordModel {
 	
 	/**
 	 * カラムに対応するデータを取得する。

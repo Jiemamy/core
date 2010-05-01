@@ -18,8 +18,7 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
-import java.util.UUID;
-
+import org.apache.commons.lang.Validate;
 
 /**
  * チェック制約の骨格実装クラス。
@@ -35,30 +34,28 @@ public abstract class AbstractCheckConstraint extends AbstractConstraintModel im
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param id モデルID
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @param name 物理名
+	 * @param logicalName 論理名
+	 * @param description 説明
+	 * @param expression CHEKC制約定義式
+	 * @throws IllegalArgumentException 引数expressionに{@code null}を与えた場合
 	 */
-	public AbstractCheckConstraint(UUID id) {
-		super(id);
+	public AbstractCheckConstraint(String name, String logicalName, String description, String expression) {
+		super(name, logicalName, description);
+		Validate.notNull(expression);
+		this.expression = expression;
 	}
 	
 	public String getExpression() {
 		return expression;
 	}
 	
-	/**
-	 * 
-	 * CHECK制約定義式を設定する
-	 * 
-	 * @param expression CHECK制約定義式約
-	 * @since 0.3
-	 */
-	public void setExpression(String expression) {
-		this.expression = expression;
-	}
-	
 	@Override
 	public String toString() {
 		return super.toString() + "[" + expression + "]";
+	}
+	
+	void setExpression(String expression) {
+		this.expression = expression;
 	}
 }

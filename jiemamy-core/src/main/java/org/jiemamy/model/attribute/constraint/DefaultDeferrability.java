@@ -18,16 +18,14 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
-import java.util.UUID;
-
-import org.jiemamy.model.AbstractJiemamyElement;
+import org.jiemamy.model.ValueObject;
 
 /**
  * 抽象遅延評価可能性モデル。
  * 
  * @author daisuke
  */
-public class DefaultDeferrability extends AbstractJiemamyElement implements Deferrability {
+public final class DefaultDeferrability implements Deferrability, ValueObject {
 	
 	/**
 	 * 遅延評価可能性
@@ -35,23 +33,25 @@ public class DefaultDeferrability extends AbstractJiemamyElement implements Defe
 	 * <p>遅延不可の制約は各SQL文の後すぐに検査される。
 	 * 遅延可能な制約の検査は、トランザクションの終了時まで遅延させることができる。</p>
 	 */
-	private boolean deferrable;
+	private final boolean deferrable;
 	
 	/**
 	 * 遅延評価の初期状態
 	 * 
 	 * <p>制約が遅延可能な場合、この句は制約検査を行うデフォルトの時期を指定する。</p>
 	 */
-	private InitiallyCheckTime initiallyCheckTime;
+	private final InitiallyCheckTime initiallyCheckTime;
 	
 
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param id モデルID
+	 * @param deferrable 遅延評価可能性
+	 * @param initiallyCheckTime 遅延評価の初期状態
 	 */
-	public DefaultDeferrability(UUID id) {
-		super(id);
+	public DefaultDeferrability(boolean deferrable, InitiallyCheckTime initiallyCheckTime) {
+		this.deferrable = deferrable;
+		this.initiallyCheckTime = initiallyCheckTime;
 	}
 	
 	public InitiallyCheckTime getInitiallyCheckTime() {
@@ -63,21 +63,6 @@ public class DefaultDeferrability extends AbstractJiemamyElement implements Defe
 	
 	public boolean isDeferrable() {
 		return deferrable;
-	}
-	
-	public void setDeferrable(boolean deferrable) {
-		this.deferrable = deferrable;
-	}
-	
-	/**
-	 * 
-	 * 遅延評価の初期状態を設定する
-	 * 
-	 * @param initiallyCheckTime 遅延評価の初期状態
-	 * @since 0.3
-	 */
-	public void setInitiallyCheckTime(InitiallyCheckTime initiallyCheckTime) {
-		this.initiallyCheckTime = initiallyCheckTime;
 	}
 	
 }

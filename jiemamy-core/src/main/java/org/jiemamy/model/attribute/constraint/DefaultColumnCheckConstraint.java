@@ -18,23 +18,27 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
-import java.util.UUID;
-
+import org.jiemamy.model.ValueObject;
 
 /**
  * チェック制約モデル。
  * 
  * @author daisuke
  */
-public class DefaultColumnCheckConstraint extends AbstractCheckConstraint implements ColumnCheckConstraint {
+public final class DefaultColumnCheckConstraint extends AbstractCheckConstraint implements ColumnCheckConstraint,
+		ValueObject {
 	
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param id モデルID
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @param name 物理名
+	 * @param logicalName 論理名
+	 * @param description 説明
+	 * @param expression CHEKC制約定義式
+	 * @throws IllegalArgumentException 引数expressionに{@code null}を与えた場合
 	 */
-	public DefaultColumnCheckConstraint(UUID id) {
-		super(id);
+	public DefaultColumnCheckConstraint(String name, String logicalName, String description, String expression) {
+		super(name, logicalName, description, expression);
 	}
+	
 }

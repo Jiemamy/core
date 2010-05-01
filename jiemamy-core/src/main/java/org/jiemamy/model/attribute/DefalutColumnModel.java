@@ -18,16 +18,16 @@
  */
 package org.jiemamy.model.attribute;
 
-import java.util.List;
 import java.util.UUID;
 
-import org.jiemamy.exception.ElementNotFoundException;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 import org.jiemamy.model.attribute.constraint.ColumnCheckConstraint;
 import org.jiemamy.model.attribute.constraint.NotNullConstraint;
 import org.jiemamy.model.attribute.constraint.PrimaryKey;
 import org.jiemamy.model.attribute.constraint.UniqueKey;
 import org.jiemamy.model.datatype.DataType;
-import org.jiemamy.model.entity.TableModel;
 
 /**
  * カラム定義モデル。Artemisにおける{@link ColumnModel}の実装クラス。
@@ -35,6 +35,9 @@ import org.jiemamy.model.entity.TableModel;
  * @author daisuke
  */
 public class DefalutColumnModel extends AbstractAttributeModel implements ColumnModel {
+	
+	/** ENTITY ID */
+	private final UUID id;
 	
 	/** 型記述子 */
 	private DataType dataType;
@@ -55,28 +58,37 @@ public class DefalutColumnModel extends AbstractAttributeModel implements Column
 	 * インスタンスを生成する。
 	 * 
 	 * @param id モデルID
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @param name 物理名
+	 * @param logicalName 論理名
+	 * @param description 説明
+	 * @throws IllegalArgumentException 引数idに{@code null}を与えた場合
 	 */
-	public DefalutColumnModel(UUID id) {
-		super(id);
+	public DefalutColumnModel(UUID id, String name, String logicalName, String description) {
+		super(name, logicalName, description);
+		this.id = id;
 		setName("");
 	}
 	
-	public boolean checkPrimaryKeyColumn() {
-		TableModel tableModel = findDeclaringTable();
-		PrimaryKey primaryKey;
-		try {
-			primaryKey = tableModel.findAttribute(PrimaryKey.class, true);
-		} catch (ElementNotFoundException e) {
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
 			return false;
 		}
-		List<ColumnRef> keyColumns = primaryKey.getKeyColumns();
-		for (ColumnRef columnRef : keyColumns) {
-			if (columnRef.getReferenceId().equals(getId())) {
-				return true;
-			}
+		if (getClass() != obj.getClass()) {
+			return false;
 		}
-		return false;
+		DefalutColumnModel other = (DefalutColumnModel) obj;
+		if (id == null) {
+			if (other.id != null) {
+				return false;
+			}
+		} else if (!id.equals(other.id)) {
+			return false;
+		}
+		return true;
 	}
 	
 	public ColumnCheckConstraint getCheckConstraint() {
@@ -91,6 +103,10 @@ public class DefalutColumnModel extends AbstractAttributeModel implements Column
 		return defaultValue;
 	}
 	
+	public UUID getId() {
+		return id;
+	}
+	
 	public NotNullConstraint getNotNullConstraint() {
 		return notNullConstraint;
 	}
@@ -101,6 +117,14 @@ public class DefalutColumnModel extends AbstractAttributeModel implements Column
 	
 	public UniqueKey getUniqueKey() {
 		return uniqueKey;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
 	}
 	
 	/**
@@ -134,6 +158,21 @@ public class DefalutColumnModel extends AbstractAttributeModel implements Column
 	 */
 	public void setDefaultValue(String defaultValue) {
 		this.defaultValue = defaultValue;
+	}
+	
+	@Override
+	public void setDescription(String description) {
+		super.setDescription(description);
+	}
+	
+	@Override
+	public void setLogicalName(String logicalName) {
+		super.setLogicalName(logicalName);
+	}
+	
+	@Override
+	public void setName(String name) {
+		super.setName(name);
 	}
 	
 	/**
@@ -171,8 +210,7 @@ public class DefalutColumnModel extends AbstractAttributeModel implements Column
 	
 	@Override
 	public String toString() {
-		return "Column " + getName();
-//		return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 	
 }

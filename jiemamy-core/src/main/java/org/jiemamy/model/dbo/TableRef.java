@@ -16,9 +16,9 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.model.entity;
+package org.jiemamy.model.dbo;
 
-import org.jiemamy.model.ElementReference;
+import org.jiemamy.model.EntityReference;
 
 /**
  * {@link TableModel}の参照オブジェクト。
@@ -26,6 +26,6 @@ import org.jiemamy.model.ElementReference;
  * @since 0.2
  * @author daisuke
  */
-public interface TableRef extends ElementReference<TableModel> {
+public interface TableRef extends EntityReference<TableModel> {
 	
 }

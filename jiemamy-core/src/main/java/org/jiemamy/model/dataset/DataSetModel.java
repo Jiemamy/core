@@ -21,8 +21,7 @@ package org.jiemamy.model.dataset;
 import java.util.List;
 import java.util.Map;
 
-import org.jiemamy.model.JiemamyElement;
-import org.jiemamy.model.entity.TableRef;
+import org.jiemamy.model.dbo.TableRef;
 
 /**
  * INSERT用データセットを表すモデルインターフェイス。
@@ -30,7 +29,7 @@ import org.jiemamy.model.entity.TableRef;
  * @since 0.2
  * @author daisuke
  */
-public interface DataSetModel extends JiemamyElement {
+public interface DataSetModel {
 	
 	/**
 	 * データセット名を取得する。

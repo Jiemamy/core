@@ -1,6 +1,6 @@
 /*
  * Copyright 2007-2009 Jiemamy Project and the Others.
- * Created on 2008/06/09
+ * Created on 2008/09/17
  *
  * This file is part of Jiemamy.
  *
@@ -16,44 +16,22 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.model.entity;
-
-import java.util.UUID;
-
+package org.jiemamy.model.dbo;
 
 /**
- * ビューモデル
+ * リレーショナルデータベースにおける「ビュー」を表すモデルインターフェイス。
  * 
+ * @since 0.2
  * @author daisuke
  */
-public class DefaultViewModel extends AbstractEntityModel implements ViewModel {
-	
-	/** VIEW定義SELECT文 */
-	private String definition = "";
-	
-
-	/**
-	 * インスタンスを生成する。
-	 * 
-	 * @param id モデルID
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 */
-	public DefaultViewModel(UUID id) {
-		super(id);
-	}
-	
-	public String getDefinition() {
-		return definition;
-	}
+public interface ViewModel extends DatabaseObjectModel {
 	
 	/**
+	 * VIEW定義SELECT文を取得する。
 	 * 
-	 * VIEW定義SELECT文を設定する
-	 * 
-	 * @param definition SELECT文
-	 * @since 0.3
+	 * @return VIEW定義SELECT文. 未設定の場合は{@code null}
+	 * @since 0.2
 	 */
-	public void setDefinition(String definition) {
-		this.definition = definition;
-	}
+	String getDefinition();
+	
 }

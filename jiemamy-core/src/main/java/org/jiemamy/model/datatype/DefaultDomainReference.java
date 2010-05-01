@@ -20,17 +20,14 @@ package org.jiemamy.model.datatype;
 
 import java.util.UUID;
 
-import org.apache.commons.lang.Validate;
-
-import org.jiemamy.ReferenceResolver;
-import org.jiemamy.model.AbstractElementReference;
+import org.jiemamy.model.AbstractEntityReference;
 
 /**
  * {@link DomainModel}に対する参照オブジェクトの実装。Artemisにおける{@link DomainRef}の実装クラス。
  * 
  * @author daisuke
  */
-public class DefaultDomainReference extends AbstractElementReference<DomainModel> implements DomainRef {
+public class DefaultDomainReference extends AbstractEntityReference<DomainModel> implements DomainRef {
 	
 	/**
 	 * インスタンスを生成する。
@@ -50,13 +47,6 @@ public class DefaultDomainReference extends AbstractElementReference<DomainModel
 	 */
 	public DefaultDomainReference(UUID referenceId) {
 		super(referenceId);
-	}
-	
-	public BuiltinDataType toBuiltinDataType(ReferenceResolver resolver) {
-		Validate.notNull(resolver);
-		
-		DomainModel domainModel = resolver.resolve(this);
-		return domainModel.getDataType();
 	}
 	
 }

@@ -18,24 +18,36 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
-import java.util.UUID;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.jiemamy.model.ValueObject;
+import org.jiemamy.model.attribute.ColumnRef;
 
 /**
  * UNIQUE制約モデル。
  * 
  * @author daisuke
  */
-public class DefaultUniqueKey extends AbstractKeyConstraint implements UniqueKey {
+public final class DefaultUniqueKey extends AbstractKeyConstraint implements UniqueKey, ValueObject {
 	
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param id モデルID
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @param name 物理名
+	 * @param logicalName 論理名
+	 * @param description 説明
+	 * @param keyColumns キー制約を構成するカラムのリスト
+	 * @param deferrability 遅延評価可能性モデル
 	 */
-	public DefaultUniqueKey(UUID id) {
-		super(id);
+	public DefaultUniqueKey(String name, String logicalName, String description, List<ColumnRef> keyColumns,
+			Deferrability deferrability) {
+		super(name, logicalName, description, keyColumns, deferrability);
+	}
+	
+	@Override
+	public List<ColumnRef> getKeyColumns() {
+		return new ArrayList<ColumnRef>(super.getKeyColumns());
 	}
 	
 }

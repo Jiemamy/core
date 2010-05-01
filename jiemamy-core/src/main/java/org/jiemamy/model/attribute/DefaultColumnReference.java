@@ -20,14 +20,14 @@ package org.jiemamy.model.attribute;
 
 import java.util.UUID;
 
-import org.jiemamy.model.AbstractElementReference;
+import org.jiemamy.model.AbstractEntityReference;
 
 /**
  * {@link ColumnModel}に対する参照オブジェクトの実装。Artemisにおける{@link ColumnRef}の実装クラス。
  * 
  * @author daisuke
  */
-public class DefaultColumnReference extends AbstractElementReference<ColumnModel> implements ColumnRef {
+public class DefaultColumnReference extends AbstractEntityReference<ColumnModel> implements ColumnRef {
 	
 	/**
 	 * インスタンスを生成する。

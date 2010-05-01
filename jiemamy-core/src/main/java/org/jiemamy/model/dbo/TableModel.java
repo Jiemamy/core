@@ -16,42 +16,40 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.model.index;
+package org.jiemamy.model.dbo;
 
 import java.util.List;
 
+import org.jiemamy.model.Entity;
+import org.jiemamy.model.attribute.AttributeModel;
+import org.jiemamy.model.index.IndexModel;
+
 /**
- * インデックスを表すモデルインターフェイス。
+ * リレーショナルデータベースにおける「テーブル」を表すモデルインターフェイス。
  * 
- * @since 0.2
  * @author daisuke
  */
-public interface IndexModel {
+public interface TableModel extends DatabaseObjectModel, Entity {
 	
 	/**
-	 * インデックスカラムのリストを取得する。
+	 * 属性のリストを取得する。
 	 * 
 	 * <p>このメソッドは、インスタンスの持つフィールドをそのまま返す。返される{@link List}を直接操作することで、
 	 * このオブジェクトのフィールドとして保持される{@link List}を変更することができる。</p>
 	 * 
-	 * @return インデックスカラムのリスト
+	 * @return 属性のリスト
 	 * @since 0.2
 	 */
-	List<IndexColumnModel> getIndexColumns();
+	List<AttributeModel> getAttributes();
 	
 	/**
-	 * インデックス名を取得する。
+	 * インデックスのリストを取得する。
 	 * 
-	 * @return インデックス名. 未設定の場合は{@code null}
+	 * <p>このメソッドは、インスタンスの持つフィールドをそのまま返す。返される{@link List}を直接操作することで、
+	 * このオブジェクトのフィールドとして保持される{@link List}を変更することができる。</p>
+	 * 
+	 * @return インデックスのリスト
 	 * @since 0.2
 	 */
-	String getName();
-	
-	/**
-	 * ユニークインデックスか否かを取得する。
-	 * 
-	 * @return ユニークインデックスか否か
-	 * @since 0.2
-	 */
-	boolean isUnique();
+	List<IndexModel> getIndexes();
 }

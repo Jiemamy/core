@@ -18,8 +18,6 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
-import java.util.UUID;
-
 import org.jiemamy.model.attribute.AbstractAttributeModel;
 
 /**
@@ -32,11 +30,12 @@ public abstract class AbstractConstraintModel extends AbstractAttributeModel imp
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param id モデルID
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @param name 物理名
+	 * @param logicalName 論理名
+	 * @param description 説明
 	 */
-	public AbstractConstraintModel(UUID id) {
-		super(id);
+	public AbstractConstraintModel(String name, String logicalName, String description) {
+		super(name, logicalName, description);
 	}
 	
 	@Override

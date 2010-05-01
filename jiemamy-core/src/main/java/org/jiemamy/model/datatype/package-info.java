@@ -5,9 +5,9 @@
  * 組み込みデータ型やドメインなどのサブインターフェイスを定義している。</p>
  * 
  * <p>データ型は、Jiemamyモデルの中で最も複雑な構成となっている。declarationとreferenceの概念について
- * （{@link org.jiemamy.model.JiemamyElement}参照）理解した上で把握するとよい。</p>
+ * （{@link org.jiemamy.model.Entity}参照）理解した上で把握するとよい。</p>
  * 
- * <p>{@link org.jiemamy.model.entity.TableRef}は{@link org.jiemamy.model.entity.TableModel}のreferenceである。
+ * <p>{@link org.jiemamy.model.dbo.TableRef}は{@link org.jiemamy.model.dbo.TableModel}のreferenceである。
  * これと同じ考え方で、 {@link org.jiemamy.model.datatype.DomainRef}は {@link org.jiemamy.model.datatype.DomainModel}
  * のreferenceである。</p>
  * 
@@ -31,8 +31,8 @@
  *   </tr>
  *   <tr>
  *     <td>テーブル</td>
- *     <td>{@link org.jiemamy.model.entity.TableModel}</td>
- *     <td>{@link org.jiemamy.model.entity.TableRef}</td>
+ *     <td>{@link org.jiemamy.model.dbo.TableModel}</td>
+ *     <td>{@link org.jiemamy.model.dbo.TableRef}</td>
  *   </tr>
  *   <tr>
  *     <td>ドメイン</td>
@@ -49,8 +49,8 @@
  * <p>全体把握の際は、このパッケージの次に{@code org.jiemamy.model.index}パッケージを把握するとよい。</p>
  * 
  * @author daisuke
- * @see org.jiemamy.model.JiemamyElement
- * @see org.jiemamy.model.ElementReference
+ * @see org.jiemamy.model.Entity
+ * @see org.jiemamy.model.EntityReference
  */
 package org.jiemamy.model.datatype;
 

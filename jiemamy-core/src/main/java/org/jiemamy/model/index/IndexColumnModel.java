@@ -18,7 +18,6 @@
  */
 package org.jiemamy.model.index;
 
-import org.jiemamy.model.JiemamyElement;
 import org.jiemamy.model.attribute.ColumnRef;
 
 /**
@@ -27,7 +26,7 @@ import org.jiemamy.model.attribute.ColumnRef;
  * @since 0.2
  * @author daisuke
  */
-public interface IndexColumnModel extends JiemamyElement {
+public interface IndexColumnModel {
 	
 	/**
 	 * インデックス対象カラムを取得する。

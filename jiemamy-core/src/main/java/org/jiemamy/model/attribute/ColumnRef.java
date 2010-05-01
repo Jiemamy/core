@@ -18,7 +18,7 @@
  */
 package org.jiemamy.model.attribute;
 
-import org.jiemamy.model.ElementReference;
+import org.jiemamy.model.EntityReference;
 
 /**
  * {@link ColumnModel}の参照オブジェクト。
@@ -26,6 +26,6 @@ import org.jiemamy.model.ElementReference;
  * @since 0.2
  * @author daisuke
  */
-public interface ColumnRef extends ElementReference<ColumnModel> {
+public interface ColumnRef extends EntityReference<ColumnModel> {
 	
 }

@@ -18,14 +18,13 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
-import org.jiemamy.model.JiemamyElement;
 
 /**
  * 遅延評価可能性モデル。
  * 
  * @author daisuke
  */
-public interface Deferrability extends JiemamyElement {
+public interface Deferrability {
 	
 	/**
 	 * 遅延評価の初期状態を取得する。
@@ -42,16 +41,6 @@ public interface Deferrability extends JiemamyElement {
 	 * @since 0.2
 	 */
 	boolean isDeferrable();
-	
-	/**
-	 * 遅延評価可能性を設定する。
-	 * 
-	 * <p>遅延評価不可能であれば、必ず{@code null}を返す。</p>
-	 * 
-	 * @param deferrable 遅延評価可能性
-	 * @since 0.2
-	 */
-	void setDeferrable(boolean deferrable);
 	
 
 	/**

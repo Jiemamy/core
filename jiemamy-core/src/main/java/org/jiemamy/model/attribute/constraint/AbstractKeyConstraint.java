@@ -19,7 +19,6 @@
 package org.jiemamy.model.attribute.constraint;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.jiemamy.model.attribute.ColumnRef;
 
@@ -40,10 +39,17 @@ public abstract class AbstractKeyConstraint extends AbstractConstraintModel impl
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param id モデルID
+	 * @param name 物理名
+	 * @param logicalName 論理名
+	 * @param description 説明
+	 * @param keyColumns キー制約を構成するカラムのリスト
+	 * @param deferrability 遅延評価可能性モデル
 	 */
-	public AbstractKeyConstraint(UUID id) {
-		super(id);
+	public AbstractKeyConstraint(String name, String logicalName, String description, List<ColumnRef> keyColumns,
+			Deferrability deferrability) {
+		super(name, logicalName, description);
+		this.keyColumns = keyColumns;
+		this.deferrability = deferrability;
 	}
 	
 	public Deferrability getDeferrability() {
@@ -53,25 +59,4 @@ public abstract class AbstractKeyConstraint extends AbstractConstraintModel impl
 	public List<ColumnRef> getKeyColumns() {
 		return keyColumns;
 	}
-	
-	/**
-	 * 
-	 * 遅延評価可能性モデルを設定する
-	 * 
-	 * @param deferrability 遅延評価可能性モデル
-	 * @since 0.3
-	 */
-	public void setDeferrability(Deferrability deferrability) {
-		this.deferrability = deferrability;
-	}
-	
-	/**
-	 * キー制約を構成するカラムのリストを設定する。
-	 * 
-	 * @param keyColumns キー制約を構成するカラムのリスト
-	 */
-	public void setKeyColumns(List<ColumnRef> keyColumns) {
-		this.keyColumns = keyColumns;
-	}
-	
 }

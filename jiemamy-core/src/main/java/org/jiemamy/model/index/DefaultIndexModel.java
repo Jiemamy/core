@@ -19,37 +19,41 @@
 package org.jiemamy.model.index;
 
 import java.util.List;
-import java.util.UUID;
 
+import org.apache.commons.collections15.ListUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-import org.jiemamy.model.AbstractJiemamyElement;
+import org.jiemamy.model.ValueObject;
 
 /**
  * インデックスモデル。
  * 
  * @author daisuke
  */
-public class DefaultIndexModel extends AbstractJiemamyElement implements IndexModel {
+public final class DefaultIndexModel implements IndexModel, ValueObject {
 	
 	/** インデックス名 */
-	private String name;
+	private final String name;
 	
 	/** ユニークインデックスか否か */
-	private boolean unique;
+	private final boolean unique;
 	
 	/** インデックスカラムのリスト */
-	private List<IndexColumnModel> indexColumns;
+	private final List<IndexColumnModel> indexColumns;
 	
 
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param id モデルID
+	 * @param name インデックス名
+	 * @param unique ユニークインデックスか否か
+	 * @param indexColumns インデックスカラムのリスト
 	 */
-	public DefaultIndexModel(UUID id) {
-		super(id);
+	public DefaultIndexModel(String name, boolean unique, List<IndexColumnModel> indexColumns) {
+		this.name = name;
+		this.unique = unique;
+		this.indexColumns = ListUtils.unmodifiableList(indexColumns);
 	}
 	
 	public List<IndexColumnModel> getIndexColumns() {
@@ -63,37 +67,6 @@ public class DefaultIndexModel extends AbstractJiemamyElement implements IndexMo
 	
 	public boolean isUnique() {
 		return unique;
-	}
-	
-	/**
-	 * インデックスカラムのリストを設定する。
-	 * 
-	 * @param columns インデックスカラムのリスト
-	 */
-	public void setColumns(List<IndexColumnModel> columns) {
-		indexColumns = columns;
-	}
-	
-	/**
-	 * 
-	 * インデックス名を設定する
-	 * 
-	 * @param name インデックス名
-	 * @since 0.3
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	/**
-	 * 
-	 * ユニークインデックスか否かを設定する
-	 * 
-	 * @param unique true：ユニーク
-	 * @since 0.3
-	 */
-	public void setUnique(boolean unique) {
-		this.unique = unique;
 	}
 	
 	@Override

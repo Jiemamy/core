@@ -18,86 +18,58 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
+import org.jiemamy.model.ValueObject;
 import org.jiemamy.model.attribute.ColumnRef;
-import org.jiemamy.model.entity.EntityModel;
 
 /**
  * 外部キーモデル。
  * 
  * @author daisuke
  */
-public class DefaultForeignKey extends AbstractKeyConstraint implements ForeignKey {
-	
-	/** マッチ型 */
-	private MatchType matchType;
-	
-	/** 削除時アクション */
-	private ReferentialAction onDelete;
-	
-	/** 更新時アクション */
-	private ReferentialAction onUpdate;
+public final class DefaultForeignKey extends AbstractKeyConstraint implements ForeignKey, ValueObject {
 	
 	/** 制約を受けるカラムのリスト */
-	private List<ColumnRef> referenceColumns;
+	private final List<ColumnRef> referenceColumns;
+	
+	/** 削除時アクション */
+	private final ReferentialAction onDelete;
+	
+	/** 更新時アクション */
+	private final ReferentialAction onUpdate;
+	
+	/** マッチ型 */
+	private final MatchType matchType;
 	
 
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param id モデルID
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @param name 物理名
+	 * @param logicalName 論理名
+	 * @param description 説明
+	 * @param keyColumns キー制約を構成するカラムのリスト
+	 * @param deferrability 遅延評価可能性モデル
+	 * @param referenceColumns 制約を受けるカラムのリスト
+	 * @param onDelete 削除時アクション
+	 * @param onUpdate 更新時アクション
+	 * @param matchType マッチ型
 	 */
-	public DefaultForeignKey(UUID id) {
-		super(id);
+	public DefaultForeignKey(String name, String logicalName, String description, List<ColumnRef> keyColumns,
+			Deferrability deferrability, List<ColumnRef> referenceColumns, ReferentialAction onDelete,
+			ReferentialAction onUpdate, MatchType matchType) {
+		super(description, description, description, keyColumns, deferrability);
+		this.matchType = matchType;
+		this.onDelete = onDelete;
+		this.onUpdate = onUpdate;
+		this.referenceColumns = referenceColumns;
 	}
 	
-	public EntityModel findReferencedEntity() {
-		/*if (getReferenceColumns().size() == 0) {
-			throw new ModelConsistenceException();
-		}
-		Jiemamy jiemamy = getJiemamy();
-		ColumnRef columnRef = getReferenceColumns().get(0);
-		
-		RootModel rootModel = jiemamy.getFactory().getRootModel();
-		for (TableModel tableModel : rootModel.findEntities(TableModel.class)) {
-			for (ColumnModel columnModel : tableModel.findColumns()) {
-				if (columnRef.getReferenceId().equals(columnModel.getId())) {
-					return tableModel;
-				}
-			}
-		}*/
-		return null;
-	}
-	
-	public KeyConstraint findReferencedKeyConstraint() {
-		/*TableModel referenceTable = (TableModel) findReferencedEntity();
-		for (KeyConstraint keyConstraint : referenceTable.findAttributes(KeyConstraint.class, true)) {
-			
-			// サイズ不一致であれば、そもそもこのキーを参照したものではない
-			if (keyConstraint.getKeyColumns().size() != getReferenceColumns().size()) {
-				continue;
-			}
-			
-			Collection<UUID> referenceSetIds = CollectionsUtil.newArrayList();
-			for (ColumnRef referenceKeyColumn : keyConstraint.getKeyColumns()) {
-				referenceSetIds.add(referenceKeyColumn.getReferenceId());
-			}
-			
-			boolean found = true;
-			for (ColumnRef target : getReferenceColumns()) {
-				if (referenceSetIds.contains(target.getReferenceId()) == false) {
-					found = false;
-				}
-			}
-			
-			if (found) {
-				return keyConstraint;
-			}
-		}*/
-		return null;
+	@Override
+	public List<ColumnRef> getKeyColumns() {
+		return new ArrayList<ColumnRef>(super.getKeyColumns());
 	}
 	
 	public MatchType getMatchType() {
@@ -115,47 +87,4 @@ public class DefaultForeignKey extends AbstractKeyConstraint implements ForeignK
 	public List<ColumnRef> getReferenceColumns() {
 		return referenceColumns;
 	}
-	
-	/**
-	 * 
-	 * マッチ型を設定する
-	 * 
-	 * @param matchType マッチ型
-	 * @since 0.3
-	 */
-	public void setMatchType(MatchType matchType) {
-		this.matchType = matchType;
-	}
-	
-	/**
-	 * 
-	 * 削除時アクションを設定する
-	 * 
-	 * @param onDelete 削除時アクション
-	 * @since 0.3
-	 */
-	public void setOnDelete(ReferentialAction onDelete) {
-		this.onDelete = onDelete;
-	}
-	
-	/**
-	 * 
-	 * 更新時アクションを設定する
-	 * 
-	 * @param onUpdate 更新時アクション
-	 * @since 0.3
-	 */
-	public void setOnUpdate(ReferentialAction onUpdate) {
-		this.onUpdate = onUpdate;
-	}
-	
-	/**
-	 * 参照カラムのリストを設定する。
-	 * 
-	 * @param referenceColumns 参照カラムのリスト
-	 */
-	public void setReferenceColumns(List<ColumnRef> referenceColumns) {
-		this.referenceColumns = referenceColumns;
-	}
-	
 }

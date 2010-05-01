@@ -20,36 +20,37 @@ package org.jiemamy.model.dataset;
 
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
+import org.apache.commons.collections15.MapUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-import org.jiemamy.model.AbstractJiemamyElement;
-import org.jiemamy.model.entity.TableRef;
+import org.jiemamy.model.ValueObject;
+import org.jiemamy.model.dbo.TableRef;
 
 /**
  * INSERT文用データセット。
  * 
  * @author daisuke
  */
-public class DefaultDataSetModel extends AbstractJiemamyElement implements DataSetModel {
+public final class DefaultDataSetModel implements DataSetModel, ValueObject {
 	
 	/** データセット名 */
-	private String name;
+	private final String name;
 	
 	/** レコード情報 */
-	private Map<TableRef, List<RecordModel>> records;
+	private final Map<TableRef, List<RecordModel>> records;
 	
 
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param id モデルID
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @param name データセット名
+	 * @param records レコード情報
 	 */
-	public DefaultDataSetModel(UUID id) {
-		super(id);
+	public DefaultDataSetModel(String name, Map<TableRef, List<RecordModel>> records) {
+		this.name = name;
+		this.records = MapUtils.unmodifiableMap(records);
 	}
 	
 	/**
@@ -68,24 +69,6 @@ public class DefaultDataSetModel extends AbstractJiemamyElement implements DataS
 	 */
 	public Map<TableRef, List<RecordModel>> getRecords() {
 		return records;
-	}
-	
-	/**
-	 * データセット名を設定する。
-	 * 
-	 * @param name データセット名
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	/**
-	 * レコード情報を設定する。
-	 * 
-	 * @param records レコード情報
-	 */
-	public void setRecords(Map<TableRef, List<RecordModel>> records) {
-		this.records = records;
 	}
 	
 	@Override

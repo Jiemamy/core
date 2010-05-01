@@ -20,9 +20,7 @@ package org.jiemamy.model.attribute.constraint;
 
 import java.util.List;
 
-import org.jiemamy.exception.ModelConsistenceException;
 import org.jiemamy.model.attribute.ColumnRef;
-import org.jiemamy.model.entity.EntityModel;
 
 /**
  * リレーショナルデータベースにおける「外部キー」を表すモデルインターフェイス。
@@ -31,27 +29,6 @@ import org.jiemamy.model.entity.EntityModel;
  * @author daisuke
  */
 public interface ForeignKey extends KeyConstraint {
-	
-	/**
-	 * この外部キーが参照するエンティティを取得する。
-	 * 
-	 * @return この外部キーが参照するエンティティ. 参照エンティティが見つからない場合は{@code null}
-	 * @throws ModelConsistenceException 参照カラムが1つもない場合
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 * @throws UnsupportedOperationException 実装がこのメソッドをサポートしない場合
-	 */
-	EntityModel findReferencedEntity();
-	
-	/**
-	 * この外部キーが参照するキー制約を取得する。該当するキーが存在しなかった場合、{@code null}を返す。
-	 * 
-	 * <p>該当するキー制約が存在しない、という状況はモデル不整合を表す。</p>
-	 * 
-	 * @return この外部キーが参照するキー
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 * @throws UnsupportedOperationException 実装がこのメソッドをサポートしない場合
-	 */
-	KeyConstraint findReferencedKeyConstraint();
 	
 	/**
 	 * マッチ型を取得する。

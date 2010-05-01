@@ -1,6 +1,6 @@
 /*
- * Copyright 2007-2009 Jiemamy Project and the Others.
- * Created on 2009/03/23
+ * Copyright 2007-2010 Jiemamy Project and the Others.
+ * Created on 2010/05/01
  *
  * This file is part of Jiemamy.
  *
@@ -16,23 +16,27 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.model.datatype;
+package org.jiemamy.model;
+
+import java.util.UUID;
 
 /**
- * データ型({@link DataType})を保持するモデルを表すインターフェイス。
+ * DDDにおけるENTITYを表すインターフェイス。
  * 
- * @param <T> 型記述子の型
- * @since 0.2
+ * @since 0.3
+ * @version $Id$
  * @author daisuke
  */
-public interface DataTypeHolder<T extends DataType> {
+public interface Entity {
 	
 	/**
-	 * 型記述子を取得する。
+	 * モデルIDを取得する。
 	 * 
-	 * @return 型記述子. 未設定の場合は{@code null}
+	 * <p>IDは、オブジェクトの生成時に指定または自動生成され、このオブジェクトのライフサイクル（生成から削除まで）を通して
+	 * 一貫していなければならない。</p>
+	 * 
+	 * @return モデルID
 	 * @since 0.2
 	 */
-	T getDataType();
-	
+	UUID getId();
 }

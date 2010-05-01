@@ -1,6 +1,6 @@
 /*
  * Copyright 2007-2009 Jiemamy Project and the Others.
- * Created on 2008/06/09
+ * Created on 2008/09/17
  *
  * This file is part of Jiemamy.
  *
@@ -16,24 +16,37 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.model.attribute.constraint;
+package org.jiemamy.model.dbo;
 
 /**
- * 値に対する単純な制約を表す制約モデルの抽象クラス。
+ * リレーショナルデータベースモデルにおける「CREATE対象」を表すモデルインターフェイス。
  * 
+ * @since 0.3
  * @author daisuke
  */
-public abstract class AbstractValueConstraint extends AbstractConstraintModel implements ValueConstraint {
+public interface DatabaseObjectModel {
 	
 	/**
-	 * インスタンスを生成する。
+	 * 説明文を取得する。
 	 * 
-	 * @param name 物理名
-	 * @param logicalName 論理名
-	 * @param description 説明
+	 * @return 説明文. 未設定の場合は{@code null}
+	 * @since 0.2
 	 */
-	public AbstractValueConstraint(String name, String logicalName, String description) {
-		super(name, logicalName, description);
-	}
+	String getDescription();
 	
+	/**
+	 * 論理名を取得する。
+	 * 
+	 * @return 論理名. 未設定の場合は{@code null}
+	 * @since 0.2
+	 */
+	String getLogicalName();
+	
+	/**
+	 * エンティティ名を取得する。
+	 * 
+	 * @return エンティティ名. 未設定の場合は{@code null}
+	 * @since 0.2
+	 */
+	String getName();
 }

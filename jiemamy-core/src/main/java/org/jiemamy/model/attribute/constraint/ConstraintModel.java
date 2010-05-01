@@ -18,14 +18,13 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
-import org.jiemamy.model.JiemamyElement;
 
 /**
  * 制約を表すモデルインターフェイス。
  * 
  * @author daisuke
  */
-public interface ConstraintModel extends JiemamyElement {
+public interface ConstraintModel {
 	
 	/**
 	 * 物理名を取得する。

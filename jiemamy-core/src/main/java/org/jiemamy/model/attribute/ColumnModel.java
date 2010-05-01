@@ -18,12 +18,12 @@
  */
 package org.jiemamy.model.attribute;
 
+import org.jiemamy.model.Entity;
 import org.jiemamy.model.attribute.constraint.ColumnCheckConstraint;
 import org.jiemamy.model.attribute.constraint.NotNullConstraint;
 import org.jiemamy.model.attribute.constraint.PrimaryKey;
 import org.jiemamy.model.attribute.constraint.UniqueKey;
 import org.jiemamy.model.datatype.DataType;
-import org.jiemamy.model.datatype.DataTypeHolder;
 
 /**
  * リレーショナルデータベースにおける「カラム」を表すモデルインターフェイス。
@@ -31,16 +31,7 @@ import org.jiemamy.model.datatype.DataTypeHolder;
  * @since 0.2
  * @author daisuke
  */
-public interface ColumnModel extends AttributeModel, DataTypeHolder<DataType> {
-	
-	/**
-	 * カラムが主キー制約を構成するカラムであるかどうか調べる。
-	 * 
-	 * @return 主キー制約構成カラムである場合は{@code true}、そうでない場合は{@code false}
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 * @throws UnsupportedOperationException 実装がこのメソッドをサポートしない場合
-	 */
-	boolean checkPrimaryKeyColumn();
+public interface ColumnModel extends AttributeModel, Entity {
 	
 	/**
 	 * チェック制約を取得する。

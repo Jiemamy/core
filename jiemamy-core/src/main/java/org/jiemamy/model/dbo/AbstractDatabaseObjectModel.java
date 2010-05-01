@@ -1,6 +1,6 @@
 /*
  * Copyright 2007-2009 Jiemamy Project and the Others.
- * Created on 2009/01/19
+ * Created on 2008/06/09
  *
  * This file is part of Jiemamy.
  *
@@ -16,39 +16,26 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.model.attribute;
+package org.jiemamy.model.dbo;
 
 
 /**
- * {@link AttributeModel}の骨格実装。
+ * エンティティ（TableやView）の抽象モデルクラス。
  * 
  * @author daisuke
  */
-public abstract class AbstractAttributeModel implements AttributeModel {
+public abstract class AbstractDatabaseObjectModel implements DatabaseObjectModel {
 	
-	/** 物理名 */
+	/** 名前 */
 	private String name;
 	
 	/** 論理名 */
 	private String logicalName;
 	
-	/** 説明 */
+	/** 説明文 */
 	private String description;
 	
 
-	/**
-	 * インスタンスを生成する。
-	 * 
-	 * @param name 物理名
-	 * @param logicalName 論理名
-	 * @param description 説明
-	 */
-	public AbstractAttributeModel(String name, String logicalName, String description) {
-		this.name = name;
-		this.logicalName = logicalName;
-		this.description = description;
-	}
-	
 	public String getDescription() {
 		return description;
 	}
@@ -61,16 +48,41 @@ public abstract class AbstractAttributeModel implements AttributeModel {
 		return name;
 	}
 	
-	void setDescription(String description) {
+	/**
+	 * 
+	 * 説明文を設定する
+	 * 
+	 * @param description 説明文
+	 * @since 0.3
+	 */
+	public void setDescription(String description) {
 		this.description = description;
 	}
 	
-	void setLogicalName(String logicalName) {
+	/**
+	 * 
+	 * 論理名を設定する
+	 * 
+	 * @param logicalName 論理名
+	 * @since 0.3
+	 */
+	public void setLogicalName(String logicalName) {
 		this.logicalName = logicalName;
 	}
 	
-	void setName(String name) {
+	/**
+	 * 
+	 * 物理名を設定する
+	 * 
+	 * @param name 物理名
+	 * @since 0.3
+	 */
+	public void setName(String name) {
 		this.name = name;
 	}
 	
+	@Override
+	public String toString() {
+		return "Entity " + getName();
+	}
 }

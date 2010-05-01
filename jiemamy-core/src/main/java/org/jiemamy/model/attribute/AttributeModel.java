@@ -18,8 +18,6 @@
  */
 package org.jiemamy.model.attribute;
 
-import org.jiemamy.model.JiemamyElement;
-import org.jiemamy.model.entity.TableModel;
 
 /**
  * リレーショナルデータベースモデルにおける「属性」を表すモデルインターフェイス。
@@ -29,16 +27,7 @@ import org.jiemamy.model.entity.TableModel;
  * @since 0.2
  * @author daisuke
  */
-public interface AttributeModel extends JiemamyElement {
-	
-	/**
-	 * この属性が所属するテーブルを取得する。
-	 * 
-	 * @return この属性が所属するテーブル. どのテーブルにも所属していない場合は{@code null}
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 * @throws UnsupportedOperationException 実装がこのメソッドをサポートしない場合
-	 */
-	TableModel findDeclaringTable();
+public interface AttributeModel {
 	
 	/**
 	 * 説明文を取得する。

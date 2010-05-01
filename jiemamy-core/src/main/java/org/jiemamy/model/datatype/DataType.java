@@ -18,7 +18,6 @@
  */
 package org.jiemamy.model.datatype;
 
-import org.jiemamy.ReferenceResolver;
 
 /**
  * 型記述子。
@@ -26,14 +25,5 @@ import org.jiemamy.ReferenceResolver;
  * @author daisuke
  */
 public interface DataType {
-	
-	/**
-	 * {@link DataType}を{@link BuiltinDataType}に変換する。
-	 * 
-	 * @param resolver リゾルバ
-	 * @return 変換結果
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 */
-	BuiltinDataType toBuiltinDataType(ReferenceResolver resolver);
 	
 }

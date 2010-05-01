@@ -18,22 +18,24 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
-import java.util.UUID;
-
+import org.jiemamy.model.ValueObject;
 
 /**
  * NOT NULL制約モデル。
  * 
  * @author daisuke
  */
-public class DefaultNotNullConstraint extends AbstractConstraintModel implements NotNullConstraint {
+public final class DefaultNotNullConstraint extends AbstractConstraintModel implements NotNullConstraint, ValueObject {
 	
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param id モデルID
+	 * @param name 物理名
+	 * @param logicalName 論理名
+	 * @param description 説明
 	 */
-	public DefaultNotNullConstraint(UUID id) {
-		super(id);
+	public DefaultNotNullConstraint(String name, String logicalName, String description) {
+		super(name, logicalName, description);
 	}
+	
 }
