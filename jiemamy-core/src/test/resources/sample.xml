@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jiemamy xmlns="http://jiemamy.org/xml/ns/core"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    id="d5a96af3-b1e9-4285-a8ef-c491ce5ae308"
+    version="0.3"
+    xsi:schemaLocation="http://jiemamy.org/xml/ns/core ../../main/resources/jiemamy-core.xsd">
+  <dialect>org.jiemamy.dialect.mysql.MySqlDialect</dialect>
+  <schemaName>FOO</schemaName>
+  <description>Jiemamyテストモデル1</description>
+  <domains>
+    <domain id="2eec0aa0-5122-4eb7-833d-9f5a43e7abe9">
+      <name>ID</name>
+      <dataType>
+        <typeCategory>INTEGER</typeCategory>
+        <typeName>INTEGER</typeName>
+        <configuration>
+          <serial>true</serial>
+        </configuration>
+      </dataType>
+      <notNull class="org.jiemamy.model.DefaultNotNullModel" id="af4845dc-7f3a-434d-b5ac-2f25b74d7e76"/>
+      <columnCheck class="org.jiemamy.model.DefaultColumnCheckModel" id="48b76d76-b288-480a-afa4-111247379f8d">
+        <name>hoge</name>
+        <expression>VALUE &gt; 0</expression>
+      </columnCheck>
+    </domain>
+    <domain id="62f1e6ec-e6aa-4d52-a6c3-27dac086f2d7">
+      <name>NAME</name>
+      <description>人名用の型です。</description>
+      <dataType>
+        <typeCategory>VARCHAR</typeCategory>
+        <typeName>VARCHAR</typeName>
+        <configuration>
+          <size>32</size>
+        </configuration>
+      </dataType>
+    </domain>
+  </domains>
+  <entities>
+    <table class="org.jiemamy.model.DefaultTableModel" id="9f522e56-809c-45fd-8416-39201014218b">
+      <name>T_EMP</name>
+      <logicalName>従業員</logicalName>
+      <description>従業員マスタです。</description>
+      <attributes>
+        <column class="org.jiemamy.model.DefaultColumnModel" id="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">
+          <name>ID</name>
+          <logicalName>従業員ID</logicalName>
+          <dataType ref="2eec0aa0-5122-4eb7-833d-9f5a43e7abe9"/>
+        </column>
+        <column class="org.jiemamy.model.DefaultColumnModel" id="248a429b-2159-4ebd-a791-eee42a059374">
+          <name>EMP_NO</name>
+          <logicalName>従業員番号</logicalName>
+          <dataType>
+            <typeCategory>INTEGER</typeCategory>
+            <typeName>INTEGER</typeName>
+          </dataType>
+          <notNull class="org.jiemamy.model.DefaultNotNullModel" id="05ee4c06-d8b5-4599-a7e9-1cda036ea2c7"/>
+        </column>
+        <column class="org.jiemamy.model.DefaultColumnModel" id="0e51b6df-43ab-408c-90ef-de13c6aab881">
+          <name>EMP_NAME</name>
+          <logicalName>従業員名</logicalName>
+          <dataType ref="62f1e6ec-e6aa-4d52-a6c3-27dac086f2d7"/>
+          <defaultValue>no name</defaultValue>
+          <notNull class="org.jiemamy.model.DefaultNotNullModel" id="41f178b9-2cb5-4dad-a6c0-48df2d5b1300"/>
+        </column>
+        <column class="org.jiemamy.model.DefaultColumnModel" id="3d21a85a-72de-41b3-99dd-f4cb94e58d84">
+          <name>MGR_ID</name>
+          <logicalName>上司ID</logicalName>
+          <dataType>
+            <typeCategory>INTEGER</typeCategory>
+            <typeName>INTEGER</typeName>
+          </dataType>
+        </column>
+        <column class="org.jiemamy.model.DefaultColumnModel" id="f0b57eed-98ab-4c21-9855-218c592814dc">
+          <name>HIREDATE</name>
+          <dataType>
+            <typeCategory>DATE</typeCategory>
+            <typeName>DATE</typeName>
+          </dataType>
+          <notNull class="org.jiemamy.model.DefaultNotNullModel" id="2d66fd73-8d6b-41d8-b6b8-daec7d6c0c53"/>
+        </column>
+        <column class="org.jiemamy.model.DefaultColumnModel" id="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">
+          <name>SAL</name>
+          <dataType>
+            <typeCategory>NUMERIC</typeCategory>
+            <typeName>NUMERIC</typeName>
+            <configuration>
+              <precision>7</precision>
+              <scale>2</scale>
+            </configuration>
+          </dataType>
+          <notNull class="org.jiemamy.model.DefaultNotNullModel" id="a446779a-4fb6-4a0f-8262-22daae856e85"/>
+          <columnCheck class="org.jiemamy.model.DefaultColumnCheckModel" id="873f6660-7a61-4c2c-87a0-e922fa03b88c">
+            <name>positive_sal</name>
+            <expression>SAL &lt;= 0</expression>
+          </columnCheck>
+        </column>
+        <column class="org.jiemamy.model.DefaultColumnModel" id="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">
+          <name>DEPT_ID</name>
+          <dataType>
+            <typeCategory>INTEGER</typeCategory>
+            <typeName>INTEGER</typeName>
+          </dataType>
+          <notNull class="org.jiemamy.model.DefaultNotNullModel" id="b9a0fdce-a965-4118-ae71-5dc7150f6d4e"/>
+        </column>
+        <primaryKey class="org.jiemamy.model.DefaultPrimaryKeyModel" id="6145e6a0-9ff7-4033-999d-99d80392a48f">
+          <name>emp_pkey</name>
+          <columnRefs>
+            <columnRef ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e"/>
+          </columnRefs>
+        </primaryKey>
+        <foreignKey class="org.jiemamy.model.DefaultForeignKeyModel" id="e43d3c43-33c8-4b02-aa42-83f2d868cfe6">
+          <name>emp_mgr_id_fkey</name>
+          <columnRefs>
+            <columnRef ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84"/>
+          </columnRefs>
+          <referenceColumns>
+            <columnRef ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e"/>
+          </referenceColumns>
+          <deferrability class="org.jiemamy.model.DefaultDeferrabilityModel" id="9af096ba-8841-41ba-9dd4-02628b800bf0">
+            <deferrable>true</deferrable>
+            <initiallyCheckTime>DEFERRED</initiallyCheckTime>
+          </deferrability>
+          <onDelete>SET_NULL</onDelete>
+        </foreignKey>
+        <foreignKey class="org.jiemamy.model.DefaultForeignKeyModel" id="e7dd92b4-1d97-4be6-bab6-fa9fe26eb6ed">
+          <name>emp_dept_id_fkey</name>
+          <columnRefs>
+            <columnRef ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b"/>
+          </columnRefs>
+          <referenceColumns>
+            <columnRef ref="c7ed225d-92a6-4cc2-90de-60531804464e"/>
+          </referenceColumns>
+        </foreignKey>
+      </attributes>
+      <indexes>
+        <index class="org.jiemamy.model.DefaultIndexModel" id="9abc9e01-4cdb-42fe-a495-93b56af35a1d">
+          <name>IDX_EMP_NAME</name>
+          <indexColumns>
+            <indexColumn class="org.jiemamy.model.DefaultIndexColumnModel" id="52d2b6aa-fff7-4c33-af13-f4d0b63e8e58">
+              <columnRef ref="0e51b6df-43ab-408c-90ef-de13c6aab881"/>
+              <sortOrder>DESC</sortOrder>
+            </indexColumn>
+          </indexColumns>
+          <unique>false</unique>
+        </index>
+      </indexes>
+    </table>
+    <table class="org.jiemamy.model.DefaultTableModel" id="d7489ed6-0add-443d-95cf-234376eb0455">
+      <name>T_DEPT</name>
+      <description>部署マスタです。</description>
+      <attributes>
+        <column class="org.jiemamy.model.DefaultColumnModel" id="c7ed225d-92a6-4cc2-90de-60531804464e">
+          <name>ID</name>
+          <logicalName>部署ID</logicalName>
+          <dataType ref="2eec0aa0-5122-4eb7-833d-9f5a43e7abe9"/>
+          <columnPrimaryKey class="org.jiemamy.model.DefaultColumnPrimaryKeyModel" id="8de55e65-ec48-467a-bac5-8eee2d71d41c">
+            <name>dept_pkey</name>
+          </columnPrimaryKey>
+        </column>
+        <column class="org.jiemamy.model.DefaultColumnModel" id="2d951389-6bc7-49d7-8631-1d26fe17047e">
+          <name>DEPT_NO</name>
+          <logicalName>部署番号</logicalName>
+          <dataType>
+            <typeCategory>INTEGER</typeCategory>
+            <typeName>INTEGER</typeName>
+          </dataType>
+          <notNull class="org.jiemamy.model.DefaultNotNullModel" id="cc709f63-a886-4207-a316-58ad7f279e10"/>
+        </column>
+        <column class="org.jiemamy.model.DefaultColumnModel" id="1fcd63d3-974e-4d2e-a0d8-3b9c233104d9">
+          <name>DEPT_NAME</name>
+          <logicalName>部署名</logicalName>
+          <dataType>
+            <typeCategory>VARCHAR</typeCategory>
+            <typeName>VARCHAR</typeName>
+            <configuration>
+              <size>20</size>
+            </configuration>
+          </dataType>
+          <notNull class="org.jiemamy.model.DefaultNotNullModel" id="fab2f883-0489-4661-bd57-f04286188eef"/>
+        </column>
+        <column class="org.jiemamy.model.DefaultColumnModel" id="7bf79e76-07b8-43b6-a993-b8ef374a31f5">
+          <name>LOC</name>
+          <logicalName>ロケーション</logicalName>
+          <dataType>
+            <typeCategory>VARCHAR</typeCategory>
+            <typeName>VARCHAR</typeName>
+            <configuration>
+              <size>20</size>
+            </configuration>
+          </dataType>
+          <defaultValue>secret</defaultValue>
+        </column>
+      </attributes>
+      <indexes/>
+    </table>
+    <view class="org.jiemamy.model.DefaultViewModel" id="516f7961-cb7b-48e2-990b-7fb0c750c3a4">
+      <name>V_HIGH_SAL_EMP</name>
+      <logicalName>高給取り</logicalName>
+      <definition>SELECT * FROM T_EMP WHERE SAL &gt; 2000;</definition>
+    </view>
+  </entities>
+  <dataSets>
+    <dataSet id="b73100b5-2d70-4b48-a825-311eacb63b2f">
+      <name>データ群en</name>
+      <tableRef ref="9f522e56-809c-45fd-8416-39201014218b">
+        <record id="6ce22d69-bd75-4822-946f-a51221fd45eb">
+          <columnRef ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">1</columnRef>
+          <columnRef ref="248a429b-2159-4ebd-a791-eee42a059374">10</columnRef>
+          <columnRef ref="0e51b6df-43ab-408c-90ef-de13c6aab881">SMITH</columnRef>
+          <columnRef ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84">3</columnRef>
+          <columnRef ref="f0b57eed-98ab-4c21-9855-218c592814dc">2003-02-01</columnRef>
+          <columnRef ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">40</columnRef>
+          <columnRef ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">3</columnRef>
+        </record>
+        <record id="03962eb2-90ab-4cff-8fac-14e52e117361">
+          <columnRef ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">2</columnRef>
+          <columnRef ref="248a429b-2159-4ebd-a791-eee42a059374">20</columnRef>
+          <columnRef ref="0e51b6df-43ab-408c-90ef-de13c6aab881">ALLEN</columnRef>
+          <columnRef ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84">3</columnRef>
+          <columnRef ref="f0b57eed-98ab-4c21-9855-218c592814dc">2000-03-04</columnRef>
+          <columnRef ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">50</columnRef>
+          <columnRef ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">4</columnRef>
+        </record>
+        <record id="f5f16c1e-4a41-4ccd-9c87-00c09c0e7609">
+          <columnRef ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">3</columnRef>
+          <columnRef ref="248a429b-2159-4ebd-a791-eee42a059374">30</columnRef>
+          <columnRef ref="0e51b6df-43ab-408c-90ef-de13c6aab881">WARD</columnRef>
+          <columnRef ref="f0b57eed-98ab-4c21-9855-218c592814dc">1993-12-05</columnRef>
+          <columnRef ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">60</columnRef>
+          <columnRef ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">4</columnRef>
+        </record>
+        <record id="03a9e57f-3010-4d46-8024-1915c262749e">
+          <columnRef ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">4</columnRef>
+          <columnRef ref="248a429b-2159-4ebd-a791-eee42a059374">40</columnRef>
+          <columnRef ref="0e51b6df-43ab-408c-90ef-de13c6aab881">JONES</columnRef>
+          <columnRef ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84">2</columnRef>
+          <columnRef ref="f0b57eed-98ab-4c21-9855-218c592814dc">2007-04-01</columnRef>
+          <columnRef ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">36</columnRef>
+          <columnRef ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">2</columnRef>
+        </record>
+        <record id="4206acce-b31f-4c2e-8682-4796254a4dca">
+          <columnRef ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">5</columnRef>
+          <columnRef ref="248a429b-2159-4ebd-a791-eee42a059374">50</columnRef>
+          <columnRef ref="0e51b6df-43ab-408c-90ef-de13c6aab881">MARTIN</columnRef>
+          <columnRef ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84">1</columnRef>
+          <columnRef ref="f0b57eed-98ab-4c21-9855-218c592814dc">2002-05-30</columnRef>
+          <columnRef ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">30</columnRef>
+          <columnRef ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">3</columnRef>
+        </record>
+        <record id="6748ce0e-462d-44df-a536-18f14a3c2643">
+          <columnRef ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">6</columnRef>
+          <columnRef ref="248a429b-2159-4ebd-a791-eee42a059374">60</columnRef>
+          <columnRef ref="0e51b6df-43ab-408c-90ef-de13c6aab881">BLAKE</columnRef>
+          <columnRef ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84">3</columnRef>
+          <columnRef ref="f0b57eed-98ab-4c21-9855-218c592814dc">2007-04-01</columnRef>
+          <columnRef ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">25</columnRef>
+          <columnRef ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">2</columnRef>
+        </record>
+        <record id="f8564bdf-f61c-4711-b606-69aed74324a6">
+          <columnRef ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">7</columnRef>
+          <columnRef ref="248a429b-2159-4ebd-a791-eee42a059374">70</columnRef>
+          <columnRef ref="0e51b6df-43ab-408c-90ef-de13c6aab881">CLARK</columnRef>
+          <columnRef ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84">1</columnRef>
+          <columnRef ref="f0b57eed-98ab-4c21-9855-218c592814dc">2004-09-01</columnRef>
+          <columnRef ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">30</columnRef>
+          <columnRef ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">1</columnRef>
+        </record>
+        <record id="dd1cc8e1-7562-4539-86d8-5390d043325a">
+          <columnRef ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">8</columnRef>
+          <columnRef ref="248a429b-2159-4ebd-a791-eee42a059374">80</columnRef>
+          <columnRef ref="0e51b6df-43ab-408c-90ef-de13c6aab881">SCOTT</columnRef>
+          <columnRef ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84">4</columnRef>
+          <columnRef ref="f0b57eed-98ab-4c21-9855-218c592814dc">2008-03-01</columnRef>
+          <columnRef ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">25</columnRef>
+          <columnRef ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">2</columnRef>
+        </record>
+      </tableRef>
+      <tableRef ref="d7489ed6-0add-443d-95cf-234376eb0455">
+        <record id="176bfb08-99cb-4c76-bf8e-6979e0c7afb9">
+          <columnRef ref="c7ed225d-92a6-4cc2-90de-60531804464e">1</columnRef>
+          <columnRef ref="2d951389-6bc7-49d7-8631-1d26fe17047e">10</columnRef>
+          <columnRef ref="1fcd63d3-974e-4d2e-a0d8-3b9c233104d9">ACCOUNTING</columnRef>
+          <columnRef ref="7bf79e76-07b8-43b6-a993-b8ef374a31f5">NEW YORK</columnRef>
+        </record>
+        <record id="3971430b-ef1d-4e5a-b996-f2acfa7536c0">
+          <columnRef ref="c7ed225d-92a6-4cc2-90de-60531804464e">2</columnRef>
+          <columnRef ref="2d951389-6bc7-49d7-8631-1d26fe17047e">20</columnRef>
+          <columnRef ref="1fcd63d3-974e-4d2e-a0d8-3b9c233104d9">RESEARCH</columnRef>
+          <columnRef ref="7bf79e76-07b8-43b6-a993-b8ef374a31f5">DALLAS</columnRef>
+        </record>
+        <record id="0591cc1e-45a6-4598-b85a-20fae51b7991">
+          <columnRef ref="c7ed225d-92a6-4cc2-90de-60531804464e">3</columnRef>
+          <columnRef ref="2d951389-6bc7-49d7-8631-1d26fe17047e">30</columnRef>
+          <columnRef ref="1fcd63d3-974e-4d2e-a0d8-3b9c233104d9">SALES</columnRef>
+          <columnRef ref="7bf79e76-07b8-43b6-a993-b8ef374a31f5">CHICAGO</columnRef>
+        </record>
+        <record id="ac275955-4710-484a-b694-f7acc6ded08f">
+          <columnRef ref="c7ed225d-92a6-4cc2-90de-60531804464e">4</columnRef>
+          <columnRef ref="2d951389-6bc7-49d7-8631-1d26fe17047e">40</columnRef>
+          <columnRef ref="1fcd63d3-974e-4d2e-a0d8-3b9c233104d9">OPERATIONS</columnRef>
+          <columnRef ref="7bf79e76-07b8-43b6-a993-b8ef374a31f5">BOSTON</columnRef>
+        </record>
+      </tableRef>
+    </dataSet>
+    <dataSet id="91246ed4-1ef3-440e-bf12-40fa4439a71b">
+      <name>データ群ja</name>
+      <tableRef ref="9f522e56-809c-45fd-8416-39201014218b">
+        <record id="9365e670-1eff-4a23-90bd-f794b9742b10">
+          <columnRef ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">1</columnRef>
+          <columnRef ref="248a429b-2159-4ebd-a791-eee42a059374">10</columnRef>
+          <columnRef ref="0e51b6df-43ab-408c-90ef-de13c6aab881">鈴木 茂</columnRef>
+          <columnRef ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84">3</columnRef>
+          <columnRef ref="f0b57eed-98ab-4c21-9855-218c592814dc">2003-02-01</columnRef>
+          <columnRef ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">40</columnRef>
+          <columnRef ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">3</columnRef>
+        </record>
+        <record id="90673863-ba77-461b-ab82-fffecd7e873b">
+          <columnRef ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">2</columnRef>
+          <columnRef ref="248a429b-2159-4ebd-a791-eee42a059374">20</columnRef>
+          <columnRef ref="0e51b6df-43ab-408c-90ef-de13c6aab881">内海 透</columnRef>
+          <columnRef ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84">3</columnRef>
+          <columnRef ref="f0b57eed-98ab-4c21-9855-218c592814dc">2000-03-04</columnRef>
+          <columnRef ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">50</columnRef>
+          <columnRef ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">4</columnRef>
+        </record>
+        <record id="5bf32699-c2ff-4d96-9e26-2a3f3d7c7661">
+          <columnRef ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">3</columnRef>
+          <columnRef ref="248a429b-2159-4ebd-a791-eee42a059374">30</columnRef>
+          <columnRef ref="0e51b6df-43ab-408c-90ef-de13c6aab881">村瀬 武彦</columnRef>
+          <columnRef ref="f0b57eed-98ab-4c21-9855-218c592814dc">1993-12-05</columnRef>
+          <columnRef ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">60</columnRef>
+          <columnRef ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">4</columnRef>
+        </record>
+        <record id="f164796f-ed85-48a0-98af-2f6045ee3a33">
+          <columnRef ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">4</columnRef>
+          <columnRef ref="248a429b-2159-4ebd-a791-eee42a059374">40</columnRef>
+          <columnRef ref="0e51b6df-43ab-408c-90ef-de13c6aab881">近藤 美樹</columnRef>
+          <columnRef ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84">2</columnRef>
+          <columnRef ref="f0b57eed-98ab-4c21-9855-218c592814dc">2007-04-01</columnRef>
+          <columnRef ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">36</columnRef>
+          <columnRef ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">2</columnRef>
+        </record>
+        <record id="c10562ee-4ab9-40a5-8a21-83f331df5c85">
+          <columnRef ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">5</columnRef>
+          <columnRef ref="248a429b-2159-4ebd-a791-eee42a059374">50</columnRef>
+          <columnRef ref="0e51b6df-43ab-408c-90ef-de13c6aab881">榊 美子</columnRef>
+          <columnRef ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84">1</columnRef>
+          <columnRef ref="f0b57eed-98ab-4c21-9855-218c592814dc">2002-05-30</columnRef>
+          <columnRef ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">30</columnRef>
+          <columnRef ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">3</columnRef>
+        </record>
+        <record id="29c9a655-f4ed-4753-aea6-1e21cb28f891">
+          <columnRef ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">6</columnRef>
+          <columnRef ref="248a429b-2159-4ebd-a791-eee42a059374">60</columnRef>
+          <columnRef ref="0e51b6df-43ab-408c-90ef-de13c6aab881">三浦 佑</columnRef>
+          <columnRef ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84">3</columnRef>
+          <columnRef ref="f0b57eed-98ab-4c21-9855-218c592814dc">2007-04-01</columnRef>
+          <columnRef ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">25</columnRef>
+          <columnRef ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">2</columnRef>
+        </record>
+        <record id="b65b9b12-bb68-4845-a514-a57f0bd57616">
+          <columnRef ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">7</columnRef>
+          <columnRef ref="248a429b-2159-4ebd-a791-eee42a059374">70</columnRef>
+          <columnRef ref="0e51b6df-43ab-408c-90ef-de13c6aab881">前島 孝幸</columnRef>
+          <columnRef ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84">1</columnRef>
+          <columnRef ref="f0b57eed-98ab-4c21-9855-218c592814dc">2004-09-01</columnRef>
+          <columnRef ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">30</columnRef>
+          <columnRef ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">1</columnRef>
+        </record>
+        <record id="0eb27151-323a-4679-bde4-0b01f561139f">
+          <columnRef ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">8</columnRef>
+          <columnRef ref="248a429b-2159-4ebd-a791-eee42a059374">80</columnRef>
+          <columnRef ref="0e51b6df-43ab-408c-90ef-de13c6aab881">島崎 由比</columnRef>
+          <columnRef ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84">4</columnRef>
+          <columnRef ref="f0b57eed-98ab-4c21-9855-218c592814dc">2008-03-01</columnRef>
+          <columnRef ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">25</columnRef>
+          <columnRef ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">2</columnRef>
+        </record>
+      </tableRef>
+      <tableRef ref="d7489ed6-0add-443d-95cf-234376eb0455">
+        <record id="61671217-d61c-4f42-9985-4f6b2c970171">
+          <columnRef ref="c7ed225d-92a6-4cc2-90de-60531804464e">1</columnRef>
+          <columnRef ref="2d951389-6bc7-49d7-8631-1d26fe17047e">10</columnRef>
+          <columnRef ref="1fcd63d3-974e-4d2e-a0d8-3b9c233104d9">経理部</columnRef>
+          <columnRef ref="7bf79e76-07b8-43b6-a993-b8ef374a31f5">広島</columnRef>
+        </record>
+        <record id="171d019e-163f-42f6-82dc-15340798fdf4">
+          <columnRef ref="c7ed225d-92a6-4cc2-90de-60531804464e">2</columnRef>
+          <columnRef ref="2d951389-6bc7-49d7-8631-1d26fe17047e">20</columnRef>
+          <columnRef ref="1fcd63d3-974e-4d2e-a0d8-3b9c233104d9">研究開発部</columnRef>
+          <columnRef ref="7bf79e76-07b8-43b6-a993-b8ef374a31f5">京都</columnRef>
+        </record>
+        <record id="838344e6-093d-4202-aaca-bacf1a7ff376">
+          <columnRef ref="c7ed225d-92a6-4cc2-90de-60531804464e">3</columnRef>
+          <columnRef ref="2d951389-6bc7-49d7-8631-1d26fe17047e">30</columnRef>
+          <columnRef ref="1fcd63d3-974e-4d2e-a0d8-3b9c233104d9">営業部</columnRef>
+          <columnRef ref="7bf79e76-07b8-43b6-a993-b8ef374a31f5">東京</columnRef>
+        </record>
+        <record id="2f29bb19-0a20-4251-8052-568194e6101c">
+          <columnRef ref="c7ed225d-92a6-4cc2-90de-60531804464e">4</columnRef>
+          <columnRef ref="2d951389-6bc7-49d7-8631-1d26fe17047e">40</columnRef>
+          <columnRef ref="1fcd63d3-974e-4d2e-a0d8-3b9c233104d9">経営本部</columnRef>
+        </record>
+      </tableRef>
+    </dataSet>
+  </dataSets>
+  <sql:sql xmlns:sql="http://jiemamy.org/xml/ns/sql">
+    <element ref="d5a96af3-b1e9-4285-a8ef-c491ce5ae308">
+      <beginScript engine="org.jiemamy.script.PlainScriptEngine">BEGIN;</beginScript>
+      <endScript engine="org.jiemamy.script.PlainScriptEngine">COMMIT;</endScript>
+    </element>
+    <element ref="9f522e56-809c-45fd-8416-39201014218b">
+      <endScript engine="org.jiemamy.script.PlainScriptEngine">/* test end script */</endScript>
+    </element>
+    <element id="d7489ed6-0add-443d-95cf-234376eb0455">
+      <beginScript engine="org.jiemamy.script.PlainScriptEngine">/* test begin script */</beginScript>
+    </element>
+    <element id="05ee4c06-d8b5-4599-a7e9-1cda036ea2c7">
+      <disabled>true</disabled>
+    </element>
+  </sql:sql>
+  <diagram:diagramPresentations xmlns:diagram="http://jiemamy.org/xml/ns/diagram">
+    <diagram:diagramPresentation id="1deca0e8-6153-47ad-abe8-ac764f768d96">
+      <name>全部表示する</name>
+      <diagram:mode>PHYSICAL</diagram:mode>
+      <diagram:level>ATTRTYPE</diagram:level>
+      <diagram:nodeProfiles>
+        <diagram:nodeProfile id="aa7caa23-7958-4bd0-a356-8f09d4b74f08">
+          <diagram:nodeObjectRef ref="9f522e56-809c-45fd-8416-39201014218b"/>
+          <diagram:boundary height="-1" width="-1" x="360" y="60"/>
+        </diagram:nodeProfile>
+        <diagram:nodeProfile id="eb6506ef-4a25-4296-b6d7-c08741f19d5a">
+          <diagram:nodeObjectRef ref="d7489ed6-0add-443d-95cf-234376eb0455"/>
+          <diagram:boundary height="-1" width="-1" x="60" y="60"/>
+        </diagram:nodeProfile>
+        <diagram:nodeProfile id="2387bfd0-7106-44ad-a34e-24231bbea6d5">
+          <diagram:nodeObjectRef ref="516f7961-cb7b-48e2-990b-7fb0c750c3a4"/>
+          <diagram:boundary height="-1" width="-1" x="60" y="270"/>
+        </diagram:nodeProfile>
+        <diagram:nodeProfile id="2689d193-52a1-4fd4-a14c-9857274518c5">
+          <diagram:sticky id="43beb884-2562-4480-8030-bb797f701783">
+            <diagram:contents>メモーー</diagram:contents>
+          </diagram:sticky>
+          <diagram:boundary color="#0a0b0c" height="-1" width="-1" x="360" y="270"/>
+        </diagram:nodeProfile>
+      </diagram:nodeProfiles>
+      <diagram:connectionProfiles>
+        <diagram:connectionProfile id="366b547f-a2a6-42b2-a3a4-38745436c425">
+          <diagram:connectionObjectRef ref="e43d3c43-33c8-4b02-aa42-83f2d868cfe6"/>
+          <diagram:bendpoints>
+            <diagram:bendpoint x="310" y="60"/>
+            <diagram:bendpoint x="360" y="10"/>
+          </diagram:bendpoints>
+        </diagram:connectionProfile>
+        <diagram:connectionProfile id="e5b3d709-2aea-4e26-a90c-b8f438d2da9d">
+          <diagram:connectionObjectRef ref="e7dd92b4-1d97-4be6-bab6-fa9fe26eb6ed"/>
+        </diagram:connectionProfile>
+      </diagram:connectionProfiles>
+    </diagram:diagramPresentation>
+    <diagram:diagramPresentation id="53c7cdb7-1512-46c7-8ee3-aadec6007896">
+      <name>一部表示する</name>
+      <diagram:mode>PHYSICAL</diagram:mode>
+      <diagram:level>ATTRTYPE</diagram:level>
+      <diagram:nodeProfiles>
+        <diagram:nodeProfile id="d71ff015-101c-4669-8745-312d1da34efe">
+          <diagram:nodeObjectRef ref="9f522e56-809c-45fd-8416-39201014218b"/>
+          <diagram:boundary height="-1" width="-1" x="60" y="60"/>
+        </diagram:nodeProfile>
+        <diagram:nodeProfile id="2df7718f-d71e-4dbf-8327-e0ad36f03d5d">
+          <diagram:nodeObjectRef ref="516f7961-cb7b-48e2-990b-7fb0c750c3a4"/>
+          <diagram:boundary height="-1" width="-1" x="270" y="270"/>
+        </diagram:nodeProfile>
+      </diagram:nodeProfiles>
+      <diagram:connectionProfiles>
+        <diagram:connectionProfile id="b615f111-5143-4b12-bfdb-9a06806a9ace">
+          <diagram:connectionObjectRef ref="e7dd92b4-1d97-4be6-bab6-fa9fe26eb6ed"/>
+        </diagram:connectionProfile>
+      </diagram:connectionProfiles>
+    </diagram:diagramPresentation>
+  </diagram:diagramPresentations>
+</jiemamy>

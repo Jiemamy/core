@@ -1,0 +1,690 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema
+		targetNamespace="http://jiemamy.org/xml/ns/core"
+		xmlns="http://jiemamy.org/xml/ns/core"
+		xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+		elementFormDefault="qualified"
+		attributeFormDefault="unqualified"
+		version="0.3">
+
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">Jiemamy model schema</xsd:documentation>
+		<xsd:documentation xml:lang="ja-JP">Jiemamyモデルスキーマ</xsd:documentation> 
+	</xsd:annotation>
+	
+	<xsd:element name="jiemamy">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Root element of Jiemamy model</xsd:documentation>
+			<xsd:documentation xml:lang="ja-JP">Jiemamyモデルのルート要素</xsd:documentation> 
+			<xsd:appinfo></xsd:appinfo>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence maxOccurs="1" minOccurs="1">
+				<xsd:element name="dialect" type="fqcnType">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">SQL Dialect</xsd:documentation>
+						<xsd:documentation xml:lang="ja-JP">デフォルトで使用されるSQL方言を表す</xsd:documentation> 
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="schemaName" type="xsd:string" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Schema name</xsd:documentation>
+						<xsd:documentation xml:lang="ja-JP">スキーマ名を表す</xsd:documentation> 
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element ref="description" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Database description</xsd:documentation>
+						<xsd:documentation xml:lang="ja-JP">データベースの説明文</xsd:documentation> 
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="domains">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Data type domain definition</xsd:documentation>
+						<xsd:documentation xml:lang="ja-JP">ドメイン定義部</xsd:documentation> 
+					</xsd:annotation>
+					<xsd:complexType>
+						<xsd:choice minOccurs="0" maxOccurs="unbounded">
+							<xsd:element ref="domain"/>
+						</xsd:choice>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="entities">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Entity definition</xsd:documentation>
+						<xsd:documentation xml:lang="ja-JP">エンティティ定義部</xsd:documentation> 
+					</xsd:annotation>
+					<xsd:complexType>
+						<xsd:choice minOccurs="0" maxOccurs="unbounded">
+							<xsd:element ref="table"/>
+							<xsd:element ref="view"/>
+						</xsd:choice>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element ref="dataSets">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Insert data definition</xsd:documentation>
+						<xsd:documentation xml:lang="ja-JP">データセット定義部</xsd:documentation> 
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:any minOccurs="0" maxOccurs="unbounded" processContents="lax" namespace="##other"/>
+			</xsd:sequence>
+			<xsd:attribute name="id" type="uuidType" use="required">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Model ID of RootModel</xsd:documentation>
+					<xsd:documentation xml:lang="ja-JP">RootModelのモデルID</xsd:documentation> 
+				</xsd:annotation>
+			</xsd:attribute>
+			<xsd:attribute name="version" type="xsd:string" use="required">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="en">Jiemamy model schema version.</xsd:documentation>
+					<xsd:documentation xml:lang="ja-JP">スキーマのバージョン</xsd:documentation> 
+				</xsd:annotation>
+			</xsd:attribute>
+		</xsd:complexType>
+	</xsd:element>
+
+
+	<xsd:element name="domain">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Data type domain</xsd:documentation> 
+			<xsd:documentation xml:lang="ja-JP">ドメイン</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="name">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Physical name of DOMAIN</xsd:documentation> 
+						<xsd:documentation xml:lang="ja-JP">ドメイン物理名</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element ref="logicalName" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Logical name of DOMAIN</xsd:documentation> 
+						<xsd:documentation xml:lang="ja-JP">ドメイン論理名</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element ref="description" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Domain description</xsd:documentation>
+						<xsd:documentation xml:lang="ja-JP">ドメインの説明文</xsd:documentation> 
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element ref="dataType" />
+				<xsd:element ref="notNull" minOccurs="0"/>
+				<xsd:element ref="columnCheck" minOccurs="0"/>
+			</xsd:sequence>
+			<xsd:attribute name="id" type="uuidType" use="required"/>
+		</xsd:complexType>
+	</xsd:element>
+
+
+	<xsd:element name="table">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">TABLE definition</xsd:documentation> 
+			<xsd:documentation xml:lang="ja-JP">テーブル定義</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="name">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Physical name of TABLE</xsd:documentation> 
+						<xsd:documentation xml:lang="ja-JP">テーブル物理名</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element ref="logicalName" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Logical name of TABLE</xsd:documentation> 
+						<xsd:documentation xml:lang="ja-JP">テーブル論理名</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element ref="description" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Table description</xsd:documentation>
+						<xsd:documentation xml:lang="ja-JP">テーブルの説明文</xsd:documentation> 
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="attributes">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Attribute (i.e. Column) of TABLE definition</xsd:documentation>
+						<xsd:documentation xml:lang="ja-JP">テーブルの属性（カラム等）定義部</xsd:documentation> 
+					</xsd:annotation>
+					<xsd:complexType>
+						<xsd:choice minOccurs="0" maxOccurs="unbounded">
+							<xsd:element ref="column" minOccurs="0" maxOccurs="unbounded"/>
+							<xsd:element ref="primaryKey" minOccurs="0" />
+							<xsd:element ref="uniqueKey" minOccurs="0" maxOccurs="unbounded" />
+							<xsd:element ref="foreignKey" minOccurs="0" maxOccurs="unbounded" />
+							<xsd:element ref="tableCheck" minOccurs="0" maxOccurs="unbounded" />
+						</xsd:choice>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="indexes" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+							<xsd:element ref="index" />
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+			<xsd:attribute name="class" type="fqcnType" use="required" />
+			<xsd:attribute name="id" type="uuidType" use="required" />
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="view">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">VIEW definition</xsd:documentation> 
+			<xsd:documentation xml:lang="ja-JP">ビュー定義</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="name">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Physical name of VIEW</xsd:documentation> 
+						<xsd:documentation xml:lang="ja-JP">ビュー物理名</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element ref="logicalName" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Logical name of VIEW</xsd:documentation> 
+						<xsd:documentation xml:lang="ja-JP">ビュー論理名</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element ref="description" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">View description</xsd:documentation>
+						<xsd:documentation xml:lang="ja-JP">ビューの説明文</xsd:documentation> 
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element name="definition" type="xsd:string" />
+			</xsd:sequence>
+			<xsd:attribute name="class" type="fqcnType" use="required" />
+			<xsd:attribute name="id" type="uuidType" use="required" />
+		</xsd:complexType>
+	</xsd:element>
+
+
+	<xsd:element name="column">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Column of table</xsd:documentation> 
+			<xsd:documentation xml:lang="ja-JP">テーブルのカラム</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="name">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Physical name of Column</xsd:documentation> 
+						<xsd:documentation xml:lang="ja-JP">カラム物理名</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element ref="logicalName" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Logical name of Column</xsd:documentation> 
+						<xsd:documentation xml:lang="ja-JP">カラム論理名</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element ref="description" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Column description</xsd:documentation>
+						<xsd:documentation xml:lang="ja-JP">カラムの説明文</xsd:documentation> 
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element ref="dataType" />
+				<xsd:element ref="defaultValue" minOccurs="0" />
+				<xsd:element ref="notNull" minOccurs="0"/>
+				<xsd:element ref="columnPrimaryKey" minOccurs="0"/>
+				<xsd:element ref="columnUniqueKey" minOccurs="0"/>
+				<xsd:element ref="columnCheck" minOccurs="0"/>
+			</xsd:sequence>
+			<xsd:attribute name="class" type="fqcnType" use="required" />
+			<xsd:attribute name="id" type="uuidType" use="required" />
+		</xsd:complexType>
+	</xsd:element>
+
+
+	<xsd:element name="columnPrimaryKey">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="name" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Physical name of Column PRIMARY KEY</xsd:documentation> 
+						<xsd:documentation xml:lang="ja-JP">カラム主キー名</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+			</xsd:sequence>
+			<xsd:attribute name="class" type="fqcnType" use="required" />
+			<xsd:attribute name="id" type="uuidType" use="required" />
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="columnUniqueKey">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="name" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Physical name of Column UNIQUE key</xsd:documentation> 
+						<xsd:documentation xml:lang="ja-JP">カラム一意キー名</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+			</xsd:sequence>
+			<xsd:attribute name="class" type="fqcnType" use="required" />
+			<xsd:attribute name="id" type="uuidType" use="required" />
+		</xsd:complexType>
+	</xsd:element>
+	
+	
+	<xsd:element name="primaryKey">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="name" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Physical name of Table PRIMARY KEY</xsd:documentation> 
+						<xsd:documentation xml:lang="ja-JP">テーブル主キー名</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element ref="logicalName" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Logical name of Table PRIMARY KEY</xsd:documentation> 
+						<xsd:documentation xml:lang="ja-JP">テーブル主キー論理名</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element ref="description" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Table primary key description</xsd:documentation>
+						<xsd:documentation xml:lang="ja-JP">テーブル主キーの説明文</xsd:documentation> 
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element ref="columnRefs" minOccurs="1"/>
+				<xsd:element ref="deferrability" minOccurs="0" />
+			</xsd:sequence>
+			<xsd:attribute name="class" type="fqcnType" use="required" />
+			<xsd:attribute name="id" type="uuidType" use="required" />
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="uniqueKey">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="name" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Physical name of Table UNIQUE key</xsd:documentation> 
+						<xsd:documentation xml:lang="ja-JP">テーブル一意キー名</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element ref="logicalName" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Logical name of Table UNIQUE key</xsd:documentation> 
+						<xsd:documentation xml:lang="ja-JP">テーブル一意キー論理名</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element ref="description" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Table unique key description</xsd:documentation>
+						<xsd:documentation xml:lang="ja-JP">テーブル一意キーの説明文</xsd:documentation> 
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element ref="columnRefs" minOccurs="1"/>
+				<xsd:element ref="deferrability" minOccurs="0" />
+			</xsd:sequence>
+			<xsd:attribute name="class" type="fqcnType" use="required" />
+			<xsd:attribute name="id" type="uuidType" use="required" />
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="foreignKey">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Foreign key definition</xsd:documentation> 
+			<xsd:documentation xml:lang="ja-JP">外部キー</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="name" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Physical name of FOREIGN KEY</xsd:documentation> 
+						<xsd:documentation xml:lang="ja-JP">外部キー名</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element ref="logicalName" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Logical name of FOREIGN KEY</xsd:documentation> 
+						<xsd:documentation xml:lang="ja-JP">外部キー論理名</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element ref="description" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Foreign key description</xsd:documentation>
+						<xsd:documentation xml:lang="ja-JP">外部キーの説明文</xsd:documentation> 
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element ref="columnRefs" minOccurs="0"/>
+				<xsd:element name="referenceColumns" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element ref="columnRef" maxOccurs="unbounded"/>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element ref="deferrability" minOccurs="0" />
+				<xsd:element name="matchType" type="matchTypeType" minOccurs="0"/>
+				<xsd:element name="onDelete" type="referentialActionType" minOccurs="0" />
+				<xsd:element name="onUpdate" type="referentialActionType" minOccurs="0" />
+			</xsd:sequence>
+			<xsd:attribute name="class" type="fqcnType" use="required" />
+			<xsd:attribute name="id" type="uuidType" use="required" />
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="deferrability">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="deferrable" type="xsd:boolean"/>
+				<xsd:element name="initiallyCheckTime" type="initiallyCheckTimeType" minOccurs="0"/>
+			</xsd:sequence>
+			<xsd:attribute name="class" type="fqcnType" use="required" />
+			<xsd:attribute name="id" type="uuidType" use="required" />
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="tableCheck">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="name" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Physical name of Table CHECK constraint</xsd:documentation> 
+						<xsd:documentation xml:lang="ja-JP">テーブルCHECK制約名</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element ref="logicalName" minOccurs="0" />
+				<xsd:element ref="description" minOccurs="0" />
+				<xsd:element name="expression" type="xsd:string" />
+			</xsd:sequence>
+			<xsd:attribute name="class" type="fqcnType" use="required" />
+			<xsd:attribute name="id" type="uuidType" use="required" />
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="index">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="name">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Physical name of INDEX</xsd:documentation> 
+						<xsd:documentation xml:lang="ja-JP">インデックス名</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element ref="indexColumns" />
+				<xsd:element name="unique" type="xsd:boolean" />
+			</xsd:sequence>
+			<xsd:attribute name="class" type="fqcnType" use="required" />
+			<xsd:attribute name="id" type="uuidType" use="required" />
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="indexColumns">
+		<xsd:complexType>
+			<xsd:sequence minOccurs="1" maxOccurs="unbounded">
+				<xsd:element ref="indexColumn" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="indexColumn">
+		<xsd:complexType>
+			<xsd:sequence minOccurs="1" maxOccurs="unbounded">
+				<xsd:element ref="name" minOccurs="0" />
+				<xsd:element ref="columnRef" />
+				<xsd:element name="sortOrder" type="sortOrderType" minOccurs="0" />
+			</xsd:sequence>
+			<xsd:attribute name="class" type="fqcnType" use="required" />
+			<xsd:attribute name="id" type="uuidType" use="required" />
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="columnRefs">
+		<xsd:complexType>
+			<xsd:sequence minOccurs="1" maxOccurs="unbounded">
+				<xsd:element ref="columnRef" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="columnRef">
+		<xsd:complexType mixed="true">
+			<xsd:attribute name="ref" type="uuidRefType" use="required" />
+		</xsd:complexType>
+	</xsd:element>
+
+	
+	<xsd:element name="beginScript">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Begin script output before target definition</xsd:documentation> 
+			<xsd:documentation xml:lang="ja-JP">開始スクリプト（このモデルのSQL表現を出力する直前に追加されるSQL文）</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType mixed="true">
+			<xsd:attribute name="engine" type="fqcnType" use="optional" />
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="endScript">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">End script output after target definition</xsd:documentation> 
+			<xsd:documentation xml:lang="ja-JP">終了スクリプト（このモデルのSQL表現を出力する直後に追加されるSQL文）</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType mixed="true">
+			<xsd:attribute name="engine" type="fqcnType" use="optional" />
+		</xsd:complexType>
+	</xsd:element>
+	
+	
+	<xsd:element name="dataType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Data type</xsd:documentation> 
+			<xsd:documentation xml:lang="ja-JP">データ型</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="typeCategory" minOccurs="0" type="typeCategoryType"/>
+				<xsd:element name="typeName" minOccurs="0" type="xsd:string"/>
+				<xsd:element ref="configuration" minOccurs="0"/>
+			</xsd:sequence>
+			<!-- TODO refがある時は、子elementは無しとしたい -->
+			<xsd:attribute name="ref" type="uuidRefType" use="optional" />
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="configuration">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:any minOccurs="0" maxOccurs="unbounded" processContents="lax" namespace="##any"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="notNull">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="name" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Physical name of NOT NULL constraint</xsd:documentation> 
+						<xsd:documentation xml:lang="ja-JP">NOT NULL制約物理名</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element ref="logicalName" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Logical name of NOT NULL constraint</xsd:documentation> 
+						<xsd:documentation xml:lang="ja-JP">NOT NULL制約論理名</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:element ref="description" minOccurs="0" />
+			</xsd:sequence>
+			<xsd:attribute name="class" type="fqcnType" use="required" />
+			<xsd:attribute name="id" type="uuidType" use="required" />
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="columnCheck">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="name" minOccurs="0" />
+				<xsd:element name="expression" type="xsd:string">
+					<xsd:annotation>
+						<xsd:documentation xml:lang="en">Physical name of Column CHECK constraint</xsd:documentation> 
+						<xsd:documentation xml:lang="ja-JP">カラムCHECK制約物理名</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+			</xsd:sequence>
+			<xsd:attribute name="class" type="fqcnType" use="required" />
+			<xsd:attribute name="id" type="uuidType" use="required" />
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="dataSets">
+		<xsd:complexType>
+ 			<xsd:sequence>
+ 				<xsd:element ref="dataSet" minOccurs="0" maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="dataSet">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="name" />
+				<xsd:element ref="tableRef" maxOccurs="unbounded" />
+			</xsd:sequence>
+			<xsd:attribute name="id" type="uuidType" use="required" />
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="tableRef">
+		<xsd:complexType>
+			<xsd:choice maxOccurs="unbounded">
+				<xsd:element name="record">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element ref="columnRef" maxOccurs="unbounded" />
+						</xsd:sequence>
+						<xsd:attribute name="id" type="uuidType" use="required" />
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:choice>
+			<xsd:attribute name="ref" type="uuidRefType" use="required" />
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="name" type="xsd:string">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Physical name of Jiemamy model</xsd:documentation> 
+			<xsd:documentation xml:lang="ja-JP">モデル名</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="logicalName" type="xsd:string">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Logical name of Jiemamy model</xsd:documentation> 
+			<xsd:documentation xml:lang="ja-JP">モデル論理名</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="description" type="xsd:string">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Description for Jiemamy model</xsd:documentation> 
+			<xsd:documentation xml:lang="ja-JP">モデルに対する説明文</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:element name="defaultValue" type="xsd:string" />
+
+	<!-- 単純型 -->
+	
+	<xsd:simpleType name="uuidType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">UUID type</xsd:documentation> 
+			<xsd:documentation xml:lang="ja-JP">UUID定義型</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+		<!-- 
+			<xsd:pattern value="[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"/>
+		 -->
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="uuidRefType"><!-- TODO xsd:key要素を使って、存在しないIDを参照できないようにしたい -->
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Reference to UUID type</xsd:documentation> 
+			<xsd:documentation xml:lang="ja-JP">UUID参照型</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+		<!-- 
+			<xsd:pattern value="[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}"/>
+		 -->
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="fqcnType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Fully qualified class name type</xsd:documentation> 
+			<xsd:documentation xml:lang="ja-JP">完全修飾クラス名型</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="([A-Za-z][A-Za-z0-9]*\.)*[A-Za-z][A-Za-z0-9]*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="typeCategoryType">
+		<xsd:restriction base="xsd:token">
+			<xsd:enumeration value="CHARACTER" />
+			<xsd:enumeration value="VARCHAR" />
+			<xsd:enumeration value="CLOB" />
+			<xsd:enumeration value="BLOB" />
+			<xsd:enumeration value="BIT" />
+			<xsd:enumeration value="VARBIT" />
+			<xsd:enumeration value="NUMERIC" />
+			<xsd:enumeration value="DECIMAL" />
+			<xsd:enumeration value="INTEGER" />
+			<xsd:enumeration value="SMALLINT" />
+			<xsd:enumeration value="FLOAT" />
+			<xsd:enumeration value="REAL" />
+			<xsd:enumeration value="DOUBLE" />
+			<xsd:enumeration value="BOOLEAN" />
+			<xsd:enumeration value="DATE" />
+			<xsd:enumeration value="TIME" />
+			<xsd:enumeration value="TIMESTAMP" />
+			<xsd:enumeration value="INTERVAL" />
+			<xsd:enumeration value="OTHER" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="referentialActionType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="ja-JP">onDelete/onUpdateに設定できる値</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:token">
+			<xsd:enumeration value="CASCADE" />
+			<xsd:enumeration value="SET_NULL" />
+			<xsd:enumeration value="SET_DEFAULT" />
+			<xsd:enumeration value="RESTRICT" />
+			<xsd:enumeration value="NO_ACTION" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="matchTypeType">
+		<xsd:restriction base="xsd:token">
+			<xsd:enumeration value="SIMPLE" />
+			<xsd:enumeration value="FULL" />
+			<xsd:enumeration value="PARTIAL" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="initiallyCheckTimeType">
+		<xsd:restriction base="xsd:token">
+			<xsd:enumeration value="IMMEDIATE" />
+			<xsd:enumeration value="DEFERRED" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sortOrderType">
+		<xsd:restriction base="xsd:token">
+			<xsd:enumeration value="ASC" />
+			<xsd:enumeration value="DESC" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+</xsd:schema>
