@@ -110,7 +110,7 @@
 						<xsd:documentation xml:lang="ja-JP">ドメインの説明文</xsd:documentation> 
 					</xsd:annotation>
 				</xsd:element>
-				<xsd:element ref="dataType" />
+				<xsd:element ref="type" />
 				<xsd:element ref="notNull" minOccurs="0"/>
 				<xsd:element ref="columnCheck" minOccurs="0"/>
 			</xsd:sequence>
@@ -230,7 +230,7 @@
 						<xsd:documentation xml:lang="ja-JP">カラムの説明文</xsd:documentation> 
 					</xsd:annotation>
 				</xsd:element>
-				<xsd:element ref="dataType" />
+				<xsd:element ref="type" />
 				<xsd:element ref="defaultValue" minOccurs="0" />
 				<xsd:element ref="notNull" minOccurs="0"/>
 				<xsd:element ref="columnPrimaryKey" minOccurs="0"/>
@@ -254,7 +254,6 @@
 				</xsd:element>
 			</xsd:sequence>
 			<xsd:attribute name="class" type="fqcnType" use="required" />
-			<xsd:attribute name="id" type="uuidType" use="required" />
 		</xsd:complexType>
 	</xsd:element>
 	
@@ -269,7 +268,6 @@
 				</xsd:element>
 			</xsd:sequence>
 			<xsd:attribute name="class" type="fqcnType" use="required" />
-			<xsd:attribute name="id" type="uuidType" use="required" />
 		</xsd:complexType>
 	</xsd:element>
 	
@@ -299,7 +297,6 @@
 				<xsd:element ref="deferrability" minOccurs="0" />
 			</xsd:sequence>
 			<xsd:attribute name="class" type="fqcnType" use="required" />
-			<xsd:attribute name="id" type="uuidType" use="required" />
 		</xsd:complexType>
 	</xsd:element>
 	
@@ -328,7 +325,6 @@
 				<xsd:element ref="deferrability" minOccurs="0" />
 			</xsd:sequence>
 			<xsd:attribute name="class" type="fqcnType" use="required" />
-			<xsd:attribute name="id" type="uuidType" use="required" />
 		</xsd:complexType>
 	</xsd:element>
 	
@@ -371,7 +367,6 @@
 				<xsd:element name="onUpdate" type="referentialActionType" minOccurs="0" />
 			</xsd:sequence>
 			<xsd:attribute name="class" type="fqcnType" use="required" />
-			<xsd:attribute name="id" type="uuidType" use="required" />
 		</xsd:complexType>
 	</xsd:element>
 	
@@ -382,7 +377,6 @@
 				<xsd:element name="initiallyCheckTime" type="initiallyCheckTimeType" minOccurs="0"/>
 			</xsd:sequence>
 			<xsd:attribute name="class" type="fqcnType" use="required" />
-			<xsd:attribute name="id" type="uuidType" use="required" />
 		</xsd:complexType>
 	</xsd:element>
 
@@ -400,7 +394,6 @@
 				<xsd:element name="expression" type="xsd:string" />
 			</xsd:sequence>
 			<xsd:attribute name="class" type="fqcnType" use="required" />
-			<xsd:attribute name="id" type="uuidType" use="required" />
 		</xsd:complexType>
 	</xsd:element>
 
@@ -417,7 +410,6 @@
 				<xsd:element name="unique" type="xsd:boolean" />
 			</xsd:sequence>
 			<xsd:attribute name="class" type="fqcnType" use="required" />
-			<xsd:attribute name="id" type="uuidType" use="required" />
 		</xsd:complexType>
 	</xsd:element>
 	
@@ -437,7 +429,6 @@
 				<xsd:element name="sortOrder" type="sortOrderType" minOccurs="0" />
 			</xsd:sequence>
 			<xsd:attribute name="class" type="fqcnType" use="required" />
-			<xsd:attribute name="id" type="uuidType" use="required" />
 		</xsd:complexType>
 	</xsd:element>
 	
@@ -476,16 +467,19 @@
 	</xsd:element>
 	
 	
-	<xsd:element name="dataType">
+	<xsd:element name="type">
 		<xsd:annotation>
 			<xsd:documentation xml:lang="en">Data type</xsd:documentation> 
 			<xsd:documentation xml:lang="ja-JP">データ型</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
+			<!-- TODO
 				<xsd:element name="typeCategory" minOccurs="0" type="typeCategoryType"/>
 				<xsd:element name="typeName" minOccurs="0" type="xsd:string"/>
 				<xsd:element ref="configuration" minOccurs="0"/>
+			-->
+				<xsd:any minOccurs="0" maxOccurs="unbounded" processContents="lax" />
 			</xsd:sequence>
 			<!-- TODO refがある時は、子elementは無しとしたい -->
 			<xsd:attribute name="ref" type="uuidRefType" use="optional" />
@@ -518,7 +512,6 @@
 				<xsd:element ref="description" minOccurs="0" />
 			</xsd:sequence>
 			<xsd:attribute name="class" type="fqcnType" use="required" />
-			<xsd:attribute name="id" type="uuidType" use="required" />
 		</xsd:complexType>
 	</xsd:element>
 
@@ -534,7 +527,6 @@
 				</xsd:element>
 			</xsd:sequence>
 			<xsd:attribute name="class" type="fqcnType" use="required" />
-			<xsd:attribute name="id" type="uuidType" use="required" />
 		</xsd:complexType>
 	</xsd:element>
 
@@ -552,7 +544,6 @@
 				<xsd:element ref="name" />
 				<xsd:element ref="tableRef" maxOccurs="unbounded" />
 			</xsd:sequence>
-			<xsd:attribute name="id" type="uuidType" use="required" />
 		</xsd:complexType>
 	</xsd:element>
 

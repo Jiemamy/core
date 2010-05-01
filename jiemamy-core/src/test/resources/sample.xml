@@ -10,15 +10,16 @@
   <domains>
     <domain id="2eec0aa0-5122-4eb7-833d-9f5a43e7abe9">
       <name>ID</name>
-      <dataType>
-        <typeCategory>INTEGER</typeCategory>
-        <typeName>INTEGER</typeName>
+      <type>
+        <typeProto>INTEGER</typeProto>
+        <typeReference class="org.jiemamy.dialect.mysql.MySqlTypeReference">INTEGER</typeReference>
+        <typeReference class="org.jiemamy.dialect.oracle.OracleTypeReference">NUMBER</typeReference>
         <configuration>
-          <serial>true</serial>
+          <property name="org.jiemamy.dialect.common.serial">true</property>
         </configuration>
-      </dataType>
-      <notNull class="org.jiemamy.model.DefaultNotNullModel" id="af4845dc-7f3a-434d-b5ac-2f25b74d7e76"/>
-      <columnCheck class="org.jiemamy.model.DefaultColumnCheckModel" id="48b76d76-b288-480a-afa4-111247379f8d">
+      </type>
+      <notNull class="org.jiemamy.model.DefaultNotNullModel"/>
+      <columnCheck class="org.jiemamy.model.DefaultColumnCheckModel">
         <name>hoge</name>
         <expression>VALUE &gt; 0</expression>
       </columnCheck>
@@ -26,13 +27,23 @@
     <domain id="62f1e6ec-e6aa-4d52-a6c3-27dac086f2d7">
       <name>NAME</name>
       <description>人名用の型です。</description>
-      <dataType>
-        <typeCategory>VARCHAR</typeCategory>
-        <typeName>VARCHAR</typeName>
-        <configuration>
-          <size>32</size>
-        </configuration>
-      </dataType>
+      <type>
+        <protoTypeConstruct>
+          <typeProto>VARCHAR</typeProto>
+          <configuration>
+            <size>32</size>
+          </configuration>
+        </protoTypeConstruct>
+        <typeConstruct dialect="org.jiemamy.dialect.mysql.MySqlDialect">
+          <typeReference class="org.jiemamy.dialect.common.TypeReference">CHAR</typeReference>
+        </typeConstruct>
+        <typeConstruct dialect="org.jiemamy.dialect.oracle.OracleDialect">
+          <typeReference class="org.jiemamy.dialect.oracle.OracleTypeReference">VARCHAR2</typeReference>
+        </typeConstruct>
+        <typeConstruct dialect="org.jiemamy.dialect.mysql.PostgresqlDialect">
+          <typeReference class="org.jiemamy.dialect.postgresql.PostgresqlTypeReference">TEXT</typeReference>
+        </typeConstruct>
+      </type>
     </domain>
   </domains>
   <entities>
@@ -44,71 +55,74 @@
         <column class="org.jiemamy.model.DefaultColumnModel" id="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">
           <name>ID</name>
           <logicalName>従業員ID</logicalName>
-          <dataType ref="2eec0aa0-5122-4eb7-833d-9f5a43e7abe9"/>
+          <type ref="2eec0aa0-5122-4eb7-833d-9f5a43e7abe9"/>
         </column>
         <column class="org.jiemamy.model.DefaultColumnModel" id="248a429b-2159-4ebd-a791-eee42a059374">
           <name>EMP_NO</name>
           <logicalName>従業員番号</logicalName>
-          <dataType>
-            <typeCategory>INTEGER</typeCategory>
-            <typeName>INTEGER</typeName>
-          </dataType>
-          <notNull class="org.jiemamy.model.DefaultNotNullModel" id="05ee4c06-d8b5-4599-a7e9-1cda036ea2c7"/>
+          <type>
+            <typeVariant>
+              <typeProto>INTEGER</typeProto>
+              <typeReference dialect="org.jiemamy.dialect.mysql.MySqlDialect">INTEGER</typeReference>
+              <typeReference dialect="org.jiemamy.dialect.oracle.OracleDialect">NUMBER</typeReference>
+            </typeVariant>
+          </type>
+          <notNull class="org.jiemamy.model.DefaultNotNullModel"/>
         </column>
         <column class="org.jiemamy.model.DefaultColumnModel" id="0e51b6df-43ab-408c-90ef-de13c6aab881">
           <name>EMP_NAME</name>
           <logicalName>従業員名</logicalName>
-          <dataType ref="62f1e6ec-e6aa-4d52-a6c3-27dac086f2d7"/>
+          <type ref="62f1e6ec-e6aa-4d52-a6c3-27dac086f2d7"/>
           <defaultValue>no name</defaultValue>
-          <notNull class="org.jiemamy.model.DefaultNotNullModel" id="41f178b9-2cb5-4dad-a6c0-48df2d5b1300"/>
+          <notNull class="org.jiemamy.model.DefaultNotNullModel"/>
         </column>
         <column class="org.jiemamy.model.DefaultColumnModel" id="3d21a85a-72de-41b3-99dd-f4cb94e58d84">
           <name>MGR_ID</name>
           <logicalName>上司ID</logicalName>
-          <dataType>
+          <type>
             <typeCategory>INTEGER</typeCategory>
             <typeName>INTEGER</typeName>
-          </dataType>
+          </type>
         </column>
         <column class="org.jiemamy.model.DefaultColumnModel" id="f0b57eed-98ab-4c21-9855-218c592814dc">
           <name>HIREDATE</name>
-          <dataType>
+          <type>
             <typeCategory>DATE</typeCategory>
             <typeName>DATE</typeName>
-          </dataType>
-          <notNull class="org.jiemamy.model.DefaultNotNullModel" id="2d66fd73-8d6b-41d8-b6b8-daec7d6c0c53"/>
+          </type>
+          <notNull class="org.jiemamy.model.DefaultNotNullModel"/>
         </column>
         <column class="org.jiemamy.model.DefaultColumnModel" id="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">
           <name>SAL</name>
-          <dataType>
+          <type>
             <typeCategory>NUMERIC</typeCategory>
             <typeName>NUMERIC</typeName>
             <configuration>
               <precision>7</precision>
               <scale>2</scale>
             </configuration>
-          </dataType>
-          <notNull class="org.jiemamy.model.DefaultNotNullModel" id="a446779a-4fb6-4a0f-8262-22daae856e85"/>
-          <columnCheck class="org.jiemamy.model.DefaultColumnCheckModel" id="873f6660-7a61-4c2c-87a0-e922fa03b88c">
+          </type>
+          <notNull class="org.jiemamy.model.DefaultNotNullModel"/>
+          <columnCheck class="org.jiemamy.model.DefaultColumnCheckModel">
             <name>positive_sal</name>
             <expression>SAL &lt;= 0</expression>
           </columnCheck>
         </column>
         <column class="org.jiemamy.model.DefaultColumnModel" id="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">
           <name>DEPT_ID</name>
-          <dataType>
+          <type>
             <typeCategory>INTEGER</typeCategory>
             <typeName>INTEGER</typeName>
-          </dataType>
-          <notNull class="org.jiemamy.model.DefaultNotNullModel" id="b9a0fdce-a965-4118-ae71-5dc7150f6d4e"/>
+          </type>
+          <notNull class="org.jiemamy.model.DefaultNotNullModel"/>
         </column>
-        <primaryKey class="org.jiemamy.model.DefaultPrimaryKeyModel" id="6145e6a0-9ff7-4033-999d-99d80392a48f">
+        <primaryKey class="org.jiemamy.model.DefaultPrimaryKeyModel">
           <name>emp_pkey</name>
           <columnRefs>
             <columnRef ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e"/>
           </columnRefs>
         </primaryKey>
-        <foreignKey class="org.jiemamy.model.DefaultForeignKeyModel" id="e43d3c43-33c8-4b02-aa42-83f2d868cfe6">
+        <foreignKey class="org.jiemamy.model.DefaultForeignKeyModel">
           <name>emp_mgr_id_fkey</name>
           <columnRefs>
             <columnRef ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84"/>
@@ -116,13 +130,13 @@
           <referenceColumns>
             <columnRef ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e"/>
           </referenceColumns>
-          <deferrability class="org.jiemamy.model.DefaultDeferrabilityModel" id="9af096ba-8841-41ba-9dd4-02628b800bf0">
+          <deferrability class="org.jiemamy.model.DefaultDeferrabilityModel">
             <deferrable>true</deferrable>
             <initiallyCheckTime>DEFERRED</initiallyCheckTime>
           </deferrability>
           <onDelete>SET_NULL</onDelete>
         </foreignKey>
-        <foreignKey class="org.jiemamy.model.DefaultForeignKeyModel" id="e7dd92b4-1d97-4be6-bab6-fa9fe26eb6ed">
+        <foreignKey class="org.jiemamy.model.DefaultForeignKeyModel">
           <name>emp_dept_id_fkey</name>
           <columnRefs>
             <columnRef ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b"/>
@@ -133,10 +147,10 @@
         </foreignKey>
       </attributes>
       <indexes>
-        <index class="org.jiemamy.model.DefaultIndexModel" id="9abc9e01-4cdb-42fe-a495-93b56af35a1d">
+        <index class="org.jiemamy.model.DefaultIndexModel">
           <name>IDX_EMP_NAME</name>
           <indexColumns>
-            <indexColumn class="org.jiemamy.model.DefaultIndexColumnModel" id="52d2b6aa-fff7-4c33-af13-f4d0b63e8e58">
+            <indexColumn class="org.jiemamy.model.DefaultIndexColumnModel">
               <columnRef ref="0e51b6df-43ab-408c-90ef-de13c6aab881"/>
               <sortOrder>DESC</sortOrder>
             </indexColumn>
@@ -152,42 +166,42 @@
         <column class="org.jiemamy.model.DefaultColumnModel" id="c7ed225d-92a6-4cc2-90de-60531804464e">
           <name>ID</name>
           <logicalName>部署ID</logicalName>
-          <dataType ref="2eec0aa0-5122-4eb7-833d-9f5a43e7abe9"/>
-          <columnPrimaryKey class="org.jiemamy.model.DefaultColumnPrimaryKeyModel" id="8de55e65-ec48-467a-bac5-8eee2d71d41c">
+          <type ref="2eec0aa0-5122-4eb7-833d-9f5a43e7abe9"/>
+          <columnPrimaryKey class="org.jiemamy.model.DefaultColumnPrimaryKeyModel">
             <name>dept_pkey</name>
           </columnPrimaryKey>
         </column>
         <column class="org.jiemamy.model.DefaultColumnModel" id="2d951389-6bc7-49d7-8631-1d26fe17047e">
           <name>DEPT_NO</name>
           <logicalName>部署番号</logicalName>
-          <dataType>
+          <type>
             <typeCategory>INTEGER</typeCategory>
             <typeName>INTEGER</typeName>
-          </dataType>
-          <notNull class="org.jiemamy.model.DefaultNotNullModel" id="cc709f63-a886-4207-a316-58ad7f279e10"/>
+          </type>
+          <notNull class="org.jiemamy.model.DefaultNotNullModel"/>
         </column>
         <column class="org.jiemamy.model.DefaultColumnModel" id="1fcd63d3-974e-4d2e-a0d8-3b9c233104d9">
           <name>DEPT_NAME</name>
           <logicalName>部署名</logicalName>
-          <dataType>
+          <type>
             <typeCategory>VARCHAR</typeCategory>
             <typeName>VARCHAR</typeName>
             <configuration>
               <size>20</size>
             </configuration>
-          </dataType>
-          <notNull class="org.jiemamy.model.DefaultNotNullModel" id="fab2f883-0489-4661-bd57-f04286188eef"/>
+          </type>
+          <notNull class="org.jiemamy.model.DefaultNotNullModel"/>
         </column>
         <column class="org.jiemamy.model.DefaultColumnModel" id="7bf79e76-07b8-43b6-a993-b8ef374a31f5">
           <name>LOC</name>
           <logicalName>ロケーション</logicalName>
-          <dataType>
+          <type>
             <typeCategory>VARCHAR</typeCategory>
             <typeName>VARCHAR</typeName>
             <configuration>
               <size>20</size>
             </configuration>
-          </dataType>
+          </type>
           <defaultValue>secret</defaultValue>
         </column>
       </attributes>
@@ -200,7 +214,7 @@
     </view>
   </entities>
   <dataSets>
-    <dataSet id="b73100b5-2d70-4b48-a825-311eacb63b2f">
+    <dataSet>
       <name>データ群en</name>
       <tableRef ref="9f522e56-809c-45fd-8416-39201014218b">
         <record id="6ce22d69-bd75-4822-946f-a51221fd45eb">
@@ -302,7 +316,7 @@
         </record>
       </tableRef>
     </dataSet>
-    <dataSet id="91246ed4-1ef3-440e-bf12-40fa4439a71b">
+    <dataSet>
       <name>データ群ja</name>
       <tableRef ref="9f522e56-809c-45fd-8416-39201014218b">
         <record id="9365e670-1eff-4a23-90bd-f794b9742b10">

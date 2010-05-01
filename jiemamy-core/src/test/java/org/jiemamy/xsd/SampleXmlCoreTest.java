@@ -56,6 +56,7 @@ public class SampleXmlCoreTest {
 		
 		// 妥当性検証
 		Validator validator = schema.newValidator();
+		validator.validate(new StreamSource(SampleXmlCoreTest.class.getResourceAsStream("/sample0.xml")));
 		validator.validate(new StreamSource(SampleXmlCoreTest.class.getResourceAsStream("/sample.xml")));
 	}
 }
