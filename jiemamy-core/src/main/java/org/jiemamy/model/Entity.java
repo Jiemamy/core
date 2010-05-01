@@ -30,13 +30,22 @@ import java.util.UUID;
 public interface Entity {
 	
 	/**
-	 * モデルIDを取得する。
+	 * ENTITYのIDを以て、同一性を比較する。
 	 * 
-	 * <p>IDは、オブジェクトの生成時に指定または自動生成され、このオブジェクトのライフサイクル（生成から削除まで）を通して
-	 * 一貫していなければならない。</p>
-	 * 
-	 * @return モデルID
-	 * @since 0.2
+	 * @param obj 比較対象オブジェクト
+	 * @return 同じIDを持つ場合は{@code true}、そうでない場合は{@code false}
+	 * @since 0.3
 	 */
+	boolean equals(Object obj);
+	
+	/**
+	* モデルIDを取得する。
+	* 
+	* <p>IDは、オブジェクトの生成時に指定または自動生成され、このオブジェクトのライフサイクル（生成から削除まで）を通して
+	* 一貫していなければならない。</p>
+	* 
+	* @return モデルID
+	* @since 0.2
+	*/
 	UUID getId();
 }

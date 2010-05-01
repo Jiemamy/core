@@ -22,6 +22,7 @@ import java.util.UUID;
 
 import org.apache.commons.lang.Validate;
 
+import org.jiemamy.model.Entity;
 import org.jiemamy.model.attribute.constraint.ColumnCheckConstraint;
 import org.jiemamy.model.attribute.constraint.NotNullConstraint;
 
@@ -71,18 +72,10 @@ public class DefalultDomainModel implements DomainModel {
 		if (obj == null) {
 			return false;
 		}
-		if (getClass() != obj.getClass()) {
+		if (obj instanceof Entity == false) {
 			return false;
 		}
-		DefalultDomainModel other = (DefalultDomainModel) obj;
-		if (id == null) {
-			if (other.id != null) {
-				return false;
-			}
-		} else if (!id.equals(other.id)) {
-			return false;
-		}
-		return true;
+		return id.equals(((Entity) obj).getId());
 	}
 	
 	public ColumnCheckConstraint getCheckConstraint() {

@@ -18,28 +18,64 @@
  */
 package org.jiemamy.model.dbo;
 
+import org.jiemamy.model.ValueObject;
+
 /**
  * ビューモデル
  * 
  * @author daisuke
  */
-public class DefaultViewModel extends AbstractDatabaseObjectModel implements ViewModel {
+public final class DefaultViewModel extends AbstractDatabaseObjectModel implements ViewModel, ValueObject {
 	
 	/** VIEW定義SELECT文 */
-	private String definition = "";
+	private final String definition;
 	
 
 	/**
 	 * インスタンスを生成する。
 	 * 
+	 * @param name 物理名
+	 * @param logicalName 論理名
+	 * @param description 説明
 	 * @param definition SELECT文
 	 */
-	public DefaultViewModel(String definition) {
-		
+	public DefaultViewModel(String name, String logicalName, String description, String definition) {
+		super(name, logicalName, description);
+		this.definition = definition;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!super.equals(obj)) {
+			return false;
+		}
+		if (!(obj instanceof DefaultViewModel)) {
+			return false;
+		}
+		DefaultViewModel other = (DefaultViewModel) obj;
+		if (definition == null) {
+			if (other.definition != null) {
+				return false;
+			}
+		} else if (!definition.equals(other.definition)) {
+			return false;
+		}
+		return true;
 	}
 	
 	public String getDefinition() {
 		return definition;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((definition == null) ? 0 : definition.hashCode());
+		return result;
 	}
 	
 }

@@ -18,7 +18,6 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
-
 /**
  * 遅延評価可能性モデル。
  * 

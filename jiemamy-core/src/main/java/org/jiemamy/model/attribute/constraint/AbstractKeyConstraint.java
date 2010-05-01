@@ -52,6 +52,35 @@ public abstract class AbstractKeyConstraint extends AbstractConstraintModel impl
 		this.deferrability = deferrability;
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!super.equals(obj)) {
+			return false;
+		}
+		if (!(obj instanceof AbstractKeyConstraint)) {
+			return false;
+		}
+		AbstractKeyConstraint other = (AbstractKeyConstraint) obj;
+		if (deferrability == null) {
+			if (other.deferrability != null) {
+				return false;
+			}
+		} else if (!deferrability.equals(other.deferrability)) {
+			return false;
+		}
+		if (keyColumns == null) {
+			if (other.keyColumns != null) {
+				return false;
+			}
+		} else if (!keyColumns.equals(other.keyColumns)) {
+			return false;
+		}
+		return true;
+	}
+	
 	public Deferrability getDeferrability() {
 		return deferrability;
 	}
@@ -59,4 +88,14 @@ public abstract class AbstractKeyConstraint extends AbstractConstraintModel impl
 	public List<ColumnRef> getKeyColumns() {
 		return keyColumns;
 	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((deferrability == null) ? 0 : deferrability.hashCode());
+		result = prime * result + ((keyColumns == null) ? 0 : keyColumns.hashCode());
+		return result;
+	}
+	
 }

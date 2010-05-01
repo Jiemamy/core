@@ -54,11 +54,45 @@ public final class DefaultDeferrability implements Deferrability, ValueObject {
 		this.initiallyCheckTime = initiallyCheckTime;
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof DefaultDeferrability)) {
+			return false;
+		}
+		DefaultDeferrability other = (DefaultDeferrability) obj;
+		if (deferrable != other.deferrable) {
+			return false;
+		}
+		if (initiallyCheckTime == null) {
+			if (other.initiallyCheckTime != null) {
+				return false;
+			}
+		} else if (!initiallyCheckTime.equals(other.initiallyCheckTime)) {
+			return false;
+		}
+		return true;
+	}
+	
 	public InitiallyCheckTime getInitiallyCheckTime() {
 		if (isDeferrable() == false) {
 			return null;
 		}
 		return initiallyCheckTime;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (deferrable ? 1231 : 1237);
+		result = prime * result + ((initiallyCheckTime == null) ? 0 : initiallyCheckTime.hashCode());
+		return result;
 	}
 	
 	public boolean isDeferrable() {

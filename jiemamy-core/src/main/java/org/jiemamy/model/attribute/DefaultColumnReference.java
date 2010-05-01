@@ -27,7 +27,7 @@ import org.jiemamy.model.AbstractEntityReference;
  * 
  * @author daisuke
  */
-public class DefaultColumnReference extends AbstractEntityReference<ColumnModel> implements ColumnRef {
+public final class DefaultColumnReference extends AbstractEntityReference<ColumnModel> implements ColumnRef {
 	
 	/**
 	 * インスタンスを生成する。

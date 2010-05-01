@@ -23,6 +23,7 @@ import java.util.UUID;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
+import org.jiemamy.model.Entity;
 import org.jiemamy.model.attribute.constraint.ColumnCheckConstraint;
 import org.jiemamy.model.attribute.constraint.NotNullConstraint;
 import org.jiemamy.model.attribute.constraint.PrimaryKey;
@@ -58,37 +59,25 @@ public class DefalutColumnModel extends AbstractAttributeModel implements Column
 	 * インスタンスを生成する。
 	 * 
 	 * @param id モデルID
-	 * @param name 物理名
-	 * @param logicalName 論理名
-	 * @param description 説明
 	 * @throws IllegalArgumentException 引数idに{@code null}を与えた場合
 	 */
-	public DefalutColumnModel(UUID id, String name, String logicalName, String description) {
-		super(name, logicalName, description);
+	public DefalutColumnModel(UUID id) {
 		this.id = id;
 		setName("");
 	}
 	
 	@Override
-	public boolean equals(Object obj) {
+	public final boolean equals(Object obj) {
 		if (this == obj) {
 			return true;
 		}
 		if (obj == null) {
 			return false;
 		}
-		if (getClass() != obj.getClass()) {
+		if (obj instanceof Entity == false) {
 			return false;
 		}
-		DefalutColumnModel other = (DefalutColumnModel) obj;
-		if (id == null) {
-			if (other.id != null) {
-				return false;
-			}
-		} else if (!id.equals(other.id)) {
-			return false;
-		}
-		return true;
+		return id.equals(((Entity) obj).getId());
 	}
 	
 	public ColumnCheckConstraint getCheckConstraint() {
@@ -120,7 +109,7 @@ public class DefalutColumnModel extends AbstractAttributeModel implements Column
 	}
 	
 	@Override
-	public int hashCode() {
+	public final int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
@@ -128,7 +117,6 @@ public class DefalutColumnModel extends AbstractAttributeModel implements Column
 	}
 	
 	/**
-	 * 
 	 * チェック制約を設定する
 	 * 
 	 * @param checkConstraint チェック制約
@@ -139,7 +127,6 @@ public class DefalutColumnModel extends AbstractAttributeModel implements Column
 	}
 	
 	/**
-	 * 
 	 * データタイプを設定する
 	 * 
 	 * @param dataType データタイプ
@@ -150,7 +137,6 @@ public class DefalutColumnModel extends AbstractAttributeModel implements Column
 	}
 	
 	/**
-	 * 
 	 * デフォルト値を設定する
 	 * 
 	 * @param defaultValue デフォルト値
@@ -176,7 +162,6 @@ public class DefalutColumnModel extends AbstractAttributeModel implements Column
 	}
 	
 	/**
-	 * 
 	 * NotNull制約を設定する
 	 * 
 	 * @param notNullConstraint NotNull制約
@@ -187,7 +172,6 @@ public class DefalutColumnModel extends AbstractAttributeModel implements Column
 	}
 	
 	/**
-	 * 
 	 * 主キー制約を設定する
 	 * 
 	 * @param primaryKey 主キー制約
@@ -198,7 +182,6 @@ public class DefalutColumnModel extends AbstractAttributeModel implements Column
 	}
 	
 	/**
-	 * 
 	 * ユニークキー制約を設定する
 	 * 
 	 * @param uniqueKey ユニークキー制約

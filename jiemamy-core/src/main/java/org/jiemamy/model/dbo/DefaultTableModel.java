@@ -23,6 +23,7 @@ import java.util.UUID;
 
 import org.apache.commons.lang.Validate;
 
+import org.jiemamy.model.Entity;
 import org.jiemamy.model.attribute.AttributeModel;
 import org.jiemamy.model.index.IndexModel;
 
@@ -60,18 +61,10 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 		if (obj == null) {
 			return false;
 		}
-		if (getClass() != obj.getClass()) {
+		if (obj instanceof Entity == false) {
 			return false;
 		}
-		DefaultTableModel other = (DefaultTableModel) obj;
-		if (id == null) {
-			if (other.id != null) {
-				return false;
-			}
-		} else if (!id.equals(other.id)) {
-			return false;
-		}
-		return true;
+		return id.equals(((Entity) obj).getId());
 	}
 	
 	public List<AttributeModel> getAttributes() {
@@ -107,6 +100,11 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 		this.attributes = attributes;
 	}
 	
+	@Override
+	public void setDescription(String description) {
+		super.setDescription(description);
+	}
+	
 	/**
 	 * インデックスのリストを設定する。
 	 * 
@@ -117,4 +115,15 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 		Validate.notNull(indexes);
 		this.indexes = indexes;
 	}
+	
+	@Override
+	public void setLogicalName(String logicalName) {
+		super.setLogicalName(logicalName);
+	}
+	
+	@Override
+	public void setName(String name) {
+		super.setName(name);
+	}
+	
 }

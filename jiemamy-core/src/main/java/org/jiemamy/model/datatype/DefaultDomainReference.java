@@ -27,7 +27,7 @@ import org.jiemamy.model.AbstractEntityReference;
  * 
  * @author daisuke
  */
-public class DefaultDomainReference extends AbstractEntityReference<DomainModel> implements DomainRef {
+public final class DefaultDomainReference extends AbstractEntityReference<DomainModel> implements DomainRef {
 	
 	/**
 	 * インスタンスを生成する。

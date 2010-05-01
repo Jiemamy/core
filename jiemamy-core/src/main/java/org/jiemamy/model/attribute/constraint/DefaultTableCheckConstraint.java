@@ -25,7 +25,8 @@ import org.jiemamy.model.ValueObject;
  * 
  * @author daisuke
  */
-public class DefaultTableCheckConstraint extends AbstractCheckConstraint implements TableCheckConstraint, ValueObject {
+public final class DefaultTableCheckConstraint extends AbstractCheckConstraint implements TableCheckConstraint,
+		ValueObject {
 	
 	/**
 	 * インスタンスを生成する。
@@ -40,4 +41,19 @@ public class DefaultTableCheckConstraint extends AbstractCheckConstraint impleme
 		super(expression, logicalName, description, expression);
 	}
 	
+	public DefaultTableCheckConstraint changeDescriptionTo(String description) {
+		return new DefaultTableCheckConstraint(getName(), getLogicalName(), description, getExpression());
+	}
+	
+	public DefaultTableCheckConstraint changeExpressionTo(String expression) {
+		return new DefaultTableCheckConstraint(getName(), getLogicalName(), getDescription(), expression);
+	}
+	
+	public DefaultTableCheckConstraint changeLogicalNameTo(String logicalName) {
+		return new DefaultTableCheckConstraint(getName(), logicalName, getDescription(), getExpression());
+	}
+	
+	public DefaultTableCheckConstraint changeNameTo(String name) {
+		return new DefaultTableCheckConstraint(name, getLogicalName(), getDescription(), getExpression());
+	}
 }

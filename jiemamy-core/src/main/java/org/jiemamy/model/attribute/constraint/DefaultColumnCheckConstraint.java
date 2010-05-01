@@ -41,4 +41,20 @@ public final class DefaultColumnCheckConstraint extends AbstractCheckConstraint 
 		super(name, logicalName, description, expression);
 	}
 	
+	public DefaultColumnCheckConstraint changeDescriptionTo(String description) {
+		return new DefaultColumnCheckConstraint(getName(), getLogicalName(), description, getExpression());
+	}
+	
+	public DefaultColumnCheckConstraint changeExpressionTo(String expression) {
+		return new DefaultColumnCheckConstraint(getName(), getLogicalName(), getDescription(), expression);
+	}
+	
+	public DefaultColumnCheckConstraint changeLogicalNameTo(String logicalName) {
+		return new DefaultColumnCheckConstraint(getName(), logicalName, getDescription(), getExpression());
+	}
+	
+	public DefaultColumnCheckConstraint changeNameTo(String name) {
+		return new DefaultColumnCheckConstraint(name, getLogicalName(), getDescription(), getExpression());
+	}
+	
 }

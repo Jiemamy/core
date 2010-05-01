@@ -49,12 +49,50 @@ public final class DefaultIndexColumnModel implements IndexColumnModel, ValueObj
 		this.sortOrder = sortOrder;
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof DefaultIndexColumnModel)) {
+			return false;
+		}
+		DefaultIndexColumnModel other = (DefaultIndexColumnModel) obj;
+		if (columnRef == null) {
+			if (other.columnRef != null) {
+				return false;
+			}
+		} else if (!columnRef.equals(other.columnRef)) {
+			return false;
+		}
+		if (sortOrder == null) {
+			if (other.sortOrder != null) {
+				return false;
+			}
+		} else if (!sortOrder.equals(other.sortOrder)) {
+			return false;
+		}
+		return true;
+	}
+	
 	public ColumnRef getColumnRef() {
 		return columnRef;
 	}
 	
 	public SortOrder getSortOrder() {
 		return sortOrder;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((columnRef == null) ? 0 : columnRef.hashCode());
+		result = prime * result + ((sortOrder == null) ? 0 : sortOrder.hashCode());
+		return result;
 	}
 	
 	@Override

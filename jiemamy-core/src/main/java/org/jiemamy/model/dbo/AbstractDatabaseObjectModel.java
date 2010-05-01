@@ -18,9 +18,16 @@
  */
 package org.jiemamy.model.dbo;
 
+import org.jiemamy.model.Entity;
+import org.jiemamy.model.ValueObject;
 
 /**
- * エンティティ（TableやView）の抽象モデルクラス。
+ * データベースオブジェクト（TableやView）の抽象モデルクラス。
+ * 
+ * <p>この実装は、 {@link Entity}としても、 {@link ValueObject}としても扱われる可能性がある。
+ * 従って、変更器はpackage-privateとしてある。 {@link Entity}の場合は変更器の可視性をpublicまで上げ、
+ * ミュータブルなオブジェクトとし、 {@link ValueObject}の場合は変更器にアクセスせず、
+ * イミュータブルを維持しなければならない。</p>
  * 
  * @author daisuke
  */
@@ -36,6 +43,59 @@ public abstract class AbstractDatabaseObjectModel implements DatabaseObjectModel
 	private String description;
 	
 
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param name 物理名
+	 * @param logicalName 論理名
+	 * @param description 説明
+	 */
+	public AbstractDatabaseObjectModel(String name, String logicalName, String description) {
+		this.name = name;
+		this.logicalName = logicalName;
+		this.description = description;
+	}
+	
+	AbstractDatabaseObjectModel() {
+		
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof AbstractDatabaseObjectModel)) {
+			return false;
+		}
+		AbstractDatabaseObjectModel other = (AbstractDatabaseObjectModel) obj;
+		if (description == null) {
+			if (other.description != null) {
+				return false;
+			}
+		} else if (!description.equals(other.description)) {
+			return false;
+		}
+		if (logicalName == null) {
+			if (other.logicalName != null) {
+				return false;
+			}
+		} else if (!logicalName.equals(other.logicalName)) {
+			return false;
+		}
+		if (name == null) {
+			if (other.name != null) {
+				return false;
+			}
+		} else if (!name.equals(other.name)) {
+			return false;
+		}
+		return true;
+	}
+	
 	public String getDescription() {
 		return description;
 	}
@@ -48,41 +108,31 @@ public abstract class AbstractDatabaseObjectModel implements DatabaseObjectModel
 		return name;
 	}
 	
-	/**
-	 * 
-	 * 説明文を設定する
-	 * 
-	 * @param description 説明文
-	 * @since 0.3
-	 */
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	
-	/**
-	 * 
-	 * 論理名を設定する
-	 * 
-	 * @param logicalName 論理名
-	 * @since 0.3
-	 */
-	public void setLogicalName(String logicalName) {
-		this.logicalName = logicalName;
-	}
-	
-	/**
-	 * 
-	 * 物理名を設定する
-	 * 
-	 * @param name 物理名
-	 * @since 0.3
-	 */
-	public void setName(String name) {
-		this.name = name;
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((logicalName == null) ? 0 : logicalName.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
 	}
 	
 	@Override
 	public String toString() {
 		return "Entity " + getName();
 	}
+	
+	void setDescription(String description) {
+		this.description = description;
+	}
+	
+	void setLogicalName(String logicalName) {
+		this.logicalName = logicalName;
+	}
+	
+	void setName(String name) {
+		this.name = name;
+	}
+	
 }

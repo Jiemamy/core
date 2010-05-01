@@ -58,25 +58,17 @@ public abstract class AbstractEntityReference<T extends Entity> implements Entit
 	}
 	
 	@Override
-	public boolean equals(Object obj) {
+	public final boolean equals(Object obj) {
 		if (this == obj) {
 			return true;
 		}
 		if (obj == null) {
 			return false;
 		}
-		if (getClass() != obj.getClass()) {
+		if (obj instanceof EntityReference<?> == false) {
 			return false;
 		}
-		AbstractEntityReference<?> other = (AbstractEntityReference<?>) obj;
-		if (referenceId == null) {
-			if (other.referenceId != null) {
-				return false;
-			}
-		} else if (referenceId.equals(other.referenceId) == false) {
-			return false;
-		}
-		return true;
+		return referenceId.equals(((EntityReference<?>) obj).getReferenceId());
 	}
 	
 	public UUID getReferenceId() {
@@ -84,7 +76,7 @@ public abstract class AbstractEntityReference<T extends Entity> implements Entit
 	}
 	
 	@Override
-	public int hashCode() {
+	public final int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((referenceId == null) ? 0 : referenceId.hashCode());

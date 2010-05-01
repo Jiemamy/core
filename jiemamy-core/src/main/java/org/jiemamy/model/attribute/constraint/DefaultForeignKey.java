@@ -21,6 +21,8 @@ package org.jiemamy.model.attribute.constraint;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections15.ListUtils;
+
 import org.jiemamy.model.ValueObject;
 import org.jiemamy.model.attribute.ColumnRef;
 
@@ -64,7 +66,50 @@ public final class DefaultForeignKey extends AbstractKeyConstraint implements Fo
 		this.matchType = matchType;
 		this.onDelete = onDelete;
 		this.onUpdate = onUpdate;
-		this.referenceColumns = referenceColumns;
+		this.referenceColumns = ListUtils.unmodifiableList(referenceColumns);
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!super.equals(obj)) {
+			return false;
+		}
+		if (!(obj instanceof DefaultForeignKey)) {
+			return false;
+		}
+		DefaultForeignKey other = (DefaultForeignKey) obj;
+		if (matchType == null) {
+			if (other.matchType != null) {
+				return false;
+			}
+		} else if (!matchType.equals(other.matchType)) {
+			return false;
+		}
+		if (onDelete == null) {
+			if (other.onDelete != null) {
+				return false;
+			}
+		} else if (!onDelete.equals(other.onDelete)) {
+			return false;
+		}
+		if (onUpdate == null) {
+			if (other.onUpdate != null) {
+				return false;
+			}
+		} else if (!onUpdate.equals(other.onUpdate)) {
+			return false;
+		}
+		if (referenceColumns == null) {
+			if (other.referenceColumns != null) {
+				return false;
+			}
+		} else if (!referenceColumns.equals(other.referenceColumns)) {
+			return false;
+		}
+		return true;
 	}
 	
 	@Override
@@ -85,6 +130,17 @@ public final class DefaultForeignKey extends AbstractKeyConstraint implements Fo
 	}
 	
 	public List<ColumnRef> getReferenceColumns() {
-		return referenceColumns;
+		return new ArrayList<ColumnRef>(referenceColumns);
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((matchType == null) ? 0 : matchType.hashCode());
+		result = prime * result + ((onDelete == null) ? 0 : onDelete.hashCode());
+		result = prime * result + ((onUpdate == null) ? 0 : onUpdate.hashCode());
+		result = prime * result + ((referenceColumns == null) ? 0 : referenceColumns.hashCode());
+		return result;
 	}
 }

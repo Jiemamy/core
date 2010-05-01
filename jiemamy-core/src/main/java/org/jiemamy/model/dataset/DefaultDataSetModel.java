@@ -53,6 +53,35 @@ public final class DefaultDataSetModel implements DataSetModel, ValueObject {
 		this.records = MapUtils.unmodifiableMap(records);
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof DefaultDataSetModel)) {
+			return false;
+		}
+		DefaultDataSetModel other = (DefaultDataSetModel) obj;
+		if (name == null) {
+			if (other.name != null) {
+				return false;
+			}
+		} else if (!name.equals(other.name)) {
+			return false;
+		}
+		if (records == null) {
+			if (other.records != null) {
+				return false;
+			}
+		} else if (!records.equals(other.records)) {
+			return false;
+		}
+		return true;
+	}
+	
 	/**
 	 * データセット名を取得する。
 	 * 
@@ -69,6 +98,15 @@ public final class DefaultDataSetModel implements DataSetModel, ValueObject {
 	 */
 	public Map<TableRef, List<RecordModel>> getRecords() {
 		return records;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((records == null) ? 0 : records.hashCode());
+		return result;
 	}
 	
 	@Override

@@ -27,7 +27,7 @@ import org.jiemamy.model.AbstractEntityReference;
  * 
  * @author daisuke
  */
-public class DefaultTableRef extends AbstractEntityReference<TableModel> implements TableRef {
+public final class DefaultTableReference extends AbstractEntityReference<TableModel> implements TableRef {
 	
 	/**
 	 * インスタンスを生成する。
@@ -35,7 +35,7 @@ public class DefaultTableRef extends AbstractEntityReference<TableModel> impleme
 	 * @param decl 定義オブジェクト
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public DefaultTableRef(TableModel decl) {
+	public DefaultTableReference(TableModel decl) {
 		super(decl);
 	}
 	
@@ -45,7 +45,7 @@ public class DefaultTableRef extends AbstractEntityReference<TableModel> impleme
 	 * @param referenceId 参照先のモデルID
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public DefaultTableRef(UUID referenceId) {
+	public DefaultTableReference(UUID referenceId) {
 		super(referenceId);
 	}
 	
