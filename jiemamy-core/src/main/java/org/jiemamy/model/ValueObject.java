@@ -21,6 +21,8 @@ package org.jiemamy.model;
 /**
  * DDDにおけるVALUE OBJECTを表すインターフェイス。
  * 
+ * <p>このインターフェイスの実装クラスは、不変(immutable)オブジェクトであるべきである。</p>
+ * 
  * @since 0.3
  * @version $Id$
  * @author daisuke

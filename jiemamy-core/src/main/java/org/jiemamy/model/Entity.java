@@ -23,6 +23,11 @@ import java.util.UUID;
 /**
  * DDDにおけるENTITYを表すインターフェイス。
  * 
+ * <p>ENTITYは、JavaObjectのライフサイクル（new〜GC）を越えうる独自のライフサイクルを持つ。
+ * また、ENTITYはIDを持ち、そのIDはENTITYのライフサイクルを通じて不変である。
+ * {@link EntityReference}により参照可能なオブジェクトでもある。</p>
+ * 
+ * @see EntityReference
  * @since 0.3
  * @version $Id$
  * @author daisuke

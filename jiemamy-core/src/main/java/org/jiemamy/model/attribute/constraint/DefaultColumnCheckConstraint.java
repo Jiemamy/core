@@ -51,18 +51,46 @@ public final class DefaultColumnCheckConstraint extends AbstractCheckConstraint 
 		super(name, logicalName, description, expression);
 	}
 	
+	/**
+	 * このインスタンスの説明要素だけを変更した新しいオブジェクトを生成する。
+	 * 
+	 * @param description 新しい説明
+	 * @return 新しいオブジェクト
+	 * @since 0.3
+	 */
 	public DefaultColumnCheckConstraint changeDescriptionTo(String description) {
 		return new DefaultColumnCheckConstraint(getName(), getLogicalName(), description, getExpression());
 	}
 	
+	/**
+	 * このインスタンスのCHEKC制約定義式要素だけを変更した新しいオブジェクトを生成する。
+	 * 
+	 * @param expression 新しいCHEKC制約定義式
+	 * @return 新しいオブジェクト
+	 * @since 0.3
+	 */
 	public DefaultColumnCheckConstraint changeExpressionTo(String expression) {
 		return new DefaultColumnCheckConstraint(getName(), getLogicalName(), getDescription(), expression);
 	}
 	
+	/**
+	 * このインスタンスの論理名要素だけを変更した新しいオブジェクトを生成する。
+	 * 
+	 * @param logicalName 新しい論理名
+	 * @return 新しいオブジェクト
+	 * @since 0.3
+	 */
 	public DefaultColumnCheckConstraint changeLogicalNameTo(String logicalName) {
 		return new DefaultColumnCheckConstraint(getName(), logicalName, getDescription(), getExpression());
 	}
 	
+	/**
+	 * このインスタンスの物理名要素だけを変更した新しいオブジェクトを生成する。
+	 * 
+	 * @param name 新しい物理名
+	 * @return 新しいオブジェクト
+	 * @since 0.3
+	 */
 	public DefaultColumnCheckConstraint changeNameTo(String name) {
 		return new DefaultColumnCheckConstraint(name, getLogicalName(), getDescription(), getExpression());
 	}
