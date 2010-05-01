@@ -52,4 +52,6 @@ public interface TableModel extends DatabaseObjectModel, Entity {
 	 * @since 0.2
 	 */
 	List<IndexModel> getIndexes();
+	
+	TableRef getReference();
 }

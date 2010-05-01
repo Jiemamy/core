@@ -104,6 +104,10 @@ public class DefalutColumnModel extends AbstractAttributeModel implements Column
 		return primaryKey;
 	}
 	
+	public ColumnRef getReference() {
+		return new DefaultColumnReference(this);
+	}
+	
 	public UniqueKey getUniqueKey() {
 		return uniqueKey;
 	}

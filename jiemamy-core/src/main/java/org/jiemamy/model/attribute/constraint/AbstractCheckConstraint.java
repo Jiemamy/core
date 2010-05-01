@@ -34,6 +34,18 @@ public abstract class AbstractCheckConstraint extends AbstractConstraintModel im
 	/**
 	 * インスタンスを生成する。
 	 * 
+	 * @param expression CHEKC制約定義式
+	 * @throws IllegalArgumentException 引数expressionに{@code null}を与えた場合
+	 */
+	public AbstractCheckConstraint(String expression) {
+		super();
+		Validate.notNull(expression);
+		this.expression = expression;
+	}
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
 	 * @param name 物理名
 	 * @param logicalName 論理名
 	 * @param description 説明

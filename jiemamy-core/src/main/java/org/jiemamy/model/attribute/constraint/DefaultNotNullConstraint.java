@@ -29,6 +29,12 @@ public final class DefaultNotNullConstraint extends AbstractConstraintModel impl
 	
 	/**
 	 * インスタンスを生成する。
+	 */
+	public DefaultNotNullConstraint() {
+	}
+	
+	/**
+	 * インスタンスを生成する。
 	 * 
 	 * @param name 物理名
 	 * @param logicalName 論理名
@@ -36,6 +42,18 @@ public final class DefaultNotNullConstraint extends AbstractConstraintModel impl
 	 */
 	public DefaultNotNullConstraint(String name, String logicalName, String description) {
 		super(name, logicalName, description);
+	}
+	
+	public DefaultNotNullConstraint changeDescriptionTo(String description) {
+		return new DefaultNotNullConstraint(getName(), getLogicalName(), description);
+	}
+	
+	public DefaultNotNullConstraint changeLogicalNameTo(String logicalName) {
+		return new DefaultNotNullConstraint(getName(), logicalName, getDescription());
+	}
+	
+	public DefaultNotNullConstraint changeNameTo(String name) {
+		return new DefaultNotNullConstraint(name, getLogicalName(), getDescription());
 	}
 	
 }

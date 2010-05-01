@@ -81,6 +81,10 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 		return indexes;
 	}
 	
+	public TableRef getReference() {
+		return new DefaultTableReference(this);
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

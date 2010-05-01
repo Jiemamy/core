@@ -77,4 +77,6 @@ public interface DomainModel extends Entity, DataTypeMold<DomainRef> {
 	 * @since 0.2
 	 */
 	NotNullConstraint getNotNullConstraint();
+	
+	DomainRef getReference();
 }

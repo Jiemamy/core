@@ -27,4 +27,12 @@ package org.jiemamy.model;
  */
 public interface ValueObject {
 	
+	/**
+	 * プロパティ全ての同一性を以て、等価性を判断する。
+	 * 
+	 * @param obj 比較対象オブジェクト
+	 * @return 等価の場合は{@code true}、そうでない場合は{@code false}
+	 * @since 0.3
+	 */
+	boolean equals(Object obj);
 }

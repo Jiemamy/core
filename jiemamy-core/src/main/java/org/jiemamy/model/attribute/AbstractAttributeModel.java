@@ -45,6 +45,12 @@ public abstract class AbstractAttributeModel implements AttributeModel {
 
 	/**
 	 * インスタンスを生成する。
+	 */
+	public AbstractAttributeModel() {
+	}
+	
+	/**
+	 * インスタンスを生成する。
 	 * 
 	 * @param name 物理名
 	 * @param logicalName 論理名
@@ -54,9 +60,6 @@ public abstract class AbstractAttributeModel implements AttributeModel {
 		this.name = name;
 		this.logicalName = logicalName;
 		this.description = description;
-	}
-	
-	AbstractAttributeModel() {
 	}
 	
 	@Override

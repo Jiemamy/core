@@ -80,9 +80,6 @@ public final class DefaultDeferrability implements Deferrability, ValueObject {
 	}
 	
 	public InitiallyCheckTime getInitiallyCheckTime() {
-		if (isDeferrable() == false) {
-			return null;
-		}
 		return initiallyCheckTime;
 	}
 	

@@ -73,6 +73,8 @@ public interface ColumnModel extends AttributeModel, Entity {
 	 */
 	PrimaryKey getPrimaryKey();
 	
+	ColumnRef getReference();
+	
 	/**
 	 * 一意キー制約を取得する。
 	 * 

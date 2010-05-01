@@ -48,4 +48,12 @@ public interface Entity {
 	* @since 0.2
 	*/
 	UUID getId();
+	
+	/**
+	 * 参照オブジェクトを返す。
+	 * 
+	 * @return 参照オブジェクト
+	 * @since 0.3
+	 */
+	EntityReference<?> getReference();
 }
