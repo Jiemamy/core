@@ -20,7 +20,8 @@ package org.jiemamy.model.dataset;
 
 import java.util.Map;
 
-import org.jiemamy.model.attribute.ColumnRef;
+import org.jiemamy.model.EntityRef;
+import org.jiemamy.model.attribute.ColumnModel;
 
 /**
  * DB上のデータの各レコード（Row）を表すモデルインターフェイス。
@@ -71,6 +72,6 @@ public interface RecordModel {
 	 * @return カラムに対応するデータ
 	 * @since 0.2
 	 */
-	Map<ColumnRef, String> getValues();
+	Map<EntityRef<ColumnModel>, String> getValues();
 	
 }

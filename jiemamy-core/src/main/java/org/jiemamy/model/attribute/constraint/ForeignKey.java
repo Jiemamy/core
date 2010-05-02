@@ -20,7 +20,8 @@ package org.jiemamy.model.attribute.constraint;
 
 import java.util.List;
 
-import org.jiemamy.model.attribute.ColumnRef;
+import org.jiemamy.model.EntityRef;
+import org.jiemamy.model.attribute.ColumnModel;
 
 /**
  * リレーショナルデータベースにおける「外部キー」を表すモデルインターフェイス。
@@ -30,42 +31,6 @@ import org.jiemamy.model.attribute.ColumnRef;
  */
 public interface ForeignKey extends KeyConstraint {
 	
-	/**
-	 * マッチ型を取得する。
-	 * 
-	 * @return マッチ型. 未設定の場合は{@code null}
-	 * @since 0.2
-	 */
-	MatchType getMatchType();
-	
-	/**
-	 * 削除時アクションを取得する。
-	 * 
-	 * @return 削除時アクション. 未設定の場合は{@code null}
-	 * @since 0.2
-	 */
-	ReferentialAction getOnDelete();
-	
-	/**
-	 * 更新時アクションを取得する。
-	 * 
-	 * @return 更新時アクション. 未設定の場合は{@code null}
-	 * @since 0.2
-	 */
-	ReferentialAction getOnUpdate();
-	
-	/**
-	 * 参照カラムのリストを取得する。
-	 * 
-	 * <p>このメソッドは、インスタンスの持つフィールドをそのまま返す。返される{@link List}を直接操作することで、
-	 * このオブジェクトのフィールドとして保持される{@link List}を変更することができる。</p>
-	 * 
-	 * @return 参照カラムのリスト
-	 * @since 0.2
-	 */
-	List<ColumnRef> getReferenceColumns();
-	
-
 	/**
 	 * 参照列に挿入された値は、被参照テーブルと被参照列の値に対して、指定した照合型で照会される。
 	 * 
@@ -107,4 +72,40 @@ public interface ForeignKey extends KeyConstraint {
 		/** 特に何も行わない */
 		NO_ACTION;
 	}
+	
+
+	/**
+	 * マッチ型を取得する。
+	 * 
+	 * @return マッチ型. 未設定の場合は{@code null}
+	 * @since 0.2
+	 */
+	MatchType getMatchType();
+	
+	/**
+	 * 削除時アクションを取得する。
+	 * 
+	 * @return 削除時アクション. 未設定の場合は{@code null}
+	 * @since 0.2
+	 */
+	ReferentialAction getOnDelete();
+	
+	/**
+	 * 更新時アクションを取得する。
+	 * 
+	 * @return 更新時アクション. 未設定の場合は{@code null}
+	 * @since 0.2
+	 */
+	ReferentialAction getOnUpdate();
+	
+	/**
+	 * 参照カラムのリストを取得する。
+	 * 
+	 * <p>このメソッドは、インスタンスの持つフィールドをそのまま返す。返される{@link List}を直接操作することで、
+	 * このオブジェクトのフィールドとして保持される{@link List}を変更することができる。</p>
+	 * 
+	 * @return 参照カラムのリスト
+	 * @since 0.2
+	 */
+	List<EntityRef<ColumnModel>> getReferenceColumns();
 }

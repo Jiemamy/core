@@ -18,7 +18,8 @@
  */
 package org.jiemamy.model.index;
 
-import org.jiemamy.model.attribute.ColumnRef;
+import org.jiemamy.model.EntityRef;
+import org.jiemamy.model.attribute.ColumnModel;
 
 /**
  * インデックス対象のカラムを表すモデルインターフェイス。
@@ -28,23 +29,6 @@ import org.jiemamy.model.attribute.ColumnRef;
  */
 public interface IndexColumnModel {
 	
-	/**
-	 * インデックス対象カラムを取得する。
-	 * 
-	 * @return インデックス対象カラム. 未設定の場合は{@code null}
-	 * @since 0.2
-	 */
-	ColumnRef getColumnRef();
-	
-	/**
-	 * カラムソート方式を取得する。
-	 * 
-	 * @return カラムソート方式. 未設定の場合は{@code null}
-	 * @since 0.2
-	 */
-	SortOrder getSortOrder();
-	
-
 	/**
 	 * ソート順を表す列挙型。
 	 * 
@@ -59,4 +43,21 @@ public interface IndexColumnModel {
 		/** 降順ソート */
 		DESC
 	}
+	
+
+	/**
+	 * インデックス対象カラムを取得する。
+	 * 
+	 * @return インデックス対象カラム. 未設定の場合は{@code null}
+	 * @since 0.2
+	 */
+	EntityRef<ColumnModel> getColumnRef();
+	
+	/**
+	 * カラムソート方式を取得する。
+	 * 
+	 * @return カラムソート方式. 未設定の場合は{@code null}
+	 * @since 0.2
+	 */
+	SortOrder getSortOrder();
 }

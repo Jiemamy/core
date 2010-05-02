@@ -18,7 +18,7 @@
  */
 package org.jiemamy.model.dbo;
 
-import org.jiemamy.model.EntityReference;
+import org.jiemamy.model.EntityRef;
 
 /**
  * {@link TableModel}の参照オブジェクト。
@@ -26,6 +26,6 @@ import org.jiemamy.model.EntityReference;
  * @since 0.2
  * @author daisuke
  */
-public interface TableRef extends EntityReference<TableModel> {
+public interface TableRef extends EntityRef<TableModel> {
 	
 }

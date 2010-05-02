@@ -23,7 +23,9 @@ import java.util.UUID;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
+import org.jiemamy.model.DefaultEntityRef;
 import org.jiemamy.model.Entity;
+import org.jiemamy.model.EntityRef;
 import org.jiemamy.model.attribute.constraint.ColumnCheckConstraint;
 import org.jiemamy.model.attribute.constraint.NotNullConstraint;
 import org.jiemamy.model.attribute.constraint.PrimaryKey;
@@ -104,8 +106,8 @@ public class DefalutColumnModel extends AbstractAttributeModel implements Column
 		return primaryKey;
 	}
 	
-	public ColumnRef getReference() {
-		return new DefaultColumnReference(this);
+	public EntityRef<ColumnModel> getReference() {
+		return new DefaultEntityRef<ColumnModel>(this);
 	}
 	
 	public UniqueKey getUniqueKey() {

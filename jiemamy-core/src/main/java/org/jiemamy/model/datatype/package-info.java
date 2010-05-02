@@ -50,7 +50,7 @@
  * 
  * @author daisuke
  * @see org.jiemamy.model.Entity
- * @see org.jiemamy.model.EntityReference
+ * @see org.jiemamy.model.EntityRef
  */
 package org.jiemamy.model.datatype;
 

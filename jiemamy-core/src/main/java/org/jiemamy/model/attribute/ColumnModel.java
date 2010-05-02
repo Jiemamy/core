@@ -19,6 +19,7 @@
 package org.jiemamy.model.attribute;
 
 import org.jiemamy.model.Entity;
+import org.jiemamy.model.EntityRef;
 import org.jiemamy.model.attribute.constraint.ColumnCheckConstraint;
 import org.jiemamy.model.attribute.constraint.NotNullConstraint;
 import org.jiemamy.model.attribute.constraint.PrimaryKey;
@@ -73,7 +74,7 @@ public interface ColumnModel extends AttributeModel, Entity {
 	 */
 	PrimaryKey getPrimaryKey();
 	
-	ColumnRef getReference();
+	EntityRef<ColumnModel> getReference();
 	
 	/**
 	 * 一意キー制約を取得する。

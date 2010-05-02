@@ -30,7 +30,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * @param <T> 参照対象オブジェクトの型
  * @author daisuke
  */
-public abstract class AbstractEntityReference<T extends Entity> implements EntityReference<T> {
+public class DefaultEntityRef<T extends Entity> implements EntityRef<T> {
 	
 	private final UUID referenceId;
 	
@@ -41,7 +41,7 @@ public abstract class AbstractEntityReference<T extends Entity> implements Entit
 	 * @param decl 定義オブジェクト
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public AbstractEntityReference(T decl) {
+	public DefaultEntityRef(T decl) {
 		Validate.notNull(decl);
 		referenceId = decl.getId();
 	}
@@ -52,7 +52,7 @@ public abstract class AbstractEntityReference<T extends Entity> implements Entit
 	 * @param referenceId 参照先のモデルID
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public AbstractEntityReference(UUID referenceId) {
+	public DefaultEntityRef(UUID referenceId) {
 		Validate.notNull(referenceId);
 		this.referenceId = referenceId;
 	}
@@ -65,10 +65,10 @@ public abstract class AbstractEntityReference<T extends Entity> implements Entit
 		if (obj == null) {
 			return false;
 		}
-		if (obj instanceof EntityReference<?> == false) {
+		if (obj instanceof EntityRef<?> == false) {
 			return false;
 		}
-		return referenceId.equals(((EntityReference<?>) obj).getReferenceId());
+		return referenceId.equals(((EntityRef<?>) obj).getReferenceId());
 	}
 	
 	public UUID getReferenceId() {

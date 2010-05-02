@@ -20,7 +20,8 @@ package org.jiemamy.model.attribute.constraint;
 
 import java.util.List;
 
-import org.jiemamy.model.attribute.ColumnRef;
+import org.jiemamy.model.EntityRef;
+import org.jiemamy.model.attribute.ColumnModel;
 
 /**
  * キー制約を表すインターフェイス。
@@ -46,6 +47,6 @@ public interface KeyConstraint extends TableConstraint {
 	 * @return キーを構成するカラムのリスト
 	 * @since 0.2
 	 */
-	List<ColumnRef> getKeyColumns();
+	List<EntityRef<ColumnModel>> getKeyColumns();
 	
 }

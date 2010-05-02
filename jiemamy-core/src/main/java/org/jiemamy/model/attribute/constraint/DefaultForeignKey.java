@@ -23,8 +23,9 @@ import java.util.List;
 
 import org.apache.commons.collections15.ListUtils;
 
+import org.jiemamy.model.EntityRef;
 import org.jiemamy.model.ValueObject;
-import org.jiemamy.model.attribute.ColumnRef;
+import org.jiemamy.model.attribute.ColumnModel;
 
 /**
  * 外部キーモデル。
@@ -34,7 +35,7 @@ import org.jiemamy.model.attribute.ColumnRef;
 public final class DefaultForeignKey extends AbstractKeyConstraint implements ForeignKey, ValueObject {
 	
 	/** 制約を受けるカラムのリスト */
-	private final List<ColumnRef> referenceColumns;
+	private final List<EntityRef<ColumnModel>> referenceColumns;
 	
 	/** 削除時アクション */
 	private final ReferentialAction onDelete;
@@ -59,8 +60,9 @@ public final class DefaultForeignKey extends AbstractKeyConstraint implements Fo
 	 * @param onUpdate 更新時アクション
 	 * @param matchType マッチ型
 	 */
-	public DefaultForeignKey(String name, String logicalName, String description, List<ColumnRef> keyColumns,
-			Deferrability deferrability, List<ColumnRef> referenceColumns, ReferentialAction onDelete,
+	public DefaultForeignKey(String name, String logicalName, String description,
+			List<EntityRef<ColumnModel>> keyColumns, Deferrability deferrability,
+			List<EntityRef<ColumnModel>> referenceColumns, ReferentialAction onDelete,
 			ReferentialAction onUpdate, MatchType matchType) {
 		super(description, description, description, keyColumns, deferrability);
 		this.matchType = matchType;
@@ -113,8 +115,8 @@ public final class DefaultForeignKey extends AbstractKeyConstraint implements Fo
 	}
 	
 	@Override
-	public List<ColumnRef> getKeyColumns() {
-		return new ArrayList<ColumnRef>(super.getKeyColumns());
+	public List<EntityRef<ColumnModel>> getKeyColumns() {
+		return new ArrayList<EntityRef<ColumnModel>>(super.getKeyColumns());
 	}
 	
 	public MatchType getMatchType() {
@@ -129,8 +131,8 @@ public final class DefaultForeignKey extends AbstractKeyConstraint implements Fo
 		return onUpdate;
 	}
 	
-	public List<ColumnRef> getReferenceColumns() {
-		return new ArrayList<ColumnRef>(referenceColumns);
+	public List<EntityRef<ColumnModel>> getReferenceColumns() {
+		return new ArrayList<EntityRef<ColumnModel>>(referenceColumns);
 	}
 	
 	@Override

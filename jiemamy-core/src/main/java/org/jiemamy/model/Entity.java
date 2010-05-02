@@ -25,9 +25,9 @@ import java.util.UUID;
  * 
  * <p>ENTITYは、JavaObjectのライフサイクル（new〜GC）を越えうる独自のライフサイクルを持つ。
  * また、ENTITYはIDを持ち、そのIDはENTITYのライフサイクルを通じて不変である。
- * {@link EntityReference}により参照可能なオブジェクトでもある。</p>
+ * {@link EntityRef}により参照可能なオブジェクトでもある。</p>
  * 
- * @see EntityReference
+ * @see EntityRef
  * @since 0.3
  * @version $Id$
  * @author daisuke
@@ -35,7 +35,7 @@ import java.util.UUID;
 public interface Entity {
 	
 	/**
-	 * ENTITYのIDを以て、同一性を比較する。
+	 * ENTITY IDの等価性を以て、ENTITYの同一性を比較する。
 	 * 
 	 * @param obj 比較対象オブジェクト
 	 * @return 同じIDを持つ場合は{@code true}、そうでない場合は{@code false}
@@ -44,12 +44,12 @@ public interface Entity {
 	boolean equals(Object obj);
 	
 	/**
-	* モデルIDを取得する。
+	* ENTITY IDを取得する。
 	* 
 	* <p>IDは、オブジェクトの生成時に指定または自動生成され、このオブジェクトのライフサイクル（生成から削除まで）を通して
 	* 一貫していなければならない。</p>
 	* 
-	* @return モデルID
+	* @return ENTITY ID
 	* @since 0.2
 	*/
 	UUID getId();
@@ -60,5 +60,5 @@ public interface Entity {
 	 * @return 参照オブジェクト
 	 * @since 0.3
 	 */
-	EntityReference<?> getReference();
+	EntityRef<?> getReference();
 }

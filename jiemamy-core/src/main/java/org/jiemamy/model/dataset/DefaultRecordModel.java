@@ -24,8 +24,9 @@ import org.apache.commons.collections15.MapUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
+import org.jiemamy.model.EntityRef;
 import org.jiemamy.model.ValueObject;
-import org.jiemamy.model.attribute.ColumnRef;
+import org.jiemamy.model.attribute.ColumnModel;
 
 /**
  * レコード（INSERT文1つ分）モデル。
@@ -35,7 +36,7 @@ import org.jiemamy.model.attribute.ColumnRef;
 public final class DefaultRecordModel implements RecordModel, ValueObject {
 	
 	/** カラムに対応するデータ */
-	private final Map<ColumnRef, String> values;
+	private final Map<EntityRef<ColumnModel>, String> values;
 	
 
 	/**
@@ -43,7 +44,7 @@ public final class DefaultRecordModel implements RecordModel, ValueObject {
 	 * 
 	 * @param values カラムに対応するデータ
 	 */
-	public DefaultRecordModel(Map<ColumnRef, String> values) {
+	public DefaultRecordModel(Map<EntityRef<ColumnModel>, String> values) {
 		this.values = MapUtils.unmodifiableMap(values);
 	}
 	
@@ -69,7 +70,7 @@ public final class DefaultRecordModel implements RecordModel, ValueObject {
 		return true;
 	}
 	
-	public Map<ColumnRef, String> getValues() {
+	public Map<EntityRef<ColumnModel>, String> getValues() {
 		assert values != null;
 		return values;
 	}

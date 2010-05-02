@@ -18,7 +18,7 @@
  */
 package org.jiemamy.model.datatype;
 
-import org.jiemamy.model.EntityReference;
+import org.jiemamy.model.EntityRef;
 
 /**
  * {@link DomainModel}の参照オブジェクト。
@@ -26,6 +26,6 @@ import org.jiemamy.model.EntityReference;
  * @since 0.2
  * @author daisuke
  */
-public interface DomainRef extends EntityReference<DomainModel>, DataType {
+public interface DomainRef extends EntityRef<DomainModel>, DataType {
 	
 }

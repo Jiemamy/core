@@ -21,8 +21,9 @@ package org.jiemamy.model.attribute.constraint;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jiemamy.model.EntityRef;
 import org.jiemamy.model.ValueObject;
-import org.jiemamy.model.attribute.ColumnRef;
+import org.jiemamy.model.attribute.ColumnModel;
 
 /**
  * PRIMARY KEY制約モデル。
@@ -40,14 +41,14 @@ public final class DefaultPrimaryKey extends AbstractKeyConstraint implements Pr
 	 * @param keyColumns キー制約を構成するカラムのリスト
 	 * @param deferrability 遅延評価可能性モデル
 	 */
-	public DefaultPrimaryKey(String name, String logicalName, String description, List<ColumnRef> keyColumns,
-			Deferrability deferrability) {
+	public DefaultPrimaryKey(String name, String logicalName, String description,
+			List<EntityRef<ColumnModel>> keyColumns, Deferrability deferrability) {
 		super(name, logicalName, description, keyColumns, deferrability);
 	}
 	
 	@Override
-	public List<ColumnRef> getKeyColumns() {
-		return new ArrayList<ColumnRef>(super.getKeyColumns());
+	public List<EntityRef<ColumnModel>> getKeyColumns() {
+		return new ArrayList<EntityRef<ColumnModel>>(super.getKeyColumns());
 	}
 	
 }

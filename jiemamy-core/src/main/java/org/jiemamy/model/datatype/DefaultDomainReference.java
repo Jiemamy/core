@@ -20,14 +20,14 @@ package org.jiemamy.model.datatype;
 
 import java.util.UUID;
 
-import org.jiemamy.model.AbstractEntityReference;
+import org.jiemamy.model.DefaultEntityRef;
 
 /**
  * {@link DomainModel}に対する参照オブジェクトの実装。Artemisにおける{@link DomainRef}の実装クラス。
  * 
  * @author daisuke
  */
-public final class DefaultDomainReference extends AbstractEntityReference<DomainModel> implements DomainRef {
+public final class DefaultDomainReference extends DefaultEntityRef<DomainModel> implements DomainRef {
 	
 	/**
 	 * インスタンスを生成する。

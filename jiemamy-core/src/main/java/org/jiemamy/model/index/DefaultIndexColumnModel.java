@@ -21,8 +21,9 @@ package org.jiemamy.model.index;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
+import org.jiemamy.model.EntityRef;
 import org.jiemamy.model.ValueObject;
-import org.jiemamy.model.attribute.ColumnRef;
+import org.jiemamy.model.attribute.ColumnModel;
 
 /**
  * インデックスカラムのモデル。
@@ -32,7 +33,7 @@ import org.jiemamy.model.attribute.ColumnRef;
 public final class DefaultIndexColumnModel implements IndexColumnModel, ValueObject {
 	
 	/** インデックス対象カラム */
-	private final ColumnRef columnRef;
+	private final EntityRef<ColumnModel> columnRef;
 	
 	/** カラムソート方式 */
 	private final SortOrder sortOrder;
@@ -44,7 +45,7 @@ public final class DefaultIndexColumnModel implements IndexColumnModel, ValueObj
 	 * @param columnRef インデックス対象カラム
 	 * @param sortOrder カラムソート方式
 	 */
-	public DefaultIndexColumnModel(ColumnRef columnRef, SortOrder sortOrder) {
+	public DefaultIndexColumnModel(EntityRef<ColumnModel> columnRef, SortOrder sortOrder) {
 		this.columnRef = columnRef;
 		this.sortOrder = sortOrder;
 	}
@@ -78,7 +79,7 @@ public final class DefaultIndexColumnModel implements IndexColumnModel, ValueObj
 		return true;
 	}
 	
-	public ColumnRef getColumnRef() {
+	public EntityRef<ColumnModel> getColumnRef() {
 		return columnRef;
 	}
 	

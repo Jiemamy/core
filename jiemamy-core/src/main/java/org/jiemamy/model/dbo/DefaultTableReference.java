@@ -20,14 +20,14 @@ package org.jiemamy.model.dbo;
 
 import java.util.UUID;
 
-import org.jiemamy.model.AbstractEntityReference;
+import org.jiemamy.model.DefaultEntityRef;
 
 /**
  * {@link TableModel}に対する参照オブジェクトの実装。Artemisにおける{@link TableRef}の実装クラス。
  * 
  * @author daisuke
  */
-public final class DefaultTableReference extends AbstractEntityReference<TableModel> implements TableRef {
+public final class DefaultTableReference extends DefaultEntityRef<TableModel> implements TableRef {
 	
 	/**
 	 * インスタンスを生成する。
