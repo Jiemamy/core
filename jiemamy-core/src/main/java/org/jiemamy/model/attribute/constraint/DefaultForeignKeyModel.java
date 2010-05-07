@@ -32,7 +32,8 @@ import org.jiemamy.model.attribute.ColumnModel;
  * 
  * @author daisuke
  */
-public final class DefaultForeignKeyModel extends AbstractKeyConstraintModel implements ForeignKeyConstraintModel, ValueObject {
+public final class DefaultForeignKeyModel extends AbstractKeyConstraintModel implements ForeignKeyConstraintModel,
+		ValueObject {
 	
 	/** 制約を受けるカラムのリスト */
 	private final List<EntityRef<ColumnModel>> referenceColumns;
@@ -62,8 +63,8 @@ public final class DefaultForeignKeyModel extends AbstractKeyConstraintModel imp
 	 */
 	public DefaultForeignKeyModel(String name, String logicalName, String description,
 			List<EntityRef<ColumnModel>> keyColumns, DeferrabilityModel deferrability,
-			List<EntityRef<ColumnModel>> referenceColumns, ReferentialAction onDelete,
-			ReferentialAction onUpdate, MatchType matchType) {
+			List<EntityRef<ColumnModel>> referenceColumns, ReferentialAction onDelete, ReferentialAction onUpdate,
+			MatchType matchType) {
 		super(description, description, description, keyColumns, deferrability);
 		this.matchType = matchType;
 		this.onDelete = onDelete;

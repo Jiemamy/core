@@ -25,7 +25,8 @@ import org.jiemamy.model.ValueObject;
  * 
  * @author daisuke
  */
-public final class DefaultNotNullConstraintModel extends AbstractConstraintModel implements NotNullConstraintModel, ValueObject {
+public final class DefaultNotNullConstraintModel extends AbstractConstraintModel implements NotNullConstraintModel,
+		ValueObject {
 	
 	/**
 	 * インスタンスを生成する。

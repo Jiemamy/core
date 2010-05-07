@@ -103,7 +103,7 @@ public final class DefaultIndexModel implements IndexModel, ValueObject {
 		int result = 1;
 		result = prime * result + ((indexColumns == null) ? 0 : indexColumns.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + (unique ? 1231 : 1237);
+		result = prime * result + (unique ? 1231 : 1237); // CHECKSTYLE IGNORE THIS LINE
 		return result;
 	}
 	

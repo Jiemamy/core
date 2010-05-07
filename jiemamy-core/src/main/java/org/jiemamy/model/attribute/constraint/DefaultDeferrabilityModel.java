@@ -87,7 +87,7 @@ public final class DefaultDeferrabilityModel implements DeferrabilityModel, Valu
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (deferrable ? 1231 : 1237);
+		result = prime * result + (deferrable ? 1231 : 1237); // CHECKSTYLE IGNORE THIS LINE
 		result = prime * result + ((initiallyCheckTime == null) ? 0 : initiallyCheckTime.hashCode());
 		return result;
 	}
