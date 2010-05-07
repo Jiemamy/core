@@ -25,7 +25,7 @@ import org.jiemamy.model.ValueObjectBuilder;
  * 
  * @version $Id$
  * @author daisuke
- * @param <T> 
+ * @param <T> ビルド対象のインスタンスの型
  */
 public abstract class AbstractConstraintModelBuilder<T extends ConstraintModel> implements ValueObjectBuilder<T> {
 	

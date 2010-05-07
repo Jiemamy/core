@@ -28,7 +28,7 @@ import org.jiemamy.model.attribute.constraint.NotNullConstraintModel;
  * @since 0.2
  * @author daisuke
  */
-public interface DomainModel extends Entity, DataTypeMold<DomainRef> {
+public interface DomainModel extends Entity {
 	
 	/**
 	 * チェック制約を取得する。
@@ -77,6 +77,4 @@ public interface DomainModel extends Entity, DataTypeMold<DomainRef> {
 	 * @since 0.2
 	 */
 	NotNullConstraintModel getNotNullConstraint();
-	
-	DomainRef getReference();
 }

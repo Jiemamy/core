@@ -18,19 +18,21 @@
  */
 package org.jiemamy.model.dbo;
 
+import org.jiemamy.model.Entity;
+
 /**
  * リレーショナルデータベースモデルにおける「CREATE対象」を表すモデルインターフェイス。
  * 
  * @since 0.3
  * @author daisuke
  */
-public interface DatabaseObjectModel {
+public interface DatabaseObjectModel extends Entity {
 	
 	/**
 	 * 説明文を取得する。
 	 * 
 	 * @return 説明文. 未設定の場合は{@code null}
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	String getDescription();
 	
@@ -38,7 +40,7 @@ public interface DatabaseObjectModel {
 	 * 論理名を取得する。
 	 * 
 	 * @return 論理名. 未設定の場合は{@code null}
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	String getLogicalName();
 	
@@ -46,7 +48,7 @@ public interface DatabaseObjectModel {
 	 * エンティティ名を取得する。
 	 * 
 	 * @return エンティティ名. 未設定の場合は{@code null}
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	String getName();
 }

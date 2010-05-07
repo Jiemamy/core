@@ -18,20 +18,20 @@
  */
 package org.jiemamy.model.dbo;
 
+import java.util.UUID;
+
+import org.apache.commons.lang.Validate;
+
 import org.jiemamy.model.Entity;
-import org.jiemamy.model.ValueObject;
 
 /**
  * データベースオブジェクト（TableやView）の抽象モデルクラス。
  * 
- * <p>この実装は、 {@link Entity}としても、 {@link ValueObject}としても扱われる可能性がある。
- * 従って、変更器はpackage-privateとしてある。 {@link Entity}の場合は変更器の可視性をpublicまで上げ、
- * ミュータブルなオブジェクトとし、 {@link ValueObject}の場合は変更器にアクセスせず、
- * イミュータブルを維持しなければならない。</p>
- * 
  * @author daisuke
  */
 public abstract class AbstractDatabaseObjectModel implements DatabaseObjectModel {
+	
+	private final UUID id;
 	
 	/** 名前 */
 	private String name;
@@ -46,18 +46,21 @@ public abstract class AbstractDatabaseObjectModel implements DatabaseObjectModel
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param name 物理名
-	 * @param logicalName 論理名
-	 * @param description 説明
+	 * <p>ENTITY IDは自動生成される。</p>
 	 */
-	public AbstractDatabaseObjectModel(String name, String logicalName, String description) {
-		this.name = name;
-		this.logicalName = logicalName;
-		this.description = description;
+	public AbstractDatabaseObjectModel() {
+		this(UUID.randomUUID());
 	}
 	
-	AbstractDatabaseObjectModel() {
-		
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param id ENTITY ID
+	 * @throws IllegalArgumentException 引数{@code id}に{@code null}を与えた場合
+	 */
+	public AbstractDatabaseObjectModel(UUID id) {
+		Validate.notNull(id);
+		this.id = id;
 	}
 	
 	@Override
@@ -68,36 +71,18 @@ public abstract class AbstractDatabaseObjectModel implements DatabaseObjectModel
 		if (obj == null) {
 			return false;
 		}
-		if (!(obj instanceof AbstractDatabaseObjectModel)) {
+		if (obj instanceof Entity == false) {
 			return false;
 		}
-		AbstractDatabaseObjectModel other = (AbstractDatabaseObjectModel) obj;
-		if (description == null) {
-			if (other.description != null) {
-				return false;
-			}
-		} else if (!description.equals(other.description)) {
-			return false;
-		}
-		if (logicalName == null) {
-			if (other.logicalName != null) {
-				return false;
-			}
-		} else if (!logicalName.equals(other.logicalName)) {
-			return false;
-		}
-		if (name == null) {
-			if (other.name != null) {
-				return false;
-			}
-		} else if (!name.equals(other.name)) {
-			return false;
-		}
-		return true;
+		return id.equals(((Entity) obj).getId());
 	}
 	
 	public String getDescription() {
 		return description;
+	}
+	
+	public UUID getId() {
+		return id;
 	}
 	
 	public String getLogicalName() {
@@ -112,27 +97,25 @@ public abstract class AbstractDatabaseObjectModel implements DatabaseObjectModel
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((description == null) ? 0 : description.hashCode());
-		result = prime * result + ((logicalName == null) ? 0 : logicalName.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
+	}
+	
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
+	public void setLogicalName(String logicalName) {
+		this.logicalName = logicalName;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	@Override
 	public String toString() {
 		return "Entity " + getName();
-	}
-	
-	void setDescription(String description) {
-		this.description = description;
-	}
-	
-	void setLogicalName(String logicalName) {
-		this.logicalName = logicalName;
-	}
-	
-	void setName(String name) {
-		this.name = name;
 	}
 	
 }

@@ -18,6 +18,10 @@
  */
 package org.jiemamy.model.dbo;
 
+import java.util.UUID;
+
+import org.jiemamy.model.DefaultEntityRef;
+import org.jiemamy.model.EntityRef;
 
 /**
  * ビューモデル
@@ -27,20 +31,24 @@ package org.jiemamy.model.dbo;
 public final class DefaultViewModel extends AbstractDatabaseObjectModel implements ViewModel {
 	
 	/** VIEW定義SELECT文 */
-	private final String definition;
+	private String definition;
 	
 
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param name 物理名
-	 * @param logicalName 論理名
-	 * @param description 説明
-	 * @param definition SELECT文
+	 * <p>ENTITY IDは自動生成される。</p>
 	 */
-	public DefaultViewModel(String name, String logicalName, String description, String definition) {
-		super(name, logicalName, description);
-		this.definition = definition;
+	public DefaultViewModel() {
+	}
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param id ENTITY ID
+	 */
+	public DefaultViewModel(UUID id) {
+		super(id);
 	}
 	
 	@Override
@@ -69,12 +77,24 @@ public final class DefaultViewModel extends AbstractDatabaseObjectModel implemen
 		return definition;
 	}
 	
+	public EntityRef<?> getReference() {
+		return new DefaultEntityRef<ViewModel>(this);
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result + ((definition == null) ? 0 : definition.hashCode());
 		return result;
+	}
+	
+	/**
+	 * somethingを設定する。 TODO for daisuke
+	 * @param definition the definition to set
+	 */
+	public void setDefinition(String definition) {
+		this.definition = definition;
 	}
 	
 }

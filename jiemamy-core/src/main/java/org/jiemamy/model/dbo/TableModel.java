@@ -20,7 +20,6 @@ package org.jiemamy.model.dbo;
 
 import java.util.List;
 
-import org.jiemamy.model.Entity;
 import org.jiemamy.model.attribute.AttributeModel;
 import org.jiemamy.model.index.IndexModel;
 
@@ -29,7 +28,7 @@ import org.jiemamy.model.index.IndexModel;
  * 
  * @author daisuke
  */
-public interface TableModel extends DatabaseObjectModel, Entity {
+public interface TableModel extends DatabaseObjectModel {
 	
 	/**
 	 * 属性のリストを取得する。

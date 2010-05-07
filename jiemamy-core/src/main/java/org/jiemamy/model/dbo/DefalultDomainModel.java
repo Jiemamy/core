@@ -16,37 +16,27 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.model.datatype;
+package org.jiemamy.model.dbo;
 
 import java.util.UUID;
 
-import org.apache.commons.lang.Validate;
-
-import org.jiemamy.model.Entity;
+import org.jiemamy.model.DefaultEntityRef;
+import org.jiemamy.model.EntityRef;
 import org.jiemamy.model.attribute.constraint.ColumnCheckConstraintModel;
 import org.jiemamy.model.attribute.constraint.NotNullConstraintModel;
+import org.jiemamy.model.datatype.BuiltinDataType;
+import org.jiemamy.model.datatype.DataType;
+import org.jiemamy.model.datatype.DomainModel;
 
 /**
  * ドメイン定義モデル。
  * 
  * @author daisuke
  */
-public class DefalultDomainModel implements DomainModel {
-	
-	/** ENTITY ID */
-	private final UUID id;
-	
-	/** ドメイン名 */
-	private String name = "";
-	
-	/** 論理名 */
-	private String logicalName;
+public class DefalultDomainModel extends AbstractDatabaseObjectModel implements DomainModel {
 	
 	/** ドメインとして定義された型記述子 */
 	private BuiltinDataType dataType;
-	
-	/** 説明文 */
-	private String description;
 	
 	private ColumnCheckConstraintModel checkConstraint;
 	
@@ -59,7 +49,6 @@ public class DefalultDomainModel implements DomainModel {
 	 * <p>ENTITY IDは自動生成される。</p>
 	 */
 	public DefalultDomainModel() {
-		this(UUID.randomUUID());
 	}
 	
 	/**
@@ -69,22 +58,7 @@ public class DefalultDomainModel implements DomainModel {
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public DefalultDomainModel(UUID id) {
-		Validate.notNull(id);
-		this.id = id;
-	}
-	
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (obj instanceof Entity == false) {
-			return false;
-		}
-		return id.equals(((Entity) obj).getId());
+		super(id);
 	}
 	
 	public ColumnCheckConstraintModel getCheckConstraint() {
@@ -95,40 +69,15 @@ public class DefalultDomainModel implements DomainModel {
 		return dataType;
 	}
 	
-	public String getDescription() {
-		return description;
-	}
-	
-	public UUID getId() {
-		return id;
-	}
-	
-	public String getLogicalName() {
-		return logicalName;
-	}
-	
-	public String getName() {
-		return name;
-	}
-	
 	public NotNullConstraintModel getNotNullConstraint() {
 		return notNullConstraint;
 	}
 	
-	public DomainRef getReference() {
-		return new DefaultDomainReference(this);
-	}
-	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
+	public EntityRef<DomainModel> getReference() {
+		return new DefaultEntityRef<DomainModel>(this);
 	}
 	
 	/**
-	 * 
 	 * チェック制約を設定する
 	 * 
 	 * @param check チェック制約
@@ -139,7 +88,6 @@ public class DefalultDomainModel implements DomainModel {
 	}
 	
 	/**
-	 * 
 	 * 型記述子を設定する
 	 * 
 	 * @param dataType 型記述子
@@ -150,40 +98,6 @@ public class DefalultDomainModel implements DomainModel {
 	}
 	
 	/**
-	 * 
-	 * 説明文を設定する
-	 * 
-	 * @param description 説明文
-	 * @since 0.3
-	 */
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	
-	/**
-	 * 
-	 * 論理名を設定する
-	 * 
-	 * @param logicalName 論理名
-	 * @since 0.3
-	 */
-	public void setLogicalName(String logicalName) {
-		this.logicalName = logicalName;
-	}
-	
-	/**
-	 * 
-	 * 物理名を設定する
-	 * 
-	 * @param name 物理名
-	 * @since 0.3
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	/**
-	 * 
 	 * NotNull制約を設定する
 	 * 
 	 * @param notNullConstraint NotNull制約

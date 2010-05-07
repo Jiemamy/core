@@ -23,7 +23,6 @@ import java.util.UUID;
 
 import org.apache.commons.lang.Validate;
 
-import org.jiemamy.model.Entity;
 import org.jiemamy.model.attribute.AttributeModel;
 import org.jiemamy.model.index.IndexModel;
 
@@ -33,8 +32,6 @@ import org.jiemamy.model.index.IndexModel;
  * @author daisuke
  */
 public class DefaultTableModel extends AbstractDatabaseObjectModel implements TableModel {
-	
-	private final UUID id;
 	
 	/** 属性のリスト */
 	private List<AttributeModel> attributes;
@@ -49,7 +46,6 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	 * <p>ENTITY IDは自動生成される。</p>
 	 */
 	public DefaultTableModel() {
-		this(UUID.randomUUID());
 	}
 	
 	/**
@@ -59,31 +55,12 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public DefaultTableModel(UUID id) {
-		Validate.notNull(id);
-		this.id = id;
-	}
-	
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (obj instanceof Entity == false) {
-			return false;
-		}
-		return id.equals(((Entity) obj).getId());
+		super(id);
 	}
 	
 	public List<AttributeModel> getAttributes() {
 		assert attributes != null;
 		return attributes;
-	}
-	
-	public UUID getId() {
-		return id;
 	}
 	
 	public List<IndexModel> getIndexes() {
@@ -93,14 +70,6 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	
 	public TableRef getReference() {
 		return new DefaultTableReference(this);
-	}
-	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
 	}
 	
 	/**
@@ -114,11 +83,6 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 		this.attributes = attributes;
 	}
 	
-	@Override
-	public void setDescription(String description) {
-		super.setDescription(description);
-	}
-	
 	/**
 	 * インデックスのリストを設定する。
 	 * 
@@ -129,15 +93,4 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 		Validate.notNull(indexes);
 		this.indexes = indexes;
 	}
-	
-	@Override
-	public void setLogicalName(String logicalName) {
-		super.setLogicalName(logicalName);
-	}
-	
-	@Override
-	public void setName(String name) {
-		super.setName(name);
-	}
-	
 }

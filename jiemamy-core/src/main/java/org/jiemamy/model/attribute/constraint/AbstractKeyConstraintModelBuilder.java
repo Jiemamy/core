@@ -29,7 +29,7 @@ import org.jiemamy.model.attribute.ColumnModel;
  * 
  * @version $Id$
  * @author daisuke
- * @param <T> 
+ * @param <T> ビルド対象のインスタンスの型
  */
 public abstract class AbstractKeyConstraintModelBuilder<T extends KeyConstraintModel> extends
 		AbstractConstraintModelBuilder<T> {
