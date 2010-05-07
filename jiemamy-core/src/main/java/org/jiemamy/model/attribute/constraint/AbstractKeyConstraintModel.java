@@ -21,6 +21,8 @@ package org.jiemamy.model.attribute.constraint;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.Validate;
+
 import org.jiemamy.model.EntityRef;
 import org.jiemamy.model.attribute.ColumnModel;
 
@@ -46,10 +48,13 @@ public abstract class AbstractKeyConstraintModel extends AbstractConstraintModel
 	 * @param description 説明
 	 * @param keyColumns キー制約を構成するカラムのリスト
 	 * @param deferrability 遅延評価可能性モデル
+	 * @throws IllegalArgumentException 引数{@code keyColumns}の要素が空の場合
 	 */
 	public AbstractKeyConstraintModel(String name, String logicalName, String description,
 			List<EntityRef<ColumnModel>> keyColumns, DeferrabilityModel deferrability) {
 		super(name, logicalName, description);
+		Validate.notEmpty(keyColumns);
+		
 		this.keyColumns = new ArrayList<EntityRef<ColumnModel>>(keyColumns);
 		this.deferrability = deferrability;
 	}

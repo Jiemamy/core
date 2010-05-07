@@ -21,7 +21,7 @@ package org.jiemamy.model.attribute.constraint;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.collections15.ListUtils;
+import org.apache.commons.lang.Validate;
 
 import org.jiemamy.model.EntityRef;
 import org.jiemamy.model.attribute.ColumnModel;
@@ -31,7 +31,8 @@ import org.jiemamy.model.attribute.ColumnModel;
  * 
  * @author daisuke
  */
-public final class DefaultForeignKeyModel extends AbstractKeyConstraintModel implements ForeignKeyConstraintModel {
+public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstraintModel implements
+		ForeignKeyConstraintModel {
 	
 	/** 制約を受けるカラムのリスト */
 	private final List<EntityRef<ColumnModel>> referenceColumns;
@@ -58,16 +59,19 @@ public final class DefaultForeignKeyModel extends AbstractKeyConstraintModel imp
 	 * @param onDelete 削除時アクション
 	 * @param onUpdate 更新時アクション
 	 * @param matchType マッチ型
+	 * @throws IllegalArgumentException 引数{@code keyColumns}と{@code referenceColumns}のサイズが一致していない場合
 	 */
-	public DefaultForeignKeyModel(String name, String logicalName, String description,
+	public DefaultForeignKeyConstraintModel(String name, String logicalName, String description,
 			List<EntityRef<ColumnModel>> keyColumns, DeferrabilityModel deferrability,
 			List<EntityRef<ColumnModel>> referenceColumns, ReferentialAction onDelete, ReferentialAction onUpdate,
 			MatchType matchType) {
-		super(description, description, description, keyColumns, deferrability);
+		super(name, description, description, keyColumns, deferrability);
+		Validate.isTrue(keyColumns.size() == referenceColumns.size());
+		
 		this.matchType = matchType;
 		this.onDelete = onDelete;
 		this.onUpdate = onUpdate;
-		this.referenceColumns = ListUtils.unmodifiableList(referenceColumns);
+		this.referenceColumns = new ArrayList<EntityRef<ColumnModel>>(referenceColumns);
 	}
 	
 	@Override
@@ -78,10 +82,10 @@ public final class DefaultForeignKeyModel extends AbstractKeyConstraintModel imp
 		if (!super.equals(obj)) {
 			return false;
 		}
-		if (!(obj instanceof DefaultForeignKeyModel)) {
+		if (!(obj instanceof DefaultForeignKeyConstraintModel)) {
 			return false;
 		}
-		DefaultForeignKeyModel other = (DefaultForeignKeyModel) obj;
+		DefaultForeignKeyConstraintModel other = (DefaultForeignKeyConstraintModel) obj;
 		if (matchType == null) {
 			if (other.matchType != null) {
 				return false;
