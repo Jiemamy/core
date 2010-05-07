@@ -28,6 +28,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * 参照オブジェクトの骨格実装。
  * 
  * @param <T> 参照対象オブジェクトの型
+ * @version $Id$
  * @author daisuke
  */
 public class DefaultEntityRef<T extends Entity> implements EntityRef<T> {

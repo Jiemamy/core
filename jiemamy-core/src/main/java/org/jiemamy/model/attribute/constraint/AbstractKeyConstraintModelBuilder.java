@@ -42,8 +42,7 @@ public abstract class AbstractKeyConstraintModelBuilder<T extends KeyConstraintM
 	/**
 	 * TODO for daisuke
 	 * 
-	 * @param columnRef
-	 * @return
+	 * @param columnRef キーカラムの参照オブジェクト
 	 */
 	public void addKeyColumn(EntityRef<ColumnModel> columnRef) {
 		keyColumns.add(columnRef);

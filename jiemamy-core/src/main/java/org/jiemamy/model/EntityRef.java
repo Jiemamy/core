@@ -23,11 +23,11 @@ import java.util.UUID;
 /**
  * {@link Entity}に対する参照オブジェクトインターフェイス。
  * 
- * <p>このインターフェイスの実装は、イミュータブルでなければならない。</p>
+ * <p>このインターフェイスの実装は、イミュータブルでなければならない(must)。</p>
  * 
  * @param <T> 実体のモデル型
  * @see Entity
- * @since 0.2
+ * @since 0.3
  * @author daisuke
  */
 public interface EntityRef<T extends Entity> extends ValueObject {
@@ -37,7 +37,7 @@ public interface EntityRef<T extends Entity> extends ValueObject {
 	 * 
 	 * @param obj 比較対象
 	 * @return 同じIDの要素を参照している場合は{@code true}、そうでない場合は{@code false}
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	boolean equals(Object obj);
 	
@@ -45,7 +45,7 @@ public interface EntityRef<T extends Entity> extends ValueObject {
 	 * 実体を特定する記述子としてのモデルIDを取得する。
 	 * 
 	 * @return 実体を特定する記述子としてのモデルID
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	UUID getReferenceId();
 }

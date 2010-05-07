@@ -19,18 +19,18 @@
 package org.jiemamy.model;
 
 /**
- * TODO for daisuke
+ * {@link ValueObject}のインスタンスを生成するビルダー。
  * 
  * @version $Id$
  * @author daisuke
- * @param <T>  TODO for daisuke
+ * @param <T> ビルド対象のインスタンスの型
  */
 public interface ValueObjectBuilder<T extends ValueObject> {
 	
 	/**
-	 * TODO for daisuke
+	 * ビルダの設定に基づいて{@link ValueObject}の新しいインスタンスを生成する。
 	 * 
-	 * @return TODO for daisuke
+	 * @return {@link ValueObject}の新しいインスタンス
 	 */
 	T build();
 	
