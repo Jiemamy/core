@@ -24,7 +24,6 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 
 import org.jiemamy.model.ValueObject;
-import org.jiemamy.model.attribute.constraint.DeferrabilityModel.InitiallyCheckTime;
 
 /**
  * TODO for daisuke
@@ -42,12 +41,9 @@ public class DefaultDeferrabilityTest {
 	 */
 	@Test
 	public void test01_equals() throws Exception {
-		DefaultDeferrabilityModel d1 = new DefaultDeferrabilityModel(true, null);
-		DefaultDeferrabilityModel d2 = new DefaultDeferrabilityModel(true, null);
-		DefaultDeferrabilityModel d3 = new DefaultDeferrabilityModel(false, InitiallyCheckTime.DEFERRED);
-		DefaultDeferrabilityModel d4 = new DefaultDeferrabilityModel(false, InitiallyCheckTime.IMMEDIATE);
-		DefaultDeferrabilityModel d5 = new DefaultDeferrabilityModel(false, InitiallyCheckTime.IMMEDIATE);
-		DeferrabilityModel d6 = new DeferrabilityModel() {
+		DefaultDeferrabilityModel d1 = DefaultDeferrabilityModel.DEFERRABLE;
+		DefaultDeferrabilityModel d2 = DefaultDeferrabilityModel.DEFERRABLE_DEFERRED;
+		DeferrabilityModel d3 = new DeferrabilityModel() {
 			
 			public InitiallyCheckTime getInitiallyCheckTime() {
 				return InitiallyCheckTime.DEFERRED;
@@ -60,45 +56,15 @@ public class DefaultDeferrabilityTest {
 		};
 		
 		assertThat(d1.equals(d1), is(true));
-		assertThat(d1.equals(d2), is(true));
+		assertThat(d1.equals(d2), is(false));
 		assertThat(d1.equals(d3), is(false));
-		assertThat(d1.equals(d4), is(false));
-		assertThat(d1.equals(d5), is(false));
-		assertThat(d1.equals(d6), is(false));
 		
-		assertThat(d2.equals(d1), is(true));
+		assertThat(d2.equals(d1), is(false));
 		assertThat(d2.equals(d2), is(true));
 		assertThat(d2.equals(d3), is(false));
-		assertThat(d2.equals(d4), is(false));
-		assertThat(d2.equals(d5), is(false));
-		assertThat(d2.equals(d6), is(false));
 		
 		assertThat(d3.equals(d1), is(false));
 		assertThat(d3.equals(d2), is(false));
 		assertThat(d3.equals(d3), is(true));
-		assertThat(d3.equals(d4), is(false));
-		assertThat(d3.equals(d5), is(false));
-		assertThat(d3.equals(d6), is(false));
-		
-		assertThat(d4.equals(d1), is(false));
-		assertThat(d4.equals(d2), is(false));
-		assertThat(d4.equals(d3), is(false));
-		assertThat(d4.equals(d4), is(true));
-		assertThat(d4.equals(d5), is(true));
-		assertThat(d4.equals(d6), is(false));
-		
-		assertThat(d5.equals(d1), is(false));
-		assertThat(d5.equals(d2), is(false));
-		assertThat(d5.equals(d3), is(false));
-		assertThat(d5.equals(d4), is(true));
-		assertThat(d5.equals(d5), is(true));
-		assertThat(d5.equals(d6), is(false));
-		
-		assertThat(d6.equals(d1), is(false));
-		assertThat(d6.equals(d2), is(false));
-		assertThat(d6.equals(d3), is(false));
-		assertThat(d6.equals(d4), is(false));
-		assertThat(d6.equals(d5), is(false));
-		assertThat(d6.equals(d6), is(true));
 	}
 }

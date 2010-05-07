@@ -18,13 +18,24 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
-
 /**
  * 抽象遅延評価可能性モデル。
  * 
  * @author daisuke
  */
-public final class DefaultDeferrabilityModel implements DeferrabilityModel {
+public enum DefaultDeferrabilityModel implements DeferrabilityModel {
+	
+	/** TODO */
+	INDEFERRABLE(false, null),
+
+	/** TODO */
+	DEFERRABLE(true, null),
+
+	/** TODO */
+	DEFERRABLE_IMMEDIATE(true, InitiallyCheckTime.IMMEDIATE),
+
+	/** TODO */
+	DEFERRABLE_DEFERRED(true, InitiallyCheckTime.DEFERRED);
 	
 	/**
 	 * 遅延評価可能性
@@ -48,47 +59,13 @@ public final class DefaultDeferrabilityModel implements DeferrabilityModel {
 	 * @param deferrable 遅延評価可能性
 	 * @param initiallyCheckTime 遅延評価の初期状態
 	 */
-	public DefaultDeferrabilityModel(boolean deferrable, InitiallyCheckTime initiallyCheckTime) {
+	DefaultDeferrabilityModel(boolean deferrable, InitiallyCheckTime initiallyCheckTime) {
 		this.deferrable = deferrable;
 		this.initiallyCheckTime = initiallyCheckTime;
 	}
 	
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (!(obj instanceof DefaultDeferrabilityModel)) {
-			return false;
-		}
-		DefaultDeferrabilityModel other = (DefaultDeferrabilityModel) obj;
-		if (deferrable != other.deferrable) {
-			return false;
-		}
-		if (initiallyCheckTime == null) {
-			if (other.initiallyCheckTime != null) {
-				return false;
-			}
-		} else if (!initiallyCheckTime.equals(other.initiallyCheckTime)) {
-			return false;
-		}
-		return true;
-	}
-	
 	public InitiallyCheckTime getInitiallyCheckTime() {
 		return initiallyCheckTime;
-	}
-	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (deferrable ? 1231 : 1237); // CHECKSTYLE IGNORE THIS LINE
-		result = prime * result + ((initiallyCheckTime == null) ? 0 : initiallyCheckTime.hashCode());
-		return result;
 	}
 	
 	public boolean isDeferrable() {
