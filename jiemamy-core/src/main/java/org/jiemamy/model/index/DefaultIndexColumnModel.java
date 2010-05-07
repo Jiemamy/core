@@ -22,7 +22,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 import org.jiemamy.model.EntityRef;
-import org.jiemamy.model.ValueObject;
 import org.jiemamy.model.attribute.ColumnModel;
 
 /**
@@ -30,7 +29,7 @@ import org.jiemamy.model.attribute.ColumnModel;
  * 
  * @author daisuke
  */
-public final class DefaultIndexColumnModel implements IndexColumnModel, ValueObject {
+public final class DefaultIndexColumnModel implements IndexColumnModel {
 	
 	/** インデックス対象カラム */
 	private final EntityRef<ColumnModel> columnRef;

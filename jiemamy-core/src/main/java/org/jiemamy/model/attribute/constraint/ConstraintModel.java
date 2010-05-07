@@ -18,13 +18,14 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
+import org.jiemamy.model.ValueObject;
 
 /**
  * 制約を表すモデルインターフェイス。
  * 
  * @author daisuke
  */
-public interface ConstraintModel {
+public interface ConstraintModel extends ValueObject {
 	
 	/**
 	 * 物理名を取得する。

@@ -18,12 +18,14 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
+import org.jiemamy.model.ValueObject;
+
 /**
  * 遅延評価可能性モデル。
  * 
  * @author daisuke
  */
-public interface DeferrabilityModel {
+public interface DeferrabilityModel extends ValueObject {
 	
 	/**
 	 * 遅延評価の初期状態を取得する。

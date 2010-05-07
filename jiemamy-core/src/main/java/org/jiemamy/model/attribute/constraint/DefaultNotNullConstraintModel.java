@@ -18,21 +18,12 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
-import org.jiemamy.model.ValueObject;
-
 /**
  * NOT NULL制約モデル。
  * 
  * @author daisuke
  */
-public final class DefaultNotNullConstraintModel extends AbstractConstraintModel implements NotNullConstraintModel,
-		ValueObject {
-	
-	/**
-	 * インスタンスを生成する。
-	 */
-	public DefaultNotNullConstraintModel() {
-	}
+public final class DefaultNotNullConstraintModel extends AbstractConstraintModel implements NotNullConstraintModel {
 	
 	/**
 	 * インスタンスを生成する。
@@ -43,18 +34,6 @@ public final class DefaultNotNullConstraintModel extends AbstractConstraintModel
 	 */
 	public DefaultNotNullConstraintModel(String name, String logicalName, String description) {
 		super(name, logicalName, description);
-	}
-	
-	public DefaultNotNullConstraintModel changeDescriptionTo(String description) {
-		return new DefaultNotNullConstraintModel(getName(), getLogicalName(), description);
-	}
-	
-	public DefaultNotNullConstraintModel changeLogicalNameTo(String logicalName) {
-		return new DefaultNotNullConstraintModel(getName(), logicalName, getDescription());
-	}
-	
-	public DefaultNotNullConstraintModel changeNameTo(String name) {
-		return new DefaultNotNullConstraintModel(name, getLogicalName(), getDescription());
 	}
 	
 }

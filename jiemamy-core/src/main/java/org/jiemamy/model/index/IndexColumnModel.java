@@ -19,6 +19,7 @@
 package org.jiemamy.model.index;
 
 import org.jiemamy.model.EntityRef;
+import org.jiemamy.model.ValueObject;
 import org.jiemamy.model.attribute.ColumnModel;
 
 /**
@@ -27,24 +28,8 @@ import org.jiemamy.model.attribute.ColumnModel;
  * @since 0.2
  * @author daisuke
  */
-public interface IndexColumnModel {
+public interface IndexColumnModel extends ValueObject {
 	
-	/**
-	 * ソート順を表す列挙型。
-	 * 
-	 * @since 0.2
-	 * @author daisuke
-	 */
-	public static enum SortOrder {
-		
-		/** 昇順ソート */
-		ASC,
-
-		/** 降順ソート */
-		DESC
-	}
-	
-
 	/**
 	 * インデックス対象カラムを取得する。
 	 * 
@@ -60,4 +45,20 @@ public interface IndexColumnModel {
 	 * @since 0.2
 	 */
 	SortOrder getSortOrder();
+	
+
+	/**
+	 * ソート順を表す列挙型。
+	 * 
+	 * @since 0.2
+	 * @author daisuke
+	 */
+	public static enum SortOrder {
+		
+		/** 昇順ソート */
+		ASC,
+
+		/** 降順ソート */
+		DESC
+	}
 }

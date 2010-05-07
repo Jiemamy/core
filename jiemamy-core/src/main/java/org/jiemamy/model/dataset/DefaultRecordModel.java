@@ -25,7 +25,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 import org.jiemamy.model.EntityRef;
-import org.jiemamy.model.ValueObject;
 import org.jiemamy.model.attribute.ColumnModel;
 
 /**
@@ -33,7 +32,7 @@ import org.jiemamy.model.attribute.ColumnModel;
  * 
  * @author daisuke
  */
-public final class DefaultRecordModel implements RecordModel, ValueObject {
+public final class DefaultRecordModel implements RecordModel {
 	
 	/** カラムに対応するデータ */
 	private final Map<EntityRef<ColumnModel>, String> values;

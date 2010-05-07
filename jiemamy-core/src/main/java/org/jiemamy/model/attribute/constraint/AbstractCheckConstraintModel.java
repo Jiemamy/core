@@ -28,21 +28,9 @@ import org.apache.commons.lang.Validate;
 public abstract class AbstractCheckConstraintModel extends AbstractConstraintModel implements CheckConstraintModel {
 	
 	/** CHEKC制約定義式 */
-	private String expression;
+	private final String expression;
 	
 
-	/**
-	 * インスタンスを生成する。
-	 * 
-	 * @param expression CHEKC制約定義式
-	 * @throws IllegalArgumentException 引数expressionに{@code null}を与えた場合
-	 */
-	public AbstractCheckConstraintModel(String expression) {
-		super();
-		Validate.notNull(expression);
-		this.expression = expression;
-	}
-	
 	/**
 	 * インスタンスを生成する。
 	 * 
@@ -65,9 +53,5 @@ public abstract class AbstractCheckConstraintModel extends AbstractConstraintMod
 	@Override
 	public String toString() {
 		return super.toString() + "[" + expression + "]";
-	}
-	
-	void setExpression(String expression) {
-		this.expression = expression;
 	}
 }

@@ -21,6 +21,7 @@ package org.jiemamy.model.dataset;
 import java.util.Map;
 
 import org.jiemamy.model.EntityRef;
+import org.jiemamy.model.ValueObject;
 import org.jiemamy.model.attribute.ColumnModel;
 
 /**
@@ -29,7 +30,7 @@ import org.jiemamy.model.attribute.ColumnModel;
  * @since 0.2
  * @author daisuke
  */
-public interface RecordModel {
+public interface RecordModel extends ValueObject {
 	
 	/**
 	 * カラムに対応するデータを取得する。

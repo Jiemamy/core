@@ -18,14 +18,13 @@
  */
 package org.jiemamy.model.dbo;
 
-import org.jiemamy.model.ValueObject;
 
 /**
  * ビューモデル
  * 
  * @author daisuke
  */
-public final class DefaultViewModel extends AbstractDatabaseObjectModel implements ViewModel, ValueObject {
+public final class DefaultViewModel extends AbstractDatabaseObjectModel implements ViewModel {
 	
 	/** VIEW定義SELECT文 */
 	private final String definition;

@@ -24,7 +24,6 @@ import java.util.List;
 import org.apache.commons.collections15.ListUtils;
 
 import org.jiemamy.model.EntityRef;
-import org.jiemamy.model.ValueObject;
 import org.jiemamy.model.attribute.ColumnModel;
 
 /**
@@ -32,8 +31,7 @@ import org.jiemamy.model.attribute.ColumnModel;
  * 
  * @author daisuke
  */
-public final class DefaultForeignKeyModel extends AbstractKeyConstraintModel implements ForeignKeyConstraintModel,
-		ValueObject {
+public final class DefaultForeignKeyModel extends AbstractKeyConstraintModel implements ForeignKeyConstraintModel {
 	
 	/** 制約を受けるカラムのリスト */
 	private final List<EntityRef<ColumnModel>> referenceColumns;
@@ -113,11 +111,6 @@ public final class DefaultForeignKeyModel extends AbstractKeyConstraintModel imp
 			return false;
 		}
 		return true;
-	}
-	
-	@Override
-	public List<EntityRef<ColumnModel>> getKeyColumns() {
-		return new ArrayList<EntityRef<ColumnModel>>(super.getKeyColumns());
 	}
 	
 	public MatchType getMatchType() {

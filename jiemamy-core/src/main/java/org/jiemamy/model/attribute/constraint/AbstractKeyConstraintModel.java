@@ -18,6 +18,7 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jiemamy.model.EntityRef;
@@ -31,10 +32,10 @@ import org.jiemamy.model.attribute.ColumnModel;
 public abstract class AbstractKeyConstraintModel extends AbstractConstraintModel implements KeyConstraintModel {
 	
 	/** キー制約を構成するカラムのリスト */
-	private List<EntityRef<ColumnModel>> keyColumns;
+	private final List<EntityRef<ColumnModel>> keyColumns;
 	
 	/** 遅延評価可能性モデル */
-	private DeferrabilityModel deferrability;
+	private final DeferrabilityModel deferrability;
 	
 
 	/**
@@ -49,7 +50,7 @@ public abstract class AbstractKeyConstraintModel extends AbstractConstraintModel
 	public AbstractKeyConstraintModel(String name, String logicalName, String description,
 			List<EntityRef<ColumnModel>> keyColumns, DeferrabilityModel deferrability) {
 		super(name, logicalName, description);
-		this.keyColumns = keyColumns;
+		this.keyColumns = new ArrayList<EntityRef<ColumnModel>>(keyColumns);
 		this.deferrability = deferrability;
 	}
 	
@@ -87,7 +88,7 @@ public abstract class AbstractKeyConstraintModel extends AbstractConstraintModel
 	}
 	
 	public List<EntityRef<ColumnModel>> getKeyColumns() {
-		return keyColumns;
+		return new ArrayList<EntityRef<ColumnModel>>(keyColumns);
 	}
 	
 	@Override

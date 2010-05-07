@@ -29,12 +29,6 @@ public abstract class AbstractConstraintModel extends AbstractAttributeModel imp
 	
 	/**
 	 * インスタンスを生成する。
-	 */
-	public AbstractConstraintModel() {
-	}
-	
-	/**
-	 * インスタンスを生成する。
 	 * 
 	 * @param name 物理名
 	 * @param logicalName 論理名

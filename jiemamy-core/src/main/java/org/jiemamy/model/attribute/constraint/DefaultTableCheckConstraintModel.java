@@ -18,15 +18,13 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
-import org.jiemamy.model.ValueObject;
-
 /**
  * チェック制約モデル。
  * 
  * @author daisuke
  */
-public final class DefaultTableCheckConstraintModel extends AbstractCheckConstraintModel implements TableCheckConstraintModel,
-		ValueObject {
+public final class DefaultTableCheckConstraintModel extends AbstractCheckConstraintModel implements
+		TableCheckConstraintModel {
 	
 	/**
 	 * インスタンスを生成する。
@@ -41,19 +39,4 @@ public final class DefaultTableCheckConstraintModel extends AbstractCheckConstra
 		super(expression, logicalName, description, expression);
 	}
 	
-	public DefaultTableCheckConstraintModel changeDescriptionTo(String description) {
-		return new DefaultTableCheckConstraintModel(getName(), getLogicalName(), description, getExpression());
-	}
-	
-	public DefaultTableCheckConstraintModel changeExpressionTo(String expression) {
-		return new DefaultTableCheckConstraintModel(getName(), getLogicalName(), getDescription(), expression);
-	}
-	
-	public DefaultTableCheckConstraintModel changeLogicalNameTo(String logicalName) {
-		return new DefaultTableCheckConstraintModel(getName(), logicalName, getDescription(), getExpression());
-	}
-	
-	public DefaultTableCheckConstraintModel changeNameTo(String name) {
-		return new DefaultTableCheckConstraintModel(name, getLogicalName(), getDescription(), getExpression());
-	}
 }

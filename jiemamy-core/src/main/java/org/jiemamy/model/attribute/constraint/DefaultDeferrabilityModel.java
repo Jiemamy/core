@@ -18,14 +18,13 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
-import org.jiemamy.model.ValueObject;
 
 /**
  * 抽象遅延評価可能性モデル。
  * 
  * @author daisuke
  */
-public final class DefaultDeferrabilityModel implements DeferrabilityModel, ValueObject {
+public final class DefaultDeferrabilityModel implements DeferrabilityModel {
 	
 	/**
 	 * 遅延評価可能性

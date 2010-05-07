@@ -18,11 +18,9 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.jiemamy.model.EntityRef;
-import org.jiemamy.model.ValueObject;
 import org.jiemamy.model.attribute.ColumnModel;
 
 /**
@@ -30,7 +28,8 @@ import org.jiemamy.model.attribute.ColumnModel;
  * 
  * @author daisuke
  */
-public final class DefaultUniqueKeyConstraintModel extends AbstractKeyConstraintModel implements UniqueKeyConstraintModel, ValueObject {
+public final class DefaultUniqueKeyConstraintModel extends AbstractKeyConstraintModel implements
+		UniqueKeyConstraintModel {
 	
 	/**
 	 * インスタンスを生成する。
@@ -44,11 +43,6 @@ public final class DefaultUniqueKeyConstraintModel extends AbstractKeyConstraint
 	public DefaultUniqueKeyConstraintModel(String name, String logicalName, String description,
 			List<EntityRef<ColumnModel>> keyColumns, DeferrabilityModel deferrability) {
 		super(name, logicalName, description, keyColumns, deferrability);
-	}
-	
-	@Override
-	public List<EntityRef<ColumnModel>> getKeyColumns() {
-		return new ArrayList<EntityRef<ColumnModel>>(super.getKeyColumns());
 	}
 	
 }

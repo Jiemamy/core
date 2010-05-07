@@ -24,14 +24,12 @@ import org.apache.commons.collections15.ListUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-import org.jiemamy.model.ValueObject;
-
 /**
  * インデックスモデル。
  * 
  * @author daisuke
  */
-public final class DefaultIndexModel implements IndexModel, ValueObject {
+public final class DefaultIndexModel implements IndexModel {
 	
 	/** インデックス名 */
 	private final String name;

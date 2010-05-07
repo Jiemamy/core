@@ -25,7 +25,6 @@ import org.apache.commons.collections15.MapUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-import org.jiemamy.model.ValueObject;
 import org.jiemamy.model.dbo.TableRef;
 
 /**
@@ -33,7 +32,7 @@ import org.jiemamy.model.dbo.TableRef;
  * 
  * @author daisuke
  */
-public final class DefaultDataSetModel implements DataSetModel, ValueObject {
+public final class DefaultDataSetModel implements DataSetModel {
 	
 	/** データセット名 */
 	private final String name;

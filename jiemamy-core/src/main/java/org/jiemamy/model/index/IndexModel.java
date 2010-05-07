@@ -20,13 +20,15 @@ package org.jiemamy.model.index;
 
 import java.util.List;
 
+import org.jiemamy.model.ValueObject;
+
 /**
  * インデックスを表すモデルインターフェイス。
  * 
  * @since 0.2
  * @author daisuke
  */
-public interface IndexModel {
+public interface IndexModel extends ValueObject {
 	
 	/**
 	 * インデックスカラムのリストを取得する。

@@ -18,11 +18,9 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.jiemamy.model.EntityRef;
-import org.jiemamy.model.ValueObject;
 import org.jiemamy.model.attribute.ColumnModel;
 
 /**
@@ -30,7 +28,8 @@ import org.jiemamy.model.attribute.ColumnModel;
  * 
  * @author daisuke
  */
-public final class DefaultPrimaryKeyConstraintModel extends AbstractKeyConstraintModel implements PrimaryKeyConstraintModel, ValueObject {
+public final class DefaultPrimaryKeyConstraintModel extends AbstractKeyConstraintModel implements
+		PrimaryKeyConstraintModel {
 	
 	/**
 	 * インスタンスを生成する。
@@ -45,10 +44,4 @@ public final class DefaultPrimaryKeyConstraintModel extends AbstractKeyConstrain
 			List<EntityRef<ColumnModel>> keyColumns, DeferrabilityModel deferrability) {
 		super(name, logicalName, description, keyColumns, deferrability);
 	}
-	
-	@Override
-	public List<EntityRef<ColumnModel>> getKeyColumns() {
-		return new ArrayList<EntityRef<ColumnModel>>(super.getKeyColumns());
-	}
-	
 }

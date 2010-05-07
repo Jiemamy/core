@@ -18,13 +18,15 @@
  */
 package org.jiemamy.model.dbo;
 
+import org.jiemamy.model.ValueObject;
+
 /**
  * リレーショナルデータベースにおける「ビュー」を表すモデルインターフェイス。
  * 
  * @since 0.2
  * @author daisuke
  */
-public interface ViewModel extends DatabaseObjectModel {
+public interface ViewModel extends DatabaseObjectModel, ValueObject {
 	
 	/**
 	 * VIEW定義SELECT文を取得する。
