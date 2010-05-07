@@ -25,7 +25,8 @@ import org.apache.commons.collections15.MapUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-import org.jiemamy.model.dbo.TableRef;
+import org.jiemamy.model.EntityRef;
+import org.jiemamy.model.dbo.TableModel;
 
 /**
  * INSERT文用データセット。
@@ -38,7 +39,7 @@ public final class DefaultDataSetModel implements DataSetModel {
 	private final String name;
 	
 	/** レコード情報 */
-	private final Map<TableRef, List<RecordModel>> records;
+	private final Map<EntityRef<TableModel>, List<RecordModel>> records;
 	
 
 	/**
@@ -47,7 +48,7 @@ public final class DefaultDataSetModel implements DataSetModel {
 	 * @param name データセット名
 	 * @param records レコード情報
 	 */
-	public DefaultDataSetModel(String name, Map<TableRef, List<RecordModel>> records) {
+	public DefaultDataSetModel(String name, Map<EntityRef<TableModel>, List<RecordModel>> records) {
 		this.name = name;
 		this.records = MapUtils.unmodifiableMap(records);
 	}
@@ -95,7 +96,7 @@ public final class DefaultDataSetModel implements DataSetModel {
 	 * 
 	 * @return レコード情報
 	 */
-	public Map<TableRef, List<RecordModel>> getRecords() {
+	public Map<EntityRef<TableModel>, List<RecordModel>> getRecords() {
 		return records;
 	}
 	

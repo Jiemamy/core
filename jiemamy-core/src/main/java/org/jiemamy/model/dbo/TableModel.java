@@ -20,6 +20,7 @@ package org.jiemamy.model.dbo;
 
 import java.util.List;
 
+import org.jiemamy.model.EntityRef;
 import org.jiemamy.model.attribute.AttributeModel;
 import org.jiemamy.model.index.IndexModel;
 
@@ -52,5 +53,5 @@ public interface TableModel extends DatabaseObjectModel {
 	 */
 	List<IndexModel> getIndexes();
 	
-	TableRef getReference();
+	EntityRef<TableModel> getReference();
 }

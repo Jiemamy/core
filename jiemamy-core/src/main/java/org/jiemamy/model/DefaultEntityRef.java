@@ -31,7 +31,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * @version $Id$
  * @author daisuke
  */
-public class DefaultEntityRef<T extends Entity> implements EntityRef<T> {
+public final class DefaultEntityRef<T extends Entity> implements EntityRef<T> {
 	
 	private final UUID referenceId;
 	
@@ -59,7 +59,7 @@ public class DefaultEntityRef<T extends Entity> implements EntityRef<T> {
 	}
 	
 	@Override
-	public final boolean equals(Object obj) {
+	public boolean equals(Object obj) {
 		if (this == obj) {
 			return true;
 		}
@@ -77,7 +77,7 @@ public class DefaultEntityRef<T extends Entity> implements EntityRef<T> {
 	}
 	
 	@Override
-	public final int hashCode() {
+	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((referenceId == null) ? 0 : referenceId.hashCode());

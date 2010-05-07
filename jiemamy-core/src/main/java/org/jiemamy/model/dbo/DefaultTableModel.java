@@ -23,6 +23,8 @@ import java.util.UUID;
 
 import org.apache.commons.lang.Validate;
 
+import org.jiemamy.model.DefaultEntityRef;
+import org.jiemamy.model.EntityRef;
 import org.jiemamy.model.attribute.AttributeModel;
 import org.jiemamy.model.index.IndexModel;
 
@@ -68,8 +70,8 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 		return indexes;
 	}
 	
-	public TableRef getReference() {
-		return new DefaultTableReference(this);
+	public EntityRef<TableModel> getReference() {
+		return new DefaultEntityRef<TableModel>(this);
 	}
 	
 	/**

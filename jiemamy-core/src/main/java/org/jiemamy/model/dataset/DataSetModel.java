@@ -21,7 +21,8 @@ package org.jiemamy.model.dataset;
 import java.util.List;
 import java.util.Map;
 
-import org.jiemamy.model.dbo.TableRef;
+import org.jiemamy.model.EntityRef;
+import org.jiemamy.model.dbo.TableModel;
 
 /**
  * INSERT用データセットを表すモデルインターフェイス。
@@ -48,6 +49,6 @@ public interface DataSetModel {
 	 * @return レコード情報
 	 * @since 0.2
 	 */
-	Map<TableRef, List<RecordModel>> getRecords();
+	Map<EntityRef<TableModel>, List<RecordModel>> getRecords();
 	
 }
