@@ -20,6 +20,7 @@ package org.jiemamy.model.attribute;
 
 import java.util.UUID;
 
+import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
@@ -60,12 +61,21 @@ public class DefalutColumnModel extends AbstractAttributeModel implements Column
 	/**
 	 * インスタンスを生成する。
 	 * 
+	 * <p>ENTITY IDは自動生成される。</p>
+	 */
+	public DefalutColumnModel() {
+		this(UUID.randomUUID());
+	}
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
 	 * @param id モデルID
 	 * @throws IllegalArgumentException 引数idに{@code null}を与えた場合
 	 */
 	public DefalutColumnModel(UUID id) {
+		Validate.notNull(id);
 		this.id = id;
-		setName("");
 	}
 	
 	@Override

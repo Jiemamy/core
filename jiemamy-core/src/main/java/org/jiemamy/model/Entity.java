@@ -50,7 +50,7 @@ public interface Entity {
 	* 一貫していなければならない。</p>
 	* 
 	* @return ENTITY ID
-	* @since 0.2
+	* @since 0.3
 	*/
 	UUID getId();
 	

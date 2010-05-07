@@ -46,10 +46,20 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	/**
 	 * インスタンスを生成する。
 	 * 
+	 * <p>ENTITY IDは自動生成される。</p>
+	 */
+	public DefaultTableModel() {
+		this(UUID.randomUUID());
+	}
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
 	 * @param id モデルID
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public DefaultTableModel(UUID id) {
+		Validate.notNull(id);
 		this.id = id;
 	}
 	

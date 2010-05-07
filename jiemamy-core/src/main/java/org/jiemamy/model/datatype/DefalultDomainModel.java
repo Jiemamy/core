@@ -56,6 +56,15 @@ public class DefalultDomainModel implements DomainModel {
 	/**
 	 * インスタンスを生成する。
 	 * 
+	 * <p>ENTITY IDは自動生成される。</p>
+	 */
+	public DefalultDomainModel() {
+		this(UUID.randomUUID());
+	}
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
 	 * @param id モデルID
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
