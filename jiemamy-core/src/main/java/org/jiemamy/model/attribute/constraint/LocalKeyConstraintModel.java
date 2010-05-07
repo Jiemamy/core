@@ -1,6 +1,6 @@
 /*
  * Copyright 2007-2009 Jiemamy Project and the Others.
- * Created on 2009/02/18
+ * Created on 2009/01/26
  *
  * This file is part of Jiemamy.
  *
@@ -19,11 +19,13 @@
 package org.jiemamy.model.attribute.constraint;
 
 /**
- * テーブルに対して指定されるチェック制約のモデルインターフェイス。
+ * 内部キー制約を表すインターフェイス。
+ * 
+ * <p>内部キーとは、外部キーではないキー制約、すなわち {@link UniqueKeyConstraintModel} や {@link PrimaryKeyConstraintModel} の事である。</p>
  * 
  * @since 0.2
  * @author daisuke
  */
-public interface TableCheckConstraint extends CheckConstraint, TableConstraint {
+public interface LocalKeyConstraintModel extends KeyConstraintModel, ColumnConstraintModel {
 	
 }

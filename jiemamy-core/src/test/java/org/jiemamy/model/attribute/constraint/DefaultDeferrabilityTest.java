@@ -24,7 +24,7 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 
 import org.jiemamy.model.ValueObject;
-import org.jiemamy.model.attribute.constraint.Deferrability.InitiallyCheckTime;
+import org.jiemamy.model.attribute.constraint.DeferrabilityModel.InitiallyCheckTime;
 
 /**
  * TODO for daisuke
@@ -36,18 +36,18 @@ import org.jiemamy.model.attribute.constraint.Deferrability.InitiallyCheckTime;
 public class DefaultDeferrabilityTest {
 	
 	/**
-	 * {@link DefaultDeferrability#equals(Object)}が、{@link ValueObject}として正しい実装になっていること。
+	 * {@link DefaultDeferrabilityModel#equals(Object)}が、{@link ValueObject}として正しい実装になっていること。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
 	public void test01_equals() throws Exception {
-		DefaultDeferrability d1 = new DefaultDeferrability(true, null);
-		DefaultDeferrability d2 = new DefaultDeferrability(true, null);
-		DefaultDeferrability d3 = new DefaultDeferrability(false, InitiallyCheckTime.DEFERRED);
-		DefaultDeferrability d4 = new DefaultDeferrability(false, InitiallyCheckTime.IMMEDIATE);
-		DefaultDeferrability d5 = new DefaultDeferrability(false, InitiallyCheckTime.IMMEDIATE);
-		Deferrability d6 = new Deferrability() {
+		DefaultDeferrabilityModel d1 = new DefaultDeferrabilityModel(true, null);
+		DefaultDeferrabilityModel d2 = new DefaultDeferrabilityModel(true, null);
+		DefaultDeferrabilityModel d3 = new DefaultDeferrabilityModel(false, InitiallyCheckTime.DEFERRED);
+		DefaultDeferrabilityModel d4 = new DefaultDeferrabilityModel(false, InitiallyCheckTime.IMMEDIATE);
+		DefaultDeferrabilityModel d5 = new DefaultDeferrabilityModel(false, InitiallyCheckTime.IMMEDIATE);
+		DeferrabilityModel d6 = new DeferrabilityModel() {
 			
 			public InitiallyCheckTime getInitiallyCheckTime() {
 				return InitiallyCheckTime.DEFERRED;

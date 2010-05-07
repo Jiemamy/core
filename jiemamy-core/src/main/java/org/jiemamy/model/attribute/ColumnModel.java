@@ -20,10 +20,10 @@ package org.jiemamy.model.attribute;
 
 import org.jiemamy.model.Entity;
 import org.jiemamy.model.EntityRef;
-import org.jiemamy.model.attribute.constraint.ColumnCheckConstraint;
-import org.jiemamy.model.attribute.constraint.NotNullConstraint;
-import org.jiemamy.model.attribute.constraint.PrimaryKey;
-import org.jiemamy.model.attribute.constraint.UniqueKey;
+import org.jiemamy.model.attribute.constraint.ColumnCheckConstraintModel;
+import org.jiemamy.model.attribute.constraint.NotNullConstraintModel;
+import org.jiemamy.model.attribute.constraint.PrimaryKeyConstraintModel;
+import org.jiemamy.model.attribute.constraint.UniqueKeyConstraintModel;
 import org.jiemamy.model.datatype.DataType;
 
 /**
@@ -40,7 +40,7 @@ public interface ColumnModel extends AttributeModel, Entity {
 	 * @return　チェック制約. 未設定の場合は{@code null}
 	 * @since 0.2
 	 */
-	ColumnCheckConstraint getCheckConstraint();
+	ColumnCheckConstraintModel getCheckConstraint();
 	
 	/**
 	 * 型記述子を取得する。
@@ -64,7 +64,7 @@ public interface ColumnModel extends AttributeModel, Entity {
 	 * @return　NOT　NULL制約. 未設定の場合は{@code null}
 	 * @since 0.2
 	 */
-	NotNullConstraint getNotNullConstraint();
+	NotNullConstraintModel getNotNullConstraint();
 	
 	/**
 	 * 主キー制約を取得する。
@@ -72,7 +72,7 @@ public interface ColumnModel extends AttributeModel, Entity {
 	 * @return　主キー制約. 未設定の場合は{@code null}
 	 * @since 0.2
 	 */
-	PrimaryKey getPrimaryKey();
+	PrimaryKeyConstraintModel getPrimaryKey();
 	
 	EntityRef<ColumnModel> getReference();
 	
@@ -82,5 +82,5 @@ public interface ColumnModel extends AttributeModel, Entity {
 	 * @return　一意キー制約. 未設定の場合は{@code null}
 	 * @since 0.2
 	 */
-	UniqueKey getUniqueKey();
+	UniqueKeyConstraintModel getUniqueKey();
 }

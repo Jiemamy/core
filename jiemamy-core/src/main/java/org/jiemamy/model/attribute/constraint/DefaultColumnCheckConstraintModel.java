@@ -25,7 +25,7 @@ import org.jiemamy.model.ValueObject;
  * 
  * @author daisuke
  */
-public final class DefaultColumnCheckConstraint extends AbstractCheckConstraint implements ColumnCheckConstraint,
+public final class DefaultColumnCheckConstraintModel extends AbstractCheckConstraintModel implements ColumnCheckConstraintModel,
 		ValueObject {
 	
 	/**
@@ -34,7 +34,7 @@ public final class DefaultColumnCheckConstraint extends AbstractCheckConstraint 
 	 * @param expression CHEKC制約定義式
 	 * @throws IllegalArgumentException 引数expressionに{@code null}を与えた場合
 	 */
-	public DefaultColumnCheckConstraint(String expression) {
+	public DefaultColumnCheckConstraintModel(String expression) {
 		super(expression);
 	}
 	
@@ -47,7 +47,7 @@ public final class DefaultColumnCheckConstraint extends AbstractCheckConstraint 
 	 * @param expression CHEKC制約定義式
 	 * @throws IllegalArgumentException 引数expressionに{@code null}を与えた場合
 	 */
-	public DefaultColumnCheckConstraint(String name, String logicalName, String description, String expression) {
+	public DefaultColumnCheckConstraintModel(String name, String logicalName, String description, String expression) {
 		super(name, logicalName, description, expression);
 	}
 	
@@ -58,8 +58,8 @@ public final class DefaultColumnCheckConstraint extends AbstractCheckConstraint 
 	 * @return 新しいオブジェクト
 	 * @since 0.3
 	 */
-	public DefaultColumnCheckConstraint changeDescriptionTo(String description) {
-		return new DefaultColumnCheckConstraint(getName(), getLogicalName(), description, getExpression());
+	public DefaultColumnCheckConstraintModel changeDescriptionTo(String description) {
+		return new DefaultColumnCheckConstraintModel(getName(), getLogicalName(), description, getExpression());
 	}
 	
 	/**
@@ -69,8 +69,8 @@ public final class DefaultColumnCheckConstraint extends AbstractCheckConstraint 
 	 * @return 新しいオブジェクト
 	 * @since 0.3
 	 */
-	public DefaultColumnCheckConstraint changeExpressionTo(String expression) {
-		return new DefaultColumnCheckConstraint(getName(), getLogicalName(), getDescription(), expression);
+	public DefaultColumnCheckConstraintModel changeExpressionTo(String expression) {
+		return new DefaultColumnCheckConstraintModel(getName(), getLogicalName(), getDescription(), expression);
 	}
 	
 	/**
@@ -80,8 +80,8 @@ public final class DefaultColumnCheckConstraint extends AbstractCheckConstraint 
 	 * @return 新しいオブジェクト
 	 * @since 0.3
 	 */
-	public DefaultColumnCheckConstraint changeLogicalNameTo(String logicalName) {
-		return new DefaultColumnCheckConstraint(getName(), logicalName, getDescription(), getExpression());
+	public DefaultColumnCheckConstraintModel changeLogicalNameTo(String logicalName) {
+		return new DefaultColumnCheckConstraintModel(getName(), logicalName, getDescription(), getExpression());
 	}
 	
 	/**
@@ -91,8 +91,8 @@ public final class DefaultColumnCheckConstraint extends AbstractCheckConstraint 
 	 * @return 新しいオブジェクト
 	 * @since 0.3
 	 */
-	public DefaultColumnCheckConstraint changeNameTo(String name) {
-		return new DefaultColumnCheckConstraint(name, getLogicalName(), getDescription(), getExpression());
+	public DefaultColumnCheckConstraintModel changeNameTo(String name) {
+		return new DefaultColumnCheckConstraintModel(name, getLogicalName(), getDescription(), getExpression());
 	}
 	
 }

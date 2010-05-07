@@ -1,6 +1,6 @@
 /*
  * Copyright 2007-2009 Jiemamy Project and the Others.
- * Created on 2009/01/20
+ * Created on 2008/09/18
  *
  * This file is part of Jiemamy.
  *
@@ -19,11 +19,18 @@
 package org.jiemamy.model.attribute.constraint;
 
 /**
- * NOT NULL制約を表すモデルインターフェイス。
+ * チェック制約を表すモデルインターフェイス。
  * 
- * @since 0.2
  * @author daisuke
  */
-public interface NotNullConstraint extends ValueConstraint, ColumnConstraint {
+public interface CheckConstraintModel extends ValueConstraintModel {
+	
+	/**
+	 * CHECK制約定義式を取得する。
+	 * 
+	 * @return CHECK制約定義式. 未設定の場合は{@code null}
+	 * @since 0.2
+	 */
+	String getExpression();
 	
 }

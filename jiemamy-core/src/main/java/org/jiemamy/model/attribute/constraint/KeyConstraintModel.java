@@ -1,6 +1,6 @@
 /*
  * Copyright 2007-2009 Jiemamy Project and the Others.
- * Created on 2008/06/09
+ * Created on 2009/01/26
  *
  * This file is part of Jiemamy.
  *
@@ -18,37 +18,35 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.jiemamy.model.EntityRef;
-import org.jiemamy.model.ValueObject;
 import org.jiemamy.model.attribute.ColumnModel;
 
 /**
- * UNIQUE制約モデル。
+ * キー制約を表すインターフェイス。
  * 
  * @author daisuke
  */
-public final class DefaultUniqueKey extends AbstractKeyConstraint implements UniqueKey, ValueObject {
+public interface KeyConstraintModel extends TableConstraintModel {
 	
 	/**
-	 * インスタンスを生成する。
+	 * 遅延評価可能性モデルを取得する。
 	 * 
-	 * @param name 物理名
-	 * @param logicalName 論理名
-	 * @param description 説明
-	 * @param keyColumns キー制約を構成するカラムのリスト
-	 * @param deferrability 遅延評価可能性モデル
+	 * @return 遅延評価可能性モデル. 未設定の場合は{@code null}
+	 * @since 0.2
 	 */
-	public DefaultUniqueKey(String name, String logicalName, String description,
-			List<EntityRef<ColumnModel>> keyColumns, Deferrability deferrability) {
-		super(name, logicalName, description, keyColumns, deferrability);
-	}
+	DeferrabilityModel getDeferrability();
 	
-	@Override
-	public List<EntityRef<ColumnModel>> getKeyColumns() {
-		return new ArrayList<EntityRef<ColumnModel>>(super.getKeyColumns());
-	}
+	/**
+	 * キーを構成するカラムのリストを取得する。
+	 * 
+	 * <p>このメソッドは、インスタンスの持つフィールドをそのまま返す。返される{@link List}を直接操作することで、
+	 * このオブジェクトのフィールドとして保持される{@link List}を変更することができる。</p>
+	 * 
+	 * @return キーを構成するカラムのリスト
+	 * @since 0.2
+	 */
+	List<EntityRef<ColumnModel>> getKeyColumns();
 	
 }

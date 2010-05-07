@@ -23,8 +23,8 @@ import java.util.UUID;
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.model.Entity;
-import org.jiemamy.model.attribute.constraint.ColumnCheckConstraint;
-import org.jiemamy.model.attribute.constraint.NotNullConstraint;
+import org.jiemamy.model.attribute.constraint.ColumnCheckConstraintModel;
+import org.jiemamy.model.attribute.constraint.NotNullConstraintModel;
 
 /**
  * ドメイン定義モデル。
@@ -48,9 +48,9 @@ public class DefalultDomainModel implements DomainModel {
 	/** 説明文 */
 	private String description;
 	
-	private ColumnCheckConstraint checkConstraint;
+	private ColumnCheckConstraintModel checkConstraint;
 	
-	private NotNullConstraint notNullConstraint;
+	private NotNullConstraintModel notNullConstraint;
 	
 
 	/**
@@ -78,7 +78,7 @@ public class DefalultDomainModel implements DomainModel {
 		return id.equals(((Entity) obj).getId());
 	}
 	
-	public ColumnCheckConstraint getCheckConstraint() {
+	public ColumnCheckConstraintModel getCheckConstraint() {
 		return checkConstraint;
 	}
 	
@@ -102,7 +102,7 @@ public class DefalultDomainModel implements DomainModel {
 		return name;
 	}
 	
-	public NotNullConstraint getNotNullConstraint() {
+	public NotNullConstraintModel getNotNullConstraint() {
 		return notNullConstraint;
 	}
 	
@@ -125,7 +125,7 @@ public class DefalultDomainModel implements DomainModel {
 	 * @param check チェック制約
 	 * @since 0.3
 	 */
-	public void setCheckConstraint(ColumnCheckConstraint check) {
+	public void setCheckConstraint(ColumnCheckConstraintModel check) {
 		checkConstraint = check;
 	}
 	
@@ -180,7 +180,7 @@ public class DefalultDomainModel implements DomainModel {
 	 * @param notNullConstraint NotNull制約
 	 * @since 0.3
 	 */
-	public void setNotNullConstraint(NotNullConstraint notNullConstraint) {
+	public void setNotNullConstraint(NotNullConstraintModel notNullConstraint) {
 		this.notNullConstraint = notNullConstraint;
 	}
 	

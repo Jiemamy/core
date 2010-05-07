@@ -29,7 +29,7 @@ import org.jiemamy.model.attribute.ColumnModel;
  * @since 0.2
  * @author daisuke
  */
-public interface ForeignKey extends KeyConstraint {
+public interface ForeignKeyConstraintModel extends KeyConstraintModel {
 	
 	/**
 	 * 参照列に挿入された値は、被参照テーブルと被参照列の値に対して、指定した照合型で照会される。

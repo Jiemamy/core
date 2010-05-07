@@ -28,13 +28,13 @@ import org.jiemamy.model.attribute.ColumnModel;
  * 
  * @author daisuke
  */
-public abstract class AbstractKeyConstraint extends AbstractConstraintModel implements KeyConstraint {
+public abstract class AbstractKeyConstraintModel extends AbstractConstraintModel implements KeyConstraintModel {
 	
 	/** キー制約を構成するカラムのリスト */
 	private List<EntityRef<ColumnModel>> keyColumns;
 	
 	/** 遅延評価可能性モデル */
-	private Deferrability deferrability;
+	private DeferrabilityModel deferrability;
 	
 
 	/**
@@ -46,8 +46,8 @@ public abstract class AbstractKeyConstraint extends AbstractConstraintModel impl
 	 * @param keyColumns キー制約を構成するカラムのリスト
 	 * @param deferrability 遅延評価可能性モデル
 	 */
-	public AbstractKeyConstraint(String name, String logicalName, String description,
-			List<EntityRef<ColumnModel>> keyColumns, Deferrability deferrability) {
+	public AbstractKeyConstraintModel(String name, String logicalName, String description,
+			List<EntityRef<ColumnModel>> keyColumns, DeferrabilityModel deferrability) {
 		super(name, logicalName, description);
 		this.keyColumns = keyColumns;
 		this.deferrability = deferrability;
@@ -61,10 +61,10 @@ public abstract class AbstractKeyConstraint extends AbstractConstraintModel impl
 		if (!super.equals(obj)) {
 			return false;
 		}
-		if (!(obj instanceof AbstractKeyConstraint)) {
+		if (!(obj instanceof AbstractKeyConstraintModel)) {
 			return false;
 		}
-		AbstractKeyConstraint other = (AbstractKeyConstraint) obj;
+		AbstractKeyConstraintModel other = (AbstractKeyConstraintModel) obj;
 		if (deferrability == null) {
 			if (other.deferrability != null) {
 				return false;
@@ -82,7 +82,7 @@ public abstract class AbstractKeyConstraint extends AbstractConstraintModel impl
 		return true;
 	}
 	
-	public Deferrability getDeferrability() {
+	public DeferrabilityModel getDeferrability() {
 		return deferrability;
 	}
 	

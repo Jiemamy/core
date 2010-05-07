@@ -25,7 +25,7 @@ import org.jiemamy.model.ValueObject;
  * 
  * @author daisuke
  */
-public final class DefaultTableCheckConstraint extends AbstractCheckConstraint implements TableCheckConstraint,
+public final class DefaultTableCheckConstraintModel extends AbstractCheckConstraintModel implements TableCheckConstraintModel,
 		ValueObject {
 	
 	/**
@@ -37,23 +37,23 @@ public final class DefaultTableCheckConstraint extends AbstractCheckConstraint i
 	 * @param expression CHEKC制約定義式
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public DefaultTableCheckConstraint(String name, String logicalName, String description, String expression) {
+	public DefaultTableCheckConstraintModel(String name, String logicalName, String description, String expression) {
 		super(expression, logicalName, description, expression);
 	}
 	
-	public DefaultTableCheckConstraint changeDescriptionTo(String description) {
-		return new DefaultTableCheckConstraint(getName(), getLogicalName(), description, getExpression());
+	public DefaultTableCheckConstraintModel changeDescriptionTo(String description) {
+		return new DefaultTableCheckConstraintModel(getName(), getLogicalName(), description, getExpression());
 	}
 	
-	public DefaultTableCheckConstraint changeExpressionTo(String expression) {
-		return new DefaultTableCheckConstraint(getName(), getLogicalName(), getDescription(), expression);
+	public DefaultTableCheckConstraintModel changeExpressionTo(String expression) {
+		return new DefaultTableCheckConstraintModel(getName(), getLogicalName(), getDescription(), expression);
 	}
 	
-	public DefaultTableCheckConstraint changeLogicalNameTo(String logicalName) {
-		return new DefaultTableCheckConstraint(getName(), logicalName, getDescription(), getExpression());
+	public DefaultTableCheckConstraintModel changeLogicalNameTo(String logicalName) {
+		return new DefaultTableCheckConstraintModel(getName(), logicalName, getDescription(), getExpression());
 	}
 	
-	public DefaultTableCheckConstraint changeNameTo(String name) {
-		return new DefaultTableCheckConstraint(name, getLogicalName(), getDescription(), getExpression());
+	public DefaultTableCheckConstraintModel changeNameTo(String name) {
+		return new DefaultTableCheckConstraintModel(name, getLogicalName(), getDescription(), getExpression());
 	}
 }

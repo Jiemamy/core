@@ -18,11 +18,14 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
+import org.jiemamy.model.attribute.AttributeModel;
+
 /**
- * カラム制約を表すマーカインターフェイス。
+ * テーブル制約を表すマーカインターフェイス。
  * 
+ * @since 0.2
  * @author daisuke
  */
-public interface ColumnConstraint extends ConstraintModel {
+public interface TableConstraintModel extends AttributeModel, ConstraintModel {
 	
 }

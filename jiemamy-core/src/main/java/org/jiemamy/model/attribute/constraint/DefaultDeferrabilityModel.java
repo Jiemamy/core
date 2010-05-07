@@ -25,7 +25,7 @@ import org.jiemamy.model.ValueObject;
  * 
  * @author daisuke
  */
-public final class DefaultDeferrability implements Deferrability, ValueObject {
+public final class DefaultDeferrabilityModel implements DeferrabilityModel, ValueObject {
 	
 	/**
 	 * 遅延評価可能性
@@ -49,7 +49,7 @@ public final class DefaultDeferrability implements Deferrability, ValueObject {
 	 * @param deferrable 遅延評価可能性
 	 * @param initiallyCheckTime 遅延評価の初期状態
 	 */
-	public DefaultDeferrability(boolean deferrable, InitiallyCheckTime initiallyCheckTime) {
+	public DefaultDeferrabilityModel(boolean deferrable, InitiallyCheckTime initiallyCheckTime) {
 		this.deferrable = deferrable;
 		this.initiallyCheckTime = initiallyCheckTime;
 	}
@@ -62,10 +62,10 @@ public final class DefaultDeferrability implements Deferrability, ValueObject {
 		if (obj == null) {
 			return false;
 		}
-		if (!(obj instanceof DefaultDeferrability)) {
+		if (!(obj instanceof DefaultDeferrabilityModel)) {
 			return false;
 		}
-		DefaultDeferrability other = (DefaultDeferrability) obj;
+		DefaultDeferrabilityModel other = (DefaultDeferrabilityModel) obj;
 		if (deferrable != other.deferrable) {
 			return false;
 		}

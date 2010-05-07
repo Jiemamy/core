@@ -1,6 +1,6 @@
 /*
  * Copyright 2007-2009 Jiemamy Project and the Others.
- * Created on 2008/09/18
+ * Created on 2009/02/18
  *
  * This file is part of Jiemamy.
  *
@@ -19,18 +19,10 @@
 package org.jiemamy.model.attribute.constraint;
 
 /**
- * チェック制約を表すモデルインターフェイス。
+ * カラムに対して指定されるチェック制約のモデルインターフェイス。
  * 
  * @author daisuke
  */
-public interface CheckConstraint extends ValueConstraint {
-	
-	/**
-	 * CHECK制約定義式を取得する。
-	 * 
-	 * @return CHECK制約定義式. 未設定の場合は{@code null}
-	 * @since 0.2
-	 */
-	String getExpression();
+public interface ColumnCheckConstraintModel extends CheckConstraintModel, ColumnConstraintModel {
 	
 }

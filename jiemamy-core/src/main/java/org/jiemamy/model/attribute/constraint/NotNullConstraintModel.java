@@ -1,6 +1,6 @@
 /*
  * Copyright 2007-2009 Jiemamy Project and the Others.
- * Created on 2008/09/18
+ * Created on 2009/01/20
  *
  * This file is part of Jiemamy.
  *
@@ -19,11 +19,11 @@
 package org.jiemamy.model.attribute.constraint;
 
 /**
- * UNIQUE制約を表すモデルインターフェイス。
+ * NOT NULL制約を表すモデルインターフェイス。
  * 
  * @since 0.2
  * @author daisuke
  */
-public interface UniqueKey extends LocalKeyConstraint {
+public interface NotNullConstraintModel extends ValueConstraintModel, ColumnConstraintModel {
 	
 }

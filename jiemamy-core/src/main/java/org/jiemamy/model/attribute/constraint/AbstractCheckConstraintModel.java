@@ -25,7 +25,7 @@ import org.apache.commons.lang.Validate;
  * 
  * @author daisuke
  */
-public abstract class AbstractCheckConstraint extends AbstractConstraintModel implements CheckConstraint {
+public abstract class AbstractCheckConstraintModel extends AbstractConstraintModel implements CheckConstraintModel {
 	
 	/** CHEKC制約定義式 */
 	private String expression;
@@ -37,7 +37,7 @@ public abstract class AbstractCheckConstraint extends AbstractConstraintModel im
 	 * @param expression CHEKC制約定義式
 	 * @throws IllegalArgumentException 引数expressionに{@code null}を与えた場合
 	 */
-	public AbstractCheckConstraint(String expression) {
+	public AbstractCheckConstraintModel(String expression) {
 		super();
 		Validate.notNull(expression);
 		this.expression = expression;
@@ -52,7 +52,7 @@ public abstract class AbstractCheckConstraint extends AbstractConstraintModel im
 	 * @param expression CHEKC制約定義式
 	 * @throws IllegalArgumentException 引数expressionに{@code null}を与えた場合
 	 */
-	public AbstractCheckConstraint(String name, String logicalName, String description, String expression) {
+	public AbstractCheckConstraintModel(String name, String logicalName, String description, String expression) {
 		super(name, logicalName, description);
 		Validate.notNull(expression);
 		this.expression = expression;

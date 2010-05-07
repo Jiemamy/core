@@ -26,10 +26,10 @@ import org.apache.commons.lang.builder.ToStringStyle;
 import org.jiemamy.model.DefaultEntityRef;
 import org.jiemamy.model.Entity;
 import org.jiemamy.model.EntityRef;
-import org.jiemamy.model.attribute.constraint.ColumnCheckConstraint;
-import org.jiemamy.model.attribute.constraint.NotNullConstraint;
-import org.jiemamy.model.attribute.constraint.PrimaryKey;
-import org.jiemamy.model.attribute.constraint.UniqueKey;
+import org.jiemamy.model.attribute.constraint.ColumnCheckConstraintModel;
+import org.jiemamy.model.attribute.constraint.NotNullConstraintModel;
+import org.jiemamy.model.attribute.constraint.PrimaryKeyConstraintModel;
+import org.jiemamy.model.attribute.constraint.UniqueKeyConstraintModel;
 import org.jiemamy.model.datatype.DataType;
 
 /**
@@ -48,13 +48,13 @@ public class DefalutColumnModel extends AbstractAttributeModel implements Column
 	/** デフォルト値 */
 	private String defaultValue;
 	
-	private ColumnCheckConstraint checkConstraint;
+	private ColumnCheckConstraintModel checkConstraint;
 	
-	private NotNullConstraint notNullConstraint;
+	private NotNullConstraintModel notNullConstraint;
 	
-	private PrimaryKey primaryKey;
+	private PrimaryKeyConstraintModel primaryKey;
 	
-	private UniqueKey uniqueKey;
+	private UniqueKeyConstraintModel uniqueKey;
 	
 
 	/**
@@ -82,7 +82,7 @@ public class DefalutColumnModel extends AbstractAttributeModel implements Column
 		return id.equals(((Entity) obj).getId());
 	}
 	
-	public ColumnCheckConstraint getCheckConstraint() {
+	public ColumnCheckConstraintModel getCheckConstraint() {
 		return checkConstraint;
 	}
 	
@@ -98,11 +98,11 @@ public class DefalutColumnModel extends AbstractAttributeModel implements Column
 		return id;
 	}
 	
-	public NotNullConstraint getNotNullConstraint() {
+	public NotNullConstraintModel getNotNullConstraint() {
 		return notNullConstraint;
 	}
 	
-	public PrimaryKey getPrimaryKey() {
+	public PrimaryKeyConstraintModel getPrimaryKey() {
 		return primaryKey;
 	}
 	
@@ -110,7 +110,7 @@ public class DefalutColumnModel extends AbstractAttributeModel implements Column
 		return new DefaultEntityRef<ColumnModel>(this);
 	}
 	
-	public UniqueKey getUniqueKey() {
+	public UniqueKeyConstraintModel getUniqueKey() {
 		return uniqueKey;
 	}
 	
@@ -128,7 +128,7 @@ public class DefalutColumnModel extends AbstractAttributeModel implements Column
 	 * @param checkConstraint チェック制約
 	 * @since 0.3
 	 */
-	public void setCheckConstraint(ColumnCheckConstraint checkConstraint) {
+	public void setCheckConstraint(ColumnCheckConstraintModel checkConstraint) {
 		this.checkConstraint = checkConstraint;
 	}
 	
@@ -173,7 +173,7 @@ public class DefalutColumnModel extends AbstractAttributeModel implements Column
 	 * @param notNullConstraint NotNull制約
 	 * @since 0.3
 	 */
-	public void setNotNullConstraint(NotNullConstraint notNullConstraint) {
+	public void setNotNullConstraint(NotNullConstraintModel notNullConstraint) {
 		this.notNullConstraint = notNullConstraint;
 	}
 	
@@ -183,7 +183,7 @@ public class DefalutColumnModel extends AbstractAttributeModel implements Column
 	 * @param primaryKey 主キー制約
 	 * @since 0.3
 	 */
-	public void setPrimaryKey(PrimaryKey primaryKey) {
+	public void setPrimaryKey(PrimaryKeyConstraintModel primaryKey) {
 		this.primaryKey = primaryKey;
 	}
 	
@@ -193,7 +193,7 @@ public class DefalutColumnModel extends AbstractAttributeModel implements Column
 	 * @param uniqueKey ユニークキー制約
 	 * @since 0.3
 	 */
-	public void setUniqueKey(UniqueKey uniqueKey) {
+	public void setUniqueKey(UniqueKeyConstraintModel uniqueKey) {
 		this.uniqueKey = uniqueKey;
 	}
 	

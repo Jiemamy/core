@@ -1,6 +1,6 @@
 /*
  * Copyright 2007-2009 Jiemamy Project and the Others.
- * Created on 2009/01/26
+ * Created on 2008/09/18
  *
  * This file is part of Jiemamy.
  *
@@ -19,13 +19,11 @@
 package org.jiemamy.model.attribute.constraint;
 
 /**
- * 内部キー制約を表すインターフェイス。
- * 
- * <p>内部キーとは、外部キーではないキー制約、すなわち {@link UniqueKey} や {@link PrimaryKey} の事である。</p>
+ * UNIQUE制約を表すモデルインターフェイス。
  * 
  * @since 0.2
  * @author daisuke
  */
-public interface LocalKeyConstraint extends KeyConstraint, ColumnConstraint {
+public interface UniqueKeyConstraintModel extends LocalKeyConstraintModel {
 	
 }

@@ -1,6 +1,6 @@
 /*
  * Copyright 2007-2009 Jiemamy Project and the Others.
- * Created on 2008/09/18
+ * Created on 2009/01/26
  *
  * This file is part of Jiemamy.
  *
@@ -19,11 +19,13 @@
 package org.jiemamy.model.attribute.constraint;
 
 /**
- * 主キー制約を表すモデルインターフェイス。
+ * 値に対する単純な制約を表す制約モデル。
+ * 
+ * <p>主にNOT NULL制約や、CHECK制約を表す。</p>
  * 
  * @since 0.2
  * @author daisuke
  */
-public interface PrimaryKey extends LocalKeyConstraint {
+public interface ValueConstraintModel extends ConstraintModel {
 	
 }

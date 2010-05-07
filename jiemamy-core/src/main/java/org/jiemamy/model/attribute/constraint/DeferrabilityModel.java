@@ -1,6 +1,6 @@
 /*
  * Copyright 2007-2009 Jiemamy Project and the Others.
- * Created on 2009/01/26
+ * Created on 2009/01/28
  *
  * This file is part of Jiemamy.
  *
@@ -19,13 +19,42 @@
 package org.jiemamy.model.attribute.constraint;
 
 /**
- * 値に対する単純な制約を表す制約モデル。
+ * 遅延評価可能性モデル。
  * 
- * <p>主にNOT NULL制約や、CHECK制約を表す。</p>
- * 
- * @since 0.2
  * @author daisuke
  */
-public interface ValueConstraint extends ConstraintModel {
+public interface DeferrabilityModel {
+	
+	/**
+	 * 遅延評価の初期状態を取得する。
+	 * 
+	 * @return 遅延評価の初期状態. 未設定の場合は{@code null}
+	 * @since 0.2
+	 */
+	InitiallyCheckTime getInitiallyCheckTime();
+	
+	/**
+	 * 遅延評価可能性を取得する。
+	 * 
+	 * @return 遅延評価可能性
+	 * @since 0.2
+	 */
+	boolean isDeferrable();
+	
+
+	/**
+	 * 制約検査を行うデフォルトの時期。
+	 * 
+	 * @author daisuke
+	 * @since 0.2
+	 */
+	public enum InitiallyCheckTime {
+		
+		/** 各文の実行後に検査 */
+		IMMEDIATE,
+
+		/** トランザクションの終了時にのみ検査 */
+		DEFERRED;
+	}
 	
 }

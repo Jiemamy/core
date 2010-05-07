@@ -1,6 +1,6 @@
 /*
  * Copyright 2007-2009 Jiemamy Project and the Others.
- * Created on 2009/02/18
+ * Created on 2008/09/18
  *
  * This file is part of Jiemamy.
  *
@@ -19,10 +19,11 @@
 package org.jiemamy.model.attribute.constraint;
 
 /**
- * カラムに対して指定されるチェック制約のモデルインターフェイス。
+ * 主キー制約を表すモデルインターフェイス。
  * 
+ * @since 0.2
  * @author daisuke
  */
-public interface ColumnCheckConstraint extends CheckConstraint, ColumnConstraint {
+public interface PrimaryKeyConstraintModel extends LocalKeyConstraintModel {
 	
 }

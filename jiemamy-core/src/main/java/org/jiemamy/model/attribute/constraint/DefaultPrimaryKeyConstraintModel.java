@@ -30,7 +30,7 @@ import org.jiemamy.model.attribute.ColumnModel;
  * 
  * @author daisuke
  */
-public final class DefaultPrimaryKey extends AbstractKeyConstraint implements PrimaryKey, ValueObject {
+public final class DefaultPrimaryKeyConstraintModel extends AbstractKeyConstraintModel implements PrimaryKeyConstraintModel, ValueObject {
 	
 	/**
 	 * インスタンスを生成する。
@@ -41,8 +41,8 @@ public final class DefaultPrimaryKey extends AbstractKeyConstraint implements Pr
 	 * @param keyColumns キー制約を構成するカラムのリスト
 	 * @param deferrability 遅延評価可能性モデル
 	 */
-	public DefaultPrimaryKey(String name, String logicalName, String description,
-			List<EntityRef<ColumnModel>> keyColumns, Deferrability deferrability) {
+	public DefaultPrimaryKeyConstraintModel(String name, String logicalName, String description,
+			List<EntityRef<ColumnModel>> keyColumns, DeferrabilityModel deferrability) {
 		super(name, logicalName, description, keyColumns, deferrability);
 	}
 	

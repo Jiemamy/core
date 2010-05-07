@@ -19,8 +19,8 @@
 package org.jiemamy.model.datatype;
 
 import org.jiemamy.model.Entity;
-import org.jiemamy.model.attribute.constraint.ColumnCheckConstraint;
-import org.jiemamy.model.attribute.constraint.NotNullConstraint;
+import org.jiemamy.model.attribute.constraint.ColumnCheckConstraintModel;
+import org.jiemamy.model.attribute.constraint.NotNullConstraintModel;
 
 /**
  * ドメインを表すモデルインターフェイス。
@@ -36,7 +36,7 @@ public interface DomainModel extends Entity, DataTypeMold<DomainRef> {
 	 * @return　チェック制約. 未設定の場合は{@code null}
 	 * @since 0.2
 	 */
-	ColumnCheckConstraint getCheckConstraint();
+	ColumnCheckConstraintModel getCheckConstraint();
 	
 	/**
 	 * 型記述子を取得する。
@@ -76,7 +76,7 @@ public interface DomainModel extends Entity, DataTypeMold<DomainRef> {
 	 * @return　NOT　NULL制約. 未設定の場合は{@code null}
 	 * @since 0.2
 	 */
-	NotNullConstraint getNotNullConstraint();
+	NotNullConstraintModel getNotNullConstraint();
 	
 	DomainRef getReference();
 }

@@ -25,12 +25,12 @@ import org.jiemamy.model.ValueObject;
  * 
  * @author daisuke
  */
-public final class DefaultNotNullConstraint extends AbstractConstraintModel implements NotNullConstraint, ValueObject {
+public final class DefaultNotNullConstraintModel extends AbstractConstraintModel implements NotNullConstraintModel, ValueObject {
 	
 	/**
 	 * インスタンスを生成する。
 	 */
-	public DefaultNotNullConstraint() {
+	public DefaultNotNullConstraintModel() {
 	}
 	
 	/**
@@ -40,20 +40,20 @@ public final class DefaultNotNullConstraint extends AbstractConstraintModel impl
 	 * @param logicalName 論理名
 	 * @param description 説明
 	 */
-	public DefaultNotNullConstraint(String name, String logicalName, String description) {
+	public DefaultNotNullConstraintModel(String name, String logicalName, String description) {
 		super(name, logicalName, description);
 	}
 	
-	public DefaultNotNullConstraint changeDescriptionTo(String description) {
-		return new DefaultNotNullConstraint(getName(), getLogicalName(), description);
+	public DefaultNotNullConstraintModel changeDescriptionTo(String description) {
+		return new DefaultNotNullConstraintModel(getName(), getLogicalName(), description);
 	}
 	
-	public DefaultNotNullConstraint changeLogicalNameTo(String logicalName) {
-		return new DefaultNotNullConstraint(getName(), logicalName, getDescription());
+	public DefaultNotNullConstraintModel changeLogicalNameTo(String logicalName) {
+		return new DefaultNotNullConstraintModel(getName(), logicalName, getDescription());
 	}
 	
-	public DefaultNotNullConstraint changeNameTo(String name) {
-		return new DefaultNotNullConstraint(name, getLogicalName(), getDescription());
+	public DefaultNotNullConstraintModel changeNameTo(String name) {
+		return new DefaultNotNullConstraintModel(name, getLogicalName(), getDescription());
 	}
 	
 }

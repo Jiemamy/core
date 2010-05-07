@@ -30,7 +30,7 @@ import org.junit.Test;
  * @version $Id$
  * @author daisuke
  */
-public class DefaultColumnCheckConstraintTest {
+public class DefaultColumnCheckConstraintModelTest {
 	
 	/**
 	 * TODO for daisuke
@@ -39,12 +39,12 @@ public class DefaultColumnCheckConstraintTest {
 	 */
 	@Test
 	public void testname() throws Exception {
-		DefaultColumnCheckConstraint ccc1 = new DefaultColumnCheckConstraint("expression");
-		DefaultColumnCheckConstraint ccc2 = new DefaultColumnCheckConstraint("expression");
+		DefaultColumnCheckConstraintModel ccc1 = new DefaultColumnCheckConstraintModel("expression");
+		DefaultColumnCheckConstraintModel ccc2 = new DefaultColumnCheckConstraintModel("expression");
 		
 		assertThat(ccc1.equals(ccc2), is(true));
 		
-		DefaultColumnCheckConstraint ccc3 = ccc1.changeNameTo("HOGE");
+		DefaultColumnCheckConstraintModel ccc3 = ccc1.changeNameTo("HOGE");
 		
 		assertThat(ccc1.equals(ccc3), is(false));
 		

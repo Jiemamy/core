@@ -18,14 +18,12 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
-import org.jiemamy.model.attribute.AttributeModel;
-
 /**
- * テーブル制約を表すマーカインターフェイス。
+ * テーブルに対して指定されるチェック制約のモデルインターフェイス。
  * 
  * @since 0.2
  * @author daisuke
  */
-public interface TableConstraint extends AttributeModel, ConstraintModel {
+public interface TableCheckConstraintModel extends CheckConstraintModel, TableConstraintModel {
 	
 }

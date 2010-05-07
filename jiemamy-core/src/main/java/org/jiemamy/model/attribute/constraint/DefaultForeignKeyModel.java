@@ -32,7 +32,7 @@ import org.jiemamy.model.attribute.ColumnModel;
  * 
  * @author daisuke
  */
-public final class DefaultForeignKey extends AbstractKeyConstraint implements ForeignKey, ValueObject {
+public final class DefaultForeignKeyModel extends AbstractKeyConstraintModel implements ForeignKeyConstraintModel, ValueObject {
 	
 	/** 制約を受けるカラムのリスト */
 	private final List<EntityRef<ColumnModel>> referenceColumns;
@@ -60,8 +60,8 @@ public final class DefaultForeignKey extends AbstractKeyConstraint implements Fo
 	 * @param onUpdate 更新時アクション
 	 * @param matchType マッチ型
 	 */
-	public DefaultForeignKey(String name, String logicalName, String description,
-			List<EntityRef<ColumnModel>> keyColumns, Deferrability deferrability,
+	public DefaultForeignKeyModel(String name, String logicalName, String description,
+			List<EntityRef<ColumnModel>> keyColumns, DeferrabilityModel deferrability,
 			List<EntityRef<ColumnModel>> referenceColumns, ReferentialAction onDelete,
 			ReferentialAction onUpdate, MatchType matchType) {
 		super(description, description, description, keyColumns, deferrability);
@@ -79,10 +79,10 @@ public final class DefaultForeignKey extends AbstractKeyConstraint implements Fo
 		if (!super.equals(obj)) {
 			return false;
 		}
-		if (!(obj instanceof DefaultForeignKey)) {
+		if (!(obj instanceof DefaultForeignKeyModel)) {
 			return false;
 		}
-		DefaultForeignKey other = (DefaultForeignKey) obj;
+		DefaultForeignKeyModel other = (DefaultForeignKeyModel) obj;
 		if (matchType == null) {
 			if (other.matchType != null) {
 				return false;
