@@ -33,7 +33,7 @@ public abstract class AbstractDatabaseObjectModel implements DatabaseObjectModel
 	
 	private final UUID id;
 	
-	/** 名前 */
+	/** 物理名 */
 	private String name;
 	
 	/** 論理名 */
@@ -101,14 +101,29 @@ public abstract class AbstractDatabaseObjectModel implements DatabaseObjectModel
 		return result;
 	}
 	
+	/**
+	 * 説明文を設定する。
+	 * 
+	 * @param description 説明文
+	 */
 	public void setDescription(String description) {
 		this.description = description;
 	}
 	
+	/**
+	 * 論理名を設定する。
+	 * 
+	 * @param logicalName 論理名
+	 */
 	public void setLogicalName(String logicalName) {
 		this.logicalName = logicalName;
 	}
 	
+	/**
+	 * 物理名を設定する。
+	 * 
+	 * @param name 物理名
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
