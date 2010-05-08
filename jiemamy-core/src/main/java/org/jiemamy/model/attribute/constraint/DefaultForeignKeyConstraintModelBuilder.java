@@ -57,6 +57,27 @@ public class DefaultForeignKeyConstraintModelBuilder extends
 	
 
 	/**
+	 * インスタンスを生成する。
+	 */
+	public DefaultForeignKeyConstraintModelBuilder() {
+		// noop
+	}
+	
+	/**
+	 * コピーコンストラクタ。
+	 * 
+	 * @param vo コピー元の{@link ForeignKeyConstraintModel}
+	 */
+	public DefaultForeignKeyConstraintModelBuilder(ForeignKeyConstraintModel vo) {
+		super(vo);
+		
+		matchType = vo.getMatchType();
+		onDelete = vo.getOnDelete();
+		onUpdate = vo.getOnUpdate();
+		referenceColumns = vo.getReferenceColumns();
+	}
+	
+	/**
 	 * somethingを設定する。 TODO for daisuke
 	 * @param referenceColumn the referenceColumns to add
 	 * @return このビルダークラスのインスタンス

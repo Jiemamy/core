@@ -39,6 +39,26 @@ public abstract class AbstractConstraintModelBuilder<T extends ConstraintModel, 
 	
 
 	/**
+	 * インスタンスを生成する。
+	 */
+	public AbstractConstraintModelBuilder() {
+		// noop
+	}
+	
+	/**
+	 * コピーコンストラクタ。
+	 * 
+	 * @param vo コピー元の{@link ConstraintModel}
+	 */
+	public AbstractConstraintModelBuilder(T vo) {
+		super(vo);
+		
+		this.name = vo.getName();
+		this.logicalName = vo.getLogicalName();
+		this.description = vo.getDescription();
+	}
+	
+	/**
 	 * somethingを設定する。 TODO for daisuke
 	 * @param description the description to set
 	 * @return このビルダークラスのインスタンス

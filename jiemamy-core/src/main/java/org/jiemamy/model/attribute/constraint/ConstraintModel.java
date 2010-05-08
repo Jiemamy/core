@@ -28,6 +28,20 @@ import org.jiemamy.model.ValueObject;
 public interface ConstraintModel extends ValueObject {
 	
 	/**
+	 * 説明を取得する。
+	 * 
+	 * @return 説明。未設定の場合は{@code null}
+	 */
+	String getDescription();
+	
+	/**
+	 * 論理名を取得する。
+	 * 
+	 * @return 論理名。未設定の場合は{@code null}
+	 */
+	String getLogicalName();
+	
+	/**
 	 * 物理名を取得する。
 	 * 
 	 * @return 物理名. 未設定の場合は{@code null}
