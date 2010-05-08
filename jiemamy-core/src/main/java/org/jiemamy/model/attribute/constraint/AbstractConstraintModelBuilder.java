@@ -26,8 +26,10 @@ import org.jiemamy.model.ValueObjectBuilder;
  * @version $Id$
  * @author daisuke
  * @param <T> ビルド対象のインスタンスの型
+ * @param <S> このビルダークラスの型
  */
-public abstract class AbstractConstraintModelBuilder<T extends ConstraintModel> implements ValueObjectBuilder<T> {
+public abstract class AbstractConstraintModelBuilder<T extends ConstraintModel, S extends AbstractConstraintModelBuilder<T, S>>
+		extends ValueObjectBuilder<T, S> {
 	
 	String name;
 	
@@ -39,25 +41,31 @@ public abstract class AbstractConstraintModelBuilder<T extends ConstraintModel> 
 	/**
 	 * somethingを設定する。 TODO for daisuke
 	 * @param description the description to set
+	 * @return このビルダークラスのインスタンス
 	 */
-	public void setDescription(String description) {
+	public S setDescription(String description) {
 		this.description = description;
+		return getThis();
 	}
 	
 	/**
 	 * somethingを設定する。 TODO for daisuke
 	 * @param logicalName the logicalName to set
+	 * @return このビルダークラスのインスタンス
 	 */
-	public void setLogicalName(String logicalName) {
+	public S setLogicalName(String logicalName) {
 		this.logicalName = logicalName;
+		return getThis();
 	}
 	
 	/**
 	 * somethingを設定する。 TODO for daisuke
 	 * @param name the name to set
+	 * @return このビルダークラスのインスタンス
 	 */
-	public void setName(String name) {
+	public S setName(String name) {
 		this.name = name;
+		return getThis();
 	}
 	
 }

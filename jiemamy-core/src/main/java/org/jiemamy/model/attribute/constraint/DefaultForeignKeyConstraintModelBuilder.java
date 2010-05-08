@@ -33,7 +33,7 @@ import org.jiemamy.utils.CollectionsUtil;
  * @author daisuke
  */
 public class DefaultForeignKeyConstraintModelBuilder extends
-		AbstractKeyConstraintModelBuilder<ForeignKeyConstraintModel> {
+		AbstractKeyConstraintModelBuilder<ForeignKeyConstraintModel, DefaultForeignKeyConstraintModelBuilder> {
 	
 	/**
 	 * マッチ型
@@ -59,11 +59,14 @@ public class DefaultForeignKeyConstraintModelBuilder extends
 	/**
 	 * somethingを設定する。 TODO for daisuke
 	 * @param referenceColumn the referenceColumns to add
+	 * @return このビルダークラスのインスタンス
 	 */
-	public void addReferenceColumn(EntityRef<ColumnModel> referenceColumn) {
+	public DefaultForeignKeyConstraintModelBuilder addReferenceColumn(EntityRef<ColumnModel> referenceColumn) {
 		referenceColumns.add(referenceColumn);
+		return getThis();
 	}
 	
+	@Override
 	public ForeignKeyConstraintModel build() {
 		return new DefaultForeignKeyConstraintModel(name, logicalName, description, keyColumns, deferrability,
 				referenceColumns, onDelete, onUpdate, matchType);
@@ -72,25 +75,35 @@ public class DefaultForeignKeyConstraintModelBuilder extends
 	/**
 	 * somethingを設定する。 TODO for daisuke
 	 * @param matchType the matchType to set
+	 * @return このビルダークラスのインスタンス
 	 */
-	public void setMatchType(MatchType matchType) {
+	public DefaultForeignKeyConstraintModelBuilder setMatchType(MatchType matchType) {
 		this.matchType = matchType;
-		
+		return getThis();
 	}
 	
 	/**
 	 * somethingを設定する。 TODO for daisuke
 	 * @param onDelete the onDelete to set
+	 * @return このビルダークラスのインスタンス
 	 */
-	public void setOnDelete(ReferentialAction onDelete) {
+	public DefaultForeignKeyConstraintModelBuilder setOnDelete(ReferentialAction onDelete) {
 		this.onDelete = onDelete;
+		return getThis();
 	}
 	
 	/**
 	 * somethingを設定する。 TODO for daisuke
 	 * @param onUpdate the onUpdate to set
+	 * @return このビルダークラスのインスタンス
 	 */
-	public void setOnUpdate(ReferentialAction onUpdate) {
+	public DefaultForeignKeyConstraintModelBuilder setOnUpdate(ReferentialAction onUpdate) {
 		this.onUpdate = onUpdate;
+		return getThis();
+	}
+	
+	@Override
+	protected DefaultForeignKeyConstraintModelBuilder getThis() {
+		return this;
 	}
 }

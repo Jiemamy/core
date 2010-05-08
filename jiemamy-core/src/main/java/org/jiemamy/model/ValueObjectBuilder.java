@@ -24,14 +24,22 @@ package org.jiemamy.model;
  * @version $Id$
  * @author daisuke
  * @param <T> ビルド対象のインスタンスの型
+ * @param <S> このビルダークラスの型
  */
-public interface ValueObjectBuilder<T extends ValueObject> {
+public abstract class ValueObjectBuilder<T extends ValueObject, S extends ValueObjectBuilder<T, S>> {
 	
 	/**
 	 * ビルダの設定に基づいて{@link ValueObject}の新しいインスタンスを生成する。
 	 * 
 	 * @return {@link ValueObject}の新しいインスタンス
 	 */
-	T build();
+	public abstract T build();
+	
+	/**
+	 * このビルダークラスのインスタンスを返す。
+	 * 
+	 * @return このビルダークラスのインスタンス。
+	 */
+	protected abstract S getThis();
 	
 }
