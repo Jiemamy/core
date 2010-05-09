@@ -26,7 +26,6 @@ import org.jiemamy.model.attribute.constraint.ColumnCheckConstraintModel;
 import org.jiemamy.model.attribute.constraint.NotNullConstraintModel;
 import org.jiemamy.model.datatype.BuiltinDataType;
 import org.jiemamy.model.datatype.DataType;
-import org.jiemamy.model.datatype.DomainModel;
 
 /**
  * ドメイン定義モデル。

@@ -16,25 +16,25 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.model.datatype;
+package org.jiemamy.model.dbo;
 
-import org.jiemamy.model.Entity;
 import org.jiemamy.model.attribute.constraint.ColumnCheckConstraintModel;
 import org.jiemamy.model.attribute.constraint.NotNullConstraintModel;
+import org.jiemamy.model.datatype.DataType;
 
 /**
  * ドメインを表すモデルインターフェイス。
  * 
- * @since 0.2
+ * @since 0.3
  * @author daisuke
  */
-public interface DomainModel extends Entity {
+public interface DomainModel extends DatabaseObjectModel {
 	
 	/**
 	 * チェック制約を取得する。
 	 * 
 	 * @return　チェック制約. 未設定の場合は{@code null}
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	ColumnCheckConstraintModel getCheckConstraint();
 	
@@ -42,39 +42,15 @@ public interface DomainModel extends Entity {
 	 * 型記述子を取得する。
 	 * 
 	 * @return 型記述子. 未設定の場合は{@code null}
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	DataType getDataType();
-	
-	/**
-	 * 説明文を取得する。
-	 * 
-	 * @return 説明文. 未設定の場合は{@code null}
-	 * @since 0.2
-	 */
-	String getDescription();
-	
-	/**
-	 * 論理名を取得する。
-	 * 
-	 * @return 論理名. 未設定の場合は{@code null}
-	 * @since 0.2
-	 */
-	String getLogicalName();
-	
-	/**
-	 * ドメイン名を取得する。
-	 * 
-	 * @return ドメイン名. 未設定の場合は{@code null}
-	 * @since 0.2
-	 */
-	String getName();
 	
 	/**
 	 * NOT　NULL制約を取得する。
 	 * 
 	 * @return　NOT　NULL制約. 未設定の場合は{@code null}
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	NotNullConstraintModel getNotNullConstraint();
 }
