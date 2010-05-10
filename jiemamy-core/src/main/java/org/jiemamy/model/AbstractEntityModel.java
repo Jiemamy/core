@@ -22,7 +22,7 @@ import java.util.UUID;
 
 import org.apache.commons.lang.Validate;
 
-import org.jiemamy.Repository.InternalCredential;
+import org.jiemamy.model.Repository.InternalCredential;
 
 /**
  * {@link Entity}の骨格実装クラス。

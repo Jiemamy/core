@@ -13,9 +13,9 @@ import org.jiemamy.model.datatype.DataType;
  */
 public class Column extends AbstractEntityFactory<DefaultColumnModel> {
 	
-	private String name;
+	String name;
 	
-	private DataType type;
+	DataType type;
 	
 
 	public DefaultColumnModel build(UUID id) {

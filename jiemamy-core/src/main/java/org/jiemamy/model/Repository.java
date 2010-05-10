@@ -16,17 +16,11 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy;
+package org.jiemamy.model;
 
 import java.util.Collection;
 import java.util.UUID;
 
-import org.apache.commons.lang.Validate;
-
-import org.jiemamy.model.Entity;
-import org.jiemamy.model.EntityLifecycleException;
-import org.jiemamy.model.EntityNotFoundException;
-import org.jiemamy.model.EntityRef;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
 import org.jiemamy.utils.CollectionsUtil;
 
@@ -52,7 +46,7 @@ public class Repository implements EntityListener {
 	 * 同時にリポジトリ管理下に置かれる。</p>
 	 * 
 	 * @param dbo 管理対象
-	 * @throws EntityLifecycleException {@code dbo}が既にいずれかのREPOSITORY管理下にある場合
+	 * @throws EntityLifecycleException 引数{@code dbo}のライフサイクルがaliveの場合
 	 */
 	public void add(DatabaseObjectModel dbo) {
 		entityAdded(new EntityEvent(dbo));
@@ -77,7 +71,8 @@ public class Repository implements EntityListener {
 	 * 同時にリポジトリ管理下から外れる。</p>
 	 * 
 	 * @param dbo 管理対象
-	 * @throws EntityLifecycleException {@code dbo}がこのREPOSITORY管理下にない場合
+	 * @throws IllegalArgumentException 引数{@code dbo}がこのREPOSITORY管理下にない場合
+	 * @throws EntityLifecycleException 引数{@code dbo}のライフサイクルがaliveではない場合
 	 */
 	public void remove(DatabaseObjectModel dbo) {
 		entityRemoved(new EntityEvent(dbo));
@@ -130,9 +125,12 @@ public class Repository implements EntityListener {
 	}
 	
 	void remove(Entity entity) {
-		Validate.notNull(entity.getId());
+		if (entity.isAlive() == false) {
+			throw new EntityLifecycleException();
+		}
 		
 		boolean removed = entities.remove(entity);
+		
 		if (removed == false) {
 			throw new IllegalArgumentException();
 		}

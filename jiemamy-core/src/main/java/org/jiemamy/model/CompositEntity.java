@@ -16,33 +16,38 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy;
+package org.jiemamy.model;
 
-import java.util.EventListener;
+import java.util.Collection;
 
-import org.jiemamy.model.Entity;
 
 /**
- * {@link CompositEntity}への子{@link Entity}の追加/削除を監視するリスナ。
+ * 子 {@link Entity}を持つ {@link Entity}をあらわすインターフェイス。
  * 
  * @version $Id$
  * @author daisuke
- * @see CompositEntity
  */
-public interface EntityListener extends EventListener {
+public interface CompositEntity extends Entity {
 	
 	/**
-	 * {@link CompositEntity}へ子{@link Entity}が追加されたことを通知する。
+	 * {@link EntityListener}を追加する。
 	 * 
-	 * @param e 追加イベント
+	 * @param listener 追加するリスナ
 	 */
-	void entityAdded(EntityEvent e);
+	void addListener(EntityListener listener);
 	
 	/**
-	 * {@link CompositEntity}から子{@link Entity}が削除されたことを通知する。
+	 * 子 {@link Entity} の集合を返す。
 	 * 
-	 * @param e 削除イベント
+	 * @return 子 {@link Entity} の集合
 	 */
-	void entityRemoved(EntityEvent e);
+	Collection<? extends Entity> getChildren();
+	
+	/**
+	 * {@link EntityListener}を削除する。
+	 * 
+	 * @param listener 削除するリスナ
+	 */
+	void removeListener(EntityListener listener);
 	
 }

@@ -20,7 +20,7 @@ public class Table extends AbstractEntityFactory<DefaultTableModel> {
 	
 	List<AttributeModel> attributes = new ArrayList<AttributeModel>();
 	
-	private String name;
+	String name;
 	
 
 	/**

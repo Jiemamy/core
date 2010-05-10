@@ -16,19 +16,32 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy;
+package org.jiemamy.model;
 
-import org.jiemamy.Repository.InternalCredential;
+import java.util.EventListener;
+
 
 /**
- * 一般パッケージからはインスタンスを取得できない {@link InternalCredential} 型のインスタンスを提供するテストヘルパークラス。
+ * {@link CompositEntity}への子{@link Entity}の追加/削除を監視するリスナ。
  * 
  * @version $Id$
  * @author daisuke
+ * @see CompositEntity
  */
-public class InternalKeyReference {
+public interface EntityListener extends EventListener {
 	
-	/** {@link InternalCredential}型のインスタンス */
-	public static final InternalCredential KEY = new InternalCredential();
+	/**
+	 * {@link CompositEntity}へ子{@link Entity}が追加されたことを通知する。
+	 * 
+	 * @param e 追加イベント
+	 */
+	void entityAdded(EntityEvent e);
+	
+	/**
+	 * {@link CompositEntity}から子{@link Entity}が削除されたことを通知する。
+	 * 
+	 * @param e 削除イベント
+	 */
+	void entityRemoved(EntityEvent e);
 	
 }

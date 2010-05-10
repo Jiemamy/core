@@ -18,6 +18,7 @@
  */
 package org.jiemamy.model;
 
+
 /**
  * {@link ValueObject}のインスタンスを生成するビルダー。
  * 

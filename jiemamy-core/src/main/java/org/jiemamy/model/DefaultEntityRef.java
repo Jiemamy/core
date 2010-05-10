@@ -24,6 +24,7 @@ import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
+
 /**
  * 参照オブジェクトの骨格実装。
  * 

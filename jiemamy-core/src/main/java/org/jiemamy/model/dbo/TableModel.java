@@ -20,7 +20,7 @@ package org.jiemamy.model.dbo;
 
 import java.util.List;
 
-import org.jiemamy.CompositEntity;
+import org.jiemamy.model.CompositEntity;
 import org.jiemamy.model.EntityLifecycleException;
 import org.jiemamy.model.EntityRef;
 import org.jiemamy.model.attribute.AttributeModel;

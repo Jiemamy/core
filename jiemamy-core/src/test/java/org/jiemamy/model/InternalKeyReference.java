@@ -16,39 +16,19 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy;
+package org.jiemamy.model;
 
-import java.util.Collection;
-
-import org.jiemamy.model.Entity;
+import org.jiemamy.model.Repository.InternalCredential;
 
 /**
- * 子 {@link Entity}を持つ {@link Entity}をあらわすインターフェイス。
+ * 一般パッケージからはインスタンスを取得できない {@link InternalCredential} 型のインスタンスを提供するテストヘルパークラス。
  * 
  * @version $Id$
  * @author daisuke
  */
-public interface CompositEntity extends Entity {
+public class InternalKeyReference {
 	
-	/**
-	 * {@link EntityListener}を追加する。
-	 * 
-	 * @param listener 追加するリスナ
-	 */
-	void addListener(EntityListener listener);
-	
-	/**
-	 * 子 {@link Entity} の集合を返す。
-	 * 
-	 * @return 子 {@link Entity} の集合
-	 */
-	Collection<? extends Entity> getChildren();
-	
-	/**
-	 * {@link EntityListener}を削除する。
-	 * 
-	 * @param listener 削除するリスナ
-	 */
-	void removeListener(EntityListener listener);
+	/** {@link InternalCredential}型のインスタンス */
+	public static final InternalCredential KEY = new InternalCredential();
 	
 }

@@ -20,6 +20,7 @@ package org.jiemamy.model;
 
 import java.util.UUID;
 
+
 /**
  * {@link Entity}のインスタンスを生成するためのFACTORY。
  * 

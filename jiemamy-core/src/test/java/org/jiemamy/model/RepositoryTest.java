@@ -16,7 +16,7 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy;
+package org.jiemamy.model;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -27,10 +27,6 @@ import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.jiemamy.model.DefaultEntityRef;
-import org.jiemamy.model.Entity;
-import org.jiemamy.model.EntityLifecycleException;
-import org.jiemamy.model.EntityNotFoundException;
 import org.jiemamy.model.attribute.Column;
 import org.jiemamy.model.attribute.DefaultColumnModel;
 import org.jiemamy.model.dbo.DefaultTableModel;
@@ -106,12 +102,40 @@ public class RepositoryTest {
 	 */
 	@Test
 	public void test03_double_add() throws Exception {
-		Repository anotherRepository = new Repository();
 		DefaultTableModel table = new Table().build();
 		repository.add(table);
 		
 		try {
+			repository.add(table);
+			fail();
+		} catch (EntityLifecycleException e) {
+			// success
+		}
+		assertThat(table.isAlive(), is(true));
+		
+		Repository anotherRepository = new Repository();
+		try {
 			anotherRepository.add(table);
+			fail();
+		} catch (EntityLifecycleException e) {
+			// success
+		}
+		assertThat(table.isAlive(), is(true));
+		
+		try {
+			anotherRepository.remove(table);
+			fail();
+		} catch (IllegalArgumentException e) {
+			// success
+		}
+		assertThat(table.isAlive(), is(true));
+		
+		repository.remove(table);
+		
+		assertThat(table.isAlive(), is(false));
+		
+		try {
+			repository.remove(table);
 			fail();
 		} catch (EntityLifecycleException e) {
 			// success

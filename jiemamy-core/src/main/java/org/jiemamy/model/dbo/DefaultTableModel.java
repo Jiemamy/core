@@ -26,11 +26,11 @@ import java.util.UUID;
 import org.apache.commons.collections15.CollectionUtils;
 import org.apache.commons.collections15.Predicate;
 
-import org.jiemamy.EntityEvent;
-import org.jiemamy.EntityListener;
 import org.jiemamy.model.DefaultEntityRef;
 import org.jiemamy.model.Entity;
+import org.jiemamy.model.EntityEvent;
 import org.jiemamy.model.EntityLifecycleException;
+import org.jiemamy.model.EntityListener;
 import org.jiemamy.model.EntityRef;
 import org.jiemamy.model.attribute.AttributeModel;
 import org.jiemamy.model.attribute.ColumnModel;
@@ -44,15 +44,15 @@ import org.jiemamy.utils.CollectionsUtil;
  */
 public class DefaultTableModel extends AbstractDatabaseObjectModel implements TableModel {
 	
-	private List<EntityListener> listeners = CollectionsUtil.newArrayList();
+	List<EntityListener> listeners = CollectionsUtil.newArrayList();
 	
-	private List<ColumnModel> columns = CollectionsUtil.newArrayList();
+	List<ColumnModel> columns = CollectionsUtil.newArrayList();
 	
 	/** 属性のリスト */
-	private List<AttributeModel> attributes = CollectionsUtil.newArrayList();
+	List<AttributeModel> attributes = CollectionsUtil.newArrayList();
 	
 	/** インデックスのリスト */
-	private List<IndexModel> indexes = CollectionsUtil.newArrayList();
+	List<IndexModel> indexes = CollectionsUtil.newArrayList();
 	
 
 	DefaultTableModel(UUID id) {
