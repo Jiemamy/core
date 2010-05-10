@@ -20,13 +20,11 @@ package org.jiemamy.model.attribute;
 
 import java.util.UUID;
 
-import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-import org.jiemamy.Repository.InternalKey;
+import org.jiemamy.model.AbstractEntityModel;
 import org.jiemamy.model.DefaultEntityRef;
-import org.jiemamy.model.Entity;
 import org.jiemamy.model.EntityRef;
 import org.jiemamy.model.attribute.constraint.NotNullConstraintModel;
 import org.jiemamy.model.datatype.DataType;
@@ -36,10 +34,7 @@ import org.jiemamy.model.datatype.DataType;
  * 
  * @author daisuke
  */
-public class DefaultColumnModel implements ColumnModel {
-	
-	/** ENTITY ID */
-	private final UUID id;
+public class DefaultColumnModel extends AbstractEntityModel implements ColumnModel {
 	
 	/** 物理名 */
 	private String name;
@@ -58,26 +53,9 @@ public class DefaultColumnModel implements ColumnModel {
 	
 	private NotNullConstraintModel notNullConstraint;
 	
-	private boolean alive;
-	
 
 	DefaultColumnModel(UUID id) {
-		Validate.notNull(id);
-		this.id = id;
-	}
-	
-	@Override
-	public final boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (obj instanceof Entity == false) {
-			return false;
-		}
-		return id.equals(((Entity) obj).getId());
+		super(id);
 	}
 	
 	public synchronized DataType getDataType() {
@@ -90,10 +68,6 @@ public class DefaultColumnModel implements ColumnModel {
 	
 	public String getDescription() {
 		return description;
-	}
-	
-	public UUID getId() {
-		return id;
 	}
 	
 	public String getLogicalName() {
@@ -110,28 +84,6 @@ public class DefaultColumnModel implements ColumnModel {
 	
 	public EntityRef<ColumnModel> getReference() {
 		return new DefaultEntityRef<ColumnModel>(this);
-	}
-	
-	@Override
-	public final int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
-	
-	public void initiate(InternalKey key) {
-		Validate.notNull(key);
-		alive = true;
-	}
-	
-	public boolean isAlive() {
-		return alive;
-	}
-	
-	public void kill(InternalKey key) {
-		Validate.notNull(key);
-		alive = false;
 	}
 	
 	/**

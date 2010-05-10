@@ -28,8 +28,8 @@ import java.util.UUID;
  */
 public interface EntityFactory<T extends Entity> {
 	
-	T create();
+	T build();
 	
-	T create(UUID id);
+	T build(UUID id);
 	
 }

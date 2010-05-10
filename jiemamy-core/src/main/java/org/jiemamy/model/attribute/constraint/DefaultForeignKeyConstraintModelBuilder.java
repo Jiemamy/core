@@ -77,6 +77,10 @@ public class DefaultForeignKeyConstraintModelBuilder extends
 		referenceColumns = vo.getReferenceColumns();
 	}
 	
+	public DefaultForeignKeyConstraintModelBuilder addReferenceColumn(ColumnModel referenceColumn) {
+		return addReferenceColumn(referenceColumn.getReference());
+	}
+	
 	/**
 	 * somethingを設定する。 TODO for daisuke
 	 * @param referenceColumn the referenceColumns to add

@@ -20,19 +20,14 @@ package org.jiemamy.model.dbo;
 
 import java.util.UUID;
 
-import org.apache.commons.lang.Validate;
-
-import org.jiemamy.Repository.InternalKey;
-import org.jiemamy.model.Entity;
+import org.jiemamy.model.AbstractEntityModel;
 
 /**
  * データベースオブジェクト（TableやView）の抽象モデルクラス。
  * 
  * @author daisuke
  */
-public abstract class AbstractDatabaseObjectModel implements DatabaseObjectModel {
-	
-	private final UUID id;
+public abstract class AbstractDatabaseObjectModel extends AbstractEntityModel implements DatabaseObjectModel {
 	
 	/** 物理名 */
 	private String name;
@@ -43,34 +38,13 @@ public abstract class AbstractDatabaseObjectModel implements DatabaseObjectModel
 	/** 説明文 */
 	private String description;
 	
-	private boolean alive;
-	
 
 	AbstractDatabaseObjectModel(UUID id) {
-		Validate.notNull(id);
-		this.id = id;
-	}
-	
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (obj instanceof Entity == false) {
-			return false;
-		}
-		return id.equals(((Entity) obj).getId());
+		super(id);
 	}
 	
 	public String getDescription() {
 		return description;
-	}
-	
-	public UUID getId() {
-		return id;
 	}
 	
 	public String getLogicalName() {
@@ -79,28 +53,6 @@ public abstract class AbstractDatabaseObjectModel implements DatabaseObjectModel
 	
 	public String getName() {
 		return name;
-	}
-	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
-	
-	public void initiate(InternalKey key) {
-		Validate.notNull(key);
-		alive = true;
-	}
-	
-	public boolean isAlive() {
-		return alive;
-	}
-	
-	public void kill(InternalKey key) {
-		Validate.notNull(key);
-		alive = false;
 	}
 	
 	/**

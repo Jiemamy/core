@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.jiemamy.model.EntityFactory;
 import org.jiemamy.model.attribute.AttributeModel;
 import org.jiemamy.model.attribute.ColumnModel;
 
@@ -13,7 +14,7 @@ import org.jiemamy.model.attribute.ColumnModel;
  * @version $Id$
  * @author daisuke
  */
-public class Table {
+public class Table implements EntityFactory<DefaultTableModel> {
 	
 	List<ColumnModel> columns = new ArrayList<ColumnModel>();
 	

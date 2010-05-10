@@ -2,6 +2,7 @@ package org.jiemamy.model.attribute;
 
 import java.util.UUID;
 
+import org.jiemamy.model.EntityFactory;
 import org.jiemamy.model.datatype.DataType;
 
 /**
@@ -10,7 +11,7 @@ import org.jiemamy.model.datatype.DataType;
  * @version $Id$
  * @author daisuke
  */
-public class Column {
+public class Column implements EntityFactory<DefaultColumnModel> {
 	
 	private String name;
 	

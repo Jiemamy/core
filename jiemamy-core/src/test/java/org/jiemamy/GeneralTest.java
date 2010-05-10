@@ -30,6 +30,7 @@ import org.jiemamy.model.EntityRef;
 import org.jiemamy.model.attribute.Column;
 import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.attribute.DefaultColumnModel;
+import org.jiemamy.model.attribute.constraint.DefaultForeignKeyConstraintModelBuilder;
 import org.jiemamy.model.attribute.constraint.DefaultPrimaryKeyConstraintModel;
 import org.jiemamy.model.attribute.constraint.DefaultPrimaryKeyConstraintModelBuilder;
 import org.jiemamy.model.dbo.DefaultTableModel;
@@ -63,8 +64,8 @@ public class GeneralTest {
 		tableModel.addAttribute(new DefaultPrimaryKeyConstraintModel(null, null, null, pk, null));
 		repository.add(tableModel);
 		
-		assertThat(tableModel.getAttributes().size(), is(1));
 		assertThat(tableModel.getColumns().size(), is(2));
+		assertThat(tableModel.getAttributes().size(), is(1));
 	}
 	
 	/**
@@ -86,7 +87,48 @@ public class GeneralTest {
 		// FORMAT-ON
 		repository.add(tableModel);
 		
-		assertThat(tableModel.getAttributes().size(), is(1));
 		assertThat(tableModel.getColumns().size(), is(2));
+		assertThat(tableModel.getAttributes().size(), is(1));
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test3() throws Exception {
+		Repository repository = new Repository();
+		
+		ColumnModel pkColumn;
+		ColumnModel fkColumn1;
+		ColumnModel fkColumn2;
+		ColumnModel refColumn;
+		// FORMAT-OFF
+		DefaultTableModel dept = new Table().whoseNameIs("T_DEPT")
+				.with(pkColumn = refColumn = new Column().whoseNameIs("ID").build())
+				.with(new Column().whoseNameIs("NAME").build())
+				.with(new Column().whoseNameIs("LOC").build())
+				.with(new DefaultPrimaryKeyConstraintModelBuilder().addKeyColumn(pkColumn).build())
+				.build();
+		DefaultTableModel emp = new Table().whoseNameIs("T_EMP")
+				.with(pkColumn = new Column().whoseNameIs("ID").build())
+				.with(new Column().whoseNameIs("NAME").build())
+				.with(fkColumn1 = new Column().whoseNameIs("DEPT_ID").build())
+				.with(fkColumn2 = new Column().whoseNameIs("MGR_ID").build())
+				.with(new DefaultPrimaryKeyConstraintModelBuilder().addKeyColumn(pkColumn).build())
+				.with(new DefaultForeignKeyConstraintModelBuilder()
+						.addKeyColumn(fkColumn1).addReferenceColumn(refColumn).build())
+				.with(new DefaultForeignKeyConstraintModelBuilder()
+						.addKeyColumn(fkColumn2).addReferenceColumn(pkColumn).build())
+				.build();
+		// FORMAT-ON
+		repository.add(dept);
+		repository.add(emp);
+		
+		assertThat(dept.getColumns().size(), is(3));
+		assertThat(dept.getAttributes().size(), is(1));
+		assertThat(emp.getColumns().size(), is(4));
+		assertThat(emp.getAttributes().size(), is(3));
 	}
 }
