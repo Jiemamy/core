@@ -45,7 +45,7 @@ public class Repository implements EntityListener {
 	
 
 	public void add(DatabaseObjectModel dbo) {
-		add((Entity) dbo);
+		entityAdded(new EntityEvent(dbo));
 	}
 	
 	public void entityAdded(EntityEvent e) {
@@ -71,6 +71,10 @@ public class Repository implements EntityListener {
 			}
 		}
 		throw new EntityNotFoundException();
+	}
+	
+	public void remove(DatabaseObjectModel dbo) {
+		entityRemoved(new EntityEvent(dbo));
 	}
 	
 	void add(Entity entity) {

@@ -18,20 +18,13 @@
  */
 package org.jiemamy.model.dbo;
 
-import java.util.UUID;
-
-import org.jiemamy.model.AbstractEntityFactory;
-
 /**
  * TODO for daisuke
  * 
  * @version $Id$
  * @author daisuke
  */
-public class DefaultTableModelFactory extends AbstractEntityFactory<DefaultTableModel> {
-	
-	public DefaultTableModel create(UUID id) {
-		return new DefaultTableModel(id);
-	}
+@SuppressWarnings("serial")
+public class ColumnNotFoundException extends RuntimeException {
 	
 }

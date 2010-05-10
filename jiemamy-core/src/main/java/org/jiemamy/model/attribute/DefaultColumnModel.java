@@ -36,10 +36,19 @@ import org.jiemamy.model.datatype.DataType;
  * 
  * @author daisuke
  */
-public class DefautClolumnModel extends AbstractAttributeModel implements ColumnModel {
+public class DefaultColumnModel implements ColumnModel {
 	
 	/** ENTITY ID */
 	private final UUID id;
+	
+	/** 物理名 */
+	private String name;
+	
+	/** 論理名 */
+	private String logicalName;
+	
+	/** 説明 */
+	private String description;
 	
 	/** 型記述子 */
 	private DataType dataType;
@@ -52,7 +61,7 @@ public class DefautClolumnModel extends AbstractAttributeModel implements Column
 	private boolean alive;
 	
 
-	DefautClolumnModel(UUID id) {
+	DefaultColumnModel(UUID id) {
 		Validate.notNull(id);
 		this.id = id;
 	}
@@ -79,8 +88,20 @@ public class DefautClolumnModel extends AbstractAttributeModel implements Column
 		return defaultValue;
 	}
 	
+	public String getDescription() {
+		return description;
+	}
+	
 	public UUID getId() {
 		return id;
+	}
+	
+	public String getLogicalName() {
+		return logicalName;
+	}
+	
+	public String getName() {
+		return name;
 	}
 	
 	public NotNullConstraintModel getNotNullConstraint() {
@@ -133,19 +154,28 @@ public class DefautClolumnModel extends AbstractAttributeModel implements Column
 		this.defaultValue = defaultValue;
 	}
 	
-	@Override
+	/**
+	 * somethingを設定する。 TODO for daisuke
+	 * @param description the description to set
+	 */
 	public void setDescription(String description) {
-		super.setDescription(description);
+		this.description = description;
 	}
 	
-	@Override
+	/**
+	 * somethingを設定する。 TODO for daisuke
+	 * @param logicalName the logicalName to set
+	 */
 	public void setLogicalName(String logicalName) {
-		super.setLogicalName(logicalName);
+		this.logicalName = logicalName;
 	}
 	
-	@Override
+	/**
+	 * somethingを設定する。 TODO for daisuke
+	 * @param name the name to set
+	 */
 	public void setName(String name) {
-		super.setName(name);
+		this.name = name;
 	}
 	
 	/**

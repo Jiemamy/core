@@ -18,9 +18,13 @@
  */
 package org.jiemamy.model.dbo;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
+
+import org.apache.commons.collections15.CollectionUtils;
+import org.apache.commons.collections15.Predicate;
 
 import org.jiemamy.EntityEvent;
 import org.jiemamy.EntityListener;
@@ -55,12 +59,7 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 		super(id);
 	}
 	
-	/**
-	 * TODO for daisuke
-	 * 
-	 * @param attribute
-	 */
-	public void addAttributes(AttributeModel attribute) {
+	public void addAttribute(AttributeModel attribute) {
 		attributes.add(attribute);
 	}
 	
@@ -75,15 +74,31 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	
 	public List<AttributeModel> getAttributes() {
 		assert attributes != null;
-		return attributes;
+		return new ArrayList<AttributeModel>(attributes);
 	}
 	
 	public Collection<? extends Entity> getChildren() {
-		return columns;
+		assert columns != null;
+		return new ArrayList<ColumnModel>(columns);
+	}
+	
+	public ColumnModel getColumn(final String name) {
+		assert columns != null;
+		ColumnModel c = CollectionUtils.find(columns, new Predicate<ColumnModel>() {
+			
+			public boolean evaluate(ColumnModel col) {
+				return col.getName().equals(name);
+			}
+		});
+		if (c != null) {
+			return c;
+		}
+		throw new ColumnNotFoundException();
 	}
 	
 	public List<ColumnModel> getColumns() {
-		return columns;
+		assert columns != null;
+		return new ArrayList<ColumnModel>(columns);
 	}
 	
 	public List<IndexModel> getIndexes() {
@@ -108,6 +123,10 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 		for (EntityListener listener : listeners) {
 			listener.entityRemoved(new EntityEvent(entity));
 		}
+	}
+	
+	public void removeAttribute(AttributeModel attribute) {
+		attributes.remove(attribute);
 	}
 	
 	public void removeColumn(ColumnModel column) {

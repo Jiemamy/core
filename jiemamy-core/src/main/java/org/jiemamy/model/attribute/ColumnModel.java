@@ -48,6 +48,30 @@ public interface ColumnModel extends Entity {
 	String getDefaultValue();
 	
 	/**
+	 * 説明文を取得する。
+	 * 
+	 * @return 説明文. 未設定の場合は{@code null}
+	 * @since 0.2
+	 */
+	String getDescription();
+	
+	/**
+	 * 論理名を取得する。
+	 * 
+	 * @return 論理名. 未設定の場合は{@code null}
+	 * @since 0.2
+	 */
+	String getLogicalName();
+	
+	/**
+	 * 物理名を取得する。
+	 * 
+	 * @return 物理名. 未設定の場合は{@code null}
+	 * @since 0.2
+	 */
+	String getName();
+	
+	/**
 	 * NOT　NULL制約を取得する。
 	 * 
 	 * @return　NOT　NULL制約. 未設定の場合は{@code null}

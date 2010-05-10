@@ -62,6 +62,16 @@ public abstract class AbstractKeyConstraintModelBuilder<T extends KeyConstraintM
 	/**
 	 * TODO for daisuke
 	 * 
+	 * @param column キーカラム
+	 * @return このビルダークラスのインスタンス
+	 */
+	public S addKeyColumn(ColumnModel column) {
+		return addKeyColumn(column.getReference());
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
 	 * @param columnRef キーカラムの参照オブジェクト
 	 * @return このビルダークラスのインスタンス
 	 */

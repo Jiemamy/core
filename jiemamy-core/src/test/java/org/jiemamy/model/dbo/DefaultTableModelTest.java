@@ -19,9 +19,7 @@
 package org.jiemamy.model.dbo;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 
 import java.util.UUID;
 
@@ -29,8 +27,9 @@ import org.junit.Test;
 
 import org.jiemamy.InternalKeyReference;
 import org.jiemamy.Repository;
-import org.jiemamy.model.EntityLifecycleException;
-import org.jiemamy.model.attribute.DefalutColumnModel;
+import org.jiemamy.model.attribute.Column;
+import org.jiemamy.model.attribute.ColumnModel;
+import org.jiemamy.model.attribute.DefaultColumnModel;
 
 /**
  * TODO for daisuke
@@ -48,8 +47,10 @@ public class DefaultTableModelTest {
 	 */
 	@Test
 	public void test01_create() throws Exception {
-		DefaultTableModel t = new DefaultTableModel();
-		t.setName("T_DEPT");
+		DefaultTableModel t = new Table().whoseNameIs("FOO").build();
+		assertThat(t.getName(), is("FOO"));
+		t.setName("BAR");
+		assertThat(t.getName(), is("BAR"));
 	}
 	
 	/**
@@ -61,14 +62,14 @@ public class DefaultTableModelTest {
 	public void test02_equals() throws Exception {
 		UUID uuid1 = UUID.randomUUID();
 		UUID uuid2 = UUID.randomUUID();
-		DefaultTableModel live1 = new DefaultTableModel();
-		DefaultTableModel live2 = new DefaultTableModel();
-		DefaultTableModel live3 = new DefaultTableModel();
-		DefaultTableModel dead = new DefaultTableModel();
+		DefaultTableModel live1 = new Table().build(uuid1);
+		DefaultTableModel live2 = new Table().build(uuid1);
+		DefaultTableModel live3 = new Table().build(uuid2);
+		DefaultTableModel dead = new Table().build();
 		
-		live1.setId(uuid1, InternalKeyReference.KEY);
-		live2.setId(uuid1, InternalKeyReference.KEY);
-		live3.setId(uuid2, InternalKeyReference.KEY);
+		live1.initiate(InternalKeyReference.KEY);
+		live2.initiate(InternalKeyReference.KEY);
+		live3.initiate(InternalKeyReference.KEY);
 		
 		live1.setName("FOO");
 		live2.setName("BAR");
@@ -93,7 +94,7 @@ public class DefaultTableModelTest {
 		assertThat(dead.equals(live1), is(false));
 		assertThat(dead.equals(live2), is(false));
 		assertThat(dead.equals(live3), is(false));
-		assertThat(dead.equals(dead), is(false));
+		assertThat(dead.equals(dead), is(true));
 	}
 	
 	/**
@@ -103,19 +104,13 @@ public class DefaultTableModelTest {
 	 */
 	@Test
 	public void test03_lifecycle() throws Exception {
-		DefaultTableModel live = new DefaultTableModel();
-		DefaultTableModel dead = new DefaultTableModel();
+		DefaultTableModel live = new Table().build();
+		DefaultTableModel dead = new Table().build();
 		
-		live.setId(UUID.randomUUID(), InternalKeyReference.KEY);
+		live.initiate(InternalKeyReference.KEY);
 		
 		assertThat(live.getReference().getReferenceId(), is(live.getId()));
-		
-		try {
-			dead.getReference();
-			fail();
-		} catch (EntityLifecycleException e) {
-			// success
-		}
+		assertThat(dead.getReference().getReferenceId(), is(dead.getId()));
 	}
 	
 	/**
@@ -125,15 +120,24 @@ public class DefaultTableModelTest {
 	 */
 	@Test
 	public void test04_column_lifecycle1() throws Exception {
-		DefalutColumnModel col1 = new DefalutColumnModel();
-		DefaultTableModel table = new DefaultTableModel();
+		DefaultColumnModel col1 = new Column().build();
+		DefaultTableModel table = new Table().build();
 		table.addColumn(col1);
 		
 		Repository repository = new Repository();
+		
+		assertThat(table.isAlive(), is(false));
+		assertThat(col1.isAlive(), is(false));
+		
 		repository.add(table);
 		
-		assertThat(table.getId(), is(notNullValue()));
-		assertThat(col1.getId(), is(notNullValue()));
+		assertThat(table.isAlive(), is(true));
+		assertThat(col1.isAlive(), is(true));
+		
+		repository.remove(table);
+		
+		assertThat(table.isAlive(), is(false));
+		assertThat(col1.isAlive(), is(false));
 	}
 	
 	/**
@@ -143,15 +147,36 @@ public class DefaultTableModelTest {
 	 */
 	@Test
 	public void test05_column_lifecycle2() throws Exception {
-		DefaultTableModel table = new DefaultTableModel();
+		DefaultTableModel table = new Table().build();
 		
 		Repository repository = new Repository();
 		repository.add(table);
 		
-		DefalutColumnModel col2 = new DefalutColumnModel();
-		table.addColumn(col2);
+		DefaultColumnModel col = new Column().build();
+		assertThat(col.isAlive(), is(false));
+		table.addColumn(col);
+		assertThat(col.isAlive(), is(true));
+		table.removeColumn(col);
+		assertThat(col.isAlive(), is(false));
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test06_getColumn() throws Exception {
+		DefaultColumnModel foo = new Column().build();
+		foo.setName("FOO");
+		DefaultColumnModel bar = new Column().build();
+		bar.setName("BAR");
+		DefaultTableModel table = new Table().build();
+		table.addColumn(foo);
+		table.addColumn(bar);
 		
-		assertThat(table.getId(), is(notNullValue()));
-		assertThat(col2.getId(), is(notNullValue()));
+		assertThat(table.getColumns().size(), is(2));
+		assertThat(table.getColumn("FOO"), is((ColumnModel) foo));
+		assertThat(table.getColumn("BAR"), is((ColumnModel) bar));
 	}
 }

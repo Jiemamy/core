@@ -27,10 +27,13 @@ import java.util.List;
 import org.junit.Test;
 
 import org.jiemamy.model.EntityRef;
+import org.jiemamy.model.attribute.Column;
 import org.jiemamy.model.attribute.ColumnModel;
-import org.jiemamy.model.attribute.DefalutColumnModel;
+import org.jiemamy.model.attribute.DefaultColumnModel;
 import org.jiemamy.model.attribute.constraint.DefaultPrimaryKeyConstraintModel;
+import org.jiemamy.model.attribute.constraint.DefaultPrimaryKeyConstraintModelBuilder;
 import org.jiemamy.model.dbo.DefaultTableModel;
+import org.jiemamy.model.dbo.Table;
 
 /**
  * TODO for daisuke
@@ -46,22 +49,41 @@ public class GeneralTest {
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void testname() throws Exception {
+	public void test1() throws Exception {
 		Repository repository = new Repository();
 		
-		DefalutColumnModel col1 = new DefalutColumnModel();
-		col1.setName("KEY");
+		DefaultColumnModel col1 = new Column().whoseNameIs("KEY").build();
+		DefaultColumnModel col2 = new Column().whoseNameIs("VALUE").build();
 		
-		DefalutColumnModel col2 = new DefalutColumnModel();
-		col2.setName("VALUE");
-		
-		DefaultTableModel tableModel = new DefaultTableModel();
-		tableModel.setName("T_PROPERTY");
+		DefaultTableModel tableModel = new Table().whoseNameIs("T_PROPERTY").build();
 		tableModel.addColumn(col1);
 		tableModel.addColumn(col2);
 		@SuppressWarnings("unchecked")
 		List<EntityRef<ColumnModel>> pk = Arrays.asList(col1.getReference());
-		tableModel.getAttributes().add(new DefaultPrimaryKeyConstraintModel(null, null, null, pk, null));
+		tableModel.addAttribute(new DefaultPrimaryKeyConstraintModel(null, null, null, pk, null));
+		repository.add(tableModel);
+		
+		assertThat(tableModel.getAttributes().size(), is(1));
+		assertThat(tableModel.getColumns().size(), is(2));
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test2() throws Exception {
+		Repository repository = new Repository();
+		
+		ColumnModel pkColumn;
+		// FORMAT-OFF
+		DefaultTableModel tableModel = new Table().whoseNameIs("T_PROPERTY")
+				.with(pkColumn = new Column().whoseNameIs("KEY").build())
+				.with(new Column().whoseNameIs("VALUE").build())
+				.with(new DefaultPrimaryKeyConstraintModelBuilder().addKeyColumn(pkColumn).build())
+				.build();
+		// FORMAT-ON
 		repository.add(tableModel);
 		
 		assertThat(tableModel.getAttributes().size(), is(1));

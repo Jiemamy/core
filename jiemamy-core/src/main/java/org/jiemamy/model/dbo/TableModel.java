@@ -33,20 +33,36 @@ import org.jiemamy.model.index.IndexModel;
  */
 public interface TableModel extends DatabaseObjectModel, CompositEntity {
 	
-	void addAttributes(AttributeModel attribute);
+	/**
+	 * テーブルに属性を追加する。
+	 * 
+	 * @param attribute 属性
+	 */
+	void addAttribute(AttributeModel attribute);
 	
+	/**
+	 * テーブルにカラムを追加する。
+	 * 
+	 * @param column カラム
+	 */
 	void addColumn(ColumnModel column);
 	
 	/**
 	 * 属性のリストを取得する。
 	 * 
-	 * <p>このメソッドは、インスタンスの持つフィールドをそのまま返す。返される{@link List}を直接操作することで、
-	 * このオブジェクトのフィールドとして保持される{@link List}を変更することができる。</p>
-	 * 
 	 * @return 属性のリスト
 	 * @since 0.2
 	 */
 	List<AttributeModel> getAttributes();
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param string
+	 * @return
+	 * @throws ColumnNotFoundException
+	 */
+	ColumnModel getColumn(String name);
 	
 	List<ColumnModel> getColumns();
 	
@@ -63,5 +79,17 @@ public interface TableModel extends DatabaseObjectModel, CompositEntity {
 	
 	EntityRef<TableModel> getReference();
 	
+	/**
+	 * テーブルから属性を削除する。
+	 * 
+	 * @param attribute 属性
+	 */
+	void removeAttribute(AttributeModel attribute);
+	
+	/**
+	 * テーブルからカラムを削除する。
+	 * 
+	 * @param column カラム
+	 */
 	void removeColumn(ColumnModel column);
 }

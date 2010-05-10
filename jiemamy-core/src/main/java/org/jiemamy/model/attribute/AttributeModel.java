@@ -18,6 +18,7 @@
  */
 package org.jiemamy.model.attribute;
 
+import org.jiemamy.model.ValueObject;
 
 /**
  * リレーショナルデータベースモデルにおける「属性」を表すモデルインターフェイス。
@@ -27,7 +28,7 @@ package org.jiemamy.model.attribute;
  * @since 0.2
  * @author daisuke
  */
-public interface AttributeModel {
+public interface AttributeModel extends ValueObject {
 	
 	/**
 	 * 説明文を取得する。

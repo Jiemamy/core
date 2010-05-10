@@ -19,8 +19,6 @@
 package org.jiemamy;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
@@ -29,13 +27,14 @@ import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.jiemamy.Repository;
 import org.jiemamy.model.DefaultEntityRef;
 import org.jiemamy.model.Entity;
 import org.jiemamy.model.EntityLifecycleException;
 import org.jiemamy.model.EntityNotFoundException;
-import org.jiemamy.model.attribute.DefalutColumnModel;
+import org.jiemamy.model.attribute.Column;
+import org.jiemamy.model.attribute.DefaultColumnModel;
 import org.jiemamy.model.dbo.DefaultTableModel;
+import org.jiemamy.model.dbo.Table;
 import org.jiemamy.model.dbo.TableModel;
 
 /**
@@ -66,13 +65,13 @@ public class RepositoryTest {
 	 */
 	@Test
 	public void test01_add_and_remove() throws Exception {
-		DefaultTableModel table = new DefaultTableModel();
+		DefaultTableModel table = new Table().build();
 		
-		assertThat(table.getId(), is(nullValue()));
+		assertThat(table.isAlive(), is(false));
 		repository.add(table);
-		assertThat(table.getId(), is(not(nullValue())));
+		assertThat(table.isAlive(), is(true));
 		repository.remove(table);
-		assertThat(table.getId(), is(nullValue()));
+		assertThat(table.isAlive(), is(false));
 	}
 	
 	/**
@@ -82,22 +81,22 @@ public class RepositoryTest {
 	 */
 	@Test
 	public void test02_add_and_remove2() throws Exception {
-		DefalutColumnModel column = new DefalutColumnModel();
-		DefaultTableModel table = new DefaultTableModel();
+		DefaultColumnModel column = new Column().build();
+		DefaultTableModel table = new Table().build();
 		table.addColumn(column);
 		
-		assertThat(table.getId(), is(nullValue()));
-		assertThat(column.getId(), is(nullValue()));
+		assertThat(table.isAlive(), is(false));
+		assertThat(column.isAlive(), is(false));
 		
 		repository.add(table);
 		
-		assertThat(table.getId(), is(not(nullValue())));
-		assertThat(column.getId(), is(not(nullValue())));
+		assertThat(table.isAlive(), is(true));
+		assertThat(column.isAlive(), is(true));
 		
 		repository.remove(table);
 		
-		assertThat(table.getId(), is(nullValue()));
-		assertThat(column.getId(), is(nullValue()));
+		assertThat(table.isAlive(), is(false));
+		assertThat(column.isAlive(), is(false));
 	}
 	
 	/**
@@ -108,7 +107,7 @@ public class RepositoryTest {
 	@Test
 	public void test03_double_add() throws Exception {
 		Repository anotherRepository = new Repository();
-		DefaultTableModel table = new DefaultTableModel();
+		DefaultTableModel table = new Table().build();
 		repository.add(table);
 		
 		try {
@@ -143,8 +142,8 @@ public class RepositoryTest {
 			// success
 		}
 		
-		DefaultTableModel table = new DefaultTableModel();
-		repository.add(table, id);
+		DefaultTableModel table = new Table().build(id);
+		repository.add(table);
 		
 		Entity entityById = repository.get(id);
 		assertThat(entityById, is((Entity) table));
