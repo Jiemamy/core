@@ -34,6 +34,8 @@ import org.jiemamy.model.EntityListener;
 import org.jiemamy.model.EntityRef;
 import org.jiemamy.model.attribute.AttributeModel;
 import org.jiemamy.model.attribute.ColumnModel;
+import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel;
+import org.jiemamy.model.attribute.constraint.KeyConstraintModel;
 import org.jiemamy.model.index.IndexModel;
 import org.jiemamy.utils.CollectionsUtil;
 
@@ -76,6 +78,16 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 		listeners.add(listener);
 	}
 	
+	public <T extends AttributeModel>Collection<T> filterAttribute(Class<T> clazz) {
+		Collection<T> result = new ArrayList<T>();
+		for (AttributeModel attribute : attributes) {
+			if (clazz.isAssignableFrom(attribute.getClass())) {
+				result.add(clazz.cast(attribute));
+			}
+		}
+		return result;
+	}
+	
 	public List<AttributeModel> getAttributes() {
 		assert attributes != null;
 		return new ArrayList<AttributeModel>(attributes);
@@ -105,9 +117,17 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 		return new ArrayList<ColumnModel>(columns);
 	}
 	
+	public Collection<ForeignKeyConstraintModel> getForeignKeyConstraintModels() {
+		return filterAttribute(ForeignKeyConstraintModel.class);
+	}
+	
 	public List<IndexModel> getIndexes() {
 		assert indexes != null;
 		return new ArrayList<IndexModel>(indexes);
+	}
+	
+	public Collection<KeyConstraintModel> getKeyConstraintModels() {
+		return filterAttribute(KeyConstraintModel.class);
 	}
 	
 	public EntityRef<TableModel> getReference() {

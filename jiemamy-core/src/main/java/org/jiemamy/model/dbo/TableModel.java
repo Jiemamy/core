@@ -18,6 +18,7 @@
  */
 package org.jiemamy.model.dbo;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.jiemamy.model.CompositEntity;
@@ -25,6 +26,8 @@ import org.jiemamy.model.EntityLifecycleException;
 import org.jiemamy.model.EntityRef;
 import org.jiemamy.model.attribute.AttributeModel;
 import org.jiemamy.model.attribute.ColumnModel;
+import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel;
+import org.jiemamy.model.attribute.constraint.KeyConstraintModel;
 import org.jiemamy.model.index.IndexModel;
 
 /**
@@ -81,6 +84,13 @@ public interface TableModel extends DatabaseObjectModel, CompositEntity {
 	List<ColumnModel> getColumns();
 	
 	/**
+	 * TODO for daisuke
+	 * 
+	 * @return
+	 */
+	Collection<ForeignKeyConstraintModel> getForeignKeyConstraintModels();
+	
+	/**
 	 * インデックスのリストを取得する。
 	 * 
 	 * <p>このメソッドは、インスタンスの持つフィールドをそのまま返す。返される{@link List}を直接操作することで、
@@ -90,6 +100,13 @@ public interface TableModel extends DatabaseObjectModel, CompositEntity {
 	 * @since 0.2
 	 */
 	List<IndexModel> getIndexes();
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @return
+	 */
+	Collection<KeyConstraintModel> getKeyConstraintModels();
 	
 	EntityRef<TableModel> getReference();
 	
