@@ -32,6 +32,12 @@ import org.jiemamy.model.attribute.ColumnModel;
 public final class DefaultPrimaryKeyConstraintModel extends AbstractKeyConstraintModel implements
 		PrimaryKeyConstraintModel {
 	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param columns キーカラム
+	 * @return 新しい {@link DefaultPrimaryKeyConstraintModel}
+	 */
 	public static DefaultPrimaryKeyConstraintModel of(ColumnModel... columns) {
 		List<EntityRef<ColumnModel>> keyColumnRefs = new ArrayList<EntityRef<ColumnModel>>();
 		return new DefaultPrimaryKeyConstraintModel(null, null, null, keyColumnRefs, null);

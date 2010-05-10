@@ -26,8 +26,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import org.jiemamy.model.EntityRef;
-import org.jiemamy.model.Repository;
 import org.jiemamy.model.attribute.Column;
 import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.attribute.DefaultColumnModel;
@@ -36,7 +34,6 @@ import org.jiemamy.model.attribute.constraint.DefaultPrimaryKeyConstraintModel;
 import org.jiemamy.model.attribute.constraint.DefaultPrimaryKeyConstraintModelBuilder;
 import org.jiemamy.model.dbo.DefaultTableModel;
 import org.jiemamy.model.dbo.Table;
-import org.jiemamy.model.index.DefaultIndexColumnModel;
 import org.jiemamy.model.index.DefaultIndexModel;
 
 /**
@@ -82,11 +79,10 @@ public class GeneralTest {
 		
 		ColumnModel pkColumn;
 		// FORMAT-OFF
-		DefaultTableModel tableModel = new Table().whoseNameIs("T_PROPERTY")
-				.with(pkColumn = new Column().whoseNameIs("KEY").build())
-				.with(new Column().whoseNameIs("VALUE").build())
-				.with(DefaultPrimaryKeyConstraintModel.of(pkColumn))
-				.build();
+		DefaultTableModel tableModel =
+				new Table().whoseNameIs("T_PROPERTY").with(pkColumn = new Column().whoseNameIs("KEY").build()).with(
+						new Column().whoseNameIs("VALUE").build()).with(DefaultPrimaryKeyConstraintModel.of(pkColumn))
+					.build();
 		// FORMAT-ON
 		repository.add(tableModel);
 		
@@ -108,25 +104,21 @@ public class GeneralTest {
 		ColumnModel fkColumn2;
 		ColumnModel refColumn;
 		// FORMAT-OFF
-		DefaultTableModel dept = new Table().whoseNameIs("T_DEPT")
-				.with(pkColumn = refColumn = new Column().whoseNameIs("ID").build())
-				.with(new Column().whoseNameIs("NAME").build())
-				.with(new Column().whoseNameIs("LOC").build())
-				.with(new DefaultPrimaryKeyConstraintModelBuilder().addKeyColumn(pkColumn).build())
-				.build();
+		DefaultTableModel dept =
+				new Table().whoseNameIs("T_DEPT").with(pkColumn = refColumn = new Column().whoseNameIs("ID").build())
+					.with(new Column().whoseNameIs("NAME").build()).with(new Column().whoseNameIs("LOC").build()).with(
+							new DefaultPrimaryKeyConstraintModelBuilder().addKeyColumn(pkColumn).build()).build();
 		ColumnModel nameColumn;
-		DefaultTableModel emp = new Table().whoseNameIs("T_EMP")
-				.with(pkColumn = new Column().whoseNameIs("ID").build())
-				.with(nameColumn = new Column().whoseNameIs("NAME").build())
-				.with(fkColumn1 = new Column().whoseNameIs("DEPT_ID").build())
-				.with(fkColumn2 = new Column().whoseNameIs("MGR_ID").build())
-				.with(new DefaultPrimaryKeyConstraintModelBuilder().addKeyColumn(pkColumn).build())
-				.with(new DefaultForeignKeyConstraintModelBuilder()
-						.addKeyColumn(fkColumn1).addReferenceColumn(refColumn).build())
-				.with(new DefaultForeignKeyConstraintModelBuilder()
-						.addKeyColumn(fkColumn2).addReferenceColumn(pkColumn).build())
-				.with(DefaultIndexModel.of(nameColumn))
-				.build();
+		DefaultTableModel emp =
+				new Table().whoseNameIs("T_EMP").with(pkColumn = new Column().whoseNameIs("ID").build()).with(
+						nameColumn = new Column().whoseNameIs("NAME").build()).with(
+						fkColumn1 = new Column().whoseNameIs("DEPT_ID").build()).with(
+						fkColumn2 = new Column().whoseNameIs("MGR_ID").build()).with(
+						new DefaultPrimaryKeyConstraintModelBuilder().addKeyColumn(pkColumn).build()).with(
+						new DefaultForeignKeyConstraintModelBuilder().addKeyColumn(fkColumn1).addReferenceColumn(
+								refColumn).build()).with(
+						new DefaultForeignKeyConstraintModelBuilder().addKeyColumn(fkColumn2).addReferenceColumn(
+								pkColumn).build()).with(DefaultIndexModel.of(nameColumn)).build();
 		// FORMAT-ON
 		repository.add(dept);
 		repository.add(emp);

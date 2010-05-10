@@ -18,9 +18,9 @@
  */
 package org.jiemamy.model.dataset;
 
+import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.collections15.MapUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
@@ -44,7 +44,7 @@ public final class DefaultRecordModel implements RecordModel {
 	 * @param values カラムに対応するデータ
 	 */
 	public DefaultRecordModel(Map<EntityRef<ColumnModel>, String> values) {
-		this.values = MapUtils.unmodifiableMap(values);
+		this.values = new HashMap<EntityRef<ColumnModel>, String>(values);
 	}
 	
 	@Override
@@ -71,7 +71,7 @@ public final class DefaultRecordModel implements RecordModel {
 	
 	public Map<EntityRef<ColumnModel>, String> getValues() {
 		assert values != null;
-		return values;
+		return new HashMap<EntityRef<ColumnModel>, String>(values);
 	}
 	
 	@Override

@@ -18,10 +18,10 @@
  */
 package org.jiemamy.model.dataset;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections15.MapUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
@@ -50,7 +50,7 @@ public final class DefaultDataSetModel implements DataSetModel {
 	 */
 	public DefaultDataSetModel(String name, Map<EntityRef<TableModel>, List<RecordModel>> records) {
 		this.name = name;
-		this.records = MapUtils.unmodifiableMap(records);
+		this.records = new HashMap<EntityRef<TableModel>, List<RecordModel>>(records);
 	}
 	
 	@Override
@@ -97,7 +97,7 @@ public final class DefaultDataSetModel implements DataSetModel {
 	 * @return レコード情報
 	 */
 	public Map<EntityRef<TableModel>, List<RecordModel>> getRecords() {
-		return records;
+		return new HashMap<EntityRef<TableModel>, List<RecordModel>>(records);
 	}
 	
 	@Override

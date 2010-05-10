@@ -35,10 +35,17 @@ import org.jiemamy.model.attribute.ColumnModel;
  */
 public final class DefaultIndexModel implements IndexModel {
 	
-	public static DefaultIndexModel of(ColumnModel... column) {
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param columns インデックスカラムのリスト
+	 * @return 新しいインスタンス
+	 * @throws IllegalArgumentException 引数{@code indexColumn}が{@code null}の場合
+	 */
+	public static DefaultIndexModel of(ColumnModel... columns) {
 		List<IndexColumnModel> indexColumns = new ArrayList<IndexColumnModel>();
-		for (ColumnModel element : column) {
-			indexColumns.add(DefaultIndexColumnModel.of(element));
+		for (ColumnModel column : columns) {
+			indexColumns.add(DefaultIndexColumnModel.of(column));
 			
 		}
 		return new DefaultIndexModel(indexColumns);
