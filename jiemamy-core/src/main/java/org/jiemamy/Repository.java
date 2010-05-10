@@ -23,7 +23,6 @@ import java.util.UUID;
 
 import org.apache.commons.lang.Validate;
 
-import org.jiemamy.model.CompositEntity;
 import org.jiemamy.model.Entity;
 import org.jiemamy.model.EntityLifecycleException;
 import org.jiemamy.model.EntityNotFoundException;
@@ -32,18 +31,29 @@ import org.jiemamy.model.dbo.DatabaseObjectModel;
 import org.jiemamy.utils.CollectionsUtil;
 
 /**
- * TODO for daisuke
+ * DDDにおけるREPOSITORYの実装クラス。
  * 
  * @version $Id$
  * @author daisuke
  */
 public class Repository implements EntityListener {
 	
-	final InternalKey key = new InternalKey();
+	final InternalCredential key = new InternalCredential();
 	
 	private Collection<Entity> entities = CollectionsUtil.newArrayList();
 	
 
+	/**
+	 * 引数に指定した {@link DatabaseObjectModel} をREPOSITORYの管理下に置く。
+	 * 
+	 * <p>{@link Entity}は、リポジトリの管理下に置かれることにより、ライフサイクルが開始する。</p>
+	 * 
+	 * <p>{@code dbo}が {@link CompositEntity}インターフェイスを実装している場合は、その子 {@link Entity}も
+	 * 同時にリポジトリ管理下に置かれる。</p>
+	 * 
+	 * @param dbo 管理対象
+	 * @throws EntityLifecycleException {@code dbo}が既にいずれかのREPOSITORY管理下にある場合
+	 */
 	public void add(DatabaseObjectModel dbo) {
 		entityAdded(new EntityEvent(dbo));
 	}
@@ -58,23 +68,49 @@ public class Repository implements EntityListener {
 		remove(source);
 	}
 	
-	public <T extends Entity>T get(EntityRef<T> ref) {
+	/**
+	 * 引数に指定した {@link DatabaseObjectModel} をREPOSITORYの管理下から外す。
+	 * 
+	 * <p>{@link Entity}は、リポジトリの管理下から外れることにより、ライフサイクルが終了する。</p>
+	 * 
+	 * <p>{@code dbo}が {@link CompositEntity}インターフェイスを実装している場合は、その子 {@link Entity}も
+	 * 同時にリポジトリ管理下から外れる。</p>
+	 * 
+	 * @param dbo 管理対象
+	 * @throws EntityLifecycleException {@code dbo}がこのREPOSITORY管理下にない場合
+	 */
+	public void remove(DatabaseObjectModel dbo) {
+		entityRemoved(new EntityEvent(dbo));
+	}
+	
+	/**
+	 * このREPOSITORYの管理下にある {@link Entity} の中から、{@code ref}が参照する {@link Entity}を返す。
+	 * 
+	 * @param <T> {@link Entity}の型
+	 * @param ref 参照オブジェクト
+	 * @return {@link Entity}
+	 * @throws EntityNotFoundException 該当する {@link Entity} が見つからなかった場合
+	 */
+	public <T extends Entity>T resolve(EntityRef<T> ref) {
 		@SuppressWarnings("unchecked")
-		T result = (T) get(ref.getReferenceId());
+		T result = (T) resolve(ref.getReferenceId());
 		return result;
 	}
 	
-	public Entity get(UUID id) {
+	/**
+	 * このREPOSITORYの管理下にある {@link Entity} の中から、指定したENTITY IDを持つ {@link Entity}を返す。
+	 * 
+	 * @param id ENTITY ID
+	 * @return {@link Entity}
+	 * @throws EntityNotFoundException 該当する {@link Entity} が見つからなかった場合
+	 */
+	public Entity resolve(UUID id) {
 		for (Entity dbo : entities) {
 			if (dbo.getId().equals(id)) {
 				return dbo;
 			}
 		}
 		throw new EntityNotFoundException();
-	}
-	
-	public void remove(DatabaseObjectModel dbo) {
-		entityRemoved(new EntityEvent(dbo));
 	}
 	
 	void add(Entity entity) {
@@ -112,9 +148,16 @@ public class Repository implements EntityListener {
 	}
 	
 
-	public static class InternalKey {
+	/**
+	 * {@link Entity#initiate(InternalCredential)}及び {@link Entity#kill(InternalCredential)}メソッドを
+	 * クライアントから呼び出せないようにするためのヘルパークラス。
+	 * 
+	 * @version $Id$
+	 * @author daisuke
+	 */
+	public static class InternalCredential {
 		
-		InternalKey() {
+		InternalCredential() {
 		}
 		
 	}

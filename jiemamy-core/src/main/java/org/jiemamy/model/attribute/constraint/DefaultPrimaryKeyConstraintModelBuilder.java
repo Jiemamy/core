@@ -18,9 +18,8 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
-
 /**
- * TODO for daisuke
+ * {@link DefaultPrimaryKeyConstraintModel}のビルダークラス。
  * 
  * @version $Id$
  * @author daisuke

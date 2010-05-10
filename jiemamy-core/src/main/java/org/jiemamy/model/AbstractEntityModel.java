@@ -22,10 +22,10 @@ import java.util.UUID;
 
 import org.apache.commons.lang.Validate;
 
-import org.jiemamy.Repository.InternalKey;
+import org.jiemamy.Repository.InternalCredential;
 
 /**
- * TODO for daisuke
+ * {@link Entity}の骨格実装クラス。
  * 
  * @version $Id$
  * @author daisuke
@@ -73,8 +73,10 @@ public abstract class AbstractEntityModel implements Entity {
 		return result;
 	}
 	
-	public void initiate(InternalKey key) {
-		Validate.notNull(key);
+	public void initiate(InternalCredential key) {
+		if (key == null) {
+			throw new AssertionError();
+		}
 		alive = true;
 	}
 	
@@ -82,8 +84,10 @@ public abstract class AbstractEntityModel implements Entity {
 		return alive;
 	}
 	
-	public void kill(InternalKey key) {
-		Validate.notNull(key);
+	public void kill(InternalCredential key) {
+		if (key == null) {
+			throw new AssertionError();
+		}
 		alive = false;
 	}
 	

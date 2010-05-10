@@ -1,6 +1,6 @@
 /*
  * Copyright 2007-2010 Jiemamy Project and the Others.
- * Created on 2010/05/10
+ * Created on 2010/05/11
  *
  * This file is part of Jiemamy.
  *
@@ -21,30 +21,16 @@ package org.jiemamy.model;
 import java.util.UUID;
 
 /**
- * {@link Entity}のインスタンスを生成するためのFACTORY。
+ * {@link EntityFactory}の抽象実装クラス。
  * 
+ * @param <T> 生成する {@link Entity}の型
  * @version $Id$
  * @author daisuke
- * @param <T> 生成する {@link Entity}の型
  */
-public interface EntityFactory<T extends Entity> {
+public abstract class AbstractEntityFactory<T extends Entity> implements EntityFactory<T> {
 	
-	/**
-	 * ファクトリの状態に基づいて {@link Entity}のインスタンスを生成する。
-	 * 
-	 * <p>ENTITY IDは自動生成される。</p>
-	 * 
-	 * @return 新しい {@link Entity}のインスタンス
-	 */
-	T build();
-	
-	/**
-	 * ファクトリの状態に基づいて {@link Entity}のインスタンスを生成する。
-	 * 
-	 * @param id  ENTITY ID
-	 * @return 新しい {@link Entity}のインスタンス
-	 * @throws IllegalArgumentException 引数{@code id}に{@code null}を与えた場合
-	 */
-	T build(UUID id);
+	public T build() {
+		return build(UUID.randomUUID());
+	}
 	
 }

@@ -27,7 +27,7 @@ import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel.Referent
 import org.jiemamy.utils.CollectionsUtil;
 
 /**
- * TODO for daisuke
+ * {@link DefaultForeignKeyConstraintModel}のビルダークラス。
  * 
  * @version $Id$
  * @author daisuke
@@ -77,17 +77,24 @@ public class DefaultForeignKeyConstraintModelBuilder extends
 		referenceColumns = vo.getReferenceColumns();
 	}
 	
+	/**
+	 * 参照カラムを追加する。
+	 * 
+	 * @param referenceColumn 参照カラム
+	 * @return このビルダークラスのインスタンス
+	 */
 	public DefaultForeignKeyConstraintModelBuilder addReferenceColumn(ColumnModel referenceColumn) {
 		return addReferenceColumn(referenceColumn.getReference());
 	}
 	
 	/**
-	 * somethingを設定する。 TODO for daisuke
-	 * @param referenceColumn the referenceColumns to add
+	 * 参照カラムを追加する。
+	 * 
+	 * @param referenceColumnRef 参照カラムの参照
 	 * @return このビルダークラスのインスタンス
 	 */
-	public DefaultForeignKeyConstraintModelBuilder addReferenceColumn(EntityRef<ColumnModel> referenceColumn) {
-		referenceColumns.add(referenceColumn);
+	public DefaultForeignKeyConstraintModelBuilder addReferenceColumn(EntityRef<ColumnModel> referenceColumnRef) {
+		referenceColumns.add(referenceColumnRef);
 		return getThis();
 	}
 	
@@ -98,8 +105,8 @@ public class DefaultForeignKeyConstraintModelBuilder extends
 	}
 	
 	/**
-	 * somethingを設定する。 TODO for daisuke
-	 * @param matchType the matchType to set
+	 * マッチ型を設定する。 
+	 * @param matchType マッチ型
 	 * @return このビルダークラスのインスタンス
 	 */
 	public DefaultForeignKeyConstraintModelBuilder setMatchType(MatchType matchType) {
@@ -108,8 +115,8 @@ public class DefaultForeignKeyConstraintModelBuilder extends
 	}
 	
 	/**
-	 * somethingを設定する。 TODO for daisuke
-	 * @param onDelete the onDelete to set
+	 * 削除時アクションを設定する。 
+	 * @param onDelete 削除時アクション
 	 * @return このビルダークラスのインスタンス
 	 */
 	public DefaultForeignKeyConstraintModelBuilder setOnDelete(ReferentialAction onDelete) {
@@ -118,8 +125,8 @@ public class DefaultForeignKeyConstraintModelBuilder extends
 	}
 	
 	/**
-	 * somethingを設定する。 TODO for daisuke
-	 * @param onUpdate the onUpdate to set
+	 * 更新時アクションを設定する。 
+	 * @param onUpdate 更新時アクション
 	 * @return このビルダークラスのインスタンス
 	 */
 	public DefaultForeignKeyConstraintModelBuilder setOnUpdate(ReferentialAction onUpdate) {

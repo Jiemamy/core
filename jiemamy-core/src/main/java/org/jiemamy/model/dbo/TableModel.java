@@ -20,7 +20,8 @@ package org.jiemamy.model.dbo;
 
 import java.util.List;
 
-import org.jiemamy.model.CompositEntity;
+import org.jiemamy.CompositEntity;
+import org.jiemamy.model.EntityLifecycleException;
 import org.jiemamy.model.EntityRef;
 import org.jiemamy.model.attribute.AttributeModel;
 import org.jiemamy.model.attribute.ColumnModel;
@@ -44,6 +45,7 @@ public interface TableModel extends DatabaseObjectModel, CompositEntity {
 	 * テーブルにカラムを追加する。
 	 * 
 	 * @param column カラム
+	 * @throws EntityLifecycleException {@code column}のライフサイクルがaliveの場合
 	 */
 	void addColumn(ColumnModel column);
 	
@@ -56,14 +58,19 @@ public interface TableModel extends DatabaseObjectModel, CompositEntity {
 	List<AttributeModel> getAttributes();
 	
 	/**
-	 * TODO for daisuke
+	 * このテーブルのカラムのうち、{@code name}で示した名前を持つカラムを返す。
 	 * 
-	 * @param string
-	 * @return
-	 * @throws ColumnNotFoundException
+	 * @param name カラム名
+	 * @return カラム
+	 * @throws ColumnNotFoundException カラムが見つからなかった場合
 	 */
 	ColumnModel getColumn(String name);
 	
+	/**
+	 * このテーブルのカラムの {@link List} を返す。
+	 * 
+	 * @return このテーブルのカラムの {@link List}
+	 */
 	List<ColumnModel> getColumns();
 	
 	/**
@@ -90,6 +97,7 @@ public interface TableModel extends DatabaseObjectModel, CompositEntity {
 	 * テーブルからカラムを削除する。
 	 * 
 	 * @param column カラム
+	 * @throws EntityLifecycleException {@code column}のライフサイクルがaliveではない場合
 	 */
 	void removeColumn(ColumnModel column);
 }

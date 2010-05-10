@@ -42,7 +42,7 @@ public class DefaultColumnModel extends AbstractEntityModel implements ColumnMod
 	/** 論理名 */
 	private String logicalName;
 	
-	/** 説明 */
+	/** 説明文 */
 	private String description;
 	
 	/** 型記述子 */
@@ -107,24 +107,24 @@ public class DefaultColumnModel extends AbstractEntityModel implements ColumnMod
 	}
 	
 	/**
-	 * somethingを設定する。 TODO for daisuke
-	 * @param description the description to set
+	 * 説明文を設定する。
+	 * @param description 説明文
 	 */
 	public void setDescription(String description) {
 		this.description = description;
 	}
 	
 	/**
-	 * somethingを設定する。 TODO for daisuke
-	 * @param logicalName the logicalName to set
+	 * 論理名を設定する。
+	 * @param logicalName 論理名
 	 */
 	public void setLogicalName(String logicalName) {
 		this.logicalName = logicalName;
 	}
 	
 	/**
-	 * somethingを設定する。 TODO for daisuke
-	 * @param name the name to set
+	 * 物理名を設定する。 
+	 * @param name 物理名
 	 */
 	public void setName(String name) {
 		this.name = name;

@@ -111,7 +111,6 @@
       <version>4.01</version>
     </dependency>
     <dependency>
-      <!-- TODO ライセンス処理未完了 -->
       <groupId>net.sf.opencsv</groupId> 
       <artifactId>opencsv</artifactId> 
       <version>1.8</version>

@@ -21,7 +21,7 @@ package org.jiemamy.model.attribute.constraint;
 import org.jiemamy.model.ValueObjectBuilder;
 
 /**
- * TODO for daisuke
+ * {@link ConstraintModel}のビルダー骨格実装クラス。
  * 
  * @version $Id$
  * @author daisuke
@@ -59,8 +59,8 @@ public abstract class AbstractConstraintModelBuilder<T extends ConstraintModel, 
 	}
 	
 	/**
-	 * somethingを設定する。 TODO for daisuke
-	 * @param description the description to set
+	 * 説明文を設定する。 
+	 * @param description 説明文
 	 * @return このビルダークラスのインスタンス
 	 */
 	public S setDescription(String description) {
@@ -69,8 +69,8 @@ public abstract class AbstractConstraintModelBuilder<T extends ConstraintModel, 
 	}
 	
 	/**
-	 * somethingを設定する。 TODO for daisuke
-	 * @param logicalName the logicalName to set
+	 * 論理名を設定する。 
+	 * @param logicalName 論理名
 	 * @return このビルダークラスのインスタンス
 	 */
 	public S setLogicalName(String logicalName) {
@@ -79,8 +79,8 @@ public abstract class AbstractConstraintModelBuilder<T extends ConstraintModel, 
 	}
 	
 	/**
-	 * somethingを設定する。 TODO for daisuke
-	 * @param name the name to set
+	 * 物理名を設定する。 
+	 * @param name 物理名
 	 * @return このビルダークラスのインスタンス
 	 */
 	public S setName(String name) {

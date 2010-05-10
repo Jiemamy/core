@@ -19,7 +19,7 @@
 package org.jiemamy.model;
 
 /**
- * TODO for daisuke
+ * {@link Entity}のライフサイクルに問題があることを表す例外クラス。
  * 
  * @version $Id$
  * @author daisuke

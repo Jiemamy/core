@@ -129,14 +129,14 @@ public class RepositoryTest {
 		DefaultEntityRef<TableModel> ref = new DefaultEntityRef<TableModel>(id);
 		
 		try {
-			repository.get(id);
+			repository.resolve(id);
 			fail();
 		} catch (EntityNotFoundException e) {
 			// success
 		}
 		
 		try {
-			repository.get(ref);
+			repository.resolve(ref);
 			fail();
 		} catch (EntityNotFoundException e) {
 			// success
@@ -145,10 +145,10 @@ public class RepositoryTest {
 		DefaultTableModel table = new Table().build(id);
 		repository.add(table);
 		
-		Entity entityById = repository.get(id);
+		Entity entityById = repository.resolve(id);
 		assertThat(entityById, is((Entity) table));
 		
-		Entity entityByRef = repository.get(ref);
+		Entity entityByRef = repository.resolve(ref);
 		assertThat(entityByRef, is((Entity) table));
 	}
 	

@@ -18,8 +18,10 @@
  */
 package org.jiemamy.model.dbo;
 
+import org.jiemamy.model.attribute.ColumnModel;
+
 /**
- * TODO for daisuke
+ * {@link TableModel}に対するクエリの結果、該当する {@link ColumnModel} が見つからなかったことを表す例外クラス。
  * 
  * @version $Id$
  * @author daisuke

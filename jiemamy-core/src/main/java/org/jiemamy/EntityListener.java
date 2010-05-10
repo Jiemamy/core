@@ -20,16 +20,29 @@ package org.jiemamy;
 
 import java.util.EventListener;
 
+import org.jiemamy.model.Entity;
+
 /**
- * TODO for daisuke
+ * {@link CompositEntity}への子{@link Entity}の追加/削除を監視するリスナ。
  * 
  * @version $Id$
  * @author daisuke
+ * @see CompositEntity
  */
 public interface EntityListener extends EventListener {
 	
+	/**
+	 * {@link CompositEntity}へ子{@link Entity}が追加されたことを通知する。
+	 * 
+	 * @param e 追加イベント
+	 */
 	void entityAdded(EntityEvent e);
 	
+	/**
+	 * {@link CompositEntity}から子{@link Entity}が削除されたことを通知する。
+	 * 
+	 * @param e 削除イベント
+	 */
 	void entityRemoved(EntityEvent e);
 	
 }

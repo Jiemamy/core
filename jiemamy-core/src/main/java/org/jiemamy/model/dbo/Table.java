@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import org.jiemamy.model.EntityFactory;
+import org.jiemamy.model.AbstractEntityFactory;
 import org.jiemamy.model.attribute.AttributeModel;
 import org.jiemamy.model.attribute.ColumnModel;
 
@@ -14,7 +14,7 @@ import org.jiemamy.model.attribute.ColumnModel;
  * @version $Id$
  * @author daisuke
  */
-public class Table implements EntityFactory<DefaultTableModel> {
+public class Table extends AbstractEntityFactory<DefaultTableModel> {
 	
 	List<ColumnModel> columns = new ArrayList<ColumnModel>();
 	
@@ -23,17 +23,6 @@ public class Table implements EntityFactory<DefaultTableModel> {
 	private String name;
 	
 
-	/**
-	 * ファクトリの状態に基づいて {@link DefaultTableModel}のインスタンスを生成する。
-	 * 
-	 * <p>ENTITY IDは自動生成される。</p>
-	 * 
-	 * @return 新しい {@link DefaultTableModel}のインスタンス
-	 */
-	public DefaultTableModel build() {
-		return build(UUID.randomUUID());
-	}
-	
 	/**
 	 * ファクトリの状態に基づいて {@link DefaultTableModel}のインスタンスを生成する。
 	 * 

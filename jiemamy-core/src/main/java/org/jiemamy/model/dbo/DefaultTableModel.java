@@ -64,8 +64,8 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	}
 	
 	public void addColumn(ColumnModel column) {
-		notifyAdded(column);
 		columns.add(column);
+		notifyAdded(column);
 	}
 	
 	public void addListener(EntityListener listener) {
@@ -113,18 +113,6 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 		return new DefaultEntityRef<TableModel>(this);
 	}
 	
-	public void notifyAdded(Entity entity) {
-		for (EntityListener listener : listeners) {
-			listener.entityAdded(new EntityEvent(entity));
-		}
-	}
-	
-	public void notifyRemoved(Entity entity) {
-		for (EntityListener listener : listeners) {
-			listener.entityRemoved(new EntityEvent(entity));
-		}
-	}
-	
 	public void removeAttribute(AttributeModel attribute) {
 		attributes.remove(attribute);
 	}
@@ -136,5 +124,23 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	
 	public void removeListener(EntityListener listener) {
 		listeners.remove(listener);
+	}
+	
+	private void notifyAdded(Entity entity) {
+		if (entity.isAlive()) {
+			throw new EntityLifecycleException();
+		}
+		for (EntityListener listener : listeners) {
+			listener.entityAdded(new EntityEvent(entity));
+		}
+	}
+	
+	private void notifyRemoved(Entity entity) {
+		if (entity.isAlive() == false) {
+			throw new EntityLifecycleException();
+		}
+		for (EntityListener listener : listeners) {
+			listener.entityRemoved(new EntityEvent(entity));
+		}
 	}
 }

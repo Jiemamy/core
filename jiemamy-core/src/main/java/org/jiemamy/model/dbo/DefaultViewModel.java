@@ -51,8 +51,8 @@ public class DefaultViewModel extends AbstractDatabaseObjectModel implements Vie
 	}
 	
 	/**
-	 * somethingを設定する。 TODO for daisuke
-	 * @param definition the definition to set
+	 * VIEW定義SELECT文を設定する。 
+	 * @param definition VIEW定義SELECT文
 	 */
 	public void setDefinition(String definition) {
 		this.definition = definition;

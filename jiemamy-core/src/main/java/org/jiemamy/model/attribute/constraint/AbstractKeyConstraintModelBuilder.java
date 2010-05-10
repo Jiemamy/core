@@ -25,7 +25,7 @@ import org.jiemamy.model.EntityRef;
 import org.jiemamy.model.attribute.ColumnModel;
 
 /**
- * TODO for daisuke
+ * {@link KeyConstraintModel}ビルダーの骨格実装クラス。
  * 
  * @version $Id$
  * @author daisuke
@@ -60,7 +60,7 @@ public abstract class AbstractKeyConstraintModelBuilder<T extends KeyConstraintM
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * キーカラムを追加する。
 	 * 
 	 * @param column キーカラム
 	 * @return このビルダークラスのインスタンス
@@ -70,7 +70,7 @@ public abstract class AbstractKeyConstraintModelBuilder<T extends KeyConstraintM
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * キーカラムを追加する。
 	 * 
 	 * @param columnRef キーカラムの参照オブジェクト
 	 * @return このビルダークラスのインスタンス
@@ -81,9 +81,9 @@ public abstract class AbstractKeyConstraintModelBuilder<T extends KeyConstraintM
 	}
 	
 	/**
-	 * somethingを設定する。 TODO for daisuke
+	 * 遅延可能性を設定する。 
 	 * 
-	 * @param deferrability the deferrability to set
+	 * @param deferrability 遅延可能性
 	 * @return このビルダークラスのインスタンス
 	 */
 	public S setDeferrability(DeferrabilityModel deferrability) {

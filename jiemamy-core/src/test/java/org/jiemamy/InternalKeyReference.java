@@ -18,16 +18,17 @@
  */
 package org.jiemamy;
 
-import org.jiemamy.Repository.InternalKey;
+import org.jiemamy.Repository.InternalCredential;
 
 /**
- * TODO for daisuke
+ * 一般パッケージからはインスタンスを取得できない {@link InternalCredential} 型のインスタンスを提供するテストヘルパークラス。
  * 
  * @version $Id$
  * @author daisuke
  */
 public class InternalKeyReference {
 	
-	public static final InternalKey KEY = new InternalKey();
+	/** {@link InternalCredential}型のインスタンス */
+	public static final InternalCredential KEY = new InternalCredential();
 	
 }

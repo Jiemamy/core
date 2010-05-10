@@ -20,7 +20,8 @@ package org.jiemamy.model;
 
 import java.util.UUID;
 
-import org.jiemamy.Repository.InternalKey;
+import org.jiemamy.Repository;
+import org.jiemamy.Repository.InternalCredential;
 
 /**
  * DDDにおけるENTITYを表すインターフェイス。
@@ -67,9 +68,30 @@ public interface Entity {
 	 */
 	EntityRef<?> getReference();
 	
-	void initiate(InternalKey key);
+	/**
+	 * ENTITYのライフサイクルが開始したこと、すなわち{@link Repository}の管理下に入ったことを通知する。
+	 * 
+	 * <p>このメソッドは Jiemamy の内部からのみ呼び出されることを意図したAPIであり、
+	 * クライアントから呼び出した場合の挙動は保証しない。</p>
+	 * 
+	 * @param credential 呼び出し資格オブジェクト
+	 */
+	void initiate(InternalCredential credential);
 	
+	/**
+	 * ENTITYのライフサイクルが開始しているかどうかを調べる。
+	 * 
+	 * @return ライフサイクルが開始している場合は{@code true}、そうでない場合は{@code false}
+	 */
 	boolean isAlive();
 	
-	void kill(InternalKey key);
+	/**
+	 * ENTITYのライフサイクルが終了したこと、すなわち{@link Repository}の管理下から離れたことを通知する。
+	 * 
+	 * <p>このメソッドは Jiemamy の内部からのみ呼び出されることを意図したAPIであり、
+	 * クライアントから呼び出した場合の挙動は保証しない。</p>
+	 * 
+	 * @param credential 呼び出し資格オブジェクト
+	 */
+	void kill(InternalCredential credential);
 }

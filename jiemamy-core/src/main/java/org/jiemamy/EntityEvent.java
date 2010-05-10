@@ -23,10 +23,11 @@ import java.util.EventObject;
 import org.jiemamy.model.Entity;
 
 /**
- * TODO for daisuke
+ * {@link CompositEntity}に対して子 {@link Entity}が追加/削除されたことを表すイベントオブジェクト。
  * 
  * @version $Id$
  * @author daisuke
+ * @see EntityListener
  */
 @SuppressWarnings("serial")
 public class EntityEvent extends EventObject {
@@ -34,7 +35,7 @@ public class EntityEvent extends EventObject {
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param source
+	 * @param source 追加/削除された {@link Entity}
 	 */
 	public EntityEvent(Entity source) {
 		super(source);
