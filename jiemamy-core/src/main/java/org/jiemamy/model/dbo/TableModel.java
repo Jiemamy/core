@@ -34,6 +34,10 @@ import org.jiemamy.model.index.IndexModel;
  */
 public interface TableModel extends DatabaseObjectModel, CompositEntity {
 	
+	public void addIndex(IndexModel index);
+	
+	public void removeIndex(IndexModel index);
+	
 	/**
 	 * テーブルに属性を追加する。
 	 * 

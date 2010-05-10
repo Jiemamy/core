@@ -33,9 +33,6 @@ public interface IndexModel extends ValueObject {
 	/**
 	 * インデックスカラムのリストを取得する。
 	 * 
-	 * <p>このメソッドは、インスタンスの持つフィールドをそのまま返す。返される{@link List}を直接操作することで、
-	 * このオブジェクトのフィールドとして保持される{@link List}を変更することができる。</p>
-	 * 
 	 * @return インデックスカラムのリスト
 	 * @since 0.2
 	 */

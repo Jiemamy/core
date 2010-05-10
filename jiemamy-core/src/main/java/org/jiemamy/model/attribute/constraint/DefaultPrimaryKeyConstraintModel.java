@@ -18,6 +18,7 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jiemamy.model.EntityRef;
@@ -30,6 +31,11 @@ import org.jiemamy.model.attribute.ColumnModel;
  */
 public final class DefaultPrimaryKeyConstraintModel extends AbstractKeyConstraintModel implements
 		PrimaryKeyConstraintModel {
+	
+	public static DefaultPrimaryKeyConstraintModel of(ColumnModel... columns) {
+		List<EntityRef<ColumnModel>> keyColumnRefs = new ArrayList<EntityRef<ColumnModel>>();
+		return new DefaultPrimaryKeyConstraintModel(null, null, null, keyColumnRefs, null);
+	}
 	
 	/**
 	 * インスタンスを生成する。

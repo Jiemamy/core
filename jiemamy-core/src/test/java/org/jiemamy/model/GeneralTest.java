@@ -36,6 +36,8 @@ import org.jiemamy.model.attribute.constraint.DefaultPrimaryKeyConstraintModel;
 import org.jiemamy.model.attribute.constraint.DefaultPrimaryKeyConstraintModelBuilder;
 import org.jiemamy.model.dbo.DefaultTableModel;
 import org.jiemamy.model.dbo.Table;
+import org.jiemamy.model.index.DefaultIndexColumnModel;
+import org.jiemamy.model.index.DefaultIndexModel;
 
 /**
  * TODO for daisuke
@@ -83,7 +85,7 @@ public class GeneralTest {
 		DefaultTableModel tableModel = new Table().whoseNameIs("T_PROPERTY")
 				.with(pkColumn = new Column().whoseNameIs("KEY").build())
 				.with(new Column().whoseNameIs("VALUE").build())
-				.with(new DefaultPrimaryKeyConstraintModelBuilder().addKeyColumn(pkColumn).build())
+				.with(DefaultPrimaryKeyConstraintModel.of(pkColumn))
 				.build();
 		// FORMAT-ON
 		repository.add(tableModel);
@@ -112,9 +114,10 @@ public class GeneralTest {
 				.with(new Column().whoseNameIs("LOC").build())
 				.with(new DefaultPrimaryKeyConstraintModelBuilder().addKeyColumn(pkColumn).build())
 				.build();
+		ColumnModel nameColumn;
 		DefaultTableModel emp = new Table().whoseNameIs("T_EMP")
 				.with(pkColumn = new Column().whoseNameIs("ID").build())
-				.with(new Column().whoseNameIs("NAME").build())
+				.with(nameColumn = new Column().whoseNameIs("NAME").build())
 				.with(fkColumn1 = new Column().whoseNameIs("DEPT_ID").build())
 				.with(fkColumn2 = new Column().whoseNameIs("MGR_ID").build())
 				.with(new DefaultPrimaryKeyConstraintModelBuilder().addKeyColumn(pkColumn).build())
@@ -122,6 +125,7 @@ public class GeneralTest {
 						.addKeyColumn(fkColumn1).addReferenceColumn(refColumn).build())
 				.with(new DefaultForeignKeyConstraintModelBuilder()
 						.addKeyColumn(fkColumn2).addReferenceColumn(pkColumn).build())
+				.with(DefaultIndexModel.of(nameColumn))
 				.build();
 		// FORMAT-ON
 		repository.add(dept);

@@ -68,6 +68,10 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 		notifyAdded(column);
 	}
 	
+	public void addIndex(IndexModel index) {
+		indexes.add(index);
+	}
+	
 	public void addListener(EntityListener listener) {
 		listeners.add(listener);
 	}
@@ -103,7 +107,7 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	
 	public List<IndexModel> getIndexes() {
 		assert indexes != null;
-		return indexes;
+		return new ArrayList<IndexModel>(indexes);
 	}
 	
 	public EntityRef<TableModel> getReference() {
@@ -120,6 +124,10 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	public void removeColumn(ColumnModel column) {
 		columns.remove(column);
 		notifyRemoved(column);
+	}
+	
+	public void removeIndex(IndexModel index) {
+		indexes.remove(index);
 	}
 	
 	public void removeListener(EntityListener listener) {

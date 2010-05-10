@@ -18,11 +18,15 @@
  */
 package org.jiemamy.model.index;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.collections15.ListUtils;
+import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+
+import org.jiemamy.model.attribute.ColumnModel;
 
 /**
  * インデックスモデル。
@@ -31,6 +35,16 @@ import org.apache.commons.lang.builder.ToStringStyle;
  */
 public final class DefaultIndexModel implements IndexModel {
 	
+	public static DefaultIndexModel of(ColumnModel... column) {
+		List<IndexColumnModel> indexColumns = new ArrayList<IndexColumnModel>();
+		for (ColumnModel element : column) {
+			indexColumns.add(DefaultIndexColumnModel.of(element));
+			
+		}
+		return new DefaultIndexModel(indexColumns);
+	}
+	
+
 	/** インデックス名 */
 	private final String name;
 	
@@ -44,14 +58,39 @@ public final class DefaultIndexModel implements IndexModel {
 	/**
 	 * インスタンスを生成する。
 	 * 
+	 * @param indexColumn インデックスカラムのリスト
+	 * @throws IllegalArgumentException 引数{@code indexColumn}が{@code null}の場合
+	 */
+	public DefaultIndexModel(IndexColumnModel indexColumn) {
+		this(null, false, Arrays.asList(indexColumn));
+	}
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param indexColumns インデックスカラムのリスト
+	 * @throws IllegalArgumentException 引数{@code indexColumns}が{@code null}または空の場合
+	 * @throws IllegalArgumentException 引数{@code indexColumns}の要素に{@code null}を含む場合
+	 */
+	public DefaultIndexModel(List<IndexColumnModel> indexColumns) {
+		this(null, false, indexColumns);
+	}
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
 	 * @param name インデックス名
 	 * @param unique ユニークインデックスか否か
 	 * @param indexColumns インデックスカラムのリスト
+	 * @throws IllegalArgumentException 引数{@code indexColumns}が{@code null}または空の場合
+	 * @throws IllegalArgumentException 引数{@code indexColumns}の要素に{@code null}を含む場合
 	 */
 	public DefaultIndexModel(String name, boolean unique, List<IndexColumnModel> indexColumns) {
+		Validate.notEmpty(indexColumns);
+		Validate.noNullElements(indexColumns);
 		this.name = name;
 		this.unique = unique;
-		this.indexColumns = ListUtils.unmodifiableList(indexColumns);
+		this.indexColumns = new ArrayList<IndexColumnModel>(indexColumns);
 	}
 	
 	@Override
@@ -88,7 +127,7 @@ public final class DefaultIndexModel implements IndexModel {
 	
 	public List<IndexColumnModel> getIndexColumns() {
 		assert indexColumns != null;
-		return indexColumns;
+		return new ArrayList<IndexColumnModel>(indexColumns);
 	}
 	
 	public String getName() {

@@ -18,6 +18,7 @@
  */
 package org.jiemamy.model.index;
 
+import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
@@ -31,6 +32,28 @@ import org.jiemamy.model.attribute.ColumnModel;
  */
 public final class DefaultIndexColumnModel implements IndexColumnModel {
 	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param column インデックス対象カラム
+	 * @return インデックスカラム
+	 */
+	public static DefaultIndexColumnModel of(ColumnModel column) {
+		return new DefaultIndexColumnModel(column.getReference());
+	}
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param column インデックス対象カラム
+	 * @param sortOrder カラムソート方式
+	 * @return インデックスカラム
+	 */
+	public static DefaultIndexColumnModel of(ColumnModel column, SortOrder sortOrder) {
+		return new DefaultIndexColumnModel(column.getReference(), sortOrder);
+	}
+	
+
 	/** インデックス対象カラム */
 	private final EntityRef<ColumnModel> columnRef;
 	
@@ -42,9 +65,21 @@ public final class DefaultIndexColumnModel implements IndexColumnModel {
 	 * インスタンスを生成する。
 	 * 
 	 * @param columnRef インデックス対象カラム
+	 * @throws IllegalArgumentException 引数{@code columnRef}に{@code null}を与えた場合
+	 */
+	public DefaultIndexColumnModel(EntityRef<ColumnModel> columnRef) {
+		this(columnRef, null);
+	}
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param columnRef インデックス対象カラム
 	 * @param sortOrder カラムソート方式
+	 * @throws IllegalArgumentException 引数{@code columnRef}に{@code null}を与えた場合
 	 */
 	public DefaultIndexColumnModel(EntityRef<ColumnModel> columnRef, SortOrder sortOrder) {
+		Validate.notNull(columnRef);
 		this.columnRef = columnRef;
 		this.sortOrder = sortOrder;
 	}
