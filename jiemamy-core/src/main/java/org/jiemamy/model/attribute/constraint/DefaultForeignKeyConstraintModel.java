@@ -34,6 +34,19 @@ import org.jiemamy.model.attribute.ColumnModel;
 public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstraintModel implements
 		ForeignKeyConstraintModel {
 	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param keyColumn
+	 * @param referenceColumn
+	 * @return
+	 */
+	public static ForeignKeyConstraintModel of(ColumnModel keyColumn, ColumnModel referenceColumn) {
+		return new DefaultForeignKeyConstraintModelBuilder().addKeyColumn(keyColumn)
+			.addReferenceColumn(referenceColumn).build();
+	}
+	
+
 	/** 制約を受けるカラムのリスト */
 	private final List<EntityRef<ColumnModel>> referenceColumns;
 	

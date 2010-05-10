@@ -235,7 +235,7 @@ public class Repository implements EntityListener {
 	 * @return 全ての依存モデルの集合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public Collection<DatabaseObjectModel> getSubEntitiesRecursive(DatabaseObjectModel standardEntity) {
+	public Collection<DatabaseObjectModel> findSubEntitiesRecursive(DatabaseObjectModel standardEntity) {
 		Validate.notNull(standardEntity);
 		Collection<DatabaseObjectModel> parentEntities = findSubEntitiesNonRecursive(standardEntity);
 		Set<DatabaseObjectModel> entities = CollectionsUtil.newHashSet();
@@ -243,7 +243,7 @@ public class Repository implements EntityListener {
 		
 		for (DatabaseObjectModel parentEntity : parentEntities) {
 			if (standardEntity.equals(parentEntity) == false) {
-				entities.addAll(getSubEntitiesRecursive(parentEntity));
+				entities.addAll(findSubEntitiesRecursive(parentEntity));
 			}
 		}
 		
