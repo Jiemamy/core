@@ -18,8 +18,6 @@
  */
 package org.jiemamy.model.dbo;
 
-import java.util.UUID;
-
 import org.jiemamy.model.DefaultEntityRef;
 import org.jiemamy.model.EntityRef;
 import org.jiemamy.model.attribute.constraint.ColumnCheckConstraintModel;
@@ -42,24 +40,6 @@ public class DefalultDomainModel extends AbstractDatabaseObjectModel implements 
 	private NotNullConstraintModel notNullConstraint;
 	
 
-	/**
-	 * インスタンスを生成する。
-	 * 
-	 * <p>ENTITY IDは自動生成される。</p>
-	 */
-	public DefalultDomainModel() {
-	}
-	
-	/**
-	 * インスタンスを生成する。
-	 * 
-	 * @param id モデルID
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 */
-	public DefalultDomainModel(UUID id) {
-		super(id);
-	}
-	
 	public ColumnCheckConstraintModel getCheckConstraint() {
 		return checkConstraint;
 	}

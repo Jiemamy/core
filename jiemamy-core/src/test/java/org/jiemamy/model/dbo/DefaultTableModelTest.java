@@ -40,11 +40,25 @@ public class DefaultTableModelTest {
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
+	public void test_create() throws Exception {
+		DefaultTableModel t = new DefaultTableModel();
+		t.setName("T_DEPT");
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
 	public void test01_equals() throws Exception {
 		UUID randomUUID = UUID.randomUUID();
-		DefaultTableModel tm1 = new DefaultTableModel(randomUUID);
-		DefaultTableModel tm2 = new DefaultTableModel(randomUUID);
-		DefaultTableModel tm3 = new DefaultTableModel(UUID.randomUUID());
+		DefaultTableModel tm1 = new DefaultTableModel();
+		DefaultTableModel tm2 = new DefaultTableModel();
+		DefaultTableModel tm3 = new DefaultTableModel();
+		
+		tm1.setId(randomUUID);
+		tm2.setId(randomUUID);
 		
 		tm1.setName("FOO");
 		tm2.setName("BAR");
@@ -61,4 +75,5 @@ public class DefaultTableModelTest {
 		assertThat(tm3.equals(tm2), is(false));
 		
 	}
+	
 }

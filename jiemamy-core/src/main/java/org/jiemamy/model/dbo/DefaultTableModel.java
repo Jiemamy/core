@@ -19,7 +19,6 @@
 package org.jiemamy.model.dbo;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.apache.commons.lang.Validate;
 
@@ -42,24 +41,6 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	private List<IndexModel> indexes;
 	
 
-	/**
-	 * インスタンスを生成する。
-	 * 
-	 * <p>ENTITY IDは自動生成される。</p>
-	 */
-	public DefaultTableModel() {
-	}
-	
-	/**
-	 * インスタンスを生成する。
-	 * 
-	 * @param id モデルID
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 */
-	public DefaultTableModel(UUID id) {
-		super(id);
-	}
-	
 	public List<AttributeModel> getAttributes() {
 		assert attributes != null;
 		return attributes;

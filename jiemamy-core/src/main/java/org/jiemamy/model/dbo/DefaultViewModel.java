@@ -18,8 +18,6 @@
  */
 package org.jiemamy.model.dbo;
 
-import java.util.UUID;
-
 import org.jiemamy.model.DefaultEntityRef;
 import org.jiemamy.model.EntityRef;
 
@@ -34,23 +32,6 @@ public final class DefaultViewModel extends AbstractDatabaseObjectModel implemen
 	private String definition;
 	
 
-	/**
-	 * インスタンスを生成する。
-	 * 
-	 * <p>ENTITY IDは自動生成される。</p>
-	 */
-	public DefaultViewModel() {
-	}
-	
-	/**
-	 * インスタンスを生成する。
-	 * 
-	 * @param id ENTITY ID
-	 */
-	public DefaultViewModel(UUID id) {
-		super(id);
-	}
-	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {

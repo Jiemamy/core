@@ -20,7 +20,6 @@ package org.jiemamy.model.attribute;
 
 import java.util.UUID;
 
-import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
@@ -41,7 +40,7 @@ import org.jiemamy.model.datatype.DataType;
 public class DefalutColumnModel extends AbstractAttributeModel implements ColumnModel {
 	
 	/** ENTITY ID */
-	private final UUID id;
+	private UUID id;
 	
 	/** 型記述子 */
 	private DataType dataType;
@@ -58,26 +57,6 @@ public class DefalutColumnModel extends AbstractAttributeModel implements Column
 	private UniqueKeyConstraintModel uniqueKey;
 	
 
-	/**
-	 * インスタンスを生成する。
-	 * 
-	 * <p>ENTITY IDは自動生成される。</p>
-	 */
-	public DefalutColumnModel() {
-		this(UUID.randomUUID());
-	}
-	
-	/**
-	 * インスタンスを生成する。
-	 * 
-	 * @param id モデルID
-	 * @throws IllegalArgumentException 引数idに{@code null}を与えた場合
-	 */
-	public DefalutColumnModel(UUID id) {
-		Validate.notNull(id);
-		this.id = id;
-	}
-	
 	@Override
 	public final boolean equals(Object obj) {
 		if (this == obj) {
@@ -210,6 +189,10 @@ public class DefalutColumnModel extends AbstractAttributeModel implements Column
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+	}
+	
+	void setId(UUID id) {
+		this.id = id;
 	}
 	
 }

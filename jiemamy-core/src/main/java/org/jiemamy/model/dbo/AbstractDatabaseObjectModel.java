@@ -20,8 +20,6 @@ package org.jiemamy.model.dbo;
 
 import java.util.UUID;
 
-import org.apache.commons.lang.Validate;
-
 import org.jiemamy.model.Entity;
 
 /**
@@ -31,7 +29,7 @@ import org.jiemamy.model.Entity;
  */
 public abstract class AbstractDatabaseObjectModel implements DatabaseObjectModel {
 	
-	private final UUID id;
+	private UUID id;
 	
 	/** 物理名 */
 	private String name;
@@ -43,30 +41,13 @@ public abstract class AbstractDatabaseObjectModel implements DatabaseObjectModel
 	private String description;
 	
 
-	/**
-	 * インスタンスを生成する。
-	 * 
-	 * <p>ENTITY IDは自動生成される。</p>
-	 */
-	public AbstractDatabaseObjectModel() {
-		this(UUID.randomUUID());
-	}
-	
-	/**
-	 * インスタンスを生成する。
-	 * 
-	 * @param id ENTITY ID
-	 * @throws IllegalArgumentException 引数{@code id}に{@code null}を与えた場合
-	 */
-	public AbstractDatabaseObjectModel(UUID id) {
-		Validate.notNull(id);
-		this.id = id;
-	}
-	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
 			return true;
+		}
+		if (id == null) {
+			return false;
 		}
 		if (obj == null) {
 			return false;
@@ -131,6 +112,10 @@ public abstract class AbstractDatabaseObjectModel implements DatabaseObjectModel
 	@Override
 	public String toString() {
 		return "Entity " + getName();
+	}
+	
+	void setId(UUID id) {
+		this.id = id;
 	}
 	
 }
