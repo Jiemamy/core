@@ -19,6 +19,7 @@
 package org.jiemamy.model.dbo;
 
 import org.jiemamy.model.DefaultEntityRef;
+import org.jiemamy.model.EntityLifecycleException;
 import org.jiemamy.model.EntityRef;
 import org.jiemamy.model.attribute.constraint.ColumnCheckConstraintModel;
 import org.jiemamy.model.attribute.constraint.NotNullConstraintModel;
@@ -53,6 +54,9 @@ public class DefalultDomainModel extends AbstractDatabaseObjectModel implements 
 	}
 	
 	public EntityRef<DomainModel> getReference() {
+		if (getId() == null) {
+			throw new EntityLifecycleException();
+		}
 		return new DefaultEntityRef<DomainModel>(this);
 	}
 	

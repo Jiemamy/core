@@ -23,6 +23,7 @@ import java.util.List;
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.model.DefaultEntityRef;
+import org.jiemamy.model.EntityLifecycleException;
 import org.jiemamy.model.EntityRef;
 import org.jiemamy.model.attribute.AttributeModel;
 import org.jiemamy.model.index.IndexModel;
@@ -52,6 +53,9 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	}
 	
 	public EntityRef<TableModel> getReference() {
+		if (getId() == null) {
+			throw new EntityLifecycleException();
+		}
 		return new DefaultEntityRef<TableModel>(this);
 	}
 	

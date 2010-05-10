@@ -19,6 +19,7 @@
 package org.jiemamy.model.dbo;
 
 import org.jiemamy.model.DefaultEntityRef;
+import org.jiemamy.model.EntityLifecycleException;
 import org.jiemamy.model.EntityRef;
 
 /**
@@ -26,48 +27,21 @@ import org.jiemamy.model.EntityRef;
  * 
  * @author daisuke
  */
-public final class DefaultViewModel extends AbstractDatabaseObjectModel implements ViewModel {
+public class DefaultViewModel extends AbstractDatabaseObjectModel implements ViewModel {
 	
 	/** VIEW定義SELECT文 */
 	private String definition;
 	
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (!super.equals(obj)) {
-			return false;
-		}
-		if (!(obj instanceof DefaultViewModel)) {
-			return false;
-		}
-		DefaultViewModel other = (DefaultViewModel) obj;
-		if (definition == null) {
-			if (other.definition != null) {
-				return false;
-			}
-		} else if (!definition.equals(other.definition)) {
-			return false;
-		}
-		return true;
-	}
-	
 	public String getDefinition() {
 		return definition;
 	}
 	
 	public EntityRef<?> getReference() {
+		if (getId() == null) {
+			throw new EntityLifecycleException();
+		}
 		return new DefaultEntityRef<ViewModel>(this);
-	}
-	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((definition == null) ? 0 : definition.hashCode());
-		return result;
 	}
 	
 	/**

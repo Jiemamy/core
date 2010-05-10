@@ -43,11 +43,11 @@ public abstract class AbstractDatabaseObjectModel implements DatabaseObjectModel
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
 		if (id == null) {
 			return false;
+		}
+		if (this == obj) {
+			return true;
 		}
 		if (obj == null) {
 			return false;

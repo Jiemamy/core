@@ -52,16 +52,15 @@ public class DefaultForeignKeyConstraintModelBuilderTest {
 		EntityRef<ColumnModel> ref2 = new DefaultEntityRef<ColumnModel>(UUID.randomUUID());
 		
 		DefaultForeignKeyConstraintModelBuilder builder = new DefaultForeignKeyConstraintModelBuilder();
-//		builder.setName("FK_A_B");
-//		builder.addKeyColumn(ref1);
-//		builder.addReferenceColumn(ref2);
-//		builder.setMatchType(MatchType.SIMPLE);
-//		builder.setOnDelete(ReferentialAction.CASCADE);
-//		ForeignKeyConstraintModel fk = builder.build();
 		
-		ForeignKeyConstraintModel fk =
-				builder.setName("FK_A_B").addKeyColumn(ref1).addReferenceColumn(ref2).setMatchType(MatchType.SIMPLE)
-					.setOnDelete(ReferentialAction.CASCADE).build();
+		// FORMAT-OFF
+		ForeignKeyConstraintModel fk = builder
+				.setName("FK_A_B")
+				.addKeyColumn(ref1).addReferenceColumn(ref2)
+				.setMatchType(MatchType.SIMPLE)
+				.setOnDelete(ReferentialAction.CASCADE)
+				.build();
+		// FORMAT-ON
 		
 		assertThat(fk.getName(), is("FK_A_B"));
 		assertThat(fk.getKeyColumns(), hasItem(ref1));

@@ -20,10 +20,13 @@ package org.jiemamy.model.dbo;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 import java.util.UUID;
 
 import org.junit.Test;
+
+import org.jiemamy.model.EntityLifecycleException;
 
 /**
  * TODO for daisuke
@@ -51,29 +54,62 @@ public class DefaultTableModelTest {
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test01_equals() throws Exception {
-		UUID randomUUID = UUID.randomUUID();
-		DefaultTableModel tm1 = new DefaultTableModel();
-		DefaultTableModel tm2 = new DefaultTableModel();
-		DefaultTableModel tm3 = new DefaultTableModel();
+	public void test_lifecycle() throws Exception {
+		DefaultTableModel live = new DefaultTableModel();
+		DefaultTableModel dead = new DefaultTableModel();
 		
-		tm1.setId(randomUUID);
-		tm2.setId(randomUUID);
+		live.setId(UUID.randomUUID());
 		
-		tm1.setName("FOO");
-		tm2.setName("BAR");
+		assertThat(live.getReference().getReferenceId(), is(live.getId()));
 		
-		assertThat(tm1.equals(tm1), is(true));
-		assertThat(tm2.equals(tm2), is(true));
-		assertThat(tm3.equals(tm3), is(true));
-		
-		assertThat(tm1.equals(tm2), is(true));
-		assertThat(tm1.equals(tm3), is(false));
-		assertThat(tm2.equals(tm1), is(true));
-		assertThat(tm2.equals(tm3), is(false));
-		assertThat(tm3.equals(tm1), is(false));
-		assertThat(tm3.equals(tm2), is(false));
-		
+		try {
+			dead.getReference();
+			fail();
+		} catch (EntityLifecycleException e) {
+			// success
+		}
 	}
 	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test01_equals() throws Exception {
+		UUID randomUUID = UUID.randomUUID();
+		DefaultTableModel live1 = new DefaultTableModel();
+		DefaultTableModel live2 = new DefaultTableModel();
+		DefaultTableModel live3 = new DefaultTableModel();
+		DefaultTableModel dead = new DefaultTableModel();
+		
+		live1.setId(randomUUID);
+		live2.setId(randomUUID);
+		live3.setId(UUID.randomUUID());
+		
+		live1.setName("FOO");
+		live2.setName("BAR");
+		live2.setName("BAZ");
+		live2.setName("QUX");
+		
+		assertThat(live1.equals(live1), is(true));
+		assertThat(live1.equals(live2), is(true));
+		assertThat(live1.equals(live3), is(false));
+		assertThat(live1.equals(dead), is(false));
+		
+		assertThat(live2.equals(live1), is(true));
+		assertThat(live2.equals(live2), is(true));
+		assertThat(live2.equals(live3), is(false));
+		assertThat(live2.equals(dead), is(false));
+		
+		assertThat(live3.equals(live1), is(false));
+		assertThat(live3.equals(live2), is(false));
+		assertThat(live3.equals(live3), is(true));
+		assertThat(live3.equals(dead), is(false));
+		
+		assertThat(dead.equals(live1), is(false));
+		assertThat(dead.equals(live2), is(false));
+		assertThat(dead.equals(live3), is(false));
+		assertThat(dead.equals(dead), is(false));
+	}
 }

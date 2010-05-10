@@ -37,6 +37,8 @@ public interface Entity {
 	/**
 	 * ENTITY IDの等価性を以て、ENTITYの同一性を比較する。
 	 * 
+	 * <p>ENTITYのライフサイクルがdeadの場合は、必ず{@code null}を返す。</p>
+	 * 
 	 * @param obj 比較対象オブジェクト
 	 * @return 同じIDを持つ場合は{@code true}、そうでない場合は{@code false}
 	 * @since 0.3
@@ -49,7 +51,7 @@ public interface Entity {
 	* <p>IDは、ENTITYとしてのライフサイクル開始時に指定または自動生成され、ライフサイクルを通して
 	* 一貫していなければならない。ライフサイクルの終了と共にIDは削除される。</p>
 	* 
-	* @return ENTITY ID.  ENTITYとしてライフサイクルが開始していないまたは終了している場合は{@code null}
+	* @return ENTITY ID.  ENTITYのライフサイクルがdeadの場合は{@code null}
 	* @since 0.3
 	*/
 	UUID getId();
@@ -58,6 +60,7 @@ public interface Entity {
 	 * 参照オブジェクトを返す。
 	 * 
 	 * @return 参照オブジェクト
+	 * @throws EntityLifecycleException ENTITYのライフサイクルがdeadの場合
 	 * @since 0.3
 	 */
 	EntityRef<?> getReference();

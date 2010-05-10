@@ -59,6 +59,9 @@ public class DefalutColumnModel extends AbstractAttributeModel implements Column
 
 	@Override
 	public final boolean equals(Object obj) {
+		if (id == null) {
+			return false;
+		}
 		if (this == obj) {
 			return true;
 		}

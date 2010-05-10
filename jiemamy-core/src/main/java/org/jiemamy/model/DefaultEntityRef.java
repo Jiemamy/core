@@ -45,6 +45,7 @@ public final class DefaultEntityRef<T extends Entity> implements EntityRef<T> {
 	public DefaultEntityRef(T decl) {
 		Validate.notNull(decl);
 		referenceId = decl.getId();
+		checkInvariant();
 	}
 	
 	/**
@@ -90,5 +91,9 @@ public final class DefaultEntityRef<T extends Entity> implements EntityRef<T> {
 				new ReflectionToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE);
 		
 		return toStringBuilder.toString();
+	}
+	
+	private void checkInvariant() {
+		assert referenceId != null;
 	}
 }
