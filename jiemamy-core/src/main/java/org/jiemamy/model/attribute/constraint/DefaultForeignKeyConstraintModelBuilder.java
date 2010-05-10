@@ -66,15 +66,15 @@ public class DefaultForeignKeyConstraintModelBuilder extends
 	/**
 	 * コピーコンストラクタ。
 	 * 
-	 * @param vo コピー元の{@link ForeignKeyConstraintModel}
+	 * @param base コピー元の{@link ForeignKeyConstraintModel}
 	 */
-	public DefaultForeignKeyConstraintModelBuilder(ForeignKeyConstraintModel vo) {
-		super(vo);
+	public DefaultForeignKeyConstraintModelBuilder(ForeignKeyConstraintModel base) {
+		super(base);
 		
-		matchType = vo.getMatchType();
-		onDelete = vo.getOnDelete();
-		onUpdate = vo.getOnUpdate();
-		referenceColumns = vo.getReferenceColumns();
+		matchType = base.getMatchType();
+		onDelete = base.getOnDelete();
+		onUpdate = base.getOnUpdate();
+		referenceColumns = base.getReferenceColumns();
 	}
 	
 	/**

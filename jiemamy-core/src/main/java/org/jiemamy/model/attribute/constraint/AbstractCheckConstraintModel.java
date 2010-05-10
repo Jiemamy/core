@@ -38,7 +38,7 @@ public abstract class AbstractCheckConstraintModel extends AbstractConstraintMod
 	 * @param logicalName 論理名
 	 * @param description 説明
 	 * @param expression CHEKC制約定義式
-	 * @throws IllegalArgumentException 引数expressionに{@code null}を与えた場合
+	 * @throws IllegalArgumentException 引数{@code expression}に{@code null}を与えた場合
 	 */
 	public AbstractCheckConstraintModel(String name, String logicalName, String description, String expression) {
 		super(name, logicalName, description);

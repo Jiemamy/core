@@ -48,14 +48,14 @@ public abstract class AbstractConstraintModelBuilder<T extends ConstraintModel, 
 	/**
 	 * コピーコンストラクタ。
 	 * 
-	 * @param vo コピー元の{@link ConstraintModel}
+	 * @param base コピー元の{@link ConstraintModel}
 	 */
-	public AbstractConstraintModelBuilder(T vo) {
-		super(vo);
+	public AbstractConstraintModelBuilder(T base) {
+		super(base);
 		
-		this.name = vo.getName();
-		this.logicalName = vo.getLogicalName();
-		this.description = vo.getDescription();
+		this.name = base.getName();
+		this.logicalName = base.getLogicalName();
+		this.description = base.getDescription();
 	}
 	
 	/**

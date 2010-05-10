@@ -50,13 +50,13 @@ public abstract class AbstractKeyConstraintModelBuilder<T extends KeyConstraintM
 	/**
 	 * コピーコンストラクタ。
 	 * 
-	 * @param vo コピー元の{@link KeyConstraintModel}
+	 * @param base コピー元の{@link KeyConstraintModel}
 	 */
-	public AbstractKeyConstraintModelBuilder(T vo) {
-		super(vo);
+	public AbstractKeyConstraintModelBuilder(T base) {
+		super(base);
 		
-		this.deferrability = vo.getDeferrability();
-		this.keyColumns = vo.getKeyColumns();
+		this.deferrability = base.getDeferrability();
+		this.keyColumns = base.getKeyColumns();
 	}
 	
 	/**

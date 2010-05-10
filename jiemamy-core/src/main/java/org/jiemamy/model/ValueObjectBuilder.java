@@ -38,9 +38,9 @@ public abstract class ValueObjectBuilder<T extends ValueObject, S extends ValueO
 	/**
 	 * ビルド対象の{@link ValueObject}からこのビルダーを生成するコピーコンストラクタ。
 	 * 
-	 * @param vo コピー元の{@link ValueObject}
+	 * @param base コピー元の{@link ValueObject}
 	 */
-	public ValueObjectBuilder(T vo) {
+	public ValueObjectBuilder(T base) {
 		// noop
 	}
 	
