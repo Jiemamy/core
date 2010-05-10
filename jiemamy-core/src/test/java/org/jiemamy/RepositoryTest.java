@@ -16,7 +16,7 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.model;
+package org.jiemamy;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
@@ -29,6 +29,11 @@ import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
 
+import org.jiemamy.Repository;
+import org.jiemamy.model.DefaultEntityRef;
+import org.jiemamy.model.Entity;
+import org.jiemamy.model.EntityLifecycleException;
+import org.jiemamy.model.EntityNotFoundException;
 import org.jiemamy.model.attribute.DefalutColumnModel;
 import org.jiemamy.model.dbo.DefaultTableModel;
 import org.jiemamy.model.dbo.TableModel;

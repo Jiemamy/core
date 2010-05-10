@@ -20,7 +20,7 @@ package org.jiemamy.model;
 
 import java.util.UUID;
 
-import org.jiemamy.model.Repository.InternalKey;
+import org.jiemamy.Repository.InternalKey;
 
 /**
  * DDDにおけるENTITYを表すインターフェイス。

@@ -16,15 +16,18 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.model;
+package org.jiemamy;
 
 import java.util.Collection;
 import java.util.UUID;
 
 import org.apache.commons.lang.Validate;
 
-import org.jiemamy.EntityEvent;
-import org.jiemamy.EntityListener;
+import org.jiemamy.model.CompositEntity;
+import org.jiemamy.model.Entity;
+import org.jiemamy.model.EntityLifecycleException;
+import org.jiemamy.model.EntityNotFoundException;
+import org.jiemamy.model.EntityRef;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
 import org.jiemamy.utils.CollectionsUtil;
 

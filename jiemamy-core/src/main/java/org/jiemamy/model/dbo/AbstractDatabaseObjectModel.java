@@ -22,8 +22,8 @@ import java.util.UUID;
 
 import org.apache.commons.lang.Validate;
 
+import org.jiemamy.Repository.InternalKey;
 import org.jiemamy.model.Entity;
-import org.jiemamy.model.Repository.InternalKey;
 
 /**
  * データベースオブジェクト（TableやView）の抽象モデルクラス。

@@ -27,7 +27,6 @@ import java.util.List;
 import org.junit.Test;
 
 import org.jiemamy.model.EntityRef;
-import org.jiemamy.model.Repository;
 import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.attribute.DefalutColumnModel;
 import org.jiemamy.model.attribute.constraint.DefaultPrimaryKeyConstraintModel;

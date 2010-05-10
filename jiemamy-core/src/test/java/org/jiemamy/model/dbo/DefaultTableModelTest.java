@@ -27,9 +27,9 @@ import java.util.UUID;
 
 import org.junit.Test;
 
+import org.jiemamy.InternalKeyReference;
+import org.jiemamy.Repository;
 import org.jiemamy.model.EntityLifecycleException;
-import org.jiemamy.model.InternalKeyReference;
-import org.jiemamy.model.Repository;
 import org.jiemamy.model.attribute.DefalutColumnModel;
 
 /**

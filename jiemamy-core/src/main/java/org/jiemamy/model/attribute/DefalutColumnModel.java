@@ -24,10 +24,10 @@ import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
+import org.jiemamy.Repository.InternalKey;
 import org.jiemamy.model.DefaultEntityRef;
 import org.jiemamy.model.Entity;
 import org.jiemamy.model.EntityRef;
-import org.jiemamy.model.Repository.InternalKey;
 import org.jiemamy.model.attribute.constraint.NotNullConstraintModel;
 import org.jiemamy.model.datatype.DataType;
 
