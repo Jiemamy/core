@@ -20,6 +20,7 @@ package org.jiemamy.model.dbo;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 import org.jiemamy.EntityEvent;
 import org.jiemamy.EntityListener;
@@ -50,6 +51,19 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	private List<IndexModel> indexes = CollectionsUtil.newArrayList();
 	
 
+	DefaultTableModel(UUID id) {
+		super(id);
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param attribute
+	 */
+	public void addAttributes(AttributeModel attribute) {
+		attributes.add(attribute);
+	}
+	
 	public void addColumn(ColumnModel column) {
 		notifyAdded(column);
 		columns.add(column);

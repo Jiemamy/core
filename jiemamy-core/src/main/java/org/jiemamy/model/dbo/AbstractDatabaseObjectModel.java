@@ -32,7 +32,7 @@ import org.jiemamy.model.Entity;
  */
 public abstract class AbstractDatabaseObjectModel implements DatabaseObjectModel {
 	
-	private UUID id;
+	private final UUID id;
 	
 	/** 物理名 */
 	private String name;
@@ -43,12 +43,16 @@ public abstract class AbstractDatabaseObjectModel implements DatabaseObjectModel
 	/** 説明文 */
 	private String description;
 	
+	private boolean alive;
+	
 
+	AbstractDatabaseObjectModel(UUID id) {
+		Validate.notNull(id);
+		this.id = id;
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
-		if (id == null) {
-			return false;
-		}
 		if (this == obj) {
 			return true;
 		}
@@ -85,6 +89,20 @@ public abstract class AbstractDatabaseObjectModel implements DatabaseObjectModel
 		return result;
 	}
 	
+	public void initiate(InternalKey key) {
+		Validate.notNull(key);
+		alive = true;
+	}
+	
+	public boolean isAlive() {
+		return alive;
+	}
+	
+	public void kill(InternalKey key) {
+		Validate.notNull(key);
+		alive = false;
+	}
+	
 	/**
 	 * 説明文を設定する。
 	 * 
@@ -92,11 +110,6 @@ public abstract class AbstractDatabaseObjectModel implements DatabaseObjectModel
 	 */
 	public void setDescription(String description) {
 		this.description = description;
-	}
-	
-	public void setId(UUID id, InternalKey key) {
-		Validate.notNull(key);
-		this.id = id;
 	}
 	
 	/**

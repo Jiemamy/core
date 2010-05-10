@@ -33,6 +33,8 @@ import org.jiemamy.model.index.IndexModel;
  */
 public interface TableModel extends DatabaseObjectModel, CompositEntity {
 	
+	void addAttributes(AttributeModel attribute);
+	
 	void addColumn(ColumnModel column);
 	
 	/**
@@ -62,5 +64,4 @@ public interface TableModel extends DatabaseObjectModel, CompositEntity {
 	EntityRef<TableModel> getReference();
 	
 	void removeColumn(ColumnModel column);
-	
 }

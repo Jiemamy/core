@@ -18,6 +18,8 @@
  */
 package org.jiemamy.model.dbo;
 
+import java.util.UUID;
+
 import org.jiemamy.model.DefaultEntityRef;
 import org.jiemamy.model.EntityLifecycleException;
 import org.jiemamy.model.EntityRef;
@@ -33,6 +35,10 @@ public class DefaultViewModel extends AbstractDatabaseObjectModel implements Vie
 	private String definition;
 	
 
+	DefaultViewModel(UUID id) {
+		super(id);
+	}
+	
 	public String getDefinition() {
 		return definition;
 	}
@@ -51,5 +57,4 @@ public class DefaultViewModel extends AbstractDatabaseObjectModel implements Vie
 	public void setDefinition(String definition) {
 		this.definition = definition;
 	}
-	
 }

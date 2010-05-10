@@ -45,12 +45,12 @@ public class Repository implements EntityListener {
 	
 
 	public void add(DatabaseObjectModel dbo) {
-		add(dbo, UUID.randomUUID());
+		add((Entity) dbo);
 	}
 	
 	public void entityAdded(EntityEvent e) {
 		Entity source = (Entity) e.getSource();
-		add(source, UUID.randomUUID());
+		add(source);
 	}
 	
 	public void entityRemoved(EntityEvent e) {
@@ -59,7 +59,9 @@ public class Repository implements EntityListener {
 	}
 	
 	public <T extends Entity>T get(EntityRef<T> ref) {
-		return (T) get(ref.getReferenceId());
+		@SuppressWarnings("unchecked")
+		T result = (T) get(ref.getReferenceId());
+		return result;
 	}
 	
 	public Entity get(UUID id) {
@@ -71,16 +73,16 @@ public class Repository implements EntityListener {
 		throw new EntityNotFoundException();
 	}
 	
-	void add(Entity entity, UUID id) {
-		if (entity.getId() != null) {
+	void add(Entity entity) {
+		if (entity.isAlive()) {
 			throw new EntityLifecycleException();
 		}
 		
-		entity.setId(id, key);
+		entity.initiate(key);
 		if (entity instanceof CompositEntity) {
 			CompositEntity compositEntity = (CompositEntity) entity;
 			for (Entity child : compositEntity.getChildren()) {
-				add(child, UUID.randomUUID());
+				add(child);
 			}
 			compositEntity.addListener(this);
 		}
@@ -95,7 +97,7 @@ public class Repository implements EntityListener {
 			throw new IllegalArgumentException();
 		}
 		
-		entity.setId(null, key);
+		entity.kill(key);
 		if (entity instanceof CompositEntity) {
 			CompositEntity compositEntity = (CompositEntity) entity;
 			compositEntity.removeListener(this);

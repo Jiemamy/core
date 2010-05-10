@@ -67,5 +67,9 @@ public interface Entity {
 	 */
 	EntityRef<?> getReference();
 	
-	void setId(UUID id, InternalKey key);
+	void initiate(InternalKey key);
+	
+	boolean isAlive();
+	
+	void kill(InternalKey key);
 }

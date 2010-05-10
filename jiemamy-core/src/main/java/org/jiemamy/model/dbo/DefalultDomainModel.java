@@ -18,6 +18,8 @@
  */
 package org.jiemamy.model.dbo;
 
+import java.util.UUID;
+
 import org.jiemamy.model.DefaultEntityRef;
 import org.jiemamy.model.EntityLifecycleException;
 import org.jiemamy.model.EntityRef;
@@ -41,6 +43,15 @@ public class DefalultDomainModel extends AbstractDatabaseObjectModel implements 
 	private NotNullConstraintModel notNullConstraint;
 	
 
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param id
+	 */
+	DefalultDomainModel(UUID id) {
+		super(id);
+	}
+	
 	public ColumnCheckConstraintModel getCheckConstraint() {
 		return checkConstraint;
 	}

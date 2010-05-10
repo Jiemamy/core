@@ -36,10 +36,10 @@ import org.jiemamy.model.datatype.DataType;
  * 
  * @author daisuke
  */
-public class DefalutColumnModel extends AbstractAttributeModel implements ColumnModel {
+public class DefautClolumnModel extends AbstractAttributeModel implements ColumnModel {
 	
 	/** ENTITY ID */
-	private UUID id;
+	private final UUID id;
 	
 	/** 型記述子 */
 	private DataType dataType;
@@ -49,12 +49,16 @@ public class DefalutColumnModel extends AbstractAttributeModel implements Column
 	
 	private NotNullConstraintModel notNullConstraint;
 	
+	private boolean alive;
+	
 
+	DefautClolumnModel(UUID id) {
+		Validate.notNull(id);
+		this.id = id;
+	}
+	
 	@Override
 	public final boolean equals(Object obj) {
-		if (id == null) {
-			return false;
-		}
 		if (this == obj) {
 			return true;
 		}
@@ -95,6 +99,20 @@ public class DefalutColumnModel extends AbstractAttributeModel implements Column
 		return result;
 	}
 	
+	public void initiate(InternalKey key) {
+		Validate.notNull(key);
+		alive = true;
+	}
+	
+	public boolean isAlive() {
+		return alive;
+	}
+	
+	public void kill(InternalKey key) {
+		Validate.notNull(key);
+		alive = false;
+	}
+	
 	/**
 	 * データタイプを設定する
 	 * 
@@ -118,11 +136,6 @@ public class DefalutColumnModel extends AbstractAttributeModel implements Column
 	@Override
 	public void setDescription(String description) {
 		super.setDescription(description);
-	}
-	
-	public void setId(UUID id, InternalKey key) {
-		Validate.notNull(key);
-		this.id = id;
 	}
 	
 	@Override
