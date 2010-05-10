@@ -20,16 +20,15 @@ package org.jiemamy.model.attribute;
 
 import java.util.UUID;
 
+import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 import org.jiemamy.model.DefaultEntityRef;
 import org.jiemamy.model.Entity;
 import org.jiemamy.model.EntityRef;
-import org.jiemamy.model.attribute.constraint.ColumnCheckConstraintModel;
+import org.jiemamy.model.Repository.InternalKey;
 import org.jiemamy.model.attribute.constraint.NotNullConstraintModel;
-import org.jiemamy.model.attribute.constraint.PrimaryKeyConstraintModel;
-import org.jiemamy.model.attribute.constraint.UniqueKeyConstraintModel;
 import org.jiemamy.model.datatype.DataType;
 
 /**
@@ -48,13 +47,7 @@ public class DefalutColumnModel extends AbstractAttributeModel implements Column
 	/** デフォルト値 */
 	private String defaultValue;
 	
-	private ColumnCheckConstraintModel checkConstraint;
-	
 	private NotNullConstraintModel notNullConstraint;
-	
-	private PrimaryKeyConstraintModel primaryKey;
-	
-	private UniqueKeyConstraintModel uniqueKey;
 	
 
 	@Override
@@ -74,10 +67,6 @@ public class DefalutColumnModel extends AbstractAttributeModel implements Column
 		return id.equals(((Entity) obj).getId());
 	}
 	
-	public ColumnCheckConstraintModel getCheckConstraint() {
-		return checkConstraint;
-	}
-	
 	public synchronized DataType getDataType() {
 		return dataType;
 	}
@@ -94,16 +83,8 @@ public class DefalutColumnModel extends AbstractAttributeModel implements Column
 		return notNullConstraint;
 	}
 	
-	public PrimaryKeyConstraintModel getPrimaryKey() {
-		return primaryKey;
-	}
-	
 	public EntityRef<ColumnModel> getReference() {
 		return new DefaultEntityRef<ColumnModel>(this);
-	}
-	
-	public UniqueKeyConstraintModel getUniqueKey() {
-		return uniqueKey;
 	}
 	
 	@Override
@@ -112,16 +93,6 @@ public class DefalutColumnModel extends AbstractAttributeModel implements Column
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
-	}
-	
-	/**
-	 * チェック制約を設定する
-	 * 
-	 * @param checkConstraint チェック制約
-	 * @since 0.3
-	 */
-	public void setCheckConstraint(ColumnCheckConstraintModel checkConstraint) {
-		this.checkConstraint = checkConstraint;
 	}
 	
 	/**
@@ -149,6 +120,11 @@ public class DefalutColumnModel extends AbstractAttributeModel implements Column
 		super.setDescription(description);
 	}
 	
+	public void setId(UUID id, InternalKey key) {
+		Validate.notNull(key);
+		this.id = id;
+	}
+	
 	@Override
 	public void setLogicalName(String logicalName) {
 		super.setLogicalName(logicalName);
@@ -169,33 +145,9 @@ public class DefalutColumnModel extends AbstractAttributeModel implements Column
 		this.notNullConstraint = notNullConstraint;
 	}
 	
-	/**
-	 * 主キー制約を設定する
-	 * 
-	 * @param primaryKey 主キー制約
-	 * @since 0.3
-	 */
-	public void setPrimaryKey(PrimaryKeyConstraintModel primaryKey) {
-		this.primaryKey = primaryKey;
-	}
-	
-	/**
-	 * ユニークキー制約を設定する
-	 * 
-	 * @param uniqueKey ユニークキー制約
-	 * @since 0.3
-	 */
-	public void setUniqueKey(UniqueKeyConstraintModel uniqueKey) {
-		this.uniqueKey = uniqueKey;
-	}
-	
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-	}
-	
-	void setId(UUID id) {
-		this.id = id;
 	}
 	
 }

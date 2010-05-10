@@ -20,7 +20,10 @@ package org.jiemamy.model.dbo;
 
 import java.util.UUID;
 
+import org.apache.commons.lang.Validate;
+
 import org.jiemamy.model.Entity;
+import org.jiemamy.model.Repository.InternalKey;
 
 /**
  * データベースオブジェクト（TableやView）の抽象モデルクラス。
@@ -91,6 +94,11 @@ public abstract class AbstractDatabaseObjectModel implements DatabaseObjectModel
 		this.description = description;
 	}
 	
+	public void setId(UUID id, InternalKey key) {
+		Validate.notNull(key);
+		this.id = id;
+	}
+	
 	/**
 	 * 論理名を設定する。
 	 * 
@@ -112,10 +120,6 @@ public abstract class AbstractDatabaseObjectModel implements DatabaseObjectModel
 	@Override
 	public String toString() {
 		return "Entity " + getName();
-	}
-	
-	void setId(UUID id) {
-		this.id = id;
 	}
 	
 }

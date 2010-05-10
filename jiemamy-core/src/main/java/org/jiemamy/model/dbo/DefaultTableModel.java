@@ -18,15 +18,19 @@
  */
 package org.jiemamy.model.dbo;
 
+import java.util.Collection;
 import java.util.List;
 
-import org.apache.commons.lang.Validate;
-
+import org.jiemamy.EntityEvent;
+import org.jiemamy.EntityListener;
 import org.jiemamy.model.DefaultEntityRef;
+import org.jiemamy.model.Entity;
 import org.jiemamy.model.EntityLifecycleException;
 import org.jiemamy.model.EntityRef;
 import org.jiemamy.model.attribute.AttributeModel;
+import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.index.IndexModel;
+import org.jiemamy.utils.CollectionsUtil;
 
 /**
  * テーブルモデル。
@@ -35,16 +39,37 @@ import org.jiemamy.model.index.IndexModel;
  */
 public class DefaultTableModel extends AbstractDatabaseObjectModel implements TableModel {
 	
+	private List<EntityListener> listeners = CollectionsUtil.newArrayList();
+	
+	private List<ColumnModel> columns = CollectionsUtil.newArrayList();
+	
 	/** 属性のリスト */
-	private List<AttributeModel> attributes;
+	private List<AttributeModel> attributes = CollectionsUtil.newArrayList();
 	
 	/** インデックスのリスト */
-	private List<IndexModel> indexes;
+	private List<IndexModel> indexes = CollectionsUtil.newArrayList();
 	
 
+	public void addColumn(ColumnModel column) {
+		notifyAdded(column);
+		columns.add(column);
+	}
+	
+	public void addListener(EntityListener listener) {
+		listeners.add(listener);
+	}
+	
 	public List<AttributeModel> getAttributes() {
 		assert attributes != null;
 		return attributes;
+	}
+	
+	public Collection<? extends Entity> getChildren() {
+		return columns;
+	}
+	
+	public List<ColumnModel> getColumns() {
+		return columns;
 	}
 	
 	public List<IndexModel> getIndexes() {
@@ -59,25 +84,24 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 		return new DefaultEntityRef<TableModel>(this);
 	}
 	
-	/**
-	 * 属性のリストを設定する。
-	 * 
-	 * @param attributes 属性のリスト
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 */
-	public void setAttributes(List<AttributeModel> attributes) {
-		Validate.notNull(attributes);
-		this.attributes = attributes;
+	public void notifyAdded(Entity entity) {
+		for (EntityListener listener : listeners) {
+			listener.entityAdded(new EntityEvent(entity));
+		}
 	}
 	
-	/**
-	 * インデックスのリストを設定する。
-	 * 
-	 * @param indexes インデックスのリスト
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 */
-	public void setIndexes(List<IndexModel> indexes) {
-		Validate.notNull(indexes);
-		this.indexes = indexes;
+	public void notifyRemoved(Entity entity) {
+		for (EntityListener listener : listeners) {
+			listener.entityRemoved(new EntityEvent(entity));
+		}
+	}
+	
+	public void removeColumn(ColumnModel column) {
+		columns.remove(column);
+		notifyRemoved(column);
+	}
+	
+	public void removeListener(EntityListener listener) {
+		listeners.remove(listener);
 	}
 }

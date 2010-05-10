@@ -20,8 +20,10 @@ package org.jiemamy.model.dbo;
 
 import java.util.List;
 
+import org.jiemamy.model.CompositEntity;
 import org.jiemamy.model.EntityRef;
 import org.jiemamy.model.attribute.AttributeModel;
+import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.index.IndexModel;
 
 /**
@@ -29,7 +31,9 @@ import org.jiemamy.model.index.IndexModel;
  * 
  * @author daisuke
  */
-public interface TableModel extends DatabaseObjectModel {
+public interface TableModel extends DatabaseObjectModel, CompositEntity {
+	
+	void addColumn(ColumnModel column);
 	
 	/**
 	 * 属性のリストを取得する。
@@ -41,6 +45,8 @@ public interface TableModel extends DatabaseObjectModel {
 	 * @since 0.2
 	 */
 	List<AttributeModel> getAttributes();
+	
+	List<ColumnModel> getColumns();
 	
 	/**
 	 * インデックスのリストを取得する。
@@ -54,4 +60,7 @@ public interface TableModel extends DatabaseObjectModel {
 	List<IndexModel> getIndexes();
 	
 	EntityRef<TableModel> getReference();
+	
+	void removeColumn(ColumnModel column);
+	
 }

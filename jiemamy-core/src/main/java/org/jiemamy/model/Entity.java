@@ -20,6 +20,8 @@ package org.jiemamy.model;
 
 import java.util.UUID;
 
+import org.jiemamy.model.Repository.InternalKey;
+
 /**
  * DDDにおけるENTITYを表すインターフェイス。
  * 
@@ -64,4 +66,6 @@ public interface Entity {
 	 * @since 0.3
 	 */
 	EntityRef<?> getReference();
+	
+	void setId(UUID id, InternalKey key);
 }
