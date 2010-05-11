@@ -277,14 +277,4 @@ public class RepositoryTest {
 				(DatabaseObjectModel) t2));
 		// FORMAT-ON
 	}
-	
-	/**
-	 * TODO for daisuke
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
-	@Test
-	public void test08_addnull() throws Exception {
-		repository.add(null);
-	}
 }
