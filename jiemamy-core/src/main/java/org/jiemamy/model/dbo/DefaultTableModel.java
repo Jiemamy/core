@@ -29,6 +29,7 @@ import org.apache.commons.collections15.Predicate;
 import org.jiemamy.model.DefaultEntityRef;
 import org.jiemamy.model.Entity;
 import org.jiemamy.model.EntityEvent;
+import org.jiemamy.model.EntityLifecycle;
 import org.jiemamy.model.EntityLifecycleException;
 import org.jiemamy.model.EntityListener;
 import org.jiemamy.model.EntityRef;
@@ -99,16 +100,19 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	
 	public ColumnModel getColumn(final String name) {
 		assert columns != null;
-		ColumnModel c = CollectionUtils.find(columns, new Predicate<ColumnModel>() {
+		Collection<ColumnModel> c = CollectionUtils.select(columns, new Predicate<ColumnModel>() {
 			
 			public boolean evaluate(ColumnModel col) {
 				return col.getName().equals(name);
 			}
 		});
-		if (c != null) {
-			return c;
+		if (c.size() == 1) {
+			return c.iterator().next();
 		}
-		throw new ColumnNotFoundException();
+		if (c.size() == 0) {
+			throw new ColumnNotFoundException();
+		}
+		throw new TooManyColumnsFoundException(c);
 	}
 	
 	public List<ColumnModel> getColumns() {
@@ -166,18 +170,15 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	}
 	
 	private void notifyAdded(Entity entity) {
-		if (entity.isAlive()) {
-			throw new EntityLifecycleException();
-		}
 		for (EntityListener listener : listeners) {
 			listener.entityAdded(new EntityEvent(entity));
+		}
+		if (getEntityLifecycle() != EntityLifecycle.ACTIVE) {
+			entity.bind();
 		}
 	}
 	
 	private void notifyRemoved(Entity entity) {
-		if (entity.isAlive() == false) {
-			throw new EntityLifecycleException();
-		}
 		for (EntityListener listener : listeners) {
 			listener.entityRemoved(new EntityEvent(entity));
 		}

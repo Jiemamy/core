@@ -25,8 +25,7 @@ import org.jiemamy.model.EntityLifecycleException;
 import org.jiemamy.model.EntityRef;
 import org.jiemamy.model.attribute.constraint.ColumnCheckConstraintModel;
 import org.jiemamy.model.attribute.constraint.NotNullConstraintModel;
-import org.jiemamy.model.datatype.BuiltinDataType;
-import org.jiemamy.model.datatype.DataType;
+import org.jiemamy.model.datatype.TypeVariant;
 
 /**
  * ドメイン定義モデル。
@@ -36,7 +35,7 @@ import org.jiemamy.model.datatype.DataType;
 public class DefalultDomainModel extends AbstractDatabaseObjectModel implements DomainModel {
 	
 	/** ドメインとして定義された型記述子 */
-	private BuiltinDataType dataType;
+	private TypeVariant dataType;
 	
 	private ColumnCheckConstraintModel checkConstraint;
 	
@@ -57,7 +56,7 @@ public class DefalultDomainModel extends AbstractDatabaseObjectModel implements 
 		return checkConstraint;
 	}
 	
-	public DataType getDataType() {
+	public TypeVariant getDataType() {
 		return dataType;
 	}
 	
@@ -88,7 +87,7 @@ public class DefalultDomainModel extends AbstractDatabaseObjectModel implements 
 	 * @param dataType 型記述子
 	 * @since 0.3
 	 */
-	public void setDataType(BuiltinDataType dataType) {
+	public void setDataType(TypeVariant dataType) {
 		this.dataType = dataType;
 	}
 	

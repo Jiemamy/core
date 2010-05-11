@@ -20,8 +20,6 @@ package org.jiemamy.model;
 
 import java.util.UUID;
 
-import org.jiemamy.model.Repository.InternalCredential;
-
 /**
  * DDDにおけるENTITYを表すインターフェイス。
  * 
@@ -37,6 +35,33 @@ import org.jiemamy.model.Repository.InternalCredential;
 public interface Entity {
 	
 	/**
+	 * エンティティのライフサイクルを {@link EntityLifecycle#ACTIVE} に遷移する。 
+	 * 
+	 * <p>Jiemamyフレームワーク外から呼び出した場合の挙動は未定義とする。</p>
+	 * 
+	 * @throws EntityLifecycleException 現在のライフサイクルが{@link EntityLifecycle#ACTIVE}だった場合
+	 */
+	void activate();
+	
+	/**
+	 * エンティティのライフサイクルを {@link EntityLifecycle#FREE} から {@link EntityLifecycle#BOUND} に遷移する。 
+	 * 
+	 * <p>Jiemamyフレームワーク外から呼び出した場合の挙動は未定義とする。</p>
+	 * 
+	 * @throws EntityLifecycleException 現在のライフサイクルが{@link EntityLifecycle#FREE}ではなかった場合
+	 */
+	void bind();
+	
+	/**
+	 * エンティティのライフサイクルを {@link EntityLifecycle#ACTIVE} から {@link EntityLifecycle#BOUND} に遷移する。 
+	 * 
+	 * <p>Jiemamyフレームワーク外から呼び出した場合の挙動は未定義とする。</p>
+	 * 
+	 * @throws EntityLifecycleException 現在のライフサイクルが{@link EntityLifecycle#ACTIVE}ではなかった場合
+	 */
+	void deactivate();
+	
+	/**
 	 * ENTITY IDの等価性を以て、ENTITYの同一性を比較する。
 	 * 
 	 * <p>ENTITYのライフサイクルがdeadの場合は、必ず{@code null}を返す。</p>
@@ -46,6 +71,22 @@ public interface Entity {
 	 * @since 0.3
 	 */
 	boolean equals(Object obj);
+	
+	/**
+	 * エンティティのライフサイクルを {@link EntityLifecycle#FREE} に遷移する。 
+	 * 
+	 * <p>Jiemamyフレームワーク外から呼び出した場合の挙動は未定義とする。</p>
+	 * 
+	 * @throws EntityLifecycleException 現在のライフサイクルが{@link EntityLifecycle#FREE}だった場合
+	 */
+	void free();
+	
+	/**
+	 * ENTITYのライフサイクルが開始しているかどうかを調べる。
+	 * 
+	 * @return ライフサイクルが開始している場合は{@code true}、そうでない場合は{@code false}
+	 */
+	EntityLifecycle getEntityLifecycle();
 	
 	/**
 	* ENTITY IDを取得する。
@@ -66,31 +107,4 @@ public interface Entity {
 	 * @since 0.3
 	 */
 	EntityRef<?> getReference();
-	
-	/**
-	 * ENTITYのライフサイクルが開始したこと、すなわち{@link Repository}の管理下に入ったことを通知する。
-	 * 
-	 * <p>このメソッドは Jiemamy の内部からのみ呼び出されることを意図したAPIであり、
-	 * クライアントから呼び出した場合の挙動は保証しない。</p>
-	 * 
-	 * @param credential 呼び出し資格オブジェクト
-	 */
-	void initiate(InternalCredential credential);
-	
-	/**
-	 * ENTITYのライフサイクルが開始しているかどうかを調べる。
-	 * 
-	 * @return ライフサイクルが開始している場合は{@code true}、そうでない場合は{@code false}
-	 */
-	boolean isAlive();
-	
-	/**
-	 * ENTITYのライフサイクルが終了したこと、すなわち{@link Repository}の管理下から離れたことを通知する。
-	 * 
-	 * <p>このメソッドは Jiemamy の内部からのみ呼び出されることを意図したAPIであり、
-	 * クライアントから呼び出した場合の挙動は保証しない。</p>
-	 * 
-	 * @param credential 呼び出し資格オブジェクト
-	 */
-	void kill(InternalCredential credential);
 }

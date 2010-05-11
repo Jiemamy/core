@@ -27,7 +27,7 @@ import org.jiemamy.model.AbstractEntityModel;
 import org.jiemamy.model.DefaultEntityRef;
 import org.jiemamy.model.EntityRef;
 import org.jiemamy.model.attribute.constraint.NotNullConstraintModel;
-import org.jiemamy.model.datatype.DataType;
+import org.jiemamy.model.datatype.TypeVariant;
 
 /**
  * カラム定義モデル。Artemisにおける{@link ColumnModel}の実装クラス。
@@ -46,7 +46,7 @@ public class DefaultColumnModel extends AbstractEntityModel implements ColumnMod
 	private String description;
 	
 	/** 型記述子 */
-	private DataType dataType;
+	private TypeVariant dataType;
 	
 	/** デフォルト値 */
 	private String defaultValue;
@@ -64,7 +64,7 @@ public class DefaultColumnModel extends AbstractEntityModel implements ColumnMod
 		super(id);
 	}
 	
-	public synchronized DataType getDataType() {
+	public synchronized TypeVariant getDataType() {
 		return dataType;
 	}
 	
@@ -98,7 +98,7 @@ public class DefaultColumnModel extends AbstractEntityModel implements ColumnMod
 	 * @param dataType データタイプ
 	 * @since 0.3
 	 */
-	public synchronized void setDataType(DataType dataType) {
+	public synchronized void setDataType(TypeVariant dataType) {
 		this.dataType = dataType;
 	}
 	

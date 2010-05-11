@@ -20,12 +20,13 @@ package org.jiemamy.model.dbo;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 import java.util.UUID;
 
 import org.junit.Test;
 
-import org.jiemamy.model.InternalKeyReference;
+import org.jiemamy.model.EntityLifecycle;
 import org.jiemamy.model.Repository;
 import org.jiemamy.model.attribute.Column;
 import org.jiemamy.model.attribute.ColumnModel;
@@ -47,9 +48,22 @@ public class DefaultTableModelTest {
 	 */
 	@Test
 	public void test01_create() throws Exception {
-		DefaultTableModel t = new Table().whoseNameIs("FOO").build();
+		try {
+			new DefaultTableModel(null);
+		} catch (IllegalArgumentException e) {
+			// success
+		}
+		
+		UUID id = UUID.randomUUID();
+		DefaultTableModel t = new DefaultTableModel(id);
+		t.setName("FOO");
+		
+		assertThat(t.getId(), is(id));
 		assertThat(t.getName(), is("FOO"));
+		
 		t.setName("BAR");
+		
+		assertThat(t.getId(), is(id));
 		assertThat(t.getName(), is("BAR"));
 	}
 	
@@ -67,9 +81,9 @@ public class DefaultTableModelTest {
 		DefaultTableModel live3 = new Table().build(uuid2);
 		DefaultTableModel dead = new Table().build();
 		
-		live1.initiate(InternalKeyReference.KEY);
-		live2.initiate(InternalKeyReference.KEY);
-		live3.initiate(InternalKeyReference.KEY);
+		live1.activate();
+		live2.activate();
+		live3.activate();
 		
 		live1.setName("FOO");
 		live2.setName("BAR");
@@ -104,13 +118,18 @@ public class DefaultTableModelTest {
 	 */
 	@Test
 	public void test03_lifecycle() throws Exception {
-		DefaultTableModel live = new Table().build();
-		DefaultTableModel dead = new Table().build();
+		Repository repository = new Repository();
+		DefaultTableModel t = new Table().build();
 		
-		live.initiate(InternalKeyReference.KEY);
+		assertThat(t.getEntityLifecycle(), is(EntityLifecycle.FREE));
 		
-		assertThat(live.getReference().getReferenceId(), is(live.getId()));
-		assertThat(dead.getReference().getReferenceId(), is(dead.getId()));
+		repository.add(t);
+		
+		assertThat(t.getEntityLifecycle(), is(EntityLifecycle.ACTIVE));
+		
+		repository.remove(t);
+		
+		assertThat(t.getEntityLifecycle(), is(EntityLifecycle.FREE));
 	}
 	
 	/**
@@ -120,24 +139,28 @@ public class DefaultTableModelTest {
 	 */
 	@Test
 	public void test04_column_lifecycle1() throws Exception {
-		DefaultColumnModel col1 = new Column().build();
-		DefaultTableModel table = new Table().build();
-		table.addColumn(col1);
-		
 		Repository repository = new Repository();
 		
-		assertThat(table.isAlive(), is(false));
-		assertThat(col1.isAlive(), is(false));
+		DefaultColumnModel column = new Column().build();
+		DefaultTableModel table = new Table().build();
+		
+		assertThat(table.getEntityLifecycle(), is(EntityLifecycle.FREE));
+		assertThat(column.getEntityLifecycle(), is(EntityLifecycle.FREE));
+		
+		table.addColumn(column);
+		
+		assertThat(table.getEntityLifecycle(), is(EntityLifecycle.FREE));
+		assertThat(column.getEntityLifecycle(), is(EntityLifecycle.BOUND));
 		
 		repository.add(table);
 		
-		assertThat(table.isAlive(), is(true));
-		assertThat(col1.isAlive(), is(true));
+		assertThat(table.getEntityLifecycle(), is(EntityLifecycle.ACTIVE));
+		assertThat(column.getEntityLifecycle(), is(EntityLifecycle.ACTIVE));
 		
 		repository.remove(table);
 		
-		assertThat(table.isAlive(), is(false));
-		assertThat(col1.isAlive(), is(false));
+		assertThat(table.getEntityLifecycle(), is(EntityLifecycle.FREE));
+		assertThat(column.getEntityLifecycle(), is(EntityLifecycle.BOUND));
 	}
 	
 	/**
@@ -147,17 +170,28 @@ public class DefaultTableModelTest {
 	 */
 	@Test
 	public void test05_column_lifecycle2() throws Exception {
-		DefaultTableModel table = new Table().build();
-		
 		Repository repository = new Repository();
+		
+		DefaultTableModel table = new Table().build();
+		DefaultColumnModel column = new Column().build();
+		
+		assertThat(table.getEntityLifecycle(), is(EntityLifecycle.FREE));
+		assertThat(column.getEntityLifecycle(), is(EntityLifecycle.FREE));
+		
 		repository.add(table);
 		
-		DefaultColumnModel col = new Column().build();
-		assertThat(col.isAlive(), is(false));
-		table.addColumn(col);
-		assertThat(col.isAlive(), is(true));
-		table.removeColumn(col);
-		assertThat(col.isAlive(), is(false));
+		assertThat(table.getEntityLifecycle(), is(EntityLifecycle.ACTIVE));
+		assertThat(column.getEntityLifecycle(), is(EntityLifecycle.FREE));
+		
+		table.addColumn(column);
+		
+		assertThat(table.getEntityLifecycle(), is(EntityLifecycle.ACTIVE));
+		assertThat(column.getEntityLifecycle(), is(EntityLifecycle.ACTIVE));
+		
+		table.removeColumn(column);
+		
+		assertThat(table.getEntityLifecycle(), is(EntityLifecycle.ACTIVE));
+		assertThat(column.getEntityLifecycle(), is(EntityLifecycle.FREE));
 	}
 	
 	/**
@@ -167,16 +201,38 @@ public class DefaultTableModelTest {
 	 */
 	@Test
 	public void test06_getColumn() throws Exception {
-		DefaultColumnModel foo = new Column().build();
-		foo.setName("FOO");
-		DefaultColumnModel bar = new Column().build();
-		bar.setName("BAR");
-		DefaultTableModel table = new Table().build();
+		DefaultTableModel table = new Table("HOGE").build();
+		DefaultColumnModel foo = new Column("FOO").build();
+		DefaultColumnModel foo2 = new Column("FOO").build();
+		DefaultColumnModel bar = new Column("BAR").build();
+		
+		assertThat(table.getColumns().size(), is(0));
+		
 		table.addColumn(foo);
 		table.addColumn(bar);
 		
 		assertThat(table.getColumns().size(), is(2));
 		assertThat(table.getColumn("FOO"), is((ColumnModel) foo));
 		assertThat(table.getColumn("BAR"), is((ColumnModel) bar));
+		
+		table.removeColumn(bar);
+		
+		assertThat(table.getColumns().size(), is(1));
+		assertThat(table.getColumn("FOO"), is((ColumnModel) foo));
+		
+		try {
+			table.getColumn("BAR");
+			fail();
+		} catch (ColumnNotFoundException e) {
+			// success
+		}
+		
+		table.addColumn(foo2);
+		try {
+			table.getColumn("FOO");
+			fail();
+		} catch (TooManyColumnsFoundException e) {
+			// success
+		}
 	}
 }

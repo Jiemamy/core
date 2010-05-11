@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import org.apache.commons.collections15.CollectionUtils;
+import org.apache.commons.collections15.Predicate;
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.model.attribute.ColumnModel;
@@ -41,8 +43,6 @@ import org.jiemamy.utils.CollectionsUtil;
  */
 public class Repository implements EntityListener {
 	
-	final InternalCredential key = new InternalCredential();
-	
 	private Collection<Entity> entities = CollectionsUtil.newArrayList();
 	
 
@@ -58,7 +58,7 @@ public class Repository implements EntityListener {
 	 * @throws EntityLifecycleException 引数{@code dbo}のライフサイクルがaliveの場合
 	 */
 	public void add(DatabaseObjectModel dbo) {
-		entityAdded(new EntityEvent(dbo));
+		add((Entity) dbo);
 	}
 	
 	public void entityAdded(EntityEvent e) {
@@ -78,32 +78,36 @@ public class Repository implements EntityListener {
 	 * @return この属性が所属するテーブル. どのテーブルにも所属していない場合は{@code null}
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public TableModel findDeclaringTable(ColumnModel columnModel) {
-		for (Entity entity : entities) {
-			if (entity instanceof TableModel) {
-				TableModel tableModel = (TableModel) entity;
-				if (tableModel.getColumns().contains(columnModel)) {
-					return tableModel;
-				}
+	public TableModel findDeclaringTable(final ColumnModel columnModel) {
+		Collection<TableModel> select = CollectionUtils.select(findTables(), new Predicate<TableModel>() {
+			
+			public boolean evaluate(TableModel tableModel) {
+				return tableModel.getColumns().contains(columnModel);
 			}
+		});
+		if (select.size() == 1) {
+			return select.iterator().next();
 		}
-		throw new EntityNotFoundException();
+		if (select.size() == 0) {
+			throw new EntityNotFoundException();
+		}
+		throw new ModelConsistencyException();
 	}
 	
 	/**
 	 * 指定した外部キーが参照するエンティティを取得する。
 	 * @param fk 対象外部キー
 	 * @return 指定した外部キーが参照するエンティティ. 参照エンティティが見つからない場合は{@code null}
-	 * @throws ModelConsistenceException 参照カラムが1つもない場合
+	 * @throws ModelConsistencyException 参照カラムが1つもない場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public TableModel findReferencedEntity(ForeignKeyConstraintModel fk) {
 		if (fk.getReferenceColumns().size() == 0) {
-			throw new ModelConsistenceException();
+			throw new ModelConsistencyException();
 		}
 		EntityRef<ColumnModel> columnRef = fk.getReferenceColumns().get(0);
 		
-		for (TableModel tableModel : getTables()) {
+		for (TableModel tableModel : findTables()) {
 			for (ColumnModel columnModel : tableModel.getColumns()) {
 				if (columnRef.getReferenceId().equals(columnModel.getId())) {
 					return tableModel;
@@ -185,6 +189,28 @@ public class Repository implements EntityListener {
 	}
 	
 	/**
+	 * 全ての依存モデルの集合を返す。
+	 * 
+	 * @param standardEntity 基準エンティティ
+	 * @return 全ての依存モデルの集合
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public Collection<DatabaseObjectModel> findSubEntitiesRecursive(DatabaseObjectModel standardEntity) {
+		Validate.notNull(standardEntity);
+		Collection<DatabaseObjectModel> parentEntities = findSubEntitiesNonRecursive(standardEntity);
+		Set<DatabaseObjectModel> result = CollectionsUtil.newHashSet();
+		result.addAll(parentEntities);
+		
+		for (DatabaseObjectModel parentEntity : parentEntities) {
+			if (standardEntity.equals(parentEntity) == false) {
+				result.addAll(findSubEntitiesRecursive(parentEntity));
+			}
+		}
+		
+		return result;
+	}
+	
+	/**
 	 * 参照先親モデルを返す。
 	 * 
 	 * @param entityModel 対象エンティティ
@@ -216,41 +242,24 @@ public class Repository implements EntityListener {
 	public Collection<DatabaseObjectModel> findSuperEntitiesRecursive(DatabaseObjectModel entityModel) {
 		Validate.notNull(entityModel);
 		Collection<DatabaseObjectModel> parentEntities = findSuperEntitiesNonRecursive(entityModel);
-		Collection<DatabaseObjectModel> entities = CollectionsUtil.newArrayList();
-		entities.addAll(parentEntities);
+		Collection<DatabaseObjectModel> result = CollectionsUtil.newArrayList();
+		result.addAll(parentEntities);
 		
 		for (DatabaseObjectModel parentEntity : parentEntities) {
 			if (entityModel.equals(parentEntity) == false) {
-				entities.addAll(findSuperEntitiesRecursive(parentEntity));
+				result.addAll(findSuperEntitiesRecursive(parentEntity));
 			}
 		}
 		
-		return entities;
+		return result;
 	}
 	
 	/**
-	 * 全ての依存モデルの集合を返す。
+	 * リポジトリが管理している全ての {@link TableModel}を返す。
 	 * 
-	 * @param standardEntity 基準エンティティ
-	 * @return 全ての依存モデルの集合
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @return リポジトリが管理している全ての {@link TableModel}
 	 */
-	public Collection<DatabaseObjectModel> findSubEntitiesRecursive(DatabaseObjectModel standardEntity) {
-		Validate.notNull(standardEntity);
-		Collection<DatabaseObjectModel> parentEntities = findSubEntitiesNonRecursive(standardEntity);
-		Set<DatabaseObjectModel> entities = CollectionsUtil.newHashSet();
-		entities.addAll(parentEntities);
-		
-		for (DatabaseObjectModel parentEntity : parentEntities) {
-			if (standardEntity.equals(parentEntity) == false) {
-				entities.addAll(findSubEntitiesRecursive(parentEntity));
-			}
-		}
-		
-		return entities;
-	}
-	
-	public Collection<TableModel> getTables() {
+	public Collection<TableModel> findTables() {
 		List<TableModel> result = new ArrayList<TableModel>();
 		for (Entity entity : entities) {
 			if (entity instanceof TableModel) {
@@ -270,10 +279,9 @@ public class Repository implements EntityListener {
 	 * 
 	 * @param dbo 管理対象
 	 * @throws IllegalArgumentException 引数{@code dbo}がこのREPOSITORY管理下にない場合
-	 * @throws EntityLifecycleException 引数{@code dbo}のライフサイクルがaliveではない場合
 	 */
 	public void remove(DatabaseObjectModel dbo) {
-		entityRemoved(new EntityEvent(dbo));
+		remove((Entity) dbo);
 	}
 	
 	/**
@@ -306,56 +314,45 @@ public class Repository implements EntityListener {
 		throw new EntityNotFoundException();
 	}
 	
-	void add(Entity entity) {
-		if (entity.isAlive()) {
-			throw new EntityLifecycleException();
+	private void add(Entity entity) {
+		add(entity, false);
+	}
+	
+	private void add(Entity entity, boolean flag) {
+		if (flag) {
+			entity.bind();
+		} else {
+			entity.activate();
 		}
-		
-		entity.initiate(key);
 		if (entity instanceof CompositEntity) {
 			CompositEntity compositEntity = (CompositEntity) entity;
 			for (Entity child : compositEntity.getChildren()) {
-				add(child);
+				add(child, entity.getEntityLifecycle() != EntityLifecycle.ACTIVE);
 			}
 			compositEntity.addListener(this);
 		}
 		entities.add(entity);
 	}
 	
-	void remove(Entity entity) {
-		if (entity.isAlive() == false) {
-			throw new EntityLifecycleException();
-		}
-		
-		boolean removed = entities.remove(entity);
-		
-		if (removed == false) {
+	private void remove(Entity entity) {
+		remove(entity, false);
+	}
+	
+	private void remove(Entity entity, boolean flag) {
+		if (entities.remove(entity) == false) {
 			throw new IllegalArgumentException();
 		}
-		
-		entity.kill(key);
+		if (flag) {
+			entity.deactivate();
+		} else {
+			entity.free();
+		}
 		if (entity instanceof CompositEntity) {
 			CompositEntity compositEntity = (CompositEntity) entity;
 			compositEntity.removeListener(this);
 			for (Entity child : compositEntity.getChildren()) {
-				remove(child);
+				remove(child, true);
 			}
 		}
 	}
-	
-
-	/**
-	 * {@link Entity#initiate(InternalCredential)}及び {@link Entity#kill(InternalCredential)}メソッドを
-	 * クライアントから呼び出せないようにするためのヘルパークラス。
-	 * 
-	 * @version $Id$
-	 * @author daisuke
-	 */
-	public static class InternalCredential {
-		
-		InternalCredential() {
-		}
-		
-	}
-	
 }

@@ -60,16 +60,16 @@ public interface TableModel extends DatabaseObjectModel, CompositEntity {
 	List<ColumnModel> getColumns();
 	
 	/**
-	 * TODO for daisuke
+	 * このテーブルの外部キー制約の集合を返す。
 	 * 
-	 * @return
+	 * @return このテーブルの外部キー制約の集合
 	 */
 	Collection<ForeignKeyConstraintModel> getForeignKeyConstraintModels();
 	
 	/**
-	 * TODO for daisuke
+	 * このテーブルのキー制約の集合を返す。
 	 * 
-	 * @return
+	 * @return このテーブルのキー制約の集合
 	 */
 	Collection<KeyConstraintModel> getKeyConstraintModels();
 	

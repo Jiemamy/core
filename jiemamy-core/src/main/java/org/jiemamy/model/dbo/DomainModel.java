@@ -20,7 +20,7 @@ package org.jiemamy.model.dbo;
 
 import org.jiemamy.model.attribute.constraint.ColumnCheckConstraintModel;
 import org.jiemamy.model.attribute.constraint.NotNullConstraintModel;
-import org.jiemamy.model.datatype.DataType;
+import org.jiemamy.model.datatype.TypeVariant;
 
 /**
  * ドメインを表すモデルインターフェイス。
@@ -44,7 +44,7 @@ public interface DomainModel extends DatabaseObjectModel {
 	 * @return 型記述子. 未設定の場合は{@code null}
 	 * @since 0.3
 	 */
-	DataType getDataType();
+	TypeVariant getDataType();
 	
 	/**
 	 * NOT　NULL制約を取得する。

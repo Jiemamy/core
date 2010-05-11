@@ -22,8 +22,6 @@ import java.util.UUID;
 
 import org.apache.commons.lang.Validate;
 
-import org.jiemamy.model.Repository.InternalCredential;
-
 /**
  * {@link Entity}の骨格実装クラス。
  * 
@@ -34,7 +32,7 @@ public abstract class AbstractEntityModel implements Entity {
 	
 	private final UUID id;
 	
-	private boolean alive;
+	EntityLifecycle lifecycle;
 	
 
 	/**
@@ -46,6 +44,22 @@ public abstract class AbstractEntityModel implements Entity {
 	protected AbstractEntityModel(UUID id) {
 		Validate.notNull(id);
 		this.id = id;
+		lifecycle = EntityLifecycle.FREE;
+	}
+	
+	public void activate() {
+		lifecycle.checkActivate();
+		lifecycle = EntityLifecycle.ACTIVE;
+	}
+	
+	public void bind() {
+		lifecycle.checkBind();
+		lifecycle = EntityLifecycle.BOUND;
+	}
+	
+	public void deactivate() {
+		lifecycle.checkDeactivate();
+		lifecycle = EntityLifecycle.BOUND;
 	}
 	
 	@Override
@@ -62,6 +76,15 @@ public abstract class AbstractEntityModel implements Entity {
 		return id.equals(((Entity) obj).getId());
 	}
 	
+	public void free() {
+		lifecycle.checkFree();
+		lifecycle = EntityLifecycle.FREE;
+	}
+	
+	public EntityLifecycle getEntityLifecycle() {
+		return lifecycle;
+	}
+	
 	public UUID getId() {
 		return id;
 	}
@@ -73,23 +96,4 @@ public abstract class AbstractEntityModel implements Entity {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
-	
-	public void initiate(InternalCredential key) {
-		if (key == null) {
-			throw new AssertionError();
-		}
-		alive = true;
-	}
-	
-	public boolean isAlive() {
-		return alive;
-	}
-	
-	public void kill(InternalCredential key) {
-		if (key == null) {
-			throw new AssertionError();
-		}
-		alive = false;
-	}
-	
 }

@@ -31,7 +31,6 @@ import org.junit.Test;
 
 import org.jiemamy.model.attribute.Column;
 import org.jiemamy.model.attribute.ColumnModel;
-import org.jiemamy.model.attribute.DefaultColumnModel;
 import org.jiemamy.model.attribute.constraint.DefaultForeignKeyConstraintModel;
 import org.jiemamy.model.attribute.constraint.DefaultPrimaryKeyConstraintModel;
 import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel;
@@ -71,36 +70,11 @@ public class RepositoryTest {
 	public void test01_add_and_remove() throws Exception {
 		DefaultTableModel table = new Table().build();
 		
-		assertThat(table.isAlive(), is(false));
+		assertThat(table.getEntityLifecycle(), is(EntityLifecycle.FREE));
 		repository.add(table);
-		assertThat(table.isAlive(), is(true));
+		assertThat(table.getEntityLifecycle(), is(EntityLifecycle.ACTIVE));
 		repository.remove(table);
-		assertThat(table.isAlive(), is(false));
-	}
-	
-	/**
-	 * TODO for daisuke
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
-	@Test
-	public void test02_add_and_remove2() throws Exception {
-		DefaultColumnModel column = new Column().build();
-		DefaultTableModel table = new Table().build();
-		table.addColumn(column);
-		
-		assertThat(table.isAlive(), is(false));
-		assertThat(column.isAlive(), is(false));
-		
-		repository.add(table);
-		
-		assertThat(table.isAlive(), is(true));
-		assertThat(column.isAlive(), is(true));
-		
-		repository.remove(table);
-		
-		assertThat(table.isAlive(), is(false));
-		assertThat(column.isAlive(), is(false));
+		assertThat(table.getEntityLifecycle(), is(EntityLifecycle.FREE));
 	}
 	
 	/**
@@ -119,7 +93,7 @@ public class RepositoryTest {
 		} catch (EntityLifecycleException e) {
 			// success
 		}
-		assertThat(table.isAlive(), is(true));
+		assertThat(table.getEntityLifecycle(), is(EntityLifecycle.ACTIVE));
 		
 		Repository anotherRepository = new Repository();
 		try {
@@ -128,7 +102,7 @@ public class RepositoryTest {
 		} catch (EntityLifecycleException e) {
 			// success
 		}
-		assertThat(table.isAlive(), is(true));
+		assertThat(table.getEntityLifecycle(), is(EntityLifecycle.ACTIVE));
 		
 		try {
 			anotherRepository.remove(table);
@@ -136,16 +110,16 @@ public class RepositoryTest {
 		} catch (IllegalArgumentException e) {
 			// success
 		}
-		assertThat(table.isAlive(), is(true));
+		assertThat(table.getEntityLifecycle(), is(EntityLifecycle.ACTIVE));
 		
 		repository.remove(table);
 		
-		assertThat(table.isAlive(), is(false));
+		assertThat(table.getEntityLifecycle(), is(EntityLifecycle.FREE));
 		
 		try {
 			repository.remove(table);
 			fail();
-		} catch (EntityLifecycleException e) {
+		} catch (IllegalArgumentException e) {
 			// success
 		}
 	}
@@ -204,9 +178,9 @@ public class RepositoryTest {
 		
 		repository.add(t1);
 		repository.add(t2);
-		assertThat(repository.getTables().size(), is(2));
-		assertThat(repository.getTables(), hasItem(t1));
-		assertThat(repository.getTables(), hasItem(t2));
+		assertThat(repository.findTables().size(), is(2));
+		assertThat(repository.findTables(), hasItem(t1));
+		assertThat(repository.findTables(), hasItem(t2));
 	}
 	
 	/**
@@ -220,6 +194,7 @@ public class RepositoryTest {
 		ColumnModel b;
 		ColumnModel c;
 		ColumnModel d;
+		
 		// FORMAT-OFF
 		TableModel t1 = new Table().whoseNameIs("ONE")
 				.with(a = new Column().whoseNameIs("A").build())
@@ -257,20 +232,20 @@ public class RepositoryTest {
 		KeyConstraintModel pk2;
 		
 		// FORMAT-OFF
-		TableModel t1 = new Table().whoseNameIs("ONE")
-				.with(new Column().whoseNameIs("A").build())
-				.with(b = new Column().whoseNameIs("B").build())
+		TableModel t1 = new Table("ONE")
+				.with(new Column("A").build())
+				.with(b = new Column("B").build())
 				.with(pk1 = DefaultPrimaryKeyConstraintModel.of(b))
 				.build();
-		TableModel t2 = new Table().whoseNameIs("TWO")
-				.with(c = new Column().whoseNameIs("C").build())
-				.with(d = new Column().whoseNameIs("D").build())
+		TableModel t2 = new Table("TWO")
+				.with(c = new Column("C").build())
+				.with(d = new Column("D").build())
 				.with(pk2 = DefaultPrimaryKeyConstraintModel.of(d))
 				.with(fk12 = DefaultForeignKeyConstraintModel.of(c, b))
 				.build();
-		TableModel t3 = new Table().whoseNameIs("THREE")
-				.with(e = new Column().whoseNameIs("E").build())
-				.with(new Column().whoseNameIs("F").build())
+		TableModel t3 = new Table("THREE")
+				.with(e = new Column("E").build())
+				.with(new Column("F").build())
 				.with(fk23 = DefaultForeignKeyConstraintModel.of(e, d))
 				.build();
 		// FORMAT-ON

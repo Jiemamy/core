@@ -21,7 +21,7 @@ package org.jiemamy.model.attribute;
 import org.jiemamy.model.Entity;
 import org.jiemamy.model.EntityRef;
 import org.jiemamy.model.attribute.constraint.NotNullConstraintModel;
-import org.jiemamy.model.datatype.DataType;
+import org.jiemamy.model.datatype.TypeVariant;
 
 /**
  * リレーショナルデータベースにおける「カラム」を表すモデルインターフェイス。
@@ -37,7 +37,7 @@ public interface ColumnModel extends Entity {
 	 * @return 型記述子. 未設定の場合は{@code null}
 	 * @since 0.2
 	 */
-	DataType getDataType();
+	TypeVariant getDataType();
 	
 	/**
 	 * デフォルト値を取得する。

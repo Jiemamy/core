@@ -24,6 +24,6 @@ package org.jiemamy.model.datatype;
  * 
  * @author daisuke
  */
-public interface DataType {
+public interface TypeVariant {
 	
 }

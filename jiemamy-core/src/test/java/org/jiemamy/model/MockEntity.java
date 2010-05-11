@@ -18,13 +18,25 @@
  */
 package org.jiemamy.model;
 
+import java.util.UUID;
+
 /**
  * TODO for daisuke
  * 
  * @version $Id$
  * @author daisuke
  */
-@SuppressWarnings("serial")
-public class ModelConsistenceException extends RuntimeException {
+public class MockEntity extends AbstractEntityModel {
+	
+	/**
+	 * インスタンスを生成する。
+	 */
+	public MockEntity() {
+		super(UUID.randomUUID());
+	}
+	
+	public EntityRef<MockEntity> getReference() {
+		return new DefaultEntityRef<MockEntity>(this);
+	}
 	
 }
