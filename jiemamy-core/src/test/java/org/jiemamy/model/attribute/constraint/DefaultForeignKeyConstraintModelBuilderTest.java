@@ -54,12 +54,9 @@ public class DefaultForeignKeyConstraintModelBuilderTest {
 		DefaultForeignKeyConstraintModelBuilder builder = new DefaultForeignKeyConstraintModelBuilder();
 		
 		// FORMAT-OFF
-		ForeignKeyConstraintModel fk = builder
-				.setName("FK_A_B")
-				.addKeyColumn(ref1).addReferenceColumn(ref2)
-				.setMatchType(MatchType.SIMPLE)
-				.setOnDelete(ReferentialAction.CASCADE)
-				.build();
+		ForeignKeyConstraintModel fk =
+				builder.setName("FK_A_B").addKeyColumn(ref1).addReferenceColumn(ref2).setMatchType(MatchType.SIMPLE)
+					.setOnDelete(ReferentialAction.CASCADE).build();
 		// FORMAT-ON
 		
 		assertThat(fk.getName(), is("FK_A_B"));
@@ -69,5 +66,16 @@ public class DefaultForeignKeyConstraintModelBuilderTest {
 		assertThat(fk.getMatchType(), is(MatchType.SIMPLE));
 		assertThat(fk.getOnDelete(), is(ReferentialAction.CASCADE));
 		assertThat(fk.getOnUpdate(), is(nullValue()));
+		
+		DefaultForeignKeyConstraintModelBuilder builder2 = new DefaultForeignKeyConstraintModelBuilder();
+		ForeignKeyConstraintModel fk2 = builder2.setName("BAR").apply(fk).build();
+		
+		assertThat(fk2.getName(), is("BAR"));
+		assertThat(fk2.getKeyColumns(), hasItem(ref1));
+		assertThat(fk2.getReferenceColumns(), hasItem(ref2));
+		assertThat(fk2.getDeferrability(), is(nullValue()));
+		assertThat(fk2.getMatchType(), is(MatchType.SIMPLE));
+		assertThat(fk2.getOnDelete(), is(ReferentialAction.CASCADE));
+		assertThat(fk2.getOnUpdate(), is(nullValue()));
 	}
 }
