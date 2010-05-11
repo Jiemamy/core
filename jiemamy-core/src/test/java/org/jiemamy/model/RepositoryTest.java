@@ -41,7 +41,7 @@ import org.jiemamy.model.dbo.Table;
 import org.jiemamy.model.dbo.TableModel;
 
 /**
- * TODO for daisuke
+ * {@link Repository}のテストクラス。
  * 
  * @version $Id$
  * @author daisuke
@@ -276,5 +276,15 @@ public class RepositoryTest {
 		assertThat(repository.findSuperEntitiesRecursive(t3), hasItems((DatabaseObjectModel) t1,
 				(DatabaseObjectModel) t2));
 		// FORMAT-ON
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test08_addnull() throws Exception {
+		repository.add(null);
 	}
 }

@@ -204,6 +204,11 @@ public class DefaultTableModelTest {
 		assertThat(column.isActive(), is(false));
 	}
 	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
 	@Test
 	public void test06_lifecycle2() throws Exception {
 		Repository repository1 = new Repository();
@@ -224,6 +229,11 @@ public class DefaultTableModelTest {
 		}
 	}
 	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
 	@Test
 	public void test07_column_lifecycle3() throws Exception {
 		DefaultTableModel table1 = new Table().build();

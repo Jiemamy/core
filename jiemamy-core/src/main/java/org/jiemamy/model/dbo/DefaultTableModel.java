@@ -25,6 +25,7 @@ import java.util.UUID;
 
 import org.apache.commons.collections15.CollectionUtils;
 import org.apache.commons.collections15.Predicate;
+import org.apache.commons.lang.Validate;
 
 import org.jiemamy.model.DefaultEntityRef;
 import org.jiemamy.model.EntityLifecycleException;
@@ -62,8 +63,10 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	 * テーブルに属性を追加する。
 	 * 
 	 * @param attribute 属性
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public void addAttribute(AttributeModel attribute) {
+		Validate.notNull(attribute);
 		attributes.add(attribute);
 	}
 	
@@ -72,8 +75,10 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	 * 
 	 * @param column カラム
 	 * @throws EntityLifecycleException {@code column}のライフサイクルがaliveの場合
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public void addColumn(ColumnModel column) {
+		Validate.notNull(column);
 		columns.add(column);
 		column.activate();
 	}
@@ -106,11 +111,11 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	}
 	
 	public Collection<ForeignKeyConstraintModel> getForeignKeyConstraintModels() {
-		return filterAttribute(ForeignKeyConstraintModel.class);
+		return findAttribute(ForeignKeyConstraintModel.class);
 	}
 	
 	public Collection<KeyConstraintModel> getKeyConstraintModels() {
-		return filterAttribute(KeyConstraintModel.class);
+		return findAttribute(KeyConstraintModel.class);
 	}
 	
 	public EntityRef<TableModel> getReference() {
@@ -124,8 +129,10 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	 * テーブルから属性を削除する。
 	 * 
 	 * @param attribute 属性
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public void removeAttribute(AttributeModel attribute) {
+		Validate.notNull(attribute);
 		attributes.remove(attribute);
 	}
 	
@@ -134,13 +141,15 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	 * 
 	 * @param column カラム
 	 * @throws EntityLifecycleException {@code column}のライフサイクルがaliveではない場合
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public void removeColumn(ColumnModel column) {
+		Validate.notNull(column);
 		column.deactivate();
 		columns.remove(column);
 	}
 	
-	private <T extends AttributeModel>Collection<T> filterAttribute(Class<T> clazz) {
+	private <T extends AttributeModel>Collection<T> findAttribute(Class<T> clazz) {
 		Collection<T> result = new ArrayList<T>();
 		for (AttributeModel attribute : attributes) {
 			if (clazz.isAssignableFrom(attribute.getClass())) {

@@ -54,8 +54,10 @@ public class Repository {
 	 * 
 	 * @param dbo 管理対象
 	 * @throws EntityLifecycleException 引数{@code dbo}のライフサイクルがaliveの場合
+	 * @throws IllegalArgumentException 引数{@code dbo}に{@code null}を与えた場合
 	 */
 	public void add(DatabaseObjectModel dbo) {
+		Validate.notNull(dbo);
 		dbo.activate();
 		entities.add(dbo);
 	}
@@ -264,9 +266,11 @@ public class Repository {
 	 * <p>{@link Entity}は、リポジトリの管理下から外れることにより、ライフサイクルが終了する。</p>
 	 * 
 	 * @param dbo 管理対象
+	 * @throws IllegalArgumentException 引数{@code dbo}に{@code null}を与えた場合
 	 * @throws IllegalArgumentException 引数{@code dbo}がこのREPOSITORY管理下にない場合
 	 */
 	public void remove(DatabaseObjectModel dbo) {
+		Validate.notNull(dbo);
 		if (entities.remove(dbo) == false) {
 			throw new IllegalArgumentException();
 		}
