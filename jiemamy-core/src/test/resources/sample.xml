@@ -217,7 +217,7 @@
     <dataSet>
       <name>データ群en</name>
       <tableRef ref="9f522e56-809c-45fd-8416-39201014218b">
-        <record id="6ce22d69-bd75-4822-946f-a51221fd45eb">
+        <record>
           <columnRef ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">1</columnRef>
           <columnRef ref="248a429b-2159-4ebd-a791-eee42a059374">10</columnRef>
           <columnRef ref="0e51b6df-43ab-408c-90ef-de13c6aab881">SMITH</columnRef>
@@ -226,7 +226,7 @@
           <columnRef ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">40</columnRef>
           <columnRef ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">3</columnRef>
         </record>
-        <record id="03962eb2-90ab-4cff-8fac-14e52e117361">
+        <record>
           <columnRef ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">2</columnRef>
           <columnRef ref="248a429b-2159-4ebd-a791-eee42a059374">20</columnRef>
           <columnRef ref="0e51b6df-43ab-408c-90ef-de13c6aab881">ALLEN</columnRef>
@@ -235,7 +235,7 @@
           <columnRef ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">50</columnRef>
           <columnRef ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">4</columnRef>
         </record>
-        <record id="f5f16c1e-4a41-4ccd-9c87-00c09c0e7609">
+        <record>
           <columnRef ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">3</columnRef>
           <columnRef ref="248a429b-2159-4ebd-a791-eee42a059374">30</columnRef>
           <columnRef ref="0e51b6df-43ab-408c-90ef-de13c6aab881">WARD</columnRef>
@@ -243,7 +243,7 @@
           <columnRef ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">60</columnRef>
           <columnRef ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">4</columnRef>
         </record>
-        <record id="03a9e57f-3010-4d46-8024-1915c262749e">
+        <record>
           <columnRef ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">4</columnRef>
           <columnRef ref="248a429b-2159-4ebd-a791-eee42a059374">40</columnRef>
           <columnRef ref="0e51b6df-43ab-408c-90ef-de13c6aab881">JONES</columnRef>
@@ -252,7 +252,7 @@
           <columnRef ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">36</columnRef>
           <columnRef ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">2</columnRef>
         </record>
-        <record id="4206acce-b31f-4c2e-8682-4796254a4dca">
+        <record>
           <columnRef ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">5</columnRef>
           <columnRef ref="248a429b-2159-4ebd-a791-eee42a059374">50</columnRef>
           <columnRef ref="0e51b6df-43ab-408c-90ef-de13c6aab881">MARTIN</columnRef>
@@ -261,7 +261,7 @@
           <columnRef ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">30</columnRef>
           <columnRef ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">3</columnRef>
         </record>
-        <record id="6748ce0e-462d-44df-a536-18f14a3c2643">
+        <record>
           <columnRef ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">6</columnRef>
           <columnRef ref="248a429b-2159-4ebd-a791-eee42a059374">60</columnRef>
           <columnRef ref="0e51b6df-43ab-408c-90ef-de13c6aab881">BLAKE</columnRef>
@@ -270,7 +270,7 @@
           <columnRef ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">25</columnRef>
           <columnRef ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">2</columnRef>
         </record>
-        <record id="f8564bdf-f61c-4711-b606-69aed74324a6">
+        <record>
           <columnRef ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">7</columnRef>
           <columnRef ref="248a429b-2159-4ebd-a791-eee42a059374">70</columnRef>
           <columnRef ref="0e51b6df-43ab-408c-90ef-de13c6aab881">CLARK</columnRef>
@@ -279,7 +279,7 @@
           <columnRef ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">30</columnRef>
           <columnRef ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">1</columnRef>
         </record>
-        <record id="dd1cc8e1-7562-4539-86d8-5390d043325a">
+        <record>
           <columnRef ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">8</columnRef>
           <columnRef ref="248a429b-2159-4ebd-a791-eee42a059374">80</columnRef>
           <columnRef ref="0e51b6df-43ab-408c-90ef-de13c6aab881">SCOTT</columnRef>
@@ -290,25 +290,25 @@
         </record>
       </tableRef>
       <tableRef ref="d7489ed6-0add-443d-95cf-234376eb0455">
-        <record id="176bfb08-99cb-4c76-bf8e-6979e0c7afb9">
+        <record>
           <columnRef ref="c7ed225d-92a6-4cc2-90de-60531804464e">1</columnRef>
           <columnRef ref="2d951389-6bc7-49d7-8631-1d26fe17047e">10</columnRef>
           <columnRef ref="1fcd63d3-974e-4d2e-a0d8-3b9c233104d9">ACCOUNTING</columnRef>
           <columnRef ref="7bf79e76-07b8-43b6-a993-b8ef374a31f5">NEW YORK</columnRef>
         </record>
-        <record id="3971430b-ef1d-4e5a-b996-f2acfa7536c0">
+        <record>
           <columnRef ref="c7ed225d-92a6-4cc2-90de-60531804464e">2</columnRef>
           <columnRef ref="2d951389-6bc7-49d7-8631-1d26fe17047e">20</columnRef>
           <columnRef ref="1fcd63d3-974e-4d2e-a0d8-3b9c233104d9">RESEARCH</columnRef>
           <columnRef ref="7bf79e76-07b8-43b6-a993-b8ef374a31f5">DALLAS</columnRef>
         </record>
-        <record id="0591cc1e-45a6-4598-b85a-20fae51b7991">
+        <record>
           <columnRef ref="c7ed225d-92a6-4cc2-90de-60531804464e">3</columnRef>
           <columnRef ref="2d951389-6bc7-49d7-8631-1d26fe17047e">30</columnRef>
           <columnRef ref="1fcd63d3-974e-4d2e-a0d8-3b9c233104d9">SALES</columnRef>
           <columnRef ref="7bf79e76-07b8-43b6-a993-b8ef374a31f5">CHICAGO</columnRef>
         </record>
-        <record id="ac275955-4710-484a-b694-f7acc6ded08f">
+        <record>
           <columnRef ref="c7ed225d-92a6-4cc2-90de-60531804464e">4</columnRef>
           <columnRef ref="2d951389-6bc7-49d7-8631-1d26fe17047e">40</columnRef>
           <columnRef ref="1fcd63d3-974e-4d2e-a0d8-3b9c233104d9">OPERATIONS</columnRef>
@@ -319,7 +319,7 @@
     <dataSet>
       <name>データ群ja</name>
       <tableRef ref="9f522e56-809c-45fd-8416-39201014218b">
-        <record id="9365e670-1eff-4a23-90bd-f794b9742b10">
+        <record>
           <columnRef ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">1</columnRef>
           <columnRef ref="248a429b-2159-4ebd-a791-eee42a059374">10</columnRef>
           <columnRef ref="0e51b6df-43ab-408c-90ef-de13c6aab881">鈴木 茂</columnRef>
@@ -328,7 +328,7 @@
           <columnRef ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">40</columnRef>
           <columnRef ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">3</columnRef>
         </record>
-        <record id="90673863-ba77-461b-ab82-fffecd7e873b">
+        <record>
           <columnRef ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">2</columnRef>
           <columnRef ref="248a429b-2159-4ebd-a791-eee42a059374">20</columnRef>
           <columnRef ref="0e51b6df-43ab-408c-90ef-de13c6aab881">内海 透</columnRef>
@@ -337,7 +337,7 @@
           <columnRef ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">50</columnRef>
           <columnRef ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">4</columnRef>
         </record>
-        <record id="5bf32699-c2ff-4d96-9e26-2a3f3d7c7661">
+        <record>
           <columnRef ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">3</columnRef>
           <columnRef ref="248a429b-2159-4ebd-a791-eee42a059374">30</columnRef>
           <columnRef ref="0e51b6df-43ab-408c-90ef-de13c6aab881">村瀬 武彦</columnRef>
@@ -345,7 +345,7 @@
           <columnRef ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">60</columnRef>
           <columnRef ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">4</columnRef>
         </record>
-        <record id="f164796f-ed85-48a0-98af-2f6045ee3a33">
+        <record>
           <columnRef ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">4</columnRef>
           <columnRef ref="248a429b-2159-4ebd-a791-eee42a059374">40</columnRef>
           <columnRef ref="0e51b6df-43ab-408c-90ef-de13c6aab881">近藤 美樹</columnRef>
@@ -354,7 +354,7 @@
           <columnRef ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">36</columnRef>
           <columnRef ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">2</columnRef>
         </record>
-        <record id="c10562ee-4ab9-40a5-8a21-83f331df5c85">
+        <record>
           <columnRef ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">5</columnRef>
           <columnRef ref="248a429b-2159-4ebd-a791-eee42a059374">50</columnRef>
           <columnRef ref="0e51b6df-43ab-408c-90ef-de13c6aab881">榊 美子</columnRef>
@@ -363,7 +363,7 @@
           <columnRef ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">30</columnRef>
           <columnRef ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">3</columnRef>
         </record>
-        <record id="29c9a655-f4ed-4753-aea6-1e21cb28f891">
+        <record>
           <columnRef ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">6</columnRef>
           <columnRef ref="248a429b-2159-4ebd-a791-eee42a059374">60</columnRef>
           <columnRef ref="0e51b6df-43ab-408c-90ef-de13c6aab881">三浦 佑</columnRef>
@@ -372,7 +372,7 @@
           <columnRef ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">25</columnRef>
           <columnRef ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">2</columnRef>
         </record>
-        <record id="b65b9b12-bb68-4845-a514-a57f0bd57616">
+        <record>
           <columnRef ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">7</columnRef>
           <columnRef ref="248a429b-2159-4ebd-a791-eee42a059374">70</columnRef>
           <columnRef ref="0e51b6df-43ab-408c-90ef-de13c6aab881">前島 孝幸</columnRef>
@@ -381,7 +381,7 @@
           <columnRef ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">30</columnRef>
           <columnRef ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">1</columnRef>
         </record>
-        <record id="0eb27151-323a-4679-bde4-0b01f561139f">
+        <record>
           <columnRef ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">8</columnRef>
           <columnRef ref="248a429b-2159-4ebd-a791-eee42a059374">80</columnRef>
           <columnRef ref="0e51b6df-43ab-408c-90ef-de13c6aab881">島崎 由比</columnRef>
@@ -392,25 +392,25 @@
         </record>
       </tableRef>
       <tableRef ref="d7489ed6-0add-443d-95cf-234376eb0455">
-        <record id="61671217-d61c-4f42-9985-4f6b2c970171">
+        <record>
           <columnRef ref="c7ed225d-92a6-4cc2-90de-60531804464e">1</columnRef>
           <columnRef ref="2d951389-6bc7-49d7-8631-1d26fe17047e">10</columnRef>
           <columnRef ref="1fcd63d3-974e-4d2e-a0d8-3b9c233104d9">経理部</columnRef>
           <columnRef ref="7bf79e76-07b8-43b6-a993-b8ef374a31f5">広島</columnRef>
         </record>
-        <record id="171d019e-163f-42f6-82dc-15340798fdf4">
+        <record>
           <columnRef ref="c7ed225d-92a6-4cc2-90de-60531804464e">2</columnRef>
           <columnRef ref="2d951389-6bc7-49d7-8631-1d26fe17047e">20</columnRef>
           <columnRef ref="1fcd63d3-974e-4d2e-a0d8-3b9c233104d9">研究開発部</columnRef>
           <columnRef ref="7bf79e76-07b8-43b6-a993-b8ef374a31f5">京都</columnRef>
         </record>
-        <record id="838344e6-093d-4202-aaca-bacf1a7ff376">
+        <record>
           <columnRef ref="c7ed225d-92a6-4cc2-90de-60531804464e">3</columnRef>
           <columnRef ref="2d951389-6bc7-49d7-8631-1d26fe17047e">30</columnRef>
           <columnRef ref="1fcd63d3-974e-4d2e-a0d8-3b9c233104d9">営業部</columnRef>
           <columnRef ref="7bf79e76-07b8-43b6-a993-b8ef374a31f5">東京</columnRef>
         </record>
-        <record id="2f29bb19-0a20-4251-8052-568194e6101c">
+        <record>
           <columnRef ref="c7ed225d-92a6-4cc2-90de-60531804464e">4</columnRef>
           <columnRef ref="2d951389-6bc7-49d7-8631-1d26fe17047e">40</columnRef>
           <columnRef ref="1fcd63d3-974e-4d2e-a0d8-3b9c233104d9">経営本部</columnRef>

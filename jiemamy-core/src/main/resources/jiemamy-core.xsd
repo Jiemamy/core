@@ -555,7 +555,6 @@
 						<xsd:sequence>
 							<xsd:element ref="columnRef" maxOccurs="unbounded" />
 						</xsd:sequence>
-						<xsd:attribute name="id" type="uuidType" use="required" />
 					</xsd:complexType>
 				</xsd:element>
 			</xsd:choice>
