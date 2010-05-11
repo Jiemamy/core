@@ -19,10 +19,9 @@
         </configuration>
       </type>
       <notNull class="org.jiemamy.model.DefaultNotNullModel"/>
-      <columnCheck class="org.jiemamy.model.DefaultColumnCheckModel">
-        <name>hoge</name>
+      <check class="org.jiemamy.model.DefaultColumnCheckModel">
         <expression>VALUE &gt; 0</expression>
-      </columnCheck>
+      </check>
     </domain>
     <domain id="62f1e6ec-e6aa-4d52-a6c3-27dac086f2d7">
       <name>NAME</name>
@@ -103,10 +102,6 @@
             </configuration>
           </type>
           <notNull class="org.jiemamy.model.DefaultNotNullModel"/>
-          <columnCheck class="org.jiemamy.model.DefaultColumnCheckModel">
-            <name>positive_sal</name>
-            <expression>SAL &lt;= 0</expression>
-          </columnCheck>
         </column>
         <column class="org.jiemamy.model.DefaultColumnModel" id="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">
           <name>DEPT_ID</name>
@@ -145,6 +140,10 @@
             <columnRef ref="c7ed225d-92a6-4cc2-90de-60531804464e"/>
           </referenceColumns>
         </foreignKey>
+        <check class="org.jiemamy.model.DefaultCheckConstraintModel">
+          <name>positive_sal</name>
+          <expression>SAL &lt;= 0</expression>
+        </check>
       </attributes>
       <indexes>
         <index class="org.jiemamy.model.DefaultIndexModel">
@@ -167,9 +166,6 @@
           <name>ID</name>
           <logicalName>部署ID</logicalName>
           <type ref="2eec0aa0-5122-4eb7-833d-9f5a43e7abe9"/>
-          <columnPrimaryKey class="org.jiemamy.model.DefaultColumnPrimaryKeyModel">
-            <name>dept_pkey</name>
-          </columnPrimaryKey>
         </column>
         <column class="org.jiemamy.model.DefaultColumnModel" id="2d951389-6bc7-49d7-8631-1d26fe17047e">
           <name>DEPT_NO</name>
@@ -204,6 +200,12 @@
           </type>
           <defaultValue>secret</defaultValue>
         </column>
+        <primaryKey class="org.jiemamy.model.DefaultColumnPrimaryKeyModel">
+          <name>dept_pkey</name>
+          <columnRefs>
+            <columnRef ref="c7ed225d-92a6-4cc2-90de-60531804464e"/>
+          </columnRefs>
+        </primaryKey>
       </attributes>
       <indexes/>
     </table>

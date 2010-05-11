@@ -18,7 +18,7 @@
  */
 package org.jiemamy.model.dbo;
 
-import org.jiemamy.model.attribute.constraint.ColumnCheckConstraintModel;
+import org.jiemamy.model.attribute.constraint.CheckConstraintModel;
 import org.jiemamy.model.attribute.constraint.NotNullConstraintModel;
 import org.jiemamy.model.datatype.TypeVariant;
 
@@ -36,7 +36,7 @@ public interface DomainModel extends DatabaseObjectModel {
 	 * @return　チェック制約. 未設定の場合は{@code null}
 	 * @since 0.3
 	 */
-	ColumnCheckConstraintModel getCheckConstraint();
+	CheckConstraintModel getCheckConstraint();
 	
 	/**
 	 * 型記述子を取得する。

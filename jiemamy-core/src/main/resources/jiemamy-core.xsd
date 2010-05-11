@@ -112,7 +112,7 @@
 				</xsd:element>
 				<xsd:element ref="type" />
 				<xsd:element ref="notNull" minOccurs="0"/>
-				<xsd:element ref="columnCheck" minOccurs="0"/>
+				<xsd:element ref="check" minOccurs="0"/>
 			</xsd:sequence>
 			<xsd:attribute name="id" type="uuidType" use="required"/>
 		</xsd:complexType>
@@ -155,7 +155,7 @@
 							<xsd:element ref="primaryKey" minOccurs="0" />
 							<xsd:element ref="uniqueKey" minOccurs="0" maxOccurs="unbounded" />
 							<xsd:element ref="foreignKey" minOccurs="0" maxOccurs="unbounded" />
-							<xsd:element ref="tableCheck" minOccurs="0" maxOccurs="unbounded" />
+							<xsd:element ref="check" minOccurs="0" maxOccurs="unbounded" />
 						</xsd:choice>
 					</xsd:complexType>
 				</xsd:element>
@@ -233,9 +233,6 @@
 				<xsd:element ref="type" />
 				<xsd:element ref="defaultValue" minOccurs="0" />
 				<xsd:element ref="notNull" minOccurs="0"/>
-				<xsd:element ref="columnPrimaryKey" minOccurs="0"/>
-				<xsd:element ref="columnUniqueKey" minOccurs="0"/>
-				<xsd:element ref="columnCheck" minOccurs="0"/>
 			</xsd:sequence>
 			<xsd:attribute name="class" type="fqcnType" use="required" />
 			<xsd:attribute name="id" type="uuidType" use="required" />
@@ -243,19 +240,6 @@
 	</xsd:element>
 
 
-	<xsd:element name="columnPrimaryKey">
-		<xsd:complexType>
-			<xsd:sequence>
-				<xsd:element ref="name" minOccurs="0">
-					<xsd:annotation>
-						<xsd:documentation xml:lang="en">Physical name of Column PRIMARY KEY</xsd:documentation> 
-						<xsd:documentation xml:lang="ja-JP">カラム主キー名</xsd:documentation>
-					</xsd:annotation>
-				</xsd:element>
-			</xsd:sequence>
-			<xsd:attribute name="class" type="fqcnType" use="required" />
-		</xsd:complexType>
-	</xsd:element>
 	
 	<xsd:element name="columnUniqueKey">
 		<xsd:complexType>
@@ -380,13 +364,13 @@
 		</xsd:complexType>
 	</xsd:element>
 
-	<xsd:element name="tableCheck">
+	<xsd:element name="check">
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element ref="name" minOccurs="0">
 					<xsd:annotation>
-						<xsd:documentation xml:lang="en">Physical name of Table CHECK constraint</xsd:documentation> 
-						<xsd:documentation xml:lang="ja-JP">テーブルCHECK制約名</xsd:documentation>
+						<xsd:documentation xml:lang="en">Physical name of CHECK constraint</xsd:documentation> 
+						<xsd:documentation xml:lang="ja-JP">CHECK制約名</xsd:documentation>
 					</xsd:annotation>
 				</xsd:element>
 				<xsd:element ref="logicalName" minOccurs="0" />
@@ -515,20 +499,6 @@
 		</xsd:complexType>
 	</xsd:element>
 
-	<xsd:element name="columnCheck">
-		<xsd:complexType>
-			<xsd:sequence>
-				<xsd:element ref="name" minOccurs="0" />
-				<xsd:element name="expression" type="xsd:string">
-					<xsd:annotation>
-						<xsd:documentation xml:lang="en">Physical name of Column CHECK constraint</xsd:documentation> 
-						<xsd:documentation xml:lang="ja-JP">カラムCHECK制約物理名</xsd:documentation>
-					</xsd:annotation>
-				</xsd:element>
-			</xsd:sequence>
-			<xsd:attribute name="class" type="fqcnType" use="required" />
-		</xsd:complexType>
-	</xsd:element>
 
 	<xsd:element name="dataSets">
 		<xsd:complexType>

@@ -21,11 +21,11 @@ package org.jiemamy.model.attribute.constraint;
 import org.apache.commons.lang.Validate;
 
 /**
- * チェック制約の骨格実装クラス。
+ * チェック制約のモデル。
  * 
  * @author daisuke
  */
-public abstract class AbstractCheckConstraintModel extends AbstractConstraintModel implements CheckConstraintModel {
+public class DefaultCheckConstraintModel extends AbstractConstraintModel implements CheckConstraintModel {
 	
 	/** CHEKC制約定義式 */
 	private final String expression;
@@ -40,7 +40,7 @@ public abstract class AbstractCheckConstraintModel extends AbstractConstraintMod
 	 * @param expression CHEKC制約定義式
 	 * @throws IllegalArgumentException 引数{@code expression}に{@code null}を与えた場合
 	 */
-	public AbstractCheckConstraintModel(String name, String logicalName, String description, String expression) {
+	public DefaultCheckConstraintModel(String name, String logicalName, String description, String expression) {
 		super(name, logicalName, description);
 		Validate.notNull(expression);
 		this.expression = expression;

@@ -23,7 +23,7 @@ import java.util.UUID;
 import org.jiemamy.model.DefaultEntityRef;
 import org.jiemamy.model.EntityLifecycleException;
 import org.jiemamy.model.EntityRef;
-import org.jiemamy.model.attribute.constraint.ColumnCheckConstraintModel;
+import org.jiemamy.model.attribute.constraint.CheckConstraintModel;
 import org.jiemamy.model.attribute.constraint.NotNullConstraintModel;
 import org.jiemamy.model.datatype.TypeVariant;
 
@@ -37,7 +37,7 @@ public class DefalultDomainModel extends AbstractDatabaseObjectModel implements 
 	/** ドメインとして定義された型記述子 */
 	private TypeVariant dataType;
 	
-	private ColumnCheckConstraintModel checkConstraint;
+	private CheckConstraintModel checkConstraint;
 	
 	private NotNullConstraintModel notNullConstraint;
 	
@@ -52,7 +52,7 @@ public class DefalultDomainModel extends AbstractDatabaseObjectModel implements 
 		super(id);
 	}
 	
-	public ColumnCheckConstraintModel getCheckConstraint() {
+	public CheckConstraintModel getCheckConstraint() {
 		return checkConstraint;
 	}
 	
@@ -74,11 +74,11 @@ public class DefalultDomainModel extends AbstractDatabaseObjectModel implements 
 	/**
 	 * チェック制約を設定する
 	 * 
-	 * @param check チェック制約
+	 * @param checkConstraint チェック制約
 	 * @since 0.3
 	 */
-	public void setCheckConstraint(ColumnCheckConstraintModel check) {
-		checkConstraint = check;
+	public void setCheckConstraint(CheckConstraintModel checkConstraint) {
+		this.checkConstraint = checkConstraint;
 	}
 	
 	/**
