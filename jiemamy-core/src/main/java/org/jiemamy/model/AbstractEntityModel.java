@@ -41,6 +41,7 @@ public abstract class AbstractEntityModel implements Entity {
 	 * インスタンスを生成する。
 	 * 
 	 * @param id ENTITY ID
+	 * @throws IllegalArgumentException 引数{@code id}に{@code null}を与えた場合
 	 */
 	protected AbstractEntityModel(UUID id) {
 		Validate.notNull(id);

@@ -247,42 +247,42 @@ public class RepositoryTest {
 	 */
 	@Test
 	public void testname() throws Exception {
-		ColumnModel a;
 		ColumnModel b;
 		ColumnModel c;
 		ColumnModel d;
 		ColumnModel e;
-		ColumnModel f;
 		ForeignKeyConstraintModel fk12;
 		ForeignKeyConstraintModel fk23;
-		KeyConstraintModel k1;
-		KeyConstraintModel k2;
+		KeyConstraintModel pk1;
+		KeyConstraintModel pk2;
+		
 		// FORMAT-OFF
 		TableModel t1 = new Table().whoseNameIs("ONE")
-				.with(a = new Column().whoseNameIs("A").build())
+				.with(new Column().whoseNameIs("A").build())
 				.with(b = new Column().whoseNameIs("B").build())
-				.with(k1 = DefaultPrimaryKeyConstraintModel.of(b))
+				.with(pk1 = DefaultPrimaryKeyConstraintModel.of(b))
 				.build();
 		TableModel t2 = new Table().whoseNameIs("TWO")
 				.with(c = new Column().whoseNameIs("C").build())
 				.with(d = new Column().whoseNameIs("D").build())
-				.with(k2 = DefaultPrimaryKeyConstraintModel.of(d))
+				.with(pk2 = DefaultPrimaryKeyConstraintModel.of(d))
 				.with(fk12 = DefaultForeignKeyConstraintModel.of(c, b))
 				.build();
 		TableModel t3 = new Table().whoseNameIs("THREE")
 				.with(e = new Column().whoseNameIs("E").build())
-				.with(f = new Column().whoseNameIs("F").build())
+				.with(new Column().whoseNameIs("F").build())
 				.with(fk23 = DefaultForeignKeyConstraintModel.of(e, d))
 				.build();
 		// FORMAT-ON
+		
 		repository.add(t1);
 		repository.add(t2);
 		repository.add(t3);
 		
 		assertThat(repository.findReferencedEntity(fk12), is(t1));
 		assertThat(repository.findReferencedEntity(fk23), is(t2));
-		assertThat(repository.findReferencedKeyConstraint(fk12), is(k1));
-		assertThat(repository.findReferencedKeyConstraint(fk23), is(k2));
+		assertThat(repository.findReferencedKeyConstraint(fk12), is(pk1));
+		assertThat(repository.findReferencedKeyConstraint(fk23), is(pk2));
 		
 		assertThat(repository.findSubEntitiesNonRecursive(t1).size(), is(1));
 		assertThat(repository.findSubEntitiesNonRecursive(t2).size(), is(1));
@@ -290,10 +290,11 @@ public class RepositoryTest {
 		assertThat(repository.findSubEntitiesNonRecursive(t1), hasItem((DatabaseObjectModel) t2));
 		assertThat(repository.findSubEntitiesNonRecursive(t2), hasItem((DatabaseObjectModel) t3));
 		
+		// FORMAT-OFF
 		assertThat(repository.findSubEntitiesRecursive(t1).size(), is(2));
 		assertThat(repository.findSubEntitiesRecursive(t2).size(), is(1));
 		assertThat(repository.findSubEntitiesRecursive(t3).size(), is(0));
-		assertThat(repository.findSubEntitiesRecursive(t1), hasItems((DatabaseObjectModel) t2, (DatabaseObjectModel) t3));
+		assertThat(repository.findSubEntitiesRecursive(t1),hasItems((DatabaseObjectModel) t2, (DatabaseObjectModel) t3));
 		assertThat(repository.findSubEntitiesRecursive(t2), hasItem((DatabaseObjectModel) t3));
 		
 		assertThat(repository.findSuperEntitiesNonRecursive(t1).size(), is(0));
@@ -307,5 +308,6 @@ public class RepositoryTest {
 		assertThat(repository.findSuperEntitiesRecursive(t3).size(), is(2));
 		assertThat(repository.findSuperEntitiesRecursive(t2), hasItem((DatabaseObjectModel) t1));
 		assertThat(repository.findSuperEntitiesRecursive(t3), hasItems((DatabaseObjectModel) t1, (DatabaseObjectModel) t2));
+		// FORMAT-ON
 	}
 }

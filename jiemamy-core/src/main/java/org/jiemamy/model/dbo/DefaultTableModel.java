@@ -36,7 +36,6 @@ import org.jiemamy.model.attribute.AttributeModel;
 import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel;
 import org.jiemamy.model.attribute.constraint.KeyConstraintModel;
-import org.jiemamy.model.index.IndexModel;
 import org.jiemamy.utils.CollectionsUtil;
 
 /**
@@ -53,39 +52,39 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	/** 属性のリスト */
 	List<AttributeModel> attributes = CollectionsUtil.newArrayList();
 	
-	/** インデックスのリスト */
-	List<IndexModel> indexes = CollectionsUtil.newArrayList();
-	
 
-	DefaultTableModel(UUID id) {
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param id ENTITY ID
+	 * @throws IllegalArgumentException 引数{@code id}に{@code null}を与えた場合
+	 */
+	public DefaultTableModel(UUID id) {
 		super(id);
 	}
 	
+	/**
+	 * テーブルに属性を追加する。
+	 * 
+	 * @param attribute 属性
+	 */
 	public void addAttribute(AttributeModel attribute) {
 		attributes.add(attribute);
 	}
 	
+	/**
+	 * テーブルにカラムを追加する。
+	 * 
+	 * @param column カラム
+	 * @throws EntityLifecycleException {@code column}のライフサイクルがaliveの場合
+	 */
 	public void addColumn(ColumnModel column) {
 		columns.add(column);
 		notifyAdded(column);
 	}
 	
-	public void addIndex(IndexModel index) {
-		indexes.add(index);
-	}
-	
 	public void addListener(EntityListener listener) {
 		listeners.add(listener);
-	}
-	
-	public <T extends AttributeModel>Collection<T> filterAttribute(Class<T> clazz) {
-		Collection<T> result = new ArrayList<T>();
-		for (AttributeModel attribute : attributes) {
-			if (clazz.isAssignableFrom(attribute.getClass())) {
-				result.add(clazz.cast(attribute));
-			}
-		}
-		return result;
 	}
 	
 	public List<AttributeModel> getAttributes() {
@@ -121,11 +120,6 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 		return filterAttribute(ForeignKeyConstraintModel.class);
 	}
 	
-	public List<IndexModel> getIndexes() {
-		assert indexes != null;
-		return new ArrayList<IndexModel>(indexes);
-	}
-	
 	public Collection<KeyConstraintModel> getKeyConstraintModels() {
 		return filterAttribute(KeyConstraintModel.class);
 	}
@@ -137,21 +131,38 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 		return new DefaultEntityRef<TableModel>(this);
 	}
 	
+	/**
+	 * テーブルから属性を削除する。
+	 * 
+	 * @param attribute 属性
+	 */
 	public void removeAttribute(AttributeModel attribute) {
 		attributes.remove(attribute);
 	}
 	
+	/**
+	 * テーブルからカラムを削除する。
+	 * 
+	 * @param column カラム
+	 * @throws EntityLifecycleException {@code column}のライフサイクルがaliveではない場合
+	 */
 	public void removeColumn(ColumnModel column) {
 		columns.remove(column);
 		notifyRemoved(column);
 	}
 	
-	public void removeIndex(IndexModel index) {
-		indexes.remove(index);
-	}
-	
 	public void removeListener(EntityListener listener) {
 		listeners.remove(listener);
+	}
+	
+	private <T extends AttributeModel>Collection<T> filterAttribute(Class<T> clazz) {
+		Collection<T> result = new ArrayList<T>();
+		for (AttributeModel attribute : attributes) {
+			if (clazz.isAssignableFrom(attribute.getClass())) {
+				result.add(clazz.cast(attribute));
+			}
+		}
+		return result;
 	}
 	
 	private void notifyAdded(Entity entity) {

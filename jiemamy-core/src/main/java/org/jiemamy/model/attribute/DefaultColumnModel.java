@@ -54,7 +54,13 @@ public class DefaultColumnModel extends AbstractEntityModel implements ColumnMod
 	private NotNullConstraintModel notNullConstraint;
 	
 
-	DefaultColumnModel(UUID id) {
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param id ENTITY ID
+	 * @throws IllegalArgumentException 引数{@code id}に{@code null}を与えた場合
+	 */
+	public DefaultColumnModel(UUID id) {
 		super(id);
 	}
 	

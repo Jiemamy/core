@@ -7,7 +7,6 @@ import java.util.UUID;
 import org.jiemamy.model.AbstractEntityFactory;
 import org.jiemamy.model.attribute.AttributeModel;
 import org.jiemamy.model.attribute.ColumnModel;
-import org.jiemamy.model.index.IndexModel;
 
 /**
  * {@link DefaultTableModel}のファクトリクラス。
@@ -21,11 +20,25 @@ public class Table extends AbstractEntityFactory<DefaultTableModel> {
 	
 	List<AttributeModel> attributes = new ArrayList<AttributeModel>();
 	
-	List<IndexModel> indexes = new ArrayList<IndexModel>();
-	
 	String name;
 	
 
+	/**
+	 * インスタンスを生成する。
+	 */
+	public Table() {
+		// noop
+	}
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param name テーブル名
+	 */
+	public Table(String name) {
+		this.name = name;
+	}
+	
 	/**
 	 * ファクトリの状態に基づいて {@link DefaultTableModel}のインスタンスを生成する。
 	 * 
@@ -41,9 +54,6 @@ public class Table extends AbstractEntityFactory<DefaultTableModel> {
 		}
 		for (AttributeModel attribute : attributes) {
 			tableModel.addAttribute(attribute);
-		}
-		for (IndexModel index : indexes) {
-			tableModel.addIndex(index);
 		}
 		return tableModel;
 	}
@@ -78,17 +88,6 @@ public class Table extends AbstractEntityFactory<DefaultTableModel> {
 	 */
 	public Table with(ColumnModel column) {
 		columns.add(column);
-		return this;
-	}
-	
-	/**
-	 * テーブルに作成する属性を追加する。
-	 * 
-	 * @param index 属性
-	 * @return this
-	 */
-	public Table with(IndexModel index) {
-		indexes.add(index);
 		return this;
 	}
 }

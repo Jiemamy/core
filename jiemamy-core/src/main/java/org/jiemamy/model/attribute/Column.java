@@ -18,6 +18,22 @@ public class Column extends AbstractEntityFactory<DefaultColumnModel> {
 	DataType type;
 	
 
+	/**
+	 * インスタンスを生成する。
+	 */
+	public Column() {
+		// noop
+	}
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param name カラム名
+	 */
+	public Column(String name) {
+		this.name = name;
+	}
+	
 	public DefaultColumnModel build(UUID id) {
 		DefaultColumnModel columnModel = new DefaultColumnModel(id);
 		columnModel.setName(name);

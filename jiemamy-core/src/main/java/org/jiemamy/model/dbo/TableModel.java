@@ -22,13 +22,11 @@ import java.util.Collection;
 import java.util.List;
 
 import org.jiemamy.model.CompositEntity;
-import org.jiemamy.model.EntityLifecycleException;
 import org.jiemamy.model.EntityRef;
 import org.jiemamy.model.attribute.AttributeModel;
 import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel;
 import org.jiemamy.model.attribute.constraint.KeyConstraintModel;
-import org.jiemamy.model.index.IndexModel;
 
 /**
  * リレーショナルデータベースにおける「テーブル」を表すモデルインターフェイス。
@@ -36,28 +34,6 @@ import org.jiemamy.model.index.IndexModel;
  * @author daisuke
  */
 public interface TableModel extends DatabaseObjectModel, CompositEntity {
-	
-	/**
-	 * テーブルに属性を追加する。
-	 * 
-	 * @param attribute 属性
-	 */
-	void addAttribute(AttributeModel attribute);
-	
-	/**
-	 * テーブルにカラムを追加する。
-	 * 
-	 * @param column カラム
-	 * @throws EntityLifecycleException {@code column}のライフサイクルがaliveの場合
-	 */
-	void addColumn(ColumnModel column);
-	
-	/**
-	 * テーブルにインデックスを追加する。
-	 * 
-	 * @param index インデックス
-	 */
-	void addIndex(IndexModel index);
 	
 	/**
 	 * 属性のリストを取得する。
@@ -91,17 +67,6 @@ public interface TableModel extends DatabaseObjectModel, CompositEntity {
 	Collection<ForeignKeyConstraintModel> getForeignKeyConstraintModels();
 	
 	/**
-	 * インデックスのリストを取得する。
-	 * 
-	 * <p>このメソッドは、インスタンスの持つフィールドをそのまま返す。返される{@link List}を直接操作することで、
-	 * このオブジェクトのフィールドとして保持される{@link List}を変更することができる。</p>
-	 * 
-	 * @return インデックスのリスト
-	 * @since 0.2
-	 */
-	List<IndexModel> getIndexes();
-	
-	/**
 	 * TODO for daisuke
 	 * 
 	 * @return
@@ -110,25 +75,4 @@ public interface TableModel extends DatabaseObjectModel, CompositEntity {
 	
 	EntityRef<TableModel> getReference();
 	
-	/**
-	 * テーブルから属性を削除する。
-	 * 
-	 * @param attribute 属性
-	 */
-	void removeAttribute(AttributeModel attribute);
-	
-	/**
-	 * テーブルからカラムを削除する。
-	 * 
-	 * @param column カラム
-	 * @throws EntityLifecycleException {@code column}のライフサイクルがaliveではない場合
-	 */
-	void removeColumn(ColumnModel column);
-	
-	/**
-	 * テーブルからインデックスを削除する。
-	 * 
-	 * @param index インデックス
-	 */
-	void removeIndex(IndexModel index);
 }

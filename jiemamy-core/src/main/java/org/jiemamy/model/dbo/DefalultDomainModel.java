@@ -47,8 +47,9 @@ public class DefalultDomainModel extends AbstractDatabaseObjectModel implements 
 	 * インスタンスを生成する。
 	 * 
 	 * @param id ENTITY ID
+	 * @throws IllegalArgumentException 引数{@code id}に{@code null}を与えた場合
 	 */
-	DefalultDomainModel(UUID id) {
+	public DefalultDomainModel(UUID id) {
 		super(id);
 	}
 	

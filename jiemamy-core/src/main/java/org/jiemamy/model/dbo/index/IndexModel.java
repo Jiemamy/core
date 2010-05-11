@@ -16,11 +16,11 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.model.index;
+package org.jiemamy.model.dbo.index;
 
 import java.util.List;
 
-import org.jiemamy.model.ValueObject;
+import org.jiemamy.model.dbo.DatabaseObjectModel;
 
 /**
  * インデックスを表すモデルインターフェイス。
@@ -28,7 +28,7 @@ import org.jiemamy.model.ValueObject;
  * @since 0.2
  * @author daisuke
  */
-public interface IndexModel extends ValueObject {
+public interface IndexModel extends DatabaseObjectModel {
 	
 	/**
 	 * インデックスカラムのリストを取得する。

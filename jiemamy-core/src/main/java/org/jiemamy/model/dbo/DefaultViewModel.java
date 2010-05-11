@@ -35,7 +35,13 @@ public class DefaultViewModel extends AbstractDatabaseObjectModel implements Vie
 	private String definition;
 	
 
-	DefaultViewModel(UUID id) {
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param id ENTITY ID
+	 * @throws IllegalArgumentException 引数{@code id}に{@code null}を与えた場合
+	 */
+	public DefaultViewModel(UUID id) {
 		super(id);
 	}
 	

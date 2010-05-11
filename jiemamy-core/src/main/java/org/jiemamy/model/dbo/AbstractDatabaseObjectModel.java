@@ -39,7 +39,13 @@ public abstract class AbstractDatabaseObjectModel extends AbstractEntityModel im
 	private String description;
 	
 
-	AbstractDatabaseObjectModel(UUID id) {
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param id ENTITY ID
+	 * @throws IllegalArgumentException 引数{@code id}に{@code null}を与えた場合
+	 */
+	public AbstractDatabaseObjectModel(UUID id) {
 		super(id);
 	}
 	
