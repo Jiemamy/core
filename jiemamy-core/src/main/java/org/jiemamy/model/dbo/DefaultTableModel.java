@@ -27,11 +27,7 @@ import org.apache.commons.collections15.CollectionUtils;
 import org.apache.commons.collections15.Predicate;
 
 import org.jiemamy.model.DefaultEntityRef;
-import org.jiemamy.model.Entity;
-import org.jiemamy.model.EntityEvent;
-import org.jiemamy.model.EntityLifecycle;
 import org.jiemamy.model.EntityLifecycleException;
-import org.jiemamy.model.EntityListener;
 import org.jiemamy.model.EntityRef;
 import org.jiemamy.model.attribute.AttributeModel;
 import org.jiemamy.model.attribute.ColumnModel;
@@ -45,8 +41,6 @@ import org.jiemamy.utils.CollectionsUtil;
  * @author daisuke
  */
 public class DefaultTableModel extends AbstractDatabaseObjectModel implements TableModel {
-	
-	List<EntityListener> listeners = CollectionsUtil.newArrayList();
 	
 	List<ColumnModel> columns = CollectionsUtil.newArrayList();
 	
@@ -81,21 +75,12 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	 */
 	public void addColumn(ColumnModel column) {
 		columns.add(column);
-		notifyAdded(column);
-	}
-	
-	public void addListener(EntityListener listener) {
-		listeners.add(listener);
+		column.activate();
 	}
 	
 	public List<AttributeModel> getAttributes() {
 		assert attributes != null;
 		return new ArrayList<AttributeModel>(attributes);
-	}
-	
-	public Collection<? extends Entity> getChildren() {
-		assert columns != null;
-		return new ArrayList<ColumnModel>(columns);
 	}
 	
 	public ColumnModel getColumn(final String name) {
@@ -151,12 +136,8 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	 * @throws EntityLifecycleException {@code column}のライフサイクルがaliveではない場合
 	 */
 	public void removeColumn(ColumnModel column) {
+		column.deactivate();
 		columns.remove(column);
-		notifyRemoved(column);
-	}
-	
-	public void removeListener(EntityListener listener) {
-		listeners.remove(listener);
 	}
 	
 	private <T extends AttributeModel>Collection<T> filterAttribute(Class<T> clazz) {
@@ -167,20 +148,5 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 			}
 		}
 		return result;
-	}
-	
-	private void notifyAdded(Entity entity) {
-		for (EntityListener listener : listeners) {
-			listener.entityAdded(new EntityEvent(entity));
-		}
-		if (getEntityLifecycle() != EntityLifecycle.ACTIVE) {
-			entity.bind();
-		}
-	}
-	
-	private void notifyRemoved(Entity entity) {
-		for (EntityListener listener : listeners) {
-			listener.entityRemoved(new EntityEvent(entity));
-		}
 	}
 }

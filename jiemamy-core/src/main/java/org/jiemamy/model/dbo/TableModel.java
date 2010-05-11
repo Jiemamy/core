@@ -21,7 +21,6 @@ package org.jiemamy.model.dbo;
 import java.util.Collection;
 import java.util.List;
 
-import org.jiemamy.model.CompositEntity;
 import org.jiemamy.model.EntityRef;
 import org.jiemamy.model.attribute.AttributeModel;
 import org.jiemamy.model.attribute.ColumnModel;
@@ -33,7 +32,7 @@ import org.jiemamy.model.attribute.constraint.KeyConstraintModel;
  * 
  * @author daisuke
  */
-public interface TableModel extends DatabaseObjectModel, CompositEntity {
+public interface TableModel extends DatabaseObjectModel {
 	
 	/**
 	 * 属性のリストを取得する。

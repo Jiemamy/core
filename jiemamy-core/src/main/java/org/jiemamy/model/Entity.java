@@ -35,29 +35,20 @@ import java.util.UUID;
 public interface Entity {
 	
 	/**
-	 * エンティティのライフサイクルを {@link EntityLifecycle#ACTIVE} に遷移する。 
+	 * エンティティのライフサイクルをactiveに遷移する。 
 	 * 
 	 * <p>Jiemamyフレームワーク外から呼び出した場合の挙動は未定義とする。</p>
 	 * 
-	 * @throws EntityLifecycleException 現在のライフサイクルが{@link EntityLifecycle#ACTIVE}だった場合
+	 * @throws EntityLifecycleException 現在のライフサイクルがactiveだった場合
 	 */
 	void activate();
 	
 	/**
-	 * エンティティのライフサイクルを {@link EntityLifecycle#FREE} から {@link EntityLifecycle#BOUND} に遷移する。 
+	 * エンティティのライフサイクルをfreeに遷移する。 
 	 * 
 	 * <p>Jiemamyフレームワーク外から呼び出した場合の挙動は未定義とする。</p>
 	 * 
-	 * @throws EntityLifecycleException 現在のライフサイクルが{@link EntityLifecycle#FREE}ではなかった場合
-	 */
-	void bind();
-	
-	/**
-	 * エンティティのライフサイクルを {@link EntityLifecycle#ACTIVE} から {@link EntityLifecycle#BOUND} に遷移する。 
-	 * 
-	 * <p>Jiemamyフレームワーク外から呼び出した場合の挙動は未定義とする。</p>
-	 * 
-	 * @throws EntityLifecycleException 現在のライフサイクルが{@link EntityLifecycle#ACTIVE}ではなかった場合
+	 * @throws EntityLifecycleException 現在のライフサイクルがfreeだった場合
 	 */
 	void deactivate();
 	
@@ -73,20 +64,11 @@ public interface Entity {
 	boolean equals(Object obj);
 	
 	/**
-	 * エンティティのライフサイクルを {@link EntityLifecycle#FREE} に遷移する。 
-	 * 
-	 * <p>Jiemamyフレームワーク外から呼び出した場合の挙動は未定義とする。</p>
-	 * 
-	 * @throws EntityLifecycleException 現在のライフサイクルが{@link EntityLifecycle#FREE}だった場合
-	 */
-	void free();
-	
-	/**
 	 * ENTITYのライフサイクルが開始しているかどうかを調べる。
 	 * 
 	 * @return ライフサイクルが開始している場合は{@code true}、そうでない場合は{@code false}
 	 */
-	EntityLifecycle getEntityLifecycle();
+	boolean isActive();
 	
 	/**
 	* ENTITY IDを取得する。

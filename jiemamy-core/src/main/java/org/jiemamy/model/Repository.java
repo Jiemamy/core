@@ -33,6 +33,7 @@ import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel;
 import org.jiemamy.model.attribute.constraint.KeyConstraintModel;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
 import org.jiemamy.model.dbo.TableModel;
+import org.jiemamy.model.dbo.TooManyColumnsFoundException;
 import org.jiemamy.utils.CollectionsUtil;
 
 /**
@@ -41,9 +42,9 @@ import org.jiemamy.utils.CollectionsUtil;
  * @version $Id$
  * @author daisuke
  */
-public class Repository implements EntityListener {
+public class Repository {
 	
-	private Collection<Entity> entities = CollectionsUtil.newArrayList();
+	private Collection<DatabaseObjectModel> entities = CollectionsUtil.newArrayList();
 	
 
 	/**
@@ -51,24 +52,12 @@ public class Repository implements EntityListener {
 	 * 
 	 * <p>{@link Entity}は、リポジトリの管理下に置かれることにより、ライフサイクルが開始する。</p>
 	 * 
-	 * <p>{@code dbo}が {@link CompositEntity}インターフェイスを実装している場合は、その子 {@link Entity}も
-	 * 同時にリポジトリ管理下に置かれる。</p>
-	 * 
 	 * @param dbo 管理対象
 	 * @throws EntityLifecycleException 引数{@code dbo}のライフサイクルがaliveの場合
 	 */
 	public void add(DatabaseObjectModel dbo) {
-		add((Entity) dbo);
-	}
-	
-	public void entityAdded(EntityEvent e) {
-		Entity source = (Entity) e.getSource();
-		add(source);
-	}
-	
-	public void entityRemoved(EntityEvent e) {
-		Entity source = (Entity) e.getSource();
-		remove(source);
+		dbo.activate();
+		entities.add(dbo);
 	}
 	
 	/**
@@ -274,25 +263,52 @@ public class Repository implements EntityListener {
 	 * 
 	 * <p>{@link Entity}は、リポジトリの管理下から外れることにより、ライフサイクルが終了する。</p>
 	 * 
-	 * <p>{@code dbo}が {@link CompositEntity}インターフェイスを実装している場合は、その子 {@link Entity}も
-	 * 同時にリポジトリ管理下から外れる。</p>
-	 * 
 	 * @param dbo 管理対象
 	 * @throws IllegalArgumentException 引数{@code dbo}がこのREPOSITORY管理下にない場合
 	 */
 	public void remove(DatabaseObjectModel dbo) {
-		remove((Entity) dbo);
+		if (entities.remove(dbo) == false) {
+			throw new IllegalArgumentException();
+		}
+		dbo.deactivate();
 	}
 	
 	/**
-	 * このREPOSITORYの管理下にある {@link Entity} の中から、{@code ref}が参照する {@link Entity}を返す。
+	 * このREPOSITORYの管理下にある {@link TableModel} の中から、{@code ref}が参照する {@link ColumnModel}を返す。
 	 * 
-	 * @param <T> {@link Entity}の型
 	 * @param ref 参照オブジェクト
-	 * @return {@link Entity}
-	 * @throws EntityNotFoundException 該当する {@link Entity} が見つからなかった場合
+	 * @return {@link ColumnModel}
+	 * @throws EntityNotFoundException 該当する {@link DatabaseObjectModel} が見つからなかった場合
+	 * @throws TooManyColumnsFoundException 複数のカラムが見つかった場合
 	 */
-	public <T extends Entity>T resolve(EntityRef<T> ref) {
+	public ColumnModel resolve(final EntityRef<ColumnModel> ref) {
+		Collection<ColumnModel> found = CollectionsUtil.newArrayList();
+		for (TableModel tableModel : findTables()) {
+			CollectionUtils.select(tableModel.getColumns(), new Predicate<ColumnModel>() {
+				
+				public boolean evaluate(ColumnModel column) {
+					return column.getId().equals(ref.getReferenceId());
+				}
+			}, found);
+		}
+		if (found.size() == 1) {
+			return found.iterator().next();
+		}
+		if (found.size() == 0) {
+			throw new EntityNotFoundException();
+		}
+		throw new TooManyColumnsFoundException(found);
+	}
+	
+	/**
+	 * このREPOSITORYの管理下にある {@link DatabaseObjectModel} の中から、{@code ref}が参照する {@link DatabaseObjectModel}を返す。
+	 * 
+	 * @param <T> {@link DatabaseObjectModel}の型
+	 * @param ref 参照オブジェクト
+	 * @return {@link DatabaseObjectModel}
+	 * @throws EntityNotFoundException 該当する {@link DatabaseObjectModel} が見つからなかった場合
+	 */
+	public <T extends DatabaseObjectModel>T resolve(EntityRef<T> ref) {
 		@SuppressWarnings("unchecked")
 		T result = (T) resolve(ref.getReferenceId());
 		return result;
@@ -312,47 +328,5 @@ public class Repository implements EntityListener {
 			}
 		}
 		throw new EntityNotFoundException();
-	}
-	
-	private void add(Entity entity) {
-		add(entity, false);
-	}
-	
-	private void add(Entity entity, boolean flag) {
-		if (flag) {
-			entity.bind();
-		} else {
-			entity.activate();
-		}
-		if (entity instanceof CompositEntity) {
-			CompositEntity compositEntity = (CompositEntity) entity;
-			for (Entity child : compositEntity.getChildren()) {
-				add(child, entity.getEntityLifecycle() != EntityLifecycle.ACTIVE);
-			}
-			compositEntity.addListener(this);
-		}
-		entities.add(entity);
-	}
-	
-	private void remove(Entity entity) {
-		remove(entity, false);
-	}
-	
-	private void remove(Entity entity, boolean flag) {
-		if (entities.remove(entity) == false) {
-			throw new IllegalArgumentException();
-		}
-		if (flag) {
-			entity.deactivate();
-		} else {
-			entity.free();
-		}
-		if (entity instanceof CompositEntity) {
-			CompositEntity compositEntity = (CompositEntity) entity;
-			compositEntity.removeListener(this);
-			for (Entity child : compositEntity.getChildren()) {
-				remove(child, true);
-			}
-		}
 	}
 }

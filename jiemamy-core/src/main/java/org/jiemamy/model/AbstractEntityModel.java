@@ -32,7 +32,7 @@ public abstract class AbstractEntityModel implements Entity {
 	
 	private final UUID id;
 	
-	EntityLifecycle lifecycle;
+	boolean active;
 	
 
 	/**
@@ -44,22 +44,20 @@ public abstract class AbstractEntityModel implements Entity {
 	protected AbstractEntityModel(UUID id) {
 		Validate.notNull(id);
 		this.id = id;
-		lifecycle = EntityLifecycle.FREE;
 	}
 	
 	public void activate() {
-		lifecycle.checkActivate();
-		lifecycle = EntityLifecycle.ACTIVE;
-	}
-	
-	public void bind() {
-		lifecycle.checkBind();
-		lifecycle = EntityLifecycle.BOUND;
+		if (active) {
+			throw new EntityLifecycleException();
+		}
+		active = true;
 	}
 	
 	public void deactivate() {
-		lifecycle.checkDeactivate();
-		lifecycle = EntityLifecycle.BOUND;
+		if (active == false) {
+			throw new EntityLifecycleException();
+		}
+		active = false;
 	}
 	
 	@Override
@@ -76,15 +74,6 @@ public abstract class AbstractEntityModel implements Entity {
 		return id.equals(((Entity) obj).getId());
 	}
 	
-	public void free() {
-		lifecycle.checkFree();
-		lifecycle = EntityLifecycle.FREE;
-	}
-	
-	public EntityLifecycle getEntityLifecycle() {
-		return lifecycle;
-	}
-	
 	public UUID getId() {
 		return id;
 	}
@@ -95,5 +84,9 @@ public abstract class AbstractEntityModel implements Entity {
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
+	}
+	
+	public boolean isActive() {
+		return active;
 	}
 }

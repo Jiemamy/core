@@ -41,18 +41,6 @@ public class EntityLifecycleTest {
 	}
 	
 	/**
-	 * ACTIVEからはbindできない。
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
-	@Test(expected = EntityLifecycleException.class)
-	public void test_active_to_bind() throws Exception {
-		Entity entity = new MockEntity();
-		entity.activate();
-		entity.bind();
-	}
-	
-	/**
 	 * ACTIVEからdeactivateできる。
 	 * 
 	 * @throws Exception 例外が発生した場合
@@ -62,66 +50,6 @@ public class EntityLifecycleTest {
 		Entity entity = new MockEntity();
 		entity.activate();
 		entity.deactivate();
-	}
-	
-	/**
-	 * ACTIVEからfreeできる。
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
-	@Test
-	public void test_active_to_free() throws Exception {
-		Entity entity = new MockEntity();
-		entity.activate();
-		entity.free();
-	}
-	
-	/**
-	 * BOUNDからactivateできる。
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
-	@Test
-	public void test_bound_to_activate() throws Exception {
-		Entity entity = new MockEntity();
-		entity.bind();
-		entity.activate();
-	}
-	
-	/**
-	 * BOUNDからはbindできない。
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
-	@Test(expected = EntityLifecycleException.class)
-	public void test_bound_to_bind() throws Exception {
-		Entity entity = new MockEntity();
-		entity.bind();
-		entity.bind();
-	}
-	
-	/**
-	 * BOUNDからはdeactivateできない。
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
-	@Test(expected = EntityLifecycleException.class)
-	public void test_bound_to_deactivate() throws Exception {
-		Entity entity = new MockEntity();
-		entity.bind();
-		entity.deactivate();
-	}
-	
-	/**
-	 * BOUNDからfreeできる。
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
-	@Test
-	public void test_bound_to_free() throws Exception {
-		Entity entity = new MockEntity();
-		entity.bind();
-		entity.free();
 	}
 	
 	/**
@@ -136,17 +64,6 @@ public class EntityLifecycleTest {
 	}
 	
 	/**
-	 * FREEからbindできる。
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
-	@Test
-	public void test_free_to_bind() throws Exception {
-		Entity entity = new MockEntity();
-		entity.bind();
-	}
-	
-	/**
 	 * FREEからはdeactivateできない。
 	 * 
 	 * @throws Exception 例外が発生した場合
@@ -155,16 +72,5 @@ public class EntityLifecycleTest {
 	public void test_free_to_deactivate() throws Exception {
 		Entity entity = new MockEntity();
 		entity.deactivate();
-	}
-	
-	/**
-	 * FREEからはfreeできない。
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
-	@Test(expected = EntityLifecycleException.class)
-	public void test_free_to_free() throws Exception {
-		Entity entity = new MockEntity();
-		entity.free();
 	}
 }

@@ -26,7 +26,7 @@ import java.util.UUID;
 
 import org.junit.Test;
 
-import org.jiemamy.model.EntityLifecycle;
+import org.jiemamy.model.EntityLifecycleException;
 import org.jiemamy.model.Repository;
 import org.jiemamy.model.attribute.Column;
 import org.jiemamy.model.attribute.ColumnModel;
@@ -121,15 +121,15 @@ public class DefaultTableModelTest {
 		Repository repository = new Repository();
 		DefaultTableModel t = new Table().build();
 		
-		assertThat(t.getEntityLifecycle(), is(EntityLifecycle.FREE));
+		assertThat(t.isActive(), is(false));
 		
 		repository.add(t);
 		
-		assertThat(t.getEntityLifecycle(), is(EntityLifecycle.ACTIVE));
+		assertThat(t.isActive(), is(true));
 		
 		repository.remove(t);
 		
-		assertThat(t.getEntityLifecycle(), is(EntityLifecycle.FREE));
+		assertThat(t.isActive(), is(false));
 	}
 	
 	/**
@@ -144,23 +144,28 @@ public class DefaultTableModelTest {
 		DefaultColumnModel column = new Column().build();
 		DefaultTableModel table = new Table().build();
 		
-		assertThat(table.getEntityLifecycle(), is(EntityLifecycle.FREE));
-		assertThat(column.getEntityLifecycle(), is(EntityLifecycle.FREE));
+		assertThat(table.isActive(), is(false));
+		assertThat(column.isActive(), is(false));
 		
 		table.addColumn(column);
 		
-		assertThat(table.getEntityLifecycle(), is(EntityLifecycle.FREE));
-		assertThat(column.getEntityLifecycle(), is(EntityLifecycle.BOUND));
+		assertThat(table.isActive(), is(false));
+		assertThat(column.isActive(), is(true));
 		
 		repository.add(table);
 		
-		assertThat(table.getEntityLifecycle(), is(EntityLifecycle.ACTIVE));
-		assertThat(column.getEntityLifecycle(), is(EntityLifecycle.ACTIVE));
+		assertThat(table.isActive(), is(true));
+		assertThat(column.isActive(), is(true));
 		
 		repository.remove(table);
 		
-		assertThat(table.getEntityLifecycle(), is(EntityLifecycle.FREE));
-		assertThat(column.getEntityLifecycle(), is(EntityLifecycle.BOUND));
+		assertThat(table.isActive(), is(false));
+		assertThat(column.isActive(), is(true));
+		
+		table.removeColumn(column);
+		
+		assertThat(table.isActive(), is(false));
+		assertThat(column.isActive(), is(false));
 	}
 	
 	/**
@@ -175,23 +180,69 @@ public class DefaultTableModelTest {
 		DefaultTableModel table = new Table().build();
 		DefaultColumnModel column = new Column().build();
 		
-		assertThat(table.getEntityLifecycle(), is(EntityLifecycle.FREE));
-		assertThat(column.getEntityLifecycle(), is(EntityLifecycle.FREE));
+		assertThat(table.isActive(), is(false));
+		assertThat(column.isActive(), is(false));
 		
 		repository.add(table);
 		
-		assertThat(table.getEntityLifecycle(), is(EntityLifecycle.ACTIVE));
-		assertThat(column.getEntityLifecycle(), is(EntityLifecycle.FREE));
+		assertThat(table.isActive(), is(true));
+		assertThat(column.isActive(), is(false));
 		
 		table.addColumn(column);
 		
-		assertThat(table.getEntityLifecycle(), is(EntityLifecycle.ACTIVE));
-		assertThat(column.getEntityLifecycle(), is(EntityLifecycle.ACTIVE));
+		assertThat(table.isActive(), is(true));
+		assertThat(column.isActive(), is(true));
 		
 		table.removeColumn(column);
 		
-		assertThat(table.getEntityLifecycle(), is(EntityLifecycle.ACTIVE));
-		assertThat(column.getEntityLifecycle(), is(EntityLifecycle.FREE));
+		assertThat(table.isActive(), is(true));
+		assertThat(column.isActive(), is(false));
+		
+		repository.remove(table);
+		
+		assertThat(table.isActive(), is(false));
+		assertThat(column.isActive(), is(false));
+	}
+	
+	@Test
+	public void test06_lifecycle2() throws Exception {
+		Repository repository1 = new Repository();
+		Repository repository2 = new Repository();
+		
+		DefaultTableModel table = new Table().build();
+		repository1.add(table);
+		repository1.remove(table);
+		repository2.add(table);
+		repository2.remove(table);
+		
+		repository1.add(table);
+		try {
+			repository2.add(table);
+			fail();
+		} catch (EntityLifecycleException e) {
+			// success
+		}
+	}
+	
+	@Test
+	public void test07_column_lifecycle3() throws Exception {
+		DefaultTableModel table1 = new Table().build();
+		DefaultTableModel table2 = new Table().build();
+		
+		DefaultColumnModel column = new Column().build();
+		
+		table1.addColumn(column);
+		table1.removeColumn(column);
+		table2.addColumn(column);
+		table2.removeColumn(column);
+		
+		table1.addColumn(column);
+		try {
+			table2.addColumn(column);
+			fail();
+		} catch (EntityLifecycleException e) {
+			// success
+		}
 	}
 	
 	/**
@@ -200,7 +251,7 @@ public class DefaultTableModelTest {
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test06_getColumn() throws Exception {
+	public void test10_getColumn() throws Exception {
 		DefaultTableModel table = new Table("HOGE").build();
 		DefaultColumnModel foo = new Column("FOO").build();
 		DefaultColumnModel foo2 = new Column("FOO").build();
