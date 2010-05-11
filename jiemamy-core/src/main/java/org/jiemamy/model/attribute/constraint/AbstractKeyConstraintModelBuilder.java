@@ -41,25 +41,6 @@ public abstract class AbstractKeyConstraintModelBuilder<T extends KeyConstraintM
 	
 
 	/**
-	 * インスタンスを生成する。
-	 */
-	public AbstractKeyConstraintModelBuilder() {
-		// noop
-	}
-	
-	/**
-	 * コピーコンストラクタ。
-	 * 
-	 * @param base コピー元の{@link KeyConstraintModel}
-	 */
-	public AbstractKeyConstraintModelBuilder(T base) {
-		super(base);
-		
-		this.deferrability = base.getDeferrability();
-		this.keyColumns = base.getKeyColumns();
-	}
-	
-	/**
 	 * キーカラムを追加する。
 	 * 
 	 * @param column キーカラム
@@ -77,6 +58,15 @@ public abstract class AbstractKeyConstraintModelBuilder<T extends KeyConstraintM
 	 */
 	public S addKeyColumn(EntityRef<ColumnModel> columnRef) {
 		keyColumns.add(columnRef);
+		return getThis();
+	}
+	
+	@Override
+	public S apply(T vo) {
+		super.apply(vo);
+		this.deferrability = vo.getDeferrability();
+		this.keyColumns = vo.getKeyColumns();
+		
 		return getThis();
 	}
 	

@@ -27,22 +27,6 @@ package org.jiemamy.model.attribute.constraint;
 public class DefaultPrimaryKeyConstraintModelBuilder extends
 		AbstractKeyConstraintModelBuilder<PrimaryKeyConstraintModel, DefaultPrimaryKeyConstraintModelBuilder> {
 	
-	/**
-	 * インスタンスを生成する。
-	 */
-	public DefaultPrimaryKeyConstraintModelBuilder() {
-		// noop
-	}
-	
-	/**
-	 * コピーコンストラクタ。
-	 * 
-	 * @param vo コピー元の{@link ForeignKeyConstraintModel}
-	 */
-	public DefaultPrimaryKeyConstraintModelBuilder(PrimaryKeyConstraintModel vo) {
-		super(vo);
-	}
-	
 	@Override
 	public PrimaryKeyConstraintModel build() {
 		return new DefaultPrimaryKeyConstraintModel(name, logicalName, description, keyColumns, deferrability);

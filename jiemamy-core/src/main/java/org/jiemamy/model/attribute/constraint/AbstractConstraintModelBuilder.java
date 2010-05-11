@@ -38,24 +38,13 @@ public abstract class AbstractConstraintModelBuilder<T extends ConstraintModel, 
 	String description;
 	
 
-	/**
-	 * インスタンスを生成する。
-	 */
-	public AbstractConstraintModelBuilder() {
-		// noop
-	}
-	
-	/**
-	 * コピーコンストラクタ。
-	 * 
-	 * @param base コピー元の{@link ConstraintModel}
-	 */
-	public AbstractConstraintModelBuilder(T base) {
-		super(base);
+	@Override
+	public S apply(T vo) {
+		this.name = vo.getName();
+		this.logicalName = vo.getLogicalName();
+		this.description = vo.getDescription();
 		
-		this.name = base.getName();
-		this.logicalName = base.getLogicalName();
-		this.description = base.getDescription();
+		return getThis();
 	}
 	
 	/**

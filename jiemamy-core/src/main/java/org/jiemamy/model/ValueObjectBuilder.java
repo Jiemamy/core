@@ -18,7 +18,6 @@
  */
 package org.jiemamy.model;
 
-
 /**
  * {@link ValueObject}のインスタンスを生成するビルダー。
  * 
@@ -30,20 +29,12 @@ package org.jiemamy.model;
 public abstract class ValueObjectBuilder<T extends ValueObject, S extends ValueObjectBuilder<T, S>> {
 	
 	/**
-	 * インスタンスを生成する。
-	 */
-	public ValueObjectBuilder() {
-		// noop
-	}
-	
-	/**
-	 * ビルド対象の{@link ValueObject}からこのビルダーを生成するコピーコンストラクタ。
+	 * 既に存在する{@link ValueObject}の内容から、このビルダーの状態を変更する。
 	 * 
-	 * @param base コピー元の{@link ValueObject}
+	 * @param vo 状態を引用する{@link ValueObject}
+	 * @return このビルダーインスタンス。
 	 */
-	public ValueObjectBuilder(T base) {
-		// noop
-	}
+	public abstract S apply(T vo);
 	
 	/**
 	 * ビルダの設定に基づいて{@link ValueObject}の新しいインスタンスを生成する。

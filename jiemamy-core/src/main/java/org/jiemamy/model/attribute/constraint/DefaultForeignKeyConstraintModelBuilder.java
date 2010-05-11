@@ -57,27 +57,6 @@ public class DefaultForeignKeyConstraintModelBuilder extends
 	
 
 	/**
-	 * インスタンスを生成する。
-	 */
-	public DefaultForeignKeyConstraintModelBuilder() {
-		// noop
-	}
-	
-	/**
-	 * コピーコンストラクタ。
-	 * 
-	 * @param base コピー元の{@link ForeignKeyConstraintModel}
-	 */
-	public DefaultForeignKeyConstraintModelBuilder(ForeignKeyConstraintModel base) {
-		super(base);
-		
-		matchType = base.getMatchType();
-		onDelete = base.getOnDelete();
-		onUpdate = base.getOnUpdate();
-		referenceColumns = base.getReferenceColumns();
-	}
-	
-	/**
 	 * 参照カラムを追加する。
 	 * 
 	 * @param referenceColumn 参照カラム
@@ -95,6 +74,17 @@ public class DefaultForeignKeyConstraintModelBuilder extends
 	 */
 	public DefaultForeignKeyConstraintModelBuilder addReferenceColumn(EntityRef<ColumnModel> referenceColumnRef) {
 		referenceColumns.add(referenceColumnRef);
+		return getThis();
+	}
+	
+	@Override
+	public DefaultForeignKeyConstraintModelBuilder apply(ForeignKeyConstraintModel vo) {
+		super.apply(vo);
+		matchType = vo.getMatchType();
+		onDelete = vo.getOnDelete();
+		onUpdate = vo.getOnUpdate();
+		referenceColumns = vo.getReferenceColumns();
+		
 		return getThis();
 	}
 	
