@@ -29,7 +29,13 @@ package org.jiemamy.model;
 public abstract class ValueObjectBuilder<T extends ValueObject, S extends ValueObjectBuilder<T, S>> {
 	
 	/**
-	 * 既に存在する{@link ValueObject}の内容から、このビルダーの状態を変更する。
+	 * 既に存在する{@link ValueObject}の内容で、このビルダーの状態を変更する。
+	 * 
+	 * <p>このメソッドを実行することでビルダーの内部状態が変更される。つまり状態が上書きされるため、次のコードのように<code>apply</code>前に行われた操作は意味を成さなくなる。</p>
+	 * 
+	 * <pre><code>VarioustBuilder<T,S> builder = new VariousBuilder<T,S>();
+	 * T vo = new T();
+	 * builder.setVarious(foo).appry(vo);</code></pre>
 	 * 
 	 * @param vo 状態を引用する{@link ValueObject}
 	 * @return このビルダーインスタンス。

@@ -40,28 +40,20 @@ public class DefaultForeignKeyConstraintModelBuilder extends
 	 */
 	MatchType matchType;
 	
-	boolean isApplyableMatchType = true;
-	
 	/**
 	 * 削除時アクション
 	 */
 	ReferentialAction onDelete;
-	
-	boolean isApplyableOnDelete = true;
 	
 	/**
 	 * 更新時アクション
 	 */
 	ReferentialAction onUpdate;
 	
-	boolean isApplyableOnUpdate = true;
-	
 	/**
 	 * 参照カラムのリスト
 	 */
 	List<EntityRef<ColumnModel>> referenceColumns = CollectionsUtil.newArrayList();
-	
-	boolean isApplyableReferenceColumns = true;
 	
 
 	/**
@@ -82,25 +74,16 @@ public class DefaultForeignKeyConstraintModelBuilder extends
 	 */
 	public DefaultForeignKeyConstraintModelBuilder addReferenceColumn(EntityRef<ColumnModel> referenceColumnRef) {
 		referenceColumns.add(referenceColumnRef);
-		isApplyableReferenceColumns = false;
 		return getThis();
 	}
 	
 	@Override
 	public DefaultForeignKeyConstraintModelBuilder apply(ForeignKeyConstraintModel vo) {
-		super.apply(vo);
+		super.apply(vo).setMatchType(vo.getMatchType()).setOnDelete(vo.getOnDelete()).setOnUpdate(vo.getOnUpdate());
 		
-		if (isApplyableMatchType) {
-			matchType = vo.getMatchType();
-		}
-		if (isApplyableOnDelete) {
-			onDelete = vo.getOnDelete();
-		}
-		if (isApplyableOnUpdate) {
-			onUpdate = vo.getOnUpdate();
-		}
-		if (isApplyableReferenceColumns) {
-			referenceColumns = vo.getReferenceColumns();
+		referenceColumns.clear();
+		for (EntityRef<ColumnModel> referenceColumnRef : vo.getReferenceColumns()) {
+			addReferenceColumn(referenceColumnRef);
 		}
 		
 		return getThis();
@@ -119,7 +102,6 @@ public class DefaultForeignKeyConstraintModelBuilder extends
 	 */
 	public DefaultForeignKeyConstraintModelBuilder setMatchType(MatchType matchType) {
 		this.matchType = matchType;
-		isApplyableMatchType = false;
 		return getThis();
 	}
 	
@@ -130,7 +112,6 @@ public class DefaultForeignKeyConstraintModelBuilder extends
 	 */
 	public DefaultForeignKeyConstraintModelBuilder setOnDelete(ReferentialAction onDelete) {
 		this.onDelete = onDelete;
-		isApplyableOnDelete = false;
 		return getThis();
 	}
 	
@@ -141,7 +122,6 @@ public class DefaultForeignKeyConstraintModelBuilder extends
 	 */
 	public DefaultForeignKeyConstraintModelBuilder setOnUpdate(ReferentialAction onUpdate) {
 		this.onUpdate = onUpdate;
-		isApplyableOnUpdate = false;
 		return getThis();
 	}
 	

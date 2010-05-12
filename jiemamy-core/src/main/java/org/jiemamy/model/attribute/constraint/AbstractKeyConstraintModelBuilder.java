@@ -37,11 +37,7 @@ public abstract class AbstractKeyConstraintModelBuilder<T extends KeyConstraintM
 	
 	DeferrabilityModel deferrability;
 	
-	boolean isApplyableDeferrability = true;
-	
 	List<EntityRef<ColumnModel>> keyColumns = new ArrayList<EntityRef<ColumnModel>>();
-	
-	boolean isApplyableKeyColumns = true;
 	
 
 	/**
@@ -62,19 +58,16 @@ public abstract class AbstractKeyConstraintModelBuilder<T extends KeyConstraintM
 	 */
 	public S addKeyColumn(EntityRef<ColumnModel> columnRef) {
 		keyColumns.add(columnRef);
-		this.isApplyableKeyColumns = false;
 		return getThis();
 	}
 	
 	@Override
 	public S apply(T vo) {
-		super.apply(vo);
+		super.apply(vo).setDeferrability(vo.getDeferrability());
 		
-		if (this.isApplyableDeferrability) {
-			this.deferrability = vo.getDeferrability();
-		}
-		if (this.isApplyableKeyColumns) {
-			this.keyColumns = vo.getKeyColumns();
+		keyColumns.clear();
+		for (EntityRef<ColumnModel> columnRef : vo.getKeyColumns()) {
+			addKeyColumn(columnRef);
 		}
 		
 		return getThis();
@@ -88,7 +81,6 @@ public abstract class AbstractKeyConstraintModelBuilder<T extends KeyConstraintM
 	 */
 	public S setDeferrability(DeferrabilityModel deferrability) {
 		this.deferrability = deferrability;
-		this.isApplyableDeferrability = false;
 		return getThis();
 	}
 }
