@@ -164,7 +164,7 @@ public class Repository {
 						continue;
 					}
 					EntityRef<ColumnModel> columnRef = foreignKey.getReferenceColumns().get(0);
-					ColumnModel columnModel = resolve(columnRef);
+					ColumnModel columnModel = resolveColumn(columnRef);
 					TableModel referenceTableModel = findDeclaringTable(columnModel);
 					if (referenceTableModel == null) {
 						continue;
@@ -278,33 +278,6 @@ public class Repository {
 	}
 	
 	/**
-	 * このREPOSITORYの管理下にある {@link TableModel} の中から、{@code ref}が参照する {@link ColumnModel}を返す。
-	 * 
-	 * @param ref 参照オブジェクト
-	 * @return {@link ColumnModel}
-	 * @throws EntityNotFoundException 該当する {@link DatabaseObjectModel} が見つからなかった場合
-	 * @throws TooManyColumnsFoundException 複数のカラムが見つかった場合
-	 */
-	public ColumnModel resolve(final EntityRef<ColumnModel> ref) {
-		Collection<ColumnModel> found = CollectionsUtil.newArrayList();
-		for (TableModel tableModel : findTables()) {
-			CollectionUtils.select(tableModel.getColumns(), new Predicate<ColumnModel>() {
-				
-				public boolean evaluate(ColumnModel column) {
-					return column.getId().equals(ref.getReferenceId());
-				}
-			}, found);
-		}
-		if (found.size() == 1) {
-			return found.iterator().next();
-		}
-		if (found.size() == 0) {
-			throw new EntityNotFoundException();
-		}
-		throw new TooManyColumnsFoundException(found);
-	}
-	
-	/**
 	 * このREPOSITORYの管理下にある {@link DatabaseObjectModel} の中から、{@code ref}が参照する {@link DatabaseObjectModel}を返す。
 	 * 
 	 * @param <T> {@link DatabaseObjectModel}の型
@@ -332,5 +305,32 @@ public class Repository {
 			}
 		}
 		throw new EntityNotFoundException();
+	}
+	
+	/**
+	 * このREPOSITORYの管理下にある {@link TableModel} の中から、{@code ref}が参照する {@link ColumnModel}を返す。
+	 * 
+	 * @param ref 参照オブジェクト
+	 * @return {@link ColumnModel}
+	 * @throws EntityNotFoundException 該当する {@link DatabaseObjectModel} が見つからなかった場合
+	 * @throws TooManyColumnsFoundException 複数のカラムが見つかった場合
+	 */
+	public ColumnModel resolveColumn(final EntityRef<ColumnModel> ref) {
+		Collection<ColumnModel> found = CollectionsUtil.newArrayList();
+		for (TableModel tableModel : findTables()) {
+			CollectionUtils.select(tableModel.getColumns(), new Predicate<ColumnModel>() {
+				
+				public boolean evaluate(ColumnModel column) {
+					return column.getId().equals(ref.getReferenceId());
+				}
+			}, found);
+		}
+		if (found.size() == 1) {
+			return found.iterator().next();
+		}
+		if (found.size() == 0) {
+			throw new EntityNotFoundException();
+		}
+		throw new TooManyColumnsFoundException(found);
 	}
 }
