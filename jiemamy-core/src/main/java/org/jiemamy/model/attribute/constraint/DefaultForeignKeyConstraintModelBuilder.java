@@ -79,7 +79,10 @@ public class DefaultForeignKeyConstraintModelBuilder extends
 	
 	@Override
 	public DefaultForeignKeyConstraintModelBuilder apply(ForeignKeyConstraintModel vo) {
-		super.apply(vo).setMatchType(vo.getMatchType()).setOnDelete(vo.getOnDelete()).setOnUpdate(vo.getOnUpdate());
+		super.apply(vo);
+		setMatchType(vo.getMatchType());
+		setOnDelete(vo.getOnDelete());
+		setOnUpdate(vo.getOnUpdate());
 		
 		referenceColumns.clear();
 		for (EntityRef<ColumnModel> referenceColumnRef : vo.getReferenceColumns()) {

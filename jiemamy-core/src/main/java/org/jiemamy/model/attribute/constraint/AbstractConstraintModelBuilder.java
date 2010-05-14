@@ -40,7 +40,11 @@ public abstract class AbstractConstraintModelBuilder<T extends ConstraintModel, 
 
 	@Override
 	public S apply(T vo) {
-		return setName(vo.getName()).setLogicalName(vo.getLogicalName()).setDescription(vo.getDescription());
+		setName(vo.getName());
+		setLogicalName(vo.getLogicalName());
+		setDescription(vo.getDescription());
+		
+		return getThis();
 	}
 	
 	/**

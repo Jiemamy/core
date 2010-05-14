@@ -63,7 +63,8 @@ public abstract class AbstractKeyConstraintModelBuilder<T extends KeyConstraintM
 	
 	@Override
 	public S apply(T vo) {
-		super.apply(vo).setDeferrability(vo.getDeferrability());
+		super.apply(vo);
+		setDeferrability(vo.getDeferrability());
 		
 		keyColumns.clear();
 		for (EntityRef<ColumnModel> columnRef : vo.getKeyColumns()) {
