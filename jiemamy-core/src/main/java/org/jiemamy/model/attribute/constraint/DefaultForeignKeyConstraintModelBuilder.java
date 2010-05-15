@@ -82,6 +82,7 @@ public class DefaultForeignKeyConstraintModelBuilder extends
 	 */
 	public DefaultForeignKeyConstraintModelBuilder addReferenceColumn(EntityRef<ColumnModel> referenceColumnRef) {
 		referenceColumns.add(referenceColumnRef);
+		isSetReferenceColumns = true;
 		return getThis();
 	}
 	
@@ -98,6 +99,7 @@ public class DefaultForeignKeyConstraintModelBuilder extends
 	 */
 	public DefaultForeignKeyConstraintModelBuilder setMatchType(MatchType matchType) {
 		this.matchType = matchType;
+		isSetMatchType = true;
 		return getThis();
 	}
 	
@@ -108,6 +110,7 @@ public class DefaultForeignKeyConstraintModelBuilder extends
 	 */
 	public DefaultForeignKeyConstraintModelBuilder setOnDelete(ReferentialAction onDelete) {
 		this.onDelete = onDelete;
+		isSetOnDelete = true;
 		return getThis();
 	}
 	
@@ -118,6 +121,7 @@ public class DefaultForeignKeyConstraintModelBuilder extends
 	 */
 	public DefaultForeignKeyConstraintModelBuilder setOnUpdate(ReferentialAction onUpdate) {
 		this.onUpdate = onUpdate;
+		isSetOnUpdate = true;
 		return getThis();
 	}
 	
