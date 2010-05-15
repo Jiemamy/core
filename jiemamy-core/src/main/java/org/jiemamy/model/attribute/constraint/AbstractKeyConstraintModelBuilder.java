@@ -61,19 +61,6 @@ public abstract class AbstractKeyConstraintModelBuilder<T extends KeyConstraintM
 		return getThis();
 	}
 	
-	@Override
-	public S apply(T vo) {
-		super.apply(vo);
-		setDeferrability(vo.getDeferrability());
-		
-		keyColumns.clear();
-		for (EntityRef<ColumnModel> columnRef : vo.getKeyColumns()) {
-			addKeyColumn(columnRef);
-		}
-		
-		return getThis();
-	}
-	
 	/**
 	 * 遅延可能性を設定する。 
 	 * 
@@ -83,5 +70,18 @@ public abstract class AbstractKeyConstraintModelBuilder<T extends KeyConstraintM
 	public S setDeferrability(DeferrabilityModel deferrability) {
 		this.deferrability = deferrability;
 		return getThis();
+	}
+	
+	@Override
+	protected void apply(T vo, S builder) {
+		super.apply(vo, builder);
+		
+		builder.setDeferrability((deferrability == null) ? vo.getDeferrability() : deferrability);
+		
+		if (keyColumns.isEmpty()) {
+			for (EntityRef<ColumnModel> columnRef : vo.getKeyColumns()) {
+				builder.addKeyColumn(columnRef);
+			}
+		}
 	}
 }

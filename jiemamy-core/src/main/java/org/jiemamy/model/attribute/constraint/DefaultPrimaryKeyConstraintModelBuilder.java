@@ -36,4 +36,9 @@ public class DefaultPrimaryKeyConstraintModelBuilder extends
 	protected DefaultPrimaryKeyConstraintModelBuilder getThis() {
 		return this;
 	}
+	
+	@Override
+	protected DefaultPrimaryKeyConstraintModelBuilder newInstance() {
+		return new DefaultPrimaryKeyConstraintModelBuilder();
+	}
 }

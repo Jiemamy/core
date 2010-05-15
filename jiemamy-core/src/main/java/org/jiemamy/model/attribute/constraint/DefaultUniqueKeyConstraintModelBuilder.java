@@ -37,4 +37,9 @@ public class DefaultUniqueKeyConstraintModelBuilder extends
 		return this;
 	}
 	
+	@Override
+	protected DefaultUniqueKeyConstraintModelBuilder newInstance() {
+		return new DefaultUniqueKeyConstraintModelBuilder();
+	}
+	
 }

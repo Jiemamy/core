@@ -29,18 +29,19 @@ package org.jiemamy.model;
 public abstract class ValueObjectBuilder<T extends ValueObject, S extends ValueObjectBuilder<T, S>> {
 	
 	/**
-	 * 既に存在する{@link ValueObject}の内容で、このビルダーの状態を変更する。
+	 * ビルダの設定に基づき、引数の{@link ValueObject}の内容を変更した新しいインスタンスを生成する。
 	 * 
-	 * <p>このメソッドを実行することでビルダーの内部状態が変更される。つまり状態が上書きされるため、次のコードのように<code>apply</code>前に行われた操作は意味を成さなくなる。</p>
-	 * 
-	 * <pre><code>VarioustBuilder<T,S> builder = new VariousBuilder<T,S>();
-	 * T vo = new T();
-	 * builder.setVarious(foo).appry(vo);</code></pre>
+	 * <p>なお、<code>null</code>で設定された内容は無視される。</p>
 	 * 
 	 * @param vo 状態を引用する{@link ValueObject}
-	 * @return このビルダーインスタンス。
+	 * @return vo の内容から、このビルダの設定を上書きした{@link ValueObject}の新しいインスタンス
 	 */
-	public abstract S apply(T vo);
+	public T apply(T vo) {
+		S builder = newInstance();
+		apply(vo, builder);
+		
+		return builder.build();
+	}
 	
 	/**
 	 * ビルダの設定に基づいて{@link ValueObject}の新しいインスタンスを生成する。
@@ -50,10 +51,25 @@ public abstract class ValueObjectBuilder<T extends ValueObject, S extends ValueO
 	public abstract T build();
 	
 	/**
+	 * 引数のビルダの設定に基づき、引数の{@link ValueObject}の内容を変更した新しいインスタンスを生成する。
+	 * 
+	 * @param vo 状態を引用する{@link ValueObject}
+	 * @param builder ビルダ
+	 */
+	protected abstract void apply(T vo, S builder);
+	
+	/**
 	 * このビルダークラスのインスタンスを返す。
 	 * 
 	 * @return このビルダークラスのインスタンス。
 	 */
 	protected abstract S getThis();
+	
+	/**
+	 * このビルダークラスの新しいインスタンスを返す。
+	 * 
+	 * @return このビルダークラスの新しいインスタンス。
+	 */
+	protected abstract S newInstance();
 	
 }

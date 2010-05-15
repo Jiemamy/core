@@ -78,21 +78,6 @@ public class DefaultForeignKeyConstraintModelBuilder extends
 	}
 	
 	@Override
-	public DefaultForeignKeyConstraintModelBuilder apply(ForeignKeyConstraintModel vo) {
-		super.apply(vo);
-		setMatchType(vo.getMatchType());
-		setOnDelete(vo.getOnDelete());
-		setOnUpdate(vo.getOnUpdate());
-		
-		referenceColumns.clear();
-		for (EntityRef<ColumnModel> referenceColumnRef : vo.getReferenceColumns()) {
-			addReferenceColumn(referenceColumnRef);
-		}
-		
-		return getThis();
-	}
-	
-	@Override
 	public ForeignKeyConstraintModel build() {
 		return new DefaultForeignKeyConstraintModel(name, logicalName, description, keyColumns, deferrability,
 				referenceColumns, onDelete, onUpdate, matchType);
@@ -129,7 +114,27 @@ public class DefaultForeignKeyConstraintModelBuilder extends
 	}
 	
 	@Override
+	protected void apply(ForeignKeyConstraintModel vo, DefaultForeignKeyConstraintModelBuilder builder) {
+		super.apply(vo, builder);
+		
+		builder.setMatchType((matchType == null) ? vo.getMatchType() : matchType);
+		builder.setOnDelete((onDelete == null) ? vo.getOnDelete() : onDelete);
+		builder.setOnUpdate((onUpdate == null) ? vo.getOnUpdate() : onUpdate);
+		
+		if (referenceColumns.isEmpty()) {
+			for (EntityRef<ColumnModel> referenceColumnRef : vo.getReferenceColumns()) {
+				builder.addReferenceColumn(referenceColumnRef);
+			}
+		}
+	}
+	
+	@Override
 	protected DefaultForeignKeyConstraintModelBuilder getThis() {
 		return this;
+	}
+	
+	@Override
+	protected DefaultForeignKeyConstraintModelBuilder newInstance() {
+		return new DefaultForeignKeyConstraintModelBuilder();
 	}
 }

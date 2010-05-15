@@ -38,15 +38,6 @@ public abstract class AbstractConstraintModelBuilder<T extends ConstraintModel, 
 	String description;
 	
 
-	@Override
-	public S apply(T vo) {
-		setName(vo.getName());
-		setLogicalName(vo.getLogicalName());
-		setDescription(vo.getDescription());
-		
-		return getThis();
-	}
-	
 	/**
 	 * 説明文を設定する。 
 	 * @param description 説明文
@@ -75,6 +66,13 @@ public abstract class AbstractConstraintModelBuilder<T extends ConstraintModel, 
 	public S setName(String name) {
 		this.name = name;
 		return getThis();
+	}
+	
+	@Override
+	protected void apply(T vo, S builder) {
+		builder.setName((name == null) ? vo.getName() : name);
+		builder.setLogicalName((logicalName == null) ? vo.getLogicalName() : logicalName);
+		builder.setDescription((description == null) ? vo.getDescription() : description);
 	}
 	
 }

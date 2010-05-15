@@ -34,7 +34,7 @@ import org.junit.Test;
 public class AbstractConstraintModelBuilderTest {
 	
 	/**
-	 * Test method for {@link org.jiemamy.model.attribute.constraint.AbstractConstraintModelBuilder#apply(org.jiemamy.model.attribute.constraint.ConstraintModel)}.
+	 * Test method for {@link org.jiemamy.model.attribute.constraint.AbstractConstraintModelBuilder#apply(org.jiemamy.model.attribute.constraint.ConstraintModel, org.jiemamy.model.attribute.constraint.AbstractConstraintModelBuilder)}.
 	 */
 	@Test
 	public final void testApply() {
@@ -44,11 +44,30 @@ public class AbstractConstraintModelBuilderTest {
 		when(model.getDescription()).thenReturn("description");
 		
 		BuilderMock builder = new BuilderMock();
-		builder.apply(model);
+		BuilderMock testBuilder = new BuilderMock();
 		
-		assertThat(builder.name, is("name"));
-		assertThat(builder.logicalName, is("logicalName"));
-		assertThat(builder.description, is("description"));
+		builder.apply(model, testBuilder);
+		assertThat(testBuilder.name, is("name"));
+		assertThat(testBuilder.logicalName, is("logicalName"));
+		assertThat(testBuilder.description, is("description"));
+		
+		testBuilder = new BuilderMock();
+		builder.setName("eman").apply(model, testBuilder);
+		assertThat(testBuilder.name, is("eman"));
+		assertThat(testBuilder.logicalName, is("logicalName"));
+		assertThat(testBuilder.description, is("description"));
+		
+		testBuilder = new BuilderMock();
+		builder.setLogicalName("emaNlacigoL").apply(model, testBuilder);
+		assertThat(testBuilder.name, is("eman"));
+		assertThat(testBuilder.logicalName, is("emaNlacigoL"));
+		assertThat(testBuilder.description, is("description"));
+		
+		testBuilder = new BuilderMock();
+		builder.setDescription("noitpircsed").apply(model, testBuilder);
+		assertThat(testBuilder.name, is("eman"));
+		assertThat(testBuilder.logicalName, is("emaNlacigoL"));
+		assertThat(testBuilder.description, is("noitpircsed"));
 	}
 	
 	/**
@@ -97,6 +116,11 @@ public class AbstractConstraintModelBuilderTest {
 		@Override
 		protected BuilderMock getThis() {
 			return this;
+		}
+		
+		@Override
+		protected BuilderMock newInstance() {
+			return new BuilderMock();
 		}
 		
 	}

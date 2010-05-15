@@ -19,7 +19,6 @@
 package org.jiemamy.model.attribute.constraint;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.Matchers.hasItem;
 import static org.junit.Assert.assertThat;
@@ -69,14 +68,13 @@ public class DefaultForeignKeyConstraintModelBuilderTest {
 		assertThat(fk.getOnUpdate(), is(nullValue()));
 		
 		DefaultForeignKeyConstraintModelBuilder builder2 = new DefaultForeignKeyConstraintModelBuilder();
-		ForeignKeyConstraintModel fk2 = builder2.setName("BAR").apply(fk).build();
+		ForeignKeyConstraintModel fk2 = builder2.setName("BAR").setMatchType(MatchType.PARTIAL).apply(fk);
 		
-		assertThat(fk2.getName(), is(not("BAR")));
-		assertThat(fk2.getName(), is("FK_A_B"));
+		assertThat(fk2.getName(), is("BAR"));
 		assertThat(fk2.getKeyColumns(), hasItem(ref1));
 		assertThat(fk2.getReferenceColumns(), hasItem(ref2));
 		assertThat(fk2.getDeferrability(), is(nullValue()));
-		assertThat(fk2.getMatchType(), is(MatchType.SIMPLE));
+		assertThat(fk2.getMatchType(), is(MatchType.PARTIAL));
 		assertThat(fk2.getOnDelete(), is(ReferentialAction.CASCADE));
 		assertThat(fk2.getOnUpdate(), is(nullValue()));
 	}
