@@ -33,9 +33,15 @@ public abstract class AbstractConstraintModelBuilder<T extends ConstraintModel, 
 	
 	String name;
 	
+	boolean isSetName;
+	
 	String logicalName;
 	
+	boolean isSetLogicalName;
+	
 	String description;
+	
+	boolean isSetDescription;
 	
 
 	/**
@@ -45,6 +51,7 @@ public abstract class AbstractConstraintModelBuilder<T extends ConstraintModel, 
 	 */
 	public S setDescription(String description) {
 		this.description = description;
+		this.isSetDescription = true;
 		return getThis();
 	}
 	
@@ -55,6 +62,7 @@ public abstract class AbstractConstraintModelBuilder<T extends ConstraintModel, 
 	 */
 	public S setLogicalName(String logicalName) {
 		this.logicalName = logicalName;
+		this.isSetLogicalName = true;
 		return getThis();
 	}
 	
@@ -65,14 +73,15 @@ public abstract class AbstractConstraintModelBuilder<T extends ConstraintModel, 
 	 */
 	public S setName(String name) {
 		this.name = name;
+		this.isSetName = true;
 		return getThis();
 	}
 	
 	@Override
 	protected void apply(T vo, S builder) {
-		builder.setName((name == null) ? vo.getName() : name);
-		builder.setLogicalName((logicalName == null) ? vo.getLogicalName() : logicalName);
-		builder.setDescription((description == null) ? vo.getDescription() : description);
+		builder.setName(isSetName ? name : vo.getName());
+		builder.setLogicalName(isSetLogicalName ? logicalName : vo.getLogicalName());
+		builder.setDescription(isSetDescription ? description : vo.getDescription());
 	}
 	
 }

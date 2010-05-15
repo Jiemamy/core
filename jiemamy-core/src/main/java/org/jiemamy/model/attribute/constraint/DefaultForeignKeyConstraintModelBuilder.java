@@ -40,20 +40,28 @@ public class DefaultForeignKeyConstraintModelBuilder extends
 	 */
 	MatchType matchType;
 	
+	boolean isSetMatchType;
+	
 	/**
 	 * 削除時アクション
 	 */
 	ReferentialAction onDelete;
+	
+	boolean isSetOnDelete;
 	
 	/**
 	 * 更新時アクション
 	 */
 	ReferentialAction onUpdate;
 	
+	boolean isSetOnUpdate;
+	
 	/**
 	 * 参照カラムのリスト
 	 */
 	List<EntityRef<ColumnModel>> referenceColumns = CollectionsUtil.newArrayList();
+	
+	boolean isSetReferenceColumns;
 	
 
 	/**
@@ -117,14 +125,13 @@ public class DefaultForeignKeyConstraintModelBuilder extends
 	protected void apply(ForeignKeyConstraintModel vo, DefaultForeignKeyConstraintModelBuilder builder) {
 		super.apply(vo, builder);
 		
-		builder.setMatchType((matchType == null) ? vo.getMatchType() : matchType);
-		builder.setOnDelete((onDelete == null) ? vo.getOnDelete() : onDelete);
-		builder.setOnUpdate((onUpdate == null) ? vo.getOnUpdate() : onUpdate);
+		builder.setMatchType(isSetMatchType ? matchType : vo.getMatchType());
+		builder.setOnDelete(isSetOnDelete ? onDelete : vo.getOnDelete());
+		builder.setOnUpdate(isSetOnUpdate ? onUpdate : vo.getOnUpdate());
 		
-		if (referenceColumns.isEmpty()) {
-			for (EntityRef<ColumnModel> referenceColumnRef : vo.getReferenceColumns()) {
-				builder.addReferenceColumn(referenceColumnRef);
-			}
+		for (EntityRef<ColumnModel> referenceColumnRef : (isSetReferenceColumns ? referenceColumns : vo
+			.getReferenceColumns())) {
+			builder.addReferenceColumn(referenceColumnRef);
 		}
 	}
 	

@@ -31,8 +31,6 @@ public abstract class ValueObjectBuilder<T extends ValueObject, S extends ValueO
 	/**
 	 * ビルダの設定に基づき、引数の{@link ValueObject}の内容を変更した新しいインスタンスを生成する。
 	 * 
-	 * <p>なお、<code>null</code>で設定された内容は無視される。</p>
-	 * 
 	 * @param vo 状態を引用する{@link ValueObject}
 	 * @return vo の内容から、このビルダの設定を上書きした{@link ValueObject}の新しいインスタンス
 	 */
