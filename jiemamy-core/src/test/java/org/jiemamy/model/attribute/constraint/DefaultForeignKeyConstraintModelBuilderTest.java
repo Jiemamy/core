@@ -42,30 +42,55 @@ import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel.Referent
 public class DefaultForeignKeyConstraintModelBuilderTest {
 	
 	/**
-	 * TODO for daisuke
+	 * 仕様通りのビルドを確認する。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test_build() throws Exception {
+	public void test01_build() throws Exception {
 		EntityRef<ColumnModel> ref1 = new DefaultEntityRef<ColumnModel>(UUID.randomUUID());
 		EntityRef<ColumnModel> ref2 = new DefaultEntityRef<ColumnModel>(UUID.randomUUID());
 		
 		DefaultForeignKeyConstraintModelBuilder builder = new DefaultForeignKeyConstraintModelBuilder();
 		
 		// FORMAT-OFF
-		ForeignKeyConstraintModel fk =
-				builder.setName("FK_A_B").addKeyColumn(ref1).addReferenceColumn(ref2).setMatchType(MatchType.SIMPLE)
-					.setOnDelete(ReferentialAction.CASCADE).build();
+		ForeignKeyConstraintModel fk = builder.setName("FOO")
+				.addKeyColumn(ref1)
+				.addReferenceColumn(ref2)
+				.setMatchType(MatchType.SIMPLE)
+				.setOnDelete(ReferentialAction.CASCADE)
+				.build();
 		// FORMAT-ON
 		
-		assertThat(fk.getName(), is("FK_A_B"));
+		assertThat(fk.getName(), is("FOO"));
 		assertThat(fk.getKeyColumns(), hasItem(ref1));
 		assertThat(fk.getReferenceColumns(), hasItem(ref2));
 		assertThat(fk.getDeferrability(), is(nullValue()));
 		assertThat(fk.getMatchType(), is(MatchType.SIMPLE));
 		assertThat(fk.getOnDelete(), is(ReferentialAction.CASCADE));
 		assertThat(fk.getOnUpdate(), is(nullValue()));
+	}
+	
+	/**
+	 * 仕様通りのapplyを確認する。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test02_apply() throws Exception {
+		EntityRef<ColumnModel> ref1 = new DefaultEntityRef<ColumnModel>(UUID.randomUUID());
+		EntityRef<ColumnModel> ref2 = new DefaultEntityRef<ColumnModel>(UUID.randomUUID());
+		
+		DefaultForeignKeyConstraintModelBuilder builder = new DefaultForeignKeyConstraintModelBuilder();
+		
+		// FORMAT-OFF
+		ForeignKeyConstraintModel fk = builder.setName("FOO")
+				.addKeyColumn(ref1)
+				.addReferenceColumn(ref2)
+				.setMatchType(MatchType.SIMPLE)
+				.setOnDelete(ReferentialAction.CASCADE)
+				.build();
+		// FORMAT-ON
 		
 		DefaultForeignKeyConstraintModelBuilder builder2 = new DefaultForeignKeyConstraintModelBuilder();
 		ForeignKeyConstraintModel fk2 = builder2.setName("BAR").setMatchType(MatchType.PARTIAL).apply(fk);
@@ -77,5 +102,49 @@ public class DefaultForeignKeyConstraintModelBuilderTest {
 		assertThat(fk2.getMatchType(), is(MatchType.PARTIAL));
 		assertThat(fk2.getOnDelete(), is(ReferentialAction.CASCADE));
 		assertThat(fk2.getOnUpdate(), is(nullValue()));
+	}
+	
+	/**
+	 * 1つのビルダーで2つのオブジェクトにapplyする際、1つめのapplyでビルダーのステートが変更されないことを確認。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test03_apply_nondisruptive() throws Exception {
+		EntityRef<ColumnModel> ref1 = new DefaultEntityRef<ColumnModel>(UUID.randomUUID());
+		EntityRef<ColumnModel> ref2 = new DefaultEntityRef<ColumnModel>(UUID.randomUUID());
+		
+		DefaultForeignKeyConstraintModelBuilder builder = new DefaultForeignKeyConstraintModelBuilder();
+		// FORMAT-OFF
+		ForeignKeyConstraintModel fk1 = builder.setName("FOO")
+				.addKeyColumn(ref1)
+				.addReferenceColumn(ref2)
+				.setMatchType(MatchType.SIMPLE)
+				.setOnDelete(ReferentialAction.CASCADE)
+				.build();
+		// FORMAT-ON
+		
+		DefaultForeignKeyConstraintModelBuilder builder3 = new DefaultForeignKeyConstraintModelBuilder();
+		// FORMAT-OFF
+		ForeignKeyConstraintModel fk2 = builder3.setName("BAZ")
+				.addKeyColumn(ref1)
+				.addReferenceColumn(ref2)
+				.build();
+		// FORMAT-ON
+		
+		DefaultForeignKeyConstraintModelBuilder builder2 = new DefaultForeignKeyConstraintModelBuilder();
+		builder2.setName("BAR").setMatchType(MatchType.PARTIAL);
+		
+		builder2.apply(fk1);
+		ForeignKeyConstraintModel fk4 = builder2.apply(fk2);
+		
+		assertThat(fk4.getName(), is("BAR"));
+		assertThat(fk4.getKeyColumns(), hasItem(ref1));
+		assertThat(fk4.getReferenceColumns(), hasItem(ref2));
+		assertThat(fk4.getDeferrability(), is(nullValue()));
+		assertThat(fk4.getMatchType(), is(MatchType.PARTIAL));
+		assertThat(fk4.getOnDelete(), is(nullValue()));
+		assertThat(fk4.getOnUpdate(), is(nullValue()));
+		
 	}
 }

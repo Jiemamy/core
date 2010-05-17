@@ -37,13 +37,18 @@ public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstrain
 	/**
 	 * TODO for daisuke
 	 * 
-	 * @param keyColumn
-	 * @param referenceColumn
-	 * @return
+	 * @param keyColumn キーカラム
+	 * @param referenceColumn 参照カラム
+	 * @return 新しい  {@link DefaultForeignKeyConstraintModel}
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public static ForeignKeyConstraintModel of(ColumnModel keyColumn, ColumnModel referenceColumn) {
-		return new DefaultForeignKeyConstraintModelBuilder().addKeyColumn(keyColumn)
-			.addReferenceColumn(referenceColumn).build();
+		// FORMAT-OFF
+		return new DefaultForeignKeyConstraintModelBuilder()
+				.addKeyColumn(keyColumn)
+				.addReferenceColumn(referenceColumn)
+				.build();
+		// FORMAT-ON
 	}
 	
 

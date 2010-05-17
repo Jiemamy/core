@@ -20,6 +20,8 @@ package org.jiemamy.model.attribute.constraint;
 
 import java.util.List;
 
+import org.apache.commons.lang.Validate;
+
 import org.jiemamy.model.EntityRef;
 import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel.MatchType;
@@ -69,8 +71,10 @@ public class DefaultForeignKeyConstraintModelBuilder extends
 	 * 
 	 * @param referenceColumn 参照カラム
 	 * @return このビルダークラスのインスタンス
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public DefaultForeignKeyConstraintModelBuilder addReferenceColumn(ColumnModel referenceColumn) {
+		Validate.notNull(referenceColumn);
 		return addReferenceColumn(referenceColumn.getReference());
 	}
 	

@@ -21,6 +21,8 @@ package org.jiemamy.model.attribute.constraint;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.Validate;
+
 import org.jiemamy.model.EntityRef;
 import org.jiemamy.model.attribute.ColumnModel;
 
@@ -49,8 +51,10 @@ public abstract class AbstractKeyConstraintModelBuilder<T extends KeyConstraintM
 	 * 
 	 * @param column キーカラム
 	 * @return このビルダークラスのインスタンス
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public S addKeyColumn(ColumnModel column) {
+		Validate.notNull(column);
 		return addKeyColumn(column.getReference());
 	}
 	

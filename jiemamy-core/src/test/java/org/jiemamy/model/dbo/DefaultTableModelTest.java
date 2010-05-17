@@ -42,14 +42,15 @@ import org.jiemamy.model.attribute.DefaultColumnModel;
 public class DefaultTableModelTest {
 	
 	/**
-	 * TODO for daisuke
+	 * オブジェクト生成テスト。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
 	public void test01_create() throws Exception {
 		try {
-			new DefaultTableModel(null);
+			@SuppressWarnings("unused")
+			DefaultTableModel model = new DefaultTableModel(null);
 		} catch (IllegalArgumentException e) {
 			// success
 		}
@@ -68,7 +69,7 @@ public class DefaultTableModelTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * {@link DefaultTableModel#equals(Object)}のテスト。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
