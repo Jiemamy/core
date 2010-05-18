@@ -19,9 +19,11 @@
 package org.jiemamy.model.dbo;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.hasItem;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
+import java.util.Collection;
 import java.util.UUID;
 
 import org.junit.Test;
@@ -31,9 +33,13 @@ import org.jiemamy.model.Repository;
 import org.jiemamy.model.attribute.Column;
 import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.attribute.DefaultColumnModel;
+import org.jiemamy.model.attribute.constraint.DefaultForeignKeyConstraintModel;
+import org.jiemamy.model.attribute.constraint.DefaultPrimaryKeyConstraintModel;
+import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel;
+import org.jiemamy.model.attribute.constraint.KeyConstraintModel;
 
 /**
- * TODO for daisuke
+ * {@link DefaultTableModel}のテストクラス。
  * 
  * @since 0.3
  * @version $Id$
@@ -211,6 +217,66 @@ public class DefaultTableModelTest {
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
+	public void test05_getTables() throws Exception {
+		Repository repository = new Repository();
+		// FORMAT-OFF
+		TableModel t1 = new Table().whoseNameIs("ONE")
+				.with(new Column().whoseNameIs("A").build())
+				.with(new Column().whoseNameIs("B").build())
+				.build();
+		TableModel t2 = new Table().whoseNameIs("TWO")
+				.with(new Column().whoseNameIs("C").build())
+				.with(new Column().whoseNameIs("D").build()).build();
+		// FORMAT-ON
+		
+		repository.add(t1);
+		repository.add(t2);
+		assertThat(DefaultTableModel.findTables(repository.getDatabaseObjects()).size(), is(2));
+		assertThat(DefaultTableModel.findTables(repository.getDatabaseObjects()), hasItem(t1));
+		assertThat(DefaultTableModel.findTables(repository.getDatabaseObjects()), hasItem(t2));
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test06_findDeclaringTable() throws Exception {
+		Repository repository = new Repository();
+		ColumnModel a;
+		ColumnModel b;
+		ColumnModel c;
+		ColumnModel d;
+		
+		// FORMAT-OFF
+		TableModel t1 = new Table().whoseNameIs("ONE")
+				.with(a = new Column().whoseNameIs("A").build())
+				.with(b = new Column().whoseNameIs("B").build())
+				.build();
+		TableModel t2 = new Table().whoseNameIs("TWO")
+				.with(c = new Column().whoseNameIs("C").build())
+				.with(d = new Column().whoseNameIs("D").build())
+				.build();
+		// FORMAT-ON
+		
+		repository.add(t1);
+		repository.add(t2);
+		
+		Collection<TableModel> tables = DefaultTableModel.findTables(repository.getDatabaseObjects());
+		
+		assertThat(DefaultTableModel.findDeclaringTable(tables, a), is(t1));
+		assertThat(DefaultTableModel.findDeclaringTable(tables, b), is(t1));
+		assertThat(DefaultTableModel.findDeclaringTable(tables, c), is(t2));
+		assertThat(DefaultTableModel.findDeclaringTable(tables, d), is(t2));
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
 	public void test06_lifecycle2() throws Exception {
 		Repository repository1 = new Repository();
 		Repository repository2 = new Repository();
@@ -296,5 +362,51 @@ public class DefaultTableModelTest {
 		} catch (TooManyColumnsFoundException e) {
 			// success
 		}
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void testname() throws Exception {
+		Repository repository = new Repository();
+		ColumnModel b;
+		ColumnModel c;
+		ColumnModel d;
+		ColumnModel e;
+		ForeignKeyConstraintModel fk12;
+		ForeignKeyConstraintModel fk23;
+		KeyConstraintModel pk1;
+		KeyConstraintModel pk2;
+		
+		// FORMAT-OFF
+		TableModel t1 = new Table("ONE")
+				.with(new Column("A").build())
+				.with(b = new Column("B").build())
+				.with(pk1 = DefaultPrimaryKeyConstraintModel.of(b))
+				.build();
+		TableModel t2 = new Table("TWO")
+				.with(c = new Column("C").build())
+				.with(d = new Column("D").build())
+				.with(pk2 = DefaultPrimaryKeyConstraintModel.of(d))
+				.with(fk12 = DefaultForeignKeyConstraintModel.of(c, b))
+				.build();
+		TableModel t3 = new Table("THREE")
+				.with(e = new Column("E").build())
+				.with(new Column("F").build())
+				.with(fk23 = DefaultForeignKeyConstraintModel.of(e, d))
+				.build();
+		
+		repository.add(t1);
+		repository.add(t2);
+		repository.add(t3);
+		
+		assertThat(DefaultTableModel.findReferencedDatabaseObject(repository.getDatabaseObjects(), fk12), is((DatabaseObjectModel) t1));
+		assertThat(DefaultTableModel.findReferencedDatabaseObject(repository.getDatabaseObjects(), fk23), is((DatabaseObjectModel) t2));
+		assertThat(DefaultTableModel.findReferencedKeyConstraint(repository.getDatabaseObjects(), fk12), is(pk1));
+		assertThat(DefaultTableModel.findReferencedKeyConstraint(repository.getDatabaseObjects(), fk23), is(pk2));
+		// FORMAT-ON
 	}
 }

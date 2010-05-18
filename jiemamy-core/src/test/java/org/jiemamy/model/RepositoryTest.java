@@ -33,8 +33,6 @@ import org.jiemamy.model.attribute.Column;
 import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.attribute.constraint.DefaultForeignKeyConstraintModel;
 import org.jiemamy.model.attribute.constraint.DefaultPrimaryKeyConstraintModel;
-import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel;
-import org.jiemamy.model.attribute.constraint.KeyConstraintModel;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
 import org.jiemamy.model.dbo.DefaultTableModel;
 import org.jiemamy.model.dbo.Table;
@@ -164,124 +162,57 @@ public class RepositoryTest {
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test05_getTables() throws Exception {
-		// FORMAT-OFF
-		TableModel t1 = new Table().whoseNameIs("ONE")
-				.with(new Column().whoseNameIs("A").build())
-				.with(new Column().whoseNameIs("B").build())
-				.build();
-		TableModel t2 = new Table().whoseNameIs("TWO")
-				.with(new Column().whoseNameIs("C").build())
-				.with(new Column().whoseNameIs("D").build()).build();
-		// FORMAT-ON
-		
-		repository.add(t1);
-		repository.add(t2);
-		assertThat(repository.findTables().size(), is(2));
-		assertThat(repository.findTables(), hasItem(t1));
-		assertThat(repository.findTables(), hasItem(t2));
-	}
-	
-	/**
-	 * TODO for daisuke
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
-	@Test
-	public void test06_findDeclaringTable() throws Exception {
-		ColumnModel a;
-		ColumnModel b;
-		ColumnModel c;
-		ColumnModel d;
-		
-		// FORMAT-OFF
-		TableModel t1 = new Table().whoseNameIs("ONE")
-				.with(a = new Column().whoseNameIs("A").build())
-				.with(b = new Column().whoseNameIs("B").build())
-				.build();
-		TableModel t2 = new Table().whoseNameIs("TWO")
-				.with(c = new Column().whoseNameIs("C").build())
-				.with(d = new Column().whoseNameIs("D").build())
-				.build();
-		// FORMAT-ON
-		
-		repository.add(t1);
-		repository.add(t2);
-		
-		assertThat(repository.findDeclaringTable(a), is(t1));
-		assertThat(repository.findDeclaringTable(b), is(t1));
-		assertThat(repository.findDeclaringTable(c), is(t2));
-		assertThat(repository.findDeclaringTable(d), is(t2));
-	}
-	
-	/**
-	 * TODO for daisuke
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
-	@Test
 	public void test07_query() throws Exception {
 		ColumnModel b;
 		ColumnModel c;
 		ColumnModel d;
 		ColumnModel e;
-		ForeignKeyConstraintModel fk12;
-		ForeignKeyConstraintModel fk23;
-		KeyConstraintModel pk1;
-		KeyConstraintModel pk2;
 		
 		// FORMAT-OFF
 		TableModel t1 = new Table("ONE")
 				.with(new Column("A").build())
 				.with(b = new Column("B").build())
-				.with(pk1 = DefaultPrimaryKeyConstraintModel.of(b))
+				.with(DefaultPrimaryKeyConstraintModel.of(b))
 				.build();
 		TableModel t2 = new Table("TWO")
 				.with(c = new Column("C").build())
 				.with(d = new Column("D").build())
-				.with(pk2 = DefaultPrimaryKeyConstraintModel.of(d))
-				.with(fk12 = DefaultForeignKeyConstraintModel.of(c, b))
+				.with(DefaultPrimaryKeyConstraintModel.of(d))
+				.with(DefaultForeignKeyConstraintModel.of(c, b))
 				.build();
 		TableModel t3 = new Table("THREE")
 				.with(e = new Column("E").build())
 				.with(new Column("F").build())
-				.with(fk23 = DefaultForeignKeyConstraintModel.of(e, d))
+				.with(DefaultForeignKeyConstraintModel.of(e, d))
 				.build();
-		// FORMAT-ON
 		
 		repository.add(t1);
 		repository.add(t2);
 		repository.add(t3);
 		
-		assertThat(repository.findReferencedEntity(fk12), is(t1));
-		assertThat(repository.findReferencedEntity(fk23), is(t2));
-		assertThat(repository.findReferencedKeyConstraint(fk12), is(pk1));
-		assertThat(repository.findReferencedKeyConstraint(fk23), is(pk2));
+		assertThat(repository.findSubDatabaseObjectsNonRecursive(t1).size(), is(1));
+		assertThat(repository.findSubDatabaseObjectsNonRecursive(t2).size(), is(1));
+		assertThat(repository.findSubDatabaseObjectsNonRecursive(t3).size(), is(0));
+		assertThat(repository.findSubDatabaseObjectsNonRecursive(t1), hasItem((DatabaseObjectModel) t2));
+		assertThat(repository.findSubDatabaseObjectsNonRecursive(t2), hasItem((DatabaseObjectModel) t3));
 		
-		assertThat(repository.findSubEntitiesNonRecursive(t1).size(), is(1));
-		assertThat(repository.findSubEntitiesNonRecursive(t2).size(), is(1));
-		assertThat(repository.findSubEntitiesNonRecursive(t3).size(), is(0));
-		assertThat(repository.findSubEntitiesNonRecursive(t1), hasItem((DatabaseObjectModel) t2));
-		assertThat(repository.findSubEntitiesNonRecursive(t2), hasItem((DatabaseObjectModel) t3));
+		assertThat(repository.findSubDatabaseObjectsRecursive(t1).size(), is(2));
+		assertThat(repository.findSubDatabaseObjectsRecursive(t2).size(), is(1));
+		assertThat(repository.findSubDatabaseObjectsRecursive(t3).size(), is(0));
+		assertThat(repository.findSubDatabaseObjectsRecursive(t1), hasItems((DatabaseObjectModel) t2, (DatabaseObjectModel) t3));
+		assertThat(repository.findSubDatabaseObjectsRecursive(t2), hasItem((DatabaseObjectModel) t3));
 		
-		// FORMAT-OFF
-		assertThat(repository.findSubEntitiesRecursive(t1).size(), is(2));
-		assertThat(repository.findSubEntitiesRecursive(t2).size(), is(1));
-		assertThat(repository.findSubEntitiesRecursive(t3).size(), is(0));
-		assertThat(repository.findSubEntitiesRecursive(t1), hasItems((DatabaseObjectModel) t2, (DatabaseObjectModel) t3));
-		assertThat(repository.findSubEntitiesRecursive(t2), hasItem((DatabaseObjectModel) t3));
+		assertThat(repository.findSuperDatabaseObjectsNonRecursive(t1).size(), is(0));
+		assertThat(repository.findSuperDatabaseObjectsNonRecursive(t2).size(), is(1));
+		assertThat(repository.findSuperDatabaseObjectsNonRecursive(t3).size(), is(1));
+		assertThat(repository.findSuperDatabaseObjectsNonRecursive(t2), hasItem((DatabaseObjectModel) t1));
+		assertThat(repository.findSuperDatabaseObjectsNonRecursive(t3), hasItem((DatabaseObjectModel) t2));
 		
-		assertThat(repository.findSuperEntitiesNonRecursive(t1).size(), is(0));
-		assertThat(repository.findSuperEntitiesNonRecursive(t2).size(), is(1));
-		assertThat(repository.findSuperEntitiesNonRecursive(t3).size(), is(1));
-		assertThat(repository.findSuperEntitiesNonRecursive(t2), hasItem((DatabaseObjectModel) t1));
-		assertThat(repository.findSuperEntitiesNonRecursive(t3), hasItem((DatabaseObjectModel) t2));
-		
-		assertThat(repository.findSuperEntitiesRecursive(t1).size(), is(0));
-		assertThat(repository.findSuperEntitiesRecursive(t2).size(), is(1));
-		assertThat(repository.findSuperEntitiesRecursive(t3).size(), is(2));
-		assertThat(repository.findSuperEntitiesRecursive(t2), hasItem((DatabaseObjectModel) t1));
-		assertThat(repository.findSuperEntitiesRecursive(t3), hasItems((DatabaseObjectModel) t1, (DatabaseObjectModel) t2));
+		assertThat(repository.findSuperDatabaseObjectsRecursive(t1).size(), is(0));
+		assertThat(repository.findSuperDatabaseObjectsRecursive(t2).size(), is(1));
+		assertThat(repository.findSuperDatabaseObjectsRecursive(t3).size(), is(2));
+		assertThat(repository.findSuperDatabaseObjectsRecursive(t2), hasItem((DatabaseObjectModel) t1));
+		assertThat(repository.findSuperDatabaseObjectsRecursive(t3), hasItems((DatabaseObjectModel) t1, (DatabaseObjectModel) t2));
 		// FORMAT-ON
 	}
 }

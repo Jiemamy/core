@@ -18,7 +18,10 @@
  */
 package org.jiemamy.model.dbo;
 
+import java.util.Set;
+
 import org.jiemamy.model.Entity;
+import org.jiemamy.model.EntityRef;
 
 /**
  * リレーショナルデータベースモデルにおける「CREATE対象」を表すモデルインターフェイス。
@@ -27,6 +30,24 @@ import org.jiemamy.model.Entity;
  * @author daisuke
  */
 public interface DatabaseObjectModel extends Entity {
+	
+	/**
+	 * 直接の依存モデルの集合を返す。
+	 * 
+	 * @param databaseObjects 
+	 * @return 直接の依存モデルの集合
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	Set<DatabaseObjectModel> findSubDatabaseObjectsNonRecursive(Set<DatabaseObjectModel> databaseObjects);
+	
+	/**
+	 * 参照先親モデルを返す。
+	 * 
+	 * @param databaseObjects 
+	 * @return 親モデルのSet
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	Set<DatabaseObjectModel> findSuperDatabaseObjectsNonRecursive(Set<DatabaseObjectModel> databaseObjects);
 	
 	/**
 	 * 説明文を取得する。
@@ -51,4 +72,21 @@ public interface DatabaseObjectModel extends Entity {
 	 * @since 0.3
 	 */
 	String getName();
+	
+	/**
+	 * {@code entityRef}が参照する {@link Entity}が、自分の子エンティティであるかどうか調べる。
+	 * 
+	 * @param entityRef 参照オブジェクト
+	 * @return 自分の子エンティティである場合は{@code true}、そうでない場合は{@code false}
+	 */
+	boolean isChildEntityRef(EntityRef<?> entityRef);
+	
+	/**
+	 * 自分が{@code target}に依存する{@link DatabaseObjectModel}かどうか調べる。
+	 * 
+	 * @param databaseObjects
+	 * @param target 対象
+	 * @return {@code target}に依存する場合は{@code true}、そうでない場合は{@code false}
+	 */
+	boolean isSubDatabaseObjectsNonRecursiveOf(Set<DatabaseObjectModel> databaseObjects, DatabaseObjectModel target);
 }

@@ -64,13 +64,6 @@ public interface Entity {
 	boolean equals(Object obj);
 	
 	/**
-	 * ENTITYのライフサイクルが開始しているかどうかを調べる。
-	 * 
-	 * @return ライフサイクルが開始している場合は{@code true}、そうでない場合は{@code false}
-	 */
-	boolean isActive();
-	
-	/**
 	* ENTITY IDを取得する。
 	* 
 	* <p>IDは、ENTITYとしてのライフサイクル開始時に指定または自動生成され、ライフサイクルを通して
@@ -89,4 +82,11 @@ public interface Entity {
 	 * @since 0.3
 	 */
 	EntityRef<?> getReference();
+	
+	/**
+	 * ENTITYのライフサイクルが開始しているかどうかを調べる。
+	 * 
+	 * @return ライフサイクルが開始している場合は{@code true}、そうでない場合は{@code false}
+	 */
+	boolean isActive();
 }

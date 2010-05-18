@@ -24,7 +24,6 @@ import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-
 /**
  * 参照オブジェクトの骨格実装。
  * 
@@ -84,6 +83,10 @@ public final class DefaultEntityRef<T extends Entity> implements EntityRef<T> {
 		int result = 1;
 		result = prime * result + ((referenceId == null) ? 0 : referenceId.hashCode());
 		return result;
+	}
+	
+	public boolean isReferenceOf(Entity target) {
+		return referenceId.equals(target.getId());
 	}
 	
 	@Override

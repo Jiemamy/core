@@ -21,6 +21,7 @@ package org.jiemamy.model.dbo;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import org.apache.commons.collections15.CollectionUtils;
@@ -28,8 +29,11 @@ import org.apache.commons.collections15.Predicate;
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.model.DefaultEntityRef;
+import org.jiemamy.model.Entity;
 import org.jiemamy.model.EntityLifecycleException;
+import org.jiemamy.model.EntityNotFoundException;
 import org.jiemamy.model.EntityRef;
+import org.jiemamy.model.ModelConsistencyException;
 import org.jiemamy.model.attribute.AttributeModel;
 import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel;
@@ -43,6 +47,117 @@ import org.jiemamy.utils.CollectionsUtil;
  */
 public class DefaultTableModel extends AbstractDatabaseObjectModel implements TableModel {
 	
+	/**
+	 * {@code tables}の中から、このカラムが所属するテーブルを取得する。
+	 * 
+	 * @param tables 対象{@link TableModel}
+	 * @param columnModel 対象カラム
+	 * @return この属性が所属するテーブル. どのテーブルにも所属していない場合は{@code null}
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	static TableModel findDeclaringTable(Collection<TableModel> tables, final ColumnModel columnModel) {
+		Collection<TableModel> select = CollectionUtils.select(tables, new Predicate<TableModel>() {
+			
+			public boolean evaluate(TableModel tableModel) {
+				return tableModel.getColumns().contains(columnModel);
+			}
+		});
+		if (select.size() == 1) {
+			return select.iterator().next();
+		}
+		if (select.size() == 0) {
+			return null;
+		}
+		throw new TooManyTablesFoundException(select);
+	}
+	
+	static DatabaseObjectModel findReferencedDatabaseObject(Collection<DatabaseObjectModel> databaseObjects,
+			ForeignKeyConstraintModel foreignKey) {
+		if (foreignKey.getReferenceColumns().size() == 0) {
+			throw new ModelConsistencyException();
+		}
+		EntityRef<ColumnModel> columnRef = foreignKey.getReferenceColumns().get(0);
+		
+		for (DatabaseObjectModel databaseObject : databaseObjects) {
+			if (databaseObject.isChildEntityRef(columnRef)) {
+				return databaseObject;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * {@code databaseObjects}の中から、指定した外部キーが参照するキー制約を取得する。
+	 * 
+	 * @param databaseObjects 対象{@link DatabaseObjectModel}
+	 * @param foreignKey 対象外部キー
+	 * @return 指定した外部キーが参照するキー. 該当するキーが存在しなかった場合、{@code null}
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	static KeyConstraintModel findReferencedKeyConstraint(Collection<DatabaseObjectModel> databaseObjects,
+			ForeignKeyConstraintModel foreignKey) {
+		if (foreignKey.getReferenceColumns().size() == 0) {
+			throw new ModelConsistencyException();
+		}
+		EntityRef<ColumnModel> columnRef = foreignKey.getReferenceColumns().get(0);
+		
+		for (DatabaseObjectModel databaseObject : databaseObjects) {
+			if (databaseObject.isChildEntityRef(columnRef)) {
+				if (databaseObject instanceof TableModel) {
+					TableModel tableModel = (TableModel) databaseObject;
+					return tableModel.findReferencedKeyConstraint(foreignKey);
+				}
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * {@code databaseObjects}の中から、全ての{@link TableModel}を返す。
+	 * 
+	 * @param databaseObjects 対象{@link DatabaseObjectModel}
+	 * @return 全ての{@link TableModel}
+	 */
+	static Collection<TableModel> findTables(Collection<DatabaseObjectModel> databaseObjects) {
+		List<TableModel> result = new ArrayList<TableModel>();
+		for (Entity databaseObject : databaseObjects) {
+			if (databaseObject instanceof TableModel) {
+				result.add((TableModel) databaseObject);
+			}
+		}
+		return result;
+	}
+	
+	/**
+	 * {@code tables}の中から、{@code ref}が参照する {@link ColumnModel}を返す。
+	 * 
+	 * 
+	 * @param tables 対象{@link TableModel}
+	 * @param ref 参照オブジェクト
+	 * @return {@link ColumnModel}
+	 * @throws EntityNotFoundException 該当する {@link DatabaseObjectModel} が見つからなかった場合
+	 * @throws TooManyColumnsFoundException 複数のカラムが見つかった場合
+	 */
+	static ColumnModel resolveColumn(Collection<TableModel> tables, final EntityRef<ColumnModel> ref) {
+		Collection<ColumnModel> collector = CollectionsUtil.newArrayList();
+		for (TableModel table : tables) {
+			CollectionUtils.select(table.getColumns(), new Predicate<ColumnModel>() {
+				
+				public boolean evaluate(ColumnModel column) {
+					return ref.isReferenceOf(column);
+				}
+			}, collector);
+		}
+		if (collector.size() == 1) {
+			return collector.iterator().next();
+		}
+		if (collector.size() == 0) {
+			throw new EntityNotFoundException();
+		}
+		throw new TooManyColumnsFoundException(collector);
+	}
+	
+
 	List<ColumnModel> columns = CollectionsUtil.newArrayList();
 	
 	/** 属性のリスト */
@@ -81,6 +196,29 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 		Validate.notNull(column);
 		columns.add(column);
 		column.activate();
+	}
+	
+	public KeyConstraintModel findReferencedKeyConstraint(ForeignKeyConstraintModel foreignKey) {
+		for (KeyConstraintModel keyConstraint : getKeyConstraintModels()) {
+			// サイズ不一致であれば、そもそもこのキーを参照したものではない
+			if (keyConstraint.getKeyColumns().size() != foreignKey.getReferenceColumns().size()) {
+				continue;
+			}
+			
+			if (keyConstraint.getKeyColumns().containsAll(foreignKey.getReferenceColumns())) {
+				return keyConstraint;
+			}
+		}
+		return null;
+	}
+	
+	@Override
+	public Set<DatabaseObjectModel> findSuperDatabaseObjectsNonRecursive(Set<DatabaseObjectModel> databaseObjects) {
+		Set<DatabaseObjectModel> results = CollectionsUtil.newHashSet();
+		for (ForeignKeyConstraintModel foreignKey : getForeignKeyConstraintModels()) {
+			results.add(findReferencedDatabaseObject(databaseObjects, foreignKey));
+		}
+		return results;
 	}
 	
 	public List<AttributeModel> getAttributes() {
@@ -123,6 +261,34 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 			throw new EntityLifecycleException();
 		}
 		return new DefaultEntityRef<TableModel>(this);
+	}
+	
+	@Override
+	public boolean isChildEntityRef(EntityRef<?> columnRef) {
+		for (ColumnModel columnModel : getColumns()) {
+			if (columnRef.isReferenceOf(columnModel)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean isSubDatabaseObjectsNonRecursiveOf(Set<DatabaseObjectModel> databaseObjects,
+			DatabaseObjectModel target) {
+		Collection<TableModel> tables = findTables(databaseObjects);
+		for (ForeignKeyConstraintModel foreignKey : getForeignKeyConstraintModels()) {
+			if (foreignKey.getReferenceColumns().size() == 0) {
+				continue;
+			}
+			EntityRef<ColumnModel> columnRef = foreignKey.getReferenceColumns().get(0);
+			ColumnModel columnModel = resolveColumn(tables, columnRef);
+			TableModel referenceTableModel = findDeclaringTable(tables, columnModel);
+			if (target.equals(referenceTableModel)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	/**

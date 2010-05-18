@@ -18,9 +18,12 @@
  */
 package org.jiemamy.model.dbo;
 
+import java.util.Set;
 import java.util.UUID;
 
 import org.jiemamy.model.AbstractEntityModel;
+import org.jiemamy.model.EntityRef;
+import org.jiemamy.utils.CollectionsUtil;
 
 /**
  * データベースオブジェクト（TableやView）の抽象モデルクラス。
@@ -49,6 +52,20 @@ public abstract class AbstractDatabaseObjectModel extends AbstractEntityModel im
 		super(id);
 	}
 	
+	public Set<DatabaseObjectModel> findSubDatabaseObjectsNonRecursive(Set<DatabaseObjectModel> databaseObjects) {
+		Set<DatabaseObjectModel> collecter = CollectionsUtil.newHashSet();
+		for (DatabaseObjectModel databaseObject : databaseObjects) {
+			if (databaseObject.isSubDatabaseObjectsNonRecursiveOf(databaseObjects, this)) {
+				collecter.add(databaseObject);
+			}
+		}
+		return collecter;
+	}
+	
+	public Set<DatabaseObjectModel> findSuperDatabaseObjectsNonRecursive(Set<DatabaseObjectModel> databaseObjects) {
+		return null;
+	}
+	
 	public String getDescription() {
 		return description;
 	}
@@ -59,6 +76,15 @@ public abstract class AbstractDatabaseObjectModel extends AbstractEntityModel im
 	
 	public String getName() {
 		return name;
+	}
+	
+	public boolean isChildEntityRef(EntityRef<?> entityRef) {
+		return false;
+	}
+	
+	public boolean isSubDatabaseObjectsNonRecursiveOf(Set<DatabaseObjectModel> databaseObjects,
+			DatabaseObjectModel target) {
+		return false;
 	}
 	
 	/**

@@ -48,4 +48,12 @@ public interface EntityRef<T extends Entity> extends ValueObject {
 	 * @since 0.3
 	 */
 	UUID getReferenceId();
+	
+	/**
+	 * この参照オブジェクトが引数{@code target}の参照かどうか調べる。
+	 * 
+	 * @param target 対象エンティティ
+	 * @return この参照オブジェクトが引数{@code target}の参照の場合は{@code true}、そうでない場合は{@code false}
+	 */
+	boolean isReferenceOf(Entity target);
 }

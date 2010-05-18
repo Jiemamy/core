@@ -35,6 +35,15 @@ import org.jiemamy.model.attribute.constraint.KeyConstraintModel;
 public interface TableModel extends DatabaseObjectModel {
 	
 	/**
+	 * このテーブルに属する {@link KeyConstraintModel}の中から、この {@code foreignKey} が参照するキー制約を取得する。
+	 * 
+	 * @param foreignKey 対象外部キー
+	 * @return この属性が所属するテーブル. どのテーブルにも所属していない場合は{@code null}
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	KeyConstraintModel findReferencedKeyConstraint(ForeignKeyConstraintModel foreignKey);
+	
+	/**
 	 * 属性のリストを取得する。
 	 * 
 	 * @return 属性のリスト

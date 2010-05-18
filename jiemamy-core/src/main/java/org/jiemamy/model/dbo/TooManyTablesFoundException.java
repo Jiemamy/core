@@ -21,28 +21,27 @@ package org.jiemamy.model.dbo;
 import java.util.Collection;
 
 import org.jiemamy.model.ModelConsistencyException;
-import org.jiemamy.model.attribute.ColumnModel;
 
 /**
- * クエリの結果、該当する {@link ColumnModel} が複数見つかったことを表す例外クラス。
+ * クエリの結果、該当する {@link TableModel} が複数見つかったことを表す例外クラス。
  * 
  * @version $Id$
  * @author daisuke
  */
 @SuppressWarnings("serial")
-public class TooManyColumnsFoundException extends ModelConsistencyException {
+public class TooManyTablesFoundException extends ModelConsistencyException {
 	
-	private final Collection<ColumnModel> columns;
+	private final Collection<TableModel> tables;
 	
 
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param columns 見つかった複数のカラムの集合
+	 * @param tables 見つかった複数のテーブルの集合
 	 */
-	public TooManyColumnsFoundException(Collection<ColumnModel> columns) {
-		super(String.valueOf(columns.size()));
-		this.columns = columns;
+	public TooManyTablesFoundException(Collection<TableModel> tables) {
+		super(String.valueOf(tables.size()));
+		this.tables = tables;
 	}
 	
 	/**
@@ -50,8 +49,8 @@ public class TooManyColumnsFoundException extends ModelConsistencyException {
 	 * 
 	 * @return 見つかったカラムの集合
 	 */
-	public Collection<ColumnModel> getColumns() {
-		return columns;
+	public Collection<TableModel> getTables() {
+		return tables;
 	}
 	
 }
