@@ -34,8 +34,11 @@ import org.jiemamy.model.attribute.ColumnModel;
  * @param <T> ビルド対象のインスタンスの型
  * @param <S> このビルダークラスの型
  */
+// CHECKSTYLE:OFF
 public abstract class AbstractKeyConstraintModelBuilder<T extends KeyConstraintModel, S extends AbstractKeyConstraintModelBuilder<T, S>>
 		extends AbstractConstraintModelBuilder<T, S> {
+	
+	// CHECKSTYLE:ON
 	
 	DeferrabilityModel deferrability;
 	
@@ -61,9 +64,9 @@ public abstract class AbstractKeyConstraintModelBuilder<T extends KeyConstraintM
 	 * @return このビルダークラスのインスタンス
 	 */
 	public S addKeyColumn(final EntityRef<ColumnModel> columnRef) {
-		addBuilderAction(new BuilderAction<S>() {
+		addConfigurator(new BuilderConfigurator<S>() {
 			
-			public void buildAction(S builder) {
+			public void configure(S builder) {
 				builder.keyColumns.add(columnRef);
 			}
 			
@@ -78,9 +81,9 @@ public abstract class AbstractKeyConstraintModelBuilder<T extends KeyConstraintM
 	 * @return このビルダークラスのインスタンス
 	 */
 	public S setDeferrability(final DeferrabilityModel deferrability) {
-		addBuilderAction(new BuilderAction<S>() {
+		addConfigurator(new BuilderConfigurator<S>() {
 			
-			public void buildAction(S builder) {
+			public void configure(S builder) {
 				builder.deferrability = deferrability;
 			}
 			

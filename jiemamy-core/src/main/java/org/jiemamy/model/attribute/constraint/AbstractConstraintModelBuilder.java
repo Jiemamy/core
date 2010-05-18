@@ -44,12 +44,11 @@ public abstract class AbstractConstraintModelBuilder<T extends ConstraintModel, 
 	 * @return このビルダークラスのインスタンス
 	 */
 	public S setDescription(final String description) {
-		addBuilderAction(new BuilderAction<S>() {
+		addConfigurator(new BuilderConfigurator<S>() {
 			
-			public void buildAction(S builder) {
+			public void configure(S builder) {
 				builder.description = description;
 			}
-			
 		});
 		return getThis();
 	}
@@ -60,9 +59,9 @@ public abstract class AbstractConstraintModelBuilder<T extends ConstraintModel, 
 	 * @return このビルダークラスのインスタンス
 	 */
 	public S setLogicalName(final String logicalName) {
-		addBuilderAction(new BuilderAction<S>() {
+		addConfigurator(new BuilderConfigurator<S>() {
 			
-			public void buildAction(S builder) {
+			public void configure(S builder) {
 				builder.logicalName = logicalName;
 			}
 			
@@ -76,9 +75,9 @@ public abstract class AbstractConstraintModelBuilder<T extends ConstraintModel, 
 	 * @return このビルダークラスのインスタンス
 	 */
 	public S setName(final String name) {
-		addBuilderAction(new BuilderAction<S>() {
+		addConfigurator(new BuilderConfigurator<S>() {
 			
-			public void buildAction(S builder) {
+			public void configure(S builder) {
 				builder.name = name;
 			}
 			

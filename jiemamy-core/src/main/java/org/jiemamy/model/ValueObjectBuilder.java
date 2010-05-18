@@ -31,21 +31,21 @@ import java.util.List;
  */
 public abstract class ValueObjectBuilder<T extends ValueObject, S extends ValueObjectBuilder<T, S>> {
 	
-	List<BuilderAction<S>> builderActions = new ArrayList<BuilderAction<S>>();
+	List<BuilderConfigurator<S>> configurators = new ArrayList<BuilderConfigurator<S>>();
 	
 
 	/**
 	 * ビルダの設定に基づき、引数の{@link ValueObject}の内容を変更した新しいインスタンスを生成する。
 	 * 
 	 * @param vo 状態を引用する{@link ValueObject}
-	 * @return vo の内容から、このビルダの設定を上書きした{@link ValueObject}の新しいインスタンス
+	 * @return vo の内容に対して、このビルダの設定を上書きした{@link ValueObject}の新しいインスタンス
 	 */
 	public T apply(T vo) {
 		S builder = newInstance();
 		apply(vo, builder);
 		
-		for (BuilderAction<S> builderAction : builderActions) {
-			builder.addBuilderAction(builderAction);
+		for (BuilderConfigurator<S> configurator : configurators) {
+			builder.addConfigurator(configurator);
 		}
 		
 		return builder.build();
@@ -57,24 +57,24 @@ public abstract class ValueObjectBuilder<T extends ValueObject, S extends ValueO
 	 * @return {@link ValueObject}の新しいインスタンス
 	 */
 	public T build() {
-		for (BuilderAction<S> builderAction : builderActions) {
-			builderAction.buildAction(getThis());
+		for (BuilderConfigurator<S> configurator : configurators) {
+			configurator.configure(getThis());
 		}
 		
 		return createValueObject();
 	}
 	
 	/**
-	 * ビルダーアクションを追加する。
+	 * {@link BuilderConfigurator}を追加する。
 	 * 
-	 * @param builderAction ビルダーアクション
+	 * @param configurator {@link BuilderConfigurator}
 	 */
-	protected void addBuilderAction(BuilderAction<S> builderAction) {
-		builderActions.add(builderAction);
+	protected void addConfigurator(BuilderConfigurator<S> configurator) {
+		configurators.add(configurator);
 	}
 	
 	/**
-	 * 引数のビルダの設定に基づき、引数の{@link ValueObject}の内容を変更した新しいインスタンスを生成する。
+	 * 引数のビルダに対して、引数の{@link ValueObject}の内容を適用する。
 	 * 
 	 * @param vo 状態を引用する{@link ValueObject}
 	 * @param builder ビルダ
@@ -85,7 +85,7 @@ public abstract class ValueObjectBuilder<T extends ValueObject, S extends ValueO
 	 * ビルダの設定に基づいて{@link ValueObject}の新しいインスタンスを生成する。
 	 * 
 	 * <p>
-	 * {@link ValueObjectBuilder#build}内でこのビルダに追加された{@link BuilderAction}を全て実行した後に、このメソッドが呼ばれる。<br>
+	 * {@link ValueObjectBuilder#build}内でこのビルダに追加された{@link BuilderConfigurator}を全て実行した後に、このメソッドが呼ばれる。<br>
 	 * その為、このビルダに対する変更を行うロジックはこのメソッド内に記述せず、目的となる{@link ValueObject}を生成し返すロジックを記述することが望まれる。
 	 * </p>
 	 * 
@@ -109,18 +109,18 @@ public abstract class ValueObjectBuilder<T extends ValueObject, S extends ValueO
 	
 
 	/**
-	 * {@link ValueObjectBuilder#build}内で順次実行されるビルドアクションを定義するインタフェース。
+	 * {@link ValueObjectBuilder#build()}内で順次実行されるビルダの設定を定義するインタフェース。
 	 * 
-	 * @param <S> このビルダーの型
+	 * @param <S> 設定対象ビルダーの型
 	 */
-	protected static interface BuilderAction<S> {
+	protected static interface BuilderConfigurator<S> {
 		
 		/**
-		 * {@link ValueObjectBuilder#build}内で呼ばれる際に実行するビルドアクションを定義する。
+		 * {@link ValueObjectBuilder#build()}内で呼ばれる際に実行するビルドアクションを定義する。
 		 * 
 		 * @param builder ビルダーインスタンス
 		 */
-		void buildAction(S builder);
+		void configure(S builder);
 		
 	}
 	

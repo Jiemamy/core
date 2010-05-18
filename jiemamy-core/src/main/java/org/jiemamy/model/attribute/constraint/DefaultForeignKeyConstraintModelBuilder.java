@@ -77,9 +77,9 @@ public class DefaultForeignKeyConstraintModelBuilder extends
 	 * @return このビルダークラスのインスタンス
 	 */
 	public DefaultForeignKeyConstraintModelBuilder addReferenceColumn(final EntityRef<ColumnModel> referenceColumnRef) {
-		addBuilderAction(new BuilderAction<DefaultForeignKeyConstraintModelBuilder>() {
+		addConfigurator(new BuilderConfigurator<DefaultForeignKeyConstraintModelBuilder>() {
 			
-			public void buildAction(DefaultForeignKeyConstraintModelBuilder builder) {
+			public void configure(DefaultForeignKeyConstraintModelBuilder builder) {
 				builder.referenceColumns.add(referenceColumnRef);
 			}
 			
@@ -93,9 +93,9 @@ public class DefaultForeignKeyConstraintModelBuilder extends
 	 * @return このビルダークラスのインスタンス
 	 */
 	public DefaultForeignKeyConstraintModelBuilder setMatchType(final MatchType matchType) {
-		addBuilderAction(new BuilderAction<DefaultForeignKeyConstraintModelBuilder>() {
+		addConfigurator(new BuilderConfigurator<DefaultForeignKeyConstraintModelBuilder>() {
 			
-			public void buildAction(DefaultForeignKeyConstraintModelBuilder builder) {
+			public void configure(DefaultForeignKeyConstraintModelBuilder builder) {
 				builder.matchType = matchType;
 			}
 			
@@ -109,9 +109,9 @@ public class DefaultForeignKeyConstraintModelBuilder extends
 	 * @return このビルダークラスのインスタンス
 	 */
 	public DefaultForeignKeyConstraintModelBuilder setOnDelete(final ReferentialAction onDelete) {
-		addBuilderAction(new BuilderAction<DefaultForeignKeyConstraintModelBuilder>() {
+		addConfigurator(new BuilderConfigurator<DefaultForeignKeyConstraintModelBuilder>() {
 			
-			public void buildAction(DefaultForeignKeyConstraintModelBuilder builder) {
+			public void configure(DefaultForeignKeyConstraintModelBuilder builder) {
 				builder.onDelete = onDelete;
 			}
 			
@@ -125,9 +125,9 @@ public class DefaultForeignKeyConstraintModelBuilder extends
 	 * @return このビルダークラスのインスタンス
 	 */
 	public DefaultForeignKeyConstraintModelBuilder setOnUpdate(final ReferentialAction onUpdate) {
-		addBuilderAction(new BuilderAction<DefaultForeignKeyConstraintModelBuilder>() {
+		addConfigurator(new BuilderConfigurator<DefaultForeignKeyConstraintModelBuilder>() {
 			
-			public void buildAction(DefaultForeignKeyConstraintModelBuilder builder) {
+			public void configure(DefaultForeignKeyConstraintModelBuilder builder) {
 				builder.onUpdate = onUpdate;
 			}
 			
