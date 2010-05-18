@@ -18,6 +18,9 @@
  */
 package org.jiemamy.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * {@link ValueObject}のインスタンスを生成するビルダー。
  * 
@@ -28,6 +31,9 @@ package org.jiemamy.model;
  */
 public abstract class ValueObjectBuilder<T extends ValueObject, S extends ValueObjectBuilder<T, S>> {
 	
+	List<BuilderAction<S>> builderActions = new ArrayList<BuilderAction<S>>();
+	
+
 	/**
 	 * ビルダの設定に基づき、引数の{@link ValueObject}の内容を変更した新しいインスタンスを生成する。
 	 * 
@@ -38,6 +44,10 @@ public abstract class ValueObjectBuilder<T extends ValueObject, S extends ValueO
 		S builder = newInstance();
 		apply(vo, builder);
 		
+		for (BuilderAction<S> builderAction : builderActions) {
+			builder.addBuilderAction(builderAction);
+		}
+		
 		return builder.build();
 	}
 	
@@ -46,7 +56,22 @@ public abstract class ValueObjectBuilder<T extends ValueObject, S extends ValueO
 	 * 
 	 * @return {@link ValueObject}の新しいインスタンス
 	 */
-	public abstract T build();
+	public T build() {
+		for (BuilderAction<S> builderAction : builderActions) {
+			builderAction.buildAction(getThis());
+		}
+		
+		return createValueObject();
+	}
+	
+	/**
+	 * ビルダーアクションを追加する。
+	 * 
+	 * @param builderAction ビルダーアクション
+	 */
+	protected void addBuilderAction(BuilderAction<S> builderAction) {
+		builderActions.add(builderAction);
+	}
 	
 	/**
 	 * 引数のビルダの設定に基づき、引数の{@link ValueObject}の内容を変更した新しいインスタンスを生成する。
@@ -55,6 +80,18 @@ public abstract class ValueObjectBuilder<T extends ValueObject, S extends ValueO
 	 * @param builder ビルダ
 	 */
 	protected abstract void apply(T vo, S builder);
+	
+	/**
+	 * ビルダの設定に基づいて{@link ValueObject}の新しいインスタンスを生成する。
+	 * 
+	 * <p>
+	 * {@link ValueObjectBuilder#build}内でこのビルダに追加された{@link BuilderAction}を全て実行した後に、このメソッドが呼ばれる。<br>
+	 * その為、このビルダに対する変更を行うロジックはこのメソッド内に記述せず、目的となる{@link ValueObject}を生成し返すロジックを記述することが望まれる。
+	 * </p>
+	 * 
+	 * @return {@link ValueObject}の新しいインスタンス
+	 */
+	protected abstract T createValueObject();
 	
 	/**
 	 * このビルダークラスのインスタンスを返す。
@@ -69,5 +106,22 @@ public abstract class ValueObjectBuilder<T extends ValueObject, S extends ValueO
 	 * @return このビルダークラスの新しいインスタンス。
 	 */
 	protected abstract S newInstance();
+	
+
+	/**
+	 * {@link ValueObjectBuilder#build}内で順次実行されるビルドアクションを定義するインタフェース。
+	 * 
+	 * @param <S> このビルダーの型
+	 */
+	protected static interface BuilderAction<S> {
+		
+		/**
+		 * {@link ValueObjectBuilder#build}内で呼ばれる際に実行するビルドアクションを定義する。
+		 * 
+		 * @param builder ビルダーインスタンス
+		 */
+		void buildAction(S builder);
+		
+	}
 	
 }

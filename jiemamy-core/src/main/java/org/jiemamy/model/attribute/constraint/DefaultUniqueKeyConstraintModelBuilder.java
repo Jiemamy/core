@@ -28,7 +28,7 @@ public class DefaultUniqueKeyConstraintModelBuilder extends
 		AbstractKeyConstraintModelBuilder<UniqueKeyConstraintModel, DefaultUniqueKeyConstraintModelBuilder> {
 	
 	@Override
-	public UniqueKeyConstraintModel build() {
+	protected UniqueKeyConstraintModel createValueObject() {
 		return new DefaultUniqueKeyConstraintModel(name, logicalName, description, keyColumns, deferrability);
 	}
 	

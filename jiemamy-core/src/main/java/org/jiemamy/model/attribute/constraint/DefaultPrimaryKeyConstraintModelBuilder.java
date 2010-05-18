@@ -28,7 +28,7 @@ public class DefaultPrimaryKeyConstraintModelBuilder extends
 		AbstractKeyConstraintModelBuilder<PrimaryKeyConstraintModel, DefaultPrimaryKeyConstraintModelBuilder> {
 	
 	@Override
-	public PrimaryKeyConstraintModel build() {
+	protected PrimaryKeyConstraintModel createValueObject() {
 		return new DefaultPrimaryKeyConstraintModel(name, logicalName, description, keyColumns, deferrability);
 	}
 	
@@ -41,4 +41,5 @@ public class DefaultPrimaryKeyConstraintModelBuilder extends
 	protected DefaultPrimaryKeyConstraintModelBuilder newInstance() {
 		return new DefaultPrimaryKeyConstraintModelBuilder();
 	}
+	
 }

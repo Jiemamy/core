@@ -43,28 +43,31 @@ public class AbstractConstraintModelBuilderTest {
 		when(model.getLogicalName()).thenReturn("logicalName");
 		when(model.getDescription()).thenReturn("description");
 		
-		BuilderMock builder = new BuilderMock();
-		BuilderMock testBuilder = new BuilderMock();
+		final BuilderMock testBuilder = new BuilderMock();
+		BuilderMock builder = new BuilderMock() {
+			
+			@Override
+			protected BuilderMock newInstance() {
+				return testBuilder;
+			}
+		};
 		
-		builder.apply(model, testBuilder);
+		builder.apply(model);
 		assertThat(testBuilder.name, is("name"));
 		assertThat(testBuilder.logicalName, is("logicalName"));
 		assertThat(testBuilder.description, is("description"));
 		
-		testBuilder = new BuilderMock();
-		builder.setName("eman").apply(model, testBuilder);
+		builder.setName("eman").apply(model);
 		assertThat(testBuilder.name, is("eman"));
 		assertThat(testBuilder.logicalName, is("logicalName"));
 		assertThat(testBuilder.description, is("description"));
 		
-		testBuilder = new BuilderMock();
-		builder.setLogicalName("emaNlacigoL").apply(model, testBuilder);
+		builder.setLogicalName("emaNlacigoL").apply(model);
 		assertThat(testBuilder.name, is("eman"));
 		assertThat(testBuilder.logicalName, is("emaNlacigoL"));
 		assertThat(testBuilder.description, is("description"));
 		
-		testBuilder = new BuilderMock();
-		builder.setDescription("noitpircsed").apply(model, testBuilder);
+		builder.setDescription("noitpircsed").apply(model);
 		assertThat(testBuilder.name, is("eman"));
 		assertThat(testBuilder.logicalName, is("emaNlacigoL"));
 		assertThat(testBuilder.description, is("noitpircsed"));
@@ -76,7 +79,7 @@ public class AbstractConstraintModelBuilderTest {
 	@Test
 	public final void testSetDescription() {
 		BuilderMock builder = new BuilderMock();
-		builder.setDescription("description");
+		builder.setDescription("description").build();
 		
 		assertThat(builder.description, is("description"));
 	}
@@ -87,7 +90,7 @@ public class AbstractConstraintModelBuilderTest {
 	@Test
 	public final void testSetLogicalName() {
 		BuilderMock builder = new BuilderMock();
-		builder.setLogicalName("logicalName");
+		builder.setLogicalName("logicalName").build();
 		
 		assertThat(builder.logicalName, is("logicalName"));
 	}
@@ -98,18 +101,17 @@ public class AbstractConstraintModelBuilderTest {
 	@Test
 	public final void testSetName() {
 		BuilderMock builder = new BuilderMock();
-		builder.setName("name");
+		builder.setName("name").build();
 		
 		assertThat(builder.name, is("name"));
 	}
 	
 
 	// テスト用モッククラス
-	class BuilderMock extends AbstractConstraintModelBuilder<ConstraintModel, BuilderMock> {
+	static class BuilderMock extends AbstractConstraintModelBuilder<ConstraintModel, BuilderMock> {
 		
 		@Override
-		public ConstraintModel build() {
-			// noop
+		protected ConstraintModel createValueObject() {
 			return null;
 		}
 		

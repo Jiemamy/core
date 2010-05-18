@@ -33,15 +33,9 @@ public abstract class AbstractConstraintModelBuilder<T extends ConstraintModel, 
 	
 	String name;
 	
-	boolean isSetName;
-	
 	String logicalName;
 	
-	boolean isSetLogicalName;
-	
 	String description;
-	
-	boolean isSetDescription;
 	
 
 	/**
@@ -49,9 +43,14 @@ public abstract class AbstractConstraintModelBuilder<T extends ConstraintModel, 
 	 * @param description 説明文
 	 * @return このビルダークラスのインスタンス
 	 */
-	public S setDescription(String description) {
-		this.description = description;
-		this.isSetDescription = true;
+	public S setDescription(final String description) {
+		addBuilderAction(new BuilderAction<S>() {
+			
+			public void buildAction(S builder) {
+				builder.description = description;
+			}
+			
+		});
 		return getThis();
 	}
 	
@@ -60,9 +59,14 @@ public abstract class AbstractConstraintModelBuilder<T extends ConstraintModel, 
 	 * @param logicalName 論理名
 	 * @return このビルダークラスのインスタンス
 	 */
-	public S setLogicalName(String logicalName) {
-		this.logicalName = logicalName;
-		this.isSetLogicalName = true;
+	public S setLogicalName(final String logicalName) {
+		addBuilderAction(new BuilderAction<S>() {
+			
+			public void buildAction(S builder) {
+				builder.logicalName = logicalName;
+			}
+			
+		});
 		return getThis();
 	}
 	
@@ -71,17 +75,22 @@ public abstract class AbstractConstraintModelBuilder<T extends ConstraintModel, 
 	 * @param name 物理名
 	 * @return このビルダークラスのインスタンス
 	 */
-	public S setName(String name) {
-		this.name = name;
-		this.isSetName = true;
+	public S setName(final String name) {
+		addBuilderAction(new BuilderAction<S>() {
+			
+			public void buildAction(S builder) {
+				builder.name = name;
+			}
+			
+		});
 		return getThis();
 	}
 	
 	@Override
 	protected void apply(T vo, S builder) {
-		builder.setName(isSetName ? name : vo.getName());
-		builder.setLogicalName(isSetLogicalName ? logicalName : vo.getLogicalName());
-		builder.setDescription(isSetDescription ? description : vo.getDescription());
+		builder.setName(vo.getName());
+		builder.setLogicalName(vo.getLogicalName());
+		builder.setDescription(vo.getDescription());
 	}
 	
 }

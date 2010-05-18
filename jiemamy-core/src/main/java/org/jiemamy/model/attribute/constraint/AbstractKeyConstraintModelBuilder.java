@@ -39,11 +39,7 @@ public abstract class AbstractKeyConstraintModelBuilder<T extends KeyConstraintM
 	
 	DeferrabilityModel deferrability;
 	
-	boolean isSetDeferrability;
-	
 	List<EntityRef<ColumnModel>> keyColumns = new ArrayList<EntityRef<ColumnModel>>();
-	
-	boolean isSetKeyColumns;
 	
 
 	/**
@@ -64,9 +60,14 @@ public abstract class AbstractKeyConstraintModelBuilder<T extends KeyConstraintM
 	 * @param columnRef キーカラムの参照オブジェクト
 	 * @return このビルダークラスのインスタンス
 	 */
-	public S addKeyColumn(EntityRef<ColumnModel> columnRef) {
-		keyColumns.add(columnRef);
-		this.isSetKeyColumns = true;
+	public S addKeyColumn(final EntityRef<ColumnModel> columnRef) {
+		addBuilderAction(new BuilderAction<S>() {
+			
+			public void buildAction(S builder) {
+				builder.keyColumns.add(columnRef);
+			}
+			
+		});
 		return getThis();
 	}
 	
@@ -76,9 +77,14 @@ public abstract class AbstractKeyConstraintModelBuilder<T extends KeyConstraintM
 	 * @param deferrability 遅延可能性
 	 * @return このビルダークラスのインスタンス
 	 */
-	public S setDeferrability(DeferrabilityModel deferrability) {
-		this.deferrability = deferrability;
-		this.isSetDeferrability = true;
+	public S setDeferrability(final DeferrabilityModel deferrability) {
+		addBuilderAction(new BuilderAction<S>() {
+			
+			public void buildAction(S builder) {
+				builder.deferrability = deferrability;
+			}
+			
+		});
 		return getThis();
 	}
 	
@@ -86,9 +92,9 @@ public abstract class AbstractKeyConstraintModelBuilder<T extends KeyConstraintM
 	protected void apply(T vo, S builder) {
 		super.apply(vo, builder);
 		
-		builder.setDeferrability(isSetDeferrability ? deferrability : vo.getDeferrability());
+		builder.setDeferrability(vo.getDeferrability());
 		
-		for (EntityRef<ColumnModel> columnRef : (isSetKeyColumns ? keyColumns : vo.getKeyColumns())) {
+		for (EntityRef<ColumnModel> columnRef : vo.getKeyColumns()) {
 			builder.addKeyColumn(columnRef);
 		}
 	}

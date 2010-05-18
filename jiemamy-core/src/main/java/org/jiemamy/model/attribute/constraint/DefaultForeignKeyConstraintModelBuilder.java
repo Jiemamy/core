@@ -42,28 +42,20 @@ public class DefaultForeignKeyConstraintModelBuilder extends
 	 */
 	MatchType matchType;
 	
-	boolean isSetMatchType;
-	
 	/**
 	 * 削除時アクション
 	 */
 	ReferentialAction onDelete;
-	
-	boolean isSetOnDelete;
 	
 	/**
 	 * 更新時アクション
 	 */
 	ReferentialAction onUpdate;
 	
-	boolean isSetOnUpdate;
-	
 	/**
 	 * 参照カラムのリスト
 	 */
 	List<EntityRef<ColumnModel>> referenceColumns = CollectionsUtil.newArrayList();
-	
-	boolean isSetReferenceColumns;
 	
 
 	/**
@@ -84,16 +76,15 @@ public class DefaultForeignKeyConstraintModelBuilder extends
 	 * @param referenceColumnRef 参照カラムの参照
 	 * @return このビルダークラスのインスタンス
 	 */
-	public DefaultForeignKeyConstraintModelBuilder addReferenceColumn(EntityRef<ColumnModel> referenceColumnRef) {
-		referenceColumns.add(referenceColumnRef);
-		isSetReferenceColumns = true;
+	public DefaultForeignKeyConstraintModelBuilder addReferenceColumn(final EntityRef<ColumnModel> referenceColumnRef) {
+		addBuilderAction(new BuilderAction<DefaultForeignKeyConstraintModelBuilder>() {
+			
+			public void buildAction(DefaultForeignKeyConstraintModelBuilder builder) {
+				builder.referenceColumns.add(referenceColumnRef);
+			}
+			
+		});
 		return getThis();
-	}
-	
-	@Override
-	public ForeignKeyConstraintModel build() {
-		return new DefaultForeignKeyConstraintModel(name, logicalName, description, keyColumns, deferrability,
-				referenceColumns, onDelete, onUpdate, matchType);
 	}
 	
 	/**
@@ -101,9 +92,14 @@ public class DefaultForeignKeyConstraintModelBuilder extends
 	 * @param matchType マッチ型
 	 * @return このビルダークラスのインスタンス
 	 */
-	public DefaultForeignKeyConstraintModelBuilder setMatchType(MatchType matchType) {
-		this.matchType = matchType;
-		isSetMatchType = true;
+	public DefaultForeignKeyConstraintModelBuilder setMatchType(final MatchType matchType) {
+		addBuilderAction(new BuilderAction<DefaultForeignKeyConstraintModelBuilder>() {
+			
+			public void buildAction(DefaultForeignKeyConstraintModelBuilder builder) {
+				builder.matchType = matchType;
+			}
+			
+		});
 		return getThis();
 	}
 	
@@ -112,9 +108,14 @@ public class DefaultForeignKeyConstraintModelBuilder extends
 	 * @param onDelete 削除時アクション
 	 * @return このビルダークラスのインスタンス
 	 */
-	public DefaultForeignKeyConstraintModelBuilder setOnDelete(ReferentialAction onDelete) {
-		this.onDelete = onDelete;
-		isSetOnDelete = true;
+	public DefaultForeignKeyConstraintModelBuilder setOnDelete(final ReferentialAction onDelete) {
+		addBuilderAction(new BuilderAction<DefaultForeignKeyConstraintModelBuilder>() {
+			
+			public void buildAction(DefaultForeignKeyConstraintModelBuilder builder) {
+				builder.onDelete = onDelete;
+			}
+			
+		});
 		return getThis();
 	}
 	
@@ -123,9 +124,14 @@ public class DefaultForeignKeyConstraintModelBuilder extends
 	 * @param onUpdate 更新時アクション
 	 * @return このビルダークラスのインスタンス
 	 */
-	public DefaultForeignKeyConstraintModelBuilder setOnUpdate(ReferentialAction onUpdate) {
-		this.onUpdate = onUpdate;
-		isSetOnUpdate = true;
+	public DefaultForeignKeyConstraintModelBuilder setOnUpdate(final ReferentialAction onUpdate) {
+		addBuilderAction(new BuilderAction<DefaultForeignKeyConstraintModelBuilder>() {
+			
+			public void buildAction(DefaultForeignKeyConstraintModelBuilder builder) {
+				builder.onUpdate = onUpdate;
+			}
+			
+		});
 		return getThis();
 	}
 	
@@ -133,14 +139,19 @@ public class DefaultForeignKeyConstraintModelBuilder extends
 	protected void apply(ForeignKeyConstraintModel vo, DefaultForeignKeyConstraintModelBuilder builder) {
 		super.apply(vo, builder);
 		
-		builder.setMatchType(isSetMatchType ? matchType : vo.getMatchType());
-		builder.setOnDelete(isSetOnDelete ? onDelete : vo.getOnDelete());
-		builder.setOnUpdate(isSetOnUpdate ? onUpdate : vo.getOnUpdate());
+		builder.setMatchType(vo.getMatchType());
+		builder.setOnDelete(vo.getOnDelete());
+		builder.setOnUpdate(vo.getOnUpdate());
 		
-		for (EntityRef<ColumnModel> referenceColumnRef : (isSetReferenceColumns ? referenceColumns : vo
-			.getReferenceColumns())) {
+		for (EntityRef<ColumnModel> referenceColumnRef : vo.getReferenceColumns()) {
 			builder.addReferenceColumn(referenceColumnRef);
 		}
+	}
+	
+	@Override
+	protected ForeignKeyConstraintModel createValueObject() {
+		return new DefaultForeignKeyConstraintModel(name, logicalName, description, keyColumns, deferrability,
+				referenceColumns, onDelete, onUpdate, matchType);
 	}
 	
 	@Override
