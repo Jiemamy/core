@@ -166,12 +166,13 @@ public class RepositoryTest {
 	@Test
 	public void test05_getTables() throws Exception {
 		// FORMAT-OFF
-		TableModel t1 =
-				new Table().whoseNameIs("ONE").with(new Column().whoseNameIs("A").build()).with(
-						new Column().whoseNameIs("B").build()).build();
-		TableModel t2 =
-				new Table().whoseNameIs("TWO").with(new Column().whoseNameIs("C").build()).with(
-						new Column().whoseNameIs("D").build()).build();
+		TableModel t1 = new Table().whoseNameIs("ONE")
+				.with(new Column().whoseNameIs("A").build())
+				.with(new Column().whoseNameIs("B").build())
+				.build();
+		TableModel t2 = new Table().whoseNameIs("TWO")
+				.with(new Column().whoseNameIs("C").build())
+				.with(new Column().whoseNameIs("D").build()).build();
 		// FORMAT-ON
 		
 		repository.add(t1);
@@ -194,12 +195,14 @@ public class RepositoryTest {
 		ColumnModel d;
 		
 		// FORMAT-OFF
-		TableModel t1 =
-				new Table().whoseNameIs("ONE").with(a = new Column().whoseNameIs("A").build()).with(
-						b = new Column().whoseNameIs("B").build()).build();
-		TableModel t2 =
-				new Table().whoseNameIs("TWO").with(c = new Column().whoseNameIs("C").build()).with(
-						d = new Column().whoseNameIs("D").build()).build();
+		TableModel t1 = new Table().whoseNameIs("ONE")
+				.with(a = new Column().whoseNameIs("A").build())
+				.with(b = new Column().whoseNameIs("B").build())
+				.build();
+		TableModel t2 = new Table().whoseNameIs("TWO")
+				.with(c = new Column().whoseNameIs("C").build())
+				.with(d = new Column().whoseNameIs("D").build())
+				.build();
 		// FORMAT-ON
 		
 		repository.add(t1);
@@ -228,16 +231,22 @@ public class RepositoryTest {
 		KeyConstraintModel pk2;
 		
 		// FORMAT-OFF
-		TableModel t1 =
-				new Table("ONE").with(new Column("A").build()).with(b = new Column("B").build()).with(
-						pk1 = DefaultPrimaryKeyConstraintModel.of(b)).build();
-		TableModel t2 =
-				new Table("TWO").with(c = new Column("C").build()).with(d = new Column("D").build()).with(
-						pk2 = DefaultPrimaryKeyConstraintModel.of(d)).with(
-						fk12 = DefaultForeignKeyConstraintModel.of(c, b)).build();
-		TableModel t3 =
-				new Table("THREE").with(e = new Column("E").build()).with(new Column("F").build()).with(
-						fk23 = DefaultForeignKeyConstraintModel.of(e, d)).build();
+		TableModel t1 = new Table("ONE")
+				.with(new Column("A").build())
+				.with(b = new Column("B").build())
+				.with(pk1 = DefaultPrimaryKeyConstraintModel.of(b))
+				.build();
+		TableModel t2 = new Table("TWO")
+				.with(c = new Column("C").build())
+				.with(d = new Column("D").build())
+				.with(pk2 = DefaultPrimaryKeyConstraintModel.of(d))
+				.with(fk12 = DefaultForeignKeyConstraintModel.of(c, b))
+				.build();
+		TableModel t3 = new Table("THREE")
+				.with(e = new Column("E").build())
+				.with(new Column("F").build())
+				.with(fk23 = DefaultForeignKeyConstraintModel.of(e, d))
+				.build();
 		// FORMAT-ON
 		
 		repository.add(t1);
@@ -259,8 +268,7 @@ public class RepositoryTest {
 		assertThat(repository.findSubEntitiesRecursive(t1).size(), is(2));
 		assertThat(repository.findSubEntitiesRecursive(t2).size(), is(1));
 		assertThat(repository.findSubEntitiesRecursive(t3).size(), is(0));
-		assertThat(repository.findSubEntitiesRecursive(t1),
-				hasItems((DatabaseObjectModel) t2, (DatabaseObjectModel) t3));
+		assertThat(repository.findSubEntitiesRecursive(t1), hasItems((DatabaseObjectModel) t2, (DatabaseObjectModel) t3));
 		assertThat(repository.findSubEntitiesRecursive(t2), hasItem((DatabaseObjectModel) t3));
 		
 		assertThat(repository.findSuperEntitiesNonRecursive(t1).size(), is(0));
@@ -273,8 +281,7 @@ public class RepositoryTest {
 		assertThat(repository.findSuperEntitiesRecursive(t2).size(), is(1));
 		assertThat(repository.findSuperEntitiesRecursive(t3).size(), is(2));
 		assertThat(repository.findSuperEntitiesRecursive(t2), hasItem((DatabaseObjectModel) t1));
-		assertThat(repository.findSuperEntitiesRecursive(t3), hasItems((DatabaseObjectModel) t1,
-				(DatabaseObjectModel) t2));
+		assertThat(repository.findSuperEntitiesRecursive(t3), hasItems((DatabaseObjectModel) t1, (DatabaseObjectModel) t2));
 		// FORMAT-ON
 	}
 }

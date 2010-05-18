@@ -79,10 +79,12 @@ public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstrain
 	 * @param matchType マッチ型
 	 * @throws IllegalArgumentException 引数{@code keyColumns}と{@code referenceColumns}のサイズが一致していない場合
 	 */
+	// CHECKSTYLE:OFF
 	public DefaultForeignKeyConstraintModel(String name, String logicalName, String description,
 			List<EntityRef<ColumnModel>> keyColumns, DeferrabilityModel deferrability,
 			List<EntityRef<ColumnModel>> referenceColumns, ReferentialAction onDelete, ReferentialAction onUpdate,
 			MatchType matchType) {
+		// CHECKSTYLE:ON
 		super(name, description, description, keyColumns, deferrability);
 		Validate.isTrue(keyColumns.size() == referenceColumns.size());
 		

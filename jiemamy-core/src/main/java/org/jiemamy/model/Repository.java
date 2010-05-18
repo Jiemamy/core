@@ -316,21 +316,21 @@ public class Repository {
 	 * @throws TooManyColumnsFoundException 複数のカラムが見つかった場合
 	 */
 	public ColumnModel resolveColumn(final EntityRef<ColumnModel> ref) {
-		Collection<ColumnModel> found = CollectionsUtil.newArrayList();
+		Collection<ColumnModel> collector = CollectionsUtil.newArrayList();
 		for (TableModel tableModel : findTables()) {
 			CollectionUtils.select(tableModel.getColumns(), new Predicate<ColumnModel>() {
 				
 				public boolean evaluate(ColumnModel column) {
 					return column.getId().equals(ref.getReferenceId());
 				}
-			}, found);
+			}, collector);
 		}
-		if (found.size() == 1) {
-			return found.iterator().next();
+		if (collector.size() == 1) {
+			return collector.iterator().next();
 		}
-		if (found.size() == 0) {
+		if (collector.size() == 0) {
 			throw new EntityNotFoundException();
 		}
-		throw new TooManyColumnsFoundException(found);
+		throw new TooManyColumnsFoundException(collector);
 	}
 }
