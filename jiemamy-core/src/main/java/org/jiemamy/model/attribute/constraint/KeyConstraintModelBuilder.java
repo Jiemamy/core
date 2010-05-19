@@ -18,13 +18,14 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.model.EntityRef;
+import org.jiemamy.model.ValueObject;
 import org.jiemamy.model.attribute.ColumnModel;
+import org.jiemamy.utils.CollectionsUtil;
 
 /**
  * {@link KeyConstraintModel}ビルダーの骨格実装クラス。
@@ -35,14 +36,14 @@ import org.jiemamy.model.attribute.ColumnModel;
  * @param <S> このビルダークラスの型
  */
 // CHECKSTYLE:OFF
-public abstract class AbstractKeyConstraintModelBuilder<T extends KeyConstraintModel, S extends AbstractKeyConstraintModelBuilder<T, S>>
-		extends AbstractConstraintModelBuilder<T, S> {
+public abstract class KeyConstraintModelBuilder<T extends KeyConstraintModel, S extends KeyConstraintModelBuilder<T, S>>
+		extends ConstraintModelBuilder<T, S> {
 	
 	// CHECKSTYLE:ON
 	
 	DeferrabilityModel deferrability;
 	
-	List<EntityRef<ColumnModel>> keyColumns = new ArrayList<EntityRef<ColumnModel>>();
+	List<EntityRef<ColumnModel>> keyColumns = CollectionsUtil.newArrayList();
 	
 
 	/**
@@ -92,13 +93,16 @@ public abstract class AbstractKeyConstraintModelBuilder<T extends KeyConstraintM
 	}
 	
 	@Override
-	protected void apply(T vo, S builder) {
+	protected void apply(ValueObject vo, S builder) {
 		super.apply(vo, builder);
 		
-		builder.setDeferrability(vo.getDeferrability());
-		
-		for (EntityRef<ColumnModel> columnRef : vo.getKeyColumns()) {
-			builder.addKeyColumn(columnRef);
+		if (vo instanceof KeyConstraintModel) {
+			KeyConstraintModel model = KeyConstraintModel.class.cast(vo);
+			builder.setDeferrability(model.getDeferrability());
+			
+			for (EntityRef<ColumnModel> columnRef : model.getKeyColumns()) {
+				builder.addKeyColumn(columnRef);
+			}
 		}
 	}
 }

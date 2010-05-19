@@ -18,8 +18,9 @@
  */
 package org.jiemamy.model;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import org.jiemamy.utils.CollectionsUtil;
 
 /**
  * {@link ValueObject}のインスタンスを生成するビルダー。
@@ -31,7 +32,7 @@ import java.util.List;
  */
 public abstract class ValueObjectBuilder<T extends ValueObject, S extends ValueObjectBuilder<T, S>> {
 	
-	List<BuilderConfigurator<S>> configurators = new ArrayList<BuilderConfigurator<S>>();
+	List<BuilderConfigurator<S>> configurators = CollectionsUtil.newArrayList();
 	
 
 	/**
@@ -40,7 +41,7 @@ public abstract class ValueObjectBuilder<T extends ValueObject, S extends ValueO
 	 * @param vo 状態を引用する{@link ValueObject}
 	 * @return vo の内容に対して、このビルダの設定を上書きした{@link ValueObject}の新しいインスタンス
 	 */
-	public T apply(T vo) {
+	public T apply(ValueObject vo) {
 		S builder = newInstance();
 		apply(vo, builder);
 		
@@ -79,7 +80,7 @@ public abstract class ValueObjectBuilder<T extends ValueObject, S extends ValueO
 	 * @param vo 状態を引用する{@link ValueObject}
 	 * @param builder ビルダ
 	 */
-	protected abstract void apply(T vo, S builder);
+	protected abstract void apply(ValueObject vo, S builder);
 	
 	/**
 	 * ビルダの設定に基づいて{@link ValueObject}の新しいインスタンスを生成する。

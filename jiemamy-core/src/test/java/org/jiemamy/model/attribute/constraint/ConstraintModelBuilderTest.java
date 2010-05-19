@@ -26,15 +26,15 @@ import static org.mockito.Mockito.when;
 import org.junit.Test;
 
 /**
- * {@link AbstractConstraintModelBuilder}のテストクラス。
+ * {@link ConstraintModelBuilder}のテストクラス。
  * 
  * @version $Id$
  * @author Keisuke.K
  */
-public class AbstractConstraintModelBuilderTest {
+public class ConstraintModelBuilderTest {
 	
 	/**
-	 * Test method for {@link org.jiemamy.model.attribute.constraint.AbstractConstraintModelBuilder#apply(org.jiemamy.model.attribute.constraint.ConstraintModel, org.jiemamy.model.attribute.constraint.AbstractConstraintModelBuilder)}.
+	 * Test method for {@link org.jiemamy.model.attribute.constraint.ConstraintModelBuilder#apply(org.jiemamy.model.attribute.constraint.ConstraintModel, org.jiemamy.model.attribute.constraint.ConstraintModelBuilder)}.
 	 */
 	@Test
 	public final void testApply() {
@@ -74,7 +74,7 @@ public class AbstractConstraintModelBuilderTest {
 	}
 	
 	/**
-	 * Test method for {@link org.jiemamy.model.attribute.constraint.AbstractConstraintModelBuilder#setDescription(java.lang.String)}.
+	 * Test method for {@link org.jiemamy.model.attribute.constraint.ConstraintModelBuilder#setDescription(java.lang.String)}.
 	 */
 	@Test
 	public final void testSetDescription() {
@@ -85,7 +85,7 @@ public class AbstractConstraintModelBuilderTest {
 	}
 	
 	/**
-	 * Test method for {@link org.jiemamy.model.attribute.constraint.AbstractConstraintModelBuilder#setLogicalName(java.lang.String)}.
+	 * Test method for {@link org.jiemamy.model.attribute.constraint.ConstraintModelBuilder#setLogicalName(java.lang.String)}.
 	 */
 	@Test
 	public final void testSetLogicalName() {
@@ -96,7 +96,7 @@ public class AbstractConstraintModelBuilderTest {
 	}
 	
 	/**
-	 * Test method for {@link org.jiemamy.model.attribute.constraint.AbstractConstraintModelBuilder#setName(java.lang.String)}.
+	 * Test method for {@link org.jiemamy.model.attribute.constraint.ConstraintModelBuilder#setName(java.lang.String)}.
 	 */
 	@Test
 	public final void testSetName() {
@@ -108,7 +108,7 @@ public class AbstractConstraintModelBuilderTest {
 	
 
 	// テスト用モッククラス
-	static class BuilderMock extends AbstractConstraintModelBuilder<ConstraintModel, BuilderMock> {
+	static class BuilderMock extends ConstraintModelBuilder<ConstraintModel, BuilderMock> {
 		
 		@Override
 		protected ConstraintModel createValueObject() {

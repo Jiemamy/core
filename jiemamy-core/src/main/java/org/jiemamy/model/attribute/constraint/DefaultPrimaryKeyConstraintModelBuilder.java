@@ -25,10 +25,10 @@ package org.jiemamy.model.attribute.constraint;
  * @author daisuke
  */
 public class DefaultPrimaryKeyConstraintModelBuilder extends
-		AbstractKeyConstraintModelBuilder<PrimaryKeyConstraintModel, DefaultPrimaryKeyConstraintModelBuilder> {
+		KeyConstraintModelBuilder<DefaultPrimaryKeyConstraintModel, DefaultPrimaryKeyConstraintModelBuilder> {
 	
 	@Override
-	protected PrimaryKeyConstraintModel createValueObject() {
+	protected DefaultPrimaryKeyConstraintModel createValueObject() {
 		return new DefaultPrimaryKeyConstraintModel(name, logicalName, description, keyColumns, deferrability);
 	}
 	

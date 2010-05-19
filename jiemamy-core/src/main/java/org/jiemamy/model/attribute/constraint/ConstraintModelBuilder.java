@@ -18,6 +18,7 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
+import org.jiemamy.model.ValueObject;
 import org.jiemamy.model.ValueObjectBuilder;
 
 /**
@@ -28,7 +29,7 @@ import org.jiemamy.model.ValueObjectBuilder;
  * @param <T> ビルド対象のインスタンスの型
  * @param <S> このビルダークラスの型
  */
-public abstract class AbstractConstraintModelBuilder<T extends ConstraintModel, S extends AbstractConstraintModelBuilder<T, S>>
+public abstract class ConstraintModelBuilder<T extends ConstraintModel, S extends ConstraintModelBuilder<T, S>>
 		extends ValueObjectBuilder<T, S> {
 	
 	String name;
@@ -86,10 +87,13 @@ public abstract class AbstractConstraintModelBuilder<T extends ConstraintModel, 
 	}
 	
 	@Override
-	protected void apply(T vo, S builder) {
-		builder.setName(vo.getName());
-		builder.setLogicalName(vo.getLogicalName());
-		builder.setDescription(vo.getDescription());
+	protected void apply(ValueObject vo, S builder) {
+		if (vo instanceof ConstraintModel) {
+			ConstraintModel model = ConstraintModel.class.cast(vo);
+			builder.setName(model.getName());
+			builder.setLogicalName(model.getLogicalName());
+			builder.setDescription(model.getDescription());
+		}
 	}
 	
 }

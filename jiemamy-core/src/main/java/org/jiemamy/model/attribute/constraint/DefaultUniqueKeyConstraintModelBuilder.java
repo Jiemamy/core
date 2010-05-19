@@ -25,10 +25,10 @@ package org.jiemamy.model.attribute.constraint;
  * @author Keisuke.K
  */
 public class DefaultUniqueKeyConstraintModelBuilder extends
-		AbstractKeyConstraintModelBuilder<UniqueKeyConstraintModel, DefaultUniqueKeyConstraintModelBuilder> {
+		KeyConstraintModelBuilder<DefaultUniqueKeyConstraintModel, DefaultUniqueKeyConstraintModelBuilder> {
 	
 	@Override
-	protected UniqueKeyConstraintModel createValueObject() {
+	protected DefaultUniqueKeyConstraintModel createValueObject() {
 		return new DefaultUniqueKeyConstraintModel(name, logicalName, description, keyColumns, deferrability);
 	}
 	
