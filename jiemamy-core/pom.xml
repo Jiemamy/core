@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.jiemamy</groupId>
     <artifactId>jiemamy-master</artifactId>
-    <version>1.4</version>
+    <version>1.5.2</version>
   </parent>
   <groupId>org.jiemamy</groupId>
   <artifactId>jiemamy-core</artifactId>
@@ -24,7 +24,7 @@
       <notifier>
         <sendOnSuccess>false</sendOnSuccess>
         <configuration>
-          <recipients>jiemamy-dev@googlegroups.com</recipients>
+          <recipients>jiemamy-notify@googlegroups.com</recipients>
         </configuration>
       </notifier>
     </notifiers>

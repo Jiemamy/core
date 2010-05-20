@@ -145,6 +145,5 @@ public class DefaultForeignKeyConstraintModelBuilderTest {
 		assertThat(fk4.getMatchType(), is(MatchType.PARTIAL));
 		assertThat(fk4.getOnDelete(), is(nullValue()));
 		assertThat(fk4.getOnUpdate(), is(nullValue()));
-		
 	}
 }
