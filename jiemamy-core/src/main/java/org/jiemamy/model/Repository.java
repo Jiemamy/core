@@ -69,18 +69,18 @@ public class Repository {
 	/**
 	 * 全ての依存モデルの集合を返す。
 	 * 
-	 * @param standardEntity 基準エンティティ
+	 * @param standard 基準モデル
 	 * @return 全ての依存モデルの集合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public Collection<DatabaseObjectModel> findSubDatabaseObjectsRecursive(DatabaseObjectModel standardEntity) {
-		Validate.notNull(standardEntity);
-		Collection<DatabaseObjectModel> parentEntities = findSubDatabaseObjectsNonRecursive(standardEntity);
-		Set<DatabaseObjectModel> result = CollectionsUtil.newHashSet(parentEntities);
+	public Collection<DatabaseObjectModel> findSubDatabaseObjectsRecursive(DatabaseObjectModel standard) {
+		Validate.notNull(standard);
+		Collection<DatabaseObjectModel> subModels = findSubDatabaseObjectsNonRecursive(standard);
+		Set<DatabaseObjectModel> result = CollectionsUtil.newHashSet(subModels);
 		
-		for (DatabaseObjectModel parentEntity : parentEntities) {
-			if (standardEntity.equals(parentEntity) == false) {
-				result.addAll(findSubDatabaseObjectsRecursive(parentEntity));
+		for (DatabaseObjectModel subModel : subModels) {
+			if (standard.equals(subModel) == false) {
+				result.addAll(findSubDatabaseObjectsRecursive(subModel));
 			}
 		}
 		
@@ -108,13 +108,13 @@ public class Repository {
 	 */
 	public Collection<DatabaseObjectModel> findSuperDatabaseObjectsRecursive(DatabaseObjectModel databaseObject) {
 		Validate.notNull(databaseObject);
-		Collection<DatabaseObjectModel> parentEntities = findSuperDatabaseObjectsNonRecursive(databaseObject);
+		Collection<DatabaseObjectModel> superModels = findSuperDatabaseObjectsNonRecursive(databaseObject);
 		Collection<DatabaseObjectModel> result = CollectionsUtil.newArrayList();
-		result.addAll(parentEntities);
+		result.addAll(superModels);
 		
-		for (DatabaseObjectModel parentEntity : parentEntities) {
-			if (databaseObject.equals(parentEntity) == false) {
-				result.addAll(findSuperDatabaseObjectsRecursive(parentEntity));
+		for (DatabaseObjectModel superModel : superModels) {
+			if (databaseObject.equals(superModel) == false) {
+				result.addAll(findSuperDatabaseObjectsRecursive(superModel));
 			}
 		}
 		
@@ -132,7 +132,7 @@ public class Repository {
 	/**
 	 * 引数に指定した {@link DatabaseObjectModel} をREPOSITORYの管理下から外す。
 	 * 
-	 * <p>{@link Entity}は、リポジトリの管理下から外れることにより、ライフサイクルが終了する。</p>
+	 * <p>{@link DatabaseObjectModel}は、リポジトリの管理下から外れることにより、ライフサイクルが終了する。</p>
 	 * 
 	 * @param dbo 管理対象
 	 * @throws IllegalArgumentException 引数{@code dbo}に{@code null}を与えた場合
@@ -161,11 +161,11 @@ public class Repository {
 	}
 	
 	/**
-	 * このREPOSITORYの管理下にある {@link Entity} の中から、指定したENTITY IDを持つ {@link Entity}を返す。
+	 * このREPOSITORYの管理下にある {@link DatabaseObjectModel} の中から、指定したENTITY IDを持つ {@link DatabaseObjectModel}を返す。
 	 * 
 	 * @param id ENTITY ID
-	 * @return {@link Entity}
-	 * @throws EntityNotFoundException 該当する {@link Entity} が見つからなかった場合
+	 * @return {@link DatabaseObjectModel}
+	 * @throws EntityNotFoundException 該当する {@link DatabaseObjectModel} が見つからなかった場合
 	 */
 	public DatabaseObjectModel resolve(UUID id) {
 		for (DatabaseObjectModel dbo : databaseObjects) {
