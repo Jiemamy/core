@@ -5,8 +5,7 @@
     version="0.3"
     xsi:schemaLocation="http://jiemamy.org/xml/ns/core ../../main/resources/jiemamy-core.xsd">
   <dialect>org.jiemamy.dialect.mysql.MySqlDialect</dialect>
-  <domains/>
-  <entities>
+  <dbobjects>
     <table class="org.jiemamy.model.DefaultTableModel" id="9f522e56-809c-45fd-8416-39201014218b">
       <name>T_MAP</name>
       <attributes>
@@ -26,6 +25,6 @@
         </primaryKey>
       </attributes>
     </table>
-  </entities>
+  </dbobjects>
   <dataSets/>
 </jiemamy>

@@ -38,30 +38,22 @@
 						<xsd:documentation xml:lang="ja-JP">データベースの説明文</xsd:documentation> 
 					</xsd:annotation>
 				</xsd:element>
-				<xsd:element name="domains">
-					<xsd:annotation>
-						<xsd:documentation xml:lang="en">Data type domain definition</xsd:documentation>
-						<xsd:documentation xml:lang="ja-JP">ドメイン定義部</xsd:documentation> 
-					</xsd:annotation>
-					<xsd:complexType>
-						<xsd:choice minOccurs="0" maxOccurs="unbounded">
-							<xsd:element ref="domain"/>
-						</xsd:choice>
-					</xsd:complexType>
-				</xsd:element>
-				<xsd:element name="entities">
+				<xsd:element name="dbobjects" minOccurs="0">
 					<xsd:annotation>
 						<xsd:documentation xml:lang="en">Entity definition</xsd:documentation>
 						<xsd:documentation xml:lang="ja-JP">エンティティ定義部</xsd:documentation> 
 					</xsd:annotation>
 					<xsd:complexType>
 						<xsd:choice minOccurs="0" maxOccurs="unbounded">
+							<xsd:element ref="domain"/>
 							<xsd:element ref="table"/>
 							<xsd:element ref="view"/>
+							<xsd:element ref="index" />
+							<xsd:any minOccurs="0" maxOccurs="unbounded" processContents="lax" namespace="##other"/>
 						</xsd:choice>
 					</xsd:complexType>
 				</xsd:element>
-				<xsd:element ref="dataSets">
+				<xsd:element ref="dataSets" minOccurs="0">
 					<xsd:annotation>
 						<xsd:documentation xml:lang="en">Insert data definition</xsd:documentation>
 						<xsd:documentation xml:lang="ja-JP">データセット定義部</xsd:documentation> 
@@ -70,10 +62,6 @@
 				<xsd:any minOccurs="0" maxOccurs="unbounded" processContents="lax" namespace="##other"/>
 			</xsd:sequence>
 			<xsd:attribute name="id" type="uuidType" use="required">
-				<xsd:annotation>
-					<xsd:documentation xml:lang="en">Model ID of RootModel</xsd:documentation>
-					<xsd:documentation xml:lang="ja-JP">RootModelのモデルID</xsd:documentation> 
-				</xsd:annotation>
 			</xsd:attribute>
 			<xsd:attribute name="version" type="xsd:string" use="required">
 				<xsd:annotation>
@@ -159,13 +147,6 @@
 						</xsd:choice>
 					</xsd:complexType>
 				</xsd:element>
-				<xsd:element name="indexes" minOccurs="0">
-					<xsd:complexType>
-						<xsd:sequence minOccurs="0" maxOccurs="unbounded">
-							<xsd:element ref="index" />
-						</xsd:sequence>
-					</xsd:complexType>
-				</xsd:element>
 			</xsd:sequence>
 			<xsd:attribute name="class" type="fqcnType" use="required" />
 			<xsd:attribute name="id" type="uuidType" use="required" />
@@ -203,7 +184,6 @@
 			<xsd:attribute name="id" type="uuidType" use="required" />
 		</xsd:complexType>
 	</xsd:element>
-
 
 	<xsd:element name="column">
 		<xsd:annotation>
