@@ -158,10 +158,11 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	}
 	
 
-	List<ColumnModel> columns = CollectionsUtil.newArrayList();
+	/** カラムのリスト */
+	final List<ColumnModel> columns = CollectionsUtil.newArrayList();
 	
-	/** 属性のリスト */
-	List<ConstraintModel> constraints = CollectionsUtil.newArrayList();
+	/** 制約のリスト */
+	final List<ConstraintModel> constraints = CollectionsUtil.newArrayList();
 	
 
 	/**

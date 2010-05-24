@@ -18,6 +18,9 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
+import org.jiemamy.model.EntityRef;
+import org.jiemamy.model.attribute.ColumnModel;
+
 /**
  * NOT NULL制約を表すモデルインターフェイス。
  * 
@@ -26,4 +29,10 @@ package org.jiemamy.model.attribute.constraint;
  */
 public interface NotNullConstraintModel extends ValueConstraintModel {
 	
+	/**
+	 * 対象カラムを取得する。
+	 * 
+	 * @return 対象カラム
+	 */
+	EntityRef<ColumnModel> getColumn();
 }

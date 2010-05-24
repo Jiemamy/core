@@ -18,6 +18,9 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
+import org.jiemamy.model.EntityRef;
+import org.jiemamy.model.attribute.ColumnModel;
+
 /**
  * NOT NULL制約モデル。
  * 
@@ -25,6 +28,9 @@ package org.jiemamy.model.attribute.constraint;
  */
 public final class DefaultNotNullConstraintModel extends AbstractConstraintModel implements NotNullConstraintModel {
 	
+	private final EntityRef<ColumnModel> column;
+	
+
 	/**
 	 * インスタンスを生成する。
 	 * 
@@ -32,10 +38,16 @@ public final class DefaultNotNullConstraintModel extends AbstractConstraintModel
 	 * @param logicalName 論理名
 	 * @param description 説明
 	 * @param deferrability 遅延評価可能性
+	 * @param column 対象カラム
 	 */
 	public DefaultNotNullConstraintModel(String name, String logicalName, String description,
-			DeferrabilityModel deferrability) {
+			DeferrabilityModel deferrability, EntityRef<ColumnModel> column) {
 		super(name, logicalName, description, deferrability);
+		this.column = column;
+	}
+	
+	public EntityRef<ColumnModel> getColumn() {
+		return column;
 	}
 	
 }

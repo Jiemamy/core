@@ -143,6 +143,7 @@
 							<xsd:element ref="primaryKey" minOccurs="0" />
 							<xsd:element ref="uniqueKey" minOccurs="0" maxOccurs="unbounded" />
 							<xsd:element ref="foreignKey" minOccurs="0" maxOccurs="unbounded" />
+							<xsd:element ref="notNull" minOccurs="0" maxOccurs="unbounded" />
 							<xsd:element ref="check" minOccurs="0" maxOccurs="unbounded" />
 						</xsd:choice>
 					</xsd:complexType>
@@ -212,7 +213,6 @@
 				</xsd:element>
 				<xsd:element ref="type" />
 				<xsd:element ref="defaultValue" minOccurs="0" />
-				<xsd:element ref="notNull" minOccurs="0"/>
 			</xsd:sequence>
 			<xsd:attribute name="class" type="fqcnType" use="required" />
 			<xsd:attribute name="id" type="uuidType" use="required" />
@@ -473,6 +473,7 @@
 						<xsd:documentation xml:lang="ja-JP">NOT NULL制約論理名</xsd:documentation>
 					</xsd:annotation>
 				</xsd:element>
+				<xsd:element ref="columnRef" minOccurs="0" />
 				<xsd:element ref="description" minOccurs="0" />
 			</xsd:sequence>
 			<xsd:attribute name="class" type="fqcnType" use="required" />

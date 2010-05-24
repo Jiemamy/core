@@ -88,15 +88,19 @@
               <typeReference dialect="org.jiemamy.dialect.oracle.OracleDialect">NUMBER</typeReference>
             </typeVariant>
           </type>
-          <notNull class="org.jiemamy.model.DefaultNotNullModel"/>
         </column>
+        <notNull class="org.jiemamy.model.DefaultNotNullModel">
+          <columnRef ref="248a429b-2159-4ebd-a791-eee42a059374"/>
+        </notNull>
         <column class="org.jiemamy.model.DefaultColumnModel" id="0e51b6df-43ab-408c-90ef-de13c6aab881">
           <name>EMP_NAME</name>
           <logicalName>従業員名</logicalName>
           <type ref="62f1e6ec-e6aa-4d52-a6c3-27dac086f2d7"/>
           <defaultValue>no name</defaultValue>
-          <notNull class="org.jiemamy.model.DefaultNotNullModel"/>
         </column>
+        <notNull class="org.jiemamy.model.DefaultNotNullModel">
+          <columnRef ref="0e51b6df-43ab-408c-90ef-de13c6aab881"/>
+        </notNull>
         <column class="org.jiemamy.model.DefaultColumnModel" id="3d21a85a-72de-41b3-99dd-f4cb94e58d84">
           <name>MGR_ID</name>
           <logicalName>上司ID</logicalName>
@@ -111,8 +115,10 @@
             <typeCategory>DATE</typeCategory>
             <typeName>DATE</typeName>
           </type>
-          <notNull class="org.jiemamy.model.DefaultNotNullModel"/>
         </column>
+        <notNull class="org.jiemamy.model.DefaultNotNullModel">
+          <columnRef ref="f0b57eed-98ab-4c21-9855-218c592814dc"/>
+        </notNull>
         <column class="org.jiemamy.model.DefaultColumnModel" id="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">
           <name>SAL</name>
           <type>
@@ -123,16 +129,20 @@
               <scale>2</scale>
             </configuration>
           </type>
-          <notNull class="org.jiemamy.model.DefaultNotNullModel"/>
         </column>
+        <notNull class="org.jiemamy.model.DefaultNotNullModel">
+          <columnRef ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2"/>
+        </notNull>
         <column class="org.jiemamy.model.DefaultColumnModel" id="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">
           <name>DEPT_ID</name>
           <type>
             <typeCategory>INTEGER</typeCategory>
             <typeName>INTEGER</typeName>
           </type>
-          <notNull class="org.jiemamy.model.DefaultNotNullModel"/>
         </column>
+        <notNull class="org.jiemamy.model.DefaultNotNullModel">
+          <columnRef ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b"/>
+        </notNull>
         <primaryKey class="org.jiemamy.model.DefaultPrimaryKeyModel">
           <name>emp_pkey</name>
           <columnRefs>
@@ -194,8 +204,10 @@
             <typeCategory>INTEGER</typeCategory>
             <typeName>INTEGER</typeName>
           </type>
-          <notNull class="org.jiemamy.model.DefaultNotNullModel"/>
         </column>
+        <notNull class="org.jiemamy.model.DefaultNotNullModel">
+          <columnRef ref="2d951389-6bc7-49d7-8631-1d26fe17047e"/>
+        </notNull>
         <column class="org.jiemamy.model.DefaultColumnModel" id="1fcd63d3-974e-4d2e-a0d8-3b9c233104d9">
           <name>DEPT_NAME</name>
           <logicalName>部署名</logicalName>
@@ -206,8 +218,10 @@
               <size>20</size>
             </configuration>
           </type>
-          <notNull class="org.jiemamy.model.DefaultNotNullModel"/>
         </column>
+        <notNull class="org.jiemamy.model.DefaultNotNullModel">
+          <columnRef ref="1fcd63d3-974e-4d2e-a0d8-3b9c233104d9"/>
+        </notNull>
         <column class="org.jiemamy.model.DefaultColumnModel" id="7bf79e76-07b8-43b6-a993-b8ef374a31f5">
           <name>LOC</name>
           <logicalName>ロケーション</logicalName>
