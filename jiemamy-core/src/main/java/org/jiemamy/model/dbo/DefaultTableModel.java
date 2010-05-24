@@ -34,8 +34,8 @@ import org.jiemamy.model.EntityLifecycleException;
 import org.jiemamy.model.EntityNotFoundException;
 import org.jiemamy.model.EntityRef;
 import org.jiemamy.model.ModelConsistencyException;
-import org.jiemamy.model.attribute.AttributeModel;
 import org.jiemamy.model.attribute.ColumnModel;
+import org.jiemamy.model.attribute.constraint.ConstraintModel;
 import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel;
 import org.jiemamy.model.attribute.constraint.KeyConstraintModel;
 import org.jiemamy.utils.CollectionsUtil;
@@ -161,7 +161,7 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	List<ColumnModel> columns = CollectionsUtil.newArrayList();
 	
 	/** 属性のリスト */
-	List<AttributeModel> attributes = CollectionsUtil.newArrayList();
+	List<ConstraintModel> constraints = CollectionsUtil.newArrayList();
 	
 
 	/**
@@ -175,17 +175,6 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	}
 	
 	/**
-	 * テーブルに属性を追加する。
-	 * 
-	 * @param attribute 属性
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 */
-	public void addAttribute(AttributeModel attribute) {
-		Validate.notNull(attribute);
-		attributes.add(attribute);
-	}
-	
-	/**
 	 * テーブルにカラムを追加する。
 	 * 
 	 * @param column カラム
@@ -196,6 +185,17 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 		Validate.notNull(column);
 		columns.add(column);
 		column.activate();
+	}
+	
+	/**
+	 * テーブルに属性を追加する。
+	 * 
+	 * @param constraint 属性
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public void addConstraint(ConstraintModel constraint) {
+		Validate.notNull(constraint);
+		constraints.add(constraint);
 	}
 	
 	public KeyConstraintModel findReferencedKeyConstraint(ForeignKeyConstraintModel foreignKey) {
@@ -221,11 +221,6 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 		return results;
 	}
 	
-	public List<AttributeModel> getAttributes() {
-		assert attributes != null;
-		return new ArrayList<AttributeModel>(attributes);
-	}
-	
 	public ColumnModel getColumn(final String name) {
 		assert columns != null;
 		Collection<ColumnModel> c = CollectionUtils.select(columns, new Predicate<ColumnModel>() {
@@ -246,6 +241,11 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	public List<ColumnModel> getColumns() {
 		assert columns != null;
 		return new ArrayList<ColumnModel>(columns);
+	}
+	
+	public List<ConstraintModel> getConstraints() {
+		assert constraints != null;
+		return new ArrayList<ConstraintModel>(constraints);
 	}
 	
 	public Collection<ForeignKeyConstraintModel> getForeignKeyConstraintModels() {
@@ -292,17 +292,6 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	}
 	
 	/**
-	 * テーブルから属性を削除する。
-	 * 
-	 * @param attribute 属性
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 */
-	public void removeAttribute(AttributeModel attribute) {
-		Validate.notNull(attribute);
-		attributes.remove(attribute);
-	}
-	
-	/**
 	 * テーブルからカラムを削除する。
 	 * 
 	 * @param column カラム
@@ -315,13 +304,25 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 		columns.remove(column);
 	}
 	
-	private <T extends AttributeModel>Collection<T> findAttribute(Class<T> clazz) {
+	/**
+	 * テーブルから属性を削除する。
+	 * 
+	 * @param attribute 属性
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public void removeConstraint(ConstraintModel attribute) {
+		Validate.notNull(attribute);
+		constraints.remove(attribute);
+	}
+	
+	private <T extends ConstraintModel>Collection<T> findAttribute(Class<T> clazz) {
 		Collection<T> result = new ArrayList<T>();
-		for (AttributeModel attribute : attributes) {
+		for (ConstraintModel attribute : constraints) {
 			if (clazz.isAssignableFrom(attribute.getClass())) {
 				result.add(clazz.cast(attribute));
 			}
 		}
 		return result;
 	}
+	
 }

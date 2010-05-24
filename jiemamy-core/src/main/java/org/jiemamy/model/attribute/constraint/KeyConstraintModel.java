@@ -28,15 +28,7 @@ import org.jiemamy.model.attribute.ColumnModel;
  * 
  * @author daisuke
  */
-public interface KeyConstraintModel extends TableConstraintModel {
-	
-	/**
-	 * 遅延評価可能性モデルを取得する。
-	 * 
-	 * @return 遅延評価可能性モデル. 未設定の場合は{@code null}
-	 * @since 0.2
-	 */
-	DeferrabilityModel getDeferrability();
+public interface KeyConstraintModel extends ConstraintModel {
 	
 	/**
 	 * キーを構成するカラムのリストを取得する。

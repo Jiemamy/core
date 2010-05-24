@@ -36,9 +36,6 @@ public abstract class AbstractKeyConstraintModel extends AbstractConstraintModel
 	/** キー制約を構成するカラムのリスト */
 	private final List<EntityRef<ColumnModel>> keyColumns;
 	
-	/** 遅延評価可能性モデル */
-	private final DeferrabilityModel deferrability;
-	
 
 	/**
 	 * インスタンスを生成する。
@@ -47,16 +44,15 @@ public abstract class AbstractKeyConstraintModel extends AbstractConstraintModel
 	 * @param logicalName 論理名
 	 * @param description 説明
 	 * @param keyColumns キー制約を構成するカラムのリスト
-	 * @param deferrability 遅延評価可能性モデル
+	 * @param deferrability 遅延評価可能性
 	 * @throws IllegalArgumentException 引数{@code keyColumns}の要素が空の場合
 	 */
 	public AbstractKeyConstraintModel(String name, String logicalName, String description,
 			List<EntityRef<ColumnModel>> keyColumns, DeferrabilityModel deferrability) {
-		super(name, logicalName, description);
+		super(name, logicalName, description, deferrability);
 		Validate.notEmpty(keyColumns);
 		
 		this.keyColumns = new ArrayList<EntityRef<ColumnModel>>(keyColumns);
-		this.deferrability = deferrability;
 	}
 	
 	@Override
@@ -71,13 +67,6 @@ public abstract class AbstractKeyConstraintModel extends AbstractConstraintModel
 			return false;
 		}
 		AbstractKeyConstraintModel other = (AbstractKeyConstraintModel) obj;
-		if (deferrability == null) {
-			if (other.deferrability != null) {
-				return false;
-			}
-		} else if (!deferrability.equals(other.deferrability)) {
-			return false;
-		}
 		if (keyColumns == null) {
 			if (other.keyColumns != null) {
 				return false;
@@ -88,10 +77,6 @@ public abstract class AbstractKeyConstraintModel extends AbstractConstraintModel
 		return true;
 	}
 	
-	public DeferrabilityModel getDeferrability() {
-		return deferrability;
-	}
-	
 	public List<EntityRef<ColumnModel>> getKeyColumns() {
 		return new ArrayList<EntityRef<ColumnModel>>(keyColumns);
 	}
@@ -100,7 +85,6 @@ public abstract class AbstractKeyConstraintModel extends AbstractConstraintModel
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((deferrability == null) ? 0 : deferrability.hashCode());
 		result = prime * result + ((keyColumns == null) ? 0 : keyColumns.hashCode());
 		return result;
 	}

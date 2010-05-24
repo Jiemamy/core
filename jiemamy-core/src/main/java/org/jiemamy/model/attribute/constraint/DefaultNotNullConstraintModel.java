@@ -31,9 +31,11 @@ public final class DefaultNotNullConstraintModel extends AbstractConstraintModel
 	 * @param name 物理名
 	 * @param logicalName 論理名
 	 * @param description 説明
+	 * @param deferrability 遅延評価可能性
 	 */
-	public DefaultNotNullConstraintModel(String name, String logicalName, String description) {
-		super(name, logicalName, description);
+	public DefaultNotNullConstraintModel(String name, String logicalName, String description,
+			DeferrabilityModel deferrability) {
+		super(name, logicalName, description, deferrability);
 	}
 	
 }

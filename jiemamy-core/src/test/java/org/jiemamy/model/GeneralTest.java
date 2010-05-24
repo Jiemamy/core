@@ -60,11 +60,11 @@ public class GeneralTest {
 		tableModel.addColumn(col2);
 		@SuppressWarnings("unchecked")
 		List<EntityRef<ColumnModel>> pk = Arrays.asList(col1.getReference());
-		tableModel.addAttribute(new DefaultPrimaryKeyConstraintModel(null, null, null, pk, null));
+		tableModel.addConstraint(new DefaultPrimaryKeyConstraintModel(null, null, null, pk, null));
 		repository.add(tableModel);
 		
 		assertThat(tableModel.getColumns().size(), is(2));
-		assertThat(tableModel.getAttributes().size(), is(1));
+		assertThat(tableModel.getConstraints().size(), is(1));
 	}
 	
 	/**
@@ -87,7 +87,7 @@ public class GeneralTest {
 		repository.add(tableModel);
 		
 		assertThat(tableModel.getColumns().size(), is(2));
-		assertThat(tableModel.getAttributes().size(), is(1));
+		assertThat(tableModel.getConstraints().size(), is(1));
 	}
 	
 	/**
@@ -126,8 +126,8 @@ public class GeneralTest {
 		repository.add(emp);
 		
 		assertThat(dept.getColumns().size(), is(3));
-		assertThat(dept.getAttributes().size(), is(1));
+		assertThat(dept.getConstraints().size(), is(1));
 		assertThat(emp.getColumns().size(), is(4));
-		assertThat(emp.getAttributes().size(), is(3));
+		assertThat(emp.getConstraints().size(), is(3));
 	}
 }

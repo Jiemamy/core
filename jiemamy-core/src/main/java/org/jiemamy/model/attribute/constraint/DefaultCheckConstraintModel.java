@@ -38,10 +38,12 @@ public class DefaultCheckConstraintModel extends AbstractConstraintModel impleme
 	 * @param logicalName 論理名
 	 * @param description 説明
 	 * @param expression CHEKC制約定義式
+	 * @param deferrability 遅延評価可能性
 	 * @throws IllegalArgumentException 引数{@code expression}に{@code null}を与えた場合
 	 */
-	public DefaultCheckConstraintModel(String name, String logicalName, String description, String expression) {
-		super(name, logicalName, description);
+	public DefaultCheckConstraintModel(String name, String logicalName, String description, String expression,
+			DeferrabilityModel deferrability) {
+		super(name, logicalName, description, deferrability);
 		Validate.notNull(expression);
 		this.expression = expression;
 	}

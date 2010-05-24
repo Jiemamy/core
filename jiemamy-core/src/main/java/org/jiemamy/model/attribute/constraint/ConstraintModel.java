@@ -28,6 +28,14 @@ import org.jiemamy.model.ValueObject;
 public interface ConstraintModel extends ValueObject {
 	
 	/**
+	 * 遅延評価可能性モデルを取得する。
+	 * 
+	 * @return 遅延評価可能性モデル. 未設定の場合は{@code null}
+	 * @since 0.2
+	 */
+	DeferrabilityModel getDeferrability();
+	
+	/**
 	 * 説明を取得する。
 	 * 
 	 * @return 説明。未設定の場合は{@code null}
@@ -48,4 +56,5 @@ public interface ConstraintModel extends ValueObject {
 	 * @since 0.2
 	 */
 	String getName();
+	
 }

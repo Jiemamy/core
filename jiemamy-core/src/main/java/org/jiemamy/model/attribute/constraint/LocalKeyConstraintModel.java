@@ -26,6 +26,6 @@ package org.jiemamy.model.attribute.constraint;
  * @since 0.2
  * @author daisuke
  */
-public interface LocalKeyConstraintModel extends KeyConstraintModel, ColumnConstraintModel {
+public interface LocalKeyConstraintModel extends KeyConstraintModel {
 	
 }

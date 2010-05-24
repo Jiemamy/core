@@ -24,6 +24,6 @@ package org.jiemamy.model.attribute.constraint;
  * @since 0.2
  * @author daisuke
  */
-public interface NotNullConstraintModel extends ValueConstraintModel, ColumnConstraintModel {
+public interface NotNullConstraintModel extends ValueConstraintModel {
 	
 }

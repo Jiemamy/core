@@ -22,8 +22,8 @@ import java.util.Collection;
 import java.util.List;
 
 import org.jiemamy.model.EntityRef;
-import org.jiemamy.model.attribute.AttributeModel;
 import org.jiemamy.model.attribute.ColumnModel;
+import org.jiemamy.model.attribute.constraint.ConstraintModel;
 import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel;
 import org.jiemamy.model.attribute.constraint.KeyConstraintModel;
 
@@ -44,14 +44,6 @@ public interface TableModel extends DatabaseObjectModel {
 	KeyConstraintModel findReferencedKeyConstraint(ForeignKeyConstraintModel foreignKey);
 	
 	/**
-	 * 属性のリストを取得する。
-	 * 
-	 * @return 属性のリスト
-	 * @since 0.2
-	 */
-	List<AttributeModel> getAttributes();
-	
-	/**
 	 * このテーブルのカラムのうち、{@code name}で示した名前を持つカラムを返す。
 	 * 
 	 * @param name カラム名
@@ -66,6 +58,14 @@ public interface TableModel extends DatabaseObjectModel {
 	 * @return このテーブルのカラムの {@link List}
 	 */
 	List<ColumnModel> getColumns();
+	
+	/**
+	 * 属性のリストを取得する。
+	 * 
+	 * @return 属性のリスト
+	 * @since 0.2
+	 */
+	List<ConstraintModel> getConstraints();
 	
 	/**
 	 * このテーブルの外部キー制約の集合を返す。

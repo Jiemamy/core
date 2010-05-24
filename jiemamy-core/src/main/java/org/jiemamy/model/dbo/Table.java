@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.UUID;
 
 import org.jiemamy.model.AbstractEntityFactory;
-import org.jiemamy.model.attribute.AttributeModel;
 import org.jiemamy.model.attribute.ColumnModel;
+import org.jiemamy.model.attribute.constraint.ConstraintModel;
 
 /**
  * {@link DefaultTableModel}のファクトリクラス。
@@ -18,7 +18,7 @@ public class Table extends AbstractEntityFactory<DefaultTableModel> {
 	
 	List<ColumnModel> columns = new ArrayList<ColumnModel>();
 	
-	List<AttributeModel> attributes = new ArrayList<AttributeModel>();
+	List<ConstraintModel> constraints = new ArrayList<ConstraintModel>();
 	
 	String name;
 	
@@ -52,8 +52,8 @@ public class Table extends AbstractEntityFactory<DefaultTableModel> {
 		for (ColumnModel column : columns) {
 			tableModel.addColumn(column);
 		}
-		for (AttributeModel attribute : attributes) {
-			tableModel.addAttribute(attribute);
+		for (ConstraintModel constraint : constraints) {
+			tableModel.addConstraint(constraint);
 		}
 		return tableModel;
 	}
@@ -70,17 +70,6 @@ public class Table extends AbstractEntityFactory<DefaultTableModel> {
 	}
 	
 	/**
-	 * テーブルに作成する属性を追加する。
-	 * 
-	 * @param attribute 属性
-	 * @return this
-	 */
-	public Table with(AttributeModel attribute) {
-		attributes.add(attribute);
-		return this;
-	}
-	
-	/**
 	 * テーブルに作成するカラムを追加する。
 	 * 
 	 * @param column カラム
@@ -88,6 +77,17 @@ public class Table extends AbstractEntityFactory<DefaultTableModel> {
 	 */
 	public Table with(ColumnModel column) {
 		columns.add(column);
+		return this;
+	}
+	
+	/**
+	 * テーブルに作成する属性を追加する。
+	 * 
+	 * @param attribute 属性
+	 * @return this
+	 */
+	public Table with(ConstraintModel attribute) {
+		constraints.add(attribute);
 		return this;
 	}
 }

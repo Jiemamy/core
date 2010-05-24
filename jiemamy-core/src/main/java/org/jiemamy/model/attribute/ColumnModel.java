@@ -20,7 +20,6 @@ package org.jiemamy.model.attribute;
 
 import org.jiemamy.model.Entity;
 import org.jiemamy.model.EntityRef;
-import org.jiemamy.model.attribute.constraint.NotNullConstraintModel;
 import org.jiemamy.model.datatype.TypeVariant;
 
 /**
@@ -70,14 +69,6 @@ public interface ColumnModel extends Entity {
 	 * @since 0.2
 	 */
 	String getName();
-	
-	/**
-	 * NOT　NULL制約を取得する。
-	 * 
-	 * @return　NOT　NULL制約. 未設定の場合は{@code null}
-	 * @since 0.2
-	 */
-	NotNullConstraintModel getNotNullConstraint();
 	
 	EntityRef<ColumnModel> getReference();
 	

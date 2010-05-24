@@ -26,7 +26,6 @@ import org.apache.commons.lang.builder.ToStringStyle;
 import org.jiemamy.model.AbstractEntityModel;
 import org.jiemamy.model.DefaultEntityRef;
 import org.jiemamy.model.EntityRef;
-import org.jiemamy.model.attribute.constraint.NotNullConstraintModel;
 import org.jiemamy.model.datatype.TypeVariant;
 
 /**
@@ -50,8 +49,6 @@ public class DefaultColumnModel extends AbstractEntityModel implements ColumnMod
 	
 	/** デフォルト値 */
 	private String defaultValue;
-	
-	private NotNullConstraintModel notNullConstraint;
 	
 
 	/**
@@ -82,10 +79,6 @@ public class DefaultColumnModel extends AbstractEntityModel implements ColumnMod
 	
 	public String getName() {
 		return name;
-	}
-	
-	public NotNullConstraintModel getNotNullConstraint() {
-		return notNullConstraint;
 	}
 	
 	public EntityRef<ColumnModel> getReference() {
@@ -134,16 +127,6 @@ public class DefaultColumnModel extends AbstractEntityModel implements ColumnMod
 	 */
 	public void setName(String name) {
 		this.name = name;
-	}
-	
-	/**
-	 * NotNull制約を設定する
-	 * 
-	 * @param notNullConstraint NotNull制約
-	 * @since 0.3
-	 */
-	public void setNotNullConstraint(NotNullConstraintModel notNullConstraint) {
-		this.notNullConstraint = notNullConstraint;
 	}
 	
 	@Override
