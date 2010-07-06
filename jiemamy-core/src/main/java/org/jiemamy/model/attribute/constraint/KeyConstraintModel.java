@@ -33,8 +33,7 @@ public interface KeyConstraintModel extends ConstraintModel {
 	/**
 	 * キーを構成するカラムのリストを取得する。
 	 * 
-	 * <p>このメソッドは、インスタンスの持つフィールドをそのまま返す。返される{@link List}を直接操作することで、
-	 * このオブジェクトのフィールドとして保持される{@link List}を変更することができる。</p>
+	 * <p>返される{@link List}は他に影響を及ぼさない独立したインスタンスである。</p>
 	 * 
 	 * @return キーを構成するカラムのリスト
 	 * @since 0.2

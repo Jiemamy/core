@@ -33,30 +33,30 @@ import org.apache.commons.lang.builder.ToStringStyle;
  */
 public final class DefaultEntityRef<T extends Entity> implements EntityRef<T> {
 	
-	private final UUID referenceId;
+	private final UUID referentId;
 	
 
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param decl 定義オブジェクト
+	 * @param referent 定義オブジェクト
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public DefaultEntityRef(T decl) {
-		Validate.notNull(decl);
-		referenceId = decl.getId();
+	public DefaultEntityRef(T referent) {
+		Validate.notNull(referent);
+		referentId = referent.getId();
 		checkInvariant();
 	}
 	
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param referenceId 参照先のモデルID
+	 * @param referentId 参照先のモデルID
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public DefaultEntityRef(UUID referenceId) {
-		Validate.notNull(referenceId);
-		this.referenceId = referenceId;
+	public DefaultEntityRef(UUID referentId) {
+		Validate.notNull(referentId);
+		this.referentId = referentId;
 	}
 	
 	@Override
@@ -70,23 +70,23 @@ public final class DefaultEntityRef<T extends Entity> implements EntityRef<T> {
 		if (obj instanceof EntityRef<?> == false) {
 			return false;
 		}
-		return referenceId.equals(((EntityRef<?>) obj).getReferenceId());
+		return referentId.equals(((EntityRef<?>) obj).getReferentId());
 	}
 	
-	public UUID getReferenceId() {
-		return referenceId;
+	public UUID getReferentId() {
+		return referentId;
 	}
 	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((referenceId == null) ? 0 : referenceId.hashCode());
+		result = prime * result + ((referentId == null) ? 0 : referentId.hashCode());
 		return result;
 	}
 	
 	public boolean isReferenceOf(Entity target) {
-		return referenceId.equals(target.getId());
+		return referentId.equals(target.getId());
 	}
 	
 	@Override
@@ -98,6 +98,6 @@ public final class DefaultEntityRef<T extends Entity> implements EntityRef<T> {
 	}
 	
 	private void checkInvariant() {
-		assert referenceId != null;
+		assert referentId != null;
 	}
 }

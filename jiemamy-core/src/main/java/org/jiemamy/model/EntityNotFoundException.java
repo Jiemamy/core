@@ -18,7 +18,6 @@
  */
 package org.jiemamy.model;
 
-
 /**
  * {@link Repository}に対するクエリの結果、該当する {@link Entity} が見つからなかったことを表す例外クラス。
  * 

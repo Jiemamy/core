@@ -52,7 +52,7 @@ public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstrain
 	}
 	
 
-	/** 制約を受けるカラムのリスト */
+	/** 制約の根拠となるカラムのリスト */
 	private final List<EntityRef<ColumnModel>> referenceColumns;
 	
 	/** 削除時アクション */

@@ -20,7 +20,6 @@ package org.jiemamy.model;
 
 import java.util.UUID;
 
-
 /**
  * {@link EntityFactory}の抽象実装クラス。
  * 

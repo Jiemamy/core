@@ -156,7 +156,7 @@ public class Repository {
 	 */
 	public <T extends DatabaseObjectModel>T resolve(EntityRef<T> ref) {
 		@SuppressWarnings("unchecked")
-		T result = (T) resolve(ref.getReferenceId());
+		T result = (T) resolve(ref.getReferentId());
 		return result;
 	}
 	

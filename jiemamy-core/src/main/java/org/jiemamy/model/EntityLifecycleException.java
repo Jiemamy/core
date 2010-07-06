@@ -18,7 +18,6 @@
  */
 package org.jiemamy.model;
 
-
 /**
  * {@link Entity}のライフサイクルに問題があることを表す例外クラス。
  * 

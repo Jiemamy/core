@@ -18,7 +18,6 @@
  */
 package org.jiemamy.model.datatype;
 
-
 /**
  * 型記述子。
  * 

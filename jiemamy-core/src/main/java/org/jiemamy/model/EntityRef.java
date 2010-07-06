@@ -47,7 +47,7 @@ public interface EntityRef<T extends Entity> extends ValueObject {
 	 * @return 実体を特定する記述子としてのモデルID
 	 * @since 0.3
 	 */
-	UUID getReferenceId();
+	UUID getReferentId();
 	
 	/**
 	 * この参照オブジェクトが引数{@code target}の参照かどうか調べる。

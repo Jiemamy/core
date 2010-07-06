@@ -32,22 +32,22 @@ import org.jiemamy.model.EntityRef;
 public interface DatabaseObjectModel extends Entity {
 	
 	/**
-	 * 直接の依存モデルの集合を返す。
+	 * 候補の中から、このモデルを直接参照するモデルの組を返す。
 	 * 
-	 * @param databaseObjects 
-	 * @return 直接の依存モデルの集合
+	 * @param candidates 候補
+	 * @return 、このモデルを直接参照するモデルの組
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	Set<DatabaseObjectModel> findSubDatabaseObjectsNonRecursive(Set<DatabaseObjectModel> databaseObjects);
+	Set<DatabaseObjectModel> findSubDatabaseObjectsNonRecursive(Set<DatabaseObjectModel> candidates);
 	
 	/**
-	 * 参照先親モデルを返す。
+	 * 候補の中から、このモデルに直接参照されるモデルの組を返す。
 	 * 
-	 * @param databaseObjects 
-	 * @return 親モデルのSet
+	 * @param candidates 候補
+	 * @return このモデルに直接参照されるモデルの組
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	Set<DatabaseObjectModel> findSuperDatabaseObjectsNonRecursive(Set<DatabaseObjectModel> databaseObjects);
+	Set<DatabaseObjectModel> findSuperDatabaseObjectsNonRecursive(Set<DatabaseObjectModel> candidates);
 	
 	/**
 	 * 説明文を取得する。

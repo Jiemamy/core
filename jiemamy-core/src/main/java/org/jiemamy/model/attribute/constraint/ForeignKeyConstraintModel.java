@@ -58,8 +58,7 @@ public interface ForeignKeyConstraintModel extends KeyConstraintModel {
 	/**
 	 * 参照カラムのリストを取得する。
 	 * 
-	 * <p>このメソッドは、インスタンスの持つフィールドをそのまま返す。返される{@link List}を直接操作することで、
-	 * このオブジェクトのフィールドとして保持される{@link List}を変更することができる。</p>
+	 * <p>返される{@link List}は他に影響を及ぼさない独立したインスタンスである。</p>
 	 * 
 	 * @return 参照カラムのリスト
 	 * @since 0.2
@@ -70,7 +69,7 @@ public interface ForeignKeyConstraintModel extends KeyConstraintModel {
 	/**
 	 * 参照列に挿入された値は、被参照テーブルと被参照列の値に対して、指定した照合型で照会される。
 	 * 
-	 * <p>照合型には3種類があり、デフォルトはSIMPLE照合型。</p>
+	 * <p>照合型には3種類があり、デフォルトは{@link #SIMPLE}照合型。</p>
 	 * 
 	 * @since 0.2
 	 * @author daisuke
@@ -93,6 +92,7 @@ public interface ForeignKeyConstraintModel extends KeyConstraintModel {
 	 * @author daisuke
 	 */
 	public enum ReferentialAction {
+		
 		/** 連鎖的に修正する */
 		CASCADE,
 
