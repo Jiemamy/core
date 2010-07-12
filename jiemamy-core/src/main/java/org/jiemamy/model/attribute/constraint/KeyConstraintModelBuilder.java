@@ -23,7 +23,6 @@ import java.util.List;
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.model.EntityRef;
-import org.jiemamy.model.ValueObject;
 import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.utils.CollectionsUtil;
 
@@ -93,16 +92,14 @@ public abstract class KeyConstraintModelBuilder<T extends KeyConstraintModel, S 
 	}
 	
 	@Override
-	protected void apply(ValueObject vo, S builder) {
+	protected void apply(T vo, S builder) {
 		super.apply(vo, builder);
 		
-		if (vo instanceof KeyConstraintModel) {
-			KeyConstraintModel model = KeyConstraintModel.class.cast(vo);
-			builder.setDeferrability(model.getDeferrability());
-			
-			for (EntityRef<ColumnModel> columnRef : model.getKeyColumns()) {
-				builder.addKeyColumn(columnRef);
-			}
+		KeyConstraintModel model = KeyConstraintModel.class.cast(vo);
+		builder.setDeferrability(model.getDeferrability());
+		
+		for (EntityRef<ColumnModel> columnRef : model.getKeyColumns()) {
+			builder.addKeyColumn(columnRef);
 		}
 	}
 }

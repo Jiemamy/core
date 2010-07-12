@@ -23,7 +23,6 @@ import java.util.List;
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.model.EntityRef;
-import org.jiemamy.model.ValueObject;
 import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel.MatchType;
 import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel.ReferentialAction;
@@ -130,18 +129,16 @@ public abstract class ForeignKeyConstraintModelBuilder<T extends ForeignKeyConst
 	}
 	
 	@Override
-	protected void apply(ValueObject vo, S builder) {
+	protected void apply(T vo, S builder) {
 		super.apply(vo, builder);
 		
-		if (vo instanceof ForeignKeyConstraintModel) {
-			ForeignKeyConstraintModel model = ForeignKeyConstraintModel.class.cast(vo);
-			builder.setMatchType(model.getMatchType());
-			builder.setOnDelete(model.getOnDelete());
-			builder.setOnUpdate(model.getOnUpdate());
-			
-			for (EntityRef<ColumnModel> referenceColumnRef : model.getReferenceColumns()) {
-				builder.addReferenceColumn(referenceColumnRef);
-			}
+		ForeignKeyConstraintModel model = ForeignKeyConstraintModel.class.cast(vo);
+		builder.setMatchType(model.getMatchType());
+		builder.setOnDelete(model.getOnDelete());
+		builder.setOnUpdate(model.getOnUpdate());
+		
+		for (EntityRef<ColumnModel> referenceColumnRef : model.getReferenceColumns()) {
+			builder.addReferenceColumn(referenceColumnRef);
 		}
 	}
 	

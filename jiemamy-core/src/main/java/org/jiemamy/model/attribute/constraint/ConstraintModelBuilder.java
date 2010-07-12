@@ -18,7 +18,6 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
-import org.jiemamy.model.ValueObject;
 import org.jiemamy.model.ValueObjectBuilder;
 
 /**
@@ -87,13 +86,11 @@ public abstract class ConstraintModelBuilder<T extends ConstraintModel, S extend
 	}
 	
 	@Override
-	protected void apply(ValueObject vo, S builder) {
-		if (vo instanceof ConstraintModel) {
-			ConstraintModel model = ConstraintModel.class.cast(vo);
-			builder.setName(model.getName());
-			builder.setLogicalName(model.getLogicalName());
-			builder.setDescription(model.getDescription());
-		}
+	protected void apply(T vo, S builder) {
+		ConstraintModel model = ConstraintModel.class.cast(vo);
+		builder.setName(model.getName());
+		builder.setLogicalName(model.getLogicalName());
+		builder.setDescription(model.getDescription());
 	}
 	
 }

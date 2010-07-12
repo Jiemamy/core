@@ -84,7 +84,7 @@ public class DefaultForeignKeyConstraintModelBuilderTest {
 		DefaultForeignKeyConstraintModelBuilder builder = new DefaultForeignKeyConstraintModelBuilder();
 		
 		// FORMAT-OFF
-		ForeignKeyConstraintModel fk = builder.setName("FOO")
+		DefaultForeignKeyConstraintModel fk = builder.setName("FOO")
 				.addKeyColumn(ref1)
 				.addReferenceColumn(ref2)
 				.setMatchType(MatchType.SIMPLE)
@@ -116,7 +116,7 @@ public class DefaultForeignKeyConstraintModelBuilderTest {
 		
 		DefaultForeignKeyConstraintModelBuilder builder = new DefaultForeignKeyConstraintModelBuilder();
 		// FORMAT-OFF
-		ForeignKeyConstraintModel fk1 = builder.setName("FOO")
+		DefaultForeignKeyConstraintModel fk1 = builder.setName("FOO")
 				.addKeyColumn(ref1)
 				.addReferenceColumn(ref2)
 				.setMatchType(MatchType.SIMPLE)
@@ -126,7 +126,7 @@ public class DefaultForeignKeyConstraintModelBuilderTest {
 		
 		DefaultForeignKeyConstraintModelBuilder builder3 = new DefaultForeignKeyConstraintModelBuilder();
 		// FORMAT-OFF
-		ForeignKeyConstraintModel fk2 = builder3.setName("BAZ")
+		DefaultForeignKeyConstraintModel fk2 = builder3.setName("BAZ")
 				.addKeyColumn(ref1)
 				.addReferenceColumn(ref2)
 				.build();

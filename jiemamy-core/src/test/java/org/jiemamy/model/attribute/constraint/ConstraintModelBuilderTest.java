@@ -34,7 +34,7 @@ import org.junit.Test;
 public class ConstraintModelBuilderTest {
 	
 	/**
-	 * Test method for {@link ConstraintModelBuilder#apply(org.jiemamy.model.ValueObject, ConstraintModelBuilder)}.
+	 * Test method for {@link ConstraintModelBuilder#apply(ConstraintModel, ConstraintModelBuilder)}
 	 */
 	@Test
 	public final void testApply() {

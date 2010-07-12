@@ -41,7 +41,7 @@ public abstract class ValueObjectBuilder<T extends ValueObject, S extends ValueO
 	 * @param vo 状態を引用する{@link ValueObject}
 	 * @return vo の内容に対して、このビルダの設定を上書きした{@link ValueObject}の新しいインスタンス
 	 */
-	public T apply(ValueObject vo) {
+	public T apply(T vo) {
 		S builder = newInstance();
 		apply(vo, builder);
 		
@@ -80,7 +80,7 @@ public abstract class ValueObjectBuilder<T extends ValueObject, S extends ValueO
 	 * @param vo 状態を引用する{@link ValueObject}
 	 * @param builder ビルダ
 	 */
-	protected abstract void apply(ValueObject vo, S builder);
+	protected abstract void apply(T vo, S builder);
 	
 	/**
 	 * ビルダの設定に基づいて{@link ValueObject}の新しいインスタンスを生成する。
