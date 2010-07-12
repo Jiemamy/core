@@ -37,7 +37,25 @@ public abstract class ConstraintModelBuilder<T extends ConstraintModel, S extend
 	
 	String description;
 	
+	DeferrabilityModel deferrability;
+	
 
+	/**
+	 * 遅延評価可能性モデルを設定する。
+	 * 
+	 * @param deferrability 遅延評価可能性モデル
+	 * @return このビルダークラスのインスタンス
+	 */
+	public S setDeferrability(final DeferrabilityModel deferrability) {
+		addConfigurator(new BuilderConfigurator<S>() {
+			
+			public void configure(S builder) {
+				builder.deferrability = deferrability;
+			}
+		});
+		return getThis();
+	}
+	
 	/**
 	 * 説明文を設定する。 
 	 * @param description 説明文
@@ -87,10 +105,10 @@ public abstract class ConstraintModelBuilder<T extends ConstraintModel, S extend
 	
 	@Override
 	protected void apply(T vo, S builder) {
-		ConstraintModel model = ConstraintModel.class.cast(vo);
-		builder.setName(model.getName());
-		builder.setLogicalName(model.getLogicalName());
-		builder.setDescription(model.getDescription());
+		builder.setName(vo.getName());
+		builder.setLogicalName(vo.getLogicalName());
+		builder.setDescription(vo.getDescription());
+		builder.setDeferrability(vo.getDeferrability());
 	}
 	
 }

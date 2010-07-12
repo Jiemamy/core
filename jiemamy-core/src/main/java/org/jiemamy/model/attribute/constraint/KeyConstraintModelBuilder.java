@@ -40,8 +40,6 @@ public abstract class KeyConstraintModelBuilder<T extends KeyConstraintModel, S 
 	
 	// CHECKSTYLE:ON
 	
-	DeferrabilityModel deferrability;
-	
 	List<EntityRef<ColumnModel>> keyColumns = CollectionsUtil.newArrayList();
 	
 
@@ -74,31 +72,11 @@ public abstract class KeyConstraintModelBuilder<T extends KeyConstraintModel, S 
 		return getThis();
 	}
 	
-	/**
-	 * 遅延可能性を設定する。 
-	 * 
-	 * @param deferrability 遅延可能性
-	 * @return このビルダークラスのインスタンス
-	 */
-	public S setDeferrability(final DeferrabilityModel deferrability) {
-		addConfigurator(new BuilderConfigurator<S>() {
-			
-			public void configure(S builder) {
-				builder.deferrability = deferrability;
-			}
-			
-		});
-		return getThis();
-	}
-	
 	@Override
 	protected void apply(T vo, S builder) {
 		super.apply(vo, builder);
 		
-		KeyConstraintModel model = KeyConstraintModel.class.cast(vo);
-		builder.setDeferrability(model.getDeferrability());
-		
-		for (EntityRef<ColumnModel> columnRef : model.getKeyColumns()) {
+		for (EntityRef<ColumnModel> columnRef : vo.getKeyColumns()) {
 			builder.addKeyColumn(columnRef);
 		}
 	}

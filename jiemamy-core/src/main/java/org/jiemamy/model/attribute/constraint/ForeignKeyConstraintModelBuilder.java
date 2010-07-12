@@ -132,12 +132,11 @@ public abstract class ForeignKeyConstraintModelBuilder<T extends ForeignKeyConst
 	protected void apply(T vo, S builder) {
 		super.apply(vo, builder);
 		
-		ForeignKeyConstraintModel model = ForeignKeyConstraintModel.class.cast(vo);
-		builder.setMatchType(model.getMatchType());
-		builder.setOnDelete(model.getOnDelete());
-		builder.setOnUpdate(model.getOnUpdate());
+		builder.setMatchType(vo.getMatchType());
+		builder.setOnDelete(vo.getOnDelete());
+		builder.setOnUpdate(vo.getOnUpdate());
 		
-		for (EntityRef<ColumnModel> referenceColumnRef : model.getReferenceColumns()) {
+		for (EntityRef<ColumnModel> referenceColumnRef : vo.getReferenceColumns()) {
 			builder.addReferenceColumn(referenceColumnRef);
 		}
 	}
