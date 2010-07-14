@@ -41,11 +41,13 @@ public class ValueObjectBuilderTest {
 	/**
 	 * Test method for {@link org.jiemamy.model.ValueObjectBuilder#addConfigurator(org.jiemamy.model.ValueObjectBuilder.BuilderConfigurator)}.
 	 */
-	@SuppressWarnings("unchecked")
 	@Test
 	public final void testAddConfigurator() {
 		BuilderMock builder = new BuilderMock();
+		
+		@SuppressWarnings("unchecked")
 		BuilderConfigurator<BuilderMock> configurator1 = mock(BuilderConfigurator.class);
+		@SuppressWarnings("unchecked")
 		BuilderConfigurator<BuilderMock> configurator2 = mock(BuilderConfigurator.class);
 		
 		builder.addConfigurator(configurator1);
@@ -65,7 +67,6 @@ public class ValueObjectBuilderTest {
 	/**
 	 * Test method for {@link org.jiemamy.model.ValueObjectBuilder#build()}.
 	 */
-	@SuppressWarnings("unchecked")
 	@Test
 	public final void testBuild() {
 		BuilderMock builder = new BuilderMock() {
@@ -82,6 +83,7 @@ public class ValueObjectBuilderTest {
 			}
 		};
 		
+		@SuppressWarnings("unchecked")
 		BuilderConfigurator<BuilderMock> configurator = mock(BuilderConfigurator.class);
 		builder.addConfigurator(configurator);
 		
