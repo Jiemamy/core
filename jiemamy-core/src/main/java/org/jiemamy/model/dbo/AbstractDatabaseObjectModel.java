@@ -23,7 +23,7 @@ import java.util.UUID;
 
 import org.jiemamy.model.AbstractEntityModel;
 import org.jiemamy.model.EntityRef;
-import org.jiemamy.utils.CollectionsUtil;
+import org.jiemamy.utils.collection.CollectionsUtil;
 
 /**
  * データベースオブジェクト（TableやView）の抽象モデルクラス。

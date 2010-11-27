@@ -25,7 +25,7 @@ import java.util.UUID;
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.model.dbo.DatabaseObjectModel;
-import org.jiemamy.utils.CollectionsUtil;
+import org.jiemamy.utils.collection.CollectionsUtil;
 
 /**
  * DDDにおけるREPOSITORYの実装クラス。

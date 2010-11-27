@@ -38,7 +38,7 @@ import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.attribute.constraint.ConstraintModel;
 import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel;
 import org.jiemamy.model.attribute.constraint.KeyConstraintModel;
-import org.jiemamy.utils.CollectionsUtil;
+import org.jiemamy.utils.collection.CollectionsUtil;
 
 /**
  * テーブルモデル。

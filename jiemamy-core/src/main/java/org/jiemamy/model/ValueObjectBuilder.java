@@ -20,7 +20,7 @@ package org.jiemamy.model;
 
 import java.util.List;
 
-import org.jiemamy.utils.CollectionsUtil;
+import org.jiemamy.utils.collection.CollectionsUtil;
 
 /**
  * {@link ValueObject}のインスタンスを生成するビルダー。

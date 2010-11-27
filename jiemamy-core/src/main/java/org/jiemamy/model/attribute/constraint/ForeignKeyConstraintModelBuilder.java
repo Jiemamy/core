@@ -26,7 +26,7 @@ import org.jiemamy.model.EntityRef;
 import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel.MatchType;
 import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel.ReferentialAction;
-import org.jiemamy.utils.CollectionsUtil;
+import org.jiemamy.utils.collection.CollectionsUtil;
 
 /**
  * {@link ForeignKeyConstraintModel}ビルダーの骨格実装クラス。

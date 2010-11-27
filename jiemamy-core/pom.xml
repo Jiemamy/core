@@ -121,11 +121,10 @@
       <artifactId>opencsv</artifactId> 
       <version>1.8</version>
     </dependency>
-    <!-- ひとまず古いバージョンを参照 -->
     <dependency>
       <groupId>org.jiemamy</groupId>
       <artifactId>jiemamy-commons</artifactId>
-      <version>0.0.5</version>
+      <version>0.1.0</version>
     </dependency>
   
   </dependencies>

@@ -24,7 +24,7 @@ import org.apache.commons.lang.Validate;
 
 import org.jiemamy.model.EntityRef;
 import org.jiemamy.model.attribute.ColumnModel;
-import org.jiemamy.utils.CollectionsUtil;
+import org.jiemamy.utils.collection.CollectionsUtil;
 
 /**
  * {@link KeyConstraintModel}ビルダーの骨格実装クラス。
