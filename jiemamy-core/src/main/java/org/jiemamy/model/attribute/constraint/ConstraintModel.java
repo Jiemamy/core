@@ -21,7 +21,7 @@ package org.jiemamy.model.attribute.constraint;
 import org.jiemamy.model.ValueObject;
 
 /**
- * 制約を表すモデルインターフェイス。
+ * 制約を表すモデルのインターフェイス。
  * 
  * @author daisuke
  */
