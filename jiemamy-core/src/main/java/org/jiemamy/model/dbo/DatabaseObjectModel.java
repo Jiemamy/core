@@ -84,7 +84,7 @@ public interface DatabaseObjectModel extends Entity {
 	/**
 	 * 自分が{@code target}に依存する{@link DatabaseObjectModel}かどうか調べる。
 	 * 
-	 * @param databaseObjects
+	 * @param databaseObjects 基準となるデータベースオブジェクト
 	 * @param target 対象
 	 * @return {@code target}に依存する場合は{@code true}、そうでない場合は{@code false}
 	 */
