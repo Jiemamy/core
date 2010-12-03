@@ -24,6 +24,9 @@ import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
+import org.jiemamy.Entity;
+import org.jiemamy.EntityRef;
+
 /**
  * 参照オブジェクトの骨格実装。
  * 

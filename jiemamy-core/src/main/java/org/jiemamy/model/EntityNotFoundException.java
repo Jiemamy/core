@@ -18,8 +18,11 @@
  */
 package org.jiemamy.model;
 
+import org.jiemamy.Entity;
+import org.jiemamy.JiemamyCore;
+
 /**
- * {@link Repository}に対するクエリの結果、該当する {@link Entity} が見つからなかったことを表す例外クラス。
+ * {@link JiemamyCore}に対するクエリの結果、該当する {@link Entity} が見つからなかったことを表す例外クラス。
  * 
  * @version $Id$
  * @author daisuke

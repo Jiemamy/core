@@ -20,7 +20,7 @@ package org.jiemamy.model.attribute.constraint;
 
 import java.util.List;
 
-import org.jiemamy.model.EntityRef;
+import org.jiemamy.EntityRef;
 import org.jiemamy.model.attribute.ColumnModel;
 
 /**

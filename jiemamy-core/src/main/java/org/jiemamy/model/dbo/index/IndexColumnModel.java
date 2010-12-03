@@ -18,8 +18,8 @@
  */
 package org.jiemamy.model.dbo.index;
 
-import org.jiemamy.model.EntityRef;
-import org.jiemamy.model.ValueObject;
+import org.jiemamy.EntityRef;
+import org.jiemamy.ValueObject;
 import org.jiemamy.model.attribute.ColumnModel;
 
 /**

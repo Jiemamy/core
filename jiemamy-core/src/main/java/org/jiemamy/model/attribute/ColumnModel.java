@@ -18,8 +18,8 @@
  */
 package org.jiemamy.model.attribute;
 
-import org.jiemamy.model.Entity;
-import org.jiemamy.model.EntityRef;
+import org.jiemamy.Entity;
+import org.jiemamy.EntityRef;
 import org.jiemamy.model.datatype.TypeVariant;
 
 /**

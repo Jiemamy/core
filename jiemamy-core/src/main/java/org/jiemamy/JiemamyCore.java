@@ -16,14 +16,18 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.model;
+package org.jiemamy;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
 import org.apache.commons.lang.Validate;
 
+import org.jiemamy.model.EntityLifecycleException;
+import org.jiemamy.model.EntityNotFoundException;
+import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
 import org.jiemamy.utils.collection.CollectionsUtil;
 
@@ -33,11 +37,18 @@ import org.jiemamy.utils.collection.CollectionsUtil;
  * @version $Id$
  * @author daisuke
  */
-public class Repository {
+public class JiemamyCore implements JiemamyFacet {
 	
-	private final Set<DatabaseObjectModel> databaseObjects = CollectionsUtil.newHashSet();
+	private final JiemamyContext context;
+	
+	private final Set<Entity> entities = CollectionsUtil.newHashSet();
 	
 
+	public JiemamyCore(JiemamyContext context) {
+		Validate.notNull(context);
+		this.context = context;
+	}
+	
 	/**
 	 * 引数に指定した {@link DatabaseObjectModel} をREPOSITORYの管理下に置く。
 	 * 
@@ -47,11 +58,15 @@ public class Repository {
 	 * @throws EntityLifecycleException 引数{@code dbo}のライフサイクルがaliveの場合
 	 * @throws IllegalArgumentException 引数{@code dbo}に{@code null}を与えた場合
 	 */
-	public void add(DatabaseObjectModel dbo) {
+	public void add(Entity dbo) {
 		Validate.notNull(dbo);
-		dbo.activate();
-		boolean added = databaseObjects.add(dbo);
-		assert added; // TODO add or replace処理
+		synchronized (entities) {
+			if (context.isManaged(dbo) || entities.contains(dbo)) {
+				throw new EntityLifecycleException();
+			}
+			context.startManage(dbo);
+			entities.add(dbo);
+		}
 	}
 	
 	/**
@@ -63,7 +78,7 @@ public class Repository {
 	 */
 	public Collection<DatabaseObjectModel> findSubDatabaseObjectsNonRecursive(DatabaseObjectModel databaseObject) {
 		Validate.notNull(databaseObject);
-		return databaseObject.findSubDatabaseObjectsNonRecursive(CollectionsUtil.newHashSet(databaseObjects));
+		return databaseObject.findSubDatabaseObjectsNonRecursive(getDatabaseObjects());
 	}
 	
 	/**
@@ -96,7 +111,7 @@ public class Repository {
 	 */
 	public Collection<DatabaseObjectModel> findSuperDatabaseObjectsNonRecursive(DatabaseObjectModel databaseObject) {
 		Validate.notNull(databaseObject);
-		return databaseObject.findSuperDatabaseObjectsNonRecursive(CollectionsUtil.newHashSet(databaseObjects));
+		return databaseObject.findSuperDatabaseObjectsNonRecursive(getDatabaseObjects());
 	}
 	
 	/**
@@ -125,8 +140,27 @@ public class Repository {
 	 * somethingを取得する。 TODO for daisuke
 	 * @return the databaseObjects
 	 */
+	public Set<ColumnModel> getColumns() {
+		return getEntities(ColumnModel.class);
+	}
+	
+	/**
+	 * somethingを取得する。 TODO for daisuke
+	 * @return the databaseObjects
+	 */
 	public Set<DatabaseObjectModel> getDatabaseObjects() {
-		return CollectionsUtil.newHashSet(databaseObjects);
+		return getEntities(DatabaseObjectModel.class);
+	}
+	
+	public <T extends Entity>Set<T> getEntities(Class<T> clazz) {
+		Validate.notNull(clazz);
+		Set<T> s = new HashSet<T>();
+		for (Entity e : entities) {
+			if (clazz.isInstance(e)) {
+				s.add(clazz.cast(e));
+			}
+		}
+		return s;
 	}
 	
 	/**
@@ -138,12 +172,18 @@ public class Repository {
 	 * @throws IllegalArgumentException 引数{@code dbo}に{@code null}を与えた場合
 	 * @throws IllegalArgumentException 引数{@code dbo}がこのREPOSITORY管理下にない場合
 	 */
-	public void remove(DatabaseObjectModel dbo) {
+	public void remove(Entity dbo) {
 		Validate.notNull(dbo);
-		if (databaseObjects.remove(dbo) == false) {
+		synchronized (entities) {
+			for (Entity e : entities) {
+				if (e == dbo) {
+					context.finishManage(e);
+					entities.remove(e);
+					return;
+				}
+			}
 			throw new IllegalArgumentException();
 		}
-		dbo.deactivate();
 	}
 	
 	/**
@@ -154,7 +194,7 @@ public class Repository {
 	 * @return {@link DatabaseObjectModel}
 	 * @throws EntityNotFoundException 該当する {@link DatabaseObjectModel} が見つからなかった場合
 	 */
-	public <T extends DatabaseObjectModel>T resolve(EntityRef<T> ref) {
+	public <T extends Entity>T resolve(EntityRef<T> ref) {
 		@SuppressWarnings("unchecked")
 		T result = (T) resolve(ref.getReferentId());
 		return result;
@@ -167,8 +207,8 @@ public class Repository {
 	 * @return {@link DatabaseObjectModel}
 	 * @throws EntityNotFoundException 該当する {@link DatabaseObjectModel} が見つからなかった場合
 	 */
-	public DatabaseObjectModel resolve(UUID id) {
-		for (DatabaseObjectModel dbo : databaseObjects) {
+	public Entity resolve(UUID id) {
+		for (Entity dbo : entities) {
 			if (dbo.getId().equals(id)) {
 				return dbo;
 			}

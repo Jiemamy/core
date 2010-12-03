@@ -20,6 +20,7 @@ package org.jiemamy.model;
 
 import java.util.List;
 
+import org.jiemamy.ValueObject;
 import org.jiemamy.utils.collection.CollectionsUtil;
 
 /**

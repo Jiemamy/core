@@ -18,7 +18,7 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
-import org.jiemamy.model.ValueObject;
+import org.jiemamy.ValueObject;
 
 /**
  * 遅延評価可能性モデル。

@@ -27,8 +27,8 @@ import java.util.UUID;
 
 import org.junit.Test;
 
+import org.jiemamy.EntityRef;
 import org.jiemamy.model.DefaultEntityRef;
-import org.jiemamy.model.EntityRef;
 import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel.MatchType;
 import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel.ReferentialAction;

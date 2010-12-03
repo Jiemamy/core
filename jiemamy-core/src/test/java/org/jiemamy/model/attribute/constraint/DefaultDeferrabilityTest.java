@@ -23,7 +23,7 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
-import org.jiemamy.model.ValueObject;
+import org.jiemamy.ValueObject;
 
 /**
  * TODO for daisuke

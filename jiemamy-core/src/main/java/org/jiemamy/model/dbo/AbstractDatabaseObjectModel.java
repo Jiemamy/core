@@ -21,8 +21,8 @@ package org.jiemamy.model.dbo;
 import java.util.Set;
 import java.util.UUID;
 
+import org.jiemamy.EntityRef;
 import org.jiemamy.model.AbstractEntityModel;
-import org.jiemamy.model.EntityRef;
 import org.jiemamy.utils.collection.CollectionsUtil;
 
 /**

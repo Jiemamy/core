@@ -75,6 +75,19 @@ public class Table extends AbstractEntityFactory<DefaultTableModel> {
 	 * @param column カラム
 	 * @return this
 	 */
+	public Table with(ColumnModel... column) {
+		for (ColumnModel columnModel : column) {
+			with(columnModel);
+		}
+		return this;
+	}
+	
+	/**
+	 * テーブルに作成するカラムを追加する。
+	 * 
+	 * @param column カラム
+	 * @return this
+	 */
 	public Table with(ColumnModel column) {
 		columns.add(column);
 		return this;

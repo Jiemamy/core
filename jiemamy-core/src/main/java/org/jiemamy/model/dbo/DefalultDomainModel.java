@@ -20,9 +20,9 @@ package org.jiemamy.model.dbo;
 
 import java.util.UUID;
 
+import org.jiemamy.EntityRef;
 import org.jiemamy.model.DefaultEntityRef;
 import org.jiemamy.model.EntityLifecycleException;
-import org.jiemamy.model.EntityRef;
 import org.jiemamy.model.attribute.constraint.CheckConstraintModel;
 import org.jiemamy.model.attribute.constraint.NotNullConstraintModel;
 import org.jiemamy.model.datatype.TypeVariant;

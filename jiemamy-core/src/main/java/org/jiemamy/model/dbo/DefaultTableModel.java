@@ -20,7 +20,10 @@ package org.jiemamy.model.dbo;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.IdentityHashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -28,16 +31,17 @@ import org.apache.commons.collections15.CollectionUtils;
 import org.apache.commons.collections15.Predicate;
 import org.apache.commons.lang.Validate;
 
+import org.jiemamy.Entity;
+import org.jiemamy.EntityRef;
+import org.jiemamy.JiemamyCore;
 import org.jiemamy.model.DefaultEntityRef;
-import org.jiemamy.model.Entity;
 import org.jiemamy.model.EntityLifecycleException;
-import org.jiemamy.model.EntityNotFoundException;
-import org.jiemamy.model.EntityRef;
 import org.jiemamy.model.ModelConsistencyException;
 import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.attribute.constraint.ConstraintModel;
 import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel;
 import org.jiemamy.model.attribute.constraint.KeyConstraintModel;
+import org.jiemamy.utils.Disposable;
 import org.jiemamy.utils.collection.CollectionsUtil;
 
 /**
@@ -45,8 +49,11 @@ import org.jiemamy.utils.collection.CollectionsUtil;
  * 
  * @author daisuke
  */
-public class DefaultTableModel extends AbstractDatabaseObjectModel implements TableModel {
+public class DefaultTableModel extends AbstractDatabaseObjectModel implements TableModel, Disposable {
 	
+	private static IdentityHashMap<ColumnModel, TableModel> map = CollectionsUtil.newIdentityHashMap();
+	
+
 	/**
 	 * {@code tables}の中から、このカラムが所属するテーブルを取得する。
 	 * 
@@ -55,7 +62,7 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	 * @return この属性が所属するテーブル. どのテーブルにも所属していない場合は{@code null}
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	static TableModel findDeclaringTable(Collection<TableModel> tables, final ColumnModel columnModel) {
+	static TableModel findDeclaringTable(Collection<TableModel> tables, final EntityRef<ColumnModel> columnModel) {
 		Collection<TableModel> select = CollectionUtils.select(tables, new Predicate<TableModel>() {
 			
 			public boolean evaluate(TableModel tableModel) {
@@ -128,38 +135,9 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 		return result;
 	}
 	
-	/**
-	 * {@code tables}の中から、{@code ref}が参照する {@link ColumnModel}を返す。
-	 * 
-	 * 
-	 * @param tables 対象{@link TableModel}
-	 * @param ref 参照オブジェクト
-	 * @return {@link ColumnModel}
-	 * @throws EntityNotFoundException 該当する {@link DatabaseObjectModel} が見つからなかった場合
-	 * @throws TooManyColumnsFoundException 複数のカラムが見つかった場合
-	 */
-	static ColumnModel resolveColumn(Collection<TableModel> tables, final EntityRef<ColumnModel> ref) {
-		Collection<ColumnModel> collector = CollectionsUtil.newArrayList();
-		for (TableModel table : tables) {
-			CollectionUtils.select(table.getColumns(), new Predicate<ColumnModel>() {
-				
-				public boolean evaluate(ColumnModel column) {
-					return ref.isReferenceOf(column);
-				}
-			}, collector);
-		}
-		if (collector.size() == 1) {
-			return collector.iterator().next();
-		}
-		if (collector.size() == 0) {
-			throw new EntityNotFoundException();
-		}
-		throw new TooManyColumnsFoundException(collector);
-	}
-	
 
 	/** カラムのリスト */
-	final List<ColumnModel> columns = CollectionsUtil.newArrayList();
+	final List<EntityRef<ColumnModel>> columns = CollectionsUtil.newArrayList();
 	
 	/** 制約のリスト */
 	final List<ConstraintModel> constraints = CollectionsUtil.newArrayList();
@@ -184,8 +162,13 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	 */
 	public void addColumn(ColumnModel column) {
 		Validate.notNull(column);
-		columns.add(column);
-		column.activate();
+		synchronized (map) {
+			if (map.containsKey(column) || columns.contains(column.getReference())) {
+				throw new EntityLifecycleException();
+			}
+			columns.add(column.getReference());
+			map.put(column, this);
+		}
 	}
 	
 	/**
@@ -197,6 +180,18 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	public void addConstraint(ConstraintModel constraint) {
 		Validate.notNull(constraint);
 		constraints.add(constraint);
+	}
+	
+	public void dispose() {
+		synchronized (map) {
+			Iterator<Map.Entry<ColumnModel, TableModel>> iterator = map.entrySet().iterator();
+			while (iterator.hasNext()) {
+				Map.Entry<ColumnModel, TableModel> entry = iterator.next();
+				if (entry.getValue() == this) {
+					iterator.remove();
+				}
+			}
+		}
 	}
 	
 	public KeyConstraintModel findReferencedKeyConstraint(ForeignKeyConstraintModel foreignKey) {
@@ -222,12 +217,13 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 		return results;
 	}
 	
-	public ColumnModel getColumn(final String name) {
+	public EntityRef<ColumnModel> getColumn(final String name, final JiemamyCore core) {
 		assert columns != null;
-		Collection<ColumnModel> c = CollectionUtils.select(columns, new Predicate<ColumnModel>() {
+		Collection<EntityRef<ColumnModel>> c = CollectionUtils.select(columns, new Predicate<EntityRef<ColumnModel>>() {
 			
-			public boolean evaluate(ColumnModel col) {
-				return col.getName().equals(name);
+			public boolean evaluate(EntityRef<ColumnModel> col) {
+				ColumnModel c = core.resolve(col);
+				return c.getName().equals(name);
 			}
 		});
 		if (c.size() == 1) {
@@ -239,9 +235,9 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 		throw new TooManyColumnsFoundException(c);
 	}
 	
-	public List<ColumnModel> getColumns() {
+	public List<EntityRef<ColumnModel>> getColumns() {
 		assert columns != null;
-		return new ArrayList<ColumnModel>(columns);
+		return new ArrayList<EntityRef<ColumnModel>>(columns);
 	}
 	
 	public List<ConstraintModel> getConstraints() {
@@ -266,8 +262,8 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	
 	@Override
 	public boolean isChildEntityRef(EntityRef<?> columnRef) {
-		for (ColumnModel columnModel : getColumns()) {
-			if (columnRef.isReferenceOf(columnModel)) {
+		for (EntityRef<ColumnModel> columnModel : getColumns()) {
+			if (columnRef.equals(columnModel)) {
 				return true;
 			}
 		}
@@ -283,8 +279,7 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 				continue;
 			}
 			EntityRef<ColumnModel> columnRef = foreignKey.getReferenceColumns().get(0);
-			ColumnModel columnModel = resolveColumn(tables, columnRef);
-			TableModel referenceTableModel = findDeclaringTable(tables, columnModel);
+			TableModel referenceTableModel = findDeclaringTable(tables, columnRef);
 			if (target.equals(referenceTableModel)) {
 				return true;
 			}
@@ -301,8 +296,10 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	 */
 	public void removeColumn(ColumnModel column) {
 		Validate.notNull(column);
-		column.deactivate();
-		columns.remove(column);
+		synchronized (map) {
+			map.remove(column);
+			columns.remove(column.getReference());
+		}
 	}
 	
 	/**

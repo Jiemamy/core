@@ -20,8 +20,8 @@ package org.jiemamy.model.dataset;
 
 import java.util.Map;
 
-import org.jiemamy.model.EntityRef;
-import org.jiemamy.model.ValueObject;
+import org.jiemamy.EntityRef;
+import org.jiemamy.ValueObject;
 import org.jiemamy.model.attribute.ColumnModel;
 
 /**

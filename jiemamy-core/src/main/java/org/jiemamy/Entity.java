@@ -16,9 +16,11 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.model;
+package org.jiemamy;
 
 import java.util.UUID;
+
+import org.jiemamy.model.EntityLifecycleException;
 
 /**
  * DDDにおけるENTITYを表すインターフェイス。
@@ -33,24 +35,6 @@ import java.util.UUID;
  * @author daisuke
  */
 public interface Entity {
-	
-	/**
-	 * エンティティのライフサイクルをactiveに遷移する。 
-	 * 
-	 * <p>Jiemamyフレームワーク外から呼び出した場合の挙動は未定義とする。</p>
-	 * 
-	 * @throws EntityLifecycleException 現在のライフサイクルがactiveだった場合
-	 */
-	void activate();
-	
-	/**
-	 * エンティティのライフサイクルをfreeに遷移する。 
-	 * 
-	 * <p>Jiemamyフレームワーク外から呼び出した場合の挙動は未定義とする。</p>
-	 * 
-	 * @throws EntityLifecycleException 現在のライフサイクルがfreeだった場合
-	 */
-	void deactivate();
 	
 	/**
 	 * ENTITY IDの等価性を以て、ENTITYの同一性を比較する。
@@ -82,11 +66,4 @@ public interface Entity {
 	 * @since 0.3
 	 */
 	EntityRef<?> getReference();
-	
-	/**
-	 * ENTITYのライフサイクルが開始しているかどうかを調べる。
-	 * 
-	 * @return ライフサイクルが開始している場合は{@code true}、そうでない場合は{@code false}
-	 */
-	boolean isActive();
 }

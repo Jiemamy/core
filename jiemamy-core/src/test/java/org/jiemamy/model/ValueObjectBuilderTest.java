@@ -28,6 +28,7 @@ import java.util.Iterator;
 
 import org.junit.Test;
 
+import org.jiemamy.ValueObject;
 import org.jiemamy.model.ValueObjectBuilder.BuilderConfigurator;
 
 /**

@@ -22,6 +22,8 @@ import java.util.UUID;
 
 import org.apache.commons.lang.Validate;
 
+import org.jiemamy.Entity;
+
 /**
  * {@link Entity}の骨格実装クラス。
  * 
@@ -44,20 +46,6 @@ public abstract class AbstractEntityModel implements Entity {
 	protected AbstractEntityModel(UUID id) {
 		Validate.notNull(id);
 		this.id = id;
-	}
-	
-	public void activate() {
-		if (active) {
-			throw new EntityLifecycleException();
-		}
-		active = true;
-	}
-	
-	public void deactivate() {
-		if (active == false) {
-			throw new EntityLifecycleException();
-		}
-		active = false;
 	}
 	
 	@Override
@@ -84,9 +72,5 @@ public abstract class AbstractEntityModel implements Entity {
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
-	}
-	
-	public boolean isActive() {
-		return active;
 	}
 }

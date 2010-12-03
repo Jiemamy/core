@@ -21,7 +21,8 @@ package org.jiemamy.model.dbo;
 import java.util.Collection;
 import java.util.List;
 
-import org.jiemamy.model.EntityRef;
+import org.jiemamy.EntityRef;
+import org.jiemamy.JiemamyCore;
 import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.attribute.constraint.ConstraintModel;
 import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel;
@@ -50,14 +51,14 @@ public interface TableModel extends DatabaseObjectModel {
 	 * @return カラム
 	 * @throws ColumnNotFoundException カラムが見つからなかった場合
 	 */
-	ColumnModel getColumn(String name);
+	EntityRef<ColumnModel> getColumn(String name, JiemamyCore core);
 	
 	/**
 	 * このテーブルのカラムの {@link List} を返す。
 	 * 
 	 * @return このテーブルのカラムの {@link List}
 	 */
-	List<ColumnModel> getColumns();
+	List<EntityRef<ColumnModel>> getColumns();
 	
 	/**
 	 * 属性のリストを取得する。

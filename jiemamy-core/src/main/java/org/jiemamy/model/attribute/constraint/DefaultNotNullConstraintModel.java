@@ -18,7 +18,7 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
-import org.jiemamy.model.EntityRef;
+import org.jiemamy.EntityRef;
 import org.jiemamy.model.attribute.ColumnModel;
 
 /**

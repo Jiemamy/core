@@ -20,6 +20,7 @@ package org.jiemamy.model.dbo;
 
 import java.util.Collection;
 
+import org.jiemamy.EntityRef;
 import org.jiemamy.model.ModelConsistencyException;
 import org.jiemamy.model.attribute.ColumnModel;
 
@@ -32,7 +33,7 @@ import org.jiemamy.model.attribute.ColumnModel;
 @SuppressWarnings("serial")
 public class TooManyColumnsFoundException extends ModelConsistencyException {
 	
-	private final Collection<ColumnModel> columns;
+	private final Collection<EntityRef<ColumnModel>> columns;
 	
 
 	/**
@@ -40,7 +41,7 @@ public class TooManyColumnsFoundException extends ModelConsistencyException {
 	 * 
 	 * @param columns 見つかった複数のカラムの集合
 	 */
-	public TooManyColumnsFoundException(Collection<ColumnModel> columns) {
+	public TooManyColumnsFoundException(Collection<EntityRef<ColumnModel>> columns) {
 		super(String.valueOf(columns.size()));
 		this.columns = columns;
 	}
@@ -50,7 +51,7 @@ public class TooManyColumnsFoundException extends ModelConsistencyException {
 	 * 
 	 * @return 見つかったカラムの集合
 	 */
-	public Collection<ColumnModel> getColumns() {
+	public Collection<EntityRef<ColumnModel>> getColumns() {
 		return columns;
 	}
 	

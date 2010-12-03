@@ -23,9 +23,9 @@ import java.util.UUID;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
+import org.jiemamy.EntityRef;
 import org.jiemamy.model.AbstractEntityModel;
 import org.jiemamy.model.DefaultEntityRef;
-import org.jiemamy.model.EntityRef;
 import org.jiemamy.model.datatype.TypeVariant;
 
 /**

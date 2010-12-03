@@ -26,6 +26,9 @@ import java.util.List;
 
 import org.junit.Test;
 
+import org.jiemamy.EntityRef;
+import org.jiemamy.JiemamyContext;
+import org.jiemamy.JiemamyCore;
 import org.jiemamy.model.attribute.Column;
 import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.attribute.DefaultColumnModel;
@@ -50,7 +53,8 @@ public class GeneralTest {
 	 */
 	@Test
 	public void test1() throws Exception {
-		Repository repository = new Repository();
+		JiemamyContext context = new JiemamyContext();
+		JiemamyCore core = context.getCore();
 		
 		DefaultColumnModel col1 = new Column().whoseNameIs("KEY").build();
 		DefaultColumnModel col2 = new Column().whoseNameIs("VALUE").build();
@@ -61,7 +65,7 @@ public class GeneralTest {
 		@SuppressWarnings("unchecked")
 		List<EntityRef<ColumnModel>> pk = Arrays.asList(col1.getReference());
 		tableModel.addConstraint(new DefaultPrimaryKeyConstraintModel(null, null, null, pk, null));
-		repository.add(tableModel);
+		core.add(tableModel);
 		
 		assertThat(tableModel.getColumns().size(), is(2));
 		assertThat(tableModel.getConstraints().size(), is(1));
@@ -74,7 +78,8 @@ public class GeneralTest {
 	 */
 	@Test
 	public void test2() throws Exception {
-		Repository repository = new Repository();
+		JiemamyContext context = new JiemamyContext();
+		JiemamyCore core = context.getCore();
 		
 		ColumnModel pkColumn;
 		// FORMAT-OFF
@@ -84,7 +89,7 @@ public class GeneralTest {
 				.with(DefaultPrimaryKeyConstraintModel.of(pkColumn))
 				.build();
 		// FORMAT-ON
-		repository.add(tableModel);
+		core.add(tableModel);
 		
 		assertThat(tableModel.getColumns().size(), is(2));
 		assertThat(tableModel.getConstraints().size(), is(1));
@@ -97,7 +102,8 @@ public class GeneralTest {
 	 */
 	@Test
 	public void test3() throws Exception {
-		Repository repository = new Repository();
+		JiemamyContext context = new JiemamyContext();
+		JiemamyCore core = context.getCore();
 		
 		ColumnModel pkColumn;
 		ColumnModel fkColumn1;
@@ -122,8 +128,8 @@ public class GeneralTest {
 						.addKeyColumn(fkColumn2).addReferenceColumn(pkColumn).build())
 				.build();
 		// FORMAT-ON
-		repository.add(dept);
-		repository.add(emp);
+		core.add(dept);
+		core.add(emp);
 		
 		assertThat(dept.getColumns().size(), is(3));
 		assertThat(dept.getConstraints().size(), is(1));

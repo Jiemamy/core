@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.apache.commons.lang.Validate;
 
-import org.jiemamy.model.EntityRef;
+import org.jiemamy.EntityRef;
 import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel.MatchType;
 import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel.ReferentialAction;

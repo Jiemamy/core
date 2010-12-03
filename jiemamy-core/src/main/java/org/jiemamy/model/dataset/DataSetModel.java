@@ -21,7 +21,7 @@ package org.jiemamy.model.dataset;
 import java.util.List;
 import java.util.Map;
 
-import org.jiemamy.model.EntityRef;
+import org.jiemamy.EntityRef;
 import org.jiemamy.model.dbo.TableModel;
 
 /**

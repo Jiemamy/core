@@ -20,8 +20,8 @@ package org.jiemamy.model.dbo;
 
 import java.util.Set;
 
-import org.jiemamy.model.Entity;
-import org.jiemamy.model.EntityRef;
+import org.jiemamy.Entity;
+import org.jiemamy.EntityRef;
 
 /**
  * リレーショナルデータベースモデルにおける「CREATE対象」を表すモデルインターフェイス。

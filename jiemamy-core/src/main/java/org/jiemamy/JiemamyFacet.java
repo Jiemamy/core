@@ -1,6 +1,6 @@
 /*
- * Copyright 2007-2009 Jiemamy Project and the Others.
- * Created on 2009/01/20
+ * Copyright 2007-2010 Jiemamy Project and the Others.
+ * Created on 2010/12/03
  *
  * This file is part of Jiemamy.
  *
@@ -16,23 +16,19 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.model.attribute.constraint;
+package org.jiemamy;
 
-import org.jiemamy.EntityRef;
-import org.jiemamy.model.attribute.ColumnModel;
+import java.util.Set;
+
 
 /**
- * NOT NULL制約を表すモデルインターフェイス。
+ * TODO for daisuke
  * 
- * @since 0.2
+ * @version $Id$
  * @author daisuke
  */
-public interface NotNullConstraintModel extends ValueConstraintModel {
+public interface JiemamyFacet {
 	
-	/**
-	 * 対象カラムを取得する。
-	 * 
-	 * @return 対象カラム
-	 */
-	EntityRef<ColumnModel> getColumn();
+	<T extends Entity>Set<T> getEntities(Class<T> clazz);
+	
 }

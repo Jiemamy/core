@@ -20,6 +20,8 @@ package org.jiemamy.model;
 
 import java.util.UUID;
 
+import org.jiemamy.EntityRef;
+
 /**
  * TODO for daisuke
  * 
