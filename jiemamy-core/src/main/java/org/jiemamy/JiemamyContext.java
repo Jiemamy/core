@@ -36,6 +36,12 @@ public class JiemamyContext implements Disposable {
 	
 	private static IdentityHashMap<Entity, JiemamyContext> map = CollectionsUtil.newIdentityHashMap();
 	
+
+	static int managedEntityCount() {
+		return map.size();
+	}
+	
+
 	private JiemamyCore core;
 	
 
