@@ -156,13 +156,15 @@ public class JiemamyContextTest {
 //		assertThat(JiemamyContext.managedEntityCount(), is(4));
 	}
 	
-	@Ignore("カラムを持ったテーブルをctxにaddした時、現状ctxに管理下に入るのはtableのみなのだが、理想はcolumnも管理下に入るといいな")
+	@Ignore("カラムを持ったテーブルをctxにaddした時、現状ctxに管理下に入るのはtableのみ")
 	@Test(expected = EntityLifecycleException.class)
 	public void test12b_IDが同じカラムはテーブルが違ってもctxが同じであれば置くことができない() {
 		t1.addColumn(c1a1);
 		t2.addColumn(c1b1); // equalsなのでexceptionかな
 		ctx1.getCore().add(t1);
 		ctx1.getCore().add(t2); // やっぱり
+		
+		// THINK tableをctxにaddした時、columnも管理下に入るべきなのか、columnをAPIユーザの手で管理下に入れるべきなのか
 	}
 	
 	@Test(expected = EntityLifecycleException.class)
