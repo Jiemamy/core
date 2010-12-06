@@ -137,7 +137,7 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	
 
 	/** カラムのリスト */
-	final List<ColumnModel> columns = CollectionsUtil.newArrayList();
+	List<ColumnModel> columns = CollectionsUtil.newArrayList();
 	
 	/** 制約のリスト */
 	final List<ConstraintModel> constraints = CollectionsUtil.newArrayList();
@@ -182,7 +182,12 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	
 	@Override
 	public DefaultTableModel clone() {
-		return (DefaultTableModel) super.clone();
+		DefaultTableModel clone = (DefaultTableModel) super.clone();
+		clone.columns = CollectionsUtil.newArrayList();
+		for (ColumnModel column : columns) {
+			clone.addColumn(column);
+		}
+		return clone;
 	}
 	
 	public KeyConstraintModel findReferencedKeyConstraint(ForeignKeyConstraintModel foreignKey) {
@@ -208,19 +213,13 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 		return results;
 	}
 	
-	/**
-	 * TODO for daisuke
-	 * 
-	 * @param reference
-	 * @return
-	 */
 	public ColumnModel getColumn(EntityRef<ColumnModel> reference) {
 		for (ColumnModel column : columns) {
 			if (reference.isReferenceOf(column)) {
 				return column;
 			}
 		}
-		throw new EntityNotFoundException();
+		throw new ColumnNotFoundException();
 	}
 	
 	public ColumnModel getColumn(final String name) {
@@ -240,27 +239,27 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 		throw new TooManyColumnsFoundException(c);
 	}
 	
-	public List<ColumnModel> getColumns() {
+	public List<? extends ColumnModel> getColumns() {
 		assert columns != null;
-		return new ArrayList<ColumnModel>(columns);
+		return CollectionsUtil.newArrayList(columns);
 	}
 	
-	public List<ConstraintModel> getConstraints() {
+	public List<? extends ConstraintModel> getConstraints() {
 		assert constraints != null;
 		return new ArrayList<ConstraintModel>(constraints);
 	}
 	
-	public Collection<ForeignKeyConstraintModel> getForeignKeyConstraintModels() {
+	public Collection<? extends ForeignKeyConstraintModel> getForeignKeyConstraintModels() {
 		return findAttribute(ForeignKeyConstraintModel.class);
 	}
 	
-	public Collection<KeyConstraintModel> getKeyConstraintModels() {
+	public Collection<? extends KeyConstraintModel> getKeyConstraintModels() {
 		return findAttribute(KeyConstraintModel.class);
 	}
 	
 	@Override
 	public Collection<? extends Entity> getSubEntities() {
-		return CollectionsUtil.newArrayList(columns);
+		return getColumns();
 	}
 	
 	@Override
@@ -275,13 +274,9 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 				continue;
 			}
 			EntityRef<ColumnModel> columnRef = foreignKey.getReferenceColumns().get(0);
-			try {
-				TableModel referenceTableModel = findDeclaringTable(tables, context.resolve(columnRef));
-				if (referenceTableModel.equals(target)) {
-					return true;
-				}
-			} catch (EntityNotFoundException e) {
-				// ignore
+			TableModel referenceTableModel = findDeclaringTable(tables, context.resolve(columnRef));
+			if (referenceTableModel.equals(target)) {
+				return true;
 			}
 		}
 		return false;
@@ -290,8 +285,8 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	/**
 	 * テーブルからカラムを削除する。
 	 * 
-	 * @param ref カラム
-	 * @throws EntityNotFoundException
+	 * @param ref カラム参照
+	 * @throws EntityNotFoundException 指定した参照が表すカラムがこのテーブルに存在しない場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public void removeColumn(EntityRef<ColumnModel> ref) {

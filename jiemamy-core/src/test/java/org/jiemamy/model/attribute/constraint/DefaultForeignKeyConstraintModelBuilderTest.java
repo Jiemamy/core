@@ -22,13 +22,11 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.Matchers.hasItem;
 import static org.junit.Assert.assertThat;
-
-import java.util.UUID;
+import static org.mockito.Mockito.mock;
 
 import org.junit.Test;
 
 import org.jiemamy.EntityRef;
-import org.jiemamy.model.DefaultEntityRef;
 import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel.MatchType;
 import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel.ReferentialAction;
@@ -48,8 +46,10 @@ public class DefaultForeignKeyConstraintModelBuilderTest {
 	 */
 	@Test
 	public void test01_build() throws Exception {
-		EntityRef<ColumnModel> ref1 = new DefaultEntityRef<ColumnModel>(UUID.randomUUID());
-		EntityRef<ColumnModel> ref2 = new DefaultEntityRef<ColumnModel>(UUID.randomUUID());
+		@SuppressWarnings("unchecked")
+		EntityRef<ColumnModel> ref1 = mock(EntityRef.class);
+		@SuppressWarnings("unchecked")
+		EntityRef<ColumnModel> ref2 = mock(EntityRef.class);
 		
 		DefaultForeignKeyConstraintModelBuilder builder = new DefaultForeignKeyConstraintModelBuilder();
 		
@@ -78,8 +78,10 @@ public class DefaultForeignKeyConstraintModelBuilderTest {
 	 */
 	@Test
 	public void test02_apply() throws Exception {
-		EntityRef<ColumnModel> ref1 = new DefaultEntityRef<ColumnModel>(UUID.randomUUID());
-		EntityRef<ColumnModel> ref2 = new DefaultEntityRef<ColumnModel>(UUID.randomUUID());
+		@SuppressWarnings("unchecked")
+		EntityRef<ColumnModel> ref1 = mock(EntityRef.class);
+		@SuppressWarnings("unchecked")
+		EntityRef<ColumnModel> ref2 = mock(EntityRef.class);
 		
 		DefaultForeignKeyConstraintModelBuilder builder = new DefaultForeignKeyConstraintModelBuilder();
 		
@@ -111,8 +113,10 @@ public class DefaultForeignKeyConstraintModelBuilderTest {
 	 */
 	@Test
 	public void test03_apply_nondisruptive() throws Exception {
-		EntityRef<ColumnModel> ref1 = new DefaultEntityRef<ColumnModel>(UUID.randomUUID());
-		EntityRef<ColumnModel> ref2 = new DefaultEntityRef<ColumnModel>(UUID.randomUUID());
+		@SuppressWarnings("unchecked")
+		EntityRef<ColumnModel> ref1 = mock(EntityRef.class);
+		@SuppressWarnings("unchecked")
+		EntityRef<ColumnModel> ref2 = mock(EntityRef.class);
 		
 		DefaultForeignKeyConstraintModelBuilder builder = new DefaultForeignKeyConstraintModelBuilder();
 		// FORMAT-OFF

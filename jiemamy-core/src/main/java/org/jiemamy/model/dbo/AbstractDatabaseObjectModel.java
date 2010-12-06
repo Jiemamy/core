@@ -21,8 +21,6 @@ package org.jiemamy.model.dbo;
 import java.util.Set;
 import java.util.UUID;
 
-import org.jiemamy.Entity;
-import org.jiemamy.EntityRef;
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.model.AbstractEntityModel;
 import org.jiemamy.utils.collection.CollectionsUtil;
@@ -84,15 +82,6 @@ public abstract class AbstractDatabaseObjectModel extends AbstractEntityModel im
 	
 	public String getName() {
 		return name;
-	}
-	
-	public boolean isChildEntityRef(EntityRef<?> entityRef) {
-		for (Entity entity : getSubEntities()) {
-			if (entityRef.isReferenceOf(entity)) {
-				return true;
-			}
-		}
-		return false;
 	}
 	
 	public boolean isSubDatabaseObjectsNonRecursiveOf(Set<DatabaseObjectModel> databaseObjects,

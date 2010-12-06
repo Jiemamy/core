@@ -46,6 +46,15 @@ public interface TableModel extends DatabaseObjectModel {
 	KeyConstraintModel findReferencedKeyConstraint(ForeignKeyConstraintModel foreignKey);
 	
 	/**
+	 * このテーブルのカラムのうち、{@code reference}で示したカラムを返す。
+	 * 
+	 * @param reference カラム参照
+	 * @return カラム
+	 * @throws ColumnNotFoundException カラムが見つからなかった場合
+	 */
+	ColumnModel getColumn(EntityRef<ColumnModel> reference);
+	
+	/**
 	 * このテーブルのカラムのうち、{@code name}で示した名前を持つカラムを返す。
 	 * 
 	 * @param name カラム名
@@ -59,7 +68,7 @@ public interface TableModel extends DatabaseObjectModel {
 	 * 
 	 * @return このテーブルのカラムの {@link List}
 	 */
-	List<ColumnModel> getColumns();
+	List<? extends ColumnModel> getColumns();
 	
 	/**
 	 * 属性のリストを取得する。
@@ -67,21 +76,21 @@ public interface TableModel extends DatabaseObjectModel {
 	 * @return 属性のリスト
 	 * @since 0.2
 	 */
-	List<ConstraintModel> getConstraints();
+	List<? extends ConstraintModel> getConstraints();
 	
 	/**
 	 * このテーブルの外部キー制約の集合を返す。
 	 * 
 	 * @return このテーブルの外部キー制約の集合
 	 */
-	Collection<ForeignKeyConstraintModel> getForeignKeyConstraintModels();
+	Collection<? extends ForeignKeyConstraintModel> getForeignKeyConstraintModels();
 	
 	/**
 	 * このテーブルのキー制約の集合を返す。
 	 * 
 	 * @return このテーブルのキー制約の集合
 	 */
-	Collection<KeyConstraintModel> getKeyConstraintModels();
+	Collection<? extends KeyConstraintModel> getKeyConstraintModels();
 	
 	EntityRef<TableModel> toReference();
 	

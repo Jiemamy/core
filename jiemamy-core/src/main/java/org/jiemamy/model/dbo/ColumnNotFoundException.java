@@ -18,6 +18,7 @@
  */
 package org.jiemamy.model.dbo;
 
+import org.jiemamy.model.EntityNotFoundException;
 import org.jiemamy.model.attribute.ColumnModel;
 
 /**
@@ -27,6 +28,6 @@ import org.jiemamy.model.attribute.ColumnModel;
  * @author daisuke
  */
 @SuppressWarnings("serial")
-public class ColumnNotFoundException extends RuntimeException {
+public class ColumnNotFoundException extends EntityNotFoundException {
 	
 }

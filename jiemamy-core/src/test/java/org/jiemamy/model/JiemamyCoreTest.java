@@ -147,14 +147,11 @@ public class JiemamyCoreTest {
 			// success
 		}
 		
-		DefaultTableModel table = new Table().build(id);
+		TableModel table = new DefaultTableModel(id);
 		ctx.getCore().add(table);
 		
-		Entity entityById = ctx.getCore().resolve(id);
-		assertThat(entityById, is((Entity) table));
-		
-		Entity entityByRef = ctx.getCore().resolve(ref);
-		assertThat(entityByRef, is((Entity) table));
+		assertThat(ctx.getCore().resolve(id), is((Entity) table));
+		assertThat(ctx.getCore().resolve(ref), is((Entity) table));
 	}
 	
 	/**

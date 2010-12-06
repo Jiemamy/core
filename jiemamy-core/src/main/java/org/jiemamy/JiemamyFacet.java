@@ -31,9 +31,9 @@ public interface JiemamyFacet {
 	/**
 	 * TODO for daisuke
 	 * 
-	 * @param <T>
-	 * @param clazz
-	 * @return 
+	 * @param <T> エンティティの型
+	 * @param clazz エンティティの型
+	 * @return エンティティの{@link Set}
 	 */
 	<T extends Entity>Set<T> getEntities(Class<T> clazz);
 	

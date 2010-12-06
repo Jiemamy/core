@@ -26,7 +26,6 @@ import org.apache.commons.lang.Validate;
 
 import org.jiemamy.model.EntityLifecycleException;
 import org.jiemamy.model.EntityNotFoundException;
-import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
 import org.jiemamy.utils.collection.CollectionsUtil;
 
@@ -137,14 +136,6 @@ public class JiemamyCore implements JiemamyFacet {
 	 * somethingを取得する。 TODO for daisuke
 	 * @return the databaseObjects
 	 */
-	public Set<ColumnModel> getColumns() {
-		return getEntities(ColumnModel.class);
-	}
-	
-	/**
-	 * somethingを取得する。 TODO for daisuke
-	 * @return the databaseObjects
-	 */
 	public Set<DatabaseObjectModel> getDatabaseObjects() {
 		return getEntities(DatabaseObjectModel.class);
 	}
@@ -175,22 +166,6 @@ public class JiemamyCore implements JiemamyFacet {
 	}
 	
 	/**
-	 * TODO for daisuke
-	 * 
-	 * @param ref
-	 */
-	public void remove(EntityRef<? extends Entity> ref) {
-		Validate.notNull(ref);
-		Entity removed = context.map.remove(ref.getReferentId());
-		if (removed == null) {
-			throw new EntityNotFoundException();
-		}
-		for (Entity entity : removed.getSubEntities()) {
-			remove(entity.toReference());
-		}
-	}
-	
-	/**
 	 * このREPOSITORYの管理下にある {@link DatabaseObjectModel} の中から、{@code ref}が参照する {@link DatabaseObjectModel}を返す。
 	 * 
 	 * @param <T> {@link DatabaseObjectModel}の型
@@ -218,6 +193,17 @@ public class JiemamyCore implements JiemamyFacet {
 			}
 		}
 		throw new EntityNotFoundException();
+	}
+	
+	void remove(EntityRef<? extends Entity> ref) {
+		Validate.notNull(ref);
+		Entity removed = context.map.remove(ref.getReferentId());
+		if (removed == null) {
+			throw new EntityNotFoundException();
+		}
+		for (Entity entity : removed.getSubEntities()) {
+			remove(entity.toReference());
+		}
 	}
 	
 	private void add(Entity entity) {

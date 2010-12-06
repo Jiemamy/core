@@ -17,8 +17,12 @@
  */
 package org.jiemamy;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.spy;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import org.junit.Before;
@@ -26,6 +30,9 @@ import org.junit.Test;
 
 import org.jiemamy.model.attribute.Column;
 import org.jiemamy.model.attribute.ColumnModel;
+import org.jiemamy.model.attribute.DefaultColumnModel;
+import org.jiemamy.model.attribute.constraint.DefaultForeignKeyConstraintModelBuilder;
+import org.jiemamy.model.attribute.constraint.DefaultPrimaryKeyConstraintModel;
 import org.jiemamy.model.attribute.constraint.DefaultPrimaryKeyConstraintModelBuilder;
 import org.jiemamy.model.dbo.DefaultTableModel;
 import org.jiemamy.model.dbo.Table;
@@ -87,5 +94,93 @@ public class StoryTest {
 		TableModel table = spy(new DefaultTableModel(UUID.randomUUID()));
 		ctx1.getCore().add(table);
 		ctx2.getCore().add(table);
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test1() throws Exception {
+		JiemamyCore core = ctx1.getCore();
+		
+		DefaultColumnModel col1 = new Column().whoseNameIs("KEY").build();
+		DefaultColumnModel col2 = new Column().whoseNameIs("VALUE").build();
+		
+		DefaultTableModel tableModel = new Table().whoseNameIs("T_PROPERTY").build();
+		tableModel.addColumn(col1);
+		tableModel.addColumn(col2);
+		@SuppressWarnings("unchecked")
+		List<EntityRef<ColumnModel>> pk = Arrays.asList(col1.toReference());
+		tableModel.addConstraint(new DefaultPrimaryKeyConstraintModel(null, null, null, pk, null));
+		core.add(tableModel);
+		
+		assertThat(tableModel.getColumns().size(), is(2));
+		assertThat(tableModel.getConstraints().size(), is(1));
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test2() throws Exception {
+		JiemamyCore core = ctx1.getCore();
+		
+		ColumnModel pkColumn;
+		// FORMAT-OFF
+		DefaultTableModel tableModel = new Table().whoseNameIs("T_PROPERTY")
+				.with(pkColumn = new Column().whoseNameIs("KEY").build())
+				.with(new Column().whoseNameIs("VALUE").build())
+				.with(DefaultPrimaryKeyConstraintModel.of(pkColumn))
+				.build();
+		// FORMAT-ON
+		core.add(tableModel);
+		
+		assertThat(tableModel.getColumns().size(), is(2));
+		assertThat(tableModel.getConstraints().size(), is(1));
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test3() throws Exception {
+		JiemamyCore core = ctx1.getCore();
+		
+		ColumnModel pkColumn;
+		ColumnModel fkColumn1;
+		ColumnModel fkColumn2;
+		ColumnModel refColumn;
+		// FORMAT-OFF
+		DefaultTableModel dept = new Table().whoseNameIs("T_DEPT")
+				.with(pkColumn = refColumn = new Column().whoseNameIs("ID").build())
+				.with(new Column().whoseNameIs("NAME").build())
+				.with(new Column().whoseNameIs("LOC").build())
+				.with(new DefaultPrimaryKeyConstraintModelBuilder().addKeyColumn(pkColumn).build())
+				.build();
+		DefaultTableModel emp = new Table().whoseNameIs("T_EMP")
+				.with(pkColumn = new Column().whoseNameIs("ID").build())
+				.with(new Column().whoseNameIs("NAME").build())
+				.with(fkColumn1 = new Column().whoseNameIs("DEPT_ID").build())
+				.with(fkColumn2 = new Column().whoseNameIs("MGR_ID").build())
+				.with(new DefaultPrimaryKeyConstraintModelBuilder().addKeyColumn(pkColumn).build())
+				.with(new DefaultForeignKeyConstraintModelBuilder()
+						.addKeyColumn(fkColumn1).addReferenceColumn(refColumn).build())
+				.with(new DefaultForeignKeyConstraintModelBuilder()
+						.addKeyColumn(fkColumn2).addReferenceColumn(pkColumn).build())
+				.build();
+		// FORMAT-ON
+		core.add(dept);
+		core.add(emp);
+		
+		assertThat(dept.getColumns().size(), is(3));
+		assertThat(dept.getConstraints().size(), is(1));
+		assertThat(emp.getColumns().size(), is(4));
+		assertThat(emp.getConstraints().size(), is(3));
 	}
 }

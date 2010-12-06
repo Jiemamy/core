@@ -38,6 +38,7 @@ import org.jiemamy.model.attribute.constraint.DefaultForeignKeyConstraintModel;
 import org.jiemamy.model.attribute.constraint.DefaultPrimaryKeyConstraintModel;
 import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel;
 import org.jiemamy.model.attribute.constraint.KeyConstraintModel;
+import org.jiemamy.utils.UUIDUtil;
 
 /**
  * {@link DefaultTableModel}のテストクラス。
@@ -97,9 +98,9 @@ public class DefaultTableModelTest {
 	public void test02_equals() throws Exception {
 		UUID uuid1 = UUID.randomUUID();
 		UUID uuid2 = UUID.randomUUID();
-		DefaultTableModel live1 = new Table().build(uuid1);
-		DefaultTableModel live2 = new Table().build(uuid1);
-		DefaultTableModel live3 = new Table().build(uuid2);
+		DefaultTableModel live1 = new DefaultTableModel(uuid1);
+		DefaultTableModel live2 = new DefaultTableModel(uuid1);
+		DefaultTableModel live3 = new DefaultTableModel(uuid2);
 		
 		assertThat(live1.equals(live1), is(true));
 		assertThat(live1.equals(live2), is(true));
@@ -120,7 +121,7 @@ public class DefaultTableModelTest {
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test05_getTables() throws Exception {
+	public void test05_findTables() throws Exception {
 		// FORMAT-OFF
 		TableModel t1 = new Table().whoseNameIs("ONE")
 				.with(new Column().whoseNameIs("A").build())
@@ -207,16 +208,16 @@ public class DefaultTableModelTest {
 		
 		DefaultTableModel table = new Table("HOGE").build();
 		ColumnModel foo = new Column("FOO").build();
-		DefaultColumnModel foo2 = new Column("FOO").build();
+		ColumnModel foo2 = new Column("FOO").build();
 		ColumnModel bar = new Column("BAR").build();
 		
 		assertThat(table.getColumns().size(), is(0));
 		
 		table.addColumn(foo);
 		table.addColumn(bar);
+		assertThat(table.getColumns().size(), is(2));
+		
 		core.add(table);
-//		core.add(foo);
-//		core.add(bar);
 		
 		assertThat(table.getColumns().size(), is(2));
 		assertThat(table.getColumn("FOO"), is(foo));
@@ -249,7 +250,7 @@ public class DefaultTableModelTest {
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void testname() throws Exception {
+	public void test11() throws Exception {
 		JiemamyCore core = ctx.getCore();
 		
 		ColumnModel b;
@@ -288,5 +289,37 @@ public class DefaultTableModelTest {
 		assertThat(DefaultTableModel.findReferencedKeyConstraint(core.getDatabaseObjects(), fk12), is(pk1));
 		assertThat(DefaultTableModel.findReferencedKeyConstraint(core.getDatabaseObjects(), fk23), is(pk2));
 		// FORMAT-ON
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test12_clone() throws Exception {
+		DefaultTableModel table = new DefaultTableModel(UUIDUtil.valueOfOrRandom("a"));
+		table.setName("name1");
+		
+		DefaultTableModel clone = table.clone();
+		
+		assertThat(clone.getName(), is("name1"));
+		assertThat(clone.getColumns().size(), is(0));
+		
+		table.setName("name2");
+		assertThat(table.getName(), is("name2"));
+		assertThat(clone.getName(), is("name1"));
+		
+		clone.setName("name3");
+		assertThat(table.getName(), is("name2"));
+		assertThat(clone.getName(), is("name3"));
+		
+		clone.addColumn(new DefaultColumnModel(UUIDUtil.valueOfOrRandom("b")));
+		assertThat(table.getColumns().size(), is(0));
+		assertThat(clone.getColumns().size(), is(1));
+		
+		table.addColumn(new DefaultColumnModel(UUIDUtil.valueOfOrRandom("c")));
+		assertThat(table.getColumns().size(), is(1));
+		assertThat(clone.getColumns().size(), is(1));
 	}
 }

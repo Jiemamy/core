@@ -20,19 +20,22 @@ package org.jiemamy.model.attribute.constraint;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import org.junit.Test;
 
 import org.jiemamy.ValueObject;
+import org.jiemamy.model.attribute.constraint.DeferrabilityModel.InitiallyCheckTime;
 
 /**
- * TODO for daisuke
+ * {@link DefaultDeferrabilityModel}のテストクラス。
  * 
  * @since 0.3
  * @version $Id$
  * @author daisuke
  */
-public class DefaultDeferrabilityTest {
+public class DefaultDeferrabilityModelTest {
 	
 	/**
 	 * {@link DefaultDeferrabilityModel#equals(Object)}が、{@link ValueObject}として正しい実装になっていること。
@@ -43,17 +46,9 @@ public class DefaultDeferrabilityTest {
 	public void test01_equals() throws Exception {
 		DefaultDeferrabilityModel d1 = DefaultDeferrabilityModel.DEFERRABLE;
 		DefaultDeferrabilityModel d2 = DefaultDeferrabilityModel.DEFERRABLE_DEFERRED;
-		DeferrabilityModel d3 = new DeferrabilityModel() {
-			
-			public InitiallyCheckTime getInitiallyCheckTime() {
-				return InitiallyCheckTime.DEFERRED;
-			}
-			
-			public boolean isDeferrable() {
-				return false;
-			}
-			
-		};
+		DeferrabilityModel d3 = mock(DeferrabilityModel.class);
+		when(d3.getInitiallyCheckTime()).thenReturn(InitiallyCheckTime.DEFERRED);
+		when(d3.isDeferrable()).thenReturn(false);
 		
 		assertThat(d1.equals(d1), is(true));
 		assertThat(d1.equals(d2), is(false));

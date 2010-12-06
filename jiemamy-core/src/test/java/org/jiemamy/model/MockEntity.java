@@ -37,6 +37,11 @@ public class MockEntity extends AbstractEntityModel {
 		super(UUID.randomUUID());
 	}
 	
+	@Override
+	public MockEntity clone() {
+		return (MockEntity) super.clone();
+	}
+	
 	public EntityRef<MockEntity> toReference() {
 		return new DefaultEntityRef<MockEntity>(this);
 	}

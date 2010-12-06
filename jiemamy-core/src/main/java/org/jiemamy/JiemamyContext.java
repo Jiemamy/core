@@ -38,23 +38,38 @@ public class JiemamyContext {
 	Map<Class<? extends JiemamyFacet>, JiemamyFacet> facets = CollectionsUtil.newHashMap();
 	
 
+	/**
+	 * インスタンスを生成する。
+	 */
 	public JiemamyContext() {
 		facets.put(JiemamyCore.class, new JiemamyCore(this));
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * このコンテキストの {@link JiemamyCore} にDBオブジェクトを追加する。
 	 * 
-	 * @param dbo
+	 * @param dbo DBオブジェクト
 	 */
 	public void add(DatabaseObjectModel dbo) {
 		getCore().add(dbo);
 	}
 	
+	/**
+	 * このコンテキストの {@link JiemamyCore} を取得する。
+	 * 
+	 * @return このコンテキストの {@link JiemamyCore}
+	 */
 	public JiemamyCore getCore() {
 		return getFacet(JiemamyCore.class);
 	}
 	
+	/**
+	 * このコンテキストの {@link JiemamyFacet} を取得する。
+	 * 
+	 * @param clazz ファセットの型
+	 * @param <T> ファセットの型
+	 * @return このコンテキストの {@link JiemamyFacet}
+	 */
 	public <T extends JiemamyFacet>T getFacet(Class<T> clazz) {
 		if (facets == null) {
 			throw new IllegalStateException();
@@ -63,19 +78,21 @@ public class JiemamyContext {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * このコンテキストの {@link JiemamyCore} からDBオブジェクトを削除する。
 	 * 
-	 * @param reference
+	 * @param ref DBオブジェクト参照
 	 */
 	public void remove(EntityRef<?> ref) {
 		getCore().remove(ref);
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * エンティティ参照から、実体を引き当てる。
 	 * 
-	 * @param ref
-	 * @return 
+	 * @param <T> エンティティの型
+	 * @param ref エンティティ参照
+	 * @return 実体
+	 * @throws EntityNotFoundException 参照で示すエンティティが見つからなかった場合
 	 */
 	@SuppressWarnings("unchecked")
 	public <T extends Entity>T resolve(EntityRef<T> ref) {
@@ -83,10 +100,11 @@ public class JiemamyContext {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * エンティティIDから、実体を引き当てる。
 	 * 
-	 * @param id
-	 * @return 
+	 * @param id エンティティID
+	 * @return 実体
+	 * @throws EntityNotFoundException IDで示すエンティティが見つからなかった場合
 	 */
 	public Entity resolve(UUID id) {
 		Entity resolved = map.get(id);
