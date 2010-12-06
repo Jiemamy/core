@@ -18,11 +18,14 @@
  */
 package org.jiemamy.model;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.UUID;
 
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.Entity;
+import org.jiemamy.JiemamyError;
 
 /**
  * {@link Entity}の骨格実装クラス。
@@ -34,8 +37,6 @@ public abstract class AbstractEntityModel implements Entity {
 	
 	private final UUID id;
 	
-	boolean active;
-	
 
 	/**
 	 * インスタンスを生成する。
@@ -46,6 +47,15 @@ public abstract class AbstractEntityModel implements Entity {
 	protected AbstractEntityModel(UUID id) {
 		Validate.notNull(id);
 		this.id = id;
+	}
+	
+	@Override
+	public AbstractEntityModel clone() {
+		try {
+			return (AbstractEntityModel) super.clone();
+		} catch (CloneNotSupportedException e) {
+			throw new JiemamyError("clone not supported", e);
+		}
 	}
 	
 	@Override
@@ -62,8 +72,12 @@ public abstract class AbstractEntityModel implements Entity {
 		return id.equals(((Entity) obj).getId());
 	}
 	
-	public UUID getId() {
+	public final UUID getId() {
 		return id;
+	}
+	
+	public Collection<? extends Entity> getSubEntities() {
+		return Collections.emptyList();
 	}
 	
 	@Override

@@ -39,7 +39,7 @@ public final class DefaultIndexColumnModel implements IndexColumnModel {
 	 * @return インデックスカラム
 	 */
 	public static DefaultIndexColumnModel of(ColumnModel column) {
-		return new DefaultIndexColumnModel(column.getReference());
+		return new DefaultIndexColumnModel(column.toReference());
 	}
 	
 	/**
@@ -50,7 +50,7 @@ public final class DefaultIndexColumnModel implements IndexColumnModel {
 	 * @return インデックスカラム
 	 */
 	public static DefaultIndexColumnModel of(ColumnModel column, SortOrder sortOrder) {
-		return new DefaultIndexColumnModel(column.getReference(), sortOrder);
+		return new DefaultIndexColumnModel(column.toReference(), sortOrder);
 	}
 	
 

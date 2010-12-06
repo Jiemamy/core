@@ -52,7 +52,7 @@ public abstract class KeyConstraintModelBuilder<T extends KeyConstraintModel, S 
 	 */
 	public S addKeyColumn(ColumnModel column) {
 		Validate.notNull(column);
-		return addKeyColumn(column.getReference());
+		return addKeyColumn(column.toReference());
 	}
 	
 	/**

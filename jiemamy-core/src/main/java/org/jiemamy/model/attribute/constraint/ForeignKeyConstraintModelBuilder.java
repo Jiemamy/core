@@ -60,7 +60,7 @@ public abstract class ForeignKeyConstraintModelBuilder<T extends ForeignKeyConst
 	 */
 	public S addReferenceColumn(ColumnModel referenceColumn) {
 		Validate.notNull(referenceColumn);
-		return addReferenceColumn(referenceColumn.getReference());
+		return addReferenceColumn(referenceColumn.toReference());
 	}
 	
 	/**

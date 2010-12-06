@@ -30,6 +30,8 @@ import org.jiemamy.model.datatype.TypeVariant;
  */
 public interface DomainModel extends DatabaseObjectModel {
 	
+	DomainModel clone();
+	
 	/**
 	 * チェック制約を取得する。
 	 * 

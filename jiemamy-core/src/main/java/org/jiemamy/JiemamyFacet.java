@@ -20,7 +20,6 @@ package org.jiemamy;
 
 import java.util.Set;
 
-
 /**
  * TODO for daisuke
  * 
@@ -29,6 +28,13 @@ import java.util.Set;
  */
 public interface JiemamyFacet {
 	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param <T>
+	 * @param clazz
+	 * @return 
+	 */
 	<T extends Entity>Set<T> getEntities(Class<T> clazz);
 	
 }

@@ -17,15 +17,17 @@
  */
 package org.jiemamy;
 
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 
+import java.util.UUID;
+
+import org.junit.Before;
 import org.junit.Test;
 
-import org.jiemamy.model.EntityLifecycleException;
 import org.jiemamy.model.attribute.Column;
 import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.attribute.constraint.DefaultPrimaryKeyConstraintModelBuilder;
+import org.jiemamy.model.dbo.DefaultTableModel;
 import org.jiemamy.model.dbo.Table;
 import org.jiemamy.model.dbo.TableModel;
 
@@ -37,6 +39,22 @@ import org.jiemamy.model.dbo.TableModel;
  */
 public class StoryTest {
 	
+	private JiemamyContext ctx1;
+	
+	private JiemamyContext ctx2;
+	
+
+	/**
+	 * テストを初期化する。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Before
+	public void setUp() throws Exception {
+		ctx1 = new JiemamyContext();
+		ctx2 = new JiemamyContext();
+	}
+	
 	/**
 	 * TODO for daisuke
 	 * 
@@ -44,8 +62,7 @@ public class StoryTest {
 	 */
 	@Test
 	public void story1() throws Exception {
-		JiemamyContext ctx = new JiemamyContext();
-		JiemamyCore core = ctx.getCore();
+		JiemamyCore core = ctx1.getCore();
 		
 		// FORMAT-OFF
 		ColumnModel pk;
@@ -67,16 +84,8 @@ public class StoryTest {
 	 */
 	@Test
 	public void story2() throws Exception {
-		JiemamyContext ctx1 = new JiemamyContext();
-		JiemamyContext ctx2 = new JiemamyContext();
-		
-		TableModel table = mock(TableModel.class);
+		TableModel table = spy(new DefaultTableModel(UUID.randomUUID()));
 		ctx1.getCore().add(table);
-		try {
-			ctx2.getCore().add(table);
-			fail();
-		} catch (EntityLifecycleException e) {
-			// success
-		}
+		ctx2.getCore().add(table);
 	}
 }

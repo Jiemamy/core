@@ -22,7 +22,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.jiemamy.EntityRef;
-import org.jiemamy.JiemamyCore;
 import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.attribute.constraint.ConstraintModel;
 import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel;
@@ -34,6 +33,8 @@ import org.jiemamy.model.attribute.constraint.KeyConstraintModel;
  * @author daisuke
  */
 public interface TableModel extends DatabaseObjectModel {
+	
+	TableModel clone();
 	
 	/**
 	 * このテーブルに属する {@link KeyConstraintModel}の中から、指定した {@code foreignKey} が参照するキー制約を取得する。
@@ -51,14 +52,14 @@ public interface TableModel extends DatabaseObjectModel {
 	 * @return カラム
 	 * @throws ColumnNotFoundException カラムが見つからなかった場合
 	 */
-	EntityRef<ColumnModel> getColumn(String name, JiemamyCore core);
+	ColumnModel getColumn(String name);
 	
 	/**
 	 * このテーブルのカラムの {@link List} を返す。
 	 * 
 	 * @return このテーブルのカラムの {@link List}
 	 */
-	List<EntityRef<ColumnModel>> getColumns();
+	List<ColumnModel> getColumns();
 	
 	/**
 	 * 属性のリストを取得する。
@@ -82,6 +83,6 @@ public interface TableModel extends DatabaseObjectModel {
 	 */
 	Collection<KeyConstraintModel> getKeyConstraintModels();
 	
-	EntityRef<TableModel> getReference();
+	EntityRef<TableModel> toReference();
 	
 }

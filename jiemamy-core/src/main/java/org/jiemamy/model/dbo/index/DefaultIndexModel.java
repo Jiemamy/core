@@ -53,6 +53,11 @@ public class DefaultIndexModel extends AbstractDatabaseObjectModel implements In
 		super(id);
 	}
 	
+	@Override
+	public DefaultIndexModel clone() {
+		return (DefaultIndexModel) super.clone();
+	}
+	
 	public List<IndexColumnModel> getIndexColumns() {
 		assert indexColumns != null;
 		return new ArrayList<IndexColumnModel>(indexColumns);
@@ -64,12 +69,12 @@ public class DefaultIndexModel extends AbstractDatabaseObjectModel implements In
 		return null;
 	}
 	
-	public EntityRef<IndexModel> getReference() {
-		return new DefaultEntityRef<IndexModel>(this);
-	}
-	
 	public boolean isUnique() {
 		return unique;
+	}
+	
+	public EntityRef<IndexModel> toReference() {
+		return new DefaultEntityRef<IndexModel>(this);
 	}
 	
 	@Override

@@ -18,9 +18,10 @@
  */
 package org.jiemamy;
 
+import java.util.Collection;
 import java.util.UUID;
 
-import org.jiemamy.model.EntityLifecycleException;
+import org.jiemamy.utils.PublicClonable;
 
 /**
  * DDDにおけるENTITYを表すインターフェイス。
@@ -34,12 +35,12 @@ import org.jiemamy.model.EntityLifecycleException;
  * @version $Id$
  * @author daisuke
  */
-public interface Entity {
+public interface Entity extends PublicClonable {
+	
+	Entity clone();
 	
 	/**
 	 * ENTITY IDの等価性を以て、ENTITYの同一性を比較する。
-	 * 
-	 * <p>ENTITYのライフサイクルがdeadの場合は、必ず{@code null}を返す。</p>
 	 * 
 	 * @param obj 比較対象オブジェクト
 	 * @return 同じIDを持つ場合は{@code true}、そうでない場合は{@code false}
@@ -53,17 +54,18 @@ public interface Entity {
 	* <p>IDは、ENTITYとしてのライフサイクル開始時に指定または自動生成され、ライフサイクルを通して
 	* 一貫していなければならない。ライフサイクルの終了と共にIDは削除される。</p>
 	* 
-	* @return ENTITY ID.  ENTITYのライフサイクルがdeadの場合は{@code null}
+	* @return ENTITY ID
 	* @since 0.3
 	*/
 	UUID getId();
+	
+	Collection<? extends Entity> getSubEntities();
 	
 	/**
 	 * 参照オブジェクトを返す。
 	 * 
 	 * @return 参照オブジェクト
-	 * @throws EntityLifecycleException ENTITYのライフサイクルがdeadの場合
 	 * @since 0.3
 	 */
-	EntityRef<?> getReference();
+	EntityRef<?> toReference();
 }

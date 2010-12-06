@@ -22,7 +22,6 @@ import java.util.UUID;
 
 import org.jiemamy.EntityRef;
 import org.jiemamy.model.DefaultEntityRef;
-import org.jiemamy.model.EntityLifecycleException;
 
 /**
  * ビューモデル
@@ -45,15 +44,13 @@ public class DefaultViewModel extends AbstractDatabaseObjectModel implements Vie
 		super(id);
 	}
 	
-	public String getDefinition() {
-		return definition;
+	@Override
+	public DefaultViewModel clone() {
+		return (DefaultViewModel) super.clone();
 	}
 	
-	public EntityRef<?> getReference() {
-		if (getId() == null) {
-			throw new EntityLifecycleException();
-		}
-		return new DefaultEntityRef<ViewModel>(this);
+	public String getDefinition() {
+		return definition;
 	}
 	
 	/**
@@ -62,5 +59,9 @@ public class DefaultViewModel extends AbstractDatabaseObjectModel implements Vie
 	 */
 	public void setDefinition(String definition) {
 		this.definition = definition;
+	}
+	
+	public EntityRef<?> toReference() {
+		return new DefaultEntityRef<ViewModel>(this);
 	}
 }

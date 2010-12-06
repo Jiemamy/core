@@ -61,6 +61,11 @@ public class DefaultColumnModel extends AbstractEntityModel implements ColumnMod
 		super(id);
 	}
 	
+	@Override
+	public DefaultColumnModel clone() {
+		return (DefaultColumnModel) super.clone();
+	}
+	
 	public synchronized TypeVariant getDataType() {
 		return dataType;
 	}
@@ -79,10 +84,6 @@ public class DefaultColumnModel extends AbstractEntityModel implements ColumnMod
 	
 	public String getName() {
 		return name;
-	}
-	
-	public EntityRef<ColumnModel> getReference() {
-		return new DefaultEntityRef<ColumnModel>(this);
 	}
 	
 	/**
@@ -127,6 +128,10 @@ public class DefaultColumnModel extends AbstractEntityModel implements ColumnMod
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public EntityRef<ColumnModel> toReference() {
+		return new DefaultEntityRef<ColumnModel>(this);
 	}
 	
 	@Override

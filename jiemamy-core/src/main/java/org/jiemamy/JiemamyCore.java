@@ -19,7 +19,6 @@
 package org.jiemamy;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -32,7 +31,7 @@ import org.jiemamy.model.dbo.DatabaseObjectModel;
 import org.jiemamy.utils.collection.CollectionsUtil;
 
 /**
- * DDDにおけるREPOSITORYの実装クラス。
+ * TODO for daisuke
  * 
  * @version $Id$
  * @author daisuke
@@ -41,10 +40,14 @@ public class JiemamyCore implements JiemamyFacet {
 	
 	private final JiemamyContext context;
 	
-	private final Set<Entity> entities = CollectionsUtil.newHashSet();
-	
 
-	public JiemamyCore(JiemamyContext context) {
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param context コンテキスト
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	JiemamyCore(JiemamyContext context) {
 		Validate.notNull(context);
 		this.context = context;
 	}
@@ -58,15 +61,9 @@ public class JiemamyCore implements JiemamyFacet {
 	 * @throws EntityLifecycleException 引数{@code dbo}のライフサイクルがaliveの場合
 	 * @throws IllegalArgumentException 引数{@code dbo}に{@code null}を与えた場合
 	 */
-	public void add(Entity dbo) {
+	public void add(DatabaseObjectModel dbo) {
 		Validate.notNull(dbo);
-		synchronized (entities) {
-			if (context.isManaged(dbo) || entities.contains(dbo)) {
-				throw new EntityLifecycleException();
-			}
-			context.startManage(dbo);
-			entities.add(dbo);
-		}
+		add((Entity) dbo);
 	}
 	
 	/**
@@ -78,7 +75,7 @@ public class JiemamyCore implements JiemamyFacet {
 	 */
 	public Collection<DatabaseObjectModel> findSubDatabaseObjectsNonRecursive(DatabaseObjectModel databaseObject) {
 		Validate.notNull(databaseObject);
-		return databaseObject.findSubDatabaseObjectsNonRecursive(getDatabaseObjects());
+		return databaseObject.findSubDatabaseObjectsNonRecursive(getDatabaseObjects(), context);
 	}
 	
 	/**
@@ -154,8 +151,8 @@ public class JiemamyCore implements JiemamyFacet {
 	
 	public <T extends Entity>Set<T> getEntities(Class<T> clazz) {
 		Validate.notNull(clazz);
-		Set<T> s = new HashSet<T>();
-		for (Entity e : entities) {
+		Set<T> s = CollectionsUtil.newHashSet();
+		for (Entity e : context.map.values()) {
 			if (clazz.isInstance(e)) {
 				s.add(clazz.cast(e));
 			}
@@ -170,19 +167,26 @@ public class JiemamyCore implements JiemamyFacet {
 	 * 
 	 * @param dbo 管理対象
 	 * @throws IllegalArgumentException 引数{@code dbo}に{@code null}を与えた場合
-	 * @throws IllegalArgumentException 引数{@code dbo}がこのREPOSITORY管理下にない場合
+	 * @throws EntityLifecycleException 引数{@code dbo}がこのREPOSITORY管理下にない場合
 	 */
-	public void remove(Entity dbo) {
+	public void remove(DatabaseObjectModel dbo) {
 		Validate.notNull(dbo);
-		synchronized (entities) {
-			for (Entity e : entities) {
-				if (e == dbo) {
-					context.finishManage(e);
-					entities.remove(e);
-					return;
-				}
-			}
-			throw new IllegalArgumentException();
+		remove(dbo.toReference());
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param ref
+	 */
+	public void remove(EntityRef<? extends Entity> ref) {
+		Validate.notNull(ref);
+		Entity removed = context.map.remove(ref.getReferentId());
+		if (removed == null) {
+			throw new EntityNotFoundException();
+		}
+		for (Entity entity : removed.getSubEntities()) {
+			remove(entity.toReference());
 		}
 	}
 	
@@ -208,11 +212,27 @@ public class JiemamyCore implements JiemamyFacet {
 	 * @throws EntityNotFoundException 該当する {@link DatabaseObjectModel} が見つからなかった場合
 	 */
 	public Entity resolve(UUID id) {
-		for (Entity dbo : entities) {
+		for (Entity dbo : context.map.values()) {
 			if (dbo.getId().equals(id)) {
 				return dbo;
 			}
 		}
 		throw new EntityNotFoundException();
+	}
+	
+	private void add(Entity entity) {
+		Validate.notNull(entity);
+		for (Entity sub : entity.getSubEntities()) {
+			if (context.map.containsKey(sub.getId())) {
+				throw new IllegalArgumentException();
+			}
+		}
+		
+		Entity e = entity.clone();
+		
+		context.map.put(entity.getId(), e);
+		for (Entity sub : e.getSubEntities()) {
+			context.map.put(sub.getId(), sub);
+		}
 	}
 }

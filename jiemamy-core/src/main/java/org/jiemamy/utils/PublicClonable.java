@@ -1,8 +1,6 @@
 /*
- * Copyright 2007-2009 Jiemamy Project and the Others.
- * Created on 2008/09/17
- *
- * This file is part of Jiemamy.
+ * Copyright 2010 Jiemamy Project and the others.
+ * Created on 2010/12/06
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,25 +14,24 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.model.dbo;
-
+package org.jiemamy.utils;
 
 /**
- * リレーショナルデータベースにおける「ビュー」を表すモデルインターフェイス。
+ * TODO for daisuke
  * 
- * @since 0.2
+ * @since TODO for daisuke
+ * @version $Id$
  * @author daisuke
  */
-public interface ViewModel extends DatabaseObjectModel {
-	
-	ViewModel clone();
+public interface PublicClonable extends Cloneable {
 	
 	/**
-	 * VIEW定義SELECT文を取得する。
+	 * TODO for daisuke
 	 * 
-	 * @return VIEW定義SELECT文. 未設定の場合は{@code null}
-	 * @since 0.2
+	 * @return clone
+	 * @since TODO
+	 * @see Object#clone()
 	 */
-	String getDefinition();
+	PublicClonable clone();
 	
 }

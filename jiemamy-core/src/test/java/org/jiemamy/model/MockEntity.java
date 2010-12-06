@@ -37,7 +37,7 @@ public class MockEntity extends AbstractEntityModel {
 		super(UUID.randomUUID());
 	}
 	
-	public EntityRef<MockEntity> getReference() {
+	public EntityRef<MockEntity> toReference() {
 		return new DefaultEntityRef<MockEntity>(this);
 	}
 	

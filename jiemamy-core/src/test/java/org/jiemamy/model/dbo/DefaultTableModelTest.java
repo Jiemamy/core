@@ -26,11 +26,11 @@ import static org.junit.Assert.fail;
 import java.util.Collection;
 import java.util.UUID;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.JiemamyCore;
-import org.jiemamy.model.EntityLifecycleException;
 import org.jiemamy.model.attribute.Column;
 import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.attribute.DefaultColumnModel;
@@ -47,6 +47,19 @@ import org.jiemamy.model.attribute.constraint.KeyConstraintModel;
  * @author daisuke
  */
 public class DefaultTableModelTest {
+	
+	private JiemamyContext ctx;
+	
+
+	/**
+	 * テストを初期化する。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Before
+	public void setUp() throws Exception {
+		ctx = new JiemamyContext();
+	}
 	
 	/**
 	 * オブジェクト生成テスト。
@@ -87,32 +100,18 @@ public class DefaultTableModelTest {
 		DefaultTableModel live1 = new Table().build(uuid1);
 		DefaultTableModel live2 = new Table().build(uuid1);
 		DefaultTableModel live3 = new Table().build(uuid2);
-		DefaultTableModel dead = new Table().build();
-		
-		live1.setName("FOO");
-		live2.setName("BAR");
-		live2.setName("BAZ");
-		live2.setName("QUX");
 		
 		assertThat(live1.equals(live1), is(true));
 		assertThat(live1.equals(live2), is(true));
 		assertThat(live1.equals(live3), is(false));
-		assertThat(live1.equals(dead), is(false));
 		
 		assertThat(live2.equals(live1), is(true));
 		assertThat(live2.equals(live2), is(true));
 		assertThat(live2.equals(live3), is(false));
-		assertThat(live2.equals(dead), is(false));
 		
 		assertThat(live3.equals(live1), is(false));
 		assertThat(live3.equals(live2), is(false));
 		assertThat(live3.equals(live3), is(true));
-		assertThat(live3.equals(dead), is(false));
-		
-		assertThat(dead.equals(live1), is(false));
-		assertThat(dead.equals(live2), is(false));
-		assertThat(dead.equals(live3), is(false));
-		assertThat(dead.equals(dead), is(true));
 	}
 	
 	/**
@@ -122,7 +121,6 @@ public class DefaultTableModelTest {
 	 */
 	@Test
 	public void test05_getTables() throws Exception {
-		JiemamyCore core = new JiemamyContext().getCore();
 		// FORMAT-OFF
 		TableModel t1 = new Table().whoseNameIs("ONE")
 				.with(new Column().whoseNameIs("A").build())
@@ -132,6 +130,8 @@ public class DefaultTableModelTest {
 				.with(new Column().whoseNameIs("C").build())
 				.with(new Column().whoseNameIs("D").build()).build();
 		// FORMAT-ON
+		
+		JiemamyCore core = ctx.getCore();
 		
 		core.add(t1);
 		core.add(t2);
@@ -147,7 +147,6 @@ public class DefaultTableModelTest {
 	 */
 	@Test
 	public void test06_findDeclaringTable() throws Exception {
-		JiemamyCore core = new JiemamyContext().getCore();
 		ColumnModel a;
 		ColumnModel b;
 		ColumnModel c;
@@ -164,40 +163,17 @@ public class DefaultTableModelTest {
 				.build();
 		// FORMAT-ON
 		
+		JiemamyCore core = ctx.getCore();
+		
 		core.add(t1);
 		core.add(t2);
 		
 		Collection<TableModel> tables = DefaultTableModel.findTables(core.getDatabaseObjects());
 		
-		assertThat(DefaultTableModel.findDeclaringTable(tables, a.getReference()), is(t1));
-		assertThat(DefaultTableModel.findDeclaringTable(tables, b.getReference()), is(t1));
-		assertThat(DefaultTableModel.findDeclaringTable(tables, c.getReference()), is(t2));
-		assertThat(DefaultTableModel.findDeclaringTable(tables, d.getReference()), is(t2));
-	}
-	
-	/**
-	 * TODO for daisuke
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
-	@Test
-	public void test06_lifecycle2() throws Exception {
-		JiemamyCore core1 = new JiemamyContext().getCore();
-		JiemamyCore core2 = new JiemamyContext().getCore();
-		
-		DefaultTableModel table = new Table().build();
-		core1.add(table);
-		core1.remove(table);
-		core2.add(table);
-		core2.remove(table);
-		
-		core1.add(table);
-		try {
-			core2.add(table);
-			fail();
-		} catch (EntityLifecycleException e) {
-			// success
-		}
+		assertThat(DefaultTableModel.findDeclaringTable(tables, a), is(t1));
+		assertThat(DefaultTableModel.findDeclaringTable(tables, b), is(t1));
+		assertThat(DefaultTableModel.findDeclaringTable(tables, c), is(t2));
+		assertThat(DefaultTableModel.findDeclaringTable(tables, d), is(t2));
 	}
 	
 	/**
@@ -213,17 +189,11 @@ public class DefaultTableModelTest {
 		DefaultColumnModel column = new Column().build();
 		
 		table1.addColumn(column);
-		table1.removeColumn(column);
+		table1.removeColumn(column.toReference());
 		table2.addColumn(column);
-		table2.removeColumn(column);
+		table2.removeColumn(column.toReference());
 		
 		table1.addColumn(column);
-		try {
-			table2.addColumn(column);
-			fail();
-		} catch (EntityLifecycleException e) {
-			// success
-		}
 	}
 	
 	/**
@@ -233,41 +203,40 @@ public class DefaultTableModelTest {
 	 */
 	@Test
 	public void test10_getColumn() throws Exception {
-		JiemamyCore core = new JiemamyContext().getCore();
+		JiemamyCore core = ctx.getCore();
 		
 		DefaultTableModel table = new Table("HOGE").build();
-		DefaultColumnModel foo = new Column("FOO").build();
+		ColumnModel foo = new Column("FOO").build();
 		DefaultColumnModel foo2 = new Column("FOO").build();
-		DefaultColumnModel bar = new Column("BAR").build();
+		ColumnModel bar = new Column("BAR").build();
 		
 		assertThat(table.getColumns().size(), is(0));
 		
 		table.addColumn(foo);
 		table.addColumn(bar);
 		core.add(table);
-		core.add(foo);
-		core.add(bar);
+//		core.add(foo);
+//		core.add(bar);
 		
 		assertThat(table.getColumns().size(), is(2));
-		assertThat(table.getColumn("FOO", core), is(foo.getReference()));
-		assertThat(table.getColumn("BAR", core), is(bar.getReference()));
+		assertThat(table.getColumn("FOO"), is(foo));
+		assertThat(table.getColumn("BAR"), is(bar));
 		
-		table.removeColumn(bar);
+		table.removeColumn(bar.toReference());
 		
 		assertThat(table.getColumns().size(), is(1));
-		assertThat(table.getColumn("FOO", core), is(foo.getReference()));
+		assertThat(table.getColumn("FOO"), is(foo));
 		
 		try {
-			table.getColumn("BAR", core);
+			table.getColumn("BAR");
 			fail();
 		} catch (ColumnNotFoundException e) {
 			// success
 		}
 		
 		table.addColumn(foo2);
-		core.add(foo2);
 		try {
-			table.getColumn("FOO", core);
+			table.getColumn("FOO");
 			fail();
 		} catch (TooManyColumnsFoundException e) {
 			// success
@@ -281,7 +250,8 @@ public class DefaultTableModelTest {
 	 */
 	@Test
 	public void testname() throws Exception {
-		JiemamyCore core = new JiemamyContext().getCore();
+		JiemamyCore core = ctx.getCore();
+		
 		ColumnModel b;
 		ColumnModel c;
 		ColumnModel d;

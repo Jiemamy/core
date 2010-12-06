@@ -18,12 +18,11 @@
  */
 package org.jiemamy;
 
-import java.util.IdentityHashMap;
-import java.util.Iterator;
 import java.util.Map;
+import java.util.UUID;
 
-import org.jiemamy.model.EntityLifecycleException;
-import org.jiemamy.utils.Disposable;
+import org.jiemamy.model.EntityNotFoundException;
+import org.jiemamy.model.dbo.DatabaseObjectModel;
 import org.jiemamy.utils.collection.CollectionsUtil;
 
 /**
@@ -32,70 +31,73 @@ import org.jiemamy.utils.collection.CollectionsUtil;
  * @version $Id$
  * @author daisuke
  */
-public class JiemamyContext implements Disposable {
+public class JiemamyContext {
 	
-	private static IdentityHashMap<Entity, JiemamyContext> map = CollectionsUtil.newIdentityHashMap();
+	Map<UUID, Entity> map = CollectionsUtil.newHashMap();
 	
-
-	static int managedEntityCount() {
-		return map.size();
-	}
-	
-
-	private JiemamyCore core;
+	Map<Class<? extends JiemamyFacet>, JiemamyFacet> facets = CollectionsUtil.newHashMap();
 	
 
 	public JiemamyContext() {
-		core = new JiemamyCore(this);
+		facets.put(JiemamyCore.class, new JiemamyCore(this));
 	}
 	
-	public void dispose() {
-		synchronized (map) {
-			Iterator<Map.Entry<Entity, JiemamyContext>> iterator = map.entrySet().iterator();
-			while (iterator.hasNext()) {
-				Map.Entry<Entity, JiemamyContext> entry = iterator.next();
-				if (entry.getValue() == this) {
-					iterator.remove();
-				}
-			}
-		}
-	}
-	
-	public void finishManage(Entity entity) {
-		synchronized (map) {
-			map.remove(entity);
-		}
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param dbo
+	 */
+	public void add(DatabaseObjectModel dbo) {
+		getCore().add(dbo);
 	}
 	
 	public JiemamyCore getCore() {
-		return core;
+		return getFacet(JiemamyCore.class);
 	}
 	
 	public <T extends JiemamyFacet>T getFacet(Class<T> clazz) {
-		return null;
+		if (facets == null) {
+			throw new IllegalStateException();
+		}
+		return clazz.cast(facets.get(clazz));
 	}
 	
-	public boolean isManaging(Entity entity) {
-		synchronized (map) {
-			return map.get(entity) == this;
-		}
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param reference
+	 */
+	public void remove(EntityRef<?> ref) {
+		getCore().remove(ref);
 	}
 	
-	public void startManage(Entity entity) {
-		synchronized (map) {
-			if (isManaged(entity)) {
-				throw new EntityLifecycleException();
-			}
-			map.put(entity, this);
-		}
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param ref
+	 * @return 
+	 */
+	@SuppressWarnings("unchecked")
+	public <T extends Entity>T resolve(EntityRef<T> ref) {
+		return (T) resolve(ref.getReferentId());
 	}
 	
-	boolean isManaged(Entity entity) {
-		synchronized (map) {
-			if (map.containsKey(entity)) {
-				return true;
-			}
-			return false;
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param id
+	 * @return 
+	 */
+	public Entity resolve(UUID id) {
+		Entity resolved = map.get(id);
+		if (resolved == null) {
+			throw new EntityNotFoundException();
 		}
+		return resolved;
 	}
+	
+	int managedEntityCount() {
+		return map.size();
+	}
+	
 }

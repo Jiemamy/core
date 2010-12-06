@@ -30,6 +30,8 @@ import org.jiemamy.model.datatype.TypeVariant;
  */
 public interface ColumnModel extends Entity {
 	
+	ColumnModel clone();
+	
 	/**
 	 * 型記述子を取得する。
 	 * 
@@ -70,6 +72,6 @@ public interface ColumnModel extends Entity {
 	 */
 	String getName();
 	
-	EntityRef<ColumnModel> getReference();
+	EntityRef<ColumnModel> toReference();
 	
 }

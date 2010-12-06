@@ -41,7 +41,7 @@ public final class DefaultPrimaryKeyConstraintModel extends AbstractKeyConstrain
 	public static DefaultPrimaryKeyConstraintModel of(ColumnModel... columns) {
 		List<EntityRef<ColumnModel>> keyColumnRefs = new ArrayList<EntityRef<ColumnModel>>();
 		for (ColumnModel columnModel : columns) {
-			keyColumnRefs.add(columnModel.getReference());
+			keyColumnRefs.add(columnModel.toReference());
 		}
 		return new DefaultPrimaryKeyConstraintModel(null, null, null, keyColumnRefs, null);
 	}

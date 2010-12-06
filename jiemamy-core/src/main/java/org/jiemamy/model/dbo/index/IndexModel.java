@@ -30,6 +30,8 @@ import org.jiemamy.model.dbo.DatabaseObjectModel;
  */
 public interface IndexModel extends DatabaseObjectModel {
 	
+	IndexModel clone();
+	
 	/**
 	 * インデックスカラムのリストを取得する。
 	 * 

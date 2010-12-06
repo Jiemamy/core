@@ -21,7 +21,9 @@ package org.jiemamy.model.dbo;
 import java.util.Set;
 import java.util.UUID;
 
+import org.jiemamy.Entity;
 import org.jiemamy.EntityRef;
+import org.jiemamy.JiemamyContext;
 import org.jiemamy.model.AbstractEntityModel;
 import org.jiemamy.utils.collection.CollectionsUtil;
 
@@ -52,10 +54,16 @@ public abstract class AbstractDatabaseObjectModel extends AbstractEntityModel im
 		super(id);
 	}
 	
-	public Set<DatabaseObjectModel> findSubDatabaseObjectsNonRecursive(Set<DatabaseObjectModel> databaseObjects) {
+	@Override
+	public AbstractDatabaseObjectModel clone() {
+		return (AbstractDatabaseObjectModel) super.clone();
+	}
+	
+	public Set<DatabaseObjectModel> findSubDatabaseObjectsNonRecursive(Set<DatabaseObjectModel> databaseObjects,
+			JiemamyContext context) {
 		Set<DatabaseObjectModel> collecter = CollectionsUtil.newHashSet();
 		for (DatabaseObjectModel databaseObject : databaseObjects) {
-			if (databaseObject.isSubDatabaseObjectsNonRecursiveOf(databaseObjects, this)) {
+			if (databaseObject.isSubDatabaseObjectsNonRecursiveOf(databaseObjects, this, context)) {
 				collecter.add(databaseObject);
 			}
 		}
@@ -79,11 +87,16 @@ public abstract class AbstractDatabaseObjectModel extends AbstractEntityModel im
 	}
 	
 	public boolean isChildEntityRef(EntityRef<?> entityRef) {
+		for (Entity entity : getSubEntities()) {
+			if (entityRef.isReferenceOf(entity)) {
+				return true;
+			}
+		}
 		return false;
 	}
 	
 	public boolean isSubDatabaseObjectsNonRecursiveOf(Set<DatabaseObjectModel> databaseObjects,
-			DatabaseObjectModel target) {
+			DatabaseObjectModel target, JiemamyContext context) {
 		return false;
 	}
 	

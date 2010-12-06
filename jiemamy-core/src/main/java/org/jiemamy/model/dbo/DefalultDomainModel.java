@@ -22,7 +22,6 @@ import java.util.UUID;
 
 import org.jiemamy.EntityRef;
 import org.jiemamy.model.DefaultEntityRef;
-import org.jiemamy.model.EntityLifecycleException;
 import org.jiemamy.model.attribute.constraint.CheckConstraintModel;
 import org.jiemamy.model.attribute.constraint.NotNullConstraintModel;
 import org.jiemamy.model.datatype.TypeVariant;
@@ -52,6 +51,11 @@ public class DefalultDomainModel extends AbstractDatabaseObjectModel implements 
 		super(id);
 	}
 	
+	@Override
+	public DefalultDomainModel clone() {
+		return (DefalultDomainModel) super.clone();
+	}
+	
 	public CheckConstraintModel getCheckConstraint() {
 		return checkConstraint;
 	}
@@ -62,13 +66,6 @@ public class DefalultDomainModel extends AbstractDatabaseObjectModel implements 
 	
 	public NotNullConstraintModel getNotNullConstraint() {
 		return notNullConstraint;
-	}
-	
-	public EntityRef<DomainModel> getReference() {
-		if (getId() == null) {
-			throw new EntityLifecycleException();
-		}
-		return new DefaultEntityRef<DomainModel>(this);
 	}
 	
 	/**
@@ -99,6 +96,10 @@ public class DefalultDomainModel extends AbstractDatabaseObjectModel implements 
 	 */
 	public void setNotNullConstraint(NotNullConstraintModel notNullConstraint) {
 		this.notNullConstraint = notNullConstraint;
+	}
+	
+	public EntityRef<DomainModel> toReference() {
+		return new DefaultEntityRef<DomainModel>(this);
 	}
 	
 	@Override

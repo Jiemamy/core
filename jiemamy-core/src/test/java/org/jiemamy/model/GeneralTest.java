@@ -24,6 +24,7 @@ import static org.junit.Assert.assertThat;
 import java.util.Arrays;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import org.jiemamy.EntityRef;
@@ -46,6 +47,19 @@ import org.jiemamy.model.dbo.Table;
  */
 public class GeneralTest {
 	
+	private JiemamyContext ctx;
+	
+
+	/**
+	 * テストを初期化する。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Before
+	public void setUp() throws Exception {
+		ctx = new JiemamyContext();
+	}
+	
 	/**
 	 * TODO for daisuke
 	 * 
@@ -53,8 +67,7 @@ public class GeneralTest {
 	 */
 	@Test
 	public void test1() throws Exception {
-		JiemamyContext context = new JiemamyContext();
-		JiemamyCore core = context.getCore();
+		JiemamyCore core = ctx.getCore();
 		
 		DefaultColumnModel col1 = new Column().whoseNameIs("KEY").build();
 		DefaultColumnModel col2 = new Column().whoseNameIs("VALUE").build();
@@ -63,7 +76,7 @@ public class GeneralTest {
 		tableModel.addColumn(col1);
 		tableModel.addColumn(col2);
 		@SuppressWarnings("unchecked")
-		List<EntityRef<ColumnModel>> pk = Arrays.asList(col1.getReference());
+		List<EntityRef<ColumnModel>> pk = Arrays.asList(col1.toReference());
 		tableModel.addConstraint(new DefaultPrimaryKeyConstraintModel(null, null, null, pk, null));
 		core.add(tableModel);
 		
@@ -78,8 +91,7 @@ public class GeneralTest {
 	 */
 	@Test
 	public void test2() throws Exception {
-		JiemamyContext context = new JiemamyContext();
-		JiemamyCore core = context.getCore();
+		JiemamyCore core = ctx.getCore();
 		
 		ColumnModel pkColumn;
 		// FORMAT-OFF
@@ -102,8 +114,7 @@ public class GeneralTest {
 	 */
 	@Test
 	public void test3() throws Exception {
-		JiemamyContext context = new JiemamyContext();
-		JiemamyCore core = context.getCore();
+		JiemamyCore core = ctx.getCore();
 		
 		ColumnModel pkColumn;
 		ColumnModel fkColumn1;
