@@ -24,10 +24,10 @@ import java.util.UUID;
 
 import org.apache.commons.lang.Validate;
 
-import org.jiemamy.model.EntityLifecycleException;
 import org.jiemamy.model.EntityNotFoundException;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
 import org.jiemamy.utils.collection.CollectionsUtil;
+import org.jiemamy.utils.reflect.ClassUtil;
 
 /**
  * TODO for daisuke
@@ -35,7 +35,7 @@ import org.jiemamy.utils.collection.CollectionsUtil;
  * @version $Id$
  * @author daisuke
  */
-public class JiemamyCore implements JiemamyFacet {
+public class CoreFacet implements JiemamyFacet {
 	
 	private final JiemamyContext context;
 	
@@ -43,10 +43,12 @@ public class JiemamyCore implements JiemamyFacet {
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param context コンテキスト
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @param context
+	 *            コンテキスト
+	 * @throws IllegalArgumentException
+	 *             引数に{@code null}を与えた場合
 	 */
-	JiemamyCore(JiemamyContext context) {
+	CoreFacet(JiemamyContext context) {
 		Validate.notNull(context);
 		this.context = context;
 	}
@@ -54,15 +56,12 @@ public class JiemamyCore implements JiemamyFacet {
 	/**
 	 * 引数に指定した {@link DatabaseObjectModel} をREPOSITORYの管理下に置く。
 	 * 
-	 * <p>{@link DatabaseObjectModel}は、リポジトリの管理下に置かれることにより、ライフサイクルが開始する。</p>
-	 * 
 	 * @param dbo 管理対象
-	 * @throws EntityLifecycleException 引数{@code dbo}のライフサイクルがaliveの場合
 	 * @throws IllegalArgumentException 引数{@code dbo}に{@code null}を与えた場合
 	 */
 	public void add(DatabaseObjectModel dbo) {
 		Validate.notNull(dbo);
-		add((Entity) dbo);
+		context.add(dbo);
 	}
 	
 	/**
@@ -134,6 +133,7 @@ public class JiemamyCore implements JiemamyFacet {
 	
 	/**
 	 * somethingを取得する。 TODO for daisuke
+	 * 
 	 * @return the databaseObjects
 	 */
 	public Set<DatabaseObjectModel> getDatabaseObjects() {
@@ -152,21 +152,20 @@ public class JiemamyCore implements JiemamyFacet {
 	}
 	
 	/**
-	 * 引数に指定した {@link DatabaseObjectModel} をREPOSITORYの管理下から外す。
+	 * 指定した {@link DatabaseObjectModel} をコンテキストの管理下から外す。
 	 * 
-	 * <p>{@link DatabaseObjectModel}は、リポジトリの管理下から外れることにより、ライフサイクルが終了する。</p>
-	 * 
-	 * @param dbo 管理対象
+	 * @param dbo {@link DatabaseObjectModel}
+	 * @throws EntityNotFoundException 指定した{@link DatabaseObjectModel}がコンテキスト上に存在しない場合
 	 * @throws IllegalArgumentException 引数{@code dbo}に{@code null}を与えた場合
-	 * @throws EntityLifecycleException 引数{@code dbo}がこのREPOSITORY管理下にない場合
 	 */
 	public void remove(DatabaseObjectModel dbo) {
 		Validate.notNull(dbo);
-		remove(dbo.toReference());
+		context.remove(dbo.toReference());
 	}
 	
 	/**
-	 * このREPOSITORYの管理下にある {@link DatabaseObjectModel} の中から、{@code ref}が参照する {@link DatabaseObjectModel}を返す。
+	 * このREPOSITORYの管理下にある {@link DatabaseObjectModel} の中から、{@code ref}が参照する
+	 * {@link DatabaseObjectModel}を返す。
 	 * 
 	 * @param <T> {@link DatabaseObjectModel}の型
 	 * @param ref 参照オブジェクト
@@ -180,7 +179,8 @@ public class JiemamyCore implements JiemamyFacet {
 	}
 	
 	/**
-	 * このREPOSITORYの管理下にある {@link DatabaseObjectModel} の中から、指定したENTITY IDを持つ {@link DatabaseObjectModel}を返す。
+	 * このREPOSITORYの管理下にある {@link DatabaseObjectModel} の中から、指定したENTITY IDを持つ
+	 * {@link DatabaseObjectModel}を返す。
 	 * 
 	 * @param id ENTITY ID
 	 * @return {@link DatabaseObjectModel}
@@ -195,30 +195,8 @@ public class JiemamyCore implements JiemamyFacet {
 		throw new EntityNotFoundException();
 	}
 	
-	void remove(EntityRef<? extends Entity> ref) {
-		Validate.notNull(ref);
-		Entity removed = context.map.remove(ref.getReferentId());
-		if (removed == null) {
-			throw new EntityNotFoundException();
-		}
-		for (Entity entity : removed.getSubEntities()) {
-			remove(entity.toReference());
-		}
-	}
-	
-	private void add(Entity entity) {
-		Validate.notNull(entity);
-		for (Entity sub : entity.getSubEntities()) {
-			if (context.map.containsKey(sub.getId())) {
-				throw new IllegalArgumentException();
-			}
-		}
-		
-		Entity e = entity.clone();
-		
-		context.map.put(entity.getId(), e);
-		for (Entity sub : e.getSubEntities()) {
-			context.map.put(sub.getId(), sub);
-		}
+	@Override
+	public String toString() {
+		return ClassUtil.getShortClassName(getClass()) + "@" + Integer.toHexString(context.hashCode());
 	}
 }

@@ -39,7 +39,7 @@ public final class DefaultPrimaryKeyConstraintModel extends AbstractKeyConstrain
 	 * @return 新しい {@link DefaultPrimaryKeyConstraintModel}
 	 */
 	public static DefaultPrimaryKeyConstraintModel of(ColumnModel... columns) {
-		List<EntityRef<ColumnModel>> keyColumnRefs = new ArrayList<EntityRef<ColumnModel>>();
+		List<EntityRef<? extends ColumnModel>> keyColumnRefs = new ArrayList<EntityRef<? extends ColumnModel>>();
 		for (ColumnModel columnModel : columns) {
 			keyColumnRefs.add(columnModel.toReference());
 		}
@@ -56,7 +56,7 @@ public final class DefaultPrimaryKeyConstraintModel extends AbstractKeyConstrain
 	 * @param deferrability 遅延評価可能性モデル
 	 */
 	public DefaultPrimaryKeyConstraintModel(String name, String logicalName, String description,
-			List<EntityRef<ColumnModel>> keyColumns, DeferrabilityModel deferrability) {
+			List<EntityRef<? extends ColumnModel>> keyColumns, DeferrabilityModel deferrability) {
 		super(name, logicalName, description, keyColumns, deferrability);
 	}
 }

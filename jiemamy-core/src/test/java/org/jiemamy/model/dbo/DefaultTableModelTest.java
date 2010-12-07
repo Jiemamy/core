@@ -29,8 +29,8 @@ import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
 
+import org.jiemamy.CoreFacet;
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.JiemamyCore;
 import org.jiemamy.model.attribute.Column;
 import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.attribute.DefaultColumnModel;
@@ -132,7 +132,7 @@ public class DefaultTableModelTest {
 				.with(new Column().whoseNameIs("D").build()).build();
 		// FORMAT-ON
 		
-		JiemamyCore core = ctx.getCore();
+		CoreFacet core = ctx.getCore();
 		
 		core.add(t1);
 		core.add(t2);
@@ -164,7 +164,7 @@ public class DefaultTableModelTest {
 				.build();
 		// FORMAT-ON
 		
-		JiemamyCore core = ctx.getCore();
+		CoreFacet core = ctx.getCore();
 		
 		core.add(t1);
 		core.add(t2);
@@ -204,7 +204,7 @@ public class DefaultTableModelTest {
 	 */
 	@Test
 	public void test10_getColumn() throws Exception {
-		JiemamyCore core = ctx.getCore();
+		CoreFacet core = ctx.getCore();
 		
 		DefaultTableModel table = new Table("HOGE").build();
 		ColumnModel foo = new Column("FOO").build();
@@ -251,7 +251,7 @@ public class DefaultTableModelTest {
 	 */
 	@Test
 	public void test11() throws Exception {
-		JiemamyCore core = ctx.getCore();
+		CoreFacet core = ctx.getCore();
 		
 		ColumnModel b;
 		ColumnModel c;

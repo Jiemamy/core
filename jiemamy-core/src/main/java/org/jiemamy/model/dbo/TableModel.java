@@ -52,7 +52,7 @@ public interface TableModel extends DatabaseObjectModel {
 	 * @return カラム
 	 * @throws ColumnNotFoundException カラムが見つからなかった場合
 	 */
-	ColumnModel getColumn(EntityRef<ColumnModel> reference);
+	ColumnModel getColumn(EntityRef<? extends ColumnModel> reference);
 	
 	/**
 	 * このテーブルのカラムのうち、{@code name}で示した名前を持つカラムを返す。
@@ -92,6 +92,6 @@ public interface TableModel extends DatabaseObjectModel {
 	 */
 	Collection<? extends KeyConstraintModel> getKeyConstraintModels();
 	
-	EntityRef<TableModel> toReference();
+	EntityRef<? extends TableModel> toReference();
 	
 }

@@ -55,7 +55,7 @@ public final class DefaultIndexColumnModel implements IndexColumnModel {
 	
 
 	/** インデックス対象カラム */
-	private final EntityRef<ColumnModel> columnRef;
+	private final EntityRef<? extends ColumnModel> columnRef;
 	
 	/** カラムソート方式 */
 	private final SortOrder sortOrder;
@@ -67,7 +67,7 @@ public final class DefaultIndexColumnModel implements IndexColumnModel {
 	 * @param columnRef インデックス対象カラム
 	 * @throws IllegalArgumentException 引数{@code columnRef}に{@code null}を与えた場合
 	 */
-	public DefaultIndexColumnModel(EntityRef<ColumnModel> columnRef) {
+	public DefaultIndexColumnModel(EntityRef<? extends ColumnModel> columnRef) {
 		this(columnRef, null);
 	}
 	
@@ -78,7 +78,7 @@ public final class DefaultIndexColumnModel implements IndexColumnModel {
 	 * @param sortOrder カラムソート方式
 	 * @throws IllegalArgumentException 引数{@code columnRef}に{@code null}を与えた場合
 	 */
-	public DefaultIndexColumnModel(EntityRef<ColumnModel> columnRef, SortOrder sortOrder) {
+	public DefaultIndexColumnModel(EntityRef<? extends ColumnModel> columnRef, SortOrder sortOrder) {
 		Validate.notNull(columnRef);
 		this.columnRef = columnRef;
 		this.sortOrder = sortOrder;
@@ -113,7 +113,7 @@ public final class DefaultIndexColumnModel implements IndexColumnModel {
 		return true;
 	}
 	
-	public EntityRef<ColumnModel> getColumnRef() {
+	public EntityRef<? extends ColumnModel> getColumnRef() {
 		return columnRef;
 	}
 	

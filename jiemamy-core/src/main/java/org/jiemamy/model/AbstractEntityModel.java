@@ -25,7 +25,6 @@ import java.util.UUID;
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.Entity;
-import org.jiemamy.EntityRef;
 import org.jiemamy.JiemamyError;
 
 /**
@@ -88,13 +87,13 @@ public abstract class AbstractEntityModel implements Entity {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
-	
-	public final boolean isChildEntityRef(EntityRef<?> entityRef) {
-		for (Entity entity : getSubEntities()) {
-			if (entityRef.isReferenceOf(entity)) {
-				return true;
-			}
-		}
-		return false;
-	}
+//	
+//	public final boolean isChildEntityRef(EntityRef<?> entityRef) {
+//		for (Entity entity : getSubEntities()) {
+//			if (entityRef.isReferenceOf(entity)) {
+//				return true;
+//			}
+//		}
+//		return false;
+//	}
 }

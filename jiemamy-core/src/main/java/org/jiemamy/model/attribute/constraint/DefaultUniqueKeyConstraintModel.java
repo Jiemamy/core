@@ -41,7 +41,7 @@ public final class DefaultUniqueKeyConstraintModel extends AbstractKeyConstraint
 	 * @param deferrability 遅延評価可能性モデル
 	 */
 	public DefaultUniqueKeyConstraintModel(String name, String logicalName, String description,
-			List<EntityRef<ColumnModel>> keyColumns, DeferrabilityModel deferrability) {
+			List<EntityRef<? extends ColumnModel>> keyColumns, DeferrabilityModel deferrability) {
 		super(name, logicalName, description, keyColumns, deferrability);
 	}
 	

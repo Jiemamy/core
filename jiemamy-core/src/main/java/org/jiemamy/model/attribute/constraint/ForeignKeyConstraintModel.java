@@ -63,7 +63,7 @@ public interface ForeignKeyConstraintModel extends KeyConstraintModel {
 	 * @return 参照カラムのリスト
 	 * @since 0.2
 	 */
-	List<EntityRef<ColumnModel>> getReferenceColumns();
+	List<EntityRef<? extends ColumnModel>> getReferenceColumns();
 	
 
 	/**

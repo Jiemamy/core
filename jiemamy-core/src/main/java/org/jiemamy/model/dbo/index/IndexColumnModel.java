@@ -36,7 +36,7 @@ public interface IndexColumnModel extends ValueObject {
 	 * @return インデックス対象カラム. 未設定の場合は{@code null}
 	 * @since 0.2
 	 */
-	EntityRef<ColumnModel> getColumnRef();
+	EntityRef<? extends ColumnModel> getColumnRef();
 	
 	/**
 	 * カラムソート方式を取得する。

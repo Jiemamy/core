@@ -86,17 +86,6 @@
       <artifactId>commons-io</artifactId>
     </dependency>
     <dependency>
-      <groupId>commons-beanutils</groupId>
-      <artifactId>commons-beanutils</artifactId>
-      <version>1.8.0</version>
-      <exclusions>
-        <exclusion>
-          <groupId>commons-logging</groupId>
-          <artifactId>commons-logging</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
       <groupId>net.sourceforge.collections</groupId>
       <artifactId>collections-generic</artifactId>
     </dependency>
@@ -113,7 +102,7 @@
   </dependencies>
   <repositories>
     <repository>
-      <id>jiemamy.org</id>
+      <id>jiemamy.org-release</id>
       <name>Jiemamy Repository</name>
       <url>http://maven.jiemamy.org/release</url>
     </repository>

@@ -40,7 +40,7 @@ public abstract class KeyConstraintModelBuilder<T extends KeyConstraintModel, S 
 	
 	// CHECKSTYLE:ON
 	
-	List<EntityRef<ColumnModel>> keyColumns = CollectionsUtil.newArrayList();
+	List<EntityRef<? extends ColumnModel>> keyColumns = CollectionsUtil.newArrayList();
 	
 
 	/**
@@ -61,7 +61,7 @@ public abstract class KeyConstraintModelBuilder<T extends KeyConstraintModel, S 
 	 * @param columnRef キーカラムの参照オブジェクト
 	 * @return このビルダークラスのインスタンス
 	 */
-	public S addKeyColumn(final EntityRef<ColumnModel> columnRef) {
+	public S addKeyColumn(final EntityRef<? extends ColumnModel> columnRef) {
 		addConfigurator(new BuilderConfigurator<S>() {
 			
 			public void configure(S builder) {
@@ -76,7 +76,7 @@ public abstract class KeyConstraintModelBuilder<T extends KeyConstraintModel, S 
 	protected void apply(T vo, S builder) {
 		super.apply(vo, builder);
 		
-		for (EntityRef<ColumnModel> columnRef : vo.getKeyColumns()) {
+		for (EntityRef<? extends ColumnModel> columnRef : vo.getKeyColumns()) {
 			builder.addKeyColumn(columnRef);
 		}
 	}

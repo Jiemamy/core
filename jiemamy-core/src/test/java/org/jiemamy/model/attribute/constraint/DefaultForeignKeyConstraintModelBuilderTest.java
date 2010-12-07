@@ -20,7 +20,7 @@ package org.jiemamy.model.attribute.constraint;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.isIn;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 
@@ -47,9 +47,9 @@ public class DefaultForeignKeyConstraintModelBuilderTest {
 	@Test
 	public void test01_build() throws Exception {
 		@SuppressWarnings("unchecked")
-		EntityRef<ColumnModel> ref1 = mock(EntityRef.class);
+		EntityRef<? extends ColumnModel> ref1 = mock(EntityRef.class);
 		@SuppressWarnings("unchecked")
-		EntityRef<ColumnModel> ref2 = mock(EntityRef.class);
+		EntityRef<? extends ColumnModel> ref2 = mock(EntityRef.class);
 		
 		DefaultForeignKeyConstraintModelBuilder builder = new DefaultForeignKeyConstraintModelBuilder();
 		
@@ -63,8 +63,8 @@ public class DefaultForeignKeyConstraintModelBuilderTest {
 		// FORMAT-ON
 		
 		assertThat(fk.getName(), is("FOO"));
-		assertThat(fk.getKeyColumns(), hasItem(ref1));
-		assertThat(fk.getReferenceColumns(), hasItem(ref2));
+		assertThat(ref1, isIn(fk.getKeyColumns()));
+		assertThat(ref2, isIn(fk.getReferenceColumns()));
 		assertThat(fk.getDeferrability(), is(nullValue()));
 		assertThat(fk.getMatchType(), is(MatchType.SIMPLE));
 		assertThat(fk.getOnDelete(), is(ReferentialAction.CASCADE));
@@ -98,8 +98,8 @@ public class DefaultForeignKeyConstraintModelBuilderTest {
 		ForeignKeyConstraintModel fk2 = builder2.setName("BAR").setMatchType(MatchType.PARTIAL).apply(fk);
 		
 		assertThat(fk2.getName(), is("BAR"));
-		assertThat(fk2.getKeyColumns(), hasItem(ref1));
-		assertThat(fk2.getReferenceColumns(), hasItem(ref2));
+		assertThat(ref1, isIn(fk2.getKeyColumns()));
+		assertThat(ref2, isIn(fk2.getReferenceColumns()));
 		assertThat(fk2.getDeferrability(), is(nullValue()));
 		assertThat(fk2.getMatchType(), is(MatchType.PARTIAL));
 		assertThat(fk2.getOnDelete(), is(ReferentialAction.CASCADE));
@@ -143,8 +143,8 @@ public class DefaultForeignKeyConstraintModelBuilderTest {
 		ForeignKeyConstraintModel fk4 = builder2.apply(fk2);
 		
 		assertThat(fk4.getName(), is("BAR"));
-		assertThat(fk4.getKeyColumns(), hasItem(ref1));
-		assertThat(fk4.getReferenceColumns(), hasItem(ref2));
+		assertThat(ref1, isIn(fk4.getKeyColumns()));
+		assertThat(ref2, isIn(fk4.getReferenceColumns()));
 		assertThat(fk4.getDeferrability(), is(nullValue()));
 		assertThat(fk4.getMatchType(), is(MatchType.PARTIAL));
 		assertThat(fk4.getOnDelete(), is(nullValue()));

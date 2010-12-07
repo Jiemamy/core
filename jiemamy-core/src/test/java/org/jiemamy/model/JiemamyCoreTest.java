@@ -32,7 +32,7 @@ import org.junit.Test;
 
 import org.jiemamy.Entity;
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.JiemamyCore;
+import org.jiemamy.CoreFacet;
 import org.jiemamy.model.attribute.Column;
 import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.attribute.constraint.DefaultForeignKeyConstraintModel;
@@ -44,7 +44,7 @@ import org.jiemamy.model.dbo.TableModel;
 import org.jiemamy.utils.UUIDUtil;
 
 /**
- * {@link JiemamyCore}のテストクラス。
+ * {@link CoreFacet}のテストクラス。
  * 
  * @version $Id$
  * @author daisuke

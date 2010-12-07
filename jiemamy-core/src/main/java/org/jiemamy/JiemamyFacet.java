@@ -23,6 +23,8 @@ import java.util.Set;
 /**
  * TODO for daisuke
  * 
+ * {@link JiemamyContext}のみを引数にとるpublicなコンストラクタが必要。
+ * 
  * @version $Id$
  * @author daisuke
  */

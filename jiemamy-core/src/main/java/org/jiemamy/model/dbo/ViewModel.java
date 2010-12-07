@@ -18,6 +18,7 @@
  */
 package org.jiemamy.model.dbo;
 
+import org.jiemamy.EntityRef;
 
 /**
  * リレーショナルデータベースにおける「ビュー」を表すモデルインターフェイス。
@@ -37,4 +38,5 @@ public interface ViewModel extends DatabaseObjectModel {
 	 */
 	String getDefinition();
 	
+	EntityRef<? extends ViewModel> toReference();
 }

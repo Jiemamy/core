@@ -38,6 +38,6 @@ public interface KeyConstraintModel extends ConstraintModel {
 	 * @return キーを構成するカラムのリスト
 	 * @since 0.2
 	 */
-	List<EntityRef<ColumnModel>> getKeyColumns();
+	List<EntityRef<? extends ColumnModel>> getKeyColumns();
 	
 }

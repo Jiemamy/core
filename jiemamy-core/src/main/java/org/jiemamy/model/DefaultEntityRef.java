@@ -48,7 +48,7 @@ public final class DefaultEntityRef<T extends Entity> implements EntityRef<T> {
 	public DefaultEntityRef(T referent) {
 		Validate.notNull(referent);
 		referentId = referent.getId();
-		checkInvariant();
+		assert referentId != null;
 	}
 	
 	/**
@@ -82,10 +82,7 @@ public final class DefaultEntityRef<T extends Entity> implements EntityRef<T> {
 	
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((referentId == null) ? 0 : referentId.hashCode());
-		return result;
+		return referentId.hashCode();
 	}
 	
 	public boolean isReferenceOf(Entity target) {
@@ -98,9 +95,5 @@ public final class DefaultEntityRef<T extends Entity> implements EntityRef<T> {
 				new ReflectionToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE);
 		
 		return toStringBuilder.toString();
-	}
-	
-	private void checkInvariant() {
-		assert referentId != null;
 	}
 }

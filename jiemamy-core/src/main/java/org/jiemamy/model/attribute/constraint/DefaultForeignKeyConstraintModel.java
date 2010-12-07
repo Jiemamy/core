@@ -39,7 +39,7 @@ public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstrain
 	 * 
 	 * @param keyColumn キーカラム
 	 * @param referenceColumn 参照カラム
-	 * @return 新しい  {@link DefaultForeignKeyConstraintModel}
+	 * @return 新しい{@link DefaultForeignKeyConstraintModel}
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public static ForeignKeyConstraintModel of(ColumnModel keyColumn, ColumnModel referenceColumn) {
@@ -53,7 +53,7 @@ public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstrain
 	
 
 	/** 制約の根拠となるカラムのリスト */
-	private final List<EntityRef<ColumnModel>> referenceColumns;
+	private final List<EntityRef<? extends ColumnModel>> referenceColumns;
 	
 	/** 削除時アクション */
 	private final ReferentialAction onDelete;
@@ -81,9 +81,9 @@ public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstrain
 	 */
 	// CHECKSTYLE:OFF
 	public DefaultForeignKeyConstraintModel(String name, String logicalName, String description,
-			List<EntityRef<ColumnModel>> keyColumns, DeferrabilityModel deferrability,
-			List<EntityRef<ColumnModel>> referenceColumns, ReferentialAction onDelete, ReferentialAction onUpdate,
-			MatchType matchType) {
+			List<EntityRef<? extends ColumnModel>> keyColumns, DeferrabilityModel deferrability,
+			List<EntityRef<? extends ColumnModel>> referenceColumns, ReferentialAction onDelete,
+			ReferentialAction onUpdate, MatchType matchType) {
 		// CHECKSTYLE:ON
 		super(name, description, description, keyColumns, deferrability);
 		Validate.isTrue(keyColumns.size() == referenceColumns.size());
@@ -91,7 +91,7 @@ public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstrain
 		this.matchType = matchType;
 		this.onDelete = onDelete;
 		this.onUpdate = onUpdate;
-		this.referenceColumns = new ArrayList<EntityRef<ColumnModel>>(referenceColumns);
+		this.referenceColumns = new ArrayList<EntityRef<? extends ColumnModel>>(referenceColumns);
 	}
 	
 	@Override
@@ -149,8 +149,8 @@ public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstrain
 		return onUpdate;
 	}
 	
-	public List<EntityRef<ColumnModel>> getReferenceColumns() {
-		return new ArrayList<EntityRef<ColumnModel>>(referenceColumns);
+	public List<EntityRef<? extends ColumnModel>> getReferenceColumns() {
+		return new ArrayList<EntityRef<? extends ColumnModel>>(referenceColumns);
 	}
 	
 	@Override

@@ -98,8 +98,8 @@ public class DefalultDomainModel extends AbstractDatabaseObjectModel implements 
 		this.notNullConstraint = notNullConstraint;
 	}
 	
-	public EntityRef<DomainModel> toReference() {
-		return new DefaultEntityRef<DomainModel>(this);
+	public EntityRef<DefalultDomainModel> toReference() {
+		return new DefaultEntityRef<DefalultDomainModel>(this);
 	}
 	
 	@Override

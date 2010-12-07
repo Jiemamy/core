@@ -21,8 +21,6 @@ package org.jiemamy;
 import java.util.Collection;
 import java.util.UUID;
 
-import org.jiemamy.utils.PublicClonable;
-
 /**
  * DDDにおけるENTITYを表すインターフェイス。
  * 
@@ -35,8 +33,15 @@ import org.jiemamy.utils.PublicClonable;
  * @version $Id$
  * @author daisuke
  */
-public interface Entity extends PublicClonable {
+public interface Entity extends Cloneable {
 	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @return clone
+	 * @since TODO
+	 * @see Object#clone()
+	 */
 	Entity clone();
 	
 	/**
@@ -61,7 +66,7 @@ public interface Entity extends PublicClonable {
 	
 	Collection<? extends Entity> getSubEntities();
 	
-	boolean isChildEntityRef(EntityRef<?> entityRef);
+	// boolean isChildEntityRef(EntityRef<?> entityRef);
 	
 	/**
 	 * 参照オブジェクトを返す。
@@ -69,5 +74,5 @@ public interface Entity extends PublicClonable {
 	 * @return 参照オブジェクト
 	 * @since 0.3
 	 */
-	EntityRef<?> toReference();
+	EntityRef<? extends Entity> toReference();
 }

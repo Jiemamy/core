@@ -19,10 +19,10 @@
 package org.jiemamy.model;
 
 import org.jiemamy.Entity;
-import org.jiemamy.JiemamyCore;
+import org.jiemamy.JiemamyFacet;
 
 /**
- * {@link JiemamyCore}に対するクエリの結果、該当する {@link Entity} が見つからなかったことを表す例外クラス。
+ * {@link JiemamyFacet}に対するクエリの結果、該当する {@link Entity} が見つからなかったことを表す例外クラス。
  * 
  * @version $Id$
  * @author daisuke

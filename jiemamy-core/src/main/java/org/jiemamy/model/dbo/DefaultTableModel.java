@@ -32,7 +32,6 @@ import org.jiemamy.Entity;
 import org.jiemamy.EntityRef;
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.model.DefaultEntityRef;
-import org.jiemamy.model.EntityLifecycleException;
 import org.jiemamy.model.EntityNotFoundException;
 import org.jiemamy.model.ModelConsistencyException;
 import org.jiemamy.model.attribute.ColumnModel;
@@ -77,7 +76,7 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 		if (foreignKey.getReferenceColumns().size() == 0) {
 			throw new ModelConsistencyException();
 		}
-		EntityRef<ColumnModel> columnRef = foreignKey.getReferenceColumns().get(0);
+		EntityRef<? extends ColumnModel> columnRef = foreignKey.getReferenceColumns().get(0);
 		
 		for (DatabaseObjectModel databaseObject : databaseObjects) {
 			for (Entity entity : databaseObject.getSubEntities()) {
@@ -102,7 +101,7 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 		if (foreignKey.getReferenceColumns().size() == 0) {
 			throw new ModelConsistencyException();
 		}
-		EntityRef<ColumnModel> columnRef = foreignKey.getReferenceColumns().get(0);
+		EntityRef<? extends ColumnModel> columnRef = foreignKey.getReferenceColumns().get(0);
 		
 		for (DatabaseObjectModel databaseObject : databaseObjects) {
 			for (Entity entity : databaseObject.getSubEntities()) {
@@ -157,7 +156,6 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	 * テーブルにカラムを追加する。
 	 * 
 	 * @param column カラム
-	 * @throws EntityLifecycleException {@code column}のライフサイクルがaliveの場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public void addColumn(ColumnModel column) {
@@ -213,7 +211,7 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 		return results;
 	}
 	
-	public ColumnModel getColumn(EntityRef<ColumnModel> reference) {
+	public ColumnModel getColumn(EntityRef<? extends ColumnModel> reference) {
 		for (ColumnModel column : columns) {
 			if (reference.isReferenceOf(column)) {
 				return column;
@@ -273,7 +271,7 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 			if (foreignKey.getReferenceColumns().size() == 0) {
 				continue;
 			}
-			EntityRef<ColumnModel> columnRef = foreignKey.getReferenceColumns().get(0);
+			EntityRef<? extends ColumnModel> columnRef = foreignKey.getReferenceColumns().get(0);
 			TableModel referenceTableModel = findDeclaringTable(tables, context.resolve(columnRef));
 			if (referenceTableModel.equals(target)) {
 				return true;
@@ -289,7 +287,7 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	 * @throws EntityNotFoundException 指定した参照が表すカラムがこのテーブルに存在しない場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public void removeColumn(EntityRef<ColumnModel> ref) {
+	public void removeColumn(EntityRef<? extends ColumnModel> ref) {
 		Validate.notNull(ref);
 		for (ColumnModel column : CollectionsUtil.newArrayList(columns)) {
 			if (ref.isReferenceOf(column)) {
@@ -311,8 +309,8 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 		constraints.remove(attribute);
 	}
 	
-	public EntityRef<TableModel> toReference() {
-		return new DefaultEntityRef<TableModel>(this);
+	public EntityRef<DefaultTableModel> toReference() {
+		return new DefaultEntityRef<DefaultTableModel>(this);
 	}
 	
 	private <T extends ConstraintModel>Collection<T> findAttribute(Class<T> clazz) {

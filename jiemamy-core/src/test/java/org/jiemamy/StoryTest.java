@@ -21,7 +21,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.spy;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -69,7 +69,7 @@ public class StoryTest {
 	 */
 	@Test
 	public void story1() throws Exception {
-		JiemamyCore core = ctx1.getCore();
+		CoreFacet core = ctx1.getCore();
 		
 		// FORMAT-OFF
 		ColumnModel pk;
@@ -103,7 +103,7 @@ public class StoryTest {
 	 */
 	@Test
 	public void test1() throws Exception {
-		JiemamyCore core = ctx1.getCore();
+		CoreFacet core = ctx1.getCore();
 		
 		DefaultColumnModel col1 = new Column().whoseNameIs("KEY").build();
 		DefaultColumnModel col2 = new Column().whoseNameIs("VALUE").build();
@@ -111,8 +111,8 @@ public class StoryTest {
 		DefaultTableModel tableModel = new Table().whoseNameIs("T_PROPERTY").build();
 		tableModel.addColumn(col1);
 		tableModel.addColumn(col2);
-		@SuppressWarnings("unchecked")
-		List<EntityRef<ColumnModel>> pk = Arrays.asList(col1.toReference());
+		List<EntityRef<? extends ColumnModel>> pk = new ArrayList<EntityRef<? extends ColumnModel>>();
+		pk.add(col1.toReference());
 		tableModel.addConstraint(new DefaultPrimaryKeyConstraintModel(null, null, null, pk, null));
 		core.add(tableModel);
 		
@@ -127,7 +127,7 @@ public class StoryTest {
 	 */
 	@Test
 	public void test2() throws Exception {
-		JiemamyCore core = ctx1.getCore();
+		CoreFacet core = ctx1.getCore();
 		
 		ColumnModel pkColumn;
 		// FORMAT-OFF
@@ -150,7 +150,7 @@ public class StoryTest {
 	 */
 	@Test
 	public void test3() throws Exception {
-		JiemamyCore core = ctx1.getCore();
+		CoreFacet core = ctx1.getCore();
 		
 		ColumnModel pkColumn;
 		ColumnModel fkColumn1;

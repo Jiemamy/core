@@ -72,6 +72,6 @@ public interface ColumnModel extends Entity {
 	 */
 	String getName();
 	
-	EntityRef<ColumnModel> toReference();
+	EntityRef<? extends ColumnModel> toReference();
 	
 }

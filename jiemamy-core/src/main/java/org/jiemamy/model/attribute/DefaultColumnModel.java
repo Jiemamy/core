@@ -130,8 +130,8 @@ public class DefaultColumnModel extends AbstractEntityModel implements ColumnMod
 		this.name = name;
 	}
 	
-	public EntityRef<ColumnModel> toReference() {
-		return new DefaultEntityRef<ColumnModel>(this);
+	public EntityRef<DefaultColumnModel> toReference() {
+		return new DefaultEntityRef<DefaultColumnModel>(this);
 	}
 	
 	@Override

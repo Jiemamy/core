@@ -18,6 +18,7 @@
  */
 package org.jiemamy.model.dbo;
 
+import org.jiemamy.EntityRef;
 import org.jiemamy.model.attribute.constraint.CheckConstraintModel;
 import org.jiemamy.model.attribute.constraint.NotNullConstraintModel;
 import org.jiemamy.model.datatype.TypeVariant;
@@ -55,4 +56,6 @@ public interface DomainModel extends DatabaseObjectModel {
 	 * @since 0.3
 	 */
 	NotNullConstraintModel getNotNullConstraint();
+	
+	EntityRef<? extends DomainModel> toReference();
 }

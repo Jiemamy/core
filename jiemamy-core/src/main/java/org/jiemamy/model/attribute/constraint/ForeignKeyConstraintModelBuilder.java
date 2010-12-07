@@ -48,7 +48,7 @@ public abstract class ForeignKeyConstraintModelBuilder<T extends ForeignKeyConst
 	
 	ReferentialAction onUpdate;
 	
-	List<EntityRef<ColumnModel>> referenceColumns = CollectionsUtil.newArrayList();
+	List<EntityRef<? extends ColumnModel>> referenceColumns = CollectionsUtil.newArrayList();
 	
 
 	/**
@@ -69,7 +69,7 @@ public abstract class ForeignKeyConstraintModelBuilder<T extends ForeignKeyConst
 	 * @param referenceColumnRef 参照カラムの参照
 	 * @return このビルダークラスのインスタンス
 	 */
-	public S addReferenceColumn(final EntityRef<ColumnModel> referenceColumnRef) {
+	public S addReferenceColumn(final EntityRef<? extends ColumnModel> referenceColumnRef) {
 		addConfigurator(new BuilderConfigurator<S>() {
 			
 			public void configure(S builder) {
@@ -82,6 +82,7 @@ public abstract class ForeignKeyConstraintModelBuilder<T extends ForeignKeyConst
 	
 	/**
 	 * マッチ型を設定する。 
+
 	 * @param matchType マッチ型
 	 * @return このビルダークラスのインスタンス
 	 */
@@ -98,6 +99,7 @@ public abstract class ForeignKeyConstraintModelBuilder<T extends ForeignKeyConst
 	
 	/**
 	 * 削除時アクションを設定する。 
+
 	 * @param onDelete 削除時アクション
 	 * @return このビルダークラスのインスタンス
 	 */
@@ -114,6 +116,7 @@ public abstract class ForeignKeyConstraintModelBuilder<T extends ForeignKeyConst
 	
 	/**
 	 * 更新時アクションを設定する。 
+
 	 * @param onUpdate 更新時アクション
 	 * @return このビルダークラスのインスタンス
 	 */
@@ -136,7 +139,7 @@ public abstract class ForeignKeyConstraintModelBuilder<T extends ForeignKeyConst
 		builder.setOnDelete(vo.getOnDelete());
 		builder.setOnUpdate(vo.getOnUpdate());
 		
-		for (EntityRef<ColumnModel> referenceColumnRef : vo.getReferenceColumns()) {
+		for (EntityRef<? extends ColumnModel> referenceColumnRef : vo.getReferenceColumns()) {
 			builder.addReferenceColumn(referenceColumnRef);
 		}
 	}

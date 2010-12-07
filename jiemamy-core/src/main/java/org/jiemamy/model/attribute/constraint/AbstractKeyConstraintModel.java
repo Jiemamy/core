@@ -34,7 +34,7 @@ import org.jiemamy.model.attribute.ColumnModel;
 public abstract class AbstractKeyConstraintModel extends AbstractConstraintModel implements KeyConstraintModel {
 	
 	/** キー制約を構成するカラムのリスト */
-	private final List<EntityRef<ColumnModel>> keyColumns;
+	private final List<EntityRef<? extends ColumnModel>> keyColumns;
 	
 
 	/**
@@ -48,11 +48,11 @@ public abstract class AbstractKeyConstraintModel extends AbstractConstraintModel
 	 * @throws IllegalArgumentException 引数{@code keyColumns}の要素が空の場合
 	 */
 	public AbstractKeyConstraintModel(String name, String logicalName, String description,
-			List<EntityRef<ColumnModel>> keyColumns, DeferrabilityModel deferrability) {
+			List<EntityRef<? extends ColumnModel>> keyColumns, DeferrabilityModel deferrability) {
 		super(name, logicalName, description, deferrability);
 		Validate.notEmpty(keyColumns);
 		
-		this.keyColumns = new ArrayList<EntityRef<ColumnModel>>(keyColumns);
+		this.keyColumns = new ArrayList<EntityRef<? extends ColumnModel>>(keyColumns);
 	}
 	
 	@Override
@@ -77,8 +77,8 @@ public abstract class AbstractKeyConstraintModel extends AbstractConstraintModel
 		return true;
 	}
 	
-	public List<EntityRef<ColumnModel>> getKeyColumns() {
-		return new ArrayList<EntityRef<ColumnModel>>(keyColumns);
+	public List<EntityRef<? extends ColumnModel>> getKeyColumns() {
+		return new ArrayList<EntityRef<? extends ColumnModel>>(keyColumns);
 	}
 	
 	@Override

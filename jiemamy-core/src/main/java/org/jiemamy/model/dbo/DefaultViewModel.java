@@ -61,7 +61,7 @@ public class DefaultViewModel extends AbstractDatabaseObjectModel implements Vie
 		this.definition = definition;
 	}
 	
-	public EntityRef<?> toReference() {
-		return new DefaultEntityRef<ViewModel>(this);
+	public EntityRef<DefaultViewModel> toReference() {
+		return new DefaultEntityRef<DefaultViewModel>(this);
 	}
 }
