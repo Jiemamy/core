@@ -34,10 +34,14 @@ import org.jiemamy.model.geometory.JmRectangle;
  * @since 0.2
  * @author daisuke
  */
-public class StickyModel extends AbstractEntityModel implements NodeModel {
+public class StickyNodeModel extends AbstractEntityModel implements NodeModel {
 	
 	/** 内容文 */
 	private String contents;
+	
+	private JmRectangle boundary;
+	
+	private JmColor color;
 	
 
 	/**
@@ -45,13 +49,13 @@ public class StickyModel extends AbstractEntityModel implements NodeModel {
 	 * 
 	 * @param id ENTITY ID
 	 */
-	public StickyModel(UUID id) {
+	public StickyNodeModel(UUID id) {
 		super(id);
 	}
 	
 	@Override
-	public StickyModel clone() {
-		return (StickyModel) super.clone();
+	public StickyNodeModel clone() {
+		return (StickyNodeModel) super.clone();
 	}
 	
 	public int compareTo(NodeModel o) {
@@ -61,17 +65,15 @@ public class StickyModel extends AbstractEntityModel implements NodeModel {
 		if (getClass() != o.getClass()) {
 			return this.getClass().getName().compareTo(o.getClass().getName());
 		}
-		return getId().compareTo(((StickyModel) o).getId());
+		return getId().compareTo(((StickyNodeModel) o).getId());
 	}
 	
 	public JmRectangle getBoundary() {
-		// TODO Auto-generated method stub
-		return null;
+		return boundary;
 	}
 	
 	public JmColor getColor() {
-		// TODO Auto-generated method stub
-		return null;
+		return color;
 	}
 	
 	/**
@@ -107,6 +109,14 @@ public class StickyModel extends AbstractEntityModel implements NodeModel {
 		return Collections.emptyList();
 	}
 	
+	public void setBoundary(JmRectangle boundary) {
+		this.boundary = boundary;
+	}
+	
+	public void setColor(JmColor color) {
+		this.color = color;
+	}
+	
 	/**
 	* 内容文を設定する。
 	* 
@@ -119,7 +129,7 @@ public class StickyModel extends AbstractEntityModel implements NodeModel {
 		this.contents = contents;
 	}
 	
-	public EntityRef<StickyModel> toReference() {
-		return new DefaultEntityRef<StickyModel>(this);
+	public EntityRef<StickyNodeModel> toReference() {
+		return new DefaultEntityRef<StickyNodeModel>(this);
 	}
 }

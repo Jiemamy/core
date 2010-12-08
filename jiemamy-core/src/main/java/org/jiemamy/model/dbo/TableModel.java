@@ -68,7 +68,7 @@ public interface TableModel extends DatabaseObjectModel {
 	 * 
 	 * @return このテーブルのカラムの {@link List}
 	 */
-	List<? extends ColumnModel> getColumns();
+	List<ColumnModel> getColumns();
 	
 	/**
 	 * 属性のリストを取得する。

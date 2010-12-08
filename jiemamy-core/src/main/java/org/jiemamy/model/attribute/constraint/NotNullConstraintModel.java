@@ -34,5 +34,5 @@ public interface NotNullConstraintModel extends ValueConstraintModel {
 	 * 
 	 * @return 対象カラム
 	 */
-	EntityRef<ColumnModel> getColumn();
+	EntityRef<? extends ColumnModel> getColumn();
 }

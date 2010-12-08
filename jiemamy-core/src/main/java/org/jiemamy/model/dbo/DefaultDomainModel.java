@@ -31,7 +31,7 @@ import org.jiemamy.model.datatype.TypeVariant;
  * 
  * @author daisuke
  */
-public class DefalultDomainModel extends AbstractDatabaseObjectModel implements DomainModel {
+public class DefaultDomainModel extends AbstractDatabaseObjectModel implements DomainModel {
 	
 	/** ドメインとして定義された型記述子 */
 	private TypeVariant dataType;
@@ -47,13 +47,13 @@ public class DefalultDomainModel extends AbstractDatabaseObjectModel implements 
 	 * @param id ENTITY ID
 	 * @throws IllegalArgumentException 引数{@code id}に{@code null}を与えた場合
 	 */
-	public DefalultDomainModel(UUID id) {
+	public DefaultDomainModel(UUID id) {
 		super(id);
 	}
 	
 	@Override
-	public DefalultDomainModel clone() {
-		return (DefalultDomainModel) super.clone();
+	public DefaultDomainModel clone() {
+		return (DefaultDomainModel) super.clone();
 	}
 	
 	public CheckConstraintModel getCheckConstraint() {
@@ -98,8 +98,8 @@ public class DefalultDomainModel extends AbstractDatabaseObjectModel implements 
 		this.notNullConstraint = notNullConstraint;
 	}
 	
-	public EntityRef<DefalultDomainModel> toReference() {
-		return new DefaultEntityRef<DefalultDomainModel>(this);
+	public EntityRef<DefaultDomainModel> toReference() {
+		return new DefaultEntityRef<DefaultDomainModel>(this);
 	}
 	
 	@Override

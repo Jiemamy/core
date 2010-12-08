@@ -237,7 +237,7 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 		throw new TooManyColumnsFoundException(c);
 	}
 	
-	public List<? extends ColumnModel> getColumns() {
+	public List<ColumnModel> getColumns() {
 		assert columns != null;
 		return CollectionsUtil.newArrayList(columns);
 	}

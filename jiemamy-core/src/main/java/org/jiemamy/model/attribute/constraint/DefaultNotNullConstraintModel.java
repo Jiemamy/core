@@ -28,7 +28,7 @@ import org.jiemamy.model.attribute.ColumnModel;
  */
 public final class DefaultNotNullConstraintModel extends AbstractConstraintModel implements NotNullConstraintModel {
 	
-	private final EntityRef<ColumnModel> column;
+	private final EntityRef<? extends ColumnModel> column;
 	
 
 	/**
@@ -41,12 +41,12 @@ public final class DefaultNotNullConstraintModel extends AbstractConstraintModel
 	 * @param column 対象カラム
 	 */
 	public DefaultNotNullConstraintModel(String name, String logicalName, String description,
-			DeferrabilityModel deferrability, EntityRef<ColumnModel> column) {
+			DeferrabilityModel deferrability, EntityRef<? extends ColumnModel> column) {
 		super(name, logicalName, description, deferrability);
 		this.column = column;
 	}
 	
-	public EntityRef<ColumnModel> getColumn() {
+	public EntityRef<? extends ColumnModel> getColumn() {
 		return column;
 	}
 	

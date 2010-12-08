@@ -72,6 +72,6 @@ public interface RecordModel extends ValueObject {
 	 * @return カラムに対応するデータ
 	 * @since 0.2
 	 */
-	Map<EntityRef<ColumnModel>, String> getValues();
+	Map<EntityRef<? extends ColumnModel>, String> getValues();
 	
 }

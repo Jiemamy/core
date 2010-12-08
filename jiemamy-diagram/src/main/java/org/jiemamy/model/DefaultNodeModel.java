@@ -34,9 +34,9 @@ import org.jiemamy.utils.collection.CollectionsUtil;
  */
 public class DefaultNodeModel extends AbstractEntityModel implements NodeModel {
 	
-	private Collection<? extends ConnectionModel> sourceConnections;
+	private Collection<ConnectionModel> sourceConnections;
 	
-	private Collection<? extends ConnectionModel> targetConnections;
+	private Collection<ConnectionModel> targetConnections;
 	
 	private JmRectangle boundary;
 	
@@ -53,6 +53,14 @@ public class DefaultNodeModel extends AbstractEntityModel implements NodeModel {
 	public DefaultNodeModel(UUID id, EntityRef<? extends DatabaseObjectModel> coreModelRef) {
 		super(id);
 		this.coreModelRef = coreModelRef;
+	}
+	
+	public Collection<ConnectionModel> breachEncapslationOfSourceConnections() {
+		return sourceConnections;
+	}
+	
+	public Collection<ConnectionModel> breachEncapslationOfTargetConnections() {
+		return targetConnections;
 	}
 	
 	@Override

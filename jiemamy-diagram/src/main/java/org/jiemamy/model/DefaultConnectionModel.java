@@ -48,7 +48,7 @@ public class DefaultConnectionModel extends AbstractEntityModel implements Conne
 	 * 
 	 * @param id ENTITY ID
 	 */
-	protected DefaultConnectionModel(UUID id) {
+	public DefaultConnectionModel(UUID id) {
 		super(id);
 	}
 	

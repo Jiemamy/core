@@ -30,6 +30,7 @@ import org.apache.commons.lang.Validate;
 
 import org.jiemamy.dialect.Dialect;
 import org.jiemamy.model.EntityNotFoundException;
+import org.jiemamy.transaction.JiemamyTransaction;
 import org.jiemamy.utils.collection.CollectionsUtil;
 import org.jiemamy.utils.reflect.ClassUtil;
 import org.jiemamy.xml.JiemamyNamespace;
@@ -161,6 +162,18 @@ public class JiemamyContext {
 	
 	public ServiceLocator getServiceLocator() {
 		return new DefaultServiceLocator();
+	}
+	
+	/**
+	 * 新しいファサードインスタンスを生成し、取得する。
+	 * 
+	 * @param <T> 取得するファサードの型
+	 * @param clazz 取得するファサードの型
+	 * @return 新しいファサード
+	 * @since 0.2
+	 */
+	public <T extends JiemamyTransaction>T getTransaction(Class<T> clazz) {
+		return null;
 	}
 	
 	public Version getVersion() {

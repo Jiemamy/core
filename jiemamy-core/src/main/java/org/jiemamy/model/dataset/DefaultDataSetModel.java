@@ -27,6 +27,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 import org.jiemamy.EntityRef;
 import org.jiemamy.model.dbo.TableModel;
+import org.jiemamy.utils.collection.CollectionsUtil;
 
 /**
  * INSERT文用データセット。
@@ -39,7 +40,7 @@ public final class DefaultDataSetModel implements DataSetModel {
 	private final String name;
 	
 	/** レコード情報 */
-	private final Map<EntityRef<TableModel>, List<RecordModel>> records;
+	private final Map<EntityRef<? extends TableModel>, List<RecordModel>> records;
 	
 
 	/**
@@ -48,9 +49,9 @@ public final class DefaultDataSetModel implements DataSetModel {
 	 * @param name データセット名
 	 * @param records レコード情報
 	 */
-	public DefaultDataSetModel(String name, Map<EntityRef<TableModel>, List<RecordModel>> records) {
+	public DefaultDataSetModel(String name, Map<EntityRef<? extends TableModel>, List<RecordModel>> records) {
 		this.name = name;
-		this.records = new HashMap<EntityRef<TableModel>, List<RecordModel>>(records);
+		this.records = CollectionsUtil.newHashMap(records);
 	}
 	
 	@Override

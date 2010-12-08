@@ -18,7 +18,6 @@
  */
 package org.jiemamy.model.dataset;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -26,6 +25,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 import org.jiemamy.EntityRef;
 import org.jiemamy.model.attribute.ColumnModel;
+import org.jiemamy.utils.collection.CollectionsUtil;
 
 /**
  * レコード（INSERT文1つ分）モデル。
@@ -35,7 +35,7 @@ import org.jiemamy.model.attribute.ColumnModel;
 public final class DefaultRecordModel implements RecordModel {
 	
 	/** カラムに対応するデータ */
-	private final Map<EntityRef<ColumnModel>, String> values;
+	private final Map<EntityRef<? extends ColumnModel>, String> values;
 	
 
 	/**
@@ -43,8 +43,8 @@ public final class DefaultRecordModel implements RecordModel {
 	 * 
 	 * @param values カラムに対応するデータ
 	 */
-	public DefaultRecordModel(Map<EntityRef<ColumnModel>, String> values) {
-		this.values = new HashMap<EntityRef<ColumnModel>, String>(values);
+	public DefaultRecordModel(Map<EntityRef<? extends ColumnModel>, String> values) {
+		this.values = CollectionsUtil.newHashMap(values);
 	}
 	
 	@Override
@@ -69,17 +69,14 @@ public final class DefaultRecordModel implements RecordModel {
 		return true;
 	}
 	
-	public Map<EntityRef<ColumnModel>, String> getValues() {
+	public Map<EntityRef<? extends ColumnModel>, String> getValues() {
 		assert values != null;
-		return new HashMap<EntityRef<ColumnModel>, String>(values);
+		return CollectionsUtil.newHashMap(values);
 	}
 	
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((values == null) ? 0 : values.hashCode());
-		return result;
+		return values == null ? 0 : values.hashCode();
 	}
 	
 	@Override

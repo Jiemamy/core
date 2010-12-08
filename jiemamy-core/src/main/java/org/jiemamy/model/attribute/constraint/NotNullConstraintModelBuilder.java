@@ -35,7 +35,7 @@ public abstract class NotNullConstraintModelBuilder<T extends NotNullConstraintM
 	
 	// CHECKSTYLE:ON
 	
-	EntityRef<ColumnModel> column;
+	EntityRef<? extends ColumnModel> column;
 	
 
 	/**
@@ -44,7 +44,7 @@ public abstract class NotNullConstraintModelBuilder<T extends NotNullConstraintM
 	 * @param column 対象カラム
 	 * @return このビルダークラスのインスタンス
 	 */
-	public S setColumn(final EntityRef<ColumnModel> column) {
+	public S setColumn(final EntityRef<? extends ColumnModel> column) {
 		addConfigurator(new BuilderConfigurator<S>() {
 			
 			public void configure(S builder) {

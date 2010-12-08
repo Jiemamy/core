@@ -42,6 +42,8 @@ public class DefaultIndexModel extends AbstractDatabaseObjectModel implements In
 	/** インデックスカラムのリスト */
 	private List<IndexColumnModel> indexColumns;
 	
+	private String logicalName;
+	
 
 	/**
 	 * インスタンスを生成する。
@@ -51,6 +53,10 @@ public class DefaultIndexModel extends AbstractDatabaseObjectModel implements In
 	 */
 	public DefaultIndexModel(UUID id) {
 		super(id);
+	}
+	
+	public void addIndexColumn(IndexColumnModel indexColumn) {
+		indexColumns.add(indexColumn);
 	}
 	
 	@Override
@@ -65,12 +71,24 @@ public class DefaultIndexModel extends AbstractDatabaseObjectModel implements In
 	
 	@Override
 	public String getLogicalName() {
-		// TODO Auto-generated method stub
-		return null;
+		return logicalName;
 	}
 	
 	public boolean isUnique() {
 		return unique;
+	}
+	
+	public void removeIndexColumn(IndexColumnModel indexColumn) {
+		indexColumns.remove(indexColumn);
+	}
+	
+	@Override
+	public void setLogicalName(String logicalName) {
+		this.logicalName = logicalName;
+	}
+	
+	public void setUnique(boolean unique) {
+		this.unique = unique;
 	}
 	
 	public EntityRef<IndexModel> toReference() {
