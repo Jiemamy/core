@@ -1,5 +1,5 @@
 /*
- * Copyright 2007-2009 Jiemamy Project and the Others.
+ * Copyright 2007-2010 Jiemamy Project and the Others.
  * Created on 2008/09/17
  *
  * This file is part of Jiemamy.
@@ -48,6 +48,6 @@ public interface DataSetModel {
 	 * @return レコード情報
 	 * @since 0.2
 	 */
-	Map<EntityRef<TableModel>, List<RecordModel>> getRecords();
+	Map<EntityRef<? extends TableModel>, List<RecordModel>> getRecords();
 	
 }

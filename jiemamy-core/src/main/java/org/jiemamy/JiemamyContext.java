@@ -20,14 +20,19 @@ package org.jiemamy;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import org.apache.commons.lang.Validate;
 
+import org.jiemamy.dialect.Dialect;
 import org.jiemamy.model.EntityNotFoundException;
 import org.jiemamy.utils.collection.CollectionsUtil;
 import org.jiemamy.utils.reflect.ClassUtil;
+import org.jiemamy.xml.JiemamyNamespace;
 
 /**
  * モデル操作の開始から終了までの、一連の操作文脈を表現するクラス。
@@ -40,6 +45,8 @@ public class JiemamyContext {
 	Map<UUID, Entity> map = CollectionsUtil.newHashMap();
 	
 	Map<Class<? extends JiemamyFacet>, JiemamyFacet> facets = CollectionsUtil.newHashMap();
+	
+	private String dialectClassName;
 	
 
 	/**
@@ -100,12 +107,30 @@ public class JiemamyContext {
 	}
 	
 	/**
+	 * TODO for daisuke
+	 * 
+	 * @return
+	 */
+	public Dialect findDialect() throws ClassNotFoundException {
+		return getServiceLocator().getService(Dialect.class, dialectClassName);
+	}
+	
+	/**
 	 * このコンテキストの {@link CoreFacet} を取得する。
 	 * 
 	 * @return このコンテキストの {@link CoreFacet}
 	 */
 	public CoreFacet getCore() {
 		return getFacet(CoreFacet.class);
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @return
+	 */
+	public String getDialectClassName() {
+		return dialectClassName;
 	}
 	
 	/**
@@ -120,6 +145,26 @@ public class JiemamyContext {
 			throw new IllegalStateException();
 		}
 		return clazz.cast(facets.get(clazz));
+	}
+	
+	public Set<JiemamyFacet> getFacets() {
+		return CollectionsUtil.newHashSet(facets.values());
+	}
+	
+	public JiemamyNamespace[] getNamespaces() {
+		List<JiemamyNamespace> namespaces = CollectionsUtil.newArrayList();
+		for (JiemamyFacet facet : getFacets()) {
+			namespaces.addAll(Arrays.asList(facet.getNamespaces()));
+		}
+		return namespaces.toArray(new JiemamyNamespace[namespaces.size()]);
+	}
+	
+	public ServiceLocator getServiceLocator() {
+		return new DefaultServiceLocator();
+	}
+	
+	public Version getVersion() {
+		return Version.INSTANCE;
 	}
 	
 	/**
@@ -150,6 +195,10 @@ public class JiemamyContext {
 		return resolved;
 	}
 	
+	public void setDialectClassName(String dialectClassName) {
+		this.dialectClassName = dialectClassName;
+	}
+	
 	@Override
 	public String toString() {
 		return ClassUtil.getShortClassName(getClass()) + "@" + Integer.toHexString(hashCode());
@@ -174,4 +223,5 @@ public class JiemamyContext {
 			remove(entity.toReference());
 		}
 	}
+	
 }

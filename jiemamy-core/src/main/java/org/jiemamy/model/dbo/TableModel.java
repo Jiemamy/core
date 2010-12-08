@@ -1,5 +1,5 @@
 /*
- * Copyright 2007-2009 Jiemamy Project and the Others.
+ * Copyright 2007-2010 Jiemamy Project and the Others.
  * Created on 2008/09/17
  *
  * This file is part of Jiemamy.
@@ -77,6 +77,14 @@ public interface TableModel extends DatabaseObjectModel {
 	 * @since 0.2
 	 */
 	List<? extends ConstraintModel> getConstraints();
+	
+	/**
+	 * 属性のリストを取得する。
+	 * 
+	 * @return 属性のリスト
+	 * @since 0.2
+	 */
+	<T extends ConstraintModel>List<T> getConstraints(Class<T> clazz);
 	
 	/**
 	 * このテーブルの外部キー制約の集合を返す。

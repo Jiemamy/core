@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema
+		targetNamespace="http://jiemamy.org/xml/ns/diagram"
+		xmlns:core="http://jiemamy.org/xml/ns/core"
+		xmlns="http://jiemamy.org/xml/ns/diagram"
+		xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+		elementFormDefault="qualified"
+		attributeFormDefault="unqualified"
+		version="0.3">
+
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">Jiemamy view model schema</xsd:documentation> 
+		<xsd:documentation xml:lang="ja-JP">Jiemamyビューモデルスキーマ</xsd:documentation> 
+	</xsd:annotation>
+	
+	<xsd:import namespace="http://jiemamy.org/xml/ns/core" schemaLocation="jiemamy-core.xsd"/>
+
+	<xsd:element name="diagramPresentations">
+		<xsd:complexType>
+			<xsd:sequence maxOccurs="unbounded">
+				<xsd:element ref="diagramPresentation" maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	
+
+	<xsd:element name="diagramPresentation">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="core:name" />
+				<xsd:element name="mode" type="modeType" />
+				<xsd:element name="level" type="levelType" />
+				<xsd:element name="nodeProfiles" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+							<xsd:element ref="nodeProfile" maxOccurs="unbounded" />
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="connectionProfiles" minOccurs="0">
+					<xsd:complexType>
+						<xsd:choice minOccurs="0" maxOccurs="unbounded">
+							<xsd:element ref="connectionProfile" maxOccurs="unbounded" />
+						</xsd:choice>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+			<xsd:attribute name="id" type="core:uuidType" use="required" />
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="nodeProfile">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:choice>
+					<xsd:element ref="nodeObjectRef"/>
+					<xsd:element ref="sticky"/>
+				</xsd:choice>
+				<xsd:element name="boundary">
+					<xsd:complexType>
+						<xsd:attribute name="x" type="overMinusOneType" default="-1" />
+						<xsd:attribute name="y" type="overMinusOneType" default="-1" />
+						<xsd:attribute name="width" type="overMinusOneType" default="-1" />
+						<xsd:attribute name="height" type="overMinusOneType" default="-1" />
+						<xsd:attribute name="color" type="colorType" />
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+			<xsd:attribute name="id" type="core:uuidType" use="required" />
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="connectionProfile">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:choice>
+					<xsd:element ref="connectionObjectRef"/>
+				</xsd:choice>
+				<xsd:element ref="bendpoints" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+			<xsd:attribute name="id" type="core:uuidType" use="required" />
+		</xsd:complexType>
+	</xsd:element>
+	
+	
+	<xsd:element name="nodeObjectRef">
+		<xsd:complexType>
+			<xsd:attribute name="ref" type="core:uuidType" use="required" />
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="connectionObjectRef">
+		<xsd:complexType>
+			<xsd:attribute name="ref" type="core:uuidType" use="required" />
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="bendpoints">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="bendpoint" minOccurs="0" maxOccurs="unbounded">
+					<xsd:complexType>
+						<xsd:attribute name="x" type="overMinusOneType" default="-1" />
+						<xsd:attribute name="y" type="overMinusOneType" default="-1" />
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="sticky">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">Sticky</xsd:documentation> 
+			<xsd:documentation xml:lang="ja-JP">付箋を表す。</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="contents" type="xsd:string" />
+			</xsd:sequence>
+			<xsd:attribute name="id" type="core:uuidType" use="required" />
+		</xsd:complexType>
+	</xsd:element>
+
+	<!-- 単純型 -->
+	
+	<xsd:simpleType name="overMinusOneType">
+		<xsd:restriction base="xsd:integer">
+			<xsd:minInclusive value="-1" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="colorType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">RGB color type</xsd:documentation> 
+			<xsd:documentation xml:lang="ja-JP">RGB色定義型</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="#[0-9a-f]{6}"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="modeType">
+		<xsd:restriction base="xsd:token">
+			<xsd:enumeration value="PHYSICAL" />
+			<xsd:enumeration value="LOGICAL" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="levelType">
+		<xsd:restriction base="xsd:token">
+			<xsd:enumeration value="ENTITY" />
+			<xsd:enumeration value="KEY" />
+			<xsd:enumeration value="ATTR" />
+			<xsd:enumeration value="ATTRTYPE" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+</xsd:schema>

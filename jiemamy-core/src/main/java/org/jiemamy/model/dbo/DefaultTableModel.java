@@ -1,5 +1,5 @@
 /*
- * Copyright 2007-2009 Jiemamy Project and the Others.
+ * Copyright 2007-2010 Jiemamy Project and the Others.
  * Created on 2008/06/09
  *
  * This file is part of Jiemamy.
@@ -175,7 +175,7 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	 */
 	public void addConstraint(ConstraintModel constraint) {
 		Validate.notNull(constraint);
-		constraints.add(constraint);
+		constraints.add(constraint); // TODO add or replace
 	}
 	
 	@Override
@@ -245,6 +245,17 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	public List<? extends ConstraintModel> getConstraints() {
 		assert constraints != null;
 		return new ArrayList<ConstraintModel>(constraints);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public <T extends ConstraintModel>List<T> getConstraints(Class<T> clazz) {
+		List<T> result = CollectionsUtil.newArrayList();
+		for (ConstraintModel constraint : getConstraints()) {
+			if (clazz.isInstance(constraint)) {
+				result.add((T) constraint);
+			}
+		}
+		return result;
 	}
 	
 	public Collection<? extends ForeignKeyConstraintModel> getForeignKeyConstraintModels() {

@@ -19,15 +19,19 @@
 package org.jiemamy;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.model.EntityNotFoundException;
+import org.jiemamy.model.dataset.DataSetModel;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
 import org.jiemamy.utils.collection.CollectionsUtil;
 import org.jiemamy.utils.reflect.ClassUtil;
+import org.jiemamy.xml.CoreNamespace;
+import org.jiemamy.xml.JiemamyNamespace;
 
 /**
  * TODO for daisuke
@@ -140,6 +144,16 @@ public class CoreFacet implements JiemamyFacet {
 		return getEntities(DatabaseObjectModel.class);
 	}
 	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @return
+	 */
+	public List<? extends DataSetModel> getDataSets() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	public <T extends Entity>Set<T> getEntities(Class<T> clazz) {
 		Validate.notNull(clazz);
 		Set<T> s = CollectionsUtil.newHashSet();
@@ -149,6 +163,10 @@ public class CoreFacet implements JiemamyFacet {
 			}
 		}
 		return s;
+	}
+	
+	public JiemamyNamespace[] getNamespaces() {
+		return CoreNamespace.values();
 	}
 	
 	/**

@@ -1,5 +1,5 @@
 /*
- * Copyright 2007-2009 Jiemamy Project and the Others.
+ * Copyright 2007-2010 Jiemamy Project and the Others.
  * Created on 2008/06/09
  *
  * This file is part of Jiemamy.
@@ -96,8 +96,8 @@ public final class DefaultDataSetModel implements DataSetModel {
 	 * 
 	 * @return レコード情報
 	 */
-	public Map<EntityRef<TableModel>, List<RecordModel>> getRecords() {
-		return new HashMap<EntityRef<TableModel>, List<RecordModel>>(records);
+	public Map<EntityRef<? extends TableModel>, List<RecordModel>> getRecords() {
+		return new HashMap<EntityRef<? extends TableModel>, List<RecordModel>>(records);
 	}
 	
 	@Override
