@@ -23,6 +23,7 @@ import java.net.URL;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import org.jiemamy.composer.importer.DefaultDatabaseImportConfig;
@@ -63,6 +64,7 @@ public class DatabaseCleanerTest {
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
+	@Ignore("まだv0.3向けに書き換えていない")
 	public void test01_データベースをcleanしてみる() throws Exception {
 		DefaultDatabaseImportConfig config = new DefaultDatabaseImportConfig();
 		// TODO

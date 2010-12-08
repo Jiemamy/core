@@ -25,7 +25,7 @@ import org.apache.commons.lang.Validate;
  * 
  * @author daisuke
  */
-public class DefaultCheckConstraintModel extends AbstractConstraintModel implements CheckConstraintModel {
+public final class DefaultCheckConstraintModel extends AbstractConstraintModel implements CheckConstraintModel {
 	
 	/** CHEKC制約定義式 */
 	private final String expression;
