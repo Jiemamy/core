@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <parent>
+    <artifactId>jiemamy-master</artifactId>
+    <groupId>org.jiemamy</groupId>
+    <version>1.6.1</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.jiemamy</groupId>
+  <artifactId>jiemamy-artemis-parent</artifactId>
+  <packaging>pom</packaging>
+  <name>Jiemamy API</name>
+  <version>0.3.0-SNAPSHOT</version>
+  <inceptionYear>2007</inceptionYear>
+  <modules>
+    <module>../jiemamy-core</module>
+    <module>../jiemamy-diagram</module>
+    <module>../jiemamy-sql</module>
+  </modules>
+  <repositories>
+    <repository>
+      <id>jiemamy</id>
+      <name>Jiemamy Release Repository</name>
+      <url>http://maven.jiemamy.org/release/</url>
+    </repository>
+  </repositories>
+</project>
