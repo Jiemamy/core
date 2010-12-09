@@ -58,16 +58,6 @@ public class StickyNodeModel extends AbstractEntityModel implements NodeModel {
 		return (StickyNodeModel) super.clone();
 	}
 	
-	public int compareTo(NodeModel o) {
-		if (o == null) {
-			return -1;
-		}
-		if (getClass() != o.getClass()) {
-			return this.getClass().getName().compareTo(o.getClass().getName());
-		}
-		return getId().compareTo(((StickyNodeModel) o).getId());
-	}
-	
 	public JmRectangle getBoundary() {
 		return boundary;
 	}

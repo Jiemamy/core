@@ -47,7 +47,7 @@ public class CheckConstraintValidator extends AbstractValidator {
 		for (TableModel tableModel : tableModels) {
 			int index = 0;
 			for (CheckConstraintModel checkConstraint : tableModel.getConstraints(CheckConstraintModel.class)) {
-				if (checkConstraint != null && verify(checkConstraint) == false) {
+				if (isValid(checkConstraint) == false) {
 					if (StringUtils.isEmpty(checkConstraint.getName())) {
 						result.add(new EmptyExpressionProblem(tableModel, index));
 					} else {
@@ -66,7 +66,7 @@ public class CheckConstraintValidator extends AbstractValidator {
 	 * @param checkConstraint 検査対象のチェック制約
 	 * @return 問題がない場合は{@code true}、そうでない場合は{@code false}
 	 */
-	private boolean verify(CheckConstraintModel checkConstraint) {
+	private boolean isValid(CheckConstraintModel checkConstraint) {
 		// TODO いつかは構文解析
 		return StringUtils.isEmpty(checkConstraint.getExpression()) == false;
 	}

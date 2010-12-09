@@ -139,7 +139,7 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	List<ColumnModel> columns = CollectionsUtil.newArrayList();
 	
 	/** 制約のリスト */
-	final List<ConstraintModel> constraints = CollectionsUtil.newArrayList();
+	List<ConstraintModel> constraints = CollectionsUtil.newArrayList();
 	
 
 	/**
@@ -183,8 +183,9 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 		DefaultTableModel clone = (DefaultTableModel) super.clone();
 		clone.columns = CollectionsUtil.newArrayList();
 		for (ColumnModel column : columns) {
-			clone.addColumn(column);
+			clone.columns.add(column.clone());
 		}
+		clone.constraints = CollectionsUtil.newArrayList(constraints);
 		return clone;
 	}
 	
@@ -239,12 +240,12 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	
 	public List<ColumnModel> getColumns() {
 		assert columns != null;
-		return CollectionsUtil.newArrayList(columns);
+		return columns;
 	}
 	
 	public List<? extends ConstraintModel> getConstraints() {
 		assert constraints != null;
-		return new ArrayList<ConstraintModel>(constraints);
+		return constraints;
 	}
 	
 	@SuppressWarnings("unchecked")

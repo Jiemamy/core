@@ -486,10 +486,8 @@
           <diagram:objectRef ref="516f7961-cb7b-48e2-990b-7fb0c750c3a4"/>
           <diagram:boundary height="-1" width="-1" x="60" y="270"/>
         </diagram:node>
-        <diagram:node id="2689d193-52a1-4fd4-a14c-9857274518c5">
-          <diagram:sticky id="43beb884-2562-4480-8030-bb797f701783">
-            <diagram:contents>メモーー</diagram:contents>
-          </diagram:sticky>
+        <diagram:node id="2689d193-52a1-4fd4-a14c-9857274518c5" class="org.jiemamy.model.StickyNodeModel">
+          <diagram:contents>メモーー</diagram:contents>
           <diagram:boundary color="#0a0b0c" height="-1" width="-1" x="360" y="270"/>
         </diagram:node>
         <diagram:connection id="366b547f-a2a6-42b2-a3a4-38745436c425">

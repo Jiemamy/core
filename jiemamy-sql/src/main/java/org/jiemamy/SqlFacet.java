@@ -36,6 +36,18 @@ import org.jiemamy.xml.SqlNamespace;
  */
 public class SqlFacet implements JiemamyFacet {
 	
+	public static final FacetProvider PROVIDER = new FacetProvider() {
+		
+		public JiemamyFacet getFacet(JiemamyContext context) {
+			return new SqlFacet(context);
+		}
+		
+		public Class<? extends JiemamyFacet> getFacetType() {
+			return SqlFacet.class;
+		}
+		
+	};
+	
 	private final JiemamyContext context;
 	
 

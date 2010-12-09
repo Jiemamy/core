@@ -52,7 +52,12 @@ public class DefaultDiagramModel extends AbstractEntityModel implements DiagramM
 	
 	@Override
 	public DefaultDiagramModel clone() {
-		return (DefaultDiagramModel) super.clone();
+		DefaultDiagramModel clone = (DefaultDiagramModel) super.clone();
+		clone.nodes = CollectionsUtil.newArrayList();
+		for (NodeModel node : nodes) {
+			clone.nodes.add(node.clone());
+		}
+		return clone;
 	}
 	
 	public Collection<? extends ConnectionModel> getConnections() {

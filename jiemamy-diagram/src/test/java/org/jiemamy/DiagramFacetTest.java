@@ -42,7 +42,7 @@ public class DiagramFacetTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		context = new JiemamyContext(DiagramFacet.class);
+		context = new JiemamyContext(DiagramFacet.PROVIDER);
 	}
 	
 	/**

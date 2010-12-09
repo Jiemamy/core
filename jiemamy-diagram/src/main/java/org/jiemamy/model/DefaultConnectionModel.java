@@ -52,10 +52,6 @@ public class DefaultConnectionModel extends AbstractEntityModel implements Conne
 		super(id);
 	}
 	
-	public List<JmPoint> breachEncapsulationOfBendpoints() {
-		return bendpoints;
-	}
-	
 	@Override
 	public DefaultConnectionModel clone() {
 		DefaultConnectionModel clone = (DefaultConnectionModel) super.clone();
@@ -64,7 +60,7 @@ public class DefaultConnectionModel extends AbstractEntityModel implements Conne
 	}
 	
 	public List<JmPoint> getBendpoints() {
-		return CollectionsUtil.newArrayList(bendpoints);
+		return bendpoints;
 	}
 	
 	public JmColor getColor() {

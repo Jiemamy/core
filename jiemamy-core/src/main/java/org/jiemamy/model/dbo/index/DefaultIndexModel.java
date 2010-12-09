@@ -18,7 +18,6 @@
  */
 package org.jiemamy.model.dbo.index;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,6 +27,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 import org.jiemamy.EntityRef;
 import org.jiemamy.model.DefaultEntityRef;
 import org.jiemamy.model.dbo.AbstractDatabaseObjectModel;
+import org.jiemamy.utils.collection.CollectionsUtil;
 
 /**
  * インデックスモデル。
@@ -55,18 +55,16 @@ public class DefaultIndexModel extends AbstractDatabaseObjectModel implements In
 		super(id);
 	}
 	
-	public void addIndexColumn(IndexColumnModel indexColumn) {
-		indexColumns.add(indexColumn);
-	}
-	
 	@Override
 	public DefaultIndexModel clone() {
-		return (DefaultIndexModel) super.clone();
+		DefaultIndexModel clone = (DefaultIndexModel) super.clone();
+		clone.indexColumns = CollectionsUtil.newArrayList(indexColumns);
+		return clone;
 	}
 	
 	public List<IndexColumnModel> getIndexColumns() {
 		assert indexColumns != null;
-		return new ArrayList<IndexColumnModel>(indexColumns);
+		return indexColumns;
 	}
 	
 	@Override
@@ -76,10 +74,6 @@ public class DefaultIndexModel extends AbstractDatabaseObjectModel implements In
 	
 	public boolean isUnique() {
 		return unique;
-	}
-	
-	public void removeIndexColumn(IndexColumnModel indexColumn) {
-		indexColumns.remove(indexColumn);
 	}
 	
 	@Override

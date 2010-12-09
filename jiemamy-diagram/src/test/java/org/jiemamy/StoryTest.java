@@ -50,7 +50,7 @@ public class StoryTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		ctx = new JiemamyContext(DiagramFacet.class);
+		ctx = new JiemamyContext(DiagramFacet.PROVIDER);
 	}
 	
 	/**

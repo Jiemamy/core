@@ -41,6 +41,18 @@ import org.jiemamy.xml.JiemamyNamespace;
  */
 public class DiagramFacet implements JiemamyFacet {
 	
+	public static final FacetProvider PROVIDER = new FacetProvider() {
+		
+		public JiemamyFacet getFacet(JiemamyContext context) {
+			return new DiagramFacet(context);
+		}
+		
+		public Class<? extends JiemamyFacet> getFacetType() {
+			return DiagramFacet.class;
+		}
+		
+	};
+	
 	private final JiemamyContext context;
 	
 	private Map<DatabaseObjectModel, NodeModel> nodeMap = CollectionsUtil.newHashMap();

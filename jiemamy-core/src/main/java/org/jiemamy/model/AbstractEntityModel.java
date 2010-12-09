@@ -44,7 +44,7 @@ public abstract class AbstractEntityModel implements Entity {
 	 * @param id ENTITY ID
 	 * @throws IllegalArgumentException 引数{@code id}に{@code null}を与えた場合
 	 */
-	protected AbstractEntityModel(UUID id) {
+	public AbstractEntityModel(UUID id) {
 		Validate.notNull(id);
 		this.id = id;
 	}
@@ -82,10 +82,7 @@ public abstract class AbstractEntityModel implements Entity {
 	
 	@Override
 	public final int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
+		return id.hashCode();
 	}
 //	
 //	public final boolean isChildEntityRef(EntityRef<?> entityRef) {

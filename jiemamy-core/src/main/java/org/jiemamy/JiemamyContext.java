@@ -18,8 +18,6 @@
  */
 package org.jiemamy;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -57,31 +55,10 @@ public class JiemamyContext {
 		facets.put(CoreFacet.class, new CoreFacet(this));
 	}
 	
-	public JiemamyContext(Class<? extends JiemamyFacet>... facets) {
+	public JiemamyContext(FacetProvider... facetProviders) {
 		this();
-		for (Class<? extends JiemamyFacet> facetClass : facets) {
-			try {
-				Constructor<? extends JiemamyFacet> constructor = facetClass.getConstructor(JiemamyContext.class);
-				this.facets.put(facetClass, constructor.newInstance(this));
-			} catch (SecurityException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalArgumentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (NoSuchMethodException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InstantiationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		for (FacetProvider facetProvider : facetProviders) {
+			facets.put(facetProvider.getFacetType(), facetProvider.getFacet(this));
 		}
 	}
 	
@@ -93,9 +70,14 @@ public class JiemamyContext {
 	 */
 	public void add(Entity entity) {
 		Validate.notNull(entity);
+		
+		if (map.containsKey(entity.getId())) {
+			remove(entity.toReference());
+		}
+		
 		for (Entity sub : entity.getSubEntities()) {
 			if (map.containsKey(sub.getId())) {
-				throw new IllegalArgumentException();
+				throw new IllegalArgumentException(sub.toString());
 			}
 		}
 		

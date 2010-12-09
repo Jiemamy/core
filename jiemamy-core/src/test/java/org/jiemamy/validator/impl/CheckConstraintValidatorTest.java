@@ -20,6 +20,7 @@ package org.jiemamy.validator.impl;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.describedAs;
 import static org.junit.Assert.assertThat;
 
 import java.util.Collection;
@@ -79,13 +80,13 @@ public class CheckConstraintValidatorTest {
 		
 		DefaultTableModel tableModel1 = new DefaultTableModel(UUIDUtil.valueOfOrRandom("a"));
 		tableModel1.setName("foo");
-		context.add(tableModel1);
 		
-		DefaultColumnModel columnModel = new DefaultColumnModel(UUIDUtil.valueOfOrRandom("a"));
+		DefaultColumnModel columnModel = new DefaultColumnModel(UUIDUtil.valueOfOrRandom("b"));
 		columnModel.setName("bar");
 //		columnModel.setDataType(factory.newDataType(BuiltinDataTypeMold.UNKNOWN));
 		
 		tableModel1.addColumn(columnModel);
+		context.add(tableModel1);
 		
 		Collection<? extends Problem> result1 = validator.validate(context);
 		assertThat(result1.size(), is(0)); // 問題なし
@@ -93,6 +94,7 @@ public class CheckConstraintValidatorTest {
 		DefaultCheckConstraintModel checkConstraint =
 				new DefaultCheckConstraintModelBuilder().setExpression("").build();
 		tableModel1.addConstraint(checkConstraint);
+		context.add(tableModel1);
 		
 		Collection<? extends Problem> result2 = validator.validate(context);
 		assertThat(result2.size(), is(1)); // 問題1つ
@@ -106,6 +108,7 @@ public class CheckConstraintValidatorTest {
 		
 		checkConstraint = new DefaultCheckConstraintModelBuilder().setName("cc").setExpression("").build();
 		tableModel1.addConstraint(checkConstraint);
+		context.add(tableModel1);
 		
 		Collection<? extends Problem> result3 = validator.validate(context);
 		assertThat(result3.size(), is(1)); // 問題1つ
@@ -119,8 +122,9 @@ public class CheckConstraintValidatorTest {
 		
 		checkConstraint = new DefaultCheckConstraintModelBuilder().setExpression("bar > 0").apply(checkConstraint);
 		tableModel1.addConstraint(checkConstraint);
+		context.add(tableModel1);
 		
 		Collection<? extends Problem> result4 = validator.validate(context);
-		assertThat(result4.size(), is(0)); // 問題なし
+		assertThat(result4.size(), describedAs(result4.toString(), is(0))); // 問題なし
 	}
 }

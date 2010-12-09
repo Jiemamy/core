@@ -34,9 +34,9 @@ import org.jiemamy.utils.collection.CollectionsUtil;
  */
 public class DefaultNodeModel extends AbstractEntityModel implements NodeModel {
 	
-	private Collection<ConnectionModel> sourceConnections;
+	private Collection<ConnectionModel> sourceConnections = CollectionsUtil.newArrayList();
 	
-	private Collection<ConnectionModel> targetConnections;
+	private Collection<ConnectionModel> targetConnections = CollectionsUtil.newArrayList();
 	
 	private JmRectangle boundary;
 	
@@ -65,7 +65,16 @@ public class DefaultNodeModel extends AbstractEntityModel implements NodeModel {
 	
 	@Override
 	public DefaultNodeModel clone() {
-		return (DefaultNodeModel) super.clone();
+		DefaultNodeModel clone = (DefaultNodeModel) super.clone();
+		clone.sourceConnections = CollectionsUtil.newArrayList();
+		for (ConnectionModel connection : sourceConnections) {
+			clone.sourceConnections.add(connection.clone());
+		}
+		clone.targetConnections = CollectionsUtil.newArrayList();
+		for (ConnectionModel connection : targetConnections) {
+			clone.targetConnections.add(connection.clone());
+		}
+		return clone;
 	}
 	
 	public JmRectangle getBoundary() {

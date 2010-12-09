@@ -52,11 +52,11 @@ public class SampleXmlViewTest {
 		SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 		Schema schema = schemaFactory.newSchema(new Source[] {
 			new StreamSource(SampleXmlViewTest.class.getResourceAsStream("/jiemamy-core.xsd")),
-			new StreamSource(SampleXmlViewTest.class.getResourceAsStream("/jiemamy-view.xsd")),
+			new StreamSource(SampleXmlViewTest.class.getResourceAsStream("/jiemamy-diagram.xsd")),
 		});
 		
 		// 妥当性検証
 		Validator validator = schema.newValidator();
-		validator.validate(new StreamSource(SampleXmlViewTest.class.getResourceAsStream("/sample.xml")));
+		validator.validate(new StreamSource(SampleXmlViewTest.class.getResourceAsStream("/jiemamy-sample.xml")));
 	}
 }
