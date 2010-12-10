@@ -19,6 +19,7 @@
 package org.jiemamy;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -28,9 +29,12 @@ import org.apache.commons.lang.Validate;
 
 import org.jiemamy.dialect.Dialect;
 import org.jiemamy.model.EntityNotFoundException;
+import org.jiemamy.model.dataset.DataSetModel;
+import org.jiemamy.model.dbo.DatabaseObjectModel;
 import org.jiemamy.transaction.JiemamyTransaction;
 import org.jiemamy.utils.collection.CollectionsUtil;
 import org.jiemamy.utils.reflect.ClassUtil;
+import org.jiemamy.xml.CoreNamespace;
 import org.jiemamy.xml.JiemamyNamespace;
 
 /**
@@ -52,11 +56,9 @@ public class JiemamyContext {
 	 * インスタンスを生成する。
 	 */
 	public JiemamyContext() {
-		facets.put(CoreFacet.class, new CoreFacet(this));
 	}
 	
 	public JiemamyContext(FacetProvider... facetProviders) {
-		this();
 		for (FacetProvider facetProvider : facetProviders) {
 			facets.put(facetProvider.getFacetType(), facetProvider.getFacet(this));
 		}
@@ -99,12 +101,89 @@ public class JiemamyContext {
 	}
 	
 	/**
-	 * このコンテキストの {@link CoreFacet} を取得する。
+	 * 直接の依存モデルの集合を返す。
 	 * 
-	 * @return このコンテキストの {@link CoreFacet}
+	 * @param databaseObject 対象{@link DatabaseObjectModel}
+	 * @return 直接の依存モデルの集合
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public CoreFacet getCore() {
-		return getFacet(CoreFacet.class);
+	public Collection<DatabaseObjectModel> findSubDatabaseObjectsNonRecursive(DatabaseObjectModel databaseObject) {
+		Validate.notNull(databaseObject);
+		return databaseObject.findSubDatabaseObjectsNonRecursive(getDatabaseObjects(), this);
+	}
+	
+	/**
+	 * 全ての依存モデルの集合を返す。
+	 * 
+	 * @param standard 基準モデル
+	 * @return 全ての依存モデルの集合
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public Collection<DatabaseObjectModel> findSubDatabaseObjectsRecursive(DatabaseObjectModel standard) {
+		Validate.notNull(standard);
+		Collection<DatabaseObjectModel> subModels = findSubDatabaseObjectsNonRecursive(standard);
+		Set<DatabaseObjectModel> result = CollectionsUtil.newHashSet(subModels);
+		
+		for (DatabaseObjectModel subModel : subModels) {
+			if (standard.equals(subModel) == false) {
+				result.addAll(findSubDatabaseObjectsRecursive(subModel));
+			}
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * 参照先親モデルを返す。
+	 * 
+	 * @param databaseObject 対象{@link DatabaseObjectModel}
+	 * @return 親モデルのSet
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public Collection<DatabaseObjectModel> findSuperDatabaseObjectsNonRecursive(DatabaseObjectModel databaseObject) {
+		Validate.notNull(databaseObject);
+		return databaseObject.findSuperDatabaseObjectsNonRecursive(getDatabaseObjects());
+	}
+	
+	/**
+	 * 全ての参照先 祖先モデルを返す。
+	 * 
+	 * @param databaseObject 対象エンティティ
+	 * @return 祖先モデルのSet
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public Collection<DatabaseObjectModel> findSuperDatabaseObjectsRecursive(DatabaseObjectModel databaseObject) {
+		Validate.notNull(databaseObject);
+		Collection<DatabaseObjectModel> superModels = findSuperDatabaseObjectsNonRecursive(databaseObject);
+		Collection<DatabaseObjectModel> result = CollectionsUtil.newArrayList();
+		result.addAll(superModels);
+		
+		for (DatabaseObjectModel superModel : superModels) {
+			if (databaseObject.equals(superModel) == false) {
+				result.addAll(findSuperDatabaseObjectsRecursive(superModel));
+			}
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * somethingを取得する。 TODO for daisuke
+	 * 
+	 * @return the databaseObjects
+	 */
+	public Set<DatabaseObjectModel> getDatabaseObjects() {
+		return getEntities(DatabaseObjectModel.class);
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @return
+	 */
+	public List<? extends DataSetModel> getDataSets() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	/**
@@ -114,6 +193,17 @@ public class JiemamyContext {
 	 */
 	public String getDialectClassName() {
 		return dialectClassName;
+	}
+	
+	public <T extends Entity>Set<T> getEntities(Class<T> clazz) {
+		Validate.notNull(clazz);
+		Set<T> s = CollectionsUtil.newHashSet();
+		for (Entity e : map.values()) {
+			if (clazz.isInstance(e)) {
+				s.add(clazz.cast(e));
+			}
+		}
+		return s;
 	}
 	
 	/**
@@ -136,6 +226,7 @@ public class JiemamyContext {
 	
 	public JiemamyNamespace[] getNamespaces() {
 		List<JiemamyNamespace> namespaces = CollectionsUtil.newArrayList();
+		namespaces.addAll(Arrays.asList(CoreNamespace.values()));
 		for (JiemamyFacet facet : getFacets()) {
 			namespaces.addAll(Arrays.asList(facet.getNamespaces()));
 		}
@@ -160,6 +251,22 @@ public class JiemamyContext {
 	
 	public Version getVersion() {
 		return Version.INSTANCE;
+	}
+	
+	/**
+	 * このコンテキストのから{@link Entity}を削除する。
+	 * 
+	 * @param ref エンティティ参照
+	 */
+	public void remove(EntityRef<? extends Entity> ref) {
+		Validate.notNull(ref);
+		Entity removed = map.remove(ref.getReferentId());
+		if (removed == null) {
+			throw new EntityNotFoundException();
+		}
+		for (Entity entity : removed.getSubEntities()) {
+			remove(entity.toReference());
+		}
 	}
 	
 	/**
@@ -201,22 +308,6 @@ public class JiemamyContext {
 	
 	int managedEntityCount() {
 		return map.size();
-	}
-	
-	/**
-	 * このコンテキストの {@link CoreFacet} からDBオブジェクトを削除する。
-	 * 
-	 * @param ref エンティティ参照
-	 */
-	void remove(EntityRef<? extends Entity> ref) {
-		Validate.notNull(ref);
-		Entity removed = map.remove(ref.getReferentId());
-		if (removed == null) {
-			throw new EntityNotFoundException();
-		}
-		for (Entity entity : removed.getSubEntities()) {
-			remove(entity.toReference());
-		}
 	}
 	
 }

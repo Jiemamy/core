@@ -48,7 +48,7 @@ public class IndexValidator extends AbstractValidator {
 	public Collection<Problem> validate(JiemamyContext rootModel) {
 		Collection<Problem> result = CollectionsUtil.newArrayList();
 //		Map<TableModel, Collection<UUID>> map = CollectionsUtil.newHashMap();
-//		for (TableModel tableModel : rootModel.getCore().getEntities(TableModel.class)) {
+//		for (TableModel tableModel : rootModel.getEntities(TableModel.class)) {
 //			Collection<UUID> columnIds = CollectionsUtil.newArrayList();
 //			for (ColumnModel columnModel : tableModel.getColumns()) {
 //				columnIds.add(columnModel.getId());
@@ -56,7 +56,7 @@ public class IndexValidator extends AbstractValidator {
 //			map.put(tableModel, columnIds);
 //		}
 		
-		for (IndexModel indexModel : rootModel.getCore().getEntities(IndexModel.class)) {
+		for (IndexModel indexModel : rootModel.getEntities(IndexModel.class)) {
 			Collection<UUID> referenceColumnIds = CollectionsUtil.newArrayList();
 			
 			if (indexModel.getIndexColumns().size() < 1) {

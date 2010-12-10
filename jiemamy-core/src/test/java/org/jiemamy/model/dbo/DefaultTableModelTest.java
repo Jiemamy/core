@@ -29,7 +29,6 @@ import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.jiemamy.CoreFacet;
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.model.attribute.Column;
 import org.jiemamy.model.attribute.ColumnModel;
@@ -132,13 +131,11 @@ public class DefaultTableModelTest {
 				.with(new Column().whoseNameIs("D").build()).build();
 		// FORMAT-ON
 		
-		CoreFacet core = ctx.getCore();
-		
-		core.add(t1);
-		core.add(t2);
-		assertThat(DefaultTableModel.findTables(core.getDatabaseObjects()).size(), is(2));
-		assertThat(DefaultTableModel.findTables(core.getDatabaseObjects()), hasItem(t1));
-		assertThat(DefaultTableModel.findTables(core.getDatabaseObjects()), hasItem(t2));
+		ctx.add(t1);
+		ctx.add(t2);
+		assertThat(DefaultTableModel.findTables(ctx.getDatabaseObjects()).size(), is(2));
+		assertThat(DefaultTableModel.findTables(ctx.getDatabaseObjects()), hasItem(t1));
+		assertThat(DefaultTableModel.findTables(ctx.getDatabaseObjects()), hasItem(t2));
 	}
 	
 	/**
@@ -164,12 +161,10 @@ public class DefaultTableModelTest {
 				.build();
 		// FORMAT-ON
 		
-		CoreFacet core = ctx.getCore();
+		ctx.add(t1);
+		ctx.add(t2);
 		
-		core.add(t1);
-		core.add(t2);
-		
-		Collection<TableModel> tables = DefaultTableModel.findTables(core.getDatabaseObjects());
+		Collection<TableModel> tables = DefaultTableModel.findTables(ctx.getDatabaseObjects());
 		
 		assertThat(DefaultTableModel.findDeclaringTable(tables, a), is(t1));
 		assertThat(DefaultTableModel.findDeclaringTable(tables, b), is(t1));
@@ -204,8 +199,6 @@ public class DefaultTableModelTest {
 	 */
 	@Test
 	public void test10_getColumn() throws Exception {
-		CoreFacet core = ctx.getCore();
-		
 		DefaultTableModel table = new Table("HOGE").build();
 		ColumnModel foo = new Column("FOO").build();
 		ColumnModel foo2 = new Column("FOO").build();
@@ -217,7 +210,7 @@ public class DefaultTableModelTest {
 		table.addColumn(bar);
 		assertThat(table.getColumns().size(), is(2));
 		
-		core.add(table);
+		ctx.add(table);
 		
 		assertThat(table.getColumns().size(), is(2));
 		assertThat(table.getColumn("FOO"), is(foo));
@@ -251,8 +244,6 @@ public class DefaultTableModelTest {
 	 */
 	@Test
 	public void test11() throws Exception {
-		CoreFacet core = ctx.getCore();
-		
 		ColumnModel b;
 		ColumnModel c;
 		ColumnModel d;
@@ -280,14 +271,14 @@ public class DefaultTableModelTest {
 				.with(fk23 = DefaultForeignKeyConstraintModel.of(e, d))
 				.build();
 		
-		core.add(t1);
-		core.add(t2);
-		core.add(t3);
+		ctx.add(t1);
+		ctx.add(t2);
+		ctx.add(t3);
 		
-		assertThat(DefaultTableModel.findReferencedDatabaseObject(core.getDatabaseObjects(), fk12), is((DatabaseObjectModel) t1));
-		assertThat(DefaultTableModel.findReferencedDatabaseObject(core.getDatabaseObjects(), fk23), is((DatabaseObjectModel) t2));
-		assertThat(DefaultTableModel.findReferencedKeyConstraint(core.getDatabaseObjects(), fk12), is(pk1));
-		assertThat(DefaultTableModel.findReferencedKeyConstraint(core.getDatabaseObjects(), fk23), is(pk2));
+		assertThat(DefaultTableModel.findReferencedDatabaseObject(ctx.getDatabaseObjects(), fk12), is((DatabaseObjectModel) t1));
+		assertThat(DefaultTableModel.findReferencedDatabaseObject(ctx.getDatabaseObjects(), fk23), is((DatabaseObjectModel) t2));
+		assertThat(DefaultTableModel.findReferencedKeyConstraint(ctx.getDatabaseObjects(), fk12), is(pk1));
+		assertThat(DefaultTableModel.findReferencedKeyConstraint(ctx.getDatabaseObjects(), fk23), is(pk2));
 		// FORMAT-ON
 	}
 	

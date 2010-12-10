@@ -69,8 +69,6 @@ public class StoryTest {
 	 */
 	@Test
 	public void story1() throws Exception {
-		CoreFacet core = ctx1.getCore();
-		
 		// FORMAT-OFF
 		ColumnModel pk;
 		TableModel dept = new Table("T_DEPT").with(
@@ -79,7 +77,7 @@ public class StoryTest {
 			new Column("LOC").whoseTypeIs(Dummy.TYPE).build()
 		).with(new DefaultPrimaryKeyConstraintModelBuilder().addKeyColumn(pk).build()).build();
 		
-		core.add(dept);
+		ctx1.add(dept);
 		
 		//FORMAT-ON
 	}
@@ -92,8 +90,8 @@ public class StoryTest {
 	@Test
 	public void story2() throws Exception {
 		TableModel table = spy(new DefaultTableModel(UUID.randomUUID()));
-		ctx1.getCore().add(table);
-		ctx2.getCore().add(table);
+		ctx1.add(table);
+		ctx2.add(table);
 	}
 	
 	/**
@@ -103,8 +101,6 @@ public class StoryTest {
 	 */
 	@Test
 	public void test1() throws Exception {
-		CoreFacet core = ctx1.getCore();
-		
 		DefaultColumnModel col1 = new Column().whoseNameIs("KEY").build();
 		DefaultColumnModel col2 = new Column().whoseNameIs("VALUE").build();
 		
@@ -114,7 +110,7 @@ public class StoryTest {
 		List<EntityRef<? extends ColumnModel>> pk = new ArrayList<EntityRef<? extends ColumnModel>>();
 		pk.add(col1.toReference());
 		tableModel.addConstraint(new DefaultPrimaryKeyConstraintModel(null, null, null, pk, null));
-		core.add(tableModel);
+		ctx1.add(tableModel);
 		
 		assertThat(tableModel.getColumns().size(), is(2));
 		assertThat(tableModel.getConstraints().size(), is(1));
@@ -127,8 +123,6 @@ public class StoryTest {
 	 */
 	@Test
 	public void test2() throws Exception {
-		CoreFacet core = ctx1.getCore();
-		
 		ColumnModel pkColumn;
 		// FORMAT-OFF
 		DefaultTableModel tableModel = new Table().whoseNameIs("T_PROPERTY")
@@ -137,7 +131,7 @@ public class StoryTest {
 				.with(DefaultPrimaryKeyConstraintModel.of(pkColumn))
 				.build();
 		// FORMAT-ON
-		core.add(tableModel);
+		ctx1.add(tableModel);
 		
 		assertThat(tableModel.getColumns().size(), is(2));
 		assertThat(tableModel.getConstraints().size(), is(1));
@@ -150,8 +144,6 @@ public class StoryTest {
 	 */
 	@Test
 	public void test3() throws Exception {
-		CoreFacet core = ctx1.getCore();
-		
 		ColumnModel pkColumn;
 		ColumnModel fkColumn1;
 		ColumnModel fkColumn2;
@@ -175,8 +167,8 @@ public class StoryTest {
 						.addKeyColumn(fkColumn2).addReferenceColumn(pkColumn).build())
 				.build();
 		// FORMAT-ON
-		core.add(dept);
-		core.add(emp);
+		ctx1.add(dept);
+		ctx1.add(emp);
 		
 		assertThat(dept.getColumns().size(), is(3));
 		assertThat(dept.getConstraints().size(), is(1));

@@ -57,7 +57,7 @@ public final class DefaultEntityRef<T extends Entity> implements EntityRef<T> {
 	 * @param referentId 参照先のモデルID
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	DefaultEntityRef(UUID referentId) {
+	public DefaultEntityRef(UUID referentId) {
 		Validate.notNull(referentId);
 		this.referentId = referentId;
 	}

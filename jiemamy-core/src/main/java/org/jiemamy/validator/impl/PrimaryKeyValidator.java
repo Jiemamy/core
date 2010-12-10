@@ -42,7 +42,7 @@ public class PrimaryKeyValidator extends AbstractValidator {
 	
 	public Collection<Problem> validate(JiemamyContext rootModel) {
 		Collection<Problem> result = CollectionsUtil.newArrayList();
-		Collection<TableModel> tableModels = rootModel.getCore().getEntities(TableModel.class);
+		Collection<TableModel> tableModels = rootModel.getEntities(TableModel.class);
 		for (TableModel tableModel : tableModels) {
 			int size = tableModel.getConstraints(PrimaryKeyConstraintModel.class).size();
 			if (size == 0) {

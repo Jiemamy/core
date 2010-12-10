@@ -73,7 +73,7 @@ public abstract class AbstractTraversalValidator<T> extends AbstractValidator {
 		check(context, "rootModel");
 		
 		int i = 0;
-		for (DatabaseObjectModel entityModel : context.getCore().getDatabaseObjects()) {
+		for (DatabaseObjectModel entityModel : context.getDatabaseObjects()) {
 			check(entityModel, "entity" + index(i));
 			if (entityModel instanceof TableModel) {
 				TableModel tableModel = (TableModel) entityModel;
@@ -94,7 +94,7 @@ public abstract class AbstractTraversalValidator<T> extends AbstractValidator {
 		}
 		
 		i = 0;
-		for (DataSetModel dataSetModel : context.getCore().getDataSets()) {
+		for (DataSetModel dataSetModel : context.getDataSets()) {
 			check(dataSetModel, "dataSet" + index(i));
 			int j = 0;
 			for (Map.Entry<EntityRef<? extends TableModel>, List<RecordModel>> entry : dataSetModel.getRecords()

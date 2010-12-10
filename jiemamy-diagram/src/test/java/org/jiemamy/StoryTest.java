@@ -70,10 +70,9 @@ public class StoryTest {
 		diagram.setName("diagram-1");
 		diagram.putNode(node);
 		
-		CoreFacet coreFacet = ctx.getFacet(CoreFacet.class);
 		DiagramFacet diagramFacet = ctx.getFacet(DiagramFacet.class);
 		
-		coreFacet.add(table);
+		ctx.add(table);
 		diagramFacet.addDiagram(diagram);
 		
 		assertThat(diagramFacet.getDiagrams().size(), is(1));

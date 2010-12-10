@@ -51,7 +51,7 @@ public class ForeignKeyValidator extends AbstractValidator {
 
 	public Collection<Problem> validate(JiemamyContext rootModel) {
 		Collection<Problem> result = CollectionsUtil.newArrayList();
-		for (TableModel tableModel : rootModel.getCore().getEntities(TableModel.class)) {
+		for (TableModel tableModel : rootModel.getEntities(TableModel.class)) {
 			for (ForeignKeyConstraintModel foreignKey : tableModel.getConstraints(ForeignKeyConstraintModel.class)) {
 				if (foreignKey.getKeyColumns().size() != foreignKey.getReferenceColumns().size()) {
 					result.add(new ReferenceMappingProblem(foreignKey));

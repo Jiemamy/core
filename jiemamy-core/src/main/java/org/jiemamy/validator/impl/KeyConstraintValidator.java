@@ -51,7 +51,7 @@ public class KeyConstraintValidator extends AbstractValidator {
 
 	public Collection<Problem> validate(JiemamyContext rootModel) {
 		Collection<Problem> result = CollectionsUtil.newArrayList();
-		for (TableModel tableModel : rootModel.getCore().getEntities(TableModel.class)) {
+		for (TableModel tableModel : rootModel.getEntities(TableModel.class)) {
 			Collection<UUID> columnIds = CollectionsUtil.newArrayList();
 			for (ColumnModel columnModel : tableModel.getColumns()) {
 				columnIds.add(columnModel.getId());
