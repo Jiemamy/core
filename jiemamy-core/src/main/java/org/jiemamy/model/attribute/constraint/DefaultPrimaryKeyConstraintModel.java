@@ -59,4 +59,9 @@ public final class DefaultPrimaryKeyConstraintModel extends AbstractKeyConstrain
 			List<EntityRef<? extends ColumnModel>> keyColumns, DeferrabilityModel deferrability) {
 		super(name, logicalName, description, keyColumns, deferrability);
 	}
+	
+	@Override
+	public DefaultPrimaryKeyConstraintModel clone() {
+		return (DefaultPrimaryKeyConstraintModel) super.clone();
+	}
 }

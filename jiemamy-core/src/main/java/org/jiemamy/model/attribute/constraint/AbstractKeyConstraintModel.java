@@ -21,6 +21,8 @@ package org.jiemamy.model.attribute.constraint;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.collect.Lists;
+
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.EntityRef;
@@ -34,7 +36,7 @@ import org.jiemamy.model.attribute.ColumnModel;
 public abstract class AbstractKeyConstraintModel extends AbstractConstraintModel implements KeyConstraintModel {
 	
 	/** キー制約を構成するカラムのリスト */
-	private final List<EntityRef<? extends ColumnModel>> keyColumns;
+	private List<EntityRef<? extends ColumnModel>> keyColumns;
 	
 
 	/**
@@ -56,37 +58,14 @@ public abstract class AbstractKeyConstraintModel extends AbstractConstraintModel
 	}
 	
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (!super.equals(obj)) {
-			return false;
-		}
-		if (!(obj instanceof AbstractKeyConstraintModel)) {
-			return false;
-		}
-		AbstractKeyConstraintModel other = (AbstractKeyConstraintModel) obj;
-		if (keyColumns == null) {
-			if (other.keyColumns != null) {
-				return false;
-			}
-		} else if (!keyColumns.equals(other.keyColumns)) {
-			return false;
-		}
-		return true;
+	public AbstractKeyConstraintModel clone() {
+		AbstractKeyConstraintModel clone = (AbstractKeyConstraintModel) super.clone();
+		clone.keyColumns = Lists.newArrayList(keyColumns);
+		return clone;
 	}
 	
 	public List<EntityRef<? extends ColumnModel>> getKeyColumns() {
-		return new ArrayList<EntityRef<? extends ColumnModel>>(keyColumns);
-	}
-	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((keyColumns == null) ? 0 : keyColumns.hashCode());
-		return result;
+		return keyColumns;
 	}
 	
 }

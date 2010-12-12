@@ -45,4 +45,9 @@ public final class DefaultUniqueKeyConstraintModel extends AbstractKeyConstraint
 		super(name, logicalName, description, keyColumns, deferrability);
 	}
 	
+	@Override
+	public DefaultUniqueKeyConstraintModel clone() {
+		return (DefaultUniqueKeyConstraintModel) super.clone();
+	}
+	
 }

@@ -34,7 +34,12 @@ public abstract class AbstractEntity implements Entity {
 	final Object id;
 	
 
-	AbstractEntity(Object id) {
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param id ENTITY ID
+	 */
+	public AbstractEntity(Object id) {
 		Validate.notNull(id);
 		this.id = id;
 	}

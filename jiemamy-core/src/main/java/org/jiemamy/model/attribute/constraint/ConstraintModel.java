@@ -18,14 +18,14 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
-import org.jiemamy.ValueObject;
+import org.jiemamy.Entity;
 
 /**
  * 制約を表すモデルのインターフェイス。
  * 
  * @author daisuke
  */
-public interface ConstraintModel extends ValueObject {
+public interface ConstraintModel extends Entity {
 	
 	/**
 	 * 遅延評価可能性モデルを取得する。

@@ -21,6 +21,8 @@ package org.jiemamy.model.attribute.constraint;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.collect.Lists;
+
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.EntityRef;
@@ -43,12 +45,14 @@ public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstrain
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public static ForeignKeyConstraintModel of(ColumnModel keyColumn, ColumnModel referenceColumn) {
-		// FORMAT-OFF
-		return new DefaultForeignKeyConstraintModelBuilder()
-				.addKeyColumn(keyColumn)
-				.addReferenceColumn(referenceColumn)
-				.build();
-		// FORMAT-ON
+		List<EntityRef<? extends ColumnModel>> keyColumns = Lists.newArrayList();
+		keyColumns.add(keyColumn.toReference());
+		
+		List<EntityRef<? extends ColumnModel>> referenceColumns = Lists.newArrayList();
+		referenceColumns.add(referenceColumn.toReference());
+		
+		return new DefaultForeignKeyConstraintModel(null, null, null, keyColumns, null, referenceColumns, null, null,
+				null);
 	}
 	
 
@@ -95,46 +99,8 @@ public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstrain
 	}
 	
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (!super.equals(obj)) {
-			return false;
-		}
-		if (!(obj instanceof DefaultForeignKeyConstraintModel)) {
-			return false;
-		}
-		DefaultForeignKeyConstraintModel other = (DefaultForeignKeyConstraintModel) obj;
-		if (matchType == null) {
-			if (other.matchType != null) {
-				return false;
-			}
-		} else if (!matchType.equals(other.matchType)) {
-			return false;
-		}
-		if (onDelete == null) {
-			if (other.onDelete != null) {
-				return false;
-			}
-		} else if (!onDelete.equals(other.onDelete)) {
-			return false;
-		}
-		if (onUpdate == null) {
-			if (other.onUpdate != null) {
-				return false;
-			}
-		} else if (!onUpdate.equals(other.onUpdate)) {
-			return false;
-		}
-		if (referenceColumns == null) {
-			if (other.referenceColumns != null) {
-				return false;
-			}
-		} else if (!referenceColumns.equals(other.referenceColumns)) {
-			return false;
-		}
-		return true;
+	public DefaultForeignKeyConstraintModel clone() {
+		return (DefaultForeignKeyConstraintModel) super.clone();
 	}
 	
 	public MatchType getMatchType() {
@@ -150,17 +116,7 @@ public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstrain
 	}
 	
 	public List<EntityRef<? extends ColumnModel>> getReferenceColumns() {
-		return new ArrayList<EntityRef<? extends ColumnModel>>(referenceColumns);
+		return referenceColumns;
 	}
 	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((matchType == null) ? 0 : matchType.hashCode());
-		result = prime * result + ((onDelete == null) ? 0 : onDelete.hashCode());
-		result = prime * result + ((onUpdate == null) ? 0 : onUpdate.hashCode());
-		result = prime * result + ((referenceColumns == null) ? 0 : referenceColumns.hashCode());
-		return result;
-	}
 }

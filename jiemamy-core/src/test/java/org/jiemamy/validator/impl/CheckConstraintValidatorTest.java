@@ -33,7 +33,6 @@ import org.junit.Test;
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.model.attribute.DefaultColumnModel;
 import org.jiemamy.model.attribute.constraint.DefaultCheckConstraintModel;
-import org.jiemamy.model.attribute.constraint.DefaultCheckConstraintModelBuilder;
 import org.jiemamy.model.dbo.DefaultTableModel;
 import org.jiemamy.utils.UUIDUtil;
 import org.jiemamy.validator.Problem;
@@ -91,8 +90,7 @@ public class CheckConstraintValidatorTest {
 		Collection<? extends Problem> result1 = validator.validate(context);
 		assertThat(result1.size(), is(0)); // 問題なし
 		
-		DefaultCheckConstraintModel checkConstraint =
-				new DefaultCheckConstraintModelBuilder().setExpression("").build();
+		DefaultCheckConstraintModel checkConstraint = new DefaultCheckConstraintModel(null, null, null, "", null);
 		tableModel1.addConstraint(checkConstraint);
 		context.add(tableModel1);
 		
@@ -106,7 +104,7 @@ public class CheckConstraintValidatorTest {
 		
 		tableModel1.removeConstraint(checkConstraint);
 		
-		checkConstraint = new DefaultCheckConstraintModelBuilder().setName("cc").setExpression("").build();
+		checkConstraint = new DefaultCheckConstraintModel("cc", null, null, "", null);
 		tableModel1.addConstraint(checkConstraint);
 		context.add(tableModel1);
 		
@@ -120,7 +118,7 @@ public class CheckConstraintValidatorTest {
 		
 		tableModel1.removeConstraint(checkConstraint);
 		
-		checkConstraint = new DefaultCheckConstraintModelBuilder().setExpression("bar > 0").apply(checkConstraint);
+		checkConstraint = new DefaultCheckConstraintModel(null, null, null, "bar > 0", null);
 		tableModel1.addConstraint(checkConstraint);
 		context.add(tableModel1);
 		

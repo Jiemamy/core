@@ -48,6 +48,11 @@ public final class DefaultCheckConstraintModel extends AbstractConstraintModel i
 		this.expression = expression;
 	}
 	
+	@Override
+	public DefaultCheckConstraintModel clone() {
+		return (DefaultCheckConstraintModel) super.clone();
+	}
+	
 	public String getExpression() {
 		return expression;
 	}

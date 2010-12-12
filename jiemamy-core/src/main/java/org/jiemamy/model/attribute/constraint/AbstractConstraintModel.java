@@ -18,12 +18,16 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
+import java.util.UUID;
+
+import org.jiemamy.model.AbstractEntity;
+
 /**
  * 抽象制約モデル。
  * 
  * @author daisuke
  */
-public abstract class AbstractConstraintModel implements ConstraintModel {
+public abstract class AbstractConstraintModel extends AbstractEntity implements ConstraintModel {
 	
 	/** 物理名 */
 	private String name;
@@ -47,6 +51,7 @@ public abstract class AbstractConstraintModel implements ConstraintModel {
 	 * @param deferrability 遅延評価可能性
 	 */
 	public AbstractConstraintModel(String name, String logicalName, String description, DeferrabilityModel deferrability) {
+		super(UUID.randomUUID());
 		this.name = name;
 		this.logicalName = logicalName;
 		this.description = description;
@@ -54,46 +59,8 @@ public abstract class AbstractConstraintModel implements ConstraintModel {
 	}
 	
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (!(obj instanceof AbstractConstraintModel)) {
-			return false;
-		}
-		AbstractConstraintModel other = (AbstractConstraintModel) obj;
-		if (description == null) {
-			if (other.description != null) {
-				return false;
-			}
-		} else if (!description.equals(other.description)) {
-			return false;
-		}
-		if (logicalName == null) {
-			if (other.logicalName != null) {
-				return false;
-			}
-		} else if (!logicalName.equals(other.logicalName)) {
-			return false;
-		}
-		if (name == null) {
-			if (other.name != null) {
-				return false;
-			}
-		} else if (!name.equals(other.name)) {
-			return false;
-		}
-		if (deferrability == null) {
-			if (other.deferrability != null) {
-				return false;
-			}
-		} else if (!deferrability.equals(other.deferrability)) {
-			return false;
-		}
-		return true;
+	public AbstractConstraintModel clone() {
+		return (AbstractConstraintModel) super.clone();
 	}
 	
 	public DeferrabilityModel getDeferrability() {
@@ -110,17 +77,6 @@ public abstract class AbstractConstraintModel implements ConstraintModel {
 	
 	public String getName() {
 		return name;
-	}
-	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((description == null) ? 0 : description.hashCode());
-		result = prime * result + ((logicalName == null) ? 0 : logicalName.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((deferrability == null) ? 0 : deferrability.hashCode());
-		return result;
 	}
 	
 	@Override

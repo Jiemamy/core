@@ -25,15 +25,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import com.google.common.collect.Lists;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import org.jiemamy.model.attribute.Column;
 import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.attribute.DefaultColumnModel;
-import org.jiemamy.model.attribute.constraint.DefaultForeignKeyConstraintModelBuilder;
+import org.jiemamy.model.attribute.constraint.DefaultForeignKeyConstraintModel;
 import org.jiemamy.model.attribute.constraint.DefaultPrimaryKeyConstraintModel;
-import org.jiemamy.model.attribute.constraint.DefaultPrimaryKeyConstraintModelBuilder;
 import org.jiemamy.model.dbo.DefaultTableModel;
 import org.jiemamy.model.dbo.Table;
 import org.jiemamy.model.dbo.TableModel;
@@ -46,6 +47,13 @@ import org.jiemamy.model.dbo.TableModel;
  */
 public class StoryTest {
 	
+	static <T>List<T> toList(T e) {
+		List<T> result = Lists.newArrayList();
+		result.add(e);
+		return result;
+	}
+	
+
 	private JiemamyContext ctx1;
 	
 	private JiemamyContext ctx2;
@@ -75,7 +83,7 @@ public class StoryTest {
 			pk = new Column("ID").whoseTypeIs(Dummy.TYPE).build(),
 			new Column("NAME").whoseTypeIs(Dummy.TYPE).build(),
 			new Column("LOC").whoseTypeIs(Dummy.TYPE).build()
-		).with(new DefaultPrimaryKeyConstraintModelBuilder().addKeyColumn(pk).build()).build();
+		).with(DefaultPrimaryKeyConstraintModel.of(pk)).build();
 		
 		ctx1.add(dept);
 		
@@ -153,18 +161,16 @@ public class StoryTest {
 				.with(pkColumn = refColumn = new Column().whoseNameIs("ID").build())
 				.with(new Column().whoseNameIs("NAME").build())
 				.with(new Column().whoseNameIs("LOC").build())
-				.with(new DefaultPrimaryKeyConstraintModelBuilder().addKeyColumn(pkColumn).build())
+				.with(DefaultPrimaryKeyConstraintModel.of(pkColumn))
 				.build();
 		DefaultTableModel emp = new Table().whoseNameIs("T_EMP")
 				.with(pkColumn = new Column().whoseNameIs("ID").build())
 				.with(new Column().whoseNameIs("NAME").build())
 				.with(fkColumn1 = new Column().whoseNameIs("DEPT_ID").build())
 				.with(fkColumn2 = new Column().whoseNameIs("MGR_ID").build())
-				.with(new DefaultPrimaryKeyConstraintModelBuilder().addKeyColumn(pkColumn).build())
-				.with(new DefaultForeignKeyConstraintModelBuilder()
-						.addKeyColumn(fkColumn1).addReferenceColumn(refColumn).build())
-				.with(new DefaultForeignKeyConstraintModelBuilder()
-						.addKeyColumn(fkColumn2).addReferenceColumn(pkColumn).build())
+				.with(DefaultPrimaryKeyConstraintModel.of(pkColumn))
+				.with(DefaultForeignKeyConstraintModel.of(fkColumn1,refColumn))
+				.with(DefaultForeignKeyConstraintModel.of(fkColumn2,pkColumn))
 				.build();
 		// FORMAT-ON
 		ctx1.add(dept);
