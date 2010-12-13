@@ -20,14 +20,12 @@ package org.jiemamy.validator.impl;
 
 import java.util.Collection;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.google.common.collect.Lists;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel;
 import org.jiemamy.model.attribute.constraint.KeyConstraintModel;
 import org.jiemamy.model.dbo.TableModel;
-import org.jiemamy.utils.collection.CollectionsUtil;
 import org.jiemamy.validator.AbstractProblem;
 import org.jiemamy.validator.AbstractValidator;
 import org.jiemamy.validator.Problem;
@@ -46,11 +44,8 @@ import org.jiemamy.validator.Problem;
  */
 public class ForeignKeyValidator extends AbstractValidator {
 	
-	private static Logger logger = LoggerFactory.getLogger(ForeignKeyValidator.class);
-	
-
 	public Collection<Problem> validate(JiemamyContext rootModel) {
-		Collection<Problem> result = CollectionsUtil.newArrayList();
+		Collection<Problem> result = Lists.newArrayList();
 		for (TableModel tableModel : rootModel.getEntities(TableModel.class)) {
 			for (ForeignKeyConstraintModel foreignKey : tableModel.getConstraints(ForeignKeyConstraintModel.class)) {
 				if (foreignKey.getKeyColumns().size() != foreignKey.getReferenceColumns().size()) {

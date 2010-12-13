@@ -18,8 +18,6 @@
  */
 package org.jiemamy.model.sql;
 
-import org.jiemamy.model.sql.Token;
-
 /**
  * キーワードクラス。
  * 

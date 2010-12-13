@@ -18,8 +18,10 @@
  */
 package org.jiemamy.dialect;
 
+import org.jiemamy.model.dbo.DatabaseObjectModel;
+
 /**
- * {@link Dialect}がエンティティ情報から{@link EntityModel}を生成する際に必要となる設定情報を供給するインターフェイス。
+ * {@link Dialect}がエンティティ情報から{@link DatabaseObjectModel}を生成する際に必要となる設定情報を供給するインターフェイス。
  * 
  * @since 0.2
  * @author daisuke

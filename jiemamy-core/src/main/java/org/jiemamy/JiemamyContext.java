@@ -25,6 +25,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.dialect.Dialect;
@@ -32,7 +36,6 @@ import org.jiemamy.model.EntityNotFoundException;
 import org.jiemamy.model.dataset.DataSetModel;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
 import org.jiemamy.transaction.JiemamyTransaction;
-import org.jiemamy.utils.collection.CollectionsUtil;
 import org.jiemamy.utils.reflect.ClassUtil;
 import org.jiemamy.xml.CoreNamespace;
 import org.jiemamy.xml.JiemamyNamespace;
@@ -45,11 +48,17 @@ import org.jiemamy.xml.JiemamyNamespace;
  */
 public class JiemamyContext {
 	
-	Map<UUID, Entity> map = CollectionsUtil.newHashMap();
+	private Map<Class<? extends JiemamyFacet>, JiemamyFacet> facets = Maps.newHashMap();
 	
-	Map<Class<? extends JiemamyFacet>, JiemamyFacet> facets = CollectionsUtil.newHashMap();
+	private Repository<DatabaseObjectModel> doms = new RepositoryImpl<DatabaseObjectModel>();
+	
+	private Repository<DataSetModel> dsms = new RepositoryImpl<DataSetModel>();
 	
 	private String dialectClassName;
+	
+	private String description;
+	
+	private String schemaName;
 	
 
 	/**
@@ -58,6 +67,11 @@ public class JiemamyContext {
 	public JiemamyContext() {
 	}
 	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param facetProviders このコンテキストで利用するファセットの{@link FacetProvider}
+	 */
 	public JiemamyContext(FacetProvider... facetProviders) {
 		for (FacetProvider facetProvider : facetProviders) {
 			facets.put(facetProvider.getFacetType(), facetProvider.getFacet(this));
@@ -65,36 +79,19 @@ public class JiemamyContext {
 	}
 	
 	/**
-	 * このコンテキストの {@link JiemamyFacet} にDBオブジェクトを追加する。
+	 * TODO for daisuke
 	 * 
-	 * @param entity {@link Entity}
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @param reference
 	 */
-	public void add(Entity entity) {
-		Validate.notNull(entity);
-		
-		if (map.containsKey(entity.getId())) {
-			remove(entity.toReference());
-		}
-		
-		for (Entity sub : entity.getSubEntities()) {
-			if (map.containsKey(sub.getId())) {
-				throw new IllegalArgumentException(sub.toString());
-			}
-		}
-		
-		Entity e = entity.clone();
-		
-		map.put(entity.getId(), e);
-		for (Entity sub : e.getSubEntities()) {
-			map.put(sub.getId(), sub);
-		}
+	public void delete(EntityRef<? extends DatabaseObjectModel> reference) {
+		doms.delete(reference);
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * このコンテキストが保持するSQL方言IDからSQL方言のインスタンスを探す。
 	 * 
-	 * @return
+	 * @return SQL方言
+	 * @throws ClassNotFoundException SQL方言が見つからなかった場合
 	 */
 	public Dialect findDialect() throws ClassNotFoundException {
 		return getServiceLocator().getService(Dialect.class, dialectClassName);
@@ -109,7 +106,7 @@ public class JiemamyContext {
 	 */
 	public Collection<DatabaseObjectModel> findSubDatabaseObjectsNonRecursive(DatabaseObjectModel databaseObject) {
 		Validate.notNull(databaseObject);
-		return databaseObject.findSubDatabaseObjectsNonRecursive(getDatabaseObjects(), this);
+		return databaseObject.findSubDatabaseObjectsNonRecursive(this);
 	}
 	
 	/**
@@ -122,7 +119,7 @@ public class JiemamyContext {
 	public Collection<DatabaseObjectModel> findSubDatabaseObjectsRecursive(DatabaseObjectModel standard) {
 		Validate.notNull(standard);
 		Collection<DatabaseObjectModel> subModels = findSubDatabaseObjectsNonRecursive(standard);
-		Set<DatabaseObjectModel> result = CollectionsUtil.newHashSet(subModels);
+		Set<DatabaseObjectModel> result = Sets.newHashSet(subModels);
 		
 		for (DatabaseObjectModel subModel : subModels) {
 			if (standard.equals(subModel) == false) {
@@ -142,7 +139,7 @@ public class JiemamyContext {
 	 */
 	public Collection<DatabaseObjectModel> findSuperDatabaseObjectsNonRecursive(DatabaseObjectModel databaseObject) {
 		Validate.notNull(databaseObject);
-		return databaseObject.findSuperDatabaseObjectsNonRecursive(getDatabaseObjects());
+		return databaseObject.findSuperDatabaseObjectsNonRecursive(getEntities(DatabaseObjectModel.class));
 	}
 	
 	/**
@@ -155,7 +152,7 @@ public class JiemamyContext {
 	public Collection<DatabaseObjectModel> findSuperDatabaseObjectsRecursive(DatabaseObjectModel databaseObject) {
 		Validate.notNull(databaseObject);
 		Collection<DatabaseObjectModel> superModels = findSuperDatabaseObjectsNonRecursive(databaseObject);
-		Collection<DatabaseObjectModel> result = CollectionsUtil.newArrayList();
+		Collection<DatabaseObjectModel> result = Lists.newArrayList();
 		result.addAll(superModels);
 		
 		for (DatabaseObjectModel superModel : superModels) {
@@ -168,22 +165,16 @@ public class JiemamyContext {
 	}
 	
 	/**
-	 * somethingを取得する。 TODO for daisuke
-	 * 
-	 * @return the databaseObjects
-	 */
-	public Set<DatabaseObjectModel> getDatabaseObjects() {
-		return getEntities(DatabaseObjectModel.class);
-	}
-	
-	/**
 	 * TODO for daisuke
 	 * 
 	 * @return
 	 */
 	public List<? extends DataSetModel> getDataSets() {
-		// TODO Auto-generated method stub
-		return null;
+		return dsms.getEntitiesAsList(DataSetModel.class);
+	}
+	
+	public String getDescription() {
+		return description;
 	}
 	
 	/**
@@ -195,15 +186,14 @@ public class JiemamyContext {
 		return dialectClassName;
 	}
 	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param class1
+	 * @return
+	 */
 	public <T extends Entity>Set<T> getEntities(Class<T> clazz) {
-		Validate.notNull(clazz);
-		Set<T> s = CollectionsUtil.newHashSet();
-		for (Entity e : map.values()) {
-			if (clazz.isInstance(e)) {
-				s.add(clazz.cast(e));
-			}
-		}
-		return s;
+		return doms.getEntities(clazz);
 	}
 	
 	/**
@@ -214,18 +204,18 @@ public class JiemamyContext {
 	 * @return このコンテキストの {@link JiemamyFacet}
 	 */
 	public <T extends JiemamyFacet>T getFacet(Class<T> clazz) {
-		if (facets == null) {
+		if (hasFacet(clazz) == false) {
 			throw new IllegalStateException();
 		}
 		return clazz.cast(facets.get(clazz));
 	}
 	
 	public Set<JiemamyFacet> getFacets() {
-		return CollectionsUtil.newHashSet(facets.values());
+		return Sets.newHashSet(facets.values());
 	}
 	
 	public JiemamyNamespace[] getNamespaces() {
-		List<JiemamyNamespace> namespaces = CollectionsUtil.newArrayList();
+		List<JiemamyNamespace> namespaces = Lists.newArrayList();
 		namespaces.addAll(Arrays.asList(CoreNamespace.values()));
 		for (JiemamyFacet facet : getFacets()) {
 			namespaces.addAll(Arrays.asList(facet.getNamespaces()));
@@ -233,8 +223,12 @@ public class JiemamyContext {
 		return namespaces.toArray(new JiemamyNamespace[namespaces.size()]);
 	}
 	
+	public String getSchemaName() {
+		return schemaName;
+	}
+	
 	public ServiceLocator getServiceLocator() {
-		return new DefaultServiceLocator();
+		return new DefaultServiceLocator(); // TODO
 	}
 	
 	/**
@@ -249,24 +243,17 @@ public class JiemamyContext {
 		return null;
 	}
 	
+	/**
+	 * Jiemamyのバージョンを返す。
+	 * 
+	 * @return Jiemamyのバージョン
+	 */
 	public Version getVersion() {
 		return Version.INSTANCE;
 	}
 	
-	/**
-	 * このコンテキストのから{@link Entity}を削除する。
-	 * 
-	 * @param ref エンティティ参照
-	 */
-	public void remove(EntityRef<? extends Entity> ref) {
-		Validate.notNull(ref);
-		Entity removed = map.remove(ref.getReferentId());
-		if (removed == null) {
-			throw new EntityNotFoundException();
-		}
-		for (Entity entity : removed.getSubEntities()) {
-			remove(entity.toReference());
-		}
+	public <T extends JiemamyFacet>boolean hasFacet(Class<T> clazz) {
+		return facets.get(clazz) != null;
 	}
 	
 	/**
@@ -279,35 +266,56 @@ public class JiemamyContext {
 	 */
 	@SuppressWarnings("unchecked")
 	public <T extends Entity>T resolve(EntityRef<T> ref) {
-		return (T) resolve(ref.getReferentId());
+		return (T) doms.resolve(ref).clone();
 	}
 	
 	/**
-	 * エンティティIDから、実体を引き当てる。
+	 * TODO for daisuke
 	 * 
-	 * @param id エンティティID
-	 * @return 実体
-	 * @throws EntityNotFoundException IDで示すエンティティが見つからなかった場合
+	 * @param id
+	 * @return 
 	 */
 	public Entity resolve(UUID id) {
-		Entity resolved = map.get(id);
-		if (resolved == null) {
-			throw new EntityNotFoundException();
-		}
-		return resolved;
+		return doms.resolve(id);
 	}
 	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param description 
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
+	/**
+	 * SQL方言IDを設定する。
+	 * 
+	 * @param dialectClassName SQL方言ID
+	 */
 	public void setDialectClassName(String dialectClassName) {
 		this.dialectClassName = dialectClassName;
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param schemaName
+	 */
+	public void setSchemaName(String schemaName) {
+		this.schemaName = schemaName;
+	}
+	
+	public void store(DatabaseObjectModel dom) {
+		doms.store(dom);
+	}
+	
+	public void store(DataSetModel dsm) {
+		dsms.store(dsm);
 	}
 	
 	@Override
 	public String toString() {
 		return ClassUtil.getShortClassName(getClass()) + "@" + Integer.toHexString(hashCode());
 	}
-	
-	int managedEntityCount() {
-		return map.size();
-	}
-	
 }

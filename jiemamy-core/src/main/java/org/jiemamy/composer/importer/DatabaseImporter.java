@@ -28,6 +28,8 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Properties;
 
+import com.google.common.collect.Maps;
+
 import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -39,7 +41,6 @@ import org.jiemamy.composer.Importer;
 import org.jiemamy.dialect.Dialect;
 import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
-import org.jiemamy.utils.collection.CollectionsUtil;
 import org.jiemamy.utils.sql.DriverNotFoundException;
 import org.jiemamy.utils.sql.DriverUtil;
 
@@ -83,9 +84,9 @@ public class DatabaseImporter implements Importer<DatabaseImportConfig> {
 	/** SQL方言 */
 	private Dialect dialect;
 	
-	private Map<String, DatabaseObjectModel> importedEntities = CollectionsUtil.newHashMap();
+	private Map<String, DatabaseObjectModel> importedEntities = Maps.newHashMap();
 	
-	private Map<String, ForeignKeyConstraintModel> importedForeignKeys = CollectionsUtil.newHashMap();
+	private Map<String, ForeignKeyConstraintModel> importedForeignKeys = Maps.newHashMap();
 	
 
 	public String getName() {
@@ -139,7 +140,7 @@ public class DatabaseImporter implements Importer<DatabaseImportConfig> {
 	/**
 	 * インポートされたエンティティの集合を取得する。
 	 * 
-	 * @return インポートされたエンティティの集合. {@link #importModel(RootModel, DatabaseImportConfig)}実行前は、空のコレクションを返す。
+	 * @return インポートされたエンティティの集合. {@link #importModel(JiemamyContext, DatabaseImportConfig)}実行前は、空のコレクションを返す。
 	 */
 	protected Collection<? extends DatabaseObjectModel> getImportedEntities() {
 		return importedEntities.values();
@@ -148,7 +149,7 @@ public class DatabaseImporter implements Importer<DatabaseImportConfig> {
 	/**
 	 * インポートされた外部キーの集合を取得する。
 	 * 
-	 * @return インポートされた外部キーの集合. {@link #importModel(RootModel, DatabaseImportConfig)}実行前は、空のコレクションを返す。
+	 * @return インポートされた外部キーの集合. {@link #importModel(JiemamyContext, DatabaseImportConfig)}実行前は、空のコレクションを返す。
 	 */
 	protected Collection<? extends ForeignKeyConstraintModel> getImportedForeignKeys() {
 		return importedForeignKeys.values();

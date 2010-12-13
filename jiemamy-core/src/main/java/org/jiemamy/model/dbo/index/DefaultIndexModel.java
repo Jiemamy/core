@@ -21,13 +21,14 @@ package org.jiemamy.model.dbo.index;
 import java.util.List;
 import java.util.UUID;
 
+import com.google.common.collect.Lists;
+
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 import org.jiemamy.EntityRef;
 import org.jiemamy.model.DefaultEntityRef;
 import org.jiemamy.model.dbo.AbstractDatabaseObjectModel;
-import org.jiemamy.utils.collection.CollectionsUtil;
 
 /**
  * インデックスモデル。
@@ -55,10 +56,14 @@ public class DefaultIndexModel extends AbstractDatabaseObjectModel implements In
 		super(id);
 	}
 	
+	public void addIndexColumn(IndexColumnModel indexColumn) {
+		indexColumns.add(indexColumn);
+	}
+	
 	@Override
 	public DefaultIndexModel clone() {
 		DefaultIndexModel clone = (DefaultIndexModel) super.clone();
-		clone.indexColumns = CollectionsUtil.newArrayList(indexColumns);
+		clone.indexColumns = Lists.newArrayList(indexColumns);
 		return clone;
 	}
 	

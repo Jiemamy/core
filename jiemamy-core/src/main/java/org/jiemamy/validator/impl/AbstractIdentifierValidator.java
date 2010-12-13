@@ -21,6 +21,8 @@ package org.jiemamy.validator.impl;
 import java.util.Collection;
 import java.util.regex.Pattern;
 
+import com.google.common.collect.Lists;
+
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.JiemamyContext;
@@ -29,7 +31,6 @@ import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.attribute.constraint.ConstraintModel;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
 import org.jiemamy.model.dbo.TableModel;
-import org.jiemamy.utils.collection.CollectionsUtil;
 import org.jiemamy.validator.AbstractProblem;
 import org.jiemamy.validator.AbstractValidator;
 import org.jiemamy.validator.Problem;
@@ -41,7 +42,7 @@ import org.jiemamy.validator.Problem;
  */
 public abstract class AbstractIdentifierValidator extends AbstractValidator {
 	
-	Collection<Problem> result = CollectionsUtil.newArrayList();
+	Collection<Problem> result = Lists.newArrayList();
 	
 	/** 識別子としての妥当性を判断する正規表現パターン */
 	private Pattern identifierPattern;
@@ -66,9 +67,9 @@ public abstract class AbstractIdentifierValidator extends AbstractValidator {
 	}
 	
 	public Collection<? extends Problem> validate(JiemamyContext context) {
-		result = CollectionsUtil.newArrayList();
+		result = Lists.newArrayList();
 		
-		for (DatabaseObjectModel dbo : context.getDatabaseObjects()) {
+		for (DatabaseObjectModel dbo : context.getEntities(DatabaseObjectModel.class)) {
 			isValid(dbo.getName());
 			if (dbo instanceof TableModel) {
 				TableModel tableModel = (TableModel) dbo;

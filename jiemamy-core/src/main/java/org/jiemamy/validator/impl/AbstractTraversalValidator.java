@@ -22,6 +22,9 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+
 import org.jiemamy.EntityRef;
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.model.attribute.ColumnModel;
@@ -35,7 +38,6 @@ import org.jiemamy.model.dataset.DataSetModel;
 import org.jiemamy.model.dataset.RecordModel;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
 import org.jiemamy.model.dbo.TableModel;
-import org.jiemamy.utils.collection.CollectionsUtil;
 import org.jiemamy.validator.AbstractValidator;
 import org.jiemamy.validator.Problem;
 
@@ -68,12 +70,12 @@ public abstract class AbstractTraversalValidator<T> extends AbstractValidator {
 
 	public Collection<? extends Problem> validate(JiemamyContext context) {
 		this.context = context;
-		result = CollectionsUtil.newArrayList();
-		ids = CollectionsUtil.newHashMap();
+		result = Lists.newArrayList();
+		ids = Maps.newHashMap();
 		check(context, "rootModel");
 		
 		int i = 0;
-		for (DatabaseObjectModel entityModel : context.getDatabaseObjects()) {
+		for (DatabaseObjectModel entityModel : context.getEntities(DatabaseObjectModel.class)) {
 			check(entityModel, "entity" + index(i));
 			if (entityModel instanceof TableModel) {
 				TableModel tableModel = (TableModel) entityModel;

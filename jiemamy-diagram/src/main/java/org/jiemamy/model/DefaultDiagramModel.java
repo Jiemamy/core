@@ -17,11 +17,14 @@
 package org.jiemamy.model;
 
 import java.util.Collection;
+import java.util.Map;
 import java.util.UUID;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import org.jiemamy.Entity;
 import org.jiemamy.EntityRef;
-import org.jiemamy.utils.collection.CollectionsUtil;
 
 /**
  * TODO for daisuke
@@ -38,7 +41,7 @@ public class DefaultDiagramModel extends AbstractEntityModel implements DiagramM
 	
 	private Mode mode;
 	
-	private Collection<NodeModel> nodes = CollectionsUtil.newArrayList();
+	private Map<UUID, Entity> entities = Maps.newHashMap();
 	
 
 	/**
@@ -53,19 +56,16 @@ public class DefaultDiagramModel extends AbstractEntityModel implements DiagramM
 	@Override
 	public DefaultDiagramModel clone() {
 		DefaultDiagramModel clone = (DefaultDiagramModel) super.clone();
-		clone.nodes = CollectionsUtil.newArrayList();
-		for (NodeModel node : nodes) {
-			clone.nodes.add(node.clone());
+		clone.entities = Maps.newHashMap();
+		for (Entity node : entities.values()) {
+			clone.entities.put(node.getId(), node.clone());
 		}
 		return clone;
 	}
 	
-	public Collection<? extends ConnectionModel> getConnections() {
-		Collection<ConnectionModel> result = CollectionsUtil.newArrayList();
-		for (NodeModel node : getNodes()) {
-			result.addAll(node.getSourceConnections());
-		}
-		return result;
+	public void delete(EntityRef<? extends NodeModel> ref) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	public Level getLevel() {
@@ -80,24 +80,19 @@ public class DefaultDiagramModel extends AbstractEntityModel implements DiagramM
 		return name;
 	}
 	
-	public Collection<? extends NodeModel> getNodes() {
-		return CollectionsUtil.newArrayList(nodes);
-	}
-	
 	@Override
 	public Collection<? extends Entity> getSubEntities() {
-		return CollectionsUtil.newArrayList(nodes);
+		return Lists.newArrayList(entities.values());
 	}
 	
-	/**
-	 * TODO for daisuke
-	 * 
-	 * @param table
-	 * @param node
-	 * @since TODO
-	 */
-	public void putNode(NodeModel node) {
-		nodes.add(node);
+	public <T2 extends Entity>T2 resolve(EntityRef<T2> ref) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	public Entity resolve(UUID id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	public void setLevel(Level level) {
@@ -112,7 +107,13 @@ public class DefaultDiagramModel extends AbstractEntityModel implements DiagramM
 		this.name = name;
 	}
 	
+	public void store(NodeModel entity) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	public EntityRef<DiagramModel> toReference() {
 		return new DefaultEntityRef<DiagramModel>(this);
 	}
+	
 }

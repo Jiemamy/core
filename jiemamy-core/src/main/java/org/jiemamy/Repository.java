@@ -1,6 +1,8 @@
 /*
- * Copyright 2010 Jiemamy Project and the others.
- * Created on 2010/12/08
+ * Copyright 2007-2010 Jiemamy Project and the Others.
+ * Created on 2010/12/13
+ *
+ * This file is part of Jiemamy.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,39 +16,31 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.model;
+package org.jiemamy;
 
-import org.jiemamy.Entity;
-import org.jiemamy.EntityRef;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 /**
  * TODO for daisuke
  * 
- * @since TODO for daisuke
+ * @param <T> 管理するエンティティの型
  * @version $Id$
  * @author daisuke
  */
-public interface DiagramModel extends Entity {
+interface Repository<T extends Entity> {
 	
-	DiagramModel clone();
+	void delete(EntityRef<? extends T> ref);
 	
-	/**
-	 * 表示レベルを取得する。
-	 * 
-	 * @return 表示レベル. 未設定の場合は{@code null}
-	 * @since 0.2
-	 */
-	Level getLevel();
+	<T2 extends Entity>Set<T2> getEntities(Class<T2> clazz);
 	
-	/**
-	 * 物理/論理モードを取得する。
-	 * 
-	 * @return 物理/論理モード. 未設定の場合は{@code null}
-	 * @since 0.2
-	 */
-	Mode getMode();
+	<T2 extends Entity>List<T2> getEntitiesAsList(Class<T2> clazz);
 	
-	String getName();
+	<T2 extends Entity>T2 resolve(EntityRef<T2> ref);
 	
-	EntityRef<? extends DiagramModel> toReference();
+	Entity resolve(UUID id);
+	
+	void store(T entity);
+	
 }

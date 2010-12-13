@@ -20,12 +20,13 @@ package org.jiemamy.validator.impl;
 
 import java.util.Collection;
 
+import com.google.common.collect.Lists;
+
 import org.apache.commons.lang.StringUtils;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.model.attribute.constraint.CheckConstraintModel;
 import org.jiemamy.model.dbo.TableModel;
-import org.jiemamy.utils.collection.CollectionsUtil;
 import org.jiemamy.validator.AbstractProblem;
 import org.jiemamy.validator.AbstractValidator;
 import org.jiemamy.validator.Problem;
@@ -42,7 +43,7 @@ import org.jiemamy.validator.Problem;
 public class CheckConstraintValidator extends AbstractValidator {
 	
 	public Collection<Problem> validate(JiemamyContext context) {
-		Collection<Problem> result = CollectionsUtil.newArrayList();
+		Collection<Problem> result = Lists.newArrayList();
 		Collection<TableModel> tableModels = context.getEntities(TableModel.class);
 		for (TableModel tableModel : tableModels) {
 			int index = 0;

@@ -30,7 +30,7 @@ import java.util.UUID;
  * @since 0.3
  * @author daisuke
  */
-public interface EntityRef<T extends Entity> extends ValueObject {
+public interface EntityRef<T extends Entity> extends ValueObject, Comparable<EntityRef<? extends T>> {
 	
 	/**
 	 * 参照先要素の同一性を調べる。

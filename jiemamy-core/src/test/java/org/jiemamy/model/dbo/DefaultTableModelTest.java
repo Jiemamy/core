@@ -19,7 +19,6 @@
 package org.jiemamy.model.dbo;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.Matchers.hasItem;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
@@ -120,30 +119,6 @@ public class DefaultTableModelTest {
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test05_findTables() throws Exception {
-		// FORMAT-OFF
-		TableModel t1 = new Table().whoseNameIs("ONE")
-				.with(new Column().whoseNameIs("A").build())
-				.with(new Column().whoseNameIs("B").build())
-				.build();
-		TableModel t2 = new Table().whoseNameIs("TWO")
-				.with(new Column().whoseNameIs("C").build())
-				.with(new Column().whoseNameIs("D").build()).build();
-		// FORMAT-ON
-		
-		ctx.add(t1);
-		ctx.add(t2);
-		assertThat(DefaultTableModel.findTables(ctx.getDatabaseObjects()).size(), is(2));
-		assertThat(DefaultTableModel.findTables(ctx.getDatabaseObjects()), hasItem(t1));
-		assertThat(DefaultTableModel.findTables(ctx.getDatabaseObjects()), hasItem(t2));
-	}
-	
-	/**
-	 * TODO for daisuke
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
-	@Test
 	public void test06_findDeclaringTable() throws Exception {
 		ColumnModel a;
 		ColumnModel b;
@@ -161,10 +136,10 @@ public class DefaultTableModelTest {
 				.build();
 		// FORMAT-ON
 		
-		ctx.add(t1);
-		ctx.add(t2);
+		ctx.store(t1);
+		ctx.store(t2);
 		
-		Collection<TableModel> tables = DefaultTableModel.findTables(ctx.getDatabaseObjects());
+		Collection<TableModel> tables = ctx.getEntities(TableModel.class);
 		
 		assertThat(DefaultTableModel.findDeclaringTable(tables, a), is(t1));
 		assertThat(DefaultTableModel.findDeclaringTable(tables, b), is(t1));
@@ -184,12 +159,12 @@ public class DefaultTableModelTest {
 		
 		DefaultColumnModel column = new Column().build();
 		
-		table1.addColumn(column);
-		table1.removeColumn(column.toReference());
-		table2.addColumn(column);
-		table2.removeColumn(column.toReference());
+		table1.store(column);
+		table1.delete(column.toReference());
+		table2.store(column);
+		table2.delete(column.toReference());
 		
-		table1.addColumn(column);
+		table1.store(column);
 	}
 	
 	/**
@@ -206,17 +181,17 @@ public class DefaultTableModelTest {
 		
 		assertThat(table.getColumns().size(), is(0));
 		
-		table.addColumn(foo);
-		table.addColumn(bar);
+		table.store(foo);
+		table.store(bar);
 		assertThat(table.getColumns().size(), is(2));
 		
-		ctx.add(table);
+		ctx.store(table);
 		
 		assertThat(table.getColumns().size(), is(2));
 		assertThat(table.getColumn("FOO"), is(foo));
 		assertThat(table.getColumn("BAR"), is(bar));
 		
-		table.removeColumn(bar.toReference());
+		table.delete(bar.toReference());
 		
 		assertThat(table.getColumns().size(), is(1));
 		assertThat(table.getColumn("FOO"), is(foo));
@@ -228,7 +203,7 @@ public class DefaultTableModelTest {
 			// success
 		}
 		
-		table.addColumn(foo2);
+		table.store(foo2);
 		try {
 			table.getColumn("FOO");
 			fail();
@@ -271,14 +246,14 @@ public class DefaultTableModelTest {
 				.with(fk23 = DefaultForeignKeyConstraintModel.of(e, d))
 				.build();
 		
-		ctx.add(t1);
-		ctx.add(t2);
-		ctx.add(t3);
+		ctx.store(t1);
+		ctx.store(t2);
+		ctx.store(t3);
 		
-		assertThat(DefaultTableModel.findReferencedDatabaseObject(ctx.getDatabaseObjects(), fk12), is((DatabaseObjectModel) t1));
-		assertThat(DefaultTableModel.findReferencedDatabaseObject(ctx.getDatabaseObjects(), fk23), is((DatabaseObjectModel) t2));
-		assertThat(DefaultTableModel.findReferencedKeyConstraint(ctx.getDatabaseObjects(), fk12), is(pk1));
-		assertThat(DefaultTableModel.findReferencedKeyConstraint(ctx.getDatabaseObjects(), fk23), is(pk2));
+		assertThat(DefaultTableModel.findReferencedDatabaseObject(ctx.getEntities(DatabaseObjectModel.class), fk12), is((DatabaseObjectModel) t1));
+		assertThat(DefaultTableModel.findReferencedDatabaseObject(ctx.getEntities(DatabaseObjectModel.class), fk23), is((DatabaseObjectModel) t2));
+		assertThat(DefaultTableModel.findReferencedKeyConstraint(ctx.getEntities(DatabaseObjectModel.class), fk12), is(pk1));
+		assertThat(DefaultTableModel.findReferencedKeyConstraint(ctx.getEntities(DatabaseObjectModel.class), fk23), is(pk2));
 		// FORMAT-ON
 	}
 	
@@ -305,11 +280,11 @@ public class DefaultTableModelTest {
 		assertThat(table.getName(), is("name2"));
 		assertThat(clone.getName(), is("name3"));
 		
-		clone.addColumn(new DefaultColumnModel(UUIDUtil.valueOfOrRandom("b")));
+		clone.store(new DefaultColumnModel(UUIDUtil.valueOfOrRandom("b")));
 		assertThat(table.getColumns().size(), is(0));
 		assertThat(clone.getColumns().size(), is(1));
 		
-		table.addColumn(new DefaultColumnModel(UUIDUtil.valueOfOrRandom("c")));
+		table.store(new DefaultColumnModel(UUIDUtil.valueOfOrRandom("c")));
 		assertThat(table.getColumns().size(), is(1));
 		assertThat(clone.getColumns().size(), is(1));
 	}

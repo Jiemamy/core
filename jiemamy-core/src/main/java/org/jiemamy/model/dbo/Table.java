@@ -50,7 +50,7 @@ public class Table extends AbstractEntityFactory<DefaultTableModel> {
 		DefaultTableModel tableModel = new DefaultTableModel(id);
 		tableModel.setName(name);
 		for (ColumnModel column : columns) {
-			tableModel.addColumn(column);
+			tableModel.store(column);
 		}
 		for (ConstraintModel constraint : constraints) {
 			tableModel.addConstraint(constraint);

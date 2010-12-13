@@ -21,9 +21,10 @@ package org.jiemamy.validator;
 import java.util.Collection;
 import java.util.List;
 
+import com.google.common.collect.Lists;
+
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.dialect.Dialect;
-import org.jiemamy.utils.collection.CollectionsUtil;
 
 /**
  * 複数のバリデーションを同時に行うための、バリデータの集合クラス。
@@ -33,7 +34,7 @@ import org.jiemamy.utils.collection.CollectionsUtil;
 public class CompositeValidator extends AbstractValidator {
 	
 	/** 内蔵されたバリデータのリスト */
-	private List<Validator> validators = CollectionsUtil.newArrayList();
+	private List<Validator> validators = Lists.newArrayList();
 	
 
 	/**
@@ -52,7 +53,7 @@ public class CompositeValidator extends AbstractValidator {
 	}
 	
 	public Collection<? extends Problem> validate(JiemamyContext context) {
-		Collection<Problem> result = CollectionsUtil.newArrayList();
+		Collection<Problem> result = Lists.newArrayList();
 		for (Validator validator : validators) {
 			result.addAll(validator.validate(context));
 		}

@@ -16,19 +16,11 @@
  */
 package org.jiemamy;
 
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.Validate;
 
-import org.jiemamy.model.ConnectionModel;
 import org.jiemamy.model.DiagramModel;
-import org.jiemamy.model.EntityNotFoundException;
-import org.jiemamy.model.NodeModel;
-import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel;
-import org.jiemamy.model.dbo.DatabaseObjectModel;
-import org.jiemamy.utils.collection.CollectionsUtil;
 import org.jiemamy.xml.DiagramNamespace;
 import org.jiemamy.xml.JiemamyNamespace;
 
@@ -55,9 +47,7 @@ public class DiagramFacet implements JiemamyFacet {
 	
 	private final JiemamyContext context;
 	
-	private Map<DatabaseObjectModel, NodeModel> nodeMap = CollectionsUtil.newHashMap();
-	
-	private Map<ForeignKeyConstraintModel, ConnectionModel> connectionMap = CollectionsUtil.newHashMap();
+	private Repository<DiagramModel> repos = new RepositoryImpl<DiagramModel>();
 	
 
 	/**
@@ -71,59 +61,26 @@ public class DiagramFacet implements JiemamyFacet {
 		this.context = context;
 	}
 	
-	public void addDiagram(DiagramModel diagram) {
-		context.add(diagram);
-	}
-	
 	/**
 	 * TODO for daisuke
 	 * 
-	 * <p>返される{@link List}は他に影響を及ぼさない独立したインスタンスである。</p>
-	 * 
+	 * @param clazz
 	 * @return
-	 * @since TODO
 	 */
-	public List<? extends DiagramModel> getDiagrams() {
-		return CollectionsUtil.newArrayList(getEntities(DiagramModel.class));
-	}
-	
 	public <T extends Entity>Set<T> getEntities(Class<T> clazz) {
-		Validate.notNull(clazz);
-		Set<T> s = CollectionsUtil.newHashSet();
-		for (Entity e : context.map.values()) {
-			if (clazz.isInstance(e)) {
-				s.add(clazz.cast(e));
-			}
-		}
-		return s;
+		return repos.getEntities(clazz);
 	}
 	
 	public JiemamyNamespace[] getNamespaces() {
 		return DiagramNamespace.values();
 	}
 	
-	public NodeModel getNode(DatabaseObjectModel dbo, DiagramModel diagram) {
-		for (NodeModel node : diagram.getNodes()) {
-			if (node.getCoreModelRef().isReferenceOf(dbo)) {
-				return node;
-			}
-		}
-		throw new EntityNotFoundException();
-	}
-	
-	public ConnectionModel getNode(ForeignKeyConstraintModel fk, DiagramModel diagram) {
-		for (NodeModel node : diagram.getNodes()) {
-			for (ConnectionModel connection : node.getSourceConnections()) {
-				// TODO
-//				if (connection.getCoreModelRef().isReferenceOf(fk)) {
-//					return connection;
-//				}
-			}
-		}
-		return null;
-	}
-	
-	public void removeDiagram(EntityRef<DiagramModel> ref) {
-		context.remove(ref);
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param diagram
+	 */
+	public void store(DiagramModel diagram) {
+		repos.store(diagram);
 	}
 }

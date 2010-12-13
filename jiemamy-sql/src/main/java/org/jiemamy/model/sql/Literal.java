@@ -21,7 +21,6 @@ package org.jiemamy.model.sql;
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.model.datatype.LiteralType;
-import org.jiemamy.model.sql.Token;
 
 /**
  * リテラルクラス。
@@ -100,6 +99,17 @@ public class Literal implements Token {
 	/**
 	 * インスタンスを生成する。
 	 * 
+	 * @param string クオートを含まない、値をあらわす文字列
+	 * @param type リテラルの種類
+	 */
+	protected Literal(String string, LiteralType type) {
+		Validate.notNull(string);
+		this.string = type.convert(string);
+	}
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
 	 * @param bool 値
 	 */
 	Literal(boolean bool) {
@@ -113,17 +123,6 @@ public class Literal implements Token {
 	 */
 	Literal(Number number) {
 		this(number.toString(), LiteralType.NUMERIC);
-	}
-	
-	/**
-	 * インスタンスを生成する。
-	 * 
-	 * @param string クオートを含まない、値をあらわす文字列
-	 * @param type リテラルの種類
-	 */
-	protected Literal(String string, LiteralType type) {
-		Validate.notNull(string);
-		this.string = type.convert(string);
 	}
 	
 	@Override

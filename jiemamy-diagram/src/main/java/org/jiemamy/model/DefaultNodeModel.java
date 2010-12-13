@@ -19,11 +19,12 @@ package org.jiemamy.model;
 import java.util.Collection;
 import java.util.UUID;
 
+import com.google.common.collect.Lists;
+
 import org.jiemamy.EntityRef;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
 import org.jiemamy.model.geometory.JmColor;
 import org.jiemamy.model.geometory.JmRectangle;
-import org.jiemamy.utils.collection.CollectionsUtil;
 
 /**
  * TODO for daisuke
@@ -34,9 +35,9 @@ import org.jiemamy.utils.collection.CollectionsUtil;
  */
 public class DefaultNodeModel extends AbstractEntityModel implements NodeModel {
 	
-	private Collection<ConnectionModel> sourceConnections = CollectionsUtil.newArrayList();
+	private Collection<ConnectionModel> sourceConnections = Lists.newArrayList();
 	
-	private Collection<ConnectionModel> targetConnections = CollectionsUtil.newArrayList();
+	private Collection<ConnectionModel> targetConnections = Lists.newArrayList();
 	
 	private JmRectangle boundary;
 	
@@ -66,11 +67,11 @@ public class DefaultNodeModel extends AbstractEntityModel implements NodeModel {
 	@Override
 	public DefaultNodeModel clone() {
 		DefaultNodeModel clone = (DefaultNodeModel) super.clone();
-		clone.sourceConnections = CollectionsUtil.newArrayList();
+		clone.sourceConnections = Lists.newArrayList();
 		for (ConnectionModel connection : sourceConnections) {
 			clone.sourceConnections.add(connection.clone());
 		}
-		clone.targetConnections = CollectionsUtil.newArrayList();
+		clone.targetConnections = Lists.newArrayList();
 		for (ConnectionModel connection : targetConnections) {
 			clone.targetConnections.add(connection.clone());
 		}
@@ -90,11 +91,11 @@ public class DefaultNodeModel extends AbstractEntityModel implements NodeModel {
 	}
 	
 	public Collection<? extends ConnectionModel> getSourceConnections() {
-		return CollectionsUtil.newArrayList(sourceConnections);
+		return Lists.newArrayList(sourceConnections);
 	}
 	
 	public Collection<? extends ConnectionModel> getTargetConnections() {
-		return CollectionsUtil.newArrayList(targetConnections);
+		return Lists.newArrayList(targetConnections);
 	}
 	
 	public void setBoundary(JmRectangle boundary) {

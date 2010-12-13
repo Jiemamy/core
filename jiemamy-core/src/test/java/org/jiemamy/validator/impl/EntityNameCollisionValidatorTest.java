@@ -81,14 +81,14 @@ public class EntityNameCollisionValidatorTest {
 		
 		DefaultTableModel tableModel1 = new DefaultTableModel(UUIDUtil.valueOfOrRandom("a"));
 		tableModel1.setName("foo");
-		context.add(tableModel1);
+		context.store(tableModel1);
 		
 		Collection<? extends Problem> result1 = validator.validate(context);
 		assertThat(result1.size(), is(0)); // 問題なし
 		
 		DefaultTableModel tableModel2 = new DefaultTableModel(UUIDUtil.valueOfOrRandom("b"));
 		tableModel2.setName("foo");
-		context.add(tableModel2);
+		context.store(tableModel2);
 		
 		Collection<? extends Problem> result2 = validator.validate(context);
 		assertThat(result2.size(), is(1)); // 問題1つ
@@ -100,18 +100,18 @@ public class EntityNameCollisionValidatorTest {
 		
 		DefaultTableModel tableModel3 = new DefaultTableModel(UUIDUtil.valueOfOrRandom("c"));
 		tableModel3.setName("foo");
-		context.add(tableModel3);
+		context.store(tableModel3);
 		
 		Collection<? extends Problem> result3 = validator.validate(context);
 		assertThat(result3.size(), is(1)); // 3つ重なっていても、問題は1つ
 		
 		DefaultTableModel tableModel4 = new DefaultTableModel(UUIDUtil.valueOfOrRandom("d"));
 		tableModel4.setName("bar");
-		context.add(tableModel4);
+		context.store(tableModel4);
 		
 		DefaultTableModel tableModel5 = new DefaultTableModel(UUIDUtil.valueOfOrRandom("e"));
 		tableModel5.setName("bar");
-		context.add(tableModel5);
+		context.store(tableModel5);
 		
 		Collection<? extends Problem> result4 = validator.validate(context);
 		assertThat(result4.size(), is(2)); // 2件の衝突の場合、問題は2つ

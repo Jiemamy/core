@@ -18,6 +18,7 @@
  */
 package org.jiemamy.model.script;
 
+import org.jiemamy.Entity;
 import org.jiemamy.ServiceLocator;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
 
@@ -27,7 +28,7 @@ import org.jiemamy.model.dbo.DatabaseObjectModel;
  * @since 0.3
  * @author daisuke
  */
-public interface AroundScript {
+public interface AroundScriptModel extends Entity {
 	
 	/**
 	 * スクリプトを取得する。

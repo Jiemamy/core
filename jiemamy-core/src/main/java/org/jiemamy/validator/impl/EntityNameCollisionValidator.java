@@ -22,9 +22,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
-import org.jiemamy.utils.collection.CollectionsUtil;
 import org.jiemamy.validator.AbstractProblem;
 import org.jiemamy.validator.AbstractValidator;
 import org.jiemamy.validator.Problem;
@@ -41,10 +43,10 @@ import org.jiemamy.validator.Problem;
 public class EntityNameCollisionValidator extends AbstractValidator {
 	
 	public Collection<? extends Problem> validate(JiemamyContext rootModel) {
-		Collection<Problem> result = CollectionsUtil.newArrayList();
-		Map<String, Collection<DatabaseObjectModel>> map = CollectionsUtil.newHashMap();
+		Collection<Problem> result = Lists.newArrayList();
+		Map<String, Collection<DatabaseObjectModel>> map = Maps.newHashMap();
 		
-		for (DatabaseObjectModel entityModel : rootModel.getDatabaseObjects()) {
+		for (DatabaseObjectModel entityModel : rootModel.getEntities(DatabaseObjectModel.class)) {
 			String name = entityModel.getName();
 			if (map.containsKey(name) == false) {
 				map.put(name, new ArrayList<DatabaseObjectModel>());

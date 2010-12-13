@@ -21,12 +21,14 @@ package org.jiemamy.transaction;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+
 import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.jiemamy.utils.LogMarker;
-import org.jiemamy.utils.collection.CollectionsUtil;
 
 /**
  * EDITコマンドの実行を監視し、登録されている{@link CommandListener}にイベントを通知する。
@@ -40,11 +42,11 @@ public class EventBrokerImpl implements EventBroker {
 	
 	private static Logger logger = LoggerFactory.getLogger(EventBrokerImpl.class);
 	
-	private List<CommandListener> listeners = CollectionsUtil.newArrayList();
+	private List<CommandListener> listeners = Lists.newArrayList();
 	
 	private DispatchStrategy strategy = new DefaultDispatchStrategy();
 	
-	private Map<CommandListener, DispatchStrategy> strategies = CollectionsUtil.newHashMap();
+	private Map<CommandListener, DispatchStrategy> strategies = Maps.newHashMap();
 	
 
 	public void addListener(CommandListener listener) {
@@ -70,7 +72,7 @@ public class EventBrokerImpl implements EventBroker {
 		logger.info(LogMarker.LIFECYCLE, "EventBroker is kicked enter: " + command.toString());
 		logger.debug(LogMarker.LIFECYCLE, "target : " + command.getTarget());
 		// java.util.ConcurrentModificationExceptionへの対策。
-		List<CommandListener> listenersSnapthot = CollectionsUtil.newArrayList(listeners);
+		List<CommandListener> listenersSnapthot = Lists.newArrayList(listeners);
 		for (CommandListener listener : listenersSnapthot) {
 			boolean needToDispatch = false;
 			if (strategies.containsKey(listener)) {
@@ -96,7 +98,7 @@ public class EventBrokerImpl implements EventBroker {
 	 */
 	public List<CommandListener> getListeners() {
 		assert listeners != null;
-		return CollectionsUtil.newArrayList(listeners);
+		return Lists.newArrayList(listeners);
 	}
 	
 	public void removeListener(CommandListener listener) {

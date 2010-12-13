@@ -77,7 +77,7 @@ public class StoryTest {
 			new Column("LOC").whoseTypeIs(Dummy.TYPE).build()
 		).with(new DefaultPrimaryKeyConstraintModelBuilder().addKeyColumn(pk).build()).build();
 		
-		ctx1.add(dept);
+		ctx1.store(dept);
 		
 		//FORMAT-ON
 	}
@@ -90,8 +90,8 @@ public class StoryTest {
 	@Test
 	public void story2() throws Exception {
 		TableModel table = spy(new DefaultTableModel(UUID.randomUUID()));
-		ctx1.add(table);
-		ctx2.add(table);
+		ctx1.store(table);
+		ctx2.store(table);
 	}
 	
 	/**
@@ -105,12 +105,12 @@ public class StoryTest {
 		DefaultColumnModel col2 = new Column().whoseNameIs("VALUE").build();
 		
 		DefaultTableModel tableModel = new Table().whoseNameIs("T_PROPERTY").build();
-		tableModel.addColumn(col1);
-		tableModel.addColumn(col2);
+		tableModel.store(col1);
+		tableModel.store(col2);
 		List<EntityRef<? extends ColumnModel>> pk = new ArrayList<EntityRef<? extends ColumnModel>>();
 		pk.add(col1.toReference());
 		tableModel.addConstraint(new DefaultPrimaryKeyConstraintModel(null, null, null, pk, null));
-		ctx1.add(tableModel);
+		ctx1.store(tableModel);
 		
 		assertThat(tableModel.getColumns().size(), is(2));
 		assertThat(tableModel.getConstraints().size(), is(1));
@@ -131,7 +131,7 @@ public class StoryTest {
 				.with(DefaultPrimaryKeyConstraintModel.of(pkColumn))
 				.build();
 		// FORMAT-ON
-		ctx1.add(tableModel);
+		ctx1.store(tableModel);
 		
 		assertThat(tableModel.getColumns().size(), is(2));
 		assertThat(tableModel.getConstraints().size(), is(1));
@@ -167,8 +167,8 @@ public class StoryTest {
 						.addKeyColumn(fkColumn2).addReferenceColumn(pkColumn).build())
 				.build();
 		// FORMAT-ON
-		ctx1.add(dept);
-		ctx1.add(emp);
+		ctx1.store(dept);
+		ctx1.store(emp);
 		
 		assertThat(dept.getColumns().size(), is(3));
 		assertThat(dept.getConstraints().size(), is(1));

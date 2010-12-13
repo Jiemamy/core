@@ -22,12 +22,18 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.UUID;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 import org.apache.commons.collections15.CollectionUtils;
 import org.apache.commons.collections15.Predicate;
 import org.apache.commons.lang.Validate;
 
+import org.jiemamy.ConstraintComparator;
 import org.jiemamy.Entity;
 import org.jiemamy.EntityRef;
 import org.jiemamy.JiemamyContext;
@@ -38,7 +44,6 @@ import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.attribute.constraint.ConstraintModel;
 import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel;
 import org.jiemamy.model.attribute.constraint.KeyConstraintModel;
-import org.jiemamy.utils.collection.CollectionsUtil;
 
 /**
  * テーブルモデル。
@@ -116,30 +121,12 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 		return null;
 	}
 	
-	/**
-	 * {@code databaseObjects}の中から、全ての{@link TableModel}を返す。
-	 * 
-	 * @param databaseObjects 対象{@link DatabaseObjectModel}
-	 * @return 全ての{@link TableModel}
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 */
-	static Collection<TableModel> findTables(Collection<DatabaseObjectModel> databaseObjects) {
-		Validate.notNull(databaseObjects);
-		List<TableModel> result = new ArrayList<TableModel>();
-		for (Entity databaseObject : databaseObjects) {
-			if (databaseObject instanceof TableModel) {
-				result.add((TableModel) databaseObject);
-			}
-		}
-		return result;
-	}
-	
 
 	/** カラムのリスト */
-	List<ColumnModel> columns = CollectionsUtil.newArrayList();
+	List<ColumnModel> columns = Lists.newArrayList();
 	
 	/** 制約のリスト */
-	List<ConstraintModel> constraints = CollectionsUtil.newArrayList();
+	SortedSet<ConstraintModel> constraints = Sets.newTreeSet(new ConstraintComparator());
 	
 
 	/**
@@ -150,21 +137,6 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	 */
 	public DefaultTableModel(UUID id) {
 		super(id);
-	}
-	
-	/**
-	 * テーブルにカラムを追加する。
-	 * 
-	 * @param column カラム
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 */
-	public void addColumn(ColumnModel column) {
-		Validate.notNull(column);
-		if (columns.contains(column)) {
-			columns.set(columns.indexOf(column), column.clone());
-		} else {
-			columns.add(column.clone());
-		}
 	}
 	
 	/**
@@ -181,12 +153,32 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	@Override
 	public DefaultTableModel clone() {
 		DefaultTableModel clone = (DefaultTableModel) super.clone();
-		clone.columns = CollectionsUtil.newArrayList();
+		clone.columns = Lists.newArrayList();
 		for (ColumnModel column : columns) {
 			clone.columns.add(column.clone());
 		}
-		clone.constraints = CollectionsUtil.newArrayList(constraints);
+		TreeSet<ConstraintModel> set = new TreeSet<ConstraintModel>(new ConstraintComparator());
+		set.addAll(constraints);
+		clone.constraints = set;
 		return clone;
+	}
+	
+	/**
+	 * テーブルからカラムを削除する。
+	 * 
+	 * @param ref カラム参照
+	 * @throws EntityNotFoundException 指定した参照が表すカラムがこのテーブルに存在しない場合
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public void delete(EntityRef<? extends ColumnModel> ref) {
+		Validate.notNull(ref);
+		for (ColumnModel column : Lists.newArrayList(columns)) {
+			if (ref.isReferenceOf(column)) {
+				columns.remove(column);
+				return;
+			}
+		}
+		throw new EntityNotFoundException();
 	}
 	
 	public KeyConstraintModel findReferencedKeyConstraint(ForeignKeyConstraintModel foreignKey) {
@@ -205,7 +197,7 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	
 	@Override
 	public Set<DatabaseObjectModel> findSuperDatabaseObjectsNonRecursive(Set<DatabaseObjectModel> databaseObjects) {
-		Set<DatabaseObjectModel> results = CollectionsUtil.newHashSet();
+		Set<DatabaseObjectModel> results = Sets.newHashSet();
 		for (ForeignKeyConstraintModel foreignKey : getForeignKeyConstraintModels()) {
 			results.add(findReferencedDatabaseObject(databaseObjects, foreignKey));
 		}
@@ -213,12 +205,7 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	}
 	
 	public ColumnModel getColumn(EntityRef<? extends ColumnModel> reference) {
-		for (ColumnModel column : columns) {
-			if (reference.isReferenceOf(column)) {
-				return column;
-			}
-		}
-		throw new ColumnNotFoundException();
+		return resolve(reference);
 	}
 	
 	public ColumnModel getColumn(final String name) {
@@ -230,7 +217,7 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 			}
 		});
 		if (c.size() == 1) {
-			return c.iterator().next();
+			return c.iterator().next().clone();
 		}
 		if (c.size() == 0) {
 			throw new ColumnNotFoundException();
@@ -240,17 +227,23 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	
 	public List<ColumnModel> getColumns() {
 		assert columns != null;
-		return columns;
+		List<ColumnModel> result = Lists.newArrayList();
+		for (ColumnModel column : columns) {
+			result.add(column.clone());
+		}
+		return result;
 	}
 	
-	public List<? extends ConstraintModel> getConstraints() {
+	public SortedSet<? extends ConstraintModel> getConstraints() {
 		assert constraints != null;
-		return constraints;
+		TreeSet<ConstraintModel> result = new TreeSet<ConstraintModel>(new ConstraintComparator());
+		result.addAll(constraints);
+		return result;
 	}
 	
 	@SuppressWarnings("unchecked")
 	public <T extends ConstraintModel>List<T> getConstraints(Class<T> clazz) {
-		List<T> result = CollectionsUtil.newArrayList();
+		List<T> result = Lists.newArrayList();
 		for (ConstraintModel constraint : getConstraints()) {
 			if (clazz.isInstance(constraint)) {
 				result.add((T) constraint);
@@ -260,25 +253,23 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	}
 	
 	public Collection<? extends ForeignKeyConstraintModel> getForeignKeyConstraintModels() {
-		return findAttribute(ForeignKeyConstraintModel.class);
+		return findConstraints(ForeignKeyConstraintModel.class);
 	}
 	
 	public Collection<? extends KeyConstraintModel> getKeyConstraintModels() {
-		return findAttribute(KeyConstraintModel.class);
+		return findConstraints(KeyConstraintModel.class);
 	}
 	
 	@Override
-	public Collection<? extends Entity> getSubEntities() {
+	public Collection<? extends ColumnModel> getSubEntities() {
 		return getColumns();
 	}
 	
 	@Override
-	public boolean isSubDatabaseObjectsNonRecursiveOf(Set<DatabaseObjectModel> databaseObjects,
-			DatabaseObjectModel target, JiemamyContext context) {
-		Validate.notNull(databaseObjects);
+	public boolean isSubDatabaseObjectsNonRecursiveOf(DatabaseObjectModel target, JiemamyContext context) {
 		Validate.notNull(target);
 		Validate.notNull(context);
-		Collection<TableModel> tables = findTables(databaseObjects);
+		Collection<TableModel> tables = context.getEntities(TableModel.class);
 		for (ForeignKeyConstraintModel foreignKey : getForeignKeyConstraintModels()) {
 			if (foreignKey.getReferenceColumns().size() == 0) {
 				continue;
@@ -293,24 +284,6 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	}
 	
 	/**
-	 * テーブルからカラムを削除する。
-	 * 
-	 * @param ref カラム参照
-	 * @throws EntityNotFoundException 指定した参照が表すカラムがこのテーブルに存在しない場合
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 */
-	public void removeColumn(EntityRef<? extends ColumnModel> ref) {
-		Validate.notNull(ref);
-		for (ColumnModel column : CollectionsUtil.newArrayList(columns)) {
-			if (ref.isReferenceOf(column)) {
-				columns.remove(column);
-				return;
-			}
-		}
-		throw new EntityNotFoundException();
-	}
-	
-	/**
 	 * テーブルから属性を削除する。
 	 * 
 	 * @param attribute 属性
@@ -321,11 +294,45 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 		constraints.remove(attribute);
 	}
 	
+	@SuppressWarnings("unchecked")
+	public <T extends Entity>T resolve(EntityRef<T> reference) {
+		for (ColumnModel column : columns) {
+			if (reference.isReferenceOf(column)) {
+				return (T) column.clone();
+			}
+		}
+		throw new ColumnNotFoundException();
+	}
+	
+	public Entity resolve(UUID id) {
+		for (ColumnModel column : columns) {
+			if (column.getId().equals(id)) {
+				return column;
+			}
+		}
+		throw new EntityNotFoundException();
+	}
+	
+	/**
+	 * テーブルにカラムを追加する。
+	 * 
+	 * @param column カラム
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public void store(ColumnModel column) {
+		Validate.notNull(column);
+		if (columns.contains(column)) {
+			columns.set(columns.indexOf(column), column.clone());
+		} else {
+			columns.add(column.clone());
+		}
+	}
+	
 	public EntityRef<DefaultTableModel> toReference() {
 		return new DefaultEntityRef<DefaultTableModel>(this);
 	}
 	
-	private <T extends ConstraintModel>Collection<T> findAttribute(Class<T> clazz) {
+	private <T extends ConstraintModel>Collection<T> findConstraints(Class<T> clazz) {
 		Collection<T> result = new ArrayList<T>();
 		for (ConstraintModel attribute : constraints) {
 			if (clazz.isAssignableFrom(attribute.getClass())) {

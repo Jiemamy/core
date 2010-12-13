@@ -27,6 +27,28 @@ import org.apache.commons.lang.Validate;
  */
 public final class DefaultCheckConstraintModel extends AbstractConstraintModel implements CheckConstraintModel {
 	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param expression CHEKC制約定義式
+	 * @return {@link DefaultCheckConstraintModel}
+	 */
+	public static DefaultCheckConstraintModel of(String expression) {
+		return new DefaultCheckConstraintModel(null, null, null, expression, null);
+	}
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param expression CHEKC制約定義式
+	 * @param name 物理名
+	 * @return {@link DefaultCheckConstraintModel}
+	 */
+	public static DefaultCheckConstraintModel of(String expression, String name) {
+		return new DefaultCheckConstraintModel(name, null, null, expression, null);
+	}
+	
+
 	/** CHEKC制約定義式 */
 	private final String expression;
 	

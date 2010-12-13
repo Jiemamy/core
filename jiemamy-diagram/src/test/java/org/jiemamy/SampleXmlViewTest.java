@@ -29,6 +29,7 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -44,6 +45,7 @@ public class SampleXmlViewTest {
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
+	@Ignore("XMLの仕様がまた未定")
 	public void test01_sample_xmlとxsdの整合性をチェックする() throws Exception {
 		// Windowsでは通り、Linuxではコケるので、ひとまずLinuxではテストしない。
 		assumeThat(System.getProperty("os.name").toLowerCase(), is(not("linux")));

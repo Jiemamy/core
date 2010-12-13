@@ -22,12 +22,13 @@ import org.jiemamy.DatabaseConnectionConfig;
 import org.jiemamy.composer.ImportConfig;
 import org.jiemamy.dialect.Dialect;
 import org.jiemamy.dialect.ImportMetadataConfig;
+import org.jiemamy.model.dbo.DatabaseObjectModel;
 
 /**
  * {@link DatabaseImporter}に関する設定情報を供給するインターフェイス。
  * 
  * <p>DBに接続するときに必要となる情報を供給する責務（{@link DatabaseConnectionConfig}）と、
- * {@link Dialect}がエンティティ情報から{@link EntityModel}を生成する際に必要とする設定情報を供給するインターフェイスを合体させると、
+ * {@link Dialect}がエンティティ情報から{@link DatabaseObjectModel}を生成する際に必要とする設定情報を供給するインターフェイスを合体させると、
  * {@link DatabaseImporter}の実行に必要な設定情報を供給する責務となる。</p>
  * 
  * @author daisuke

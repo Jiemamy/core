@@ -18,11 +18,20 @@
  */
 package org.jiemamy.model.datatype;
 
+import java.util.Set;
+
+import org.jiemamy.ValueObject;
+
 /**
  * 型記述子。
  * 
  * @author daisuke
  */
-public interface TypeVariant {
+public interface TypeVariant extends ValueObject {
 	
+	DataTypeCategory getCategory();
+	
+	Set<TypeParameter<?>> getParams();
+	
+	String getTypeName();
 }

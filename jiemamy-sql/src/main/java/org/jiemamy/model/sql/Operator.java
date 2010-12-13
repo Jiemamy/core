@@ -20,8 +20,6 @@ package org.jiemamy.model.sql;
 
 import org.apache.commons.lang.Validate;
 
-import org.jiemamy.model.sql.Token;
-
 /**
  * 演算子クラス。
  * 

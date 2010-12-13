@@ -85,8 +85,8 @@ public class CheckConstraintValidatorTest {
 		columnModel.setName("bar");
 //		columnModel.setDataType(factory.newDataType(BuiltinDataTypeMold.UNKNOWN));
 		
-		tableModel1.addColumn(columnModel);
-		context.add(tableModel1);
+		tableModel1.store(columnModel);
+		context.store(tableModel1);
 		
 		Collection<? extends Problem> result1 = validator.validate(context);
 		assertThat(result1.size(), is(0)); // 問題なし
@@ -94,7 +94,7 @@ public class CheckConstraintValidatorTest {
 		DefaultCheckConstraintModel checkConstraint =
 				new DefaultCheckConstraintModelBuilder().setExpression("").build();
 		tableModel1.addConstraint(checkConstraint);
-		context.add(tableModel1);
+		context.store(tableModel1);
 		
 		Collection<? extends Problem> result2 = validator.validate(context);
 		assertThat(result2.size(), is(1)); // 問題1つ
@@ -108,7 +108,7 @@ public class CheckConstraintValidatorTest {
 		
 		checkConstraint = new DefaultCheckConstraintModelBuilder().setName("cc").setExpression("").build();
 		tableModel1.addConstraint(checkConstraint);
-		context.add(tableModel1);
+		context.store(tableModel1);
 		
 		Collection<? extends Problem> result3 = validator.validate(context);
 		assertThat(result3.size(), is(1)); // 問題1つ
@@ -122,7 +122,7 @@ public class CheckConstraintValidatorTest {
 		
 		checkConstraint = new DefaultCheckConstraintModelBuilder().setExpression("bar > 0").apply(checkConstraint);
 		tableModel1.addConstraint(checkConstraint);
-		context.add(tableModel1);
+		context.store(tableModel1);
 		
 		Collection<? extends Problem> result4 = validator.validate(context);
 		assertThat(result4.size(), describedAs(result4.toString(), is(0))); // 問題なし

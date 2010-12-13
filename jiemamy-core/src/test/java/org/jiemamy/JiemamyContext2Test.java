@@ -43,7 +43,7 @@ import org.jiemamy.model.dbo.TableModel;
 import org.jiemamy.utils.UUIDUtil;
 
 /**
- * {@link 2}のテストクラス。
+ * {@link JiemamyContext}のテストクラス その2。
  * 
  * @version $Id$
  * @author daisuke
@@ -75,14 +75,14 @@ public class JiemamyContext2Test {
 	public void test01_double_add() throws Exception {
 		TableModel table = spy(new DefaultTableModel(UUID.randomUUID()));
 		
-		ctx.add(table);
-		ctx.add(table);
-		ctx2.add(table);
-		ctx2.remove(table.toReference());
-		ctx.remove(table.toReference());
+		ctx.store(table);
+		ctx.store(table);
+		ctx2.store(table);
+		ctx2.delete(table.toReference());
+		ctx.delete(table.toReference());
 		
 		try {
-			ctx.remove(table.toReference());
+			ctx.delete(table.toReference());
 			fail();
 		} catch (EntityNotFoundException e) {
 			// success
@@ -99,23 +99,23 @@ public class JiemamyContext2Test {
 		TableModel table1 = new DefaultTableModel(UUIDUtil.valueOfOrRandom("a"));
 		TableModel table2 = new DefaultTableModel(UUIDUtil.valueOfOrRandom("a"));
 		
-		ctx.add(table1);
-		ctx.add(table1);
-		ctx.add(table2);
-		ctx2.add(table1);
-		ctx2.add(table2);
-		ctx2.remove(table1.toReference());
-		ctx.remove(table2.toReference());
+		ctx.store(table1);
+		ctx.store(table1);
+		ctx.store(table2);
+		ctx2.store(table1);
+		ctx2.store(table2);
+		ctx2.delete(table1.toReference());
+		ctx.delete(table2.toReference());
 		
 		try {
-			ctx.remove(table1.toReference());
+			ctx.delete(table1.toReference());
 			fail();
 		} catch (EntityNotFoundException e) {
 			// success
 		}
 		
 		try {
-			ctx2.remove(table2.toReference());
+			ctx2.delete(table2.toReference());
 			fail();
 		} catch (EntityNotFoundException e) {
 			// success
@@ -147,7 +147,7 @@ public class JiemamyContext2Test {
 		}
 		
 		TableModel table = new DefaultTableModel(id);
-		ctx.add(table);
+		ctx.store(table);
 		
 		assertThat(ctx.resolve(id), is((Entity) table));
 		assertThat(ctx.resolve(ref), is((Entity) table));
@@ -183,9 +183,9 @@ public class JiemamyContext2Test {
 				.with(DefaultForeignKeyConstraintModel.of(e, d))
 				.build();
 		
-		ctx.add(t1);
-		ctx.add(t2);
-		ctx.add(t3);
+		ctx.store(t1);
+		ctx.store(t2);
+		ctx.store(t3);
 		
 		assertThat(ctx.findSubDatabaseObjectsNonRecursive(t1).size(), is(1));
 		assertThat(ctx.findSubDatabaseObjectsNonRecursive(t2).size(), is(1));

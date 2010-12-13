@@ -19,11 +19,12 @@ package org.jiemamy.model;
 import java.util.List;
 import java.util.UUID;
 
+import com.google.common.collect.Lists;
+
 import org.jiemamy.EntityRef;
 import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel;
 import org.jiemamy.model.geometory.JmColor;
 import org.jiemamy.model.geometory.JmPoint;
-import org.jiemamy.utils.collection.CollectionsUtil;
 
 /**
  * TODO for daisuke
@@ -55,7 +56,7 @@ public class DefaultConnectionModel extends AbstractEntityModel implements Conne
 	@Override
 	public DefaultConnectionModel clone() {
 		DefaultConnectionModel clone = (DefaultConnectionModel) super.clone();
-		clone.bendpoints = CollectionsUtil.newArrayList(bendpoints);
+		clone.bendpoints = Lists.newArrayList(bendpoints);
 		return clone;
 	}
 	

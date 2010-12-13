@@ -20,12 +20,13 @@ package org.jiemamy.model.dataset;
 
 import java.util.Map;
 
+import com.google.common.collect.Maps;
+
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 import org.jiemamy.EntityRef;
 import org.jiemamy.model.attribute.ColumnModel;
-import org.jiemamy.utils.collection.CollectionsUtil;
 
 /**
  * レコード（INSERT文1つ分）モデル。
@@ -44,7 +45,7 @@ public final class DefaultRecordModel implements RecordModel {
 	 * @param values カラムに対応するデータ
 	 */
 	public DefaultRecordModel(Map<EntityRef<? extends ColumnModel>, String> values) {
-		this.values = CollectionsUtil.newHashMap(values);
+		this.values = Maps.newHashMap(values);
 	}
 	
 	@Override
@@ -71,12 +72,12 @@ public final class DefaultRecordModel implements RecordModel {
 	
 	public Map<EntityRef<? extends ColumnModel>, String> getValues() {
 		assert values != null;
-		return CollectionsUtil.newHashMap(values);
+		return Maps.newHashMap(values);
 	}
 	
 	@Override
 	public int hashCode() {
-		return values == null ? 0 : values.hashCode();
+		return values.hashCode();
 	}
 	
 	@Override

@@ -18,8 +18,6 @@
  */
 package org.jiemamy;
 
-import java.util.Set;
-
 import org.jiemamy.xml.JiemamyNamespace;
 
 /**
@@ -31,15 +29,6 @@ import org.jiemamy.xml.JiemamyNamespace;
  * @author daisuke
  */
 public interface JiemamyFacet {
-	
-	/**
-	 * TODO for daisuke
-	 * 
-	 * @param <T> エンティティの型
-	 * @param clazz エンティティの型
-	 * @return エンティティの{@link Set}
-	 */
-	<T extends Entity>Set<T> getEntities(Class<T> clazz);
 	
 	/**
 	 * TODO for daisuke

@@ -18,6 +18,7 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jiemamy.EntityRef;
@@ -30,6 +31,20 @@ import org.jiemamy.model.attribute.ColumnModel;
  */
 public final class DefaultUniqueKeyConstraintModel extends AbstractKeyConstraintModel implements
 		UniqueKeyConstraintModel {
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param columns 対象カラム
+	 * @return {@link DefaultUniqueKeyConstraintModel}
+	 */
+	public static DefaultUniqueKeyConstraintModel of(ColumnModel... columns) {
+		List<EntityRef<? extends ColumnModel>> keyColumnRefs = new ArrayList<EntityRef<? extends ColumnModel>>();
+		for (ColumnModel columnModel : columns) {
+			keyColumnRefs.add(columnModel.toReference());
+		}
+		return new DefaultUniqueKeyConstraintModel(null, null, null, keyColumnRefs, null);
+	}
 	
 	/**
 	 * インスタンスを生成する。

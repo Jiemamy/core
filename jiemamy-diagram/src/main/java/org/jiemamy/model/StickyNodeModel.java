@@ -79,6 +79,10 @@ public class StickyNodeModel extends AbstractEntityModel implements NodeModel {
 	public EntityRef<? extends DatabaseObjectModel> getCoreModelRef() {
 		return new EntityRef<DatabaseObjectModel>() {
 			
+			public int compareTo(EntityRef<? extends DatabaseObjectModel> o) {
+				return 0;
+			}
+			
 			public UUID getReferentId() {
 				return null;
 			}

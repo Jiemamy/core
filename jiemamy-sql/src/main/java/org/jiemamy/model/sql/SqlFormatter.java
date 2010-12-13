@@ -20,9 +20,6 @@ package org.jiemamy.model.sql;
 
 import java.util.List;
 
-import org.jiemamy.model.sql.SqlStatement;
-import org.jiemamy.model.sql.Token;
-
 /**
  * SQLを整形するフォーマッタインターフェイス。
  * 

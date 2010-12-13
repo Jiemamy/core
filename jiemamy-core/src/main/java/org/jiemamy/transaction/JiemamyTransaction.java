@@ -20,10 +20,11 @@ package org.jiemamy.transaction;
 
 import java.util.Collection;
 
+import com.google.common.collect.Lists;
+
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.utils.collection.ArrayEssentialStack;
-import org.jiemamy.utils.collection.CollectionsUtil;
 import org.jiemamy.utils.collection.EssentialStack;
 import org.jiemamy.utils.collection.EssentialStacks;
 
@@ -43,7 +44,7 @@ import org.jiemamy.utils.collection.EssentialStacks;
 public abstract class JiemamyTransaction {
 	
 	/** このファサードが発行したセーブポイントの集合 */
-	private Collection<SavePoint> publishedSavePoints = CollectionsUtil.newArrayList();
+	private Collection<SavePoint> publishedSavePoints = Lists.newArrayList();
 	
 	/** UNDOスタック */
 	protected EssentialStack<Command> undoStack = new ArrayEssentialStack<Command>();

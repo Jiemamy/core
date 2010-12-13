@@ -20,11 +20,12 @@ package org.jiemamy.model.attribute.constraint;
 
 import java.util.List;
 
+import com.google.common.collect.Lists;
+
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.EntityRef;
 import org.jiemamy.model.attribute.ColumnModel;
-import org.jiemamy.utils.collection.CollectionsUtil;
 
 /**
  * {@link KeyConstraintModel}ビルダーの骨格実装クラス。
@@ -40,7 +41,7 @@ public abstract class KeyConstraintModelBuilder<T extends KeyConstraintModel, S 
 	
 	// CHECKSTYLE:ON
 	
-	List<EntityRef<? extends ColumnModel>> keyColumns = CollectionsUtil.newArrayList();
+	List<EntityRef<? extends ColumnModel>> keyColumns = Lists.newArrayList();
 	
 
 	/**

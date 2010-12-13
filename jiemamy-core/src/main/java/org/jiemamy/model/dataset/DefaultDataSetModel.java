@@ -21,66 +21,55 @@ package org.jiemamy.model.dataset;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.UUID;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
+import org.jiemamy.Entity;
 import org.jiemamy.EntityRef;
+import org.jiemamy.model.AbstractEntityModel;
 import org.jiemamy.model.dbo.TableModel;
-import org.jiemamy.utils.collection.CollectionsUtil;
 
 /**
  * INSERT文用データセット。
  * 
  * @author daisuke
  */
-public final class DefaultDataSetModel implements DataSetModel {
+public final class DefaultDataSetModel extends AbstractEntityModel implements DataSetModel {
 	
 	/** データセット名 */
-	private final String name;
+	private String name;
 	
 	/** レコード情報 */
-	private final Map<EntityRef<? extends TableModel>, List<RecordModel>> records;
+	private Map<EntityRef<? extends TableModel>, List<RecordModel>> records = Maps.newHashMap();
 	
 
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param name データセット名
-	 * @param records レコード情報
+	 * @param id ENTITY ID
 	 */
-	public DefaultDataSetModel(String name, Map<EntityRef<? extends TableModel>, List<RecordModel>> records) {
-		this.name = name;
-		this.records = CollectionsUtil.newHashMap(records);
+	public DefaultDataSetModel(UUID id) {
+		super(id);
 	}
 	
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (!(obj instanceof DefaultDataSetModel)) {
-			return false;
-		}
-		DefaultDataSetModel other = (DefaultDataSetModel) obj;
-		if (name == null) {
-			if (other.name != null) {
-				return false;
+	public DefaultDataSetModel clone() {
+		DefaultDataSetModel clone = (DefaultDataSetModel) super.clone();
+		clone.records = Maps.newHashMap();
+		for (Entry<EntityRef<? extends TableModel>, List<RecordModel>> e : records.entrySet()) {
+			List<RecordModel> cloneValue = Lists.newArrayList();
+			for (RecordModel recordModel : e.getValue()) {
+				cloneValue.add(recordModel);
 			}
-		} else if (!name.equals(other.name)) {
-			return false;
+			clone.records.put(e.getKey(), cloneValue);
 		}
-		if (records == null) {
-			if (other.records != null) {
-				return false;
-			}
-		} else if (!records.equals(other.records)) {
-			return false;
-		}
-		return true;
+		return clone;
 	}
 	
 	/**
@@ -101,13 +90,17 @@ public final class DefaultDataSetModel implements DataSetModel {
 		return new HashMap<EntityRef<? extends TableModel>, List<RecordModel>>(records);
 	}
 	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((records == null) ? 0 : records.hashCode());
-		return result;
+	public void putRecord(EntityRef<? extends TableModel> ref, List<RecordModel> record) {
+		records.put(ref, record);
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public EntityRef<? extends Entity> toReference() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	@Override

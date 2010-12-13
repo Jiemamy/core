@@ -18,6 +18,8 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
+import org.apache.commons.lang.Validate;
+
 import org.jiemamy.EntityRef;
 import org.jiemamy.model.attribute.ColumnModel;
 
@@ -28,6 +30,17 @@ import org.jiemamy.model.attribute.ColumnModel;
  */
 public final class DefaultNotNullConstraintModel extends AbstractConstraintModel implements NotNullConstraintModel {
 	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param column 対象カラム
+	 * @return {@link DefaultNotNullConstraintModel}
+	 */
+	public static DefaultNotNullConstraintModel of(ColumnModel column) {
+		return new DefaultNotNullConstraintModel(null, null, null, null, column.toReference());
+	}
+	
+
 	private final EntityRef<? extends ColumnModel> column;
 	
 
@@ -43,6 +56,7 @@ public final class DefaultNotNullConstraintModel extends AbstractConstraintModel
 	public DefaultNotNullConstraintModel(String name, String logicalName, String description,
 			DeferrabilityModel deferrability, EntityRef<? extends ColumnModel> column) {
 		super(name, logicalName, description, deferrability);
+		Validate.notNull(column);
 		this.column = column;
 	}
 	

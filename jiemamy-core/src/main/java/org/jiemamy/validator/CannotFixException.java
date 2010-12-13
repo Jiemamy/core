@@ -18,8 +18,10 @@
  */
 package org.jiemamy.validator;
 
+import org.jiemamy.JiemamyContext;
+
 /**
- * {@link Problem#quickFix(org.jiemamy.model.RootModel)}が不可能な場合。
+ * {@link Problem#quickFix(JiemamyContext)}が不可能な場合。
  * 
  * @since 0.2
  * @author daisuke

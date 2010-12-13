@@ -36,7 +36,7 @@ public final class DefaultPrimaryKeyConstraintModel extends AbstractKeyConstrain
 	 * インスタンスを生成する。
 	 * 
 	 * @param columns キーカラム
-	 * @return 新しい {@link DefaultPrimaryKeyConstraintModel}
+	 * @return {@link DefaultPrimaryKeyConstraintModel}
 	 */
 	public static DefaultPrimaryKeyConstraintModel of(ColumnModel... columns) {
 		List<EntityRef<? extends ColumnModel>> keyColumnRefs = new ArrayList<EntityRef<? extends ColumnModel>>();
@@ -44,6 +44,21 @@ public final class DefaultPrimaryKeyConstraintModel extends AbstractKeyConstrain
 			keyColumnRefs.add(columnModel.toReference());
 		}
 		return new DefaultPrimaryKeyConstraintModel(null, null, null, keyColumnRefs, null);
+	}
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param name 物理名
+	 * @param columns キーカラム
+	 * @return {@link DefaultPrimaryKeyConstraintModel}
+	 */
+	public static DefaultPrimaryKeyConstraintModel of(String name, ColumnModel... columns) {
+		List<EntityRef<? extends ColumnModel>> keyColumnRefs = new ArrayList<EntityRef<? extends ColumnModel>>();
+		for (ColumnModel columnModel : columns) {
+			keyColumnRefs.add(columnModel.toReference());
+		}
+		return new DefaultPrimaryKeyConstraintModel(name, null, null, keyColumnRefs, null);
 	}
 	
 	/**

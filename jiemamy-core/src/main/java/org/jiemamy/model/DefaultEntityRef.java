@@ -34,7 +34,7 @@ import org.jiemamy.EntityRef;
  * @version $Id$
  * @author daisuke
  */
-public final class DefaultEntityRef<T extends Entity> implements EntityRef<T> {
+public class DefaultEntityRef<T extends Entity> implements EntityRef<T> {
 	
 	private final UUID referentId;
 	
@@ -60,6 +60,10 @@ public final class DefaultEntityRef<T extends Entity> implements EntityRef<T> {
 	public DefaultEntityRef(UUID referentId) {
 		Validate.notNull(referentId);
 		this.referentId = referentId;
+	}
+	
+	public int compareTo(EntityRef<? extends T> o) {
+		return referentId.compareTo(o.getReferentId());
 	}
 	
 	@Override

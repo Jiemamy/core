@@ -20,6 +20,7 @@ package org.jiemamy.model.dbo;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.SortedSet;
 
 import org.jiemamy.EntityRef;
 import org.jiemamy.model.attribute.ColumnModel;
@@ -76,11 +77,13 @@ public interface TableModel extends DatabaseObjectModel {
 	 * @return 属性のリスト
 	 * @since 0.2
 	 */
-	List<? extends ConstraintModel> getConstraints();
+	SortedSet<? extends ConstraintModel> getConstraints();
 	
 	/**
 	 * 属性のリストを取得する。
 	 * 
+	 * @param <T> 属性の型
+	 * @param clazz 属性の型
 	 * @return 属性のリスト
 	 * @since 0.2
 	 */
@@ -99,6 +102,8 @@ public interface TableModel extends DatabaseObjectModel {
 	 * @return このテーブルのキー制約の集合
 	 */
 	Collection<? extends KeyConstraintModel> getKeyConstraintModels();
+	
+	Collection<? extends ColumnModel> getSubEntities();
 	
 	EntityRef<? extends TableModel> toReference();
 	

@@ -20,13 +20,14 @@ package org.jiemamy.model.attribute.constraint;
 
 import java.util.List;
 
+import com.google.common.collect.Lists;
+
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.EntityRef;
 import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel.MatchType;
 import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel.ReferentialAction;
-import org.jiemamy.utils.collection.CollectionsUtil;
 
 /**
  * {@link ForeignKeyConstraintModel}ビルダーの骨格実装クラス。
@@ -48,7 +49,7 @@ public abstract class ForeignKeyConstraintModelBuilder<T extends ForeignKeyConst
 	
 	ReferentialAction onUpdate;
 	
-	List<EntityRef<? extends ColumnModel>> referenceColumns = CollectionsUtil.newArrayList();
+	List<EntityRef<? extends ColumnModel>> referenceColumns = Lists.newArrayList();
 	
 
 	/**

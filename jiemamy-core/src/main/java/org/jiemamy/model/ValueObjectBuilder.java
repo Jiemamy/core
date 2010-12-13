@@ -20,8 +20,9 @@ package org.jiemamy.model;
 
 import java.util.List;
 
+import com.google.common.collect.Lists;
+
 import org.jiemamy.ValueObject;
-import org.jiemamy.utils.collection.CollectionsUtil;
 
 /**
  * {@link ValueObject}のインスタンスを生成するビルダー。
@@ -33,7 +34,7 @@ import org.jiemamy.utils.collection.CollectionsUtil;
  */
 public abstract class ValueObjectBuilder<T extends ValueObject, S extends ValueObjectBuilder<T, S>> {
 	
-	List<BuilderConfigurator<S>> configurators = CollectionsUtil.newArrayList();
+	List<BuilderConfigurator<S>> configurators = Lists.newArrayList();
 	
 
 	/**

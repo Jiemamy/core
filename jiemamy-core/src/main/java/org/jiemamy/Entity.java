@@ -66,8 +66,6 @@ public interface Entity extends Cloneable {
 	
 	Collection<? extends Entity> getSubEntities();
 	
-	// boolean isChildEntityRef(EntityRef<?> entityRef);
-	
 	/**
 	 * 参照オブジェクトを返す。
 	 * 

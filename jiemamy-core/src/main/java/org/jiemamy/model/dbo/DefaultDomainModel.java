@@ -18,13 +18,19 @@
  */
 package org.jiemamy.model.dbo;
 
+import java.util.Set;
 import java.util.UUID;
+
+import com.google.common.collect.Sets;
 
 import org.jiemamy.EntityRef;
 import org.jiemamy.model.DefaultEntityRef;
 import org.jiemamy.model.attribute.constraint.CheckConstraintModel;
 import org.jiemamy.model.attribute.constraint.NotNullConstraintModel;
+import org.jiemamy.model.datatype.DataTypeCategory;
+import org.jiemamy.model.datatype.TypeParameter;
 import org.jiemamy.model.datatype.TypeVariant;
+import org.jiemamy.utils.collection.CollectionsUtil;
 
 /**
  * ドメイン定義モデル。
@@ -40,6 +46,8 @@ public class DefaultDomainModel extends AbstractDatabaseObjectModel implements D
 	
 	private NotNullConstraintModel notNullConstraint;
 	
+	Set<TypeParameter<?>> params = Sets.newHashSet();
+	
 
 	/**
 	 * インスタンスを生成する。
@@ -49,6 +57,19 @@ public class DefaultDomainModel extends AbstractDatabaseObjectModel implements D
 	 */
 	public DefaultDomainModel(UUID id) {
 		super(id);
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param serial
+	 */
+	public void addParameter(TypeParameter<?> param) {
+		CollectionsUtil.addOrReplace(params, param);
+	}
+	
+	public TypeVariant asType() {
+		return new DomainType();
 	}
 	
 	@Override
@@ -105,5 +126,26 @@ public class DefaultDomainModel extends AbstractDatabaseObjectModel implements D
 	@Override
 	public String toString() {
 		return "Domain " + getName();
+	}
+	
+
+	final class DomainType extends DefaultEntityRef<DomainModel> implements TypeVariant {
+		
+		public DomainType() {
+			super(DefaultDomainModel.this);
+		}
+		
+		public DataTypeCategory getCategory() {
+			return dataType.getCategory();
+		}
+		
+		public Set<TypeParameter<?>> getParams() {
+			return dataType.getParams();
+		}
+		
+		public String getTypeName() {
+			return dataType.getTypeName();
+		}
+		
 	}
 }

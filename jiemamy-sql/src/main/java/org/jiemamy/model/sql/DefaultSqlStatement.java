@@ -20,9 +20,9 @@ package org.jiemamy.model.sql;
 
 import java.util.List;
 
-import org.apache.commons.lang.Validate;
+import com.google.common.collect.Lists;
 
-import org.jiemamy.utils.collection.CollectionsUtil;
+import org.apache.commons.lang.Validate;
 
 /**
  * SQL文実装クラス。
@@ -32,7 +32,7 @@ import org.jiemamy.utils.collection.CollectionsUtil;
 public class DefaultSqlStatement implements SqlStatement {
 	
 	/** トークンのリスト */
-	private List<Token> tokens = CollectionsUtil.newArrayList();
+	private List<Token> tokens = Lists.newArrayList();
 	
 
 	/**
@@ -100,6 +100,6 @@ public class DefaultSqlStatement implements SqlStatement {
 	}
 	
 	public List<Token> toTokens() {
-		return CollectionsUtil.newArrayList(tokens);
+		return Lists.newArrayList(tokens);
 	}
 }

@@ -31,6 +31,8 @@ import org.jiemamy.model.datatype.TypeVariant;
  */
 public interface DomainModel extends DatabaseObjectModel {
 	
+	TypeVariant asType();
+	
 	DomainModel clone();
 	
 	/**

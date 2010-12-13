@@ -20,11 +20,12 @@ package org.jiemamy.validator.impl;
 
 import java.util.Collection;
 
+import com.google.common.collect.Lists;
+
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.datatype.TypeVariant;
 import org.jiemamy.model.dbo.TableModel;
-import org.jiemamy.utils.collection.CollectionsUtil;
 import org.jiemamy.validator.AbstractProblem;
 import org.jiemamy.validator.AbstractValidator;
 import org.jiemamy.validator.Problem;
@@ -37,7 +38,7 @@ import org.jiemamy.validator.Problem;
 public class DataTypeValidator extends AbstractValidator {
 	
 	public Collection<Problem> validate(JiemamyContext rootModel) {
-		Collection<Problem> result = CollectionsUtil.newArrayList();
+		Collection<Problem> result = Lists.newArrayList();
 		Collection<TableModel> tableModels = rootModel.getEntities(TableModel.class);
 		for (TableModel tableModel : tableModels) {
 			for (ColumnModel columnModel : tableModel.getColumns()) {

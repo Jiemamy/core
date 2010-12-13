@@ -64,8 +64,7 @@ public class JiemamyNamespaceContext implements NamespaceContext {
 		return null;
 	}
 	
-	@SuppressWarnings("unchecked")
-	public Iterator getPrefixes(String namespaceURI) {
+	public Iterator<?> getPrefixes(String namespaceURI) {
 		String p = getPrefix(namespaceURI);
 		if (p != null) {
 			return Arrays.asList(p).iterator();

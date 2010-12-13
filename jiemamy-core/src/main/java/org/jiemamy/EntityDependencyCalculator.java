@@ -46,9 +46,9 @@ public final class EntityDependencyCalculator {
 	public static List<DatabaseObjectModel> getSortedEntityList(JiemamyContext context) {
 		Validate.notNull(context);
 		
-		results = new ArrayList<DatabaseObjectModel>(context.getDatabaseObjects().size());
+		results = new ArrayList<DatabaseObjectModel>(context.getEntities(DatabaseObjectModel.class).size());
 		
-		for (DatabaseObjectModel entityModel : context.getDatabaseObjects()) {
+		for (DatabaseObjectModel entityModel : context.getEntities(DatabaseObjectModel.class)) {
 			addDependsdentsToResult(entityModel, context);
 			addToResult(entityModel);
 		}
@@ -60,7 +60,7 @@ public final class EntityDependencyCalculator {
 	 * 対象に依存するentityを結果に追加します。
 	 * 
 	 * @param entityModel 依存調査対象となるentity
-	 * @param context 
+	 * @param context コンテキスト 
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	private static void addDependsdentsToResult(DatabaseObjectModel entityModel, JiemamyContext context) {

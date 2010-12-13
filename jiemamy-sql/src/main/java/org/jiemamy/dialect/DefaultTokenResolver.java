@@ -20,6 +20,8 @@ package org.jiemamy.dialect;
 
 import java.util.List;
 
+import com.google.common.collect.Lists;
+
 import org.jiemamy.model.attribute.constraint.DeferrabilityModel.InitiallyCheckTime;
 import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel.MatchType;
 import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel.ReferentialAction;
@@ -28,7 +30,6 @@ import org.jiemamy.model.dbo.ViewModel;
 import org.jiemamy.model.dbo.index.IndexColumnModel.SortOrder;
 import org.jiemamy.model.sql.Keyword;
 import org.jiemamy.model.sql.Token;
-import org.jiemamy.utils.collection.CollectionsUtil;
 
 /**
  * {@link TokenResolver}の標準実装クラス。
@@ -38,7 +39,7 @@ import org.jiemamy.utils.collection.CollectionsUtil;
 public class DefaultTokenResolver implements TokenResolver {
 	
 	public List<Token> resolve(Object value) {
-		List<Token> tokens = CollectionsUtil.newArrayList(2);
+		List<Token> tokens = Lists.newArrayListWithCapacity(2);
 		if (value instanceof InitiallyCheckTime) {
 			InitiallyCheckTime initiallyCheckTime = (InitiallyCheckTime) value;
 			if (initiallyCheckTime == InitiallyCheckTime.IMMEDIATE) {

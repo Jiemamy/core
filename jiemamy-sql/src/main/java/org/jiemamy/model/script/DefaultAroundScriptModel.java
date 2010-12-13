@@ -20,19 +20,23 @@ package org.jiemamy.model.script;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
+import org.jiemamy.EntityRef;
 import org.jiemamy.ServiceLocator;
+import org.jiemamy.model.AbstractEntityModel;
+import org.jiemamy.model.DefaultEntityRef;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
 
 /**
- * {@link AroundScript}の実装クラス。
+ * {@link AroundScriptModel}の実装クラス。
  * 
  * @author daisuke
  */
-public class DefaultAroundScript implements AroundScript {
+public class DefaultAroundScriptModel extends AbstractEntityModel implements AroundScriptModel {
 	
 	private Map<Position, String> scripts = new HashMap<Position, String>();
 	
@@ -41,6 +45,20 @@ public class DefaultAroundScript implements AroundScript {
 	private static final String DEFAULT_ENGINE = PlainScriptEngine.class.getName();
 	
 
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param id ENTITY ID
+	 */
+	public DefaultAroundScriptModel(UUID id) {
+		super(id);
+	}
+	
+	@Override
+	public DefaultAroundScriptModel clone() {
+		return (DefaultAroundScriptModel) super.clone();
+	}
+	
 	public String getScript(Position position) {
 		return scripts.get(position);
 	}
@@ -88,6 +106,19 @@ public class DefaultAroundScript implements AroundScript {
 		} else {
 			scriptEngineClassNames.put(position, scriptEngine);
 		}
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param reference
+	 */
+	public void setTarget(EntityRef<? extends DatabaseObjectModel> reference) {
+		
+	}
+	
+	public EntityRef<DefaultAroundScriptModel> toReference() {
+		return new DefaultEntityRef<DefaultAroundScriptModel>(this);
 	}
 	
 	@Override

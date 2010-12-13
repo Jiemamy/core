@@ -23,6 +23,8 @@ import static org.junit.Assert.assertThat;
 
 import java.util.List;
 
+import com.google.common.collect.Lists;
+
 import org.apache.commons.lang.SystemUtils;
 import org.junit.After;
 import org.junit.Before;
@@ -36,7 +38,6 @@ import org.jiemamy.model.sql.Keyword;
 import org.jiemamy.model.sql.Literal;
 import org.jiemamy.model.sql.Separator;
 import org.jiemamy.model.sql.Token;
-import org.jiemamy.utils.collection.CollectionsUtil;
 
 /**
  * {@link DefaultSqlFormatter}のテストクラス。
@@ -79,7 +80,7 @@ public class DefaultSqlFormatterTest {
 	 */
 	@Test
 	public void test01_基本的なCREATE文が出力できる() throws Exception {
-		List<Token> tokens = CollectionsUtil.newArrayList();
+		List<Token> tokens = Lists.newArrayList();
 		tokens.add(Keyword.CREATE);
 		tokens.add(Keyword.TABLE);
 		tokens.add(Identifier.of("T_USER"));
@@ -138,7 +139,7 @@ public class DefaultSqlFormatterTest {
 	 */
 	@Test
 	public void test02_カラム制約PKのCREATE文が出力できる() throws Exception {
-		List<Token> tokens = CollectionsUtil.newArrayList();
+		List<Token> tokens = Lists.newArrayList();
 		tokens.add(Keyword.CREATE);
 		tokens.add(Keyword.TABLE);
 		tokens.add(Identifier.of("T_USER"));
@@ -191,7 +192,7 @@ public class DefaultSqlFormatterTest {
 	 */
 	@Test
 	public void test11_基本的なINSERT文が出力できる() throws Exception {
-		List<Token> tokens = CollectionsUtil.newArrayList();
+		List<Token> tokens = Lists.newArrayList();
 		tokens.add(Keyword.INSERT);
 		tokens.add(Keyword.INTO);
 		tokens.add(Identifier.of("T_USER"));
