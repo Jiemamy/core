@@ -19,15 +19,26 @@
 package org.jiemamy;
 
 /**
- * TODO for daisuke
+ * ファセットインスタンスを供給する責務を表すインターフェイス。
  * 
  * @version $Id$
  * @author daisuke
  */
 public interface FacetProvider {
 	
+	/**
+	 * ファセットインスタンスを取得する。
+	 * 
+	 * @param context コンテキスト
+	 * @return ファセットインスタンス
+	 */
 	JiemamyFacet getFacet(JiemamyContext context);
 	
+	/**
+	 * ファセットの型を取得する。
+	 * 
+	 * @return ファセットの型
+	 */
 	Class<? extends JiemamyFacet> getFacetType();
 	
 }

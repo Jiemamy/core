@@ -25,8 +25,10 @@ import com.google.common.collect.Sets;
 
 import org.apache.commons.lang.Validate;
 
+import org.jiemamy.model.datatype.TypeParameter.Key;
+
 /**
- * TODO for daisuke
+ * 型記述子のデフォルト実装クラス。
  * 
  * @version $Id$
  * @author daisuke
@@ -34,20 +36,21 @@ import org.apache.commons.lang.Validate;
 public final class DefaultTypeVariant implements TypeVariant {
 	
 	/**
-	 * TODO for daisuke
+	 * インスタンスを生成する。
 	 * 
-	 * @param integer
+	 * @param category 型カテゴリ
+	 * @return 型記述子
 	 */
 	public static DefaultTypeVariant of(DataTypeCategory category) {
 		return new DefaultTypeVariant(category, category.name(), new HashSet<TypeParameter<?>>());
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * インスタンスを生成する。
 	 * 
-	 * @param varchar
-	 * @param size
-	 * @return
+	 * @param category 型カテゴリ
+	 * @param params 型パラメータ
+	 * @return 型記述子
 	 */
 	public static DefaultTypeVariant of(DataTypeCategory category, TypeParameter<?>... params) {
 		Set<TypeParameter<?>> p = Sets.newHashSetWithExpectedSize(params.length);
@@ -69,9 +72,9 @@ public final class DefaultTypeVariant implements TypeVariant {
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param category
-	 * @param typeName
-	 * @param params
+	 * @param category 型カテゴリ
+	 * @param typeName 型名
+	 * @param params 型パラメータ
 	 */
 	public DefaultTypeVariant(DataTypeCategory category, String typeName, Set<TypeParameter<?>> params) {
 		Validate.notNull(category);
@@ -84,6 +87,16 @@ public final class DefaultTypeVariant implements TypeVariant {
 	
 	public DataTypeCategory getCategory() {
 		return category;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public <T>TypeParameter<T> getParam(Key<T> key) {
+		for (TypeParameter<?> param : params) {
+			if (param.getKey().equals(key)) {
+				return (TypeParameter<T>) param;
+			}
+		}
+		return null;
 	}
 	
 	public Set<TypeParameter<?>> getParams() {

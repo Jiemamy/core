@@ -29,6 +29,7 @@ import org.jiemamy.model.attribute.constraint.CheckConstraintModel;
 import org.jiemamy.model.attribute.constraint.NotNullConstraintModel;
 import org.jiemamy.model.datatype.DataTypeCategory;
 import org.jiemamy.model.datatype.TypeParameter;
+import org.jiemamy.model.datatype.TypeParameter.Key;
 import org.jiemamy.model.datatype.TypeVariant;
 import org.jiemamy.utils.collection.CollectionsUtil;
 
@@ -60,9 +61,9 @@ public class DefaultDomainModel extends AbstractDatabaseObjectModel implements D
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * パラメータを追加する。
 	 * 
-	 * @param serial
+	 * @param param 追加するパラメータ
 	 */
 	public void addParameter(TypeParameter<?> param) {
 		CollectionsUtil.addOrReplace(params, param);
@@ -137,6 +138,10 @@ public class DefaultDomainModel extends AbstractDatabaseObjectModel implements D
 		
 		public DataTypeCategory getCategory() {
 			return dataType.getCategory();
+		}
+		
+		public <T>TypeParameter<T> getParam(Key<T> key) {
+			return dataType.getParam(key);
 		}
 		
 		public Set<TypeParameter<?>> getParams() {

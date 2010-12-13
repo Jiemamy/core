@@ -25,14 +25,15 @@ import org.jiemamy.xml.DiagramNamespace;
 import org.jiemamy.xml.JiemamyNamespace;
 
 /**
- * TODO for daisuke
+ * ER図表現ファセット。
  * 
- * @since TODO for daisuke
+ * @since 0.3
  * @version $Id$
  * @author daisuke
  */
 public class DiagramFacet implements JiemamyFacet {
 	
+	/** プロバイダ */
 	public static final FacetProvider PROVIDER = new FacetProvider() {
 		
 		public JiemamyFacet getFacet(JiemamyContext context) {
@@ -76,9 +77,9 @@ public class DiagramFacet implements JiemamyFacet {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * {@link DiagramModel}を保存する。
 	 * 
-	 * @param diagram
+	 * @param diagram ダイアグラム
 	 */
 	public void store(DiagramModel diagram) {
 		repos.store(diagram);

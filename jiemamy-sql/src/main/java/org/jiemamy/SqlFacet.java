@@ -29,14 +29,15 @@ import org.jiemamy.xml.JiemamyNamespace;
 import org.jiemamy.xml.SqlNamespace;
 
 /**
- * TODO for daisuke
+ * SQL表現ファセット。
  * 
- * @since TODO for daisuke
+ * @since 0.3
  * @version $Id$
  * @author daisuke
  */
 public class SqlFacet implements JiemamyFacet {
 	
+	/** プロバイダ */
 	public static final FacetProvider PROVIDER = new FacetProvider() {
 		
 		public JiemamyFacet getFacet(JiemamyContext context) {
@@ -49,14 +50,16 @@ public class SqlFacet implements JiemamyFacet {
 		
 	};
 	
-	private final JiemamyContext context;
-	
 	private Repository<AroundScriptModel> scripts = new RepositoryImpl<AroundScriptModel>();
 	
 
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param context コンテキスト
+	 */
 	public SqlFacet(JiemamyContext context) {
 		Validate.notNull(context);
-		this.context = context;
 	}
 	
 	public void delete(EntityRef<? extends AroundScriptModel> ref) {
@@ -91,9 +94,9 @@ public class SqlFacet implements JiemamyFacet {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * スクリプトを保存する。
 	 * 
-	 * @param script
+	 * @param script スクリプト
 	 */
 	public void store(AroundScriptModel script) {
 		scripts.store(script);

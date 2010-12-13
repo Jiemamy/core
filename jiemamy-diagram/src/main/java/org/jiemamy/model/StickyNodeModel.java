@@ -22,7 +22,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import org.jiemamy.Entity;
 import org.jiemamy.EntityRef;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
 import org.jiemamy.model.geometory.JmColor;
@@ -77,20 +76,7 @@ public class StickyNodeModel extends AbstractEntityModel implements NodeModel {
 	}
 	
 	public EntityRef<? extends DatabaseObjectModel> getCoreModelRef() {
-		return new EntityRef<DatabaseObjectModel>() {
-			
-			public int compareTo(EntityRef<? extends DatabaseObjectModel> o) {
-				return 0;
-			}
-			
-			public UUID getReferentId() {
-				return null;
-			}
-			
-			public boolean isReferenceOf(Entity target) {
-				return false;
-			}
-		};
+		return null;
 	}
 	
 	public List<? extends ConnectionModel> getSourceConnections() {
@@ -103,10 +89,20 @@ public class StickyNodeModel extends AbstractEntityModel implements NodeModel {
 		return Collections.emptyList();
 	}
 	
+	/**
+	 * ノードの位置を設定する。
+	 * 
+	 * @param boundary 位置
+	 */
 	public void setBoundary(JmRectangle boundary) {
 		this.boundary = boundary;
 	}
 	
+	/**
+	 * ノードの色を設定する。
+	 * 
+	 * @param color 色
+	 */
 	public void setColor(JmColor color) {
 		this.color = color;
 	}

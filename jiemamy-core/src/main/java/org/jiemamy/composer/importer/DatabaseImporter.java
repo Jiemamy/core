@@ -113,7 +113,7 @@ public class DatabaseImporter implements Importer<DatabaseImportConfig> {
 			DatabaseMetaData meta = connection.getMetaData();
 			
 			// TODO コメントアウト外し
-//			dialect.importMetadata(rootModel, meta, config, importedEntities, importedForeignKeys);
+//			dialect.importMetadata(context, meta, config, importedEntities, importedForeignKeys);
 		} catch (DriverNotFoundException e) {
 			throw new ImportException(e);
 		} catch (InstantiationException e) {

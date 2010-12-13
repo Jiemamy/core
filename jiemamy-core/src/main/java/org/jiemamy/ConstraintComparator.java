@@ -122,11 +122,11 @@ public class ConstraintComparator implements Comparator<ConstraintModel> {
 			} else {
 				return 1; // FIXME
 			}
-		} else if (o1 instanceof NotNullConstraintModel) {
+		} else if (o1 instanceof NotNullConstraintModel && o2 instanceof NotNullConstraintModel) {
 			NotNullConstraintModel n1 = (NotNullConstraintModel) o1;
 			NotNullConstraintModel n2 = (NotNullConstraintModel) o2;
 			return n1.getColumn().getReferentId().compareTo(n2.getColumn().getReferentId()); // FIXME
-		} else if (o1 instanceof CheckConstraintModel) {
+		} else if (o1 instanceof CheckConstraintModel && o2 instanceof CheckConstraintModel) {
 			CheckConstraintModel c1 = (CheckConstraintModel) o1;
 			CheckConstraintModel c2 = (CheckConstraintModel) o2;
 			return c1.getExpression().compareTo(c2.getExpression());

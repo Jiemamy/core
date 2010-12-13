@@ -17,14 +17,12 @@
 package org.jiemamy.model;
 
 import java.util.Collection;
-import java.util.Map;
 import java.util.UUID;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 import org.jiemamy.Entity;
 import org.jiemamy.EntityRef;
+import org.jiemamy.Repository;
+import org.jiemamy.RepositoryImpl;
 
 /**
  * TODO for daisuke
@@ -41,7 +39,7 @@ public class DefaultDiagramModel extends AbstractEntityModel implements DiagramM
 	
 	private Mode mode;
 	
-	private Map<UUID, Entity> entities = Maps.newHashMap();
+	private Repository<NodeModel> nodes = new RepositoryImpl<NodeModel>();
 	
 
 	/**
@@ -56,16 +54,12 @@ public class DefaultDiagramModel extends AbstractEntityModel implements DiagramM
 	@Override
 	public DefaultDiagramModel clone() {
 		DefaultDiagramModel clone = (DefaultDiagramModel) super.clone();
-		clone.entities = Maps.newHashMap();
-		for (Entity node : entities.values()) {
-			clone.entities.put(node.getId(), node.clone());
-		}
+		clone.nodes = nodes.clone();
 		return clone;
 	}
 	
 	public void delete(EntityRef<? extends NodeModel> ref) {
-		// TODO Auto-generated method stub
-		
+		nodes.delete(ref);
 	}
 	
 	public Level getLevel() {
@@ -82,34 +76,46 @@ public class DefaultDiagramModel extends AbstractEntityModel implements DiagramM
 	
 	@Override
 	public Collection<? extends Entity> getSubEntities() {
-		return Lists.newArrayList(entities.values());
+		return nodes.getEntities(NodeModel.class);
 	}
 	
 	public <T2 extends Entity>T2 resolve(EntityRef<T2> ref) {
-		// TODO Auto-generated method stub
-		return null;
+		return nodes.resolve(ref);
 	}
 	
 	public Entity resolve(UUID id) {
-		// TODO Auto-generated method stub
-		return null;
+		return nodes.resolve(id);
 	}
 	
+	/**
+	 * 表示レベルを設定する。
+	 * 
+	 * @param level 表示レベル
+	 */
 	public void setLevel(Level level) {
 		this.level = level;
 	}
 	
+	/**
+	 * 表示モードを設定する。
+	 * 
+	 * @param mode 表示モード
+	 */
 	public void setMode(Mode mode) {
 		this.mode = mode;
 	}
 	
+	/**
+	 * ダイアグラム名を設定する。
+	 * 
+	 * @param name ダイアグラム名
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 	
 	public void store(NodeModel entity) {
-		// TODO Auto-generated method stub
-		
+		nodes.store(entity);
 	}
 	
 	public EntityRef<DiagramModel> toReference() {

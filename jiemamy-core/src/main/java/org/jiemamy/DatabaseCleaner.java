@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.apache.commons.dbutils.DbUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -82,10 +83,9 @@ public class DatabaseCleaner {
 			
 			SqlExecutor sqlExecuter = new SqlExecutor(connection);
 			
-			// TODO
-//			if (StringUtils.isEmpty(rootModel.getSchemaName()) == false) {
-//				sqlExecuter.execute(String.format("DROP SCHEMA \"%s\";", rootModel.getSchemaName()));
-//			}
+			if (StringUtils.isEmpty(context.getSchemaName()) == false) {
+				sqlExecuter.execute(String.format("DROP SCHEMA \"%s\";", context.getSchemaName()));
+			}
 			
 			for (DatabaseObjectModel entityModel : sortedDomList) {
 				String type = entityModel instanceof TableModel ? "TABLE" : "VIEW";

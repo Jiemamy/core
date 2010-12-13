@@ -79,13 +79,18 @@ public class JiemamyContext {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * {@link DatabaseObjectModel}を削除する。
 	 * 
-	 * @param reference
+	 * @param reference 削除する{@link DatabaseObjectModel}への参照
 	 */
 	public void delete(EntityRef<? extends DatabaseObjectModel> reference) {
 		doms.delete(reference);
 	}
+	
+	// FIXME
+//	public void delete(EntityRef<? extends DataSetModel> reference) {
+//		dsms.delete(reference);
+//	}
 	
 	/**
 	 * このコンテキストが保持するSQL方言IDからSQL方言のインスタンスを探す。
@@ -165,22 +170,27 @@ public class JiemamyContext {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * データセットの{@link List}を取得する。
 	 * 
-	 * @return
+	 * @return データセットの{@link List}
 	 */
 	public List<? extends DataSetModel> getDataSets() {
 		return dsms.getEntitiesAsList(DataSetModel.class);
 	}
 	
+	/**
+	 * 説明文を取得する。
+	 * 
+	 * @return 説明文
+	 */
 	public String getDescription() {
 		return description;
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * SQL方言IDを取得する。
 	 * 
-	 * @return
+	 * @return SQL方言ID
 	 */
 	public String getDialectClassName() {
 		return dialectClassName;
@@ -189,7 +199,8 @@ public class JiemamyContext {
 	/**
 	 * TODO for daisuke
 	 * 
-	 * @param class1
+	 * @param <T> 
+	 * @param clazz
 	 * @return
 	 */
 	public <T extends Entity>Set<T> getEntities(Class<T> clazz) {
@@ -210,10 +221,20 @@ public class JiemamyContext {
 		return clazz.cast(facets.get(clazz));
 	}
 	
+	/**
+	 * ファセットの{@link Set}を取得する。
+	 * 
+	 * @return ファセットの{@link Set}
+	 */
 	public Set<JiemamyFacet> getFacets() {
 		return Sets.newHashSet(facets.values());
 	}
 	
+	/**
+	 * 利用する全ての名前空間を取得する。
+	 * 
+	 * @return 利用する全ての名前空間
+	 */
 	public JiemamyNamespace[] getNamespaces() {
 		List<JiemamyNamespace> namespaces = Lists.newArrayList();
 		namespaces.addAll(Arrays.asList(CoreNamespace.values()));
@@ -223,10 +244,20 @@ public class JiemamyContext {
 		return namespaces.toArray(new JiemamyNamespace[namespaces.size()]);
 	}
 	
+	/**
+	 * スキーマ名を取得する。
+	 * 
+	 * @return スキーマ名
+	 */
 	public String getSchemaName() {
 		return schemaName;
 	}
 	
+	/**
+	 * {@link ServiceLocator}を取得する。
+	 * 
+	 * @return {@link ServiceLocator}
+	 */
 	public ServiceLocator getServiceLocator() {
 		return new DefaultServiceLocator(); // TODO
 	}
@@ -252,6 +283,13 @@ public class JiemamyContext {
 		return Version.INSTANCE;
 	}
 	
+	/**
+	 * 指定したファセットを持つかどうか調べる。
+	 * 
+	 * @param <T> ファセットの型
+	 * @param clazz ファセットの型
+	 * @return ファセットを持つ場合は{@code true}、そうでない場合は{@code false}
+	 */
 	public <T extends JiemamyFacet>boolean hasFacet(Class<T> clazz) {
 		return facets.get(clazz) != null;
 	}
@@ -272,7 +310,7 @@ public class JiemamyContext {
 	/**
 	 * TODO for daisuke
 	 * 
-	 * @param id
+	 * @param id ENTITY ID
 	 * @return 
 	 */
 	public Entity resolve(UUID id) {
@@ -280,9 +318,9 @@ public class JiemamyContext {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * 説明文を設定する。
 	 * 
-	 * @param description 
+	 * @param description 説明文 
 	 */
 	public void setDescription(String description) {
 		this.description = description;
@@ -298,18 +336,28 @@ public class JiemamyContext {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * スキーマ名を設定する。
 	 * 
-	 * @param schemaName
+	 * @param schemaName スキーマ名
 	 */
 	public void setSchemaName(String schemaName) {
 		this.schemaName = schemaName;
 	}
 	
+	/**
+	 * {@link DatabaseObjectModel}を保存する。
+	 * 
+	 * @param dom {@link DatabaseObjectModel}
+	 */
 	public void store(DatabaseObjectModel dom) {
 		doms.store(dom);
 	}
 	
+	/**
+	 * {@link DataSetModel}を保存する。
+	 * 
+	 * @param dsm {@link DataSetModel}
+	 */
 	public void store(DataSetModel dsm) {
 		dsms.store(dsm);
 	}

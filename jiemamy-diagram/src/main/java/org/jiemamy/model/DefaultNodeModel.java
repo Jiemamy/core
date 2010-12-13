@@ -50,6 +50,7 @@ public class DefaultNodeModel extends AbstractEntityModel implements NodeModel {
 	 * インスタンスを生成する。
 	 * 
 	 * @param id ENTITY ID
+	 * @param coreModelRef コアモデルへの参照
 	 */
 	public DefaultNodeModel(UUID id, EntityRef<? extends DatabaseObjectModel> coreModelRef) {
 		super(id);
@@ -98,10 +99,20 @@ public class DefaultNodeModel extends AbstractEntityModel implements NodeModel {
 		return Lists.newArrayList(targetConnections);
 	}
 	
+	/**
+	 * ノードの位置を設定する。
+	 * 
+	 * @param boundary 位置
+	 */
 	public void setBoundary(JmRectangle boundary) {
 		this.boundary = boundary;
 	}
 	
+	/**
+	 * ノードの色を設定する。
+	 * 
+	 * @param color 色
+	 */
 	public void setColor(JmColor color) {
 		this.color = color;
 	}

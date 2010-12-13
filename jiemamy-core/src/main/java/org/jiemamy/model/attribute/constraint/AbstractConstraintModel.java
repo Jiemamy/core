@@ -61,7 +61,7 @@ public abstract class AbstractConstraintModel implements ConstraintModel {
 		if (obj == null) {
 			return false;
 		}
-		if (!(obj instanceof AbstractConstraintModel)) {
+		if ((obj instanceof AbstractConstraintModel) == false) {
 			return false;
 		}
 		AbstractConstraintModel other = (AbstractConstraintModel) obj;

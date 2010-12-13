@@ -30,9 +30,9 @@ import com.google.common.collect.Maps;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-import org.jiemamy.Entity;
 import org.jiemamy.EntityRef;
 import org.jiemamy.model.AbstractEntityModel;
+import org.jiemamy.model.DefaultEntityRef;
 import org.jiemamy.model.dbo.TableModel;
 
 /**
@@ -94,13 +94,17 @@ public final class DefaultDataSetModel extends AbstractEntityModel implements Da
 		records.put(ref, record);
 	}
 	
+	/**
+	 * データセット名を設定する。
+	 * 
+	 * @param name データセット名
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 	
-	public EntityRef<? extends Entity> toReference() {
-		// TODO Auto-generated method stub
-		return null;
+	public EntityRef<DefaultDataSetModel> toReference() {
+		return new DefaultEntityRef<DefaultDataSetModel>(this);
 	}
 	
 	@Override

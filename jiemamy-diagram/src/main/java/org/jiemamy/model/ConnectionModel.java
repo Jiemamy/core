@@ -60,10 +60,10 @@ public interface ConnectionModel extends Entity {
 	JmColor getColor();
 	
 	/**
-	 * TODO for daisuke
+	 * コアモデルへの参照を取得する。
 	 * 
-	 * @return
-	 * @since TODO
+	 * @return コアモデルへの参照
+	 * @since 0.3
 	 */
 	EntityRef<? extends ForeignKeyConstraintModel> getCoreModelRef();
 	

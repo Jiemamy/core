@@ -31,9 +31,9 @@ import org.jiemamy.xml.JiemamyNamespace;
 public interface JiemamyFacet {
 	
 	/**
-	 * TODO for daisuke
+	 * このファセットが利用する全ての名前空間を取得する。
 	 * 
-	 * @return
+	 * @return 利用する全ての名前空間
 	 */
 	JiemamyNamespace[] getNamespaces();
 	

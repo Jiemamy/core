@@ -36,11 +36,10 @@ import java.util.UUID;
 public interface Entity extends Cloneable {
 	
 	/**
-	 * TODO for daisuke
+	 * エンティティのクローンを取得する。
 	 * 
-	 * @return clone
-	 * @since TODO
-	 * @see Object#clone()
+	 * @return clone クローン
+	 * @since 0.3
 	 */
 	Entity clone();
 	
@@ -64,6 +63,12 @@ public interface Entity extends Cloneable {
 	*/
 	UUID getId();
 	
+	/**
+	 * 子エンティティの集合を取得する。
+	 * 
+	 * @return 子エンティティの集合
+	 * @since 0.3
+	 */
 	Collection<? extends Entity> getSubEntities();
 	
 	/**

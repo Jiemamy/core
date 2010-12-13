@@ -53,10 +53,10 @@ public interface NodeModel extends Entity {
 	JmColor getColor();
 	
 	/**
-	 * TODO for daisuke
+	 * コアモデルへの参照を取得する。
 	 * 
-	 * @return 
-	 * @since TODO
+	 * @return コアモデルへの参照。コアが無い場合は{@code null}
+	 * @since 0.3
 	 */
 	EntityRef<? extends DatabaseObjectModel> getCoreModelRef();
 	

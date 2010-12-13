@@ -23,23 +23,48 @@ import org.apache.commons.lang.Validate;
 /**
  * TODO for daisuke
  * 
+ * @param <T> 値の型
  * @version $Id$
  * @author daisuke
  */
 public class DefaultTypeParameter<T> implements TypeParameter<T> {
 	
+	/**
+	 * 精度パラメータを取得する。
+	 * 
+	 * @param precision 精度
+	 * @return 精度パラメータ
+	 */
 	public static DefaultTypeParameter<Integer> precision(int precision) {
 		return new DefaultTypeParameter<Integer>(PRECISION, precision);
 	}
 	
+	/**
+	 * スケールパラメータを取得する。
+	 * 
+	 * @param scale スケール
+	 * @return スケールパラメータ
+	 */
 	public static DefaultTypeParameter<Integer> scale(int scale) {
 		return new DefaultTypeParameter<Integer>(SCALE, scale);
 	}
 	
+	/**
+	 * シリアルパラメータを取得する。
+	 * 
+	 * @param serial シリアル
+	 * @return シリアルパラメータ
+	 */
 	public static DefaultTypeParameter<Boolean> serial(boolean serial) {
 		return new DefaultTypeParameter<Boolean>(SERIAL, serial);
 	}
 	
+	/**
+	 * サイズパラメータを取得する。
+	 * 
+	 * @param size サイズ
+	 * @return サイズパラメータ
+	 */
 	public static DefaultTypeParameter<Integer> size(int size) {
 		return new DefaultTypeParameter<Integer>(SIZE, size);
 	}
@@ -53,8 +78,8 @@ public class DefaultTypeParameter<T> implements TypeParameter<T> {
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param key
-	 * @param value
+	 * @param key キー
+	 * @param value 値
 	 */
 	public DefaultTypeParameter(Key<T> key, T value) {
 		Validate.notNull(key);

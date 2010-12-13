@@ -31,6 +31,12 @@ import org.jiemamy.model.datatype.TypeVariant;
  */
 public interface DomainModel extends DatabaseObjectModel {
 	
+	/**
+	 * ドメインを指す型記述子を取得する。
+	 * 
+	 * @return ドメインを指す型記述子
+	 * @since 0.3
+	 */
 	TypeVariant asType();
 	
 	DomainModel clone();

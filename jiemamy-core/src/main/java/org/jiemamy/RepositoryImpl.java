@@ -20,6 +20,7 @@ package org.jiemamy;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.UUID;
 
@@ -34,14 +35,30 @@ import org.jiemamy.model.EntityNotFoundException;
 /**
  * TODO for daisuke
  * 
+ * @param <T> 管理するエンティティの型
  * @version $Id$
  * @author daisuke
  */
-final class RepositoryImpl<T extends Entity> implements Repository<T> {
+public final class RepositoryImpl<T extends Entity> implements Repository<T> {
 	
 	private Map<UUID, Entity> storage = Maps.newLinkedHashMap();
 	
 
+	@Override
+	@SuppressWarnings("unchecked")
+	public RepositoryImpl<T> clone() {
+		try {
+			RepositoryImpl<T> clone = (RepositoryImpl<T>) super.clone();
+			clone.storage = Maps.newLinkedHashMap();
+			for (Entry<UUID, Entity> e : storage.entrySet()) {
+				clone.storage.put(e.getKey(), e.getValue().clone());
+			}
+			return clone;
+		} catch (CloneNotSupportedException e) {
+			throw new JiemamyError("", e);
+		}
+	}
+	
 	public void delete(EntityRef<? extends T> ref) {
 		Validate.notNull(ref);
 		delete0(ref);

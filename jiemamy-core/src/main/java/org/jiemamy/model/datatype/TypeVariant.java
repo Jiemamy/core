@@ -21,6 +21,7 @@ package org.jiemamy.model.datatype;
 import java.util.Set;
 
 import org.jiemamy.ValueObject;
+import org.jiemamy.model.datatype.TypeParameter.Key;
 
 /**
  * 型記述子。
@@ -29,9 +30,33 @@ import org.jiemamy.ValueObject;
  */
 public interface TypeVariant extends ValueObject {
 	
+	/**
+	 * 型カテゴリを取得する。
+	 * 
+	 * @return 型カテゴリ
+	 */
 	DataTypeCategory getCategory();
 	
+	/**
+	 * 型パラメータを取得する。
+	 * 
+	 * @param <T> 値の型
+	 * @param key キー
+	 * @return 型パラメータ
+	 */
+	<T>TypeParameter<T> getParam(Key<T> key);
+	
+	/**
+	 * 型パラメータを取得する。
+	 * 
+	 * @return 型パラメータの{@link Set}
+	 */
 	Set<TypeParameter<?>> getParams();
 	
+	/**
+	 * 型名の文字列を取得する。
+	 * 
+	 * @return 型名の文字列
+	 */
 	String getTypeName();
 }

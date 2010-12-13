@@ -21,27 +21,48 @@ package org.jiemamy.model.datatype;
 import org.jiemamy.ValueObject;
 
 /**
- * TODO for daisuke
+ * データ型のパラメータを表すインターフェイス。
  * 
+ * @param <T> 値の型
  * @version $Id$
  * @author daisuke
  */
 public interface TypeParameter<T> extends ValueObject {
 	
+	/** サイズパラメータ用のキー */
 	Key<Integer> SIZE = new Key<Integer>("size");
 	
+	/** スケールパラメータ用のキー */
 	Key<Integer> SCALE = new Key<Integer>("scale");
 	
+	/** 精度パラメータ用のキー */
 	Key<Integer> PRECISION = new Key<Integer>("precision");
 	
+	/** シリアルパラメータ用のキー */
 	Key<Boolean> SERIAL = new Key<Boolean>("serial");
 	
 
+	/**
+	 * キーを取得する。
+	 * 
+	 * @return キー
+	 */
 	Key<T> getKey();
 	
+	/**
+	 * 値を取得する。
+	 * 
+	 * @return 値
+	 */
 	T getValue();
 	
 
+	/**
+	 * 型パラメータのキー。
+	 * 
+	 * @param <T> 値の型
+	 * @author daisuke
+	 */
 	public class Key<T> {
 		
 		private final String keyString;
@@ -50,7 +71,7 @@ public interface TypeParameter<T> extends ValueObject {
 		/**
 		 * インスタンスを生成する。
 		 * 
-		 * @param keyString
+		 * @param keyString キー文字列
 		 */
 		public Key(String keyString) {
 			this.keyString = keyString;

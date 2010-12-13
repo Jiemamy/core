@@ -44,6 +44,7 @@ import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.attribute.constraint.ConstraintModel;
 import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel;
 import org.jiemamy.model.attribute.constraint.KeyConstraintModel;
+import org.jiemamy.utils.collection.CollectionsUtil;
 
 /**
  * テーブルモデル。
@@ -147,7 +148,7 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	 */
 	public void addConstraint(ConstraintModel constraint) {
 		Validate.notNull(constraint);
-		constraints.add(constraint); // TODO add or replace
+		CollectionsUtil.addOrReplace(constraints, constraint);
 	}
 	
 	@Override

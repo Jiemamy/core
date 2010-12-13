@@ -67,7 +67,6 @@ public class DatabaseCleanerTest {
 	@Ignore("まだv0.3向けに書き換えていない")
 	public void test01_データベースをcleanしてみる() throws Exception {
 		DefaultDatabaseImportConfig config = new DefaultDatabaseImportConfig();
-		// TODO
 //		config.setDialect(new GenericDialect());
 		config.setDriverClassName("org.postgresql.Driver");
 		config.setDriverJarPaths(new URL[] {

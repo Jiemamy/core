@@ -69,7 +69,6 @@ public class DefaultConnectionModel extends AbstractEntityModel implements Conne
 	}
 	
 	public EntityRef<? extends ForeignKeyConstraintModel> getCoreModelRef() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	
@@ -85,6 +84,11 @@ public class DefaultConnectionModel extends AbstractEntityModel implements Conne
 		return getSource().equals(getTarget());
 	}
 	
+	/**
+	 * コネクションの色を設定する。
+	 * 
+	 * @param color 色
+	 */
 	public void setColor(JmColor color) {
 		this.color = color;
 	}

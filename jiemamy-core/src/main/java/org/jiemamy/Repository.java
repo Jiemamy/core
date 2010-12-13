@@ -29,7 +29,9 @@ import java.util.UUID;
  * @version $Id$
  * @author daisuke
  */
-interface Repository<T extends Entity> {
+public interface Repository<T extends Entity> extends Cloneable {
+	
+	Repository<T> clone();
 	
 	void delete(EntityRef<? extends T> ref);
 	
@@ -42,5 +44,4 @@ interface Repository<T extends Entity> {
 	Entity resolve(UUID id);
 	
 	void store(T entity);
-	
 }
