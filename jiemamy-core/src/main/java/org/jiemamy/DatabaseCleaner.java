@@ -77,11 +77,8 @@ public class DatabaseCleaner {
 			URL[] paths = config.getDriverJarPaths();
 			String className = config.getDriverClassName();
 			
-			Driver driver = DriverUtil.getDriverInstance(paths, className);
-			
-			connection = driver.connect(config.getUri(), props);
-			
-			SqlExecutor sqlExecuter = new SqlExecutor(connection);
+			connection = connect(config, props, paths, className);
+			SqlExecutor sqlExecuter = getExecutor(connection);
 			
 			if (StringUtils.isEmpty(context.getSchemaName()) == false) {
 				sqlExecuter.execute(String.format("DROP SCHEMA \"%s\";", context.getSchemaName()));
@@ -106,5 +103,15 @@ public class DatabaseCleaner {
 		} finally {
 			DbUtils.closeQuietly(connection);
 		}
+	}
+	
+	Connection connect(DatabaseImportConfig config, Properties props, URL[] paths, String className)
+			throws InstantiationException, IllegalAccessException, DriverNotFoundException, IOException, SQLException {
+		Driver driver = DriverUtil.getDriverInstance(paths, className);
+		return driver.connect(config.getUri(), props);
+	}
+	
+	SqlExecutor getExecutor(Connection connection) {
+		return new SqlExecutor(connection);
 	}
 }

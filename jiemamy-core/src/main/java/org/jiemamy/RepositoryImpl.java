@@ -31,6 +31,7 @@ import com.google.common.collect.Sets;
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.model.EntityNotFoundException;
+import org.jiemamy.utils.MutationMonitor;
 
 /**
  * TODO for daisuke
@@ -55,7 +56,7 @@ public final class RepositoryImpl<T extends Entity> implements Repository<T> {
 			}
 			return clone;
 		} catch (CloneNotSupportedException e) {
-			throw new JiemamyError("", e);
+			throw new JiemamyError("clone not supported", e);
 		}
 	}
 	
@@ -64,29 +65,29 @@ public final class RepositoryImpl<T extends Entity> implements Repository<T> {
 		delete0(ref);
 	}
 	
-	public <T2 extends Entity>Set<T2> getEntities(Class<T2> clazz) {
-		Set<T2> result = Sets.newHashSet();
+	public <E extends Entity>Set<E> getEntities(Class<E> clazz) {
+		Set<E> result = Sets.newHashSet();
 		for (Entity entity : storage.values()) {
 			if (clazz.isInstance(entity)) {
-				result.add(clazz.cast(entity));
+				result.add(clazz.cast(entity.clone()));
 			}
 		}
-		return result;
+		return MutationMonitor.monitor(result);
 	}
 	
-	public <T2 extends Entity>List<T2> getEntitiesAsList(Class<T2> clazz) {
-		List<T2> result = Lists.newArrayList();
+	public <E extends Entity>List<E> getEntitiesAsList(Class<E> clazz) {
+		List<E> result = Lists.newArrayList();
 		for (Entity entity : storage.values()) {
 			if (clazz.isInstance(entity)) {
-				result.add(clazz.cast(entity));
+				result.add(clazz.cast(entity.clone()));
 			}
 		}
-		return result;
+		return MutationMonitor.monitor(result);
 	}
 	
 	@SuppressWarnings("unchecked")
-	public <T2 extends Entity>T2 resolve(EntityRef<T2> ref) {
-		return (T2) resolve(ref.getReferentId());
+	public <E extends Entity>E resolve(EntityRef<E> ref) {
+		return (E) resolve(ref.getReferentId());
 	}
 	
 	public Entity resolve(UUID id) {

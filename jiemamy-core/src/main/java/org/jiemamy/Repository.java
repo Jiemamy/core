@@ -18,6 +18,7 @@
  */
 package org.jiemamy;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -31,6 +32,15 @@ import java.util.UUID;
  */
 public interface Repository<T extends Entity> extends Cloneable {
 	
+	/**
+	 * リポジトリのクローンを取得する。
+	 * 
+	 * <p>リポジトリのプロパティとして保持する可変オブジェクト(主に{@link Collection})や、
+	 * {@link Collection}の要素(主に管理エンティティ)も可変オブジェクトである場合は、その要素もクローンする。</p>
+	 * 
+	 * @return clone クローン
+	 * @since 0.3
+	 */
 	Repository<T> clone();
 	
 	void delete(EntityRef<? extends T> ref);

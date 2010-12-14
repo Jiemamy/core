@@ -66,7 +66,7 @@ public class DefaultColumnModel extends AbstractEntityModel implements ColumnMod
 		return (DefaultColumnModel) super.clone();
 	}
 	
-	public synchronized TypeVariant getDataType() {
+	public TypeVariant getDataType() {
 		return dataType;
 	}
 	
@@ -92,7 +92,7 @@ public class DefaultColumnModel extends AbstractEntityModel implements ColumnMod
 	 * @param dataType データタイプ
 	 * @since 0.3
 	 */
-	public synchronized void setDataType(TypeVariant dataType) {
+	public void setDataType(TypeVariant dataType) {
 		this.dataType = dataType;
 	}
 	

@@ -20,7 +20,11 @@ package org.jiemamy.model.dbo;
 
 import java.util.UUID;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 import org.jiemamy.EntityRef;
+import org.jiemamy.JiemamyContext;
 import org.jiemamy.model.DefaultEntityRef;
 
 /**
@@ -63,5 +67,16 @@ public class DefaultViewModel extends AbstractDatabaseObjectModel implements Vie
 	
 	public EntityRef<DefaultViewModel> toReference() {
 		return new DefaultEntityRef<DefaultViewModel>(this);
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		if (JiemamyContext.isDebug()) {
+			sb.append(ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE));
+		} else {
+			sb.append("View ").append(getName());
+		}
+		return sb.toString();
 	}
 }

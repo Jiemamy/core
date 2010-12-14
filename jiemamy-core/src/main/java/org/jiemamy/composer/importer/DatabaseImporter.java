@@ -93,8 +93,8 @@ public class DatabaseImporter implements Importer<DatabaseImportConfig> {
 		return "Database Importer";
 	}
 	
-	public boolean importModel(JiemamyContext rootModel, DatabaseImportConfig config) throws ImportException {
-		Validate.notNull(rootModel);
+	public boolean importModel(JiemamyContext context, DatabaseImportConfig config) throws ImportException {
+		Validate.notNull(context);
 		Validate.notNull(config);
 		Validate.notNull(config.getUri());
 		

@@ -18,13 +18,17 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import com.google.common.collect.Lists;
 
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.EntityRef;
+import org.jiemamy.JiemamyError;
 import org.jiemamy.model.attribute.ColumnModel;
+import org.jiemamy.utils.EntityUtil;
+import org.jiemamy.utils.MutationMonitor;
 
 /**
  * 抽象キー制約モデル。
@@ -34,7 +38,7 @@ import org.jiemamy.model.attribute.ColumnModel;
 public abstract class AbstractKeyConstraintModel extends AbstractConstraintModel implements KeyConstraintModel {
 	
 	/** キー制約を構成するカラムのリスト */
-	private final List<EntityRef<? extends ColumnModel>> keyColumns;
+	private List<EntityRef<? extends ColumnModel>> keyColumns;
 	
 
 	/**
@@ -52,7 +56,11 @@ public abstract class AbstractKeyConstraintModel extends AbstractConstraintModel
 		super(name, logicalName, description, deferrability);
 		Validate.notEmpty(keyColumns);
 		
-		this.keyColumns = new ArrayList<EntityRef<? extends ColumnModel>>(keyColumns);
+		this.keyColumns = Lists.newArrayList(keyColumns);
+	}
+	
+	public List<EntityRef<? extends ColumnModel>> breachEncapsulationOfKeyColumns() {
+		return keyColumns;
 	}
 	
 	@Override
@@ -78,7 +86,7 @@ public abstract class AbstractKeyConstraintModel extends AbstractConstraintModel
 	}
 	
 	public List<EntityRef<? extends ColumnModel>> getKeyColumns() {
-		return new ArrayList<EntityRef<? extends ColumnModel>>(keyColumns);
+		return MutationMonitor.monitor(Lists.newArrayList(keyColumns));
 	}
 	
 	@Override
@@ -87,6 +95,17 @@ public abstract class AbstractKeyConstraintModel extends AbstractConstraintModel
 		int result = super.hashCode();
 		result = prime * result + ((keyColumns == null) ? 0 : keyColumns.hashCode());
 		return result;
+	}
+	
+	@Override
+	protected AbstractKeyConstraintModel clone() {
+		try {
+			AbstractKeyConstraintModel clone = (AbstractKeyConstraintModel) super.clone();
+			clone.keyColumns = EntityUtil.cloneValueList(keyColumns);
+			return clone;
+		} catch (CloneNotSupportedException e) {
+			throw new JiemamyError("clone not supported", e);
+		}
 	}
 	
 }

@@ -18,19 +18,26 @@
  */
 package org.jiemamy.model.dbo;
 
+import java.util.Collection;
 import java.util.Set;
 import java.util.UUID;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 import org.jiemamy.EntityRef;
+import org.jiemamy.JiemamyContext;
 import org.jiemamy.model.DefaultEntityRef;
 import org.jiemamy.model.attribute.constraint.CheckConstraintModel;
-import org.jiemamy.model.attribute.constraint.NotNullConstraintModel;
 import org.jiemamy.model.datatype.DataTypeCategory;
 import org.jiemamy.model.datatype.TypeParameter;
 import org.jiemamy.model.datatype.TypeParameter.Key;
 import org.jiemamy.model.datatype.TypeVariant;
+import org.jiemamy.utils.EntityUtil;
+import org.jiemamy.utils.MutationMonitor;
 import org.jiemamy.utils.collection.CollectionsUtil;
 
 /**
@@ -43,9 +50,9 @@ public class DefaultDomainModel extends AbstractDatabaseObjectModel implements D
 	/** ドメインとして定義された型記述子 */
 	private TypeVariant dataType;
 	
-	private CheckConstraintModel checkConstraint;
+	private Collection<CheckConstraintModel> checkConstraints = Lists.newArrayList();
 	
-	private NotNullConstraintModel notNullConstraint;
+	private boolean notNull;
 	
 	Set<TypeParameter<?>> params = Sets.newHashSet();
 	
@@ -61,6 +68,16 @@ public class DefaultDomainModel extends AbstractDatabaseObjectModel implements D
 	}
 	
 	/**
+	 * チェック制約を設定する
+	 * 
+	 * @param checkConstraint チェック制約
+	 * @since 0.3
+	 */
+	public void addCheckConstraint(CheckConstraintModel checkConstraint) {
+		checkConstraints.add(checkConstraint);
+	}
+	
+	/**
 	 * パラメータを追加する。
 	 * 
 	 * @param param 追加するパラメータ
@@ -73,35 +90,31 @@ public class DefaultDomainModel extends AbstractDatabaseObjectModel implements D
 		return new DomainType();
 	}
 	
-	@Override
-	public DefaultDomainModel clone() {
-		return (DefaultDomainModel) super.clone();
+	public Collection<? extends CheckConstraintModel> breachEncapsulationOfCheckConstraints() {
+		return checkConstraints;
 	}
 	
-	public CheckConstraintModel getCheckConstraint() {
-		return checkConstraint;
+	@Override
+	public DefaultDomainModel clone() {
+		DefaultDomainModel clone = (DefaultDomainModel) super.clone();
+		clone.checkConstraints = EntityUtil.cloneValueList(checkConstraints);
+		return clone;
+	}
+	
+	public Collection<? extends CheckConstraintModel> getCheckConstraints() {
+		return MutationMonitor.monitor(Lists.newArrayList(checkConstraints));
 	}
 	
 	public TypeVariant getDataType() {
 		return dataType;
 	}
 	
-	public NotNullConstraintModel getNotNullConstraint() {
-		return notNullConstraint;
+	public boolean isNotNull() {
+		return notNull;
 	}
 	
 	/**
-	 * チェック制約を設定する
-	 * 
-	 * @param checkConstraint チェック制約
-	 * @since 0.3
-	 */
-	public void setCheckConstraint(CheckConstraintModel checkConstraint) {
-		this.checkConstraint = checkConstraint;
-	}
-	
-	/**
-	 * 型記述子を設定する
+	 * 型記述子を設定する。
 	 * 
 	 * @param dataType 型記述子
 	 * @since 0.3
@@ -111,13 +124,13 @@ public class DefaultDomainModel extends AbstractDatabaseObjectModel implements D
 	}
 	
 	/**
-	 * NotNull制約を設定する
+	 * NotNull制約を設定する。
 	 * 
-	 * @param notNullConstraint NotNull制約
+	 * @param notNull NotNullの場合は{@code true}、そうでない場合は{@code false}
 	 * @since 0.3
 	 */
-	public void setNotNullConstraint(NotNullConstraintModel notNullConstraint) {
-		this.notNullConstraint = notNullConstraint;
+	public void setNotNull(boolean notNull) {
+		this.notNull = notNull;
 	}
 	
 	public EntityRef<DefaultDomainModel> toReference() {
@@ -126,7 +139,13 @@ public class DefaultDomainModel extends AbstractDatabaseObjectModel implements D
 	
 	@Override
 	public String toString() {
-		return "Domain " + getName();
+		StringBuilder sb = new StringBuilder();
+		if (JiemamyContext.isDebug()) {
+			sb.append(ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE));
+		} else {
+			sb.append("Domain ").append(getName());
+		}
+		return sb.toString();
 	}
 	
 
@@ -151,6 +170,5 @@ public class DefaultDomainModel extends AbstractDatabaseObjectModel implements D
 		public String getTypeName() {
 			return dataType.getTypeName();
 		}
-		
 	}
 }

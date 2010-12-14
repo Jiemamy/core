@@ -18,10 +18,13 @@
  */
 package org.jiemamy;
 
+import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.lessThan;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -61,6 +64,31 @@ public class ConstraintComparatorTest {
 	@Before
 	public void setUp() throws Exception {
 		comparator = new ConstraintComparator();
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test01_() throws Exception {
+		PrimaryKeyConstraintModel pk1 = mock(PrimaryKeyConstraintModel.class);
+		PrimaryKeyConstraintModel pk2 = mock(PrimaryKeyConstraintModel.class);
+		CheckConstraintModel ch1 = mock(CheckConstraintModel.class);
+		CheckConstraintModel ch2 = mock(CheckConstraintModel.class);
+		ConstraintModel uk = mock(ConstraintModel.class);
+		
+		assertThat(comparator.compare(pk1, pk1), is(0));
+		assertThat(comparator.compare(pk1, pk2), is(0));
+		assertThat(comparator.compare(pk2, pk1), is(0));
+		assertThat(comparator.compare(pk2, pk2), is(0));
+		assertThat(comparator.compare(pk1, ch1), is(lessThan(0)));
+		assertThat(comparator.compare(pk1, ch2), is(lessThan(0)));
+		assertThat(comparator.compare(pk1, uk), is(lessThan(0)));
+		assertThat(comparator.compare(ch1, uk), is(lessThan(0)));
+		assertThat(comparator.compare(null, pk1), is(lessThan(0)));
+		assertThat(comparator.compare(pk1, null), is(greaterThan(0)));
 	}
 	
 	/**

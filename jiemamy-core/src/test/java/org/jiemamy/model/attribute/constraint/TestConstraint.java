@@ -1,6 +1,6 @@
 /*
  * Copyright 2007-2010 Jiemamy Project and the Others.
- * Created on 2009/01/26
+ * Created on 2010/12/14
  *
  * This file is part of Jiemamy.
  *
@@ -20,14 +20,13 @@ package org.jiemamy.model.attribute.constraint;
 
 import org.jiemamy.ValueObject;
 
+
 /**
- * 値に対する単純な制約を表す制約モデル。
+ * TODO for daisuke
  * 
- * <p>主にNOT NULL制約や、CHECK制約を表す。</p>
- * 
- * @since 0.2
+ * @version $Id$
  * @author daisuke
  */
-public interface ValueConstraintModel extends ConstraintModel, ValueObject {
+public interface TestConstraint extends ConstraintModel, ValueObject {
 	
 }

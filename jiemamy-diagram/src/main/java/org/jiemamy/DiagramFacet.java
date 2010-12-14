@@ -46,8 +46,6 @@ public class DiagramFacet implements JiemamyFacet {
 		
 	};
 	
-	private final JiemamyContext context;
-	
 	private Repository<DiagramModel> repos = new RepositoryImpl<DiagramModel>();
 	
 
@@ -59,7 +57,6 @@ public class DiagramFacet implements JiemamyFacet {
 	 */
 	public DiagramFacet(JiemamyContext context) {
 		Validate.notNull(context);
-		this.context = context;
 	}
 	
 	/**

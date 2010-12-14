@@ -38,6 +38,9 @@ public interface Entity extends Cloneable {
 	/**
 	 * エンティティのクローンを取得する。
 	 * 
+	 * <p>プロパティとして保持する可変オブジェクト(主に{@link Collection})もクローンし、
+	 * {@link Collection}の要素も可変オブジェクトである場合は、その要素もクローンする。</p>
+	 * 
 	 * @return clone クローン
 	 * @since 0.3
 	 */

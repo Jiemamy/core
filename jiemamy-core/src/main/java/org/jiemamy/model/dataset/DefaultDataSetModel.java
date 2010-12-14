@@ -18,7 +18,6 @@
  */
 package org.jiemamy.model.dataset;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -34,6 +33,7 @@ import org.jiemamy.EntityRef;
 import org.jiemamy.model.AbstractEntityModel;
 import org.jiemamy.model.DefaultEntityRef;
 import org.jiemamy.model.dbo.TableModel;
+import org.jiemamy.utils.MutationMonitor;
 
 /**
  * INSERT文用データセット。
@@ -56,6 +56,10 @@ public final class DefaultDataSetModel extends AbstractEntityModel implements Da
 	 */
 	public DefaultDataSetModel(UUID id) {
 		super(id);
+	}
+	
+	public Map<EntityRef<? extends TableModel>, List<RecordModel>> breachEncapsulationOfRecords() {
+		return records;
 	}
 	
 	@Override
@@ -81,17 +85,25 @@ public final class DefaultDataSetModel extends AbstractEntityModel implements Da
 		return name;
 	}
 	
+	public void getRecord(EntityRef<? extends TableModel> ref) {
+		records.get(ref);
+	}
+	
 	/**
 	 * レコード情報を取得する。
 	 * 
 	 * @return レコード情報
 	 */
 	public Map<EntityRef<? extends TableModel>, List<RecordModel>> getRecords() {
-		return new HashMap<EntityRef<? extends TableModel>, List<RecordModel>>(records);
+		return MutationMonitor.monitor(Maps.newHashMap(records));
 	}
 	
 	public void putRecord(EntityRef<? extends TableModel> ref, List<RecordModel> record) {
 		records.put(ref, record);
+	}
+	
+	public void removeRecord(EntityRef<? extends TableModel> ref) {
+		records.remove(ref);
 	}
 	
 	/**

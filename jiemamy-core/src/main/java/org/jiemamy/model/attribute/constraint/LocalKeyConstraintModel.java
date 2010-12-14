@@ -18,6 +18,8 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
+import org.jiemamy.ValueObject;
+
 /**
  * 内部キー制約を表すインターフェイス。
  * 
@@ -26,6 +28,6 @@ package org.jiemamy.model.attribute.constraint;
  * @since 0.2
  * @author daisuke
  */
-public interface LocalKeyConstraintModel extends KeyConstraintModel {
+public interface LocalKeyConstraintModel extends KeyConstraintModel, ValueObject {
 	
 }

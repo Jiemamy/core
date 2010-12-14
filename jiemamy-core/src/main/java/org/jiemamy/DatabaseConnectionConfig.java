@@ -38,7 +38,7 @@ public interface DatabaseConnectionConfig {
 	/**
 	 * ドライバJARファイルのパス配列を取得する。
 	 * 
-	 * @return ドライバJARファイルのパス配列. 未設定の場合は{@code null}
+	 * @return ドライバJARファイルのパス配列. 未設定の場合は空の配列を返す。
 	 */
 	URL[] getDriverJarPaths();
 	

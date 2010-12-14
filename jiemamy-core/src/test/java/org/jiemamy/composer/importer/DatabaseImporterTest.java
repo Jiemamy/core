@@ -1,6 +1,6 @@
 /*
  * Copyright 2007-2010 Jiemamy Project and the Others.
- * Created on 2008/06/09
+ * Created on 2010/12/14
  *
  * This file is part of Jiemamy.
  *
@@ -16,44 +16,43 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.model.attribute.constraint;
+package org.jiemamy.composer.importer;
 
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
+
+import org.junit.Before;
+import org.junit.Test;
 
 /**
- * 制約を表すモデルのインターフェイス。
+ * {@link DatabaseImporter}のテストクラス。
  * 
+ * @version $Id$
  * @author daisuke
  */
-public interface ConstraintModel {
+public class DatabaseImporterTest {
+	
+	private DatabaseImporter importer;
+	
+
+	/**
+	 * テストを初期化する。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Before
+	public void setUp() throws Exception {
+		importer = new DatabaseImporter();
+	}
 	
 	/**
-	 * 遅延評価可能性モデルを取得する。
+	 * TODO for daisuke
 	 * 
-	 * @return 遅延評価可能性モデル. 未設定の場合は{@code null}
-	 * @since 0.2
+	 * @throws Exception 例外が発生した場合
 	 */
-	DeferrabilityModel getDeferrability();
-	
-	/**
-	 * 説明を取得する。
-	 * 
-	 * @return 説明。未設定の場合は{@code null}
-	 */
-	String getDescription();
-	
-	/**
-	 * 論理名を取得する。
-	 * 
-	 * @return 論理名。未設定の場合は{@code null}
-	 */
-	String getLogicalName();
-	
-	/**
-	 * 物理名を取得する。
-	 * 
-	 * @return 物理名. 未設定の場合は{@code null}
-	 * @since 0.2
-	 */
-	String getName();
+	@Test
+	public void test01_getName() throws Exception {
+		assertThat(importer.getName(), is("Database Importer"));
+	}
 	
 }

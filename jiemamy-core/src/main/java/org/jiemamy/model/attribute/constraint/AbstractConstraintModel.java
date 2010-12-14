@@ -35,7 +35,7 @@ public abstract class AbstractConstraintModel implements ConstraintModel {
 	private String description;
 	
 	/** 遅延評価可能性モデル */
-	private final DeferrabilityModel deferrability;
+	private DeferrabilityModel deferrability;
 	
 
 	/**
@@ -128,15 +128,19 @@ public abstract class AbstractConstraintModel implements ConstraintModel {
 		return "Constraint " + getName();
 	}
 	
-	void setDescription(String description) {
+	protected void setDeferrability(DeferrabilityModel deferrability) {
+		this.deferrability = deferrability;
+	}
+	
+	protected void setDescription(String description) {
 		this.description = description;
 	}
 	
-	void setLogicalName(String logicalName) {
+	protected void setLogicalName(String logicalName) {
 		this.logicalName = logicalName;
 	}
 	
-	void setName(String name) {
+	protected void setName(String name) {
 		this.name = name;
 	}
 }

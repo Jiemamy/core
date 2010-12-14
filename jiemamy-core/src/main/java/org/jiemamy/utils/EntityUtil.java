@@ -1,6 +1,6 @@
 /*
  * Copyright 2007-2010 Jiemamy Project and the Others.
- * Created on 2010/05/11
+ * Created on 2010/12/14
  *
  * This file is part of Jiemamy.
  *
@@ -16,11 +16,14 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.model;
+package org.jiemamy.utils;
 
-import java.util.UUID;
+import java.util.ArrayList;
+import java.util.Collection;
 
-import org.jiemamy.EntityRef;
+import com.google.common.collect.Lists;
+
+import org.jiemamy.Entity;
 
 /**
  * TODO for daisuke
@@ -28,22 +31,20 @@ import org.jiemamy.EntityRef;
  * @version $Id$
  * @author daisuke
  */
-public class MockEntity extends AbstractEntityModel {
+public final class EntityUtil {
 	
-	/**
-	 * インスタンスを生成する。
-	 */
-	public MockEntity() {
-		super(UUID.randomUUID());
+	public static <E extends Entity>ArrayList<E> cloneEntityList(Collection<E> org) {
+		ArrayList<E> clone = Lists.newArrayListWithExpectedSize(org.size());
+		for (E e : org) {
+			clone.add(e);
+		}
+		return clone;
 	}
 	
-	@Override
-	public MockEntity clone() {
-		return (MockEntity) super.clone();
+	public static <E>ArrayList<E> cloneValueList(Collection<E> org) {
+		return Lists.newArrayList(org);
 	}
 	
-	public EntityRef<MockEntity> toReference() {
-		return new DefaultEntityRef<MockEntity>(this);
+	private EntityUtil() {
 	}
-	
 }

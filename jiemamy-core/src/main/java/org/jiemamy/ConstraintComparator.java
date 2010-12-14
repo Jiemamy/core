@@ -109,8 +109,16 @@ public class ConstraintComparator implements Comparator<ConstraintModel> {
 		
 		int i1 = getOrder(getAncestorIntefaces(o1.getClass()));
 		int i2 = getOrder(getAncestorIntefaces(o2.getClass()));
-		if (i1 != i2) {
-			return i1 - i2;
+		if (i1 != -1 && i2 != -1) {
+			if (i1 != i2) {
+				return i1 - i2;
+			}
+		} else if (i1 == -1) {
+			return 1;
+		} else if (i2 == -1) {
+			return -1;
+		} else {
+			return o1.getClass().getName().compareTo(o2.getClass().getName());
 		}
 		
 		if (o1 instanceof ForeignKeyConstraintModel) {

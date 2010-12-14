@@ -27,8 +27,11 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 import org.jiemamy.EntityRef;
+import org.jiemamy.JiemamyContext;
 import org.jiemamy.model.DefaultEntityRef;
 import org.jiemamy.model.dbo.AbstractDatabaseObjectModel;
+import org.jiemamy.utils.EntityUtil;
+import org.jiemamy.utils.MutationMonitor;
 
 /**
  * インデックスモデル。
@@ -41,9 +44,7 @@ public class DefaultIndexModel extends AbstractDatabaseObjectModel implements In
 	private boolean unique;
 	
 	/** インデックスカラムのリスト */
-	private List<IndexColumnModel> indexColumns;
-	
-	private String logicalName;
+	private List<IndexColumnModel> indexColumns = Lists.newArrayList();
 	
 
 	/**
@@ -60,30 +61,28 @@ public class DefaultIndexModel extends AbstractDatabaseObjectModel implements In
 		indexColumns.add(indexColumn);
 	}
 	
+	public List<IndexColumnModel> breachEncapsulationOfIndexColumns() {
+		return indexColumns;
+	}
+	
 	@Override
 	public DefaultIndexModel clone() {
 		DefaultIndexModel clone = (DefaultIndexModel) super.clone();
-		clone.indexColumns = Lists.newArrayList(indexColumns);
+		clone.indexColumns = EntityUtil.cloneValueList(indexColumns);
 		return clone;
 	}
 	
 	public List<IndexColumnModel> getIndexColumns() {
 		assert indexColumns != null;
-		return indexColumns;
-	}
-	
-	@Override
-	public String getLogicalName() {
-		return logicalName;
+		return MutationMonitor.monitor(Lists.newArrayList(indexColumns));
 	}
 	
 	public boolean isUnique() {
 		return unique;
 	}
 	
-	@Override
-	public void setLogicalName(String logicalName) {
-		this.logicalName = logicalName;
+	public void reomveIndexColumn(IndexColumnModel indexColumn) {
+		indexColumns.remove(indexColumn);
 	}
 	
 	public void setUnique(boolean unique) {
@@ -96,7 +95,13 @@ public class DefaultIndexModel extends AbstractDatabaseObjectModel implements In
 	
 	@Override
 	public String toString() {
-		return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+		StringBuilder sb = new StringBuilder();
+		if (JiemamyContext.isDebug()) {
+			sb.append(ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE));
+		} else {
+			sb.append("Index ").append(getName());
+		}
+		return sb.toString();
 	}
 	
 }

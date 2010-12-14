@@ -20,6 +20,7 @@ package org.jiemamy.model.attribute.constraint;
 
 import java.util.List;
 
+import org.jiemamy.Entity;
 import org.jiemamy.EntityRef;
 import org.jiemamy.model.attribute.ColumnModel;
 
@@ -29,7 +30,9 @@ import org.jiemamy.model.attribute.ColumnModel;
  * @since 0.2
  * @author daisuke
  */
-public interface ForeignKeyConstraintModel extends KeyConstraintModel {
+public interface ForeignKeyConstraintModel extends KeyConstraintModel, Entity {
+	
+	ForeignKeyConstraintModel clone();
 	
 	/**
 	 * マッチ型を取得する。

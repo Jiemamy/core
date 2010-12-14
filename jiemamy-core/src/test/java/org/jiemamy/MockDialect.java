@@ -1,6 +1,6 @@
 /*
  * Copyright 2007-2010 Jiemamy Project and the Others.
- * Created on 2009/01/26
+ * Created on 2010/12/14
  *
  * This file is part of Jiemamy.
  *
@@ -16,18 +16,25 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.model.attribute.constraint;
+package org.jiemamy;
 
-import org.jiemamy.ValueObject;
+import org.jiemamy.dialect.Dialect;
+import org.jiemamy.validator.CompositeValidator;
+import org.jiemamy.validator.Validator;
 
 /**
- * 値に対する単純な制約を表す制約モデル。
+ * テスト用のモックSQL方言実装クラス。
  * 
- * <p>主にNOT NULL制約や、CHECK制約を表す。</p>
- * 
- * @since 0.2
+ * @version $Id$
  * @author daisuke
  */
-public interface ValueConstraintModel extends ConstraintModel, ValueObject {
+public class MockDialect implements Dialect {
 	
+	public String getName() {
+		return this.getClass().getName();
+	}
+	
+	public Validator getValidator() {
+		return new CompositeValidator();
+	}
 }

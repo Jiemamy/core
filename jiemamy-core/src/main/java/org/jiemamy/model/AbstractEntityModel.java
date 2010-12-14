@@ -84,13 +84,4 @@ public abstract class AbstractEntityModel implements Entity {
 	public final int hashCode() {
 		return id.hashCode();
 	}
-//	
-//	public final boolean isChildEntityRef(EntityRef<?> entityRef) {
-//		for (Entity entity : getSubEntities()) {
-//			if (entityRef.isReferenceOf(entity)) {
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
 }

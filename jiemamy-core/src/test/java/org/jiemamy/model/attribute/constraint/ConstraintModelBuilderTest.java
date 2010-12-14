@@ -38,7 +38,7 @@ public class ConstraintModelBuilderTest {
 	 */
 	@Test
 	public final void testApply() {
-		ConstraintModel model = mock(ConstraintModel.class);
+		TestConstraint model = mock(TestConstraint.class);
 		when(model.getName()).thenReturn("name");
 		when(model.getLogicalName()).thenReturn("logicalName");
 		when(model.getDescription()).thenReturn("description");
@@ -108,10 +108,10 @@ public class ConstraintModelBuilderTest {
 	
 
 	// テスト用モッククラス
-	static class BuilderMock extends ConstraintModelBuilder<ConstraintModel, BuilderMock> {
+	static class BuilderMock extends ConstraintModelBuilder<TestConstraint, BuilderMock> {
 		
 		@Override
-		protected ConstraintModel createValueObject() {
+		protected TestConstraint createValueObject() {
 			return null;
 		}
 		

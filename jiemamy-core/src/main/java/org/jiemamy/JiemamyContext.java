@@ -30,6 +30,8 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import org.apache.commons.lang.Validate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.jiemamy.dialect.Dialect;
 import org.jiemamy.model.EntityNotFoundException;
@@ -48,6 +50,27 @@ import org.jiemamy.xml.JiemamyNamespace;
  */
 public class JiemamyContext {
 	
+	private static boolean debug = getVersion().isSnapshot();
+	
+
+	/**
+	 * Jiemamyのバージョンを返す。
+	 * 
+	 * @return Jiemamyのバージョン
+	 */
+	public static Version getVersion() {
+		return Version.INSTANCE;
+	}
+	
+	public static boolean isDebug() {
+		return debug;
+	}
+	
+	protected static void setDebug(boolean debug) {
+		JiemamyContext.debug = debug;
+	}
+	
+
 	private Map<Class<? extends JiemamyFacet>, JiemamyFacet> facets = Maps.newHashMap();
 	
 	private Repository<DatabaseObjectModel> doms = new RepositoryImpl<DatabaseObjectModel>();
@@ -60,11 +83,14 @@ public class JiemamyContext {
 	
 	private String schemaName;
 	
+	private static Logger logger = LoggerFactory.getLogger(JiemamyContext.class);
+	
 
 	/**
 	 * インスタンスを生成する。
 	 */
 	public JiemamyContext() {
+		this(new FacetProvider[0]);
 	}
 	
 	/**
@@ -76,7 +102,13 @@ public class JiemamyContext {
 		for (FacetProvider facetProvider : facetProviders) {
 			facets.put(facetProvider.getFacetType(), facetProvider.getFacet(this));
 		}
+		logger.debug("new context created (debug={})", isDebug());
 	}
+	
+	// FIXME
+//	public void delete(EntityRef<? extends DataSetModel> reference) {
+//		dsms.delete(reference);
+//	}
 	
 	/**
 	 * {@link DatabaseObjectModel}を削除する。
@@ -86,11 +118,6 @@ public class JiemamyContext {
 	public void delete(EntityRef<? extends DatabaseObjectModel> reference) {
 		doms.delete(reference);
 	}
-	
-	// FIXME
-//	public void delete(EntityRef<? extends DataSetModel> reference) {
-//		dsms.delete(reference);
-//	}
 	
 	/**
 	 * このコンテキストが保持するSQL方言IDからSQL方言のインスタンスを探す。
@@ -272,15 +299,6 @@ public class JiemamyContext {
 	 */
 	public <T extends JiemamyTransaction>T getTransaction(Class<T> clazz) {
 		return null;
-	}
-	
-	/**
-	 * Jiemamyのバージョンを返す。
-	 * 
-	 * @return Jiemamyのバージョン
-	 */
-	public Version getVersion() {
-		return Version.INSTANCE;
 	}
 	
 	/**

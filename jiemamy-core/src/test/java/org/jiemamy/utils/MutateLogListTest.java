@@ -1,6 +1,6 @@
 /*
  * Copyright 2007-2010 Jiemamy Project and the Others.
- * Created on 2009/01/26
+ * Created on 2010/12/14
  *
  * This file is part of Jiemamy.
  *
@@ -16,18 +16,40 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.model.attribute.constraint;
+package org.jiemamy.utils;
 
-import org.jiemamy.ValueObject;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
+
+import java.util.List;
+
+import com.google.common.collect.Lists;
+
+import org.junit.Test;
 
 /**
- * 値に対する単純な制約を表す制約モデル。
+ * TODO for daisuke
  * 
- * <p>主にNOT NULL制約や、CHECK制約を表す。</p>
- * 
- * @since 0.2
+ * @version $Id$
  * @author daisuke
  */
-public interface ValueConstraintModel extends ConstraintModel, ValueObject {
+public class MutateLogListTest {
 	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test01() throws Exception {
+		List<Integer> list = Lists.newArrayList();
+		list.add(1);
+		list.add(2);
+		
+		List<Integer> wraped = MutationMonitor.monitor(list);
+		
+		wraped.add(3);
+		
+		assertThat(wraped.size(), is(3));
+	}
 }

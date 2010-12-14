@@ -25,6 +25,7 @@ import com.google.common.collect.Lists;
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.EntityRef;
+import org.jiemamy.ValueObject;
 import org.jiemamy.model.attribute.ColumnModel;
 
 /**
@@ -36,7 +37,7 @@ import org.jiemamy.model.attribute.ColumnModel;
  * @param <S> このビルダークラスの型
  */
 // CHECKSTYLE:OFF
-public abstract class KeyConstraintModelBuilder<T extends KeyConstraintModel, S extends KeyConstraintModelBuilder<T, S>>
+public abstract class KeyConstraintModelBuilder<T extends KeyConstraintModel & ValueObject, S extends KeyConstraintModelBuilder<T, S>>
 		extends ConstraintModelBuilder<T, S> {
 	
 	// CHECKSTYLE:ON

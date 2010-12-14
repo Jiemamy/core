@@ -32,6 +32,8 @@ import com.google.common.collect.Sets;
 import org.apache.commons.collections15.CollectionUtils;
 import org.apache.commons.collections15.Predicate;
 import org.apache.commons.lang.Validate;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 
 import org.jiemamy.ConstraintComparator;
 import org.jiemamy.Entity;
@@ -44,6 +46,8 @@ import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.attribute.constraint.ConstraintModel;
 import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel;
 import org.jiemamy.model.attribute.constraint.KeyConstraintModel;
+import org.jiemamy.utils.EntityUtil;
+import org.jiemamy.utils.MutationMonitor;
 import org.jiemamy.utils.collection.CollectionsUtil;
 
 /**
@@ -124,10 +128,10 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	
 
 	/** カラムのリスト */
-	List<ColumnModel> columns = Lists.newArrayList();
+	private List<ColumnModel> columns = Lists.newArrayList();
 	
 	/** 制約のリスト */
-	SortedSet<ConstraintModel> constraints = Sets.newTreeSet(new ConstraintComparator());
+	private SortedSet<ConstraintModel> constraints = Sets.newTreeSet(new ConstraintComparator());
 	
 
 	/**
@@ -148,16 +152,24 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	 */
 	public void addConstraint(ConstraintModel constraint) {
 		Validate.notNull(constraint);
+		if (constraint instanceof ForeignKeyConstraintModel) {
+			constraint = ((ForeignKeyConstraintModel) constraint).clone();
+		}
 		CollectionsUtil.addOrReplace(constraints, constraint);
+	}
+	
+	public List<ColumnModel> breachEncapsulationOfColumns() {
+		return columns;
+	}
+	
+	public SortedSet<? extends ConstraintModel> breachEncapsulationOfConstraints() {
+		return constraints;
 	}
 	
 	@Override
 	public DefaultTableModel clone() {
 		DefaultTableModel clone = (DefaultTableModel) super.clone();
-		clone.columns = Lists.newArrayList();
-		for (ColumnModel column : columns) {
-			clone.columns.add(column.clone());
-		}
+		clone.columns = EntityUtil.cloneEntityList(columns);
 		TreeSet<ConstraintModel> set = new TreeSet<ConstraintModel>(new ConstraintComparator());
 		set.addAll(constraints);
 		clone.constraints = set;
@@ -228,18 +240,14 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	
 	public List<ColumnModel> getColumns() {
 		assert columns != null;
-		List<ColumnModel> result = Lists.newArrayList();
-		for (ColumnModel column : columns) {
-			result.add(column.clone());
-		}
-		return result;
+		return MutationMonitor.monitor(EntityUtil.cloneEntityList(columns));
 	}
 	
 	public SortedSet<? extends ConstraintModel> getConstraints() {
 		assert constraints != null;
 		TreeSet<ConstraintModel> result = new TreeSet<ConstraintModel>(new ConstraintComparator());
 		result.addAll(constraints);
-		return result;
+		return MutationMonitor.monitor(result);
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -250,7 +258,7 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 				result.add((T) constraint);
 			}
 		}
-		return result;
+		return MutationMonitor.monitor(result);
 	}
 	
 	public Collection<? extends ForeignKeyConstraintModel> getForeignKeyConstraintModels() {
@@ -331,6 +339,17 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	
 	public EntityRef<DefaultTableModel> toReference() {
 		return new DefaultEntityRef<DefaultTableModel>(this);
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		if (JiemamyContext.isDebug()) {
+			sb.append(ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE));
+		} else {
+			sb.append("Table ").append(getName());
+		}
+		return sb.toString();
 	}
 	
 	private <T extends ConstraintModel>Collection<T> findConstraints(Class<T> clazz) {

@@ -31,7 +31,7 @@ import org.junit.Test;
 import org.jiemamy.model.attribute.Column;
 import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.attribute.DefaultColumnModel;
-import org.jiemamy.model.attribute.constraint.DefaultForeignKeyConstraintModelBuilder;
+import org.jiemamy.model.attribute.constraint.DefaultForeignKeyConstraintModel;
 import org.jiemamy.model.attribute.constraint.DefaultPrimaryKeyConstraintModel;
 import org.jiemamy.model.attribute.constraint.DefaultPrimaryKeyConstraintModelBuilder;
 import org.jiemamy.model.dbo.DefaultTableModel;
@@ -161,10 +161,8 @@ public class StoryTest {
 				.with(fkColumn1 = new Column().whoseNameIs("DEPT_ID").build())
 				.with(fkColumn2 = new Column().whoseNameIs("MGR_ID").build())
 				.with(new DefaultPrimaryKeyConstraintModelBuilder().addKeyColumn(pkColumn).build())
-				.with(new DefaultForeignKeyConstraintModelBuilder()
-						.addKeyColumn(fkColumn1).addReferenceColumn(refColumn).build())
-				.with(new DefaultForeignKeyConstraintModelBuilder()
-						.addKeyColumn(fkColumn2).addReferenceColumn(pkColumn).build())
+				.with(DefaultForeignKeyConstraintModel.of(fkColumn1,refColumn))
+				.with(DefaultForeignKeyConstraintModel.of(fkColumn2,pkColumn))
 				.build();
 		// FORMAT-ON
 		ctx1.store(dept);

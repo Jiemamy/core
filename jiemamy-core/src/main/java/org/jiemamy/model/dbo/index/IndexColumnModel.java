@@ -33,7 +33,7 @@ public interface IndexColumnModel extends ValueObject {
 	/**
 	 * インデックス対象カラムを取得する。
 	 * 
-	 * @return インデックス対象カラム. 未設定の場合は{@code null}
+	 * @return インデックス対象カラム
 	 * @since 0.2
 	 */
 	EntityRef<? extends ColumnModel> getColumnRef();

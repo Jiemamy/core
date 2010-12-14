@@ -22,6 +22,7 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
+import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
@@ -45,6 +46,9 @@ public final class DefaultRecordModel implements RecordModel {
 	 * @param values カラムに対応するデータ
 	 */
 	public DefaultRecordModel(Map<EntityRef<? extends ColumnModel>, String> values) {
+		Validate.notNull(values);
+		Validate.noNullElements(values.keySet());
+		Validate.noNullElements(values.values());
 		this.values = Maps.newHashMap(values);
 	}
 	
@@ -56,18 +60,11 @@ public final class DefaultRecordModel implements RecordModel {
 		if (obj == null) {
 			return false;
 		}
-		if (!(obj instanceof DefaultRecordModel)) {
+		if ((obj instanceof DefaultRecordModel) == false) {
 			return false;
 		}
 		DefaultRecordModel other = (DefaultRecordModel) obj;
-		if (values == null) {
-			if (other.values != null) {
-				return false;
-			}
-		} else if (!values.equals(other.values)) {
-			return false;
-		}
-		return true;
+		return values.equals(other.values);
 	}
 	
 	public Map<EntityRef<? extends ColumnModel>, String> getValues() {

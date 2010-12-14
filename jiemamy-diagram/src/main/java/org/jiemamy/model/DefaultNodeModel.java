@@ -21,10 +21,14 @@ import java.util.UUID;
 
 import com.google.common.collect.Lists;
 
+import org.apache.commons.lang.Validate;
+
+import org.jiemamy.Entity;
 import org.jiemamy.EntityRef;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
 import org.jiemamy.model.geometory.JmColor;
 import org.jiemamy.model.geometory.JmRectangle;
+import org.jiemamy.utils.EntityUtil;
 
 /**
  * TODO for daisuke
@@ -35,15 +39,13 @@ import org.jiemamy.model.geometory.JmRectangle;
  */
 public class DefaultNodeModel extends AbstractEntityModel implements NodeModel {
 	
-	private Collection<ConnectionModel> sourceConnections = Lists.newArrayList();
-	
-	private Collection<ConnectionModel> targetConnections = Lists.newArrayList();
-	
 	private JmRectangle boundary;
 	
 	private JmColor color;
 	
 	private final EntityRef<? extends DatabaseObjectModel> coreModelRef;
+	
+	Collection<ConnectionModel> sourceConnections = Lists.newArrayList();
 	
 
 	/**
@@ -57,26 +59,21 @@ public class DefaultNodeModel extends AbstractEntityModel implements NodeModel {
 		this.coreModelRef = coreModelRef;
 	}
 	
-	public Collection<ConnectionModel> breachEncapslationOfSourceConnections() {
-		return sourceConnections;
-	}
-	
-	public Collection<ConnectionModel> breachEncapslationOfTargetConnections() {
-		return targetConnections;
-	}
-	
 	@Override
 	public DefaultNodeModel clone() {
 		DefaultNodeModel clone = (DefaultNodeModel) super.clone();
-		clone.sourceConnections = Lists.newArrayList();
-		for (ConnectionModel connection : sourceConnections) {
-			clone.sourceConnections.add(connection.clone());
-		}
-		clone.targetConnections = Lists.newArrayList();
-		for (ConnectionModel connection : targetConnections) {
-			clone.targetConnections.add(connection.clone());
-		}
+		clone.sourceConnections = EntityUtil.cloneEntityList(sourceConnections);
 		return clone;
+	}
+	
+	public void delete(EntityRef<? extends ConnectionModel> reference) {
+		for (ConnectionModel connectionModel : Lists.newArrayList(sourceConnections)) {
+			if (reference.isReferenceOf(connectionModel)) {
+				sourceConnections.remove(connectionModel);
+				return;
+			}
+		}
+		throw new EntityNotFoundException();
 	}
 	
 	public JmRectangle getBoundary() {
@@ -95,8 +92,13 @@ public class DefaultNodeModel extends AbstractEntityModel implements NodeModel {
 		return Lists.newArrayList(sourceConnections);
 	}
 	
+	@Override
+	public Collection<? extends Entity> getSubEntities() {
+		return Lists.newArrayList(sourceConnections);
+	}
+	
 	public Collection<? extends ConnectionModel> getTargetConnections() {
-		return Lists.newArrayList(targetConnections);
+		return null; // FIXME
 	}
 	
 	/**
@@ -117,8 +119,20 @@ public class DefaultNodeModel extends AbstractEntityModel implements NodeModel {
 		this.color = color;
 	}
 	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param connection source connection
+	 */
+	public void store(ConnectionModel connection) {
+		Validate.notNull(connection);
+		if (sourceConnections.contains(connection)) {
+			sourceConnections.remove(connection);
+		}
+		sourceConnections.add(connection.clone());
+	}
+	
 	public EntityRef<DefaultNodeModel> toReference() {
 		return new DefaultEntityRef<DefaultNodeModel>(this);
 	}
-	
 }

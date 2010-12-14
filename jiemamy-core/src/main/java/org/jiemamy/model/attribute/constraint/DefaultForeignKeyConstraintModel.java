@@ -18,13 +18,21 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
+
+import com.google.common.collect.Lists;
 
 import org.apache.commons.lang.Validate;
 
+import org.jiemamy.Entity;
 import org.jiemamy.EntityRef;
+import org.jiemamy.model.DefaultEntityRef;
 import org.jiemamy.model.attribute.ColumnModel;
+import org.jiemamy.utils.EntityUtil;
+import org.jiemamy.utils.MutationMonitor;
 
 /**
  * 外部キーモデル。
@@ -43,31 +51,74 @@ public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstrain
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public static ForeignKeyConstraintModel of(ColumnModel keyColumn, ColumnModel referenceColumn) {
-		// FORMAT-OFF
-		return new DefaultForeignKeyConstraintModelBuilder()
-				.addKeyColumn(keyColumn)
-				.addReferenceColumn(referenceColumn)
-				.build();
-		// FORMAT-ON
+		return new DefaultForeignKeyConstraintModel(UUID.randomUUID(), null, null, null, toRefList(keyColumn), null,
+				toRefList(referenceColumn), null, null, null);
+	}
+	
+	private static List<EntityRef<? extends ColumnModel>> toRefList(ColumnModel column) {
+		List<EntityRef<? extends ColumnModel>> result = Lists.newArrayListWithCapacity(1);
+		result.add(column.toReference());
+		return result;
 	}
 	
 
 	/** 制約の根拠となるカラムのリスト */
-	private final List<EntityRef<? extends ColumnModel>> referenceColumns;
+	private List<EntityRef<? extends ColumnModel>> referenceColumns;
 	
 	/** 削除時アクション */
-	private final ReferentialAction onDelete;
+	private ReferentialAction onDelete;
 	
 	/** 更新時アクション */
-	private final ReferentialAction onUpdate;
+	private ReferentialAction onUpdate;
 	
 	/** マッチ型 */
-	private final MatchType matchType;
+	private MatchType matchType;
+	
+	private final UUID id;
 	
 
 	/**
 	 * インスタンスを生成する。
 	 * 
+	 * @param keyColumn キー制約を構成するカラム
+	 * @param referenceColumn 制約を受けるカラム
+	 * @throws IllegalArgumentException 引数{@code keyColumns}と{@code referenceColumns}のサイズが一致していない場合
+	 */
+	public DefaultForeignKeyConstraintModel(ColumnModel keyColumn, ColumnModel referenceColumn) {
+		this(UUID.randomUUID(), null, null, null, toRefList(keyColumn), null, toRefList(referenceColumn), null, null,
+				null);
+	}
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param name 物理名
+	 * @param keyColumn キー制約を構成するカラム
+	 * @param referenceColumn 制約を受けるカラム
+	 * @throws IllegalArgumentException 引数{@code keyColumns}と{@code referenceColumns}のサイズが一致していない場合
+	 */
+	public DefaultForeignKeyConstraintModel(String name, ColumnModel keyColumn, ColumnModel referenceColumn) {
+		this(UUID.randomUUID(), name, null, null, toRefList(keyColumn), null, toRefList(referenceColumn), null, null,
+				null);
+	}
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param id ENTITY ID
+	 * @param name 物理名
+	 * @param keyColumn キー制約を構成するカラム
+	 * @param referenceColumn 制約を受けるカラム
+	 * @throws IllegalArgumentException 引数{@code keyColumns}と{@code referenceColumns}のサイズが一致していない場合
+	 */
+	public DefaultForeignKeyConstraintModel(UUID id, String name, ColumnModel keyColumn, ColumnModel referenceColumn) {
+		this(id, name, null, null, toRefList(keyColumn), null, toRefList(referenceColumn), null, null, null);
+	}
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param id ENTITY ID
 	 * @param name 物理名
 	 * @param logicalName 論理名
 	 * @param description 説明
@@ -80,18 +131,27 @@ public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstrain
 	 * @throws IllegalArgumentException 引数{@code keyColumns}と{@code referenceColumns}のサイズが一致していない場合
 	 */
 	// CHECKSTYLE:OFF
-	public DefaultForeignKeyConstraintModel(String name, String logicalName, String description,
+	public DefaultForeignKeyConstraintModel(UUID id, String name, String logicalName, String description,
 			List<EntityRef<? extends ColumnModel>> keyColumns, DeferrabilityModel deferrability,
 			List<EntityRef<? extends ColumnModel>> referenceColumns, ReferentialAction onDelete,
 			ReferentialAction onUpdate, MatchType matchType) {
 		// CHECKSTYLE:ON
 		super(name, description, description, keyColumns, deferrability);
+		Validate.notNull(id);
 		Validate.isTrue(keyColumns.size() == referenceColumns.size());
 		
+		this.id = id;
 		this.matchType = matchType;
 		this.onDelete = onDelete;
 		this.onUpdate = onUpdate;
-		this.referenceColumns = new ArrayList<EntityRef<? extends ColumnModel>>(referenceColumns);
+		this.referenceColumns = Lists.newArrayList(referenceColumns);
+	}
+	
+	@Override
+	public DefaultForeignKeyConstraintModel clone() {
+		DefaultForeignKeyConstraintModel clone = (DefaultForeignKeyConstraintModel) super.clone();
+		clone.referenceColumns = EntityUtil.cloneValueList(referenceColumns);
+		return clone;
 	}
 	
 	@Override
@@ -137,6 +197,10 @@ public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstrain
 		return true;
 	}
 	
+	public UUID getId() {
+		return id;
+	}
+	
 	public MatchType getMatchType() {
 		return matchType;
 	}
@@ -150,7 +214,11 @@ public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstrain
 	}
 	
 	public List<EntityRef<? extends ColumnModel>> getReferenceColumns() {
-		return new ArrayList<EntityRef<? extends ColumnModel>>(referenceColumns);
+		return MutationMonitor.monitor(Lists.newArrayList(referenceColumns));
+	}
+	
+	public Collection<? extends Entity> getSubEntities() {
+		return Collections.emptyList();
 	}
 	
 	@Override
@@ -163,4 +231,31 @@ public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstrain
 		result = prime * result + ((referenceColumns == null) ? 0 : referenceColumns.hashCode());
 		return result;
 	}
+	
+	@Override
+	public void setDeferrability(DeferrabilityModel deferrability) {
+		super.setDeferrability(deferrability);
+	}
+	
+	public void setMatchType(MatchType matchType) {
+		this.matchType = matchType;
+	}
+	
+	@Override
+	public void setName(String name) {
+		super.setName(name);
+	}
+	
+	public void setOnDelete(ReferentialAction onDelete) {
+		this.onDelete = onDelete;
+	}
+	
+	public void setOnUpdate(ReferentialAction onUpdate) {
+		this.onUpdate = onUpdate;
+	}
+	
+	public EntityRef<DefaultForeignKeyConstraintModel> toReference() {
+		return new DefaultEntityRef<DefaultForeignKeyConstraintModel>(this);
+	}
+	
 }

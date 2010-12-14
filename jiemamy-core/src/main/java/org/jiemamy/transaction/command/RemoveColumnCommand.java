@@ -23,6 +23,7 @@ import java.util.Collection;
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.model.attribute.ColumnModel;
+import org.jiemamy.model.dbo.DefaultTableModel;
 import org.jiemamy.model.dbo.TableModel;
 import org.jiemamy.transaction.Command;
 import org.jiemamy.transaction.EventBroker;
@@ -32,10 +33,10 @@ import org.jiemamy.transaction.EventBroker;
  * 
  * @author daisuke
  */
-public class RemoveColumnCommand extends AbstractRemoveFromCollectionCommand<TableModel, ColumnModel> {
+public class RemoveColumnCommand extends AbstractRemoveFromCollectionCommand<DefaultTableModel, ColumnModel> {
 	
 	/** 削除元テーブル */
-	private final TableModel tableModel;
+	private final DefaultTableModel tableModel;
 	
 	/** 削除されるカラム */
 	private final ColumnModel columnModel;
@@ -49,13 +50,13 @@ public class RemoveColumnCommand extends AbstractRemoveFromCollectionCommand<Tab
 	 * @param attributeModel 削除されるカラム
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public RemoveColumnCommand(EventBroker eventBroker, TableModel tableModel, ColumnModel attributeModel) {
+	public RemoveColumnCommand(EventBroker eventBroker, DefaultTableModel tableModel, ColumnModel attributeModel) {
 		super(eventBroker, tableModel, attributeModel);
 		Validate.notNull(tableModel);
 		Validate.notNull(attributeModel);
 		
 		this.tableModel = tableModel;
-		this.columnModel = attributeModel;
+		columnModel = attributeModel;
 		
 	}
 	

@@ -23,6 +23,7 @@ import java.util.Collection;
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.model.attribute.ColumnModel;
+import org.jiemamy.model.dbo.DefaultTableModel;
 import org.jiemamy.model.dbo.TableModel;
 import org.jiemamy.transaction.Command;
 import org.jiemamy.transaction.EventBroker;
@@ -32,10 +33,10 @@ import org.jiemamy.transaction.EventBroker;
  * 
  * @author daisuke
  */
-public class AddColumnCommand extends AbstractAddToCollectionCommand<TableModel, ColumnModel> {
+public class AddColumnCommand extends AbstractAddToCollectionCommand<DefaultTableModel, ColumnModel> {
 	
 	/** 追加されるテーブル */
-	private final TableModel tableModel;
+	private final DefaultTableModel tableModel;
 	
 	/** 追加する属性 */
 	private final ColumnModel columnModel;
@@ -49,7 +50,7 @@ public class AddColumnCommand extends AbstractAddToCollectionCommand<TableModel,
 	 * @param columnModel 追加するカラム
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public AddColumnCommand(EventBroker eventBroker, TableModel tableModel, ColumnModel columnModel) {
+	public AddColumnCommand(EventBroker eventBroker, DefaultTableModel tableModel, ColumnModel columnModel) {
 		super(eventBroker, tableModel, columnModel);
 		Validate.notNull(tableModel);
 		Validate.notNull(columnModel);
@@ -67,7 +68,7 @@ public class AddColumnCommand extends AbstractAddToCollectionCommand<TableModel,
 	 * @param columnModel 追加するカラム
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public AddColumnCommand(EventBroker eventBroker, TableModel tableModel, int index, ColumnModel columnModel) {
+	public AddColumnCommand(EventBroker eventBroker, DefaultTableModel tableModel, int index, ColumnModel columnModel) {
 		super(eventBroker, tableModel, columnModel, index);
 		Validate.notNull(tableModel);
 		Validate.notNull(columnModel);
@@ -82,7 +83,7 @@ public class AddColumnCommand extends AbstractAddToCollectionCommand<TableModel,
 	
 	@Override
 	public Collection<? super ColumnModel> getTargetCollection() {
-		return tableModel.getColumns();
+		return tableModel.breachEncapsulationOfColumns();
 	}
 	
 }

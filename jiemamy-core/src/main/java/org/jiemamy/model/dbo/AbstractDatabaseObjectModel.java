@@ -116,8 +116,6 @@ public abstract class AbstractDatabaseObjectModel extends AbstractEntityModel im
 	}
 	
 	@Override
-	public String toString() {
-		return "Entity " + getName();
-	}
+	public abstract String toString();
 	
 }

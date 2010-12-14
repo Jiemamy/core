@@ -19,6 +19,7 @@
 package org.jiemamy;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
@@ -551,5 +552,16 @@ public class JiemamyContextTest {
 		} catch (EntityNotFoundException e) {
 			// success
 		}
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test21() throws Exception {
+		ctx1.setDialectClassName(MockDialect.class.getName());
+		assertThat(ctx1.findDialect(), is(instanceOf(MockDialect.class)));
 	}
 }

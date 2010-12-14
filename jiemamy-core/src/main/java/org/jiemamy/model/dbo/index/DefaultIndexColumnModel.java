@@ -75,7 +75,7 @@ public final class DefaultIndexColumnModel implements IndexColumnModel {
 	 * インスタンスを生成する。
 	 * 
 	 * @param columnRef インデックス対象カラム
-	 * @param sortOrder カラムソート方式
+	 * @param sortOrder カラムソート方式。無指定の場合は{@code null}
 	 * @throws IllegalArgumentException 引数{@code columnRef}に{@code null}を与えた場合
 	 */
 	public DefaultIndexColumnModel(EntityRef<? extends ColumnModel> columnRef, SortOrder sortOrder) {
@@ -92,28 +92,25 @@ public final class DefaultIndexColumnModel implements IndexColumnModel {
 		if (obj == null) {
 			return false;
 		}
-		if (!(obj instanceof DefaultIndexColumnModel)) {
+		if ((obj instanceof DefaultIndexColumnModel) == false) {
 			return false;
 		}
 		DefaultIndexColumnModel other = (DefaultIndexColumnModel) obj;
-		if (columnRef == null) {
-			if (other.columnRef != null) {
-				return false;
-			}
-		} else if (!columnRef.equals(other.columnRef)) {
+		if (columnRef.equals(other.columnRef) == false) {
 			return false;
 		}
 		if (sortOrder == null) {
 			if (other.sortOrder != null) {
 				return false;
 			}
-		} else if (!sortOrder.equals(other.sortOrder)) {
+		} else if (sortOrder.equals(other.sortOrder) == false) {
 			return false;
 		}
 		return true;
 	}
 	
 	public EntityRef<? extends ColumnModel> getColumnRef() {
+		assert columnRef != null;
 		return columnRef;
 	}
 	
@@ -125,7 +122,7 @@ public final class DefaultIndexColumnModel implements IndexColumnModel {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((columnRef == null) ? 0 : columnRef.hashCode());
+		result = prime * result + columnRef.hashCode();
 		result = prime * result + ((sortOrder == null) ? 0 : sortOrder.hashCode());
 		return result;
 	}

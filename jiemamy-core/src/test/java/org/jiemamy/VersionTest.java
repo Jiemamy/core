@@ -91,6 +91,27 @@ public class VersionTest {
 		assertThat(v2.canDeserialize(v4), is(false)); // 10.11.12-SNAPSHOT は 9.8 データを読めない（Major-verUpで互換完全喪失）
 		assertThat(v1.canDeserialize(v4), is(true)); // 9.8.7 は 9.8 データを読める（互換あり）
 		
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test02() throws Exception {
+		try {
+			Version.parse("10");
+			fail();
+		} catch (IllegalArgumentException e) {
+			// success
+		}
+		try {
+			Version.parse("10.11.12.13");
+			fail();
+		} catch (IllegalArgumentException e) {
+			// success
+		}
 		try {
 			Version.parse("10.11.12-HOGE");
 			fail();
@@ -105,11 +126,14 @@ public class VersionTest {
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test02_equalsとhashCodeが仕様に従って実装されていること() throws Exception {
+	public void test03_equalsとhashCodeが仕様に従って実装されていること() throws Exception {
 		Version v1 = new Version(1, 2, 3, false);
 		Version v2 = new Version(1, 2, 3, false);
 		Version v3 = new Version(1, 2, 4, false);
 		Version v4 = new OtherVersionImpl(1, 2, 3, false);
+		Version v5 = new Version(1, 3, 3, false);
+		Version v6 = new Version(2, 2, 3, false);
+		Version v7 = new Version(1, 2, 3, true);
 		
 		// equalsのチェック 兼 推移性のチェック
 		assertThat(v1.equals(v2), is(true));
@@ -118,6 +142,14 @@ public class VersionTest {
 		assertThat(v2.equals(v3), is(false));
 		assertThat(v2.equals(v4), is(true));
 		assertThat(v3.equals(v4), is(false));
+		assertThat(v1.equals(v5), is(false));
+		assertThat(v1.equals(v6), is(false));
+		assertThat(v1.equals(v7), is(false));
+		assertThat(v1.equals(null), is(false));
+		assertThat(v2.equals(null), is(false));
+		assertThat(v3.equals(null), is(false));
+		assertThat(v4.equals(null), is(false));
+		assertThat(v4.equals(new Object()), is(false));
 		
 		assertThat(v1.hashCode(), is(v2.hashCode()));
 		assertThat(v1.hashCode(), is(not(v3.hashCode())));
@@ -125,6 +157,7 @@ public class VersionTest {
 		assertThat(v2.hashCode(), is(not(v3.hashCode())));
 		assertThat(v2.hashCode(), is(v4.hashCode()));
 		assertThat(v3.hashCode(), is(not(v4.hashCode())));
+		assertThat(v1.hashCode(), is(not(v7.hashCode())));
 		
 		List<Version> list = Arrays.asList(v1, v2, v3, v4);
 		for (Version version : list) {

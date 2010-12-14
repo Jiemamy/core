@@ -25,6 +25,8 @@ import org.jiemamy.EntityRef;
 import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel;
 import org.jiemamy.model.geometory.JmColor;
 import org.jiemamy.model.geometory.JmPoint;
+import org.jiemamy.utils.EntityUtil;
+import org.jiemamy.utils.MutationMonitor;
 
 /**
  * TODO for daisuke
@@ -43,25 +45,33 @@ public class DefaultConnectionModel extends AbstractEntityModel implements Conne
 	
 	private EntityRef<NodeModel> target;
 	
+	private final EntityRef<? extends ForeignKeyConstraintModel> coreModelRef;
+	
 
 	/**
 	 * インスタンスを生成する。
 	 * 
 	 * @param id ENTITY ID
+	 * @param coreModelRef 
 	 */
-	public DefaultConnectionModel(UUID id) {
+	public DefaultConnectionModel(UUID id, EntityRef<? extends ForeignKeyConstraintModel> coreModelRef) {
 		super(id);
+		this.coreModelRef = coreModelRef;
+	}
+	
+	public List<JmPoint> breachEncapsulationOfBendpoints() {
+		return bendpoints;
 	}
 	
 	@Override
 	public DefaultConnectionModel clone() {
 		DefaultConnectionModel clone = (DefaultConnectionModel) super.clone();
-		clone.bendpoints = Lists.newArrayList(bendpoints);
+		clone.bendpoints = EntityUtil.cloneValueList(bendpoints);
 		return clone;
 	}
 	
 	public List<JmPoint> getBendpoints() {
-		return bendpoints;
+		return MutationMonitor.monitor(Lists.newArrayList(bendpoints));
 	}
 	
 	public JmColor getColor() {

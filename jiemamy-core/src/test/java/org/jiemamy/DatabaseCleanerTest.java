@@ -18,8 +18,18 @@
  */
 package org.jiemamy;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
+
 import java.io.File;
 import java.net.URL;
+import java.sql.Connection;
+import java.util.Properties;
 
 import org.junit.After;
 import org.junit.Before;
@@ -27,6 +37,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import org.jiemamy.composer.importer.DefaultDatabaseImportConfig;
+import org.jiemamy.utils.sql.SqlExecutor;
 
 /**
  * {@link DatabaseCleaner}のテストクラス。
@@ -76,6 +87,19 @@ public class DatabaseCleanerTest {
 		config.setPassword("postgres");
 		config.setUri("jdbc:postgresql://localhost:5432/jiemamy");
 		
-		databaseCleaner.clean(config);
+		Connection mockConnection = mock(Connection.class);
+		SqlExecutor mockExecutor = spy(new SqlExecutor(mockConnection));
+		
+		DatabaseCleaner mockCleaner = spy(databaseCleaner);
+		doReturn(mockConnection).when(mockCleaner).connect(eq(config), any(Properties.class), any(URL[].class),
+				anyString());
+//		when(mockCleaner.connect(eq(config), any(Properties.class), any(URL[].class), anyString())).thenReturn(
+//				mockConnection);
+		doReturn(mockExecutor).when(mockCleaner).getExecutor(eq(mockConnection));
+//		when(mockCleaner.getExecutor(eq(mockConnection))).thenReturn(mockExecutor);
+		
+		mockCleaner.clean(config);
+		
+		verify(mockConnection).close();
 	}
 }

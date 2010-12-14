@@ -18,6 +18,8 @@
  */
 package org.jiemamy;
 
+import org.apache.commons.lang.Validate;
+
 /**
  * Jiemamyのバージョンを表すインターフェイス。
  * 
@@ -91,12 +93,11 @@ public class Version {
 	 * 
 	 * @param target 読み込むXMLのバージョン
 	 * @return 読み込み可能な場合は{@code true}、そうでない場合は{@code false}
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 0.3
 	 */
 	public boolean canDeserialize(Version target) {
-		if (target == null) {
-			return false;
-		}
+		Validate.notNull(target);
 		if (major != target.getMajor()) {
 			return false;
 		}
