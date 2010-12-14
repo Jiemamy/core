@@ -223,13 +223,6 @@ public class JiemamyContext {
 		return dialectClassName;
 	}
 	
-	/**
-	 * TODO for daisuke
-	 * 
-	 * @param <T> 
-	 * @param clazz
-	 * @return
-	 */
 	public <T extends Entity>Set<T> getEntities(Class<T> clazz) {
 		return doms.getEntities(clazz);
 	}

@@ -23,7 +23,7 @@ import org.apache.commons.lang.Validate;
 /**
  * Jiemamyのバージョンを表すインターフェイス。
  * 
- * @since 0.2
+ * @since 0.3
  * @author daisuke
  */
 public class Version {
@@ -145,7 +145,7 @@ public class Version {
 	 * 仕様及び実装のメジャーバージョン番号を取得する。
 	 * 
 	 * @return 仕様及び実装のメジャーバージョン番号
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	public int getMajor() {
 		return major;
@@ -155,7 +155,7 @@ public class Version {
 	 * 仕様及び実装のマイナーバージョン番号を取得する。
 	 * 
 	 * @return 仕様及び実装のマイナーバージョン番号
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	public int getMinor() {
 		return minor;
@@ -165,7 +165,7 @@ public class Version {
 	 * 実装のリリース番号を取得する。
 	 * 
 	 * @return 実装のリリース番号
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	public int getRelease() {
 		return release;
@@ -181,7 +181,7 @@ public class Version {
 	 * </pre>
 	 * 
 	 * @return ハッシュコード値
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	@Override
 	public int hashCode() {
@@ -200,7 +200,7 @@ public class Version {
 	 * <p>仕様または実装のいずれかがスナップショット版であれば、{@code true}を返す。両者とも正式版の時のみ、{@code false}を返す。</p>
 	 * 
 	 * @return スナップショット版であれば{@code true}
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	public boolean isSnapshot() {
 		return snapshot;
