@@ -35,7 +35,6 @@ import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-import org.jiemamy.ConstraintComparator;
 import org.jiemamy.Entity;
 import org.jiemamy.EntityRef;
 import org.jiemamy.JiemamyContext;
@@ -46,6 +45,7 @@ import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.attribute.constraint.ConstraintModel;
 import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel;
 import org.jiemamy.model.attribute.constraint.KeyConstraintModel;
+import org.jiemamy.utils.ConstraintComparator;
 import org.jiemamy.utils.EntityUtil;
 import org.jiemamy.utils.MutationMonitor;
 import org.jiemamy.utils.collection.CollectionsUtil;

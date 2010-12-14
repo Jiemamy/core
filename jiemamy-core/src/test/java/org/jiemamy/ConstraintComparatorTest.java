@@ -44,6 +44,7 @@ import org.jiemamy.model.attribute.constraint.DefaultUniqueKeyConstraintModel;
 import org.jiemamy.model.attribute.constraint.NotNullConstraintModel;
 import org.jiemamy.model.attribute.constraint.PrimaryKeyConstraintModel;
 import org.jiemamy.model.attribute.constraint.UniqueKeyConstraintModel;
+import org.jiemamy.utils.ConstraintComparator;
 
 /**
  * TODO for daisuke

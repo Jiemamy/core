@@ -83,6 +83,8 @@ public class JiemamyContext {
 	
 	private String schemaName;
 	
+//	private final UUIDProvider uuidProvider = new UUIDProvider();
+	
 	private static Logger logger = LoggerFactory.getLogger(JiemamyContext.class);
 	
 

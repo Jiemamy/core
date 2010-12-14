@@ -62,10 +62,6 @@ public class DefaultEntityRef<T extends Entity> implements EntityRef<T> {
 		this.referentId = referentId;
 	}
 	
-	public int compareTo(EntityRef<? extends T> o) {
-		return referentId.compareTo(o.getReferentId());
-	}
-	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
