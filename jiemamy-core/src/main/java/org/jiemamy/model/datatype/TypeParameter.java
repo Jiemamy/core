@@ -96,5 +96,9 @@ public interface TypeParameter<T> extends ValueObject {
 		public int hashCode() {
 			return keyString.hashCode();
 		}
+		
+		protected String getKeyString() {
+			return keyString;
+		}
 	}
 }

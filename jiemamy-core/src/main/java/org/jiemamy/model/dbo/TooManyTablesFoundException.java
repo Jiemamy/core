@@ -20,6 +20,8 @@ package org.jiemamy.model.dbo;
 
 import java.util.Collection;
 
+import com.google.common.collect.Lists;
+
 import org.jiemamy.model.ModelConsistencyException;
 
 /**
@@ -50,7 +52,7 @@ public class TooManyTablesFoundException extends ModelConsistencyException {
 	 * @return 見つかったカラムの集合
 	 */
 	public Collection<TableModel> getTables() {
-		return tables;
+		return Lists.newArrayList(tables);
 	}
 	
 }

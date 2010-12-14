@@ -22,10 +22,16 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.UUID;
 
+import javax.xml.stream.XMLEventWriter;
+
 import org.apache.commons.lang.Validate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.jiemamy.Entity;
+import org.jiemamy.JiemamyContext;
 import org.jiemamy.JiemamyError;
+import org.jiemamy.serializer.JiemamyXmlWriter;
 
 /**
  * {@link Entity}の骨格実装クラス。
@@ -36,6 +42,8 @@ import org.jiemamy.JiemamyError;
 public abstract class AbstractEntityModel implements Entity {
 	
 	private final UUID id;
+	
+	private static Logger logger = LoggerFactory.getLogger(AbstractEntityModel.class);
 	
 
 	/**
@@ -78,6 +86,15 @@ public abstract class AbstractEntityModel implements Entity {
 	
 	public Collection<? extends Entity> getSubEntities() {
 		return Collections.emptyList();
+	}
+	
+	public JiemamyXmlWriter getWriter(JiemamyContext context) { // FIXME このメソッド消しちゃえ
+		return new JiemamyXmlWriter() {
+			
+			public void writeTo(XMLEventWriter writer) {
+				logger.error("EMPTY WRITER");
+			}
+		};
 	}
 	
 	@Override

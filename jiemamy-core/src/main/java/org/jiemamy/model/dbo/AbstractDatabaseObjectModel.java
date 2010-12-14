@@ -69,7 +69,7 @@ public abstract class AbstractDatabaseObjectModel extends AbstractEntityModel im
 	}
 	
 	public Set<DatabaseObjectModel> findSuperDatabaseObjectsNonRecursive(Set<DatabaseObjectModel> databaseObjects) {
-		return null;
+		return null; // TODO
 	}
 	
 	public String getDescription() {

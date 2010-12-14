@@ -29,6 +29,7 @@ import org.jiemamy.model.dbo.DatabaseObjectModel;
 import org.jiemamy.model.geometory.JmColor;
 import org.jiemamy.model.geometory.JmRectangle;
 import org.jiemamy.utils.EntityUtil;
+import org.jiemamy.utils.MutationMonitor;
 
 /**
  * TODO for daisuke
@@ -57,6 +58,10 @@ public class DefaultNodeModel extends AbstractEntityModel implements NodeModel {
 	public DefaultNodeModel(UUID id, EntityRef<? extends DatabaseObjectModel> coreModelRef) {
 		super(id);
 		this.coreModelRef = coreModelRef;
+	}
+	
+	public Collection<? extends ConnectionModel> breachEncapsulationOfSourceConnections() {
+		return sourceConnections;
 	}
 	
 	@Override
@@ -89,7 +94,7 @@ public class DefaultNodeModel extends AbstractEntityModel implements NodeModel {
 	}
 	
 	public Collection<? extends ConnectionModel> getSourceConnections() {
-		return Lists.newArrayList(sourceConnections);
+		return MutationMonitor.monitor(Lists.newArrayList(sourceConnections));
 	}
 	
 	@Override

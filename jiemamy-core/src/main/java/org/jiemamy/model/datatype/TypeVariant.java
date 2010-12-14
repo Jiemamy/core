@@ -21,6 +21,7 @@ package org.jiemamy.model.datatype;
 import java.util.Set;
 
 import org.jiemamy.ValueObject;
+import org.jiemamy.XmlWritable;
 import org.jiemamy.model.datatype.TypeParameter.Key;
 
 /**
@@ -28,7 +29,7 @@ import org.jiemamy.model.datatype.TypeParameter.Key;
  * 
  * @author daisuke
  */
-public interface TypeVariant extends ValueObject {
+public interface TypeVariant extends ValueObject, XmlWritable {
 	
 	/**
 	 * 型カテゴリを取得する。

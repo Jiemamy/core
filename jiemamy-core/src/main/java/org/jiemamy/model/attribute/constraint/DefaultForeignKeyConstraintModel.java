@@ -29,8 +29,10 @@ import org.apache.commons.lang.Validate;
 
 import org.jiemamy.Entity;
 import org.jiemamy.EntityRef;
+import org.jiemamy.JiemamyContext;
 import org.jiemamy.model.DefaultEntityRef;
 import org.jiemamy.model.attribute.ColumnModel;
+import org.jiemamy.serializer.JiemamyXmlWriter;
 import org.jiemamy.utils.EntityUtil;
 import org.jiemamy.utils.MutationMonitor;
 
@@ -219,6 +221,11 @@ public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstrain
 	
 	public Collection<? extends Entity> getSubEntities() {
 		return Collections.emptyList();
+	}
+	
+	public JiemamyXmlWriter getWriter(JiemamyContext context) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	@Override

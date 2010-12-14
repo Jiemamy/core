@@ -22,14 +22,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import com.google.common.collect.Maps;
+
+import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 import org.jiemamy.EntityRef;
+import org.jiemamy.JiemamyContext;
 import org.jiemamy.ServiceLocator;
 import org.jiemamy.model.AbstractEntityModel;
 import org.jiemamy.model.DefaultEntityRef;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
+import org.jiemamy.utils.MutationMonitor;
 
 /**
  * {@link AroundScriptModel}の実装クラス。
@@ -44,6 +49,8 @@ public class DefaultAroundScriptModel extends AbstractEntityModel implements Aro
 	
 	private static final String DEFAULT_ENGINE = PlainScriptEngine.class.getName();
 	
+	private EntityRef<? extends DatabaseObjectModel> target;
+	
 
 	/**
 	 * インスタンスを生成する。
@@ -56,7 +63,10 @@ public class DefaultAroundScriptModel extends AbstractEntityModel implements Aro
 	
 	@Override
 	public DefaultAroundScriptModel clone() {
-		return (DefaultAroundScriptModel) super.clone();
+		DefaultAroundScriptModel clone = (DefaultAroundScriptModel) super.clone();
+		clone.scripts = Maps.newHashMap(scripts);
+		clone.scriptEngineClassNames = Maps.newHashMap(scriptEngineClassNames);
+		return clone;
 	}
 	
 	public String getScript(Position position) {
@@ -77,7 +87,7 @@ public class DefaultAroundScriptModel extends AbstractEntityModel implements Aro
 	 * @return エンジンの{@link Map}
 	 */
 	public Map<Position, String> getScriptEngineClassNames() {
-		return scriptEngineClassNames;
+		return MutationMonitor.monitor(Maps.newHashMap(scriptEngineClassNames));
 	}
 	
 	/**
@@ -86,35 +96,77 @@ public class DefaultAroundScriptModel extends AbstractEntityModel implements Aro
 	 * @return スクリプトの{@link Map}
 	 */
 	public Map<Position, String> getScripts() {
-		return scripts;
+		return MutationMonitor.monitor(Maps.newHashMap(scripts));
+	}
+	
+	public EntityRef<? extends DatabaseObjectModel> getTarget() {
+		return target;
+	}
+	
+	public String process(JiemamyContext context, Position position, DatabaseObjectModel target)
+			throws ClassNotFoundException {
+		Validate.notNull(context);
+		Validate.notNull(position);
+		Validate.notNull(target);
+		return process(context.getServiceLocator(), position, target);
 	}
 	
 	public String process(ServiceLocator serviceLocator, Position position, DatabaseObjectModel target)
 			throws ClassNotFoundException {
-		ScriptEngine engine;
-		engine = serviceLocator.getService(ScriptEngine.class, getScriptEngineClassName(position));
+		Validate.notNull(serviceLocator);
+		Validate.notNull(position);
+		Validate.notNull(target);
+		ScriptEngine engine = serviceLocator.getService(ScriptEngine.class, getScriptEngineClassName(position));
 		return engine.process(target, getScript(position));
 	}
 	
+	/**
+	 * スクリプトを設定する。
+	 * 
+	 * @param position スクリプト挿入位置
+	 * @param script スクリプト
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @since 0.3
+	 */
 	public void setScript(Position position, String script) {
+		Validate.notNull(position);
+		Validate.notNull(script);
 		scripts.put(position, script);
 	}
 	
-	public void setScriptEngineClassName(Position position, String scriptEngine) {
-		if (DEFAULT_ENGINE.equals(scriptEngine)) {
+	public void setScriptEngineClass(Position position, Class<? extends ScriptEngine> scriptEngineClass) {
+		Validate.notNull(position);
+		Validate.notNull(scriptEngineClass);
+		setScript(position, scriptEngineClass.getName());
+	}
+	
+	/**
+	 * スクリプトエンジンのクラス名を設定する。
+	 * 
+	 * @param position スクリプト挿入位置
+	 * @param scriptEngineClassName スクリプトエンジンのクラス名
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @since 0.3
+	 */
+	public void setScriptEngineClassName(Position position, String scriptEngineClassName) {
+		Validate.notNull(position);
+		Validate.notNull(scriptEngineClassName);
+		if (DEFAULT_ENGINE.equals(scriptEngineClassName)) {
 			scriptEngineClassNames.remove(position);
 		} else {
-			scriptEngineClassNames.put(position, scriptEngine);
+			scriptEngineClassNames.put(position, scriptEngineClassName);
 		}
 	}
 	
 	/**
 	 * TODO for daisuke
 	 * 
-	 * @param reference
+	 * @param target
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public void setTarget(EntityRef<? extends DatabaseObjectModel> reference) {
-		
+	public void setTarget(EntityRef<? extends DatabaseObjectModel> target) {
+		Validate.notNull(target);
+		this.target = target;
 	}
 	
 	public EntityRef<DefaultAroundScriptModel> toReference() {

@@ -84,6 +84,7 @@ public final class MutationMonitor {
 				if (Arrays.asList("add", "addAll", "remove", "removeAll", "retainAll", "clear").contains(
 						method.getName())) {
 					logger.warn("{} on {}", method.toString(), core.toString());
+					logger.trace("stack trace: ", new Exception());
 				}
 				return method.invoke(core, args);
 			}
@@ -100,6 +101,7 @@ public final class MutationMonitor {
 			public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 				if (Arrays.asList("put", "putAll", "remove", "clear").contains(method.getName())) {
 					logger.warn("{} on {}", method.toString(), core.toString());
+					logger.trace("stack trace: ", new Exception());
 				}
 				return method.invoke(core, args);
 			}

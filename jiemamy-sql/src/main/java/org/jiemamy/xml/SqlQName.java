@@ -29,49 +29,16 @@ import javax.xml.namespace.QName;
 public enum SqlQName implements JiemamyQName {
 	
 	/***/
-	DIAGRAM_PRESENTATIONS(SqlNamespace.NS_SQL, "diagramPresentations"),
+	AROUND_SCRIPT(SqlNamespace.NS_SQL, "aroundScript"),
 
 	/***/
-	DIAGRAM_PRESENTATION(SqlNamespace.NS_SQL, "diagramPresentation"),
+	ENGINE(SqlNamespace.NS_SQL, "engine"),
 
 	/***/
-	NODE_PROFILES(SqlNamespace.NS_SQL, "nodeProfiles"),
+	SCRIPT(SqlNamespace.NS_SQL, "script"),
 
 	/***/
-	NODE_PROFILE(SqlNamespace.NS_SQL, "nodeProfile"),
-
-	/***/
-	NODE_OBJECT_REF(SqlNamespace.NS_SQL, "nodeObjectRef"),
-
-	/***/
-	STICKY(SqlNamespace.NS_SQL, "sticky"),
-
-	/***/
-	CONTENTS(SqlNamespace.NS_SQL, "contents"),
-
-	/***/
-	BOUNDARY(SqlNamespace.NS_SQL, "boundary"),
-
-	/***/
-	CONNECTION_PROFILES(SqlNamespace.NS_SQL, "connectionProfiles"),
-
-	/***/
-	CONNECTION_PROFILE(SqlNamespace.NS_SQL, "connectionProfile"),
-
-	/***/
-	CONNECTION_OBJECT_REF(SqlNamespace.NS_SQL, "connectionObjectRef"),
-
-	/***/
-	BENDPOINTS(SqlNamespace.NS_SQL, "bendpoints"),
-
-	/***/
-	BENDPOINT(SqlNamespace.NS_SQL, "bendpoint"),
-
-	/***/
-	MODE(SqlNamespace.NS_SQL, "mode"),
-
-	/***/
-	LEVEL(SqlNamespace.NS_SQL, "level");
+	POSITION(SqlNamespace.NS_SQL, "position");
 	
 	/** XML仕様における完全修飾名 */
 	private final QName qName;

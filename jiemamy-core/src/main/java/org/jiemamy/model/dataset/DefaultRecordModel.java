@@ -28,6 +28,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 import org.jiemamy.EntityRef;
 import org.jiemamy.model.attribute.ColumnModel;
+import org.jiemamy.utils.MutationMonitor;
 
 /**
  * レコード（INSERT文1つ分）モデル。
@@ -69,7 +70,7 @@ public final class DefaultRecordModel implements RecordModel {
 	
 	public Map<EntityRef<? extends ColumnModel>, String> getValues() {
 		assert values != null;
-		return Maps.newHashMap(values);
+		return MutationMonitor.monitor(Maps.newHashMap(values));
 	}
 	
 	@Override

@@ -16,6 +16,7 @@
  */
 package org.jiemamy;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,6 +24,8 @@ import org.apache.commons.lang.Validate;
 
 import org.jiemamy.dialect.Dialect;
 import org.jiemamy.dialect.EmitConfig;
+import org.jiemamy.model.EntityNotFoundException;
+import org.jiemamy.model.dbo.DatabaseObjectModel;
 import org.jiemamy.model.script.AroundScriptModel;
 import org.jiemamy.model.sql.SqlStatement;
 import org.jiemamy.xml.JiemamyNamespace;
@@ -81,6 +84,31 @@ public class SqlFacet implements JiemamyFacet {
 		return null;
 	}
 	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param dept
+	 * @return
+	 */
+	public AroundScriptModel getAroundScriptFor(EntityRef<? extends DatabaseObjectModel> ref) {
+		Validate.notNull(ref);
+		for (AroundScriptModel aroundScriptModel : scripts.getEntities(AroundScriptModel.class)) {
+			if (ref.equals(aroundScriptModel.getTarget())) {
+				return aroundScriptModel;
+			}
+		}
+		throw new EntityNotFoundException();
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @return
+	 */
+	public Collection<? extends AroundScriptModel> getAroundScripts() {
+		return scripts.getEntities(AroundScriptModel.class);
+	}
+	
 	public JiemamyNamespace[] getNamespaces() {
 		return SqlNamespace.values();
 	}
@@ -99,6 +127,9 @@ public class SqlFacet implements JiemamyFacet {
 	 * @param script スクリプト
 	 */
 	public void store(AroundScriptModel script) {
+		Validate.notNull(script);
+		Validate.notNull(script.getId());
+//		Validate.notNull(script.getTarget());
 		scripts.store(script);
 	}
 }

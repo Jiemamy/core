@@ -19,6 +19,8 @@
 package org.jiemamy.model.script;
 
 import org.jiemamy.Entity;
+import org.jiemamy.EntityRef;
+import org.jiemamy.JiemamyContext;
 import org.jiemamy.ServiceLocator;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
 
@@ -48,6 +50,21 @@ public interface AroundScriptModel extends Entity {
 	 */
 	String getScriptEngineClassName(Position position);
 	
+	EntityRef<? extends DatabaseObjectModel> getTarget();
+	
+	/**
+	 * スクリプトを実行し、結果を得る。
+	 * 
+	 * @param context コンテキスト
+	 * @param position スクリプト挿入位置
+	 * @param target 周辺スクリプト挿入対象モデル
+	 * @return スクリプト実行結果
+	 * @throws ClassNotFoundException スクリプトエンジンのクラスが解決できない場合
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @since 0.3
+	 */
+	String process(JiemamyContext context, Position position, DatabaseObjectModel target) throws ClassNotFoundException;
+	
 	/**
 	 * スクリプトを実行し、結果を得る。
 	 * 
@@ -56,27 +73,9 @@ public interface AroundScriptModel extends Entity {
 	 * @param target 周辺スクリプト挿入対象モデル
 	 * @return スクリプト実行結果
 	 * @throws ClassNotFoundException スクリプトエンジンのクラスが解決できない場合
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 0.3
 	 */
 	String process(ServiceLocator serviceLocator, Position position, DatabaseObjectModel target)
 			throws ClassNotFoundException;
-	
-	/**
-	 * スクリプトを設定する。
-	 * 
-	 * @param position スクリプト挿入位置
-	 * @param script スクリプト
-	 * @since 0.3
-	 */
-	void setScript(Position position, String script);
-	
-	/**
-	 * スクリプトエンジンのクラス名を設定する。
-	 * 
-	 * @param position スクリプト挿入位置
-	 * @param scriptEngineClassName スクリプトエンジンのクラス名
-	 * @since 0.3
-	 */
-	void setScriptEngineClassName(Position position, String scriptEngineClassName);
-	
 }

@@ -20,6 +20,8 @@ package org.jiemamy.model.dbo;
 
 import java.util.Collection;
 
+import com.google.common.collect.Lists;
+
 import org.jiemamy.model.ModelConsistencyException;
 import org.jiemamy.model.attribute.ColumnModel;
 
@@ -51,7 +53,7 @@ public class TooManyColumnsFoundException extends ModelConsistencyException {
 	 * @return 見つかったカラムの集合
 	 */
 	public Collection<ColumnModel> getColumns() {
-		return columns;
+		return Lists.newArrayList(columns);
 	}
 	
 }

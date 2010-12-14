@@ -33,7 +33,7 @@ import java.util.UUID;
  * @version $Id$
  * @author daisuke
  */
-public interface Entity extends Cloneable {
+public interface Entity extends Cloneable, XmlWritable {
 	
 	/**
 	 * エンティティのクローンを取得する。

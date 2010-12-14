@@ -81,9 +81,6 @@ public class DatabaseImporter implements Importer<DatabaseImportConfig> {
 	/** ConfigKey: importするエンティティの種類 (String[]) */
 	public static final String ENTITY_TYPES = "entityTypes";
 	
-	/** SQL方言 */
-	private Dialect dialect;
-	
 	private Map<String, DatabaseObjectModel> importedEntities = Maps.newHashMap();
 	
 	private Map<String, ForeignKeyConstraintModel> importedForeignKeys = Maps.newHashMap();
@@ -100,7 +97,7 @@ public class DatabaseImporter implements Importer<DatabaseImportConfig> {
 		
 		Connection connection = null;
 		try {
-			dialect = config.getDialect();
+			Dialect dialect = config.getDialect();
 			
 			Properties props = new Properties();
 			props.setProperty("user", config.getUsername());

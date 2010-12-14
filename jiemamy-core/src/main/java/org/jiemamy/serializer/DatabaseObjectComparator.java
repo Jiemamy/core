@@ -1,6 +1,6 @@
 /*
  * Copyright 2007-2010 Jiemamy Project and the Others.
- * Created on 2010/12/14
+ * Created on 2010/12/15
  *
  * This file is part of Jiemamy.
  *
@@ -16,16 +16,11 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.utils;
+package org.jiemamy.serializer;
 
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import java.util.Comparator;
 
-import java.util.List;
-
-import com.google.common.collect.Lists;
-
-import org.junit.Test;
+import org.jiemamy.model.dbo.DatabaseObjectModel;
 
 /**
  * TODO for daisuke
@@ -33,23 +28,10 @@ import org.junit.Test;
  * @version $Id$
  * @author daisuke
  */
-public class MutateLogListTest {
+public class DatabaseObjectComparator implements Comparator<DatabaseObjectModel> {
 	
-	/**
-	 * TODO for daisuke
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
-	@Test
-	public void test01() throws Exception {
-		List<Integer> list = Lists.newArrayList();
-		list.add(1);
-		list.add(2);
-		
-		List<Integer> wraped = MutationMonitor.monitor(list);
-		
-		wraped.add(3);
-		
-		assertThat(wraped.size(), is(3));
+	public int compare(DatabaseObjectModel o1, DatabaseObjectModel o2) {
+		return 0;
 	}
+	
 }

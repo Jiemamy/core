@@ -33,11 +33,11 @@ public interface SqlEmitter {
 	/**
 	 * RootModelからSQLのリストを生成する。
 	 * 
-	 * @param rootModel 対象{@link JiemamyContext}
+	 * @param context 対象{@link JiemamyContext}
 	 * @param config 設定 
 	 * @return SQLのリスト
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	List<SqlStatement> emit(JiemamyContext rootModel, EmitConfig config);
+	List<SqlStatement> emit(JiemamyContext context, EmitConfig config);
 	
 }

@@ -25,6 +25,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.xml.namespace.NamespaceContext;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -37,10 +39,15 @@ import org.jiemamy.dialect.Dialect;
 import org.jiemamy.model.EntityNotFoundException;
 import org.jiemamy.model.dataset.DataSetModel;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
+import org.jiemamy.model.dbo.TableModel;
+import org.jiemamy.serializer.JiemamySerializer;
+import org.jiemamy.serializer.JiemamyStaxSerializer;
 import org.jiemamy.transaction.JiemamyTransaction;
+import org.jiemamy.utils.MutationMonitor;
 import org.jiemamy.utils.reflect.ClassUtil;
 import org.jiemamy.xml.CoreNamespace;
 import org.jiemamy.xml.JiemamyNamespace;
+import org.jiemamy.xml.JiemamyNamespaceContext;
 
 /**
  * モデル操作の開始から終了までの、一連の操作文脈を表現するクラス。
@@ -131,6 +138,14 @@ public class JiemamyContext {
 		return getServiceLocator().getService(Dialect.class, dialectClassName);
 	}
 	
+	public JiemamySerializer findSerializer() {
+		try {
+			return getServiceLocator().getService(JiemamySerializer.class, JiemamyStaxSerializer.class.getName());
+		} catch (ClassNotFoundException e) {
+			throw new JiemamyError("", e);
+		}
+	}
+	
 	/**
 	 * 直接の依存モデルの集合を返す。
 	 * 
@@ -199,7 +214,16 @@ public class JiemamyContext {
 	}
 	
 	/**
-	 * データセットの{@link List}を取得する。
+	 * {@link DatabaseObjectModel} の{@link List}を取得する。
+	 * 
+	 * @return データセットの{@link List}
+	 */
+	public Set<? extends DatabaseObjectModel> getDatabaseObjects() {
+		return doms.getEntities(DatabaseObjectModel.class);
+	}
+	
+	/**
+	 * {@link DataSetModel} の{@link List}を取得する。
 	 * 
 	 * @return データセットの{@link List}
 	 */
@@ -249,7 +273,11 @@ public class JiemamyContext {
 	 * @return ファセットの{@link Set}
 	 */
 	public Set<JiemamyFacet> getFacets() {
-		return Sets.newHashSet(facets.values());
+		return MutationMonitor.monitor(Sets.newHashSet(facets.values()));
+	}
+	
+	public NamespaceContext getNamespaceContext() {
+		return new JiemamyNamespaceContext(getNamespaces());
 	}
 	
 	/**
@@ -281,7 +309,20 @@ public class JiemamyContext {
 	 * @return {@link ServiceLocator}
 	 */
 	public ServiceLocator getServiceLocator() {
-		return new DefaultServiceLocator(); // TODO
+		return new DefaultServiceLocator(); // TODO 差し替えできるように
+	}
+	
+	public TableModel getTable(String name) {
+		for (TableModel tableModel : getTables()) {
+			if (name.equals(tableModel.getName())) {
+				return tableModel;
+			}
+		}
+		throw new EntityNotFoundException();
+	}
+	
+	public Set<? extends TableModel> getTables() {
+		return getEntities(TableModel.class);
 	}
 	
 	/**
@@ -293,7 +334,7 @@ public class JiemamyContext {
 	 * @since 0.2
 	 */
 	public <T extends JiemamyTransaction>T getTransaction(Class<T> clazz) {
-		return null;
+		return null; // FIXME
 	}
 	
 	/**

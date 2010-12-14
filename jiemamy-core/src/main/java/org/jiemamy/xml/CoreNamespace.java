@@ -31,9 +31,9 @@ import org.jiemamy.JiemamyError;
  */
 public enum CoreNamespace implements JiemamyNamespace {
 	
-	/** XML Namespace specifications */
-	NS_XMLNS("xmlns", "http://www.w3.org/2000/xmlns/", ""),
-
+//	/** XML Namespace specifications */
+//	NS_XMLNS("xmlns", "http://www.w3.org/2000/xmlns/", ""),
+	
 	/** XML Schema */
 	NS_XSD("xsd", "http://www.w3.org/2001/XMLSchema", ""),
 

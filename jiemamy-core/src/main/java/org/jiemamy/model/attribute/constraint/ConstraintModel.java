@@ -18,13 +18,14 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
+import org.jiemamy.XmlWritable;
 
 /**
  * 制約を表すモデルのインターフェイス。
  * 
  * @author daisuke
  */
-public interface ConstraintModel {
+public interface ConstraintModel extends XmlWritable {
 	
 	/**
 	 * 遅延評価可能性モデルを取得する。

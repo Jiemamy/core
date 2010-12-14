@@ -128,7 +128,13 @@ public enum CoreQName implements JiemamyQName {
 	TYPE_NAME(CoreNamespace.NS_CORE, "typeName"),
 
 	/***/
-	ADAPTER(CoreNamespace.NS_CORE, "adapter"),
+	PARAMETERS(CoreNamespace.NS_CORE, "parameters"),
+
+	/***/
+	PARAMETER(CoreNamespace.NS_CORE, "parameter"),
+
+	/***/
+	PARAMETER_KEY(CoreNamespace.NS_CORE, "key"),
 
 	/***/
 	DEFAULT_VALUE(CoreNamespace.NS_CORE, "defaultValue"),
@@ -209,7 +215,16 @@ public enum CoreQName implements JiemamyQName {
 	CLASS(CoreNamespace.NONE, "class"),
 
 	/***/
-	ENGINE(CoreNamespace.NONE, "engine");
+	ENGINE(CoreNamespace.NONE, "engine"),
+
+	/***/
+	COLUMNS(CoreNamespace.NONE, "columns"),
+
+	/***/
+	CONSTRAINTS(CoreNamespace.NONE, "constraints"),
+
+	/***/
+	DBOBJECTS(CoreNamespace.NONE, "dbobjects");
 	
 	/** XML仕様における完全修飾名 */
 	private final QName qName;

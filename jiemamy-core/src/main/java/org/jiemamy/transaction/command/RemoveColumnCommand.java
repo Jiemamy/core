@@ -66,7 +66,7 @@ public class RemoveColumnCommand extends AbstractRemoveFromCollectionCommand<Def
 	
 	@Override
 	public Collection<? super ColumnModel> getTargetCollection() {
-		return tableModel.getColumns();
+		return tableModel.breachEncapsulationOfColumns();
 	}
 	
 }

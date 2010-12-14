@@ -45,7 +45,8 @@ public class DefaultRecordModelTest {
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test01_() throws Exception {
+	@SuppressWarnings("unchecked")
+	public void test01_mapがしっかりcloneされてるかチェック() throws Exception {
 		Map<EntityRef<? extends ColumnModel>, String> map = Maps.newHashMap();
 		map.put(mock(EntityRef.class), "a");
 		map.put(mock(EntityRef.class), "b");
@@ -54,8 +55,8 @@ public class DefaultRecordModelTest {
 		
 		assertThat(model1.getValues().size(), is(3));
 		
-		map.put(mock(EntityRef.class), "d");
-		model1.getValues().put(mock(EntityRef.class), "e");
+		map.put(mock(EntityRef.class), "d"); // model1に影響しないはず
+		model1.getValues().put(mock(EntityRef.class), "e"); // これもclone返ししているので影響しないはず
 		
 		assertThat(model1.getValues().size(), is(3));
 		assertThat(model1.getValues().containsValue("a"), is(true));
@@ -70,6 +71,7 @@ public class DefaultRecordModelTest {
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
+	@SuppressWarnings("unchecked")
 	public void test02_equals() throws Exception {
 		Map<EntityRef<? extends ColumnModel>, String> map = Maps.newHashMap();
 		map.put(mock(EntityRef.class), "a");

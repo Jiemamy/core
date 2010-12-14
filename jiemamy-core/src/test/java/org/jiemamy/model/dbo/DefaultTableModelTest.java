@@ -22,8 +22,14 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
+import java.io.StringWriter;
 import java.util.Collection;
 import java.util.UUID;
+
+import javanet.staxutils.IndentingXMLEventWriter;
+
+import javax.xml.stream.XMLEventWriter;
+import javax.xml.stream.XMLOutputFactory;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -36,6 +42,8 @@ import org.jiemamy.model.attribute.constraint.DefaultForeignKeyConstraintModel;
 import org.jiemamy.model.attribute.constraint.DefaultPrimaryKeyConstraintModel;
 import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel;
 import org.jiemamy.model.attribute.constraint.KeyConstraintModel;
+import org.jiemamy.model.datatype.DataTypeCategory;
+import org.jiemamy.model.datatype.DefaultTypeVariant;
 import org.jiemamy.utils.UUIDUtil;
 
 /**
@@ -287,5 +295,43 @@ public class DefaultTableModelTest {
 		table.store(new DefaultColumnModel(UUIDUtil.valueOfOrRandom("c")));
 		assertThat(table.getColumns().size(), is(1));
 		assertThat(clone.getColumns().size(), is(1));
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test99() throws Exception {
+		DefaultTableModel table = new DefaultTableModel(UUIDUtil.valueOfOrRandom("tab1"));
+		table.setName("name1");
+		table.setLogicalName("logicalname1");
+		table.setDescription("description1");
+		
+		DefaultColumnModel col1 = new DefaultColumnModel(UUIDUtil.valueOfOrRandom("col11"));
+		col1.setName("FOO");
+		col1.setDataType(DefaultTypeVariant.of(DataTypeCategory.VARCHAR));
+		col1.setDefaultValue("default");
+		table.store(col1);
+		
+		DefaultColumnModel col2 = new DefaultColumnModel(UUIDUtil.valueOfOrRandom("col12"));
+		col2.setName("BAR");
+		col2.setDataType(DefaultTypeVariant.of(DataTypeCategory.NUMERIC));
+		col2.setDefaultValue("3.2");
+		table.store(col2);
+		
+		ctx.store(table);
+		
+		XMLOutputFactory outFactory = XMLOutputFactory.newInstance();
+		StringWriter stringWriter = new StringWriter();
+		XMLEventWriter writer = outFactory.createXMLEventWriter(stringWriter);
+		writer = new IndentingXMLEventWriter(writer);
+		table.getWriter(ctx).writeTo(writer);
+		writer.flush();
+		
+		System.out.println(stringWriter.toString());
+		
+		writer.close();
 	}
 }
