@@ -35,9 +35,9 @@ import org.jiemamy.utils.MutationMonitor;
  * @version $Id$
  * @author daisuke
  */
-public class DefaultConnectionModel extends AbstractEntityModel implements ConnectionModel {
+public class DefaultConnectionModel extends AbstractEntity implements ConnectionModel {
 	
-	private List<JmPoint> bendpoints;
+	private List<JmPoint> bendpoints = Lists.newArrayList();
 	
 	private JmColor color;
 	
@@ -79,7 +79,7 @@ public class DefaultConnectionModel extends AbstractEntityModel implements Conne
 	}
 	
 	public EntityRef<? extends ForeignKeyConstraintModel> getCoreModelRef() {
-		return null;
+		return coreModelRef;
 	}
 	
 	public EntityRef<NodeModel> getSource() {

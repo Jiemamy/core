@@ -20,14 +20,20 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
+import javax.xml.stream.XMLEventWriter;
+import javax.xml.stream.XMLStreamException;
+
 import org.apache.commons.lang.Validate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.jiemamy.dialect.Dialect;
 import org.jiemamy.dialect.EmitConfig;
-import org.jiemamy.model.EntityNotFoundException;
+import org.jiemamy.model.dbo.AbstractJiemamyXmlWriter;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
 import org.jiemamy.model.script.AroundScriptModel;
 import org.jiemamy.model.sql.SqlStatement;
+import org.jiemamy.serializer.JiemamyXmlWriter;
 import org.jiemamy.xml.JiemamyNamespace;
 import org.jiemamy.xml.SqlNamespace;
 
@@ -55,13 +61,15 @@ public class SqlFacet implements JiemamyFacet {
 	
 	private Repository<AroundScriptModel> scripts = new RepositoryImpl<AroundScriptModel>();
 	
+	private static Logger logger = LoggerFactory.getLogger(SqlFacet.class);
+	
 
 	/**
 	 * インスタンスを生成する。
 	 * 
 	 * @param context コンテキスト
 	 */
-	public SqlFacet(JiemamyContext context) {
+	SqlFacet(JiemamyContext context) {
 		Validate.notNull(context);
 	}
 	
@@ -87,17 +95,17 @@ public class SqlFacet implements JiemamyFacet {
 	/**
 	 * TODO for daisuke
 	 * 
-	 * @param dept
+	 * @param ref
 	 * @return
 	 */
 	public AroundScriptModel getAroundScriptFor(EntityRef<? extends DatabaseObjectModel> ref) {
 		Validate.notNull(ref);
 		for (AroundScriptModel aroundScriptModel : scripts.getEntities(AroundScriptModel.class)) {
-			if (ref.equals(aroundScriptModel.getTarget())) {
+			if (ref.equals(aroundScriptModel.getCoreModelRef())) {
 				return aroundScriptModel;
 			}
 		}
-		throw new EntityNotFoundException();
+		throw new EntityNotFoundException("ref=" + ref);
 	}
 	
 	/**
@@ -111,6 +119,10 @@ public class SqlFacet implements JiemamyFacet {
 	
 	public JiemamyNamespace[] getNamespaces() {
 		return SqlNamespace.values();
+	}
+	
+	public JiemamyXmlWriter getWriter(JiemamyContext context) {
+		return new JiemamyXmlWriterImpl(context);
 	}
 	
 	public <T2 extends Entity>T2 resolve(EntityRef<T2> ref) {
@@ -131,5 +143,22 @@ public class SqlFacet implements JiemamyFacet {
 		Validate.notNull(script.getId());
 //		Validate.notNull(script.getTarget());
 		scripts.store(script);
+	}
+	
+
+	private class JiemamyXmlWriterImpl extends AbstractJiemamyXmlWriter {
+		
+		private final JiemamyContext context;
+		
+
+		public JiemamyXmlWriterImpl(JiemamyContext context) {
+			this.context = context;
+		}
+		
+		public void writeTo(XMLEventWriter writer) throws XMLStreamException {
+			// TODO Auto-generated method stub
+			logger.error("EMPTY WRITER");
+		}
+		
 	}
 }

@@ -33,7 +33,7 @@ import org.jiemamy.model.geometory.JmRectangle;
  * @since 0.2
  * @author daisuke
  */
-public class StickyNodeModel extends AbstractEntityModel implements NodeModel {
+public class StickyNodeModel extends AbstractEntity implements NodeModel {
 	
 	/** 内容文 */
 	private String contents;

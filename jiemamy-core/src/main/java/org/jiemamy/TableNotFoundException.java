@@ -16,11 +16,7 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.serializer;
-
-import java.util.Comparator;
-
-import org.jiemamy.model.dbo.DatabaseObjectModel;
+package org.jiemamy;
 
 /**
  * TODO for daisuke
@@ -28,10 +24,16 @@ import org.jiemamy.model.dbo.DatabaseObjectModel;
  * @version $Id$
  * @author daisuke
  */
-public class DatabaseObjectComparator implements Comparator<DatabaseObjectModel> {
+@SuppressWarnings("serial")
+public class TableNotFoundException extends EntityNotFoundException {
 	
-	public int compare(DatabaseObjectModel o1, DatabaseObjectModel o2) {
-		return o1.getId().compareTo(o2.getId());
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param predicate 条件など
+	 */
+	public TableNotFoundException(String predicate) {
+		super(predicate);
 	}
 	
 }

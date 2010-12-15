@@ -39,11 +39,11 @@ import org.jiemamy.serializer.JiemamyXmlWriter;
  * @version $Id$
  * @author daisuke
  */
-public abstract class AbstractEntityModel implements Entity {
+public abstract class AbstractEntity implements Entity {
 	
 	private final UUID id;
 	
-	private static Logger logger = LoggerFactory.getLogger(AbstractEntityModel.class);
+	private static Logger logger = LoggerFactory.getLogger(AbstractEntity.class);
 	
 
 	/**
@@ -52,15 +52,15 @@ public abstract class AbstractEntityModel implements Entity {
 	 * @param id ENTITY ID
 	 * @throws IllegalArgumentException 引数{@code id}に{@code null}を与えた場合
 	 */
-	public AbstractEntityModel(UUID id) {
+	public AbstractEntity(UUID id) {
 		Validate.notNull(id);
 		this.id = id;
 	}
 	
 	@Override
-	public AbstractEntityModel clone() {
+	public AbstractEntity clone() {
 		try {
-			return (AbstractEntityModel) super.clone();
+			return (AbstractEntity) super.clone();
 		} catch (CloneNotSupportedException e) {
 			throw new JiemamyError("clone not supported", e);
 		}

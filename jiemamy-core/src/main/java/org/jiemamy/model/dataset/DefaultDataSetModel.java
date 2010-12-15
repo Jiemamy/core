@@ -30,7 +30,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 import org.jiemamy.EntityRef;
-import org.jiemamy.model.AbstractEntityModel;
+import org.jiemamy.model.AbstractEntity;
 import org.jiemamy.model.DefaultEntityRef;
 import org.jiemamy.model.dbo.TableModel;
 import org.jiemamy.utils.MutationMonitor;
@@ -40,7 +40,7 @@ import org.jiemamy.utils.MutationMonitor;
  * 
  * @author daisuke
  */
-public final class DefaultDataSetModel extends AbstractEntityModel implements DataSetModel {
+public final class DefaultDataSetModel extends AbstractEntity implements DataSetModel {
 	
 	/** データセット名 */
 	private String name;

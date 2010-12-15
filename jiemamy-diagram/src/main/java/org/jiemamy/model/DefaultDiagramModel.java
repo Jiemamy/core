@@ -19,10 +19,14 @@ package org.jiemamy.model;
 import java.util.Collection;
 import java.util.UUID;
 
+import org.apache.commons.lang.Validate;
+
 import org.jiemamy.Entity;
+import org.jiemamy.EntityNotFoundException;
 import org.jiemamy.EntityRef;
 import org.jiemamy.Repository;
 import org.jiemamy.RepositoryImpl;
+import org.jiemamy.model.dbo.DatabaseObjectModel;
 
 /**
  * TODO for daisuke
@@ -31,7 +35,7 @@ import org.jiemamy.RepositoryImpl;
  * @version $Id$
  * @author daisuke
  */
-public class DefaultDiagramModel extends AbstractEntityModel implements DiagramModel {
+public class DefaultDiagramModel extends AbstractEntity implements DiagramModel {
 	
 	private String name;
 	
@@ -72,6 +76,16 @@ public class DefaultDiagramModel extends AbstractEntityModel implements DiagramM
 	
 	public String getName() {
 		return name;
+	}
+	
+	public NodeModel getNodeFor(EntityRef<? extends DatabaseObjectModel> ref) {
+		Validate.notNull(ref);
+		for (NodeModel node : nodes.getEntities(NodeModel.class)) {
+			if (ref.equals(node.getCoreModelRef())) {
+				return node;
+			}
+		}
+		throw new EntityNotFoundException("ref=" + ref);
 	}
 	
 	@Override

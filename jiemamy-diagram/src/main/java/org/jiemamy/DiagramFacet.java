@@ -16,11 +16,19 @@
  */
 package org.jiemamy;
 
+import java.util.List;
 import java.util.Set;
 
+import javax.xml.stream.XMLEventWriter;
+import javax.xml.stream.XMLStreamException;
+
 import org.apache.commons.lang.Validate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.jiemamy.model.DiagramModel;
+import org.jiemamy.model.dbo.AbstractJiemamyXmlWriter;
+import org.jiemamy.serializer.JiemamyXmlWriter;
 import org.jiemamy.xml.DiagramNamespace;
 import org.jiemamy.xml.JiemamyNamespace;
 
@@ -48,6 +56,8 @@ public class DiagramFacet implements JiemamyFacet {
 	
 	private Repository<DiagramModel> repos = new RepositoryImpl<DiagramModel>();
 	
+	private static Logger logger = LoggerFactory.getLogger(DiagramFacet.class);
+	
 
 	/**
 	 * インスタンスを生成する。
@@ -55,22 +65,32 @@ public class DiagramFacet implements JiemamyFacet {
 	 * @param context コンテキスト
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public DiagramFacet(JiemamyContext context) {
+	DiagramFacet(JiemamyContext context) {
 		Validate.notNull(context);
+	}
+	
+	public List<? extends DiagramModel> getDiagrams() {
+		return repos.getEntitiesAsList(DiagramModel.class);
 	}
 	
 	/**
 	 * TODO for daisuke
 	 * 
+	 * @param <T> 
 	 * @param clazz
 	 * @return
 	 */
+	@Deprecated
 	public <T extends Entity>Set<T> getEntities(Class<T> clazz) {
 		return repos.getEntities(clazz);
 	}
 	
 	public JiemamyNamespace[] getNamespaces() {
 		return DiagramNamespace.values();
+	}
+	
+	public JiemamyXmlWriter getWriter(JiemamyContext context) {
+		return new JiemamyXmlWriterImpl(context);
 	}
 	
 	/**
@@ -80,5 +100,22 @@ public class DiagramFacet implements JiemamyFacet {
 	 */
 	public void store(DiagramModel diagram) {
 		repos.store(diagram);
+	}
+	
+
+	private class JiemamyXmlWriterImpl extends AbstractJiemamyXmlWriter {
+		
+		private final JiemamyContext context;
+		
+
+		public JiemamyXmlWriterImpl(JiemamyContext context) {
+			this.context = context;
+		}
+		
+		public void writeTo(XMLEventWriter writer) throws XMLStreamException {
+			// TODO Auto-generated method stub
+			logger.error("EMPTY WRITER");
+		}
+		
 	}
 }

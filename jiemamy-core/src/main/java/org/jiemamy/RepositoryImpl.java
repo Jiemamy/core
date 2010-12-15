@@ -30,7 +30,6 @@ import com.google.common.collect.Sets;
 
 import org.apache.commons.lang.Validate;
 
-import org.jiemamy.model.EntityNotFoundException;
 import org.jiemamy.utils.MutationMonitor;
 
 /**
@@ -60,9 +59,9 @@ public final class RepositoryImpl<T extends Entity> implements Repository<T> {
 		}
 	}
 	
-	public void delete(EntityRef<? extends T> ref) {
+	public T delete(EntityRef<? extends T> ref) {
 		Validate.notNull(ref);
-		delete0(ref);
+		return delete0(ref);
 	}
 	
 	public <E extends Entity>Set<E> getEntities(Class<E> clazz) {
@@ -93,7 +92,7 @@ public final class RepositoryImpl<T extends Entity> implements Repository<T> {
 	public Entity resolve(UUID id) {
 		Entity found = storage.get(id);
 		if (found == null) {
-			throw new EntityNotFoundException();
+			throw new EntityNotFoundException("id=" + id);
 		}
 		return found.clone();
 	}
@@ -119,14 +118,16 @@ public final class RepositoryImpl<T extends Entity> implements Repository<T> {
 		}
 	}
 	
-	void delete0(EntityRef<? extends Entity> ref) {
-		Entity removed = storage.remove(ref.getReferentId());
+	<E extends Entity>E delete0(EntityRef<E> ref) {
+		@SuppressWarnings("unchecked")
+		E removed = (E) storage.remove(ref.getReferentId());
 		if (removed == null) {
-			throw new EntityNotFoundException();
+			throw new EntityNotFoundException("ref=" + ref);
 		}
 		for (Entity entity : removed.getSubEntities()) {
 			delete0(entity.toReference());
 		}
+		return removed;
 	}
 	
 	int managedEntityCount() {

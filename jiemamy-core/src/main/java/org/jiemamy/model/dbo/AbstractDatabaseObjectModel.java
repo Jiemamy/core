@@ -24,14 +24,14 @@ import java.util.UUID;
 import com.google.common.collect.Sets;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.model.AbstractEntityModel;
+import org.jiemamy.model.AbstractEntity;
 
 /**
  * データベースオブジェクト（TableやView）の抽象モデルクラス。
  * 
  * @author daisuke
  */
-public abstract class AbstractDatabaseObjectModel extends AbstractEntityModel implements DatabaseObjectModel {
+public abstract class AbstractDatabaseObjectModel extends AbstractEntity implements DatabaseObjectModel {
 	
 	/** 物理名 */
 	private String name;

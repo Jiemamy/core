@@ -58,6 +58,7 @@ public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstrain
 	}
 	
 	private static List<EntityRef<? extends ColumnModel>> toRefList(ColumnModel column) {
+		// THINK java.util.Collections.singletonList(T) つかえないかな
 		List<EntityRef<? extends ColumnModel>> result = Lists.newArrayListWithCapacity(1);
 		result.add(column.toReference());
 		return result;
@@ -223,6 +224,7 @@ public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstrain
 		return Collections.emptyList();
 	}
 	
+	@Override
 	public JiemamyXmlWriter getWriter(JiemamyContext context) {
 		// TODO Auto-generated method stub
 		return null;

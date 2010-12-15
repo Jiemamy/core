@@ -24,6 +24,7 @@ import com.google.common.collect.Lists;
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.Entity;
+import org.jiemamy.EntityNotFoundException;
 import org.jiemamy.EntityRef;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
 import org.jiemamy.model.geometory.JmColor;
@@ -38,7 +39,7 @@ import org.jiemamy.utils.MutationMonitor;
  * @version $Id$
  * @author daisuke
  */
-public class DefaultNodeModel extends AbstractEntityModel implements NodeModel {
+public class DefaultNodeModel extends AbstractEntity implements NodeModel {
 	
 	private JmRectangle boundary;
 	
@@ -78,7 +79,7 @@ public class DefaultNodeModel extends AbstractEntityModel implements NodeModel {
 				return;
 			}
 		}
-		throw new EntityNotFoundException();
+		throw new EntityNotFoundException("ref=" + reference);
 	}
 	
 	public JmRectangle getBoundary() {

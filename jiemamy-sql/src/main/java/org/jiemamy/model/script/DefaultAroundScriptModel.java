@@ -31,7 +31,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 import org.jiemamy.EntityRef;
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.ServiceLocator;
-import org.jiemamy.model.AbstractEntityModel;
+import org.jiemamy.model.AbstractEntity;
 import org.jiemamy.model.DefaultEntityRef;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
 import org.jiemamy.utils.MutationMonitor;
@@ -41,7 +41,7 @@ import org.jiemamy.utils.MutationMonitor;
  * 
  * @author daisuke
  */
-public class DefaultAroundScriptModel extends AbstractEntityModel implements AroundScriptModel {
+public class DefaultAroundScriptModel extends AbstractEntity implements AroundScriptModel {
 	
 	private Map<Position, String> scripts = new HashMap<Position, String>();
 	
@@ -99,7 +99,7 @@ public class DefaultAroundScriptModel extends AbstractEntityModel implements Aro
 		return MutationMonitor.monitor(Maps.newHashMap(scripts));
 	}
 	
-	public EntityRef<? extends DatabaseObjectModel> getTarget() {
+	public EntityRef<? extends DatabaseObjectModel> getCoreModelRef() {
 		return target;
 	}
 	

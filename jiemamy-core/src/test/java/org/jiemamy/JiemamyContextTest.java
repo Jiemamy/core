@@ -29,7 +29,6 @@ import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.jiemamy.model.EntityNotFoundException;
 import org.jiemamy.model.attribute.DefaultColumnModel;
 import org.jiemamy.model.dbo.DefaultTableModel;
 import org.jiemamy.model.dbo.TableModel;

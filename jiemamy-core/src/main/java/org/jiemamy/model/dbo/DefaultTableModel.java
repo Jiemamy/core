@@ -21,6 +21,7 @@ package org.jiemamy.model.dbo;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -31,6 +32,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.Namespace;
 
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
@@ -41,10 +43,11 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 import org.jiemamy.Entity;
+import org.jiemamy.EntityNotFoundException;
 import org.jiemamy.EntityRef;
 import org.jiemamy.JiemamyContext;
+import org.jiemamy.TableNotFoundException;
 import org.jiemamy.model.DefaultEntityRef;
-import org.jiemamy.model.EntityNotFoundException;
 import org.jiemamy.model.ModelConsistencyException;
 import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.attribute.constraint.ConstraintModel;
@@ -73,19 +76,20 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	static TableModel findDeclaringTable(Collection<TableModel> tables, final ColumnModel columnModel) {
-		Collection<TableModel> select = CollectionUtils.select(tables, new Predicate<TableModel>() {
+		Collection<TableModel> c = CollectionUtils.select(tables, new Predicate<TableModel>() {
 			
 			public boolean evaluate(TableModel tableModel) {
 				return tableModel.getColumns().contains(columnModel);
 			}
 		});
-		if (select.size() == 1) {
-			return select.iterator().next();
+		
+		try {
+			return Iterables.getOnlyElement(c);
+		} catch (NoSuchElementException e) {
+			throw new TableNotFoundException("column=" + columnModel);
+		} catch (IllegalArgumentException e) {
+			throw new TooManyTablesFoundException(c);
 		}
-		if (select.size() == 0) {
-			return null;
-		}
-		throw new TooManyTablesFoundException(select);
 	}
 	
 	static DatabaseObjectModel findReferencedDatabaseObject(Collection<DatabaseObjectModel> databaseObjects,
@@ -198,7 +202,7 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 				return;
 			}
 		}
-		throw new EntityNotFoundException();
+		throw new EntityNotFoundException(ref.toString());
 	}
 	
 	public KeyConstraintModel findReferencedKeyConstraint(ForeignKeyConstraintModel foreignKey) {
@@ -236,13 +240,14 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 				return col.getName().equals(name);
 			}
 		});
-		if (c.size() == 1) {
-			return c.iterator().next().clone();
+		
+		try {
+			return Iterables.getOnlyElement(c);
+		} catch (NoSuchElementException e) {
+			throw new ColumnNotFoundException("name=" + name);
+		} catch (IllegalArgumentException e) {
+			throw new TooManyColumnsFoundException(c);
 		}
-		if (c.size() == 0) {
-			throw new ColumnNotFoundException();
-		}
-		throw new TooManyColumnsFoundException(c);
 	}
 	
 	public List<ColumnModel> getColumns() {
@@ -322,7 +327,7 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 				return (T) column.clone();
 			}
 		}
-		throw new ColumnNotFoundException();
+		throw new ColumnNotFoundException("ref=" + reference);
 	}
 	
 	public Entity resolve(UUID id) {
@@ -331,7 +336,7 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 				return column;
 			}
 		}
-		throw new EntityNotFoundException();
+		throw new EntityNotFoundException("id=" + id);
 	}
 	
 	/**

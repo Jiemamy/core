@@ -28,7 +28,7 @@ import org.jiemamy.xml.JiemamyNamespace;
  * @version $Id$
  * @author daisuke
  */
-public interface JiemamyFacet {
+public interface JiemamyFacet extends XmlWritable {
 	
 	/**
 	 * このファセットが利用する全ての名前空間を取得する。

@@ -43,14 +43,36 @@ public interface Repository<T extends Entity> extends Cloneable {
 	 */
 	Repository<T> clone();
 	
-	void delete(EntityRef<? extends T> ref);
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param ref
+	 * @return
+	 * @throws EntityNotFoundException
+	 */
+	T delete(EntityRef<? extends T> ref);
 	
-	<T2 extends Entity>Set<T2> getEntities(Class<T2> clazz);
+	<E extends Entity>Set<E> getEntities(Class<E> clazz);
 	
-	<T2 extends Entity>List<T2> getEntitiesAsList(Class<T2> clazz);
+	<E extends Entity>List<E> getEntitiesAsList(Class<E> clazz);
 	
-	<T2 extends Entity>T2 resolve(EntityRef<T2> ref);
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param <T>
+	 * @param ref
+	 * @return
+	 * @throws EntityNotFoundException
+	 */
+	<E extends Entity>E resolve(EntityRef<E> ref);
 	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param id
+	 * @return
+	 * @throws EntityNotFoundException
+	 */
 	Entity resolve(UUID id);
 	
 	void store(T entity);

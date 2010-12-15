@@ -50,7 +50,7 @@ public interface AroundScriptModel extends Entity {
 	 */
 	String getScriptEngineClassName(Position position);
 	
-	EntityRef<? extends DatabaseObjectModel> getTarget();
+	EntityRef<? extends DatabaseObjectModel> getCoreModelRef();
 	
 	/**
 	 * スクリプトを実行し、結果を得る。

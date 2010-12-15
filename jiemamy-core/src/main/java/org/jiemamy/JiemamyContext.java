@@ -36,7 +36,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.jiemamy.dialect.Dialect;
-import org.jiemamy.model.EntityNotFoundException;
 import org.jiemamy.model.dataset.DataSetModel;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
 import org.jiemamy.model.dbo.TableModel;
@@ -60,6 +59,15 @@ public class JiemamyContext {
 	private static boolean debug = getVersion().isSnapshot();
 	
 
+	/**
+	 * {@link ServiceLocator}を取得する。
+	 * 
+	 * @return {@link ServiceLocator}
+	 */
+	public static ServiceLocator getServiceLocator() {
+		return new DefaultServiceLocator(); // TODO 差し替えできるように
+	}
+	
 	/**
 	 * Jiemamyのバージョンを返す。
 	 * 
@@ -88,13 +96,27 @@ public class JiemamyContext {
 	
 	private String description;
 	
-	private String schemaName;
-	
 //	private final UUIDProvider uuidProvider = new UUIDProvider();
+	
+	private String schemaName;
 	
 	private static Logger logger = LoggerFactory.getLogger(JiemamyContext.class);
 	
 
+	public static JiemamySerializer findSerializer() {
+		// THINK シリアライザの差し替えできるように
+		try {
+			return getServiceLocator().getService(JiemamySerializer.class, JiemamyStaxSerializer.class.getName());
+		} catch (ClassNotFoundException e) {
+			throw new JiemamyError("", e);
+		}
+	}
+	
+	// FIXME
+//	public void delete(EntityRef<? extends DataSetModel> reference) {
+//		dsms.delete(reference);
+//	}
+	
 	/**
 	 * インスタンスを生成する。
 	 */
@@ -114,11 +136,6 @@ public class JiemamyContext {
 		logger.debug("new context created (debug={})", isDebug());
 	}
 	
-	// FIXME
-//	public void delete(EntityRef<? extends DataSetModel> reference) {
-//		dsms.delete(reference);
-//	}
-	
 	/**
 	 * {@link DatabaseObjectModel}を削除する。
 	 * 
@@ -136,14 +153,6 @@ public class JiemamyContext {
 	 */
 	public Dialect findDialect() throws ClassNotFoundException {
 		return getServiceLocator().getService(Dialect.class, dialectClassName);
-	}
-	
-	public JiemamySerializer findSerializer() {
-		try {
-			return getServiceLocator().getService(JiemamySerializer.class, JiemamyStaxSerializer.class.getName());
-		} catch (ClassNotFoundException e) {
-			throw new JiemamyError("", e);
-		}
 	}
 	
 	/**
@@ -303,22 +312,13 @@ public class JiemamyContext {
 		return schemaName;
 	}
 	
-	/**
-	 * {@link ServiceLocator}を取得する。
-	 * 
-	 * @return {@link ServiceLocator}
-	 */
-	public ServiceLocator getServiceLocator() {
-		return new DefaultServiceLocator(); // TODO 差し替えできるように
-	}
-	
 	public TableModel getTable(String name) {
 		for (TableModel tableModel : getTables()) {
 			if (name.equals(tableModel.getName())) {
 				return tableModel;
 			}
 		}
-		throw new EntityNotFoundException();
+		throw new TableNotFoundException("name=" + name);
 	}
 	
 	public Set<? extends TableModel> getTables() {

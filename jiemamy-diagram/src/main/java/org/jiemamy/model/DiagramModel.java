@@ -18,6 +18,7 @@ package org.jiemamy.model;
 
 import org.jiemamy.Entity;
 import org.jiemamy.EntityRef;
+import org.jiemamy.model.dbo.DatabaseObjectModel;
 
 /**
  * TODO for daisuke
@@ -47,6 +48,8 @@ public interface DiagramModel extends Entity {
 	Mode getMode();
 	
 	String getName();
+	
+	NodeModel getNodeFor(EntityRef<? extends DatabaseObjectModel> ref);
 	
 	EntityRef<? extends DiagramModel> toReference();
 }

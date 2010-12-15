@@ -16,10 +16,7 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.model;
-
-import org.jiemamy.Entity;
-import org.jiemamy.JiemamyFacet;
+package org.jiemamy;
 
 /**
  * {@link JiemamyFacet}に対するクエリの結果、該当する {@link Entity} が見つからなかったことを表す例外クラス。
@@ -30,4 +27,7 @@ import org.jiemamy.JiemamyFacet;
 @SuppressWarnings("serial")
 public class EntityNotFoundException extends RuntimeException {
 	
+	public EntityNotFoundException(String predicate) {
+		super(predicate);
+	}
 }

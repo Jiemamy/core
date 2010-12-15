@@ -1,6 +1,6 @@
 /*
  * Copyright 2007-2010 Jiemamy Project and the Others.
- * Created on 2010/12/15
+ * Created on 2010/12/14
  *
  * This file is part of Jiemamy.
  *
@@ -18,9 +18,9 @@
  */
 package org.jiemamy.serializer;
 
-import java.util.Comparator;
-
-import org.jiemamy.model.dbo.DatabaseObjectModel;
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.StartElement;
 
 /**
  * TODO for daisuke
@@ -28,10 +28,8 @@ import org.jiemamy.model.dbo.DatabaseObjectModel;
  * @version $Id$
  * @author daisuke
  */
-public class DatabaseObjectComparator implements Comparator<DatabaseObjectModel> {
+public interface JiemamyXmlReader {
 	
-	public int compare(DatabaseObjectModel o1, DatabaseObjectModel o2) {
-		return o1.getId().compareTo(o2.getId());
-	}
+	<T>T readFrom(XMLEventReader writer, StartElement leadEvent) throws XMLStreamException;
 	
 }

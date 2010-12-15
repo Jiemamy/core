@@ -43,11 +43,15 @@ public interface Entity extends Cloneable, XmlWritable {
 	 * 
 	 * @return clone クローン
 	 * @since 0.3
+	 * @see Object#clone()
 	 */
 	Entity clone();
 	
 	/**
 	 * ENTITY IDの等価性を以て、ENTITYの同一性を比較する。
+	 * 
+	 * <p>実装型が異なったとしても、{@code obj}が{@link Entity}型であり、
+	 * そのIDが一致した場合は同一とする。</p>
 	 * 
 	 * @param obj 比較対象オブジェクト
 	 * @return 同じIDを持つ場合は{@code true}、そうでない場合は{@code false}

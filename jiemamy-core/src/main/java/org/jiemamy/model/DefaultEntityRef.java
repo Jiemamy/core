@@ -21,8 +21,6 @@ package org.jiemamy.model;
 import java.util.UUID;
 
 import org.apache.commons.lang.Validate;
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
 
 import org.jiemamy.Entity;
 import org.jiemamy.EntityRef;
@@ -91,9 +89,6 @@ public class DefaultEntityRef<T extends Entity> implements EntityRef<T> {
 	
 	@Override
 	public String toString() {
-		ReflectionToStringBuilder toStringBuilder =
-				new ReflectionToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE);
-		
-		return toStringBuilder.toString();
+		return "EntitiyRef(" + referentId + ")";
 	}
 }

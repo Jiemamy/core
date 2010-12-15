@@ -18,7 +18,7 @@
  */
 package org.jiemamy.model.dbo;
 
-import org.jiemamy.model.EntityNotFoundException;
+import org.jiemamy.EntityNotFoundException;
 import org.jiemamy.model.attribute.ColumnModel;
 
 /**
@@ -29,5 +29,14 @@ import org.jiemamy.model.attribute.ColumnModel;
  */
 @SuppressWarnings("serial")
 public class ColumnNotFoundException extends EntityNotFoundException {
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param predicate 条件など
+	 */
+	public ColumnNotFoundException(String predicate) {
+		super(predicate);
+	}
 	
 }
