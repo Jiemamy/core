@@ -24,8 +24,8 @@ import org.apache.commons.lang.Validate;
 import org.jiemamy.Entity;
 import org.jiemamy.EntityNotFoundException;
 import org.jiemamy.EntityRef;
+import org.jiemamy.OnMemoryRepository;
 import org.jiemamy.Repository;
-import org.jiemamy.RepositoryImpl;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
 
 /**
@@ -43,7 +43,7 @@ public class DefaultDiagramModel extends AbstractEntity implements DiagramModel 
 	
 	private Mode mode;
 	
-	private Repository<NodeModel> nodes = new RepositoryImpl<NodeModel>();
+	private Repository<NodeModel> nodes = new OnMemoryRepository<NodeModel>();
 	
 
 	/**
@@ -80,7 +80,7 @@ public class DefaultDiagramModel extends AbstractEntity implements DiagramModel 
 	
 	public NodeModel getNodeFor(EntityRef<? extends DatabaseObjectModel> ref) {
 		Validate.notNull(ref);
-		for (NodeModel node : nodes.getEntities(NodeModel.class)) {
+		for (NodeModel node : nodes.getEntitiesAsSet()) {
 			if (ref.equals(node.getCoreModelRef())) {
 				return node;
 			}
@@ -90,7 +90,7 @@ public class DefaultDiagramModel extends AbstractEntity implements DiagramModel 
 	
 	@Override
 	public Collection<? extends Entity> getSubEntities() {
-		return nodes.getEntities(NodeModel.class);
+		return nodes.getEntitiesAsSet();
 	}
 	
 	public <T2 extends Entity>T2 resolve(EntityRef<T2> ref) {

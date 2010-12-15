@@ -20,8 +20,15 @@ package org.jiemamy.utils;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 import org.jiemamy.Entity;
 
@@ -33,16 +40,48 @@ import org.jiemamy.Entity;
  */
 public final class EntityUtil {
 	
-	public static <E extends Entity>ArrayList<E> cloneEntityList(Collection<E> org) {
-		ArrayList<E> clone = Lists.newArrayListWithExpectedSize(org.size());
-		for (E e : org) {
-			clone.add(e);
+	public static <E extends Entity>HashSet<E> cloneEntityHashSet(Collection<E> collection) {
+		HashSet<E> cloneCollection = Sets.newHashSetWithExpectedSize(collection.size());
+		for (E element : collection) {
+			@SuppressWarnings("unchecked")
+			E cloneElement = (E) element.clone();
+			cloneCollection.add(cloneElement);
 		}
-		return clone;
+		return cloneCollection;
 	}
 	
-	public static <E>ArrayList<E> cloneValueList(Collection<E> org) {
-		return Lists.newArrayList(org);
+	public static <E extends Entity>LinkedHashSet<E> cloneEntityLinkedHashSet(Collection<E> collection) {
+		LinkedHashSet<E> cloneCollection = Sets.newLinkedHashSet();
+		for (E element : collection) {
+			@SuppressWarnings("unchecked")
+			E cloneElement = (E) element.clone();
+			cloneCollection.add(cloneElement);
+		}
+		return cloneCollection;
+	}
+	
+	public static <E extends Entity>ArrayList<E> cloneEntityList(Collection<E> collection) {
+		ArrayList<E> cloneCollection = Lists.newArrayListWithExpectedSize(collection.size());
+		for (E element : collection) {
+			@SuppressWarnings("unchecked")
+			E cloneElement = (E) element.clone();
+			cloneCollection.add(cloneElement);
+		}
+		return cloneCollection;
+	}
+	
+	public static <K, V extends Entity>HashMap<K, V> cloneEntityMap(Map<K, V> map) {
+		HashMap<K, V> cloneMap = Maps.newHashMapWithExpectedSize(map.size());
+		for (Entry<K, V> element : map.entrySet()) {
+			@SuppressWarnings("unchecked")
+			V cloneValue = (V) element.getValue().clone();
+			cloneMap.put(element.getKey(), cloneValue);
+		}
+		return cloneMap;
+	}
+	
+	public static <E>ArrayList<E> cloneValueList(Collection<E> collection) {
+		return Lists.newArrayList(collection);
 	}
 	
 	private EntityUtil() {

@@ -69,7 +69,7 @@ public abstract class AbstractIdentifierValidator extends AbstractValidator {
 	public Collection<? extends Problem> validate(JiemamyContext context) {
 		result = Lists.newArrayList();
 		
-		for (DatabaseObjectModel dbo : context.getEntities(DatabaseObjectModel.class)) {
+		for (DatabaseObjectModel dbo : context.getDatabaseObjects()) {
 			isValid(dbo.getName());
 			if (dbo instanceof TableModel) {
 				TableModel tableModel = (TableModel) dbo;

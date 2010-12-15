@@ -39,7 +39,7 @@ public class DataTypeValidator extends AbstractValidator {
 	
 	public Collection<Problem> validate(JiemamyContext rootModel) {
 		Collection<Problem> result = Lists.newArrayList();
-		Collection<TableModel> tableModels = rootModel.getEntities(TableModel.class);
+		Collection<TableModel> tableModels = rootModel.getTables();
 		for (TableModel tableModel : tableModels) {
 			for (ColumnModel columnModel : tableModel.getColumns()) {
 				TypeVariant dataType = columnModel.getDataType();

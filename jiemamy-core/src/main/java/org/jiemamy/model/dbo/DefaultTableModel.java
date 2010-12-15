@@ -295,7 +295,7 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	public boolean isSubDatabaseObjectsNonRecursiveOf(DatabaseObjectModel target, JiemamyContext context) {
 		Validate.notNull(target);
 		Validate.notNull(context);
-		Collection<TableModel> tables = context.getEntities(TableModel.class);
+		Collection<TableModel> tables = context.getTables();
 		for (ForeignKeyConstraintModel foreignKey : getForeignKeyConstraintModels()) {
 			if (foreignKey.getReferenceColumns().size() == 0) {
 				continue;

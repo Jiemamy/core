@@ -44,9 +44,9 @@ import org.jiemamy.validator.Problem;
  */
 public class TableValidator extends AbstractValidator {
 	
-	public Collection<Problem> validate(JiemamyContext rootModel) {
+	public Collection<Problem> validate(JiemamyContext context) {
 		Collection<Problem> result = Lists.newArrayList();
-		Collection<TableModel> tableModels = rootModel.getEntities(TableModel.class);
+		Collection<TableModel> tableModels = context.getTables();
 		for (TableModel tableModel : tableModels) {
 			List<? extends ColumnModel> columns = tableModel.getColumns();
 			if (columns.size() == 0) {

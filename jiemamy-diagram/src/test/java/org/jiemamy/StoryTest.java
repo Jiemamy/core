@@ -24,7 +24,6 @@ import org.junit.Test;
 
 import org.jiemamy.model.DefaultDiagramModel;
 import org.jiemamy.model.DefaultNodeModel;
-import org.jiemamy.model.DiagramModel;
 import org.jiemamy.model.dbo.DefaultTableModel;
 import org.jiemamy.model.geometory.JmRectangle;
 import org.jiemamy.utils.UUIDUtil;
@@ -73,7 +72,7 @@ public class StoryTest {
 		ctx.store(table);
 		diagramFacet.store(diagram);
 		
-		assertThat(diagramFacet.getEntities(DiagramModel.class).size(), is(1));
+		assertThat(diagramFacet.getDiagrams().size(), is(1));
 		// TODO
 //		assertThat(diagramFacet.getNode(table, diagram), is((NodeModel) node));
 //		

@@ -85,19 +85,17 @@ public class JiemamyContextTest {
 		ctx1 = new JiemamyContext();
 		ctx2 = new JiemamyContext();
 		
-		t1a = new DefaultTableModel(TID1);
-		t1a.setName("A");
-		t1b = new DefaultTableModel(TID1);
-		t1b.setName("B");
+		// FORMAT-OFF
+		t1a = new DefaultTableModel(TID1); t1a.setName("A");
+		t1b = new DefaultTableModel(TID1); t1b.setName("B");
 		t2 = new DefaultTableModel(TID2);
 		t3 = new DefaultTableModel(TID3);
 		
-		c1a = new DefaultColumnModel(CID1);
-		c1a.setName("A");
-		c1b = new DefaultColumnModel(CID1);
-		c1b.setName("B");
+		c1a = new DefaultColumnModel(CID1); c1a.setName("A");
+		c1b = new DefaultColumnModel(CID1); c1b.setName("B");
 		c2 = new DefaultColumnModel(CID2);
 		c3 = new DefaultColumnModel(CID3);
+		// FORMAT-ON
 	}
 	
 	/**

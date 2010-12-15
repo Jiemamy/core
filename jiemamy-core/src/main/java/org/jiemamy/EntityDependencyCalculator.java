@@ -46,9 +46,9 @@ public final class EntityDependencyCalculator {
 	public static List<DatabaseObjectModel> getSortedEntityList(JiemamyContext context) {
 		Validate.notNull(context);
 		
-		results = new ArrayList<DatabaseObjectModel>(context.getEntities(DatabaseObjectModel.class).size());
+		results = new ArrayList<DatabaseObjectModel>(context.getDatabaseObjects().size());
 		
-		for (DatabaseObjectModel entityModel : context.getEntities(DatabaseObjectModel.class)) {
+		for (DatabaseObjectModel entityModel : context.getDatabaseObjects()) {
 			addDependsdentsToResult(entityModel, context);
 			addToResult(entityModel);
 		}

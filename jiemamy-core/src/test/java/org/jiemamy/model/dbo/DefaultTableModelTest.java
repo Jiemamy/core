@@ -147,7 +147,7 @@ public class DefaultTableModelTest {
 		ctx.store(t1);
 		ctx.store(t2);
 		
-		Collection<TableModel> tables = ctx.getEntities(TableModel.class);
+		Collection<TableModel> tables = ctx.getTables();
 		
 		assertThat(DefaultTableModel.findDeclaringTable(tables, a), is(t1));
 		assertThat(DefaultTableModel.findDeclaringTable(tables, b), is(t1));
@@ -258,10 +258,10 @@ public class DefaultTableModelTest {
 		ctx.store(t2);
 		ctx.store(t3);
 		
-		assertThat(DefaultTableModel.findReferencedDatabaseObject(ctx.getEntities(DatabaseObjectModel.class), fk12), is((DatabaseObjectModel) t1));
-		assertThat(DefaultTableModel.findReferencedDatabaseObject(ctx.getEntities(DatabaseObjectModel.class), fk23), is((DatabaseObjectModel) t2));
-		assertThat(DefaultTableModel.findReferencedKeyConstraint(ctx.getEntities(DatabaseObjectModel.class), fk12), is(pk1));
-		assertThat(DefaultTableModel.findReferencedKeyConstraint(ctx.getEntities(DatabaseObjectModel.class), fk23), is(pk2));
+		assertThat(DefaultTableModel.findReferencedDatabaseObject(ctx.getDatabaseObjects(), fk12), is((DatabaseObjectModel) t1));
+		assertThat(DefaultTableModel.findReferencedDatabaseObject(ctx.getDatabaseObjects(), fk23), is((DatabaseObjectModel) t2));
+		assertThat(DefaultTableModel.findReferencedKeyConstraint(ctx.getDatabaseObjects(), fk12), is(pk1));
+		assertThat(DefaultTableModel.findReferencedKeyConstraint(ctx.getDatabaseObjects(), fk23), is(pk2));
 		// FORMAT-ON
 	}
 	

@@ -46,7 +46,7 @@ public class EntityNameCollisionValidator extends AbstractValidator {
 		Collection<Problem> result = Lists.newArrayList();
 		Map<String, Collection<DatabaseObjectModel>> map = Maps.newHashMap();
 		
-		for (DatabaseObjectModel entityModel : rootModel.getEntities(DatabaseObjectModel.class)) {
+		for (DatabaseObjectModel entityModel : rootModel.getDatabaseObjects()) {
 			String name = entityModel.getName();
 			if (map.containsKey(name) == false) {
 				map.put(name, new ArrayList<DatabaseObjectModel>());

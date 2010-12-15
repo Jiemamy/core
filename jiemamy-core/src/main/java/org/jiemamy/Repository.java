@@ -52,9 +52,9 @@ public interface Repository<T extends Entity> extends Cloneable {
 	 */
 	T delete(EntityRef<? extends T> ref);
 	
-	<E extends Entity>Set<E> getEntities(Class<E> clazz);
+	Set<T> getEntitiesAsSet();
 	
-	<E extends Entity>List<E> getEntitiesAsList(Class<E> clazz);
+	List<T> getEntitiesAsList();
 	
 	/**
 	 * TODO for daisuke

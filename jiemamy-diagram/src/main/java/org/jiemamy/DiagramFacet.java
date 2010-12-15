@@ -17,7 +17,6 @@
 package org.jiemamy;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLStreamException;
@@ -54,7 +53,7 @@ public class DiagramFacet implements JiemamyFacet {
 		
 	};
 	
-	private Repository<DiagramModel> repos = new RepositoryImpl<DiagramModel>();
+	private Repository<DiagramModel> repos = new OnMemoryRepository<DiagramModel>();
 	
 	private static Logger logger = LoggerFactory.getLogger(DiagramFacet.class);
 	
@@ -70,19 +69,7 @@ public class DiagramFacet implements JiemamyFacet {
 	}
 	
 	public List<? extends DiagramModel> getDiagrams() {
-		return repos.getEntitiesAsList(DiagramModel.class);
-	}
-	
-	/**
-	 * TODO for daisuke
-	 * 
-	 * @param <T> 
-	 * @param clazz
-	 * @return
-	 */
-	@Deprecated
-	public <T extends Entity>Set<T> getEntities(Class<T> clazz) {
-		return repos.getEntities(clazz);
+		return repos.getEntitiesAsList();
 	}
 	
 	public JiemamyNamespace[] getNamespaces() {

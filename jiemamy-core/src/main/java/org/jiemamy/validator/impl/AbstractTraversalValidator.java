@@ -75,7 +75,7 @@ public abstract class AbstractTraversalValidator<T> extends AbstractValidator {
 		check(context, "rootModel");
 		
 		int i = 0;
-		for (DatabaseObjectModel entityModel : context.getEntities(DatabaseObjectModel.class)) {
+		for (DatabaseObjectModel entityModel : context.getDatabaseObjects()) {
 			check(entityModel, "entity" + index(i));
 			if (entityModel instanceof TableModel) {
 				TableModel tableModel = (TableModel) entityModel;

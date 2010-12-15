@@ -59,7 +59,7 @@ public class SqlFacet implements JiemamyFacet {
 		
 	};
 	
-	private Repository<AroundScriptModel> scripts = new RepositoryImpl<AroundScriptModel>();
+	private Repository<AroundScriptModel> scripts = new OnMemoryRepository<AroundScriptModel>();
 	
 	private static Logger logger = LoggerFactory.getLogger(SqlFacet.class);
 	
@@ -100,7 +100,7 @@ public class SqlFacet implements JiemamyFacet {
 	 */
 	public AroundScriptModel getAroundScriptFor(EntityRef<? extends DatabaseObjectModel> ref) {
 		Validate.notNull(ref);
-		for (AroundScriptModel aroundScriptModel : scripts.getEntities(AroundScriptModel.class)) {
+		for (AroundScriptModel aroundScriptModel : scripts.getEntitiesAsSet()) {
 			if (ref.equals(aroundScriptModel.getCoreModelRef())) {
 				return aroundScriptModel;
 			}
@@ -114,7 +114,7 @@ public class SqlFacet implements JiemamyFacet {
 	 * @return
 	 */
 	public Collection<? extends AroundScriptModel> getAroundScripts() {
-		return scripts.getEntities(AroundScriptModel.class);
+		return scripts.getEntitiesAsSet();
 	}
 	
 	public JiemamyNamespace[] getNamespaces() {

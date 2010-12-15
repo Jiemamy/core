@@ -41,10 +41,10 @@ import org.jiemamy.validator.Problem;
  */
 public class IndexValidator extends AbstractValidator {
 	
-	public Collection<Problem> validate(JiemamyContext rootModel) {
+	public Collection<Problem> validate(JiemamyContext context) {
 		Collection<Problem> result = Lists.newArrayList();
 //		Map<TableModel, Collection<UUID>> map = CollectionsUtil.newHashMap();
-//		for (TableModel tableModel : rootModel.getEntities(TableModel.class)) {
+//		for (TableModel tableModel : rootModel.getTables()) {
 //			Collection<UUID> columnIds = CollectionsUtil.newArrayList();
 //			for (ColumnModel columnModel : tableModel.getColumns()) {
 //				columnIds.add(columnModel.getId());
@@ -52,7 +52,7 @@ public class IndexValidator extends AbstractValidator {
 //			map.put(tableModel, columnIds);
 //		}
 		
-		for (IndexModel indexModel : rootModel.getEntities(IndexModel.class)) {
+		for (IndexModel indexModel : context.getIndexes()) {
 			Collection<UUID> referenceColumnIds = Lists.newArrayList();
 			
 			if (indexModel.getIndexColumns().size() < 1) {
@@ -61,7 +61,7 @@ public class IndexValidator extends AbstractValidator {
 			for (IndexColumnModel indexColumnModel : indexModel.getIndexColumns()) {
 				EntityRef<? extends ColumnModel> columnRef = indexColumnModel.getColumnRef();
 				if (referenceColumnIds.contains(columnRef.getReferentId())) {
-					ColumnModel columnModel = rootModel.resolve(columnRef);
+					ColumnModel columnModel = context.resolve(columnRef);
 					result.add(new DuplicatedIndexColumnsProblem(indexModel, columnModel));
 				}
 				referenceColumnIds.add(columnRef.getReferentId());

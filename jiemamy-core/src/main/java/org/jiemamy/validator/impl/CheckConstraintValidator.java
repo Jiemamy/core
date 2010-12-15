@@ -44,7 +44,7 @@ public class CheckConstraintValidator extends AbstractValidator {
 	
 	public Collection<Problem> validate(JiemamyContext context) {
 		Collection<Problem> result = Lists.newArrayList();
-		Collection<TableModel> tableModels = context.getEntities(TableModel.class);
+		Collection<TableModel> tableModels = context.getTables();
 		for (TableModel tableModel : tableModels) {
 			int index = 0;
 			for (CheckConstraintModel checkConstraint : tableModel.getConstraints(CheckConstraintModel.class)) {

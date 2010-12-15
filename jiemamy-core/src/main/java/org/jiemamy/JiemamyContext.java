@@ -39,6 +39,7 @@ import org.jiemamy.dialect.Dialect;
 import org.jiemamy.model.dataset.DataSetModel;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
 import org.jiemamy.model.dbo.TableModel;
+import org.jiemamy.model.dbo.index.IndexModel;
 import org.jiemamy.serializer.JiemamySerializer;
 import org.jiemamy.serializer.JiemamyStaxSerializer;
 import org.jiemamy.transaction.JiemamyTransaction;
@@ -88,9 +89,9 @@ public class JiemamyContext {
 
 	private Map<Class<? extends JiemamyFacet>, JiemamyFacet> facets = Maps.newHashMap();
 	
-	private Repository<DatabaseObjectModel> doms = new RepositoryImpl<DatabaseObjectModel>();
+	private Repository<DatabaseObjectModel> doms = new OnMemoryRepository<DatabaseObjectModel>();
 	
-	private Repository<DataSetModel> dsms = new RepositoryImpl<DataSetModel>();
+	private Repository<DataSetModel> dsms = new OnMemoryRepository<DataSetModel>();
 	
 	private String dialectClassName;
 	
@@ -197,7 +198,7 @@ public class JiemamyContext {
 	 */
 	public Collection<DatabaseObjectModel> findSuperDatabaseObjectsNonRecursive(DatabaseObjectModel databaseObject) {
 		Validate.notNull(databaseObject);
-		return databaseObject.findSuperDatabaseObjectsNonRecursive(getEntities(DatabaseObjectModel.class));
+		return databaseObject.findSuperDatabaseObjectsNonRecursive(getDatabaseObjects());
 	}
 	
 	/**
@@ -227,8 +228,8 @@ public class JiemamyContext {
 	 * 
 	 * @return データセットの{@link List}
 	 */
-	public Set<? extends DatabaseObjectModel> getDatabaseObjects() {
-		return doms.getEntities(DatabaseObjectModel.class);
+	public Set<DatabaseObjectModel> getDatabaseObjects() {
+		return doms.getEntitiesAsSet();
 	}
 	
 	/**
@@ -236,8 +237,8 @@ public class JiemamyContext {
 	 * 
 	 * @return データセットの{@link List}
 	 */
-	public List<? extends DataSetModel> getDataSets() {
-		return dsms.getEntitiesAsList(DataSetModel.class);
+	public List<DataSetModel> getDataSets() {
+		return dsms.getEntitiesAsList();
 	}
 	
 	/**
@@ -256,10 +257,6 @@ public class JiemamyContext {
 	 */
 	public String getDialectClassName() {
 		return dialectClassName;
-	}
-	
-	public <T extends Entity>Set<T> getEntities(Class<T> clazz) {
-		return doms.getEntities(clazz);
 	}
 	
 	/**
@@ -283,6 +280,10 @@ public class JiemamyContext {
 	 */
 	public Set<JiemamyFacet> getFacets() {
 		return MutationMonitor.monitor(Sets.newHashSet(facets.values()));
+	}
+	
+	public Set<IndexModel> getIndexes() {
+		return getDatabaseObjects(IndexModel.class);
 	}
 	
 	public NamespaceContext getNamespaceContext() {
@@ -313,16 +314,16 @@ public class JiemamyContext {
 	}
 	
 	public TableModel getTable(String name) {
-		for (TableModel tableModel : getTables()) {
-			if (name.equals(tableModel.getName())) {
-				return tableModel;
+		for (TableModel table : getTables()) {
+			if (name.equals(table.getName())) {
+				return table;
 			}
 		}
 		throw new TableNotFoundException("name=" + name);
 	}
 	
-	public Set<? extends TableModel> getTables() {
-		return getEntities(TableModel.class);
+	public Set<TableModel> getTables() {
+		return getDatabaseObjects(TableModel.class);
 	}
 	
 	/**
@@ -356,9 +357,8 @@ public class JiemamyContext {
 	 * @return 実体
 	 * @throws EntityNotFoundException 参照で示すエンティティが見つからなかった場合
 	 */
-	@SuppressWarnings("unchecked")
 	public <T extends Entity>T resolve(EntityRef<T> ref) {
-		return (T) doms.resolve(ref).clone();
+		return doms.resolve(ref);
 	}
 	
 	/**
@@ -419,5 +419,15 @@ public class JiemamyContext {
 	@Override
 	public String toString() {
 		return ClassUtil.getShortClassName(getClass()) + "@" + Integer.toHexString(hashCode());
+	}
+	
+	<T extends DatabaseObjectModel>Set<T> getDatabaseObjects(Class<T> clazz) {
+		Set<T> result = Sets.newHashSet();
+		for (DatabaseObjectModel dom : doms.getEntitiesAsSet()) {
+			if (clazz.isInstance(dom)) {
+				result.add(clazz.cast(dom));
+			}
+		}
+		return result;
 	}
 }

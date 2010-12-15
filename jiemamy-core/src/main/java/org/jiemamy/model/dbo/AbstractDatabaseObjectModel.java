@@ -60,7 +60,7 @@ public abstract class AbstractDatabaseObjectModel extends AbstractEntity impleme
 	
 	public Set<DatabaseObjectModel> findSubDatabaseObjectsNonRecursive(JiemamyContext context) {
 		Set<DatabaseObjectModel> collecter = Sets.newHashSet();
-		for (DatabaseObjectModel databaseObject : context.getEntities(DatabaseObjectModel.class)) {
+		for (DatabaseObjectModel databaseObject : context.getDatabaseObjects()) {
 			if (databaseObject.isSubDatabaseObjectsNonRecursiveOf(this, context)) {
 				collecter.add(databaseObject);
 			}
