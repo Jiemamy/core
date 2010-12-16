@@ -22,7 +22,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import org.jiemamy.EntityRef;
+import org.jiemamy.dddbase.AbstractEntity;
+import org.jiemamy.dddbase.DefaultEntityRef;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
 import org.jiemamy.model.geometory.JmColor;
 import org.jiemamy.model.geometory.JmRectangle;

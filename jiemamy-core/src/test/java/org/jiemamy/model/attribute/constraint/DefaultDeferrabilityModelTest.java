@@ -25,7 +25,7 @@ import static org.mockito.Mockito.when;
 
 import org.junit.Test;
 
-import org.jiemamy.ValueObject;
+import org.jiemamy.dddbase.ValueObject;
 import org.jiemamy.model.attribute.constraint.DeferrabilityModel.InitiallyCheckTime;
 
 /**

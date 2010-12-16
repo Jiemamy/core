@@ -18,7 +18,7 @@
  */
 package org.jiemamy.model.dbo;
 
-import org.jiemamy.EntityRef;
+import org.jiemamy.dddbase.EntityRef;
 
 /**
  * リレーショナルデータベースにおける「ビュー」を表すモデルインターフェイス。

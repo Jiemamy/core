@@ -28,6 +28,8 @@ import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 
+import org.jiemamy.dddbase.Entity;
+import org.jiemamy.dddbase.EntityNotFoundException;
 import org.jiemamy.model.dbo.DefaultTableModel;
 import org.jiemamy.model.script.AroundScriptModel;
 import org.jiemamy.model.script.DefaultAroundScriptModel;

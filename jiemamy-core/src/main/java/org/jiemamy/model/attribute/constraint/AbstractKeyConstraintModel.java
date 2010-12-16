@@ -24,10 +24,10 @@ import com.google.common.collect.Lists;
 
 import org.apache.commons.lang.Validate;
 
-import org.jiemamy.EntityRef;
 import org.jiemamy.JiemamyError;
+import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.utils.CloneUtil;
 import org.jiemamy.model.attribute.ColumnModel;
-import org.jiemamy.utils.EntityUtil;
 import org.jiemamy.utils.MutationMonitor;
 
 /**
@@ -101,7 +101,7 @@ public abstract class AbstractKeyConstraintModel extends AbstractConstraintModel
 	protected AbstractKeyConstraintModel clone() {
 		try {
 			AbstractKeyConstraintModel clone = (AbstractKeyConstraintModel) super.clone();
-			clone.keyColumns = EntityUtil.cloneValueList(keyColumns);
+			clone.keyColumns = CloneUtil.cloneValueArrayList(keyColumns);
 			return clone;
 		} catch (CloneNotSupportedException e) {
 			throw new JiemamyError("clone not supported", e);

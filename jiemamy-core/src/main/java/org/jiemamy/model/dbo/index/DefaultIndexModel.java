@@ -26,11 +26,11 @@ import com.google.common.collect.Lists;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-import org.jiemamy.EntityRef;
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.model.DefaultEntityRef;
+import org.jiemamy.dddbase.DefaultEntityRef;
+import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.utils.CloneUtil;
 import org.jiemamy.model.dbo.AbstractDatabaseObjectModel;
-import org.jiemamy.utils.EntityUtil;
 import org.jiemamy.utils.MutationMonitor;
 
 /**
@@ -68,7 +68,7 @@ public class DefaultIndexModel extends AbstractDatabaseObjectModel implements In
 	@Override
 	public DefaultIndexModel clone() {
 		DefaultIndexModel clone = (DefaultIndexModel) super.clone();
-		clone.indexColumns = EntityUtil.cloneValueList(indexColumns);
+		clone.indexColumns = CloneUtil.cloneValueArrayList(indexColumns);
 		return clone;
 	}
 	

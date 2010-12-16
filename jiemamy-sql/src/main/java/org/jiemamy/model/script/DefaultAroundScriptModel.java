@@ -28,11 +28,11 @@ import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-import org.jiemamy.EntityRef;
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.ServiceLocator;
-import org.jiemamy.model.AbstractEntity;
-import org.jiemamy.model.DefaultEntityRef;
+import org.jiemamy.dddbase.DefaultEntityRef;
+import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.model.AbstractJiemamyEntity;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
 import org.jiemamy.utils.MutationMonitor;
 
@@ -41,7 +41,7 @@ import org.jiemamy.utils.MutationMonitor;
  * 
  * @author daisuke
  */
-public class DefaultAroundScriptModel extends AbstractEntity implements AroundScriptModel {
+public class DefaultAroundScriptModel extends AbstractJiemamyEntity implements AroundScriptModel {
 	
 	private Map<Position, String> scripts = new HashMap<Position, String>();
 	
@@ -67,6 +67,10 @@ public class DefaultAroundScriptModel extends AbstractEntity implements AroundSc
 		clone.scripts = Maps.newHashMap(scripts);
 		clone.scriptEngineClassNames = Maps.newHashMap(scriptEngineClassNames);
 		return clone;
+	}
+	
+	public EntityRef<? extends DatabaseObjectModel> getCoreModelRef() {
+		return target;
 	}
 	
 	public String getScript(Position position) {
@@ -97,10 +101,6 @@ public class DefaultAroundScriptModel extends AbstractEntity implements AroundSc
 	 */
 	public Map<Position, String> getScripts() {
 		return MutationMonitor.monitor(Maps.newHashMap(scripts));
-	}
-	
-	public EntityRef<? extends DatabaseObjectModel> getCoreModelRef() {
-		return target;
 	}
 	
 	public String process(JiemamyContext context, Position position, DatabaseObjectModel target)

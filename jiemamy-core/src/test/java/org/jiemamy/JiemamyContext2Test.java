@@ -30,7 +30,9 @@ import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.jiemamy.model.DefaultEntityRef;
+import org.jiemamy.dddbase.DefaultEntityRef;
+import org.jiemamy.dddbase.Entity;
+import org.jiemamy.dddbase.EntityNotFoundException;
 import org.jiemamy.model.attribute.Column;
 import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.attribute.constraint.DefaultForeignKeyConstraintModel;

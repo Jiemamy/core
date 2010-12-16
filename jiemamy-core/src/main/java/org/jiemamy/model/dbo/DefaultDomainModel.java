@@ -31,16 +31,16 @@ import com.google.common.collect.Sets;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-import org.jiemamy.EntityRef;
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.model.DefaultEntityRef;
+import org.jiemamy.dddbase.DefaultEntityRef;
+import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.utils.CloneUtil;
 import org.jiemamy.model.attribute.constraint.CheckConstraintModel;
 import org.jiemamy.model.datatype.DataTypeCategory;
 import org.jiemamy.model.datatype.TypeParameter;
 import org.jiemamy.model.datatype.TypeParameter.Key;
 import org.jiemamy.model.datatype.TypeVariant;
 import org.jiemamy.serializer.JiemamyXmlWriter;
-import org.jiemamy.utils.EntityUtil;
 import org.jiemamy.utils.MutationMonitor;
 import org.jiemamy.utils.collection.CollectionsUtil;
 
@@ -101,7 +101,7 @@ public class DefaultDomainModel extends AbstractDatabaseObjectModel implements D
 	@Override
 	public DefaultDomainModel clone() {
 		DefaultDomainModel clone = (DefaultDomainModel) super.clone();
-		clone.checkConstraints = EntityUtil.cloneValueList(checkConstraints);
+		clone.checkConstraints = CloneUtil.cloneValueArrayList(checkConstraints);
 		return clone;
 	}
 	

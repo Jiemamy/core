@@ -28,7 +28,7 @@ import com.google.common.collect.Lists;
 
 import org.apache.commons.lang.ArrayUtils;
 
-import org.jiemamy.EntityRef;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.attribute.constraint.CheckConstraintModel;
 import org.jiemamy.model.attribute.constraint.ConstraintModel;

@@ -27,6 +27,10 @@ import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.jiemamy.dddbase.Entity;
+import org.jiemamy.dddbase.EntityNotFoundException;
+import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.OnMemoryRepository;
 import org.jiemamy.dialect.Dialect;
 import org.jiemamy.dialect.EmitConfig;
 import org.jiemamy.model.dbo.AbstractJiemamyXmlWriter;
@@ -59,7 +63,7 @@ public class SqlFacet implements JiemamyFacet {
 		
 	};
 	
-	private Repository<AroundScriptModel> scripts = new OnMemoryRepository<AroundScriptModel>();
+	private OnMemoryRepository<AroundScriptModel> scripts = new OnMemoryRepository<AroundScriptModel>();
 	
 	private static Logger logger = LoggerFactory.getLogger(SqlFacet.class);
 	

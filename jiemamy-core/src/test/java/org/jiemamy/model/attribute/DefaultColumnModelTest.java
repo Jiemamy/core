@@ -31,7 +31,7 @@ import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.jiemamy.EntityRef;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.datatype.DataTypeCategory;
 import org.jiemamy.model.datatype.DefaultTypeVariant;
 import org.jiemamy.model.datatype.TypeVariant;

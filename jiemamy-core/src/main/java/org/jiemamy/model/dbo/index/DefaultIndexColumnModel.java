@@ -22,7 +22,7 @@ import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-import org.jiemamy.EntityRef;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.attribute.ColumnModel;
 
 /**

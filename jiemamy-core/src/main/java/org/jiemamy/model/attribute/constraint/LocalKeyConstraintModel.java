@@ -18,7 +18,7 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
-import org.jiemamy.ValueObject;
+import org.jiemamy.dddbase.ValueObject;
 
 /**
  * 内部キー制約を表すインターフェイス。

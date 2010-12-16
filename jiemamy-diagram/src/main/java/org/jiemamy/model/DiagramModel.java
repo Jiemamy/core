@@ -16,8 +16,8 @@
  */
 package org.jiemamy.model;
 
-import org.jiemamy.Entity;
-import org.jiemamy.EntityRef;
+import org.jiemamy.JiemamyEntity;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
 
 /**
@@ -27,7 +27,7 @@ import org.jiemamy.model.dbo.DatabaseObjectModel;
  * @version $Id$
  * @author daisuke
  */
-public interface DiagramModel extends Entity {
+public interface DiagramModel extends JiemamyEntity {
 	
 	DiagramModel clone();
 	

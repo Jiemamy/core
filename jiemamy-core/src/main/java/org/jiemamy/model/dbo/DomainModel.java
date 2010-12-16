@@ -20,7 +20,7 @@ package org.jiemamy.model.dbo;
 
 import java.util.Collection;
 
-import org.jiemamy.EntityRef;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.attribute.constraint.CheckConstraintModel;
 import org.jiemamy.model.datatype.TypeVariant;
 

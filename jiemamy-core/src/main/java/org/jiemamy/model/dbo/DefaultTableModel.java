@@ -42,12 +42,13 @@ import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-import org.jiemamy.Entity;
-import org.jiemamy.EntityNotFoundException;
-import org.jiemamy.EntityRef;
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.TableNotFoundException;
-import org.jiemamy.model.DefaultEntityRef;
+import org.jiemamy.dddbase.DefaultEntityRef;
+import org.jiemamy.dddbase.Entity;
+import org.jiemamy.dddbase.EntityNotFoundException;
+import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.utils.CloneUtil;
 import org.jiemamy.model.ModelConsistencyException;
 import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.attribute.constraint.ConstraintModel;
@@ -55,7 +56,6 @@ import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel;
 import org.jiemamy.model.attribute.constraint.KeyConstraintModel;
 import org.jiemamy.serializer.JiemamyXmlWriter;
 import org.jiemamy.utils.ConstraintComparator;
-import org.jiemamy.utils.EntityUtil;
 import org.jiemamy.utils.MutationMonitor;
 import org.jiemamy.utils.collection.CollectionsUtil;
 import org.jiemamy.xml.CoreQName;
@@ -180,7 +180,7 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	@Override
 	public DefaultTableModel clone() {
 		DefaultTableModel clone = (DefaultTableModel) super.clone();
-		clone.columns = EntityUtil.cloneEntityList(columns);
+		clone.columns = CloneUtil.cloneEntityArrayList(columns);
 		TreeSet<ConstraintModel> set = new TreeSet<ConstraintModel>(new ConstraintComparator());
 		set.addAll(constraints);
 		clone.constraints = set;
@@ -252,7 +252,7 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	
 	public List<ColumnModel> getColumns() {
 		assert columns != null;
-		return MutationMonitor.monitor(EntityUtil.cloneEntityList(columns));
+		return MutationMonitor.monitor(CloneUtil.cloneEntityArrayList(columns));
 	}
 	
 	public SortedSet<? extends ConstraintModel> getConstraints() {

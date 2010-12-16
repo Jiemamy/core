@@ -18,7 +18,7 @@
  */
 package org.jiemamy.transaction;
 
-import org.jiemamy.Entity;
+import org.jiemamy.dddbase.Entity;
 
 /**
  * モデルを編集するためのEDITコマンドのインターフェース。

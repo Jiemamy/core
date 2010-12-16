@@ -20,8 +20,8 @@ package org.jiemamy.model.datatype;
 
 import java.util.Set;
 
-import org.jiemamy.ValueObject;
 import org.jiemamy.XmlWritable;
+import org.jiemamy.dddbase.ValueObject;
 import org.jiemamy.model.datatype.TypeParameter.Key;
 
 /**

@@ -20,8 +20,8 @@ package org.jiemamy.model.dbo;
 
 import java.util.Set;
 
-import org.jiemamy.Entity;
 import org.jiemamy.JiemamyContext;
+import org.jiemamy.JiemamyEntity;
 
 /**
  * リレーショナルデータベースモデルにおける「CREATE対象」を表すモデルインターフェイス。
@@ -29,7 +29,7 @@ import org.jiemamy.JiemamyContext;
  * @since 0.3
  * @author daisuke
  */
-public interface DatabaseObjectModel extends Entity {
+public interface DatabaseObjectModel extends JiemamyEntity {
 	
 	DatabaseObjectModel clone();
 	

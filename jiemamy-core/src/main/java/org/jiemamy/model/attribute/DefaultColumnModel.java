@@ -29,10 +29,10 @@ import javax.xml.stream.events.Namespace;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-import org.jiemamy.EntityRef;
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.model.AbstractEntity;
-import org.jiemamy.model.DefaultEntityRef;
+import org.jiemamy.dddbase.DefaultEntityRef;
+import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.model.AbstractJiemamyEntity;
 import org.jiemamy.model.datatype.TypeVariant;
 import org.jiemamy.model.dbo.AbstractJiemamyXmlWriter;
 import org.jiemamy.serializer.JiemamyXmlWriter;
@@ -43,7 +43,7 @@ import org.jiemamy.xml.CoreQName;
  * 
  * @author daisuke
  */
-public class DefaultColumnModel extends AbstractEntity implements ColumnModel {
+public class DefaultColumnModel extends AbstractJiemamyEntity implements ColumnModel {
 	
 	/** 物理名 */
 	private String name;

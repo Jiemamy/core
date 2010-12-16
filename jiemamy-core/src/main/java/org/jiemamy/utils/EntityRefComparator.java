@@ -20,7 +20,7 @@ package org.jiemamy.utils;
 
 import java.util.Comparator;
 
-import org.jiemamy.EntityRef;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.attribute.ColumnModel;
 
 /**

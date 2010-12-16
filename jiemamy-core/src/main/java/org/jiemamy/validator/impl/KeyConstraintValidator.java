@@ -25,8 +25,8 @@ import com.google.common.collect.Lists;
 
 import org.apache.commons.lang.StringUtils;
 
-import org.jiemamy.EntityRef;
 import org.jiemamy.JiemamyContext;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.attribute.constraint.KeyConstraintModel;
 import org.jiemamy.model.dbo.TableModel;

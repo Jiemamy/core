@@ -25,6 +25,7 @@ import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.jiemamy.dddbase.OnMemoryRepository;
 import org.jiemamy.model.DiagramModel;
 import org.jiemamy.model.dbo.AbstractJiemamyXmlWriter;
 import org.jiemamy.serializer.JiemamyXmlWriter;
@@ -53,7 +54,7 @@ public class DiagramFacet implements JiemamyFacet {
 		
 	};
 	
-	private Repository<DiagramModel> repos = new OnMemoryRepository<DiagramModel>();
+	private OnMemoryRepository<DiagramModel> repos = new OnMemoryRepository<DiagramModel>();
 	
 	private static Logger logger = LoggerFactory.getLogger(DiagramFacet.class);
 	

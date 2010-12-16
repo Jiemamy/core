@@ -21,11 +21,11 @@ import java.util.UUID;
 
 import org.apache.commons.lang.Validate;
 
-import org.jiemamy.Entity;
-import org.jiemamy.EntityNotFoundException;
-import org.jiemamy.EntityRef;
-import org.jiemamy.OnMemoryRepository;
-import org.jiemamy.Repository;
+import org.jiemamy.dddbase.DefaultEntityRef;
+import org.jiemamy.dddbase.Entity;
+import org.jiemamy.dddbase.EntityNotFoundException;
+import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.OnMemoryRepository;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
 
 /**
@@ -35,7 +35,7 @@ import org.jiemamy.model.dbo.DatabaseObjectModel;
  * @version $Id$
  * @author daisuke
  */
-public class DefaultDiagramModel extends AbstractEntity implements DiagramModel {
+public class DefaultDiagramModel extends AbstractJiemamyEntity implements DiagramModel {
 	
 	private String name;
 	
@@ -43,7 +43,7 @@ public class DefaultDiagramModel extends AbstractEntity implements DiagramModel 
 	
 	private Mode mode;
 	
-	private Repository<NodeModel> nodes = new OnMemoryRepository<NodeModel>();
+	private OnMemoryRepository<NodeModel> nodes = new OnMemoryRepository<NodeModel>();
 	
 
 	/**

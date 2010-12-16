@@ -23,13 +23,14 @@ import com.google.common.collect.Lists;
 
 import org.apache.commons.lang.Validate;
 
-import org.jiemamy.Entity;
-import org.jiemamy.EntityNotFoundException;
-import org.jiemamy.EntityRef;
+import org.jiemamy.dddbase.DefaultEntityRef;
+import org.jiemamy.dddbase.Entity;
+import org.jiemamy.dddbase.EntityNotFoundException;
+import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.utils.CloneUtil;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
 import org.jiemamy.model.geometory.JmColor;
 import org.jiemamy.model.geometory.JmRectangle;
-import org.jiemamy.utils.EntityUtil;
 import org.jiemamy.utils.MutationMonitor;
 
 /**
@@ -39,7 +40,7 @@ import org.jiemamy.utils.MutationMonitor;
  * @version $Id$
  * @author daisuke
  */
-public class DefaultNodeModel extends AbstractEntity implements NodeModel {
+public class DefaultNodeModel extends AbstractJiemamyEntity implements NodeModel {
 	
 	private JmRectangle boundary;
 	
@@ -68,7 +69,7 @@ public class DefaultNodeModel extends AbstractEntity implements NodeModel {
 	@Override
 	public DefaultNodeModel clone() {
 		DefaultNodeModel clone = (DefaultNodeModel) super.clone();
-		clone.sourceConnections = EntityUtil.cloneEntityList(sourceConnections);
+		clone.sourceConnections = CloneUtil.cloneEntityArrayList(sourceConnections);
 		return clone;
 	}
 	

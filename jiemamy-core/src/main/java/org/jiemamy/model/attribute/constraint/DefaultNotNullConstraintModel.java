@@ -20,7 +20,7 @@ package org.jiemamy.model.attribute.constraint;
 
 import org.apache.commons.lang.Validate;
 
-import org.jiemamy.EntityRef;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.attribute.ColumnModel;
 
 /**

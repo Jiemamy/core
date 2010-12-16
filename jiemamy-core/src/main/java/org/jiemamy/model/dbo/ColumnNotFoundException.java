@@ -18,7 +18,7 @@
  */
 package org.jiemamy.model.dbo;
 
-import org.jiemamy.EntityNotFoundException;
+import org.jiemamy.dddbase.EntityNotFoundException;
 import org.jiemamy.model.attribute.ColumnModel;
 
 /**

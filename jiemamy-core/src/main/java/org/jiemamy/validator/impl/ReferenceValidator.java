@@ -21,8 +21,8 @@ package org.jiemamy.validator.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.jiemamy.EntityRef;
 import org.jiemamy.JiemamyContext;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.validator.AbstractProblem;
 
 /**

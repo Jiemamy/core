@@ -18,6 +18,8 @@
  */
 package org.jiemamy;
 
+import org.jiemamy.dddbase.EntityNotFoundException;
+
 /**
  * TODO for daisuke
  * 

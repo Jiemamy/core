@@ -24,13 +24,13 @@ import java.util.UUID;
 
 import javax.xml.stream.XMLEventWriter;
 
-import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.jiemamy.Entity;
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.JiemamyError;
+import org.jiemamy.JiemamyEntity;
+import org.jiemamy.dddbase.AbstractEntity;
+import org.jiemamy.dddbase.Entity;
 import org.jiemamy.serializer.JiemamyXmlWriter;
 
 /**
@@ -39,11 +39,9 @@ import org.jiemamy.serializer.JiemamyXmlWriter;
  * @version $Id$
  * @author daisuke
  */
-public abstract class AbstractEntity implements Entity {
+public abstract class AbstractJiemamyEntity extends AbstractEntity implements JiemamyEntity {
 	
-	private final UUID id;
-	
-	private static Logger logger = LoggerFactory.getLogger(AbstractEntity.class);
+	private static Logger logger = LoggerFactory.getLogger(AbstractJiemamyEntity.class);
 	
 
 	/**
@@ -52,38 +50,16 @@ public abstract class AbstractEntity implements Entity {
 	 * @param id ENTITY ID
 	 * @throws IllegalArgumentException 引数{@code id}に{@code null}を与えた場合
 	 */
-	public AbstractEntity(UUID id) {
-		Validate.notNull(id);
-		this.id = id;
+	public AbstractJiemamyEntity(UUID id) {
+		super(id);
 	}
 	
 	@Override
-	public AbstractEntity clone() {
-		try {
-			return (AbstractEntity) super.clone();
-		} catch (CloneNotSupportedException e) {
-			throw new JiemamyError("clone not supported", e);
-		}
+	public AbstractJiemamyEntity clone() {
+		return (AbstractJiemamyEntity) super.clone();
 	}
 	
 	@Override
-	public final boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (obj instanceof Entity == false) {
-			return false;
-		}
-		return id.equals(((Entity) obj).getId());
-	}
-	
-	public final UUID getId() {
-		return id;
-	}
-	
 	public Collection<? extends Entity> getSubEntities() {
 		return Collections.emptyList();
 	}
@@ -95,10 +71,5 @@ public abstract class AbstractEntity implements Entity {
 				logger.error("EMPTY WRITER");
 			}
 		};
-	}
-	
-	@Override
-	public final int hashCode() {
-		return id.hashCode();
 	}
 }

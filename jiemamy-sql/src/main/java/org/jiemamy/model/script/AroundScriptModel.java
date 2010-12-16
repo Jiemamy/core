@@ -18,10 +18,10 @@
  */
 package org.jiemamy.model.script;
 
-import org.jiemamy.Entity;
-import org.jiemamy.EntityRef;
 import org.jiemamy.JiemamyContext;
+import org.jiemamy.JiemamyEntity;
 import org.jiemamy.ServiceLocator;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
 
 /**
@@ -30,7 +30,9 @@ import org.jiemamy.model.dbo.DatabaseObjectModel;
  * @since 0.3
  * @author daisuke
  */
-public interface AroundScriptModel extends Entity {
+public interface AroundScriptModel extends JiemamyEntity {
+	
+	EntityRef<? extends DatabaseObjectModel> getCoreModelRef();
 	
 	/**
 	 * スクリプトを取得する。
@@ -49,8 +51,6 @@ public interface AroundScriptModel extends Entity {
 	 * @since 0.3
 	 */
 	String getScriptEngineClassName(Position position);
-	
-	EntityRef<? extends DatabaseObjectModel> getCoreModelRef();
 	
 	/**
 	 * スクリプトを実行し、結果を得る。

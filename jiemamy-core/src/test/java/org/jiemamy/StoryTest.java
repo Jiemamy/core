@@ -28,6 +28,7 @@ import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
 
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.attribute.Column;
 import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.attribute.DefaultColumnModel;

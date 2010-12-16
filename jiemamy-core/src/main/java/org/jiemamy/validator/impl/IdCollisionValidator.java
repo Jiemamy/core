@@ -24,7 +24,7 @@ import org.apache.commons.lang.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.jiemamy.Entity;
+import org.jiemamy.dddbase.Entity;
 import org.jiemamy.validator.AbstractProblem;
 import org.jiemamy.validator.Problem;
 

@@ -18,8 +18,9 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
-import org.jiemamy.ValueObject;
-import org.jiemamy.model.ValueObjectBuilder;
+import org.jiemamy.dddbase.ValueObject;
+import org.jiemamy.dddbase.ValueObjectBuilder;
+import org.jiemamy.dddbase.ValueObjectBuilder.BuilderConfigurator;
 
 /**
  * {@link ConstraintModel}のビルダー骨格実装クラス。
@@ -89,7 +90,7 @@ public abstract class ConstraintModelBuilder<T extends ConstraintModel & ValueOb
 	}
 	
 	/**
-	 * 物理名を設定する。 
+	 * 物理名を設定する。
 	 * @param name 物理名
 	 * @return このビルダークラスのインスタンス
 	 */

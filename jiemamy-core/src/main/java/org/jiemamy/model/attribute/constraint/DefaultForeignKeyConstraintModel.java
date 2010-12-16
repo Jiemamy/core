@@ -27,13 +27,13 @@ import com.google.common.collect.Lists;
 
 import org.apache.commons.lang.Validate;
 
-import org.jiemamy.Entity;
-import org.jiemamy.EntityRef;
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.model.DefaultEntityRef;
+import org.jiemamy.dddbase.DefaultEntityRef;
+import org.jiemamy.dddbase.Entity;
+import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.utils.CloneUtil;
 import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.serializer.JiemamyXmlWriter;
-import org.jiemamy.utils.EntityUtil;
 import org.jiemamy.utils.MutationMonitor;
 
 /**
@@ -153,7 +153,7 @@ public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstrain
 	@Override
 	public DefaultForeignKeyConstraintModel clone() {
 		DefaultForeignKeyConstraintModel clone = (DefaultForeignKeyConstraintModel) super.clone();
-		clone.referenceColumns = EntityUtil.cloneValueList(referenceColumns);
+		clone.referenceColumns = CloneUtil.cloneValueArrayList(referenceColumns);
 		return clone;
 	}
 	

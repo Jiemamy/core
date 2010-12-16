@@ -2,7 +2,7 @@ package org.jiemamy.model.attribute;
 
 import java.util.UUID;
 
-import org.jiemamy.model.AbstractEntityFactory;
+import org.jiemamy.dddbase.AbstractEntityFactory;
 import org.jiemamy.model.datatype.TypeVariant;
 
 /**

@@ -18,7 +18,7 @@
  */
 package org.jiemamy.model.datatype;
 
-import org.jiemamy.ValueObject;
+import org.jiemamy.dddbase.ValueObject;
 
 /**
  * データ型のパラメータを表すインターフェイス。

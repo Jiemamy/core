@@ -1,6 +1,6 @@
 /*
  * Copyright 2007-2010 Jiemamy Project and the Others.
- * Created on 2010/05/01
+ * Created on 2010/12/17
  *
  * This file is part of Jiemamy.
  *
@@ -18,23 +18,15 @@
  */
 package org.jiemamy;
 
+import org.jiemamy.dddbase.Entity;
+
+
 /**
- * DDDにおけるVALUE OBJECTを表すインターフェイス。
+ * TODO for daisuke
  * 
- * <p>このインターフェイスの実装クラスは、不変(immutable)オブジェクトであるべきである。</p>
- * 
- * @since 0.3
  * @version $Id$
  * @author daisuke
  */
-public interface ValueObject {
+public interface JiemamyEntity extends XmlWritable, Entity {
 	
-	/**
-	 * プロパティ全ての同一性を以て、等価性を判断する。
-	 * 
-	 * @param obj 比較対象オブジェクト
-	 * @return 等価の場合は{@code true}、そうでない場合は{@code false}
-	 * @since 0.3
-	 */
-	boolean equals(Object obj);
 }

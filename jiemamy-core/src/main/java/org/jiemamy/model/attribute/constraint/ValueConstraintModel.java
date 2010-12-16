@@ -18,7 +18,7 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
-import org.jiemamy.ValueObject;
+import org.jiemamy.dddbase.ValueObject;
 
 /**
  * 値に対する単純な制約を表す制約モデル。

@@ -21,11 +21,12 @@ import java.util.UUID;
 
 import com.google.common.collect.Lists;
 
-import org.jiemamy.EntityRef;
+import org.jiemamy.dddbase.DefaultEntityRef;
+import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.utils.CloneUtil;
 import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel;
 import org.jiemamy.model.geometory.JmColor;
 import org.jiemamy.model.geometory.JmPoint;
-import org.jiemamy.utils.EntityUtil;
 import org.jiemamy.utils.MutationMonitor;
 
 /**
@@ -35,7 +36,7 @@ import org.jiemamy.utils.MutationMonitor;
  * @version $Id$
  * @author daisuke
  */
-public class DefaultConnectionModel extends AbstractEntity implements ConnectionModel {
+public class DefaultConnectionModel extends AbstractJiemamyEntity implements ConnectionModel {
 	
 	private List<JmPoint> bendpoints = Lists.newArrayList();
 	
@@ -66,7 +67,7 @@ public class DefaultConnectionModel extends AbstractEntity implements Connection
 	@Override
 	public DefaultConnectionModel clone() {
 		DefaultConnectionModel clone = (DefaultConnectionModel) super.clone();
-		clone.bendpoints = EntityUtil.cloneValueList(bendpoints);
+		clone.bendpoints = CloneUtil.cloneValueArrayList(bendpoints);
 		return clone;
 	}
 	

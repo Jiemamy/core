@@ -35,6 +35,10 @@ import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.jiemamy.dddbase.Entity;
+import org.jiemamy.dddbase.EntityNotFoundException;
+import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.OnMemoryRepository;
 import org.jiemamy.dialect.Dialect;
 import org.jiemamy.model.dataset.DataSetModel;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
@@ -89,9 +93,9 @@ public class JiemamyContext {
 
 	private Map<Class<? extends JiemamyFacet>, JiemamyFacet> facets = Maps.newHashMap();
 	
-	private Repository<DatabaseObjectModel> doms = new OnMemoryRepository<DatabaseObjectModel>();
+	private OnMemoryRepository<DatabaseObjectModel> doms = new OnMemoryRepository<DatabaseObjectModel>();
 	
-	private Repository<DataSetModel> dsms = new OnMemoryRepository<DataSetModel>();
+	private OnMemoryRepository<DataSetModel> dsms = new OnMemoryRepository<DataSetModel>();
 	
 	private String dialectClassName;
 	

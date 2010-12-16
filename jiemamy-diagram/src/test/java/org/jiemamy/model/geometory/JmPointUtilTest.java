@@ -23,8 +23,6 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
-import org.jiemamy.model.geometory.JmPoint;
-
 /**
  * {@link JmPointUtil}のテストクラス。
  * 
