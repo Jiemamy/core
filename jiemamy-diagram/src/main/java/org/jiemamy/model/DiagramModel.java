@@ -16,6 +16,8 @@
  */
 package org.jiemamy.model;
 
+import java.util.Collection;
+
 import org.jiemamy.JiemamyEntity;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
@@ -50,6 +52,10 @@ public interface DiagramModel extends JiemamyEntity {
 	String getName();
 	
 	NodeModel getNodeFor(EntityRef<? extends DatabaseObjectModel> ref);
+	
+	Collection<? extends NodeModel> getNodes();
+	
+	void store(NodeModel entity);
 	
 	EntityRef<? extends DiagramModel> toReference();
 }

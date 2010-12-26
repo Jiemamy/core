@@ -54,6 +54,7 @@ import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.attribute.constraint.ConstraintModel;
 import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel;
 import org.jiemamy.model.attribute.constraint.KeyConstraintModel;
+import org.jiemamy.model.attribute.constraint.PrimaryKeyConstraintModel;
 import org.jiemamy.serializer.JiemamyXmlWriter;
 import org.jiemamy.utils.ConstraintComparator;
 import org.jiemamy.utils.MutationMonitor;
@@ -279,6 +280,16 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	
 	public Collection<? extends KeyConstraintModel> getKeyConstraintModels() {
 		return findConstraints(KeyConstraintModel.class);
+	}
+	
+	public PrimaryKeyConstraintModel getPrimaryKey() {
+		if (constraints.size() != 0) {
+			ConstraintModel first = constraints.iterator().next();
+			if (first instanceof PrimaryKeyConstraintModel) {
+				return (PrimaryKeyConstraintModel) first;
+			}
+		}
+		return null;
 	}
 	
 	@Override

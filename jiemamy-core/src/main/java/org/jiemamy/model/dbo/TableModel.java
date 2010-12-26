@@ -27,6 +27,7 @@ import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.attribute.constraint.ConstraintModel;
 import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel;
 import org.jiemamy.model.attribute.constraint.KeyConstraintModel;
+import org.jiemamy.model.attribute.constraint.PrimaryKeyConstraintModel;
 
 /**
  * リレーショナルデータベースにおける「テーブル」を表すモデルインターフェイス。
@@ -102,6 +103,8 @@ public interface TableModel extends DatabaseObjectModel {
 	 * @return このテーブルのキー制約の集合
 	 */
 	Collection<? extends KeyConstraintModel> getKeyConstraintModels();
+	
+	PrimaryKeyConstraintModel getPrimaryKey();
 	
 	Collection<? extends ColumnModel> getSubEntities();
 	

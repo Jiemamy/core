@@ -19,6 +19,7 @@
 package org.jiemamy.serializer;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import org.jiemamy.JiemamyContext;
@@ -50,6 +51,7 @@ public class JiemamyStaxSerializerTest {
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
+	@Ignore
 	public void testname() throws Exception {
 		JiemamyContext context = new JiemamyContext();
 		serializer.serialize(context, System.out);

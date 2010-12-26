@@ -43,7 +43,7 @@ public class DefaultDiagramModel extends AbstractJiemamyEntity implements Diagra
 	
 	private Mode mode;
 	
-	private OnMemoryRepository<NodeModel> nodes = new OnMemoryRepository<NodeModel>();
+	private OnMemoryRepository<NodeModel> nodeRepos = new OnMemoryRepository<NodeModel>();
 	
 
 	/**
@@ -58,12 +58,12 @@ public class DefaultDiagramModel extends AbstractJiemamyEntity implements Diagra
 	@Override
 	public DefaultDiagramModel clone() {
 		DefaultDiagramModel clone = (DefaultDiagramModel) super.clone();
-		clone.nodes = nodes.clone();
+		clone.nodeRepos = nodeRepos.clone();
 		return clone;
 	}
 	
 	public void delete(EntityRef<? extends NodeModel> ref) {
-		nodes.delete(ref);
+		nodeRepos.delete(ref);
 	}
 	
 	public Level getLevel() {
@@ -80,7 +80,7 @@ public class DefaultDiagramModel extends AbstractJiemamyEntity implements Diagra
 	
 	public NodeModel getNodeFor(EntityRef<? extends DatabaseObjectModel> ref) {
 		Validate.notNull(ref);
-		for (NodeModel node : nodes.getEntitiesAsSet()) {
+		for (NodeModel node : nodeRepos.getEntitiesAsSet()) {
 			if (ref.equals(node.getCoreModelRef())) {
 				return node;
 			}
@@ -88,17 +88,21 @@ public class DefaultDiagramModel extends AbstractJiemamyEntity implements Diagra
 		throw new EntityNotFoundException("ref=" + ref);
 	}
 	
+	public Collection<? extends NodeModel> getNodes() {
+		return nodeRepos.getEntitiesAsSet();
+	}
+	
 	@Override
 	public Collection<? extends Entity> getSubEntities() {
-		return nodes.getEntitiesAsSet();
+		return nodeRepos.getEntitiesAsSet();
 	}
 	
 	public <T2 extends Entity>T2 resolve(EntityRef<T2> ref) {
-		return nodes.resolve(ref);
+		return nodeRepos.resolve(ref);
 	}
 	
 	public Entity resolve(UUID id) {
-		return nodes.resolve(id);
+		return nodeRepos.resolve(id);
 	}
 	
 	/**
@@ -129,7 +133,7 @@ public class DefaultDiagramModel extends AbstractJiemamyEntity implements Diagra
 	}
 	
 	public void store(NodeModel entity) {
-		nodes.store(entity);
+		nodeRepos.store(entity);
 	}
 	
 	public EntityRef<DiagramModel> toReference() {
