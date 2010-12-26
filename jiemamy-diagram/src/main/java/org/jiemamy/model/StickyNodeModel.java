@@ -22,12 +22,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import org.jiemamy.JiemamyContext;
 import org.jiemamy.dddbase.AbstractEntity;
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
 import org.jiemamy.model.geometory.JmColor;
 import org.jiemamy.model.geometory.JmRectangle;
+import org.jiemamy.serializer.JiemamyXmlWriter;
 
 /**
  * ダイアグラムにおける「付箋（注釈）」を表すモデルインターフェイス。
@@ -89,6 +91,11 @@ public class StickyNodeModel extends AbstractEntity implements NodeModel {
 	public List<? extends ConnectionModel> getTargetConnections() {
 		// 現状で、Stickyはコネクションを持たない
 		return Collections.emptyList();
+	}
+	
+	public JiemamyXmlWriter getWriter(JiemamyContext context) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	/**

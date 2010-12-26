@@ -93,15 +93,15 @@ public interface Dialect {
 //	 */
 //	@Deprecated
 //	List<BuiltinDataTypeMold> getAllDataTypes();
-//	
-//	/**
-//	 * JDBC接続URLの雛形文字列を取得する。
-//	 * 
-//	 * @return JDBC接続URLの雛形文字列
-//	 * @since 0.2
-//	 */
-//	String getConnectionUriTemplate();
-//	
+	
+	/**
+	 * JDBC接続URLの雛形文字列を取得する。
+	 * 
+	 * @return JDBC接続URLの雛形文字列
+	 * @since 0.2
+	 */
+	String getConnectionUriTemplate();
+	
 //	/**
 //	 * モデリング用DataType・一般型・型名間のマッピング情報を取得する。
 //	 * 

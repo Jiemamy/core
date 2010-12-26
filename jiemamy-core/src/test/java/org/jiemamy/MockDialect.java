@@ -30,6 +30,10 @@ import org.jiemamy.validator.Validator;
  */
 public class MockDialect implements Dialect {
 	
+	public String getConnectionUriTemplate() {
+		return "jdbc:dummy:foobar";
+	}
+	
 	public String getName() {
 		return this.getClass().getName();
 	}

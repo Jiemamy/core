@@ -20,7 +20,7 @@ package org.jiemamy.model;
 
 import java.util.Collection;
 
-import org.jiemamy.dddbase.Entity;
+import org.jiemamy.JiemamyEntity;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
 import org.jiemamy.model.geometory.JmColor;
@@ -32,7 +32,7 @@ import org.jiemamy.model.geometory.JmRectangle;
  * @since 0.2
  * @author daisuke
  */
-public interface NodeModel extends Entity {
+public interface NodeModel extends JiemamyEntity {
 	
 	NodeModel clone();
 	

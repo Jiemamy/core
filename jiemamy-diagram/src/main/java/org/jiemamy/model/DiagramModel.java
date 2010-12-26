@@ -55,7 +55,5 @@ public interface DiagramModel extends JiemamyEntity {
 	
 	Collection<? extends NodeModel> getNodes();
 	
-	void store(NodeModel entity);
-	
 	EntityRef<? extends DiagramModel> toReference();
 }
