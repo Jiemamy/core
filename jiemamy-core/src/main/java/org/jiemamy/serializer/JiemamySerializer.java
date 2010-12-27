@@ -43,6 +43,9 @@ public interface JiemamySerializer {
 			+ "</xsl:template>" //
 			+ "</xsl:stylesheet>";
 	
+	/** ファイル拡張子 */
+	String FILE_EXT = "jiemamy";
+	
 
 	/**
 	 * {@link InputStream} から {@link JiemamyContext} にデシリアライズする。
