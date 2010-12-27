@@ -45,6 +45,7 @@ import com.google.common.collect.Sets;
 
 import org.apache.commons.lang.StringUtils;
 
+import org.jiemamy.FacetProvider;
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.JiemamyError;
 import org.jiemamy.JiemamyFacet;
@@ -64,13 +65,13 @@ public class JiemamyStaxSerializer implements JiemamySerializer {
 	protected static final XMLEventFactory EV_FACTORY = EventFactory.newInstance();
 	
 
-	public JiemamyContext deserialize(InputStream in) throws SerializationException {
+	public JiemamyContext deserialize(InputStream in, FacetProvider... facetProviders) throws SerializationException {
 		// TODO Auto-generated method stub
 		XMLEventReader reader = null;
 		XMLInputFactory inFactory = XMLInputFactory.newInstance();
 		try {
 			reader = inFactory.createXMLEventReader(in);
-			JiemamyContext context = new JiemamyContext(); // FIXME どこでfacet読み込む！？
+			JiemamyContext context = new JiemamyContext(facetProviders);
 			while (reader.hasNext()) {
 				XMLEvent event = reader.nextEvent();
 				if (event.isStartElement()) {

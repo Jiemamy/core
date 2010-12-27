@@ -43,9 +43,6 @@ public interface ConnectionModel extends JiemamyEntity {
 	 * 
 	 * <p>ベンドポイントが1つも設定されていない場合は、空のリストを返す。</p>
 	 * 
-	 * <p>このメソッドは、インスタンスの持つフィールドをそのまま返す。返される{@link List}を直接操作することで、
-	 * このオブジェクトのフィールドとして保持される{@link List}を変更することができる。</p>
-	 * 
 	 * @return ベンドポイントのリスト
 	 * @since 0.2
 	 */

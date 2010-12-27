@@ -21,6 +21,7 @@ package org.jiemamy.serializer;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import org.jiemamy.FacetProvider;
 import org.jiemamy.JiemamyContext;
 
 /**
@@ -51,12 +52,13 @@ public interface JiemamySerializer {
 	 * {@link InputStream} から {@link JiemamyContext} にデシリアライズする。
 	 * 
 	 * @param in デシリアライズするInputStream
+	 * @param facetProviders 
 	 * @return デシリアライズしたRootModel
 	 * @throws SerializationException デシリアライズに失敗した時
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 0.2
 	 */
-	JiemamyContext deserialize(InputStream in) throws SerializationException;
+	JiemamyContext deserialize(InputStream in, FacetProvider... facetProviders) throws SerializationException;
 	
 	/**
 	 * {@link JiemamyContext} を {@link InputStream} にシリアライズする。

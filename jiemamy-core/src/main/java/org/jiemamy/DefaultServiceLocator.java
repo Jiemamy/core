@@ -34,6 +34,10 @@ import javax.imageio.spi.ServiceRegistry;
 public class DefaultServiceLocator implements ServiceLocator {
 	
 	public <T>T getService(Class<T> clazz, String fqcn) throws ClassNotFoundException {
+		if (fqcn == null) {
+			throw new ClassNotFoundException(null);
+		}
+		
 		Iterator<T> providers = ServiceRegistry.lookupProviders(clazz);
 		while (providers.hasNext()) {
 			T serviceProvider = providers.next();
