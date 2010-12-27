@@ -22,7 +22,7 @@ import java.util.Set;
 
 import org.jiemamy.XmlWritable;
 import org.jiemamy.dddbase.ValueObject;
-import org.jiemamy.model.datatype.TypeParameter.Key;
+import org.jiemamy.model.params.ModelParameter.Key;
 
 /**
  * 型記述子。

@@ -33,8 +33,8 @@ import com.google.common.collect.Sets;
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.model.datatype.TypeParameter.Key;
 import org.jiemamy.model.dbo.AbstractJiemamyXmlWriter;
+import org.jiemamy.model.params.ModelParameter.Key;
 import org.jiemamy.serializer.JiemamyXmlWriter;
 import org.jiemamy.utils.MutationMonitor;
 import org.jiemamy.xml.CoreQName;

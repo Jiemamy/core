@@ -16,29 +16,20 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.model.datatype;
+package org.jiemamy.model.dbo;
 
 import org.jiemamy.model.params.ModelParameter;
 
 /**
- * データ型のパラメータを表すインターフェイス。
+ * {@link DatabaseObjectModel}のパラメータを表すインターフェイス。
  * 
  * @param <T> 値の型
  * @version $Id$
  * @author daisuke
  */
-public interface TypeParameter<T> extends ModelParameter<T> {
+public interface DatabaseObjectParameter<T> extends ModelParameter<T> {
 	
-	/** サイズパラメータ用のキー */
-	Key<Integer> SIZE = new Key<Integer>("size");
-	
-	/** スケールパラメータ用のキー */
-	Key<Integer> SCALE = new Key<Integer>("scale");
-	
-	/** 精度パラメータ用のキー */
-	Key<Integer> PRECISION = new Key<Integer>("precision");
-	
-	/** シリアルパラメータ用のキー */
-	Key<Boolean> SERIAL = new Key<Boolean>("serial");
+	/** 無効フラグ用のキー */
+	Key<Boolean> DISABLED = new Key<Boolean>("disabled");
 	
 }

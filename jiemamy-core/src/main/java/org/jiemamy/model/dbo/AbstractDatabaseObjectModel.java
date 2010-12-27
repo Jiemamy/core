@@ -25,6 +25,8 @@ import com.google.common.collect.Sets;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.model.AbstractJiemamyEntity;
+import org.jiemamy.model.params.ModelParameter.Key;
+import org.jiemamy.utils.MutationMonitor;
 
 /**
  * データベースオブジェクト（TableやView）の抽象モデルクラス。
@@ -41,6 +43,8 @@ public abstract class AbstractDatabaseObjectModel extends AbstractJiemamyEntity 
 	
 	/** 説明文 */
 	private String description;
+	
+	private Set<DatabaseObjectParameter<?>> params;
 	
 
 	/**
@@ -84,8 +88,30 @@ public abstract class AbstractDatabaseObjectModel extends AbstractJiemamyEntity 
 		return name;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public <T>DatabaseObjectParameter<T> getParam(Key<T> key) {
+		for (DatabaseObjectParameter<?> param : params) {
+			if (param.getKey().equals(key)) {
+				return (DatabaseObjectParameter<T>) param;
+			}
+		}
+		return null;
+	}
+	
+	public Set<DatabaseObjectParameter<?>> getParams() {
+		return MutationMonitor.monitor(Sets.newHashSet(params));
+	}
+	
 	public boolean isSubDatabaseObjectsNonRecursiveOf(DatabaseObjectModel target, JiemamyContext context) {
 		return false;
+	}
+	
+	public <T>void putParam(Key<T> key, T value) {
+		params.add(new DefaultDatabaseObjectParameter<T>(key, value));
+	}
+	
+	public <T>void removeParam(Key<T> key) {
+		params.remove(new DefaultDatabaseObjectParameter<T>(key, null));
 	}
 	
 	/**

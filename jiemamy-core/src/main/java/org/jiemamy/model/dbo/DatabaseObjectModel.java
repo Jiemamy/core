@@ -22,6 +22,7 @@ import java.util.Set;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.JiemamyEntity;
+import org.jiemamy.model.params.ModelParameter.Key;
 
 /**
  * リレーショナルデータベースモデルにおける「CREATE対象」を表すモデルインターフェイス。
@@ -74,6 +75,22 @@ public interface DatabaseObjectModel extends JiemamyEntity {
 	 * @since 0.3
 	 */
 	String getName();
+	
+	/**
+	 * パラメータを取得する。
+	 * 
+	 * @param <T> 値の型
+	 * @param key キー
+	 * @return 型パラメータ
+	 */
+	<T>DatabaseObjectParameter<T> getParam(Key<T> key);
+	
+	/**
+	 * パラメータを取得する。
+	 * 
+	 * @return 型パラメータの{@link Set}
+	 */
+	Set<DatabaseObjectParameter<?>> getParams();
 	
 	/**
 	 * 自分が{@code target}に依存する{@link DatabaseObjectModel}かどうか調べる。
