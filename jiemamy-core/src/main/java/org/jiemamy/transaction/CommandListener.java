@@ -44,6 +44,6 @@ public interface CommandListener {
 	 * @return 監視対象の{@link Entity}
 	 * @since 0.2
 	 */
-	Entity getTargetModel();
+	Object getTargetModel();
 	
 }

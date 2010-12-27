@@ -139,7 +139,7 @@ public class DefaultNodeModel extends AbstractJiemamyEntity implements NodeModel
 		sourceConnections.add(connection.clone());
 	}
 	
-	public EntityRef<DefaultNodeModel> toReference() {
+	public EntityRef<? extends DefaultNodeModel> toReference() {
 		return new DefaultEntityRef<DefaultNodeModel>(this);
 	}
 }

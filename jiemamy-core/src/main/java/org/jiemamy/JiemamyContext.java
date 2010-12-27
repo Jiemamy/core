@@ -46,6 +46,8 @@ import org.jiemamy.model.dbo.TableModel;
 import org.jiemamy.model.dbo.index.IndexModel;
 import org.jiemamy.serializer.JiemamySerializer;
 import org.jiemamy.serializer.JiemamyStaxSerializer;
+import org.jiemamy.transaction.EventBroker;
+import org.jiemamy.transaction.EventBrokerImpl;
 import org.jiemamy.transaction.JiemamyTransaction;
 import org.jiemamy.utils.MutationMonitor;
 import org.jiemamy.utils.reflect.ClassUtil;
@@ -91,6 +93,8 @@ public class JiemamyContext {
 	}
 	
 
+	private EventBroker eventBroker = new EventBrokerImpl();
+	
 	private Map<Class<? extends JiemamyFacet>, JiemamyFacet> facets = Maps.newHashMap();
 	
 	private OnMemoryRepository<DatabaseObjectModel> doms = new OnMemoryRepository<DatabaseObjectModel>();
@@ -101,9 +105,9 @@ public class JiemamyContext {
 	
 	private String description;
 	
-//	private final UUIDProvider uuidProvider = new UUIDProvider();
-	
 	private String schemaName;
+	
+//	private final UUIDProvider uuidProvider = new UUIDProvider();
 	
 	private static Logger logger = LoggerFactory.getLogger(JiemamyContext.class);
 	
@@ -117,17 +121,17 @@ public class JiemamyContext {
 		}
 	}
 	
-	// FIXME
-//	public void delete(EntityRef<? extends DataSetModel> reference) {
-//		dsms.delete(reference);
-//	}
-	
 	/**
 	 * インスタンスを生成する。
 	 */
 	public JiemamyContext() {
 		this(new FacetProvider[0]);
 	}
+	
+	// FIXME
+//	public void delete(EntityRef<? extends DataSetModel> reference) {
+//		dsms.delete(reference);
+//	}
 	
 	/**
 	 * インスタンスを生成する。
@@ -261,6 +265,10 @@ public class JiemamyContext {
 	 */
 	public String getDialectClassName() {
 		return dialectClassName;
+	}
+	
+	public EventBroker getEventBroker() {
+		return eventBroker;
 	}
 	
 	/**

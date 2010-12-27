@@ -23,12 +23,8 @@ import java.util.List;
 import java.util.UUID;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.dddbase.AbstractEntity;
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
-import org.jiemamy.model.dbo.DatabaseObjectModel;
-import org.jiemamy.model.geometory.JmColor;
-import org.jiemamy.model.geometory.JmRectangle;
 import org.jiemamy.serializer.JiemamyXmlWriter;
 
 /**
@@ -37,14 +33,10 @@ import org.jiemamy.serializer.JiemamyXmlWriter;
  * @since 0.2
  * @author daisuke
  */
-public class StickyNodeModel extends AbstractEntity implements NodeModel {
+public class StickyNodeModel extends DefaultNodeModel implements NodeModel {
 	
 	/** 内容文 */
 	private String contents;
-	
-	private JmRectangle boundary;
-	
-	private JmColor color;
 	
 
 	/**
@@ -53,20 +45,12 @@ public class StickyNodeModel extends AbstractEntity implements NodeModel {
 	 * @param id ENTITY ID
 	 */
 	public StickyNodeModel(UUID id) {
-		super(id);
+		super(id, null);
 	}
 	
 	@Override
 	public StickyNodeModel clone() {
 		return (StickyNodeModel) super.clone();
-	}
-	
-	public JmRectangle getBoundary() {
-		return boundary;
-	}
-	
-	public JmColor getColor() {
-		return color;
 	}
 	
 	/**
@@ -79,41 +63,22 @@ public class StickyNodeModel extends AbstractEntity implements NodeModel {
 		return contents;
 	}
 	
-	public EntityRef<? extends DatabaseObjectModel> getCoreModelRef() {
-		return null;
-	}
-	
+	@Override
 	public List<? extends ConnectionModel> getSourceConnections() {
 		// 現状で、Stickyはコネクションを持たない
 		return Collections.emptyList();
 	}
 	
+	@Override
 	public List<? extends ConnectionModel> getTargetConnections() {
 		// 現状で、Stickyはコネクションを持たない
 		return Collections.emptyList();
 	}
 	
+	@Override
 	public JiemamyXmlWriter getWriter(JiemamyContext context) {
 		// TODO Auto-generated method stub
 		return null;
-	}
-	
-	/**
-	 * ノードの位置を設定する。
-	 * 
-	 * @param boundary 位置
-	 */
-	public void setBoundary(JmRectangle boundary) {
-		this.boundary = boundary;
-	}
-	
-	/**
-	 * ノードの色を設定する。
-	 * 
-	 * @param color 色
-	 */
-	public void setColor(JmColor color) {
-		this.color = color;
 	}
 	
 	/**
@@ -128,6 +93,7 @@ public class StickyNodeModel extends AbstractEntity implements NodeModel {
 		this.contents = contents;
 	}
 	
+	@Override
 	public EntityRef<StickyNodeModel> toReference() {
 		return new DefaultEntityRef<StickyNodeModel>(this);
 	}

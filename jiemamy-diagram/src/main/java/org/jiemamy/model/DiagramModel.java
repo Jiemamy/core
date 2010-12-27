@@ -33,6 +33,8 @@ public interface DiagramModel extends JiemamyEntity {
 	
 	DiagramModel clone();
 	
+//	DatabaseObjectModel getDatabaseObjectFor(EntityRef<? extends NodeModel> ref);
+	
 	/**
 	 * 表示レベルを取得する。
 	 * 
