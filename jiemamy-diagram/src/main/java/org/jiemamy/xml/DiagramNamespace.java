@@ -32,7 +32,7 @@ import org.jiemamy.JiemamyError;
 public enum DiagramNamespace implements JiemamyNamespace {
 	
 	/** Jiemamy view specifications */
-	NS_VIEW("view", "http://jiemamy.org/xml/ns/diagram", "http://jiemamy.org/xml/0.3/jiemamy-diagram.xsd"),
+	NS_VIEW("diagram", "http://jiemamy.org/xml/ns/diagram", "http://jiemamy.org/xml/0.3/jiemamy-diagram.xsd"),
 
 	/**  */
 	NONE("", "", "");

@@ -1,3 +1,5 @@
+package org.jiemamy.serializer;
+
 /*
  * Copyright 2007-2010 Jiemamy Project and the Others.
  * Created on 2010/12/15
@@ -16,11 +18,11 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.serializer;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import org.jiemamy.DiagramFacet;
 import org.jiemamy.JiemamyContext;
 
 /**
@@ -51,7 +53,7 @@ public class JiemamyStaxSerializerTest {
 	 */
 	@Test
 	public void testname() throws Exception {
-		JiemamyContext context = new JiemamyContext();
+		JiemamyContext context = new JiemamyContext(DiagramFacet.PROVIDER);
 		serializer.serialize(context, System.out);
 	}
 	

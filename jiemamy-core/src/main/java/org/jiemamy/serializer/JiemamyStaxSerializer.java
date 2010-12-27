@@ -133,7 +133,9 @@ public class JiemamyStaxSerializer implements JiemamySerializer {
 		List<Namespace> result = Lists.newArrayList();
 		for (JiemamyNamespace jns : context.getNamespaces()) {
 			Namespace ns = EV_FACTORY.createNamespace(jns.getPrefix(), jns.getNamespaceURI().toString());
-			result.add(ns);
+			if (StringUtils.isEmpty(ns.getNamespaceURI()) == false) {
+				result.add(ns);
+			}
 		}
 		return result.iterator();
 	}
