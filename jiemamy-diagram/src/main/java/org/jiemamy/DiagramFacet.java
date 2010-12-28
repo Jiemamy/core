@@ -30,6 +30,7 @@ import org.jiemamy.model.DiagramModel;
 import org.jiemamy.model.dbo.AbstractJiemamyXmlWriter;
 import org.jiemamy.serializer.JiemamyXmlWriter;
 import org.jiemamy.xml.DiagramNamespace;
+import org.jiemamy.xml.DiagramQName;
 import org.jiemamy.xml.JiemamyNamespace;
 
 /**
@@ -101,9 +102,16 @@ public class DiagramFacet implements JiemamyFacet {
 		}
 		
 		public void writeTo(XMLEventWriter writer) throws XMLStreamException {
-			// TODO Auto-generated method stub
+			writer.add(EV_FACTORY.createStartElement(DiagramQName.DIAGRAMS.getQName(), null, null));
 			logger.error("EMPTY WRITER");
+			for (DiagramModel diagramModel : repos.getEntitiesAsList()) {
+				diagramModel.getWriter(context).writeTo(writer);
+			}
+//			write1Misc(context, writer);
+//			write2DatabaseObjects(context, writer);
+//			write3DataSets(context, writer);
+//			write4Facets(context, writer);
+			writer.add(EV_FACTORY.createEndElement(DiagramQName.DIAGRAMS.getQName(), null));
 		}
-		
 	}
 }

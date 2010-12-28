@@ -18,7 +18,6 @@ package org.jiemamy.model;
 
 import java.util.Collection;
 
-import org.jiemamy.JiemamyEntity;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
 
@@ -29,7 +28,7 @@ import org.jiemamy.model.dbo.DatabaseObjectModel;
  * @version $Id$
  * @author daisuke
  */
-public interface DiagramModel extends JiemamyEntity {
+public interface DiagramModel extends DiagramElement {
 	
 	DiagramModel clone();
 	

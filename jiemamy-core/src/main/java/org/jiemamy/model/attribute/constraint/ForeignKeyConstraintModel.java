@@ -20,8 +20,8 @@ package org.jiemamy.model.attribute.constraint;
 
 import java.util.List;
 
-import org.jiemamy.JiemamyEntity;
 import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.model.CoreElement;
 import org.jiemamy.model.attribute.ColumnModel;
 
 /**
@@ -30,7 +30,7 @@ import org.jiemamy.model.attribute.ColumnModel;
  * @since 0.2
  * @author daisuke
  */
-public interface ForeignKeyConstraintModel extends KeyConstraintModel, JiemamyEntity {
+public interface ForeignKeyConstraintModel extends KeyConstraintModel, CoreElement {
 	
 	ForeignKeyConstraintModel clone();
 	

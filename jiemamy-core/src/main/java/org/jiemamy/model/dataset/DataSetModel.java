@@ -21,8 +21,8 @@ package org.jiemamy.model.dataset;
 import java.util.List;
 import java.util.Map;
 
-import org.jiemamy.JiemamyEntity;
 import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.model.CoreElement;
 import org.jiemamy.model.dbo.TableModel;
 
 /**
@@ -31,7 +31,7 @@ import org.jiemamy.model.dbo.TableModel;
  * @since 0.2
  * @author daisuke
  */
-public interface DataSetModel extends JiemamyEntity {
+public interface DataSetModel extends CoreElement {
 	
 	/**
 	 * データセット名を取得する。

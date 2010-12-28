@@ -19,9 +19,9 @@
 package org.jiemamy.model.script;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.JiemamyEntity;
 import org.jiemamy.ServiceLocator;
 import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.model.SqlElement;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
 
 /**
@@ -30,7 +30,7 @@ import org.jiemamy.model.dbo.DatabaseObjectModel;
  * @since 0.3
  * @author daisuke
  */
-public interface AroundScriptModel extends JiemamyEntity {
+public interface AroundScriptModel extends SqlElement {
 	
 	EntityRef<? extends DatabaseObjectModel> getCoreModelRef();
 	

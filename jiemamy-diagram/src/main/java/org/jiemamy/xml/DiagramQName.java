@@ -29,49 +29,76 @@ import javax.xml.namespace.QName;
 public enum DiagramQName implements JiemamyQName {
 	
 	/***/
-	DIAGRAM_PRESENTATIONS(DiagramNamespace.NS_VIEW, "diagramPresentations"),
+	DIAGRAMS(DiagramNamespace.NS_DIAGRAM, "diagrams"),
 
 	/***/
-	DIAGRAM_PRESENTATION(DiagramNamespace.NS_VIEW, "diagramPresentation"),
+	DIAGRAM(DiagramNamespace.NS_DIAGRAM, "diagram"),
 
 	/***/
-	NODE_PROFILES(DiagramNamespace.NS_VIEW, "nodeProfiles"),
+	NODE(DiagramNamespace.NS_DIAGRAM, "node"),
 
 	/***/
-	NODE_PROFILE(DiagramNamespace.NS_VIEW, "nodeProfile"),
+	BOUNDARY(DiagramNamespace.NS_DIAGRAM, "boundary"),
 
 	/***/
-	NODE_OBJECT_REF(DiagramNamespace.NS_VIEW, "nodeObjectRef"),
+	HEIGHT(DiagramNamespace.NS_DIAGRAM, "height"),
 
 	/***/
-	STICKY(DiagramNamespace.NS_VIEW, "sticky"),
+	WIDTH(DiagramNamespace.NS_DIAGRAM, "width"),
 
 	/***/
-	CONTENTS(DiagramNamespace.NS_VIEW, "contents"),
+	X(DiagramNamespace.NS_DIAGRAM, "x"),
 
 	/***/
-	BOUNDARY(DiagramNamespace.NS_VIEW, "boundary"),
+	Y(DiagramNamespace.NS_DIAGRAM, "y"),
 
 	/***/
-	CONNECTION_PROFILES(DiagramNamespace.NS_VIEW, "connectionProfiles"),
+	R(DiagramNamespace.NS_DIAGRAM, "red"),
 
 	/***/
-	CONNECTION_PROFILE(DiagramNamespace.NS_VIEW, "connectionProfile"),
+	G(DiagramNamespace.NS_DIAGRAM, "green"),
 
 	/***/
-	CONNECTION_OBJECT_REF(DiagramNamespace.NS_VIEW, "connectionObjectRef"),
+	B(DiagramNamespace.NS_DIAGRAM, "blue"),
+
+//	/***/
+//	DIAGRAM_PRESENTATION(DiagramNamespace.NS_DIAGRAM, "diagramPresentation"),
+//
+//	/***/
+//	NODE_PROFILES(DiagramNamespace.NS_DIAGRAM, "nodeProfiles"),
+//
+//	/***/
+//	NODE_PROFILE(DiagramNamespace.NS_DIAGRAM, "nodeProfile"),
+//
+//	/***/
+//	NODE_OBJECT_REF(DiagramNamespace.NS_DIAGRAM, "nodeObjectRef"),
+//
+//	/***/
+//	STICKY(DiagramNamespace.NS_DIAGRAM, "sticky"),
+	
+	/***/
+	CONTENTS(DiagramNamespace.NS_DIAGRAM, "contents"),
+
+//	/***/
+//	CONNECTION_PROFILES(DiagramNamespace.NS_DIAGRAM, "connectionProfiles"),
+//
+//	/***/
+//	CONNECTION_PROFILE(DiagramNamespace.NS_DIAGRAM, "connectionProfile"),
+//
+//	/***/
+//	CONNECTION_OBJECT_REF(DiagramNamespace.NS_DIAGRAM, "connectionObjectRef"),
+	
+	/***/
+	BENDPOINTS(DiagramNamespace.NS_DIAGRAM, "bendpoints"),
 
 	/***/
-	BENDPOINTS(DiagramNamespace.NS_VIEW, "bendpoints"),
+	BENDPOINT(DiagramNamespace.NS_DIAGRAM, "bendpoint"),
 
 	/***/
-	BENDPOINT(DiagramNamespace.NS_VIEW, "bendpoint"),
+	MODE(DiagramNamespace.NS_DIAGRAM, "mode"),
 
 	/***/
-	MODE(DiagramNamespace.NS_VIEW, "mode"),
-
-	/***/
-	LEVEL(DiagramNamespace.NS_VIEW, "level");
+	LEVEL(DiagramNamespace.NS_DIAGRAM, "level");
 	
 	/** XML仕様における完全修飾名 */
 	private final QName qName;

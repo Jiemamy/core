@@ -18,8 +18,8 @@
  */
 package org.jiemamy.model.attribute;
 
-import org.jiemamy.JiemamyEntity;
 import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.model.CoreElement;
 import org.jiemamy.model.datatype.TypeVariant;
 
 /**
@@ -28,7 +28,7 @@ import org.jiemamy.model.datatype.TypeVariant;
  * @since 0.2
  * @author daisuke
  */
-public interface ColumnModel extends JiemamyEntity {
+public interface ColumnModel extends CoreElement {
 	
 	ColumnModel clone();
 	

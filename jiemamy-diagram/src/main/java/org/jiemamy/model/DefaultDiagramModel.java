@@ -17,16 +17,26 @@
 package org.jiemamy.model;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.UUID;
+
+import javax.xml.stream.XMLEventWriter;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.Attribute;
+import javax.xml.stream.events.Namespace;
 
 import org.apache.commons.lang.Validate;
 
+import org.jiemamy.JiemamyContext;
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityNotFoundException;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.OnMemoryRepository;
+import org.jiemamy.model.dbo.AbstractJiemamyXmlWriter;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
+import org.jiemamy.serializer.JiemamyXmlWriter;
+import org.jiemamy.xml.DiagramQName;
 
 /**
  * TODO for daisuke
@@ -97,6 +107,11 @@ public class DefaultDiagramModel extends AbstractJiemamyEntity implements Diagra
 		return nodeRepos.getEntitiesAsSet();
 	}
 	
+	@Override
+	public JiemamyXmlWriter getWriter(JiemamyContext context) {
+		return new EntityXmlWriterImpl(context);
+	}
+	
 	public <T2 extends Entity>T2 resolve(EntityRef<T2> ref) {
 		return nodeRepos.resolve(ref);
 	}
@@ -140,4 +155,40 @@ public class DefaultDiagramModel extends AbstractJiemamyEntity implements Diagra
 		return new DefaultEntityRef<DiagramModel>(this);
 	}
 	
+
+	private class EntityXmlWriterImpl extends AbstractJiemamyXmlWriter {
+		
+		private final JiemamyContext context;
+		
+
+		public EntityXmlWriterImpl(JiemamyContext context) {
+			this.context = context;
+		}
+		
+		@Override
+		public Iterator<Namespace> nss() {
+			return null;
+		}
+		
+		public void writeTo(XMLEventWriter writer) throws XMLStreamException {
+			writer.add(EV_FACTORY.createStartElement(DiagramQName.DIAGRAM.getQName(), atts(), nss()));
+			write1Misc(writer);
+			write2Nodes(writer);
+			writer.add(EV_FACTORY.createEndElement(DiagramQName.DIAGRAM.getQName(), nss()));
+		}
+		
+		private Iterator<Attribute> atts() {
+			return createIdAndClassAtts(getId(), DefaultDiagramModel.this);
+		}
+		
+		private void write1Misc(XMLEventWriter writer) throws XMLStreamException {
+			writeNameLogNameDesc(writer, getName(), null, null);
+		}
+		
+		private void write2Nodes(XMLEventWriter writer) throws XMLStreamException {
+			for (NodeModel nodeModel : getNodes()) {
+				nodeModel.getWriter(context).writeTo(writer);
+			}
+		}
+	}
 }

@@ -32,12 +32,12 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.Namespace;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
-import org.apache.commons.collections15.CollectionUtils;
-import org.apache.commons.collections15.Predicate;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
@@ -77,9 +77,9 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	static TableModel findDeclaringTable(Collection<TableModel> tables, final ColumnModel columnModel) {
-		Collection<TableModel> c = CollectionUtils.select(tables, new Predicate<TableModel>() {
+		Collection<TableModel> c = Collections2.filter(tables, new Predicate<TableModel>() {
 			
-			public boolean evaluate(TableModel tableModel) {
+			public boolean apply(TableModel tableModel) {
 				return tableModel.getColumns().contains(columnModel);
 			}
 		});
@@ -235,9 +235,9 @@ public class DefaultTableModel extends AbstractDatabaseObjectModel implements Ta
 	
 	public ColumnModel getColumn(final String name) {
 		assert columns != null;
-		Collection<ColumnModel> c = CollectionUtils.select(columns, new Predicate<ColumnModel>() {
+		Collection<ColumnModel> c = Collections2.filter(columns, new Predicate<ColumnModel>() {
 			
-			public boolean evaluate(ColumnModel col) {
+			public boolean apply(ColumnModel col) {
 				return col.getName().equals(name);
 			}
 		});

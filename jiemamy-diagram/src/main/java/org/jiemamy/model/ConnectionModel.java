@@ -20,7 +20,6 @@ package org.jiemamy.model;
 
 import java.util.List;
 
-import org.jiemamy.JiemamyEntity;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel;
 import org.jiemamy.model.geometory.JmColor;
@@ -32,7 +31,7 @@ import org.jiemamy.model.geometory.JmPoint;
  * @since 0.2
  * @author daisuke
  */
-public interface ConnectionModel extends JiemamyEntity {
+public interface ConnectionModel extends DiagramElement {
 	
 	ConnectionModel clone();
 	

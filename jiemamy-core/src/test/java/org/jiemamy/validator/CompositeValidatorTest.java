@@ -25,8 +25,9 @@ import static org.mockito.Mockito.mock;
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.apache.commons.collections15.Bag;
-import org.apache.commons.collections15.bag.HashBag;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -77,13 +78,13 @@ public class CompositeValidatorTest {
 		Collection<? extends Problem> result = validator.validate(mock(JiemamyContext.class));
 		
 		assertThat(result.size(), is(4));
-		Bag<Severity> bag = new HashBag<Severity>();
+		Multimap<Severity, Object> m = ArrayListMultimap.create();
 		for (Problem problem : result) {
-			bag.add(problem.getSeverity());
+			m.put(problem.getSeverity(), new Object());
 		}
 		
-		assertThat(bag.getCount(Severity.ERROR), is(2));
-		assertThat(bag.getCount(Severity.WARN), is(2));
+		assertThat(m.get(Severity.ERROR).size(), is(2));
+		assertThat(m.get(Severity.WARN).size(), is(2));
 	}
 	
 
