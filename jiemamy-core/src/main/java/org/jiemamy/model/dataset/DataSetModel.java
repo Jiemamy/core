@@ -51,4 +51,6 @@ public interface DataSetModel extends CoreElement {
 	 */
 	Map<EntityRef<? extends TableModel>, List<RecordModel>> getRecords();
 	
+	EntityRef<? extends DataSetModel> toReference();
+	
 }

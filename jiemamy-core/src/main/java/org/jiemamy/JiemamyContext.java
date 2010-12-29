@@ -46,6 +46,7 @@ import org.jiemamy.model.dbo.TableModel;
 import org.jiemamy.model.dbo.index.IndexModel;
 import org.jiemamy.serializer.JiemamySerializer;
 import org.jiemamy.serializer.JiemamyStaxSerializer;
+import org.jiemamy.transaction.Command;
 import org.jiemamy.transaction.EventBroker;
 import org.jiemamy.transaction.EventBrokerImpl;
 import org.jiemamy.transaction.JiemamyTransaction;
@@ -63,9 +64,20 @@ import org.jiemamy.xml.JiemamyNamespaceContext;
  */
 public class JiemamyContext {
 	
+	private static Logger logger = LoggerFactory.getLogger(JiemamyContext.class);
+	
 	private static boolean debug = getVersion().isSnapshot();
 	
 
+	public static JiemamySerializer findSerializer() {
+		// THINK シリアライザの差し替えできるように
+		try {
+			return getServiceLocator().getService(JiemamySerializer.class, JiemamyStaxSerializer.class.getName());
+		} catch (ClassNotFoundException e) {
+			throw new JiemamyError("", e);
+		}
+	}
+	
 	/**
 	 * {@link ServiceLocator}を取得する。
 	 * 
@@ -93,8 +105,6 @@ public class JiemamyContext {
 	}
 	
 
-	private EventBroker eventBroker = new EventBrokerImpl();
-	
 	private Map<Class<? extends JiemamyFacet>, JiemamyFacet> facets = Maps.newHashMap();
 	
 	private OnMemoryRepository<DatabaseObjectModel> doms = new OnMemoryRepository<DatabaseObjectModel>();
@@ -109,18 +119,9 @@ public class JiemamyContext {
 	
 //	private final UUIDProvider uuidProvider = new UUIDProvider();
 	
-	private static Logger logger = LoggerFactory.getLogger(JiemamyContext.class);
+	private EventBroker eventBroker = new EventBrokerImpl();
 	
 
-	public static JiemamySerializer findSerializer() {
-		// THINK シリアライザの差し替えできるように
-		try {
-			return getServiceLocator().getService(JiemamySerializer.class, JiemamyStaxSerializer.class.getName());
-		} catch (ClassNotFoundException e) {
-			throw new JiemamyError("", e);
-		}
-	}
-	
 	/**
 	 * インスタンスを生成する。
 	 */
@@ -150,8 +151,23 @@ public class JiemamyContext {
 	 * 
 	 * @param reference 削除する{@link DatabaseObjectModel}への参照
 	 */
-	public void delete(EntityRef<? extends DatabaseObjectModel> reference) {
+	public void delete(final EntityRef<? extends DatabaseObjectModel> reference) {
 		doms.delete(reference);
+		eventBroker.fireCommandProcessed(new Command() {
+			
+			public void execute() {
+				
+			}
+			
+			public Command getNegateCommand() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			public EntityRef<? extends DatabaseObjectModel> getTarget() {
+				return reference;
+			}
+		});
 	}
 	
 	/**
@@ -415,8 +431,23 @@ public class JiemamyContext {
 	 * 
 	 * @param dom {@link DatabaseObjectModel}
 	 */
-	public void store(DatabaseObjectModel dom) {
+	public void store(final DatabaseObjectModel dom) {
 		doms.store(dom);
+		eventBroker.fireCommandProcessed(new Command() {
+			
+			public void execute() {
+				
+			}
+			
+			public Command getNegateCommand() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			public EntityRef<? extends DatabaseObjectModel> getTarget() {
+				return dom.toReference();
+			}
+		});
 	}
 	
 	/**
@@ -424,8 +455,23 @@ public class JiemamyContext {
 	 * 
 	 * @param dsm {@link DataSetModel}
 	 */
-	public void store(DataSetModel dsm) {
+	public void store(final DataSetModel dsm) {
 		dsms.store(dsm);
+		eventBroker.fireCommandProcessed(new Command() {
+			
+			public void execute() {
+				
+			}
+			
+			public Command getNegateCommand() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			public EntityRef<? extends DataSetModel> getTarget() {
+				return dsm.toReference();
+			}
+		});
 	}
 	
 	@Override

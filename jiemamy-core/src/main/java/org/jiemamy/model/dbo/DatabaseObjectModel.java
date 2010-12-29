@@ -21,6 +21,7 @@ package org.jiemamy.model.dbo;
 import java.util.Set;
 
 import org.jiemamy.JiemamyContext;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.CoreElement;
 import org.jiemamy.model.params.ModelParameter.Key;
 
@@ -101,4 +102,6 @@ public interface DatabaseObjectModel extends CoreElement {
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	boolean isSubDatabaseObjectsNonRecursiveOf(DatabaseObjectModel target, JiemamyContext context);
+	
+	EntityRef<? extends DatabaseObjectModel> toReference();
 }

@@ -68,6 +68,8 @@ public interface ForeignKeyConstraintModel extends KeyConstraintModel, CoreEleme
 	 */
 	List<EntityRef<? extends ColumnModel>> getReferenceColumns();
 	
+	EntityRef<? extends ForeignKeyConstraintModel> toReference();
+	
 
 	/**
 	 * 参照列に挿入された値は、被参照テーブルと被参照列の値に対して、指定した照合型で照会される。

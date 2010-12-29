@@ -18,7 +18,7 @@
  */
 package org.jiemamy.transaction;
 
-import org.jiemamy.dddbase.Entity;
+import org.jiemamy.dddbase.EntityRef;
 
 /**
  * モデルを編集するためのEDITコマンドのインターフェース。
@@ -51,11 +51,11 @@ public interface Command {
 	Command getNegateCommand();
 	
 	/**
-	 * 操作対象の{@link Entity}を返す。
+	 * 操作対象の{@link EntityRef}を返す。
 	 * 
-	 * @return 操作対象の{@link Entity}
+	 * @return 操作対象の{@link EntityRef}
 	 * @since 0.2
 	 */
-	Entity getTarget();
+	EntityRef<?> getTarget();
 	
 }

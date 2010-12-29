@@ -38,6 +38,7 @@ import org.jiemamy.model.dbo.DatabaseObjectModel;
 import org.jiemamy.model.script.AroundScriptModel;
 import org.jiemamy.model.sql.SqlStatement;
 import org.jiemamy.serializer.JiemamyXmlWriter;
+import org.jiemamy.transaction.Command;
 import org.jiemamy.xml.JiemamyNamespace;
 import org.jiemamy.xml.SqlNamespace;
 
@@ -67,18 +68,37 @@ public class SqlFacet implements JiemamyFacet {
 	
 	private static Logger logger = LoggerFactory.getLogger(SqlFacet.class);
 	
+	private final JiemamyContext context;
+	
 
 	/**
 	 * インスタンスを生成する。
 	 * 
 	 * @param context コンテキスト
 	 */
-	SqlFacet(JiemamyContext context) {
+	private SqlFacet(JiemamyContext context) {
 		Validate.notNull(context);
+		this.context = context;
 	}
 	
-	public void delete(EntityRef<? extends AroundScriptModel> ref) {
+	public void delete(final EntityRef<? extends AroundScriptModel> ref) {
 		scripts.delete(ref);
+		context.getEventBroker().fireCommandProcessed(new Command() {
+			
+			public void execute() {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			public Command getNegateCommand() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			public EntityRef<?> getTarget() {
+				return ref;
+			}
+		});
 	}
 	
 	/**
@@ -142,11 +162,26 @@ public class SqlFacet implements JiemamyFacet {
 	 * 
 	 * @param script スクリプト
 	 */
-	public void store(AroundScriptModel script) {
+	public void store(final AroundScriptModel script) {
 		Validate.notNull(script);
 		Validate.notNull(script.getId());
 //		Validate.notNull(script.getTarget());
 		scripts.store(script);
+		context.getEventBroker().fireCommandProcessed(new Command() {
+			
+			public void execute() {
+				
+			}
+			
+			public Command getNegateCommand() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			public EntityRef<?> getTarget() {
+				return script.toReference();
+			}
+		});
 	}
 	
 

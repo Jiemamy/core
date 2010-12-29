@@ -24,6 +24,7 @@ import java.util.List;
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.dddbase.Entity;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.transaction.EventBroker;
 
 /**
@@ -105,8 +106,8 @@ public abstract class AbstractAddToCollectionCommand<P extends Entity, C> extend
 		return index;
 	}
 	
-	public P getTarget() {
-		return target;
+	public EntityRef<?> getTarget() {
+		return target.toReference();
 	}
 	
 	/**

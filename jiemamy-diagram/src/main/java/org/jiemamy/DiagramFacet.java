@@ -17,6 +17,7 @@
 package org.jiemamy;
 
 import java.util.List;
+import java.util.UUID;
 
 import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLStreamException;
@@ -25,10 +26,14 @@ import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.jiemamy.dddbase.Entity;
+import org.jiemamy.dddbase.EntityNotFoundException;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.OnMemoryRepository;
 import org.jiemamy.model.DiagramModel;
 import org.jiemamy.model.dbo.AbstractJiemamyXmlWriter;
 import org.jiemamy.serializer.JiemamyXmlWriter;
+import org.jiemamy.transaction.Command;
 import org.jiemamy.xml.DiagramNamespace;
 import org.jiemamy.xml.DiagramQName;
 import org.jiemamy.xml.JiemamyNamespace;
@@ -59,6 +64,8 @@ public class DiagramFacet implements JiemamyFacet {
 	
 	private static Logger logger = LoggerFactory.getLogger(DiagramFacet.class);
 	
+	private final JiemamyContext context;
+	
 
 	/**
 	 * インスタンスを生成する。
@@ -66,8 +73,28 @@ public class DiagramFacet implements JiemamyFacet {
 	 * @param context コンテキスト
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	DiagramFacet(JiemamyContext context) {
+	private DiagramFacet(JiemamyContext context) {
 		Validate.notNull(context);
+		this.context = context;
+	}
+	
+	public void delete(final EntityRef<? extends DiagramModel> ref) {
+		repos.delete(ref);
+		context.getEventBroker().fireCommandProcessed(new Command() {
+			
+			public void execute() {
+				
+			}
+			
+			public Command getNegateCommand() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			public EntityRef<?> getTarget() {
+				return ref;
+			}
+		});
 	}
 	
 	public List<? extends DiagramModel> getDiagrams() {
@@ -83,12 +110,50 @@ public class DiagramFacet implements JiemamyFacet {
 	}
 	
 	/**
+	 * エンティティ参照から、実体を引き当てる。
+	 * 
+	 * @param <T> エンティティの型
+	 * @param ref エンティティ参照
+	 * @return 実体
+	 * @throws EntityNotFoundException 参照で示すエンティティが見つからなかった場合
+	 */
+	public <T extends Entity>T resolve(EntityRef<T> ref) {
+		return repos.resolve(ref);
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param id ENTITY ID
+	 * @return 
+	 */
+	public Entity resolve(UUID id) {
+		return repos.resolve(id);
+	}
+	
+	/**
 	 * {@link DiagramModel}を保存する。
 	 * 
 	 * @param diagram ダイアグラム
 	 */
-	public void store(DiagramModel diagram) {
+	public void store(final DiagramModel diagram) {
 		repos.store(diagram);
+		context.getEventBroker().fireCommandProcessed(new Command() {
+			
+			public void execute() {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			public Command getNegateCommand() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			public EntityRef<?> getTarget() {
+				return diagram.toReference();
+			}
+		});
 	}
 	
 

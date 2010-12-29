@@ -20,6 +20,7 @@ package org.jiemamy.model.dbo.index;
 
 import java.util.List;
 
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
 
 /**
@@ -55,4 +56,6 @@ public interface IndexModel extends DatabaseObjectModel {
 	 * @since 0.2
 	 */
 	boolean isUnique();
+	
+	EntityRef<? extends IndexModel> toReference();
 }
