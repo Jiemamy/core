@@ -17,6 +17,7 @@
 package org.jiemamy.model;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.UUID;
 
@@ -117,7 +118,7 @@ public class DefaultNodeModel extends AbstractJiemamyEntity implements NodeModel
 	}
 	
 	public Collection<? extends ConnectionModel> getTargetConnections() {
-		return null; // FIXME
+		return Collections.emptyList(); // FIXME
 	}
 	
 	@Override
