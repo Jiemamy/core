@@ -183,6 +183,14 @@ public class DefaultDiagramModel extends AbstractJiemamyEntity implements Diagra
 		
 		private void write1Misc(XMLEventWriter writer) throws XMLStreamException {
 			writeNameLogNameDesc(writer, getName(), null, null);
+			
+			writer.add(EV_FACTORY.createStartElement(DiagramQName.LEVEL.getQName(), null, nss()));
+			writer.add(EV_FACTORY.createCharacters(level.toString()));
+			writer.add(EV_FACTORY.createEndElement(DiagramQName.LEVEL.getQName(), nss()));
+			
+			writer.add(EV_FACTORY.createStartElement(DiagramQName.MODE.getQName(), null, nss()));
+			writer.add(EV_FACTORY.createCharacters(mode.toString()));
+			writer.add(EV_FACTORY.createEndElement(DiagramQName.MODE.getQName(), nss()));
 		}
 		
 		private void write2Nodes(XMLEventWriter writer) throws XMLStreamException {

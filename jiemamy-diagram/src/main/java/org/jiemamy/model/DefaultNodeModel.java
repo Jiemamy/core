@@ -19,6 +19,7 @@ package org.jiemamy.model;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.UUID;
 
 import javax.xml.stream.XMLEventWriter;
@@ -44,6 +45,7 @@ import org.jiemamy.serializer.JiemamyXmlWriter;
 import org.jiemamy.utils.JmColorWriter;
 import org.jiemamy.utils.JmRectangleWriter;
 import org.jiemamy.utils.MutationMonitor;
+import org.jiemamy.xml.CoreQName;
 import org.jiemamy.xml.DiagramQName;
 
 /**
@@ -187,7 +189,15 @@ public class DefaultNodeModel extends AbstractJiemamyEntity implements NodeModel
 			return createIdAndClassAtts(getId(), DefaultNodeModel.this);
 		}
 		
+		private Iterator<Attribute> attsForCore() {
+			List<Attribute> result = Lists.newArrayList();
+			result.add(EV_FACTORY.createAttribute(CoreQName.REF.getQName(), coreModelRef.getReferentId().toString()));
+			return result.iterator();
+		}
+		
 		private void write1Misc(XMLEventWriter writer) throws XMLStreamException {
+			writer.add(EV_FACTORY.createStartElement(DiagramQName.CORE.getQName(), attsForCore(), nss()));
+			writer.add(EV_FACTORY.createEndElement(DiagramQName.CORE.getQName(), nss()));
 			new JmRectangleWriter(boundary).writeTo(writer);
 			if (color != null) {
 				new JmColorWriter(color).writeTo(writer);

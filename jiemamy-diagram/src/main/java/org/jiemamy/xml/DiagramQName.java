@@ -61,6 +61,9 @@ public enum DiagramQName implements JiemamyQName {
 	/***/
 	B(DiagramNamespace.NS_DIAGRAM, "blue"),
 
+	/***/
+	CORE(DiagramNamespace.NS_DIAGRAM, "core"),
+
 //	/***/
 //	DIAGRAM_PRESENTATION(DiagramNamespace.NS_DIAGRAM, "diagramPresentation"),
 //
