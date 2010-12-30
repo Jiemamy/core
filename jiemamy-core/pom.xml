@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.jiemamy</groupId>
     <artifactId>jiemamy-master</artifactId>
-    <version>1.6.1</version>
+    <version>1.6.2</version>
   </parent>
   <groupId>org.jiemamy</groupId>
   <artifactId>jiemamy-core</artifactId>
@@ -53,7 +53,6 @@
     <dependency>
       <groupId>org.hamcrest</groupId>
       <artifactId>hamcrest-library</artifactId>
-      <version>1.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -93,7 +92,6 @@
     <dependency>
       <groupId>com.google.collections</groupId>
       <artifactId>google-collections</artifactId>
-      <version>1.0</version>
     </dependency>
     <dependency>
       <groupId>stax</groupId>
@@ -130,7 +128,7 @@
     <dependency>
       <groupId>org.jiemamy</groupId>
       <artifactId>dddbase</artifactId>
-      <version>1.0.1</version>
+      <version>[1.1.0, 1.2.0)</version>
     </dependency>
   </dependencies>
   <repositories>

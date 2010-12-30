@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.jiemamy</groupId>
     <artifactId>jiemamy-master</artifactId>
-    <version>1.6.1</version>
+    <version>1.6.2</version>
   </parent>
   <groupId>org.jiemamy</groupId>
   <artifactId>jiemamy-diagram</artifactId>
@@ -53,7 +53,6 @@
     <dependency>
       <groupId>org.hamcrest</groupId>
       <artifactId>hamcrest-library</artifactId>
-      <version>1.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
