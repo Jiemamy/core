@@ -51,7 +51,7 @@ public final class DefaultNodeModelSerializationWorker extends SerializationWork
 	 * @param director 親となるディレクタ
 	 */
 	public DefaultNodeModelSerializationWorker(JiemamyContext context, SerializationDirector director) {
-		super(DefaultNodeModel.class, DiagramQName.NODE, context, director);
+		super(DefaultNodeModel.class, DiagramQName.NODE, director);
 	}
 	
 	@Override

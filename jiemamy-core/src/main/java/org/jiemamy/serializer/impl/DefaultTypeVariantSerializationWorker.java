@@ -53,7 +53,7 @@ public final class DefaultTypeVariantSerializationWorker extends SerializationWo
 	 * @param director 親となるディレクタ
 	 */
 	public DefaultTypeVariantSerializationWorker(JiemamyContext context, SerializationDirector director) {
-		super(DefaultTypeVariant.class, CoreQName.DATA_TYPE, context, director);
+		super(DefaultTypeVariant.class, CoreQName.DATA_TYPE, director);
 	}
 	
 	@Override

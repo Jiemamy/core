@@ -18,10 +18,13 @@
  */
 package org.jiemamy.serializer.impl;
 
+import java.util.UUID;
+
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.StartElement;
+import javax.xml.stream.events.XMLEvent;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.model.attribute.ColumnModel;
@@ -30,6 +33,7 @@ import org.jiemamy.model.dbo.DefaultTableModel;
 import org.jiemamy.serializer.SerializationDirector;
 import org.jiemamy.serializer.SerializationException;
 import org.jiemamy.serializer.SerializationWorker;
+import org.jiemamy.utils.UUIDUtil;
 import org.jiemamy.xml.CoreQName;
 
 /**
@@ -47,14 +51,33 @@ public final class DefaultTableModelSerializationWorker extends SerializationWor
 	 * @param director 親となるディレクタ
 	 */
 	public DefaultTableModelSerializationWorker(JiemamyContext context, SerializationDirector director) {
-		super(DefaultTableModel.class, CoreQName.TABLE, context, director);
+		super(DefaultTableModel.class, CoreQName.TABLE, director);
 	}
 	
 	@Override
 	protected DefaultTableModel doDeserialize0(StartElement startElement, XMLEventReader reader)
 			throws XMLStreamException, SerializationException {
-		// TODO Auto-generated method stub
-		return null;
+		UUID id = UUIDUtil.valueOfOrRandom(getAttributeAsString(startElement, CoreQName.ID));
+		DefaultTableModel model = new DefaultTableModel(id);
+		XMLEvent event = reader.nextEvent();
+		while (event.isEndElement() == false || event.asEndElement().getName().equals(getHeadElementQName()) == false) {
+			if (isStartElementOf(event, CoreQName.NAME)) {
+				XMLEvent nextEvent = reader.nextEvent();
+				model.setName(nextEvent.asCharacters().getData());
+			} else if (isStartElementOf(event, CoreQName.LOGICAL_NAME)) {
+				XMLEvent nextEvent = reader.nextEvent();
+				model.setLogicalName(nextEvent.asCharacters().getData());
+			} else if (isStartElementOf(event, CoreQName.DESCRIPTION)) {
+				XMLEvent nextEvent = reader.nextEvent();
+				model.setDescription(nextEvent.asCharacters().getData());
+			} else if (event.isStartElement()) {
+				getDirector().directDeserialization(event.asStartElement(), reader);
+			}
+			
+			event = reader.nextEvent();
+		}
+		
+		return model;
 	}
 	
 	@Override

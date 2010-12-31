@@ -50,7 +50,7 @@ public final class DiagramFacetSerializationWorker extends SerializationWorker<D
 	 * @param director 親となるディレクタ
 	 */
 	public DiagramFacetSerializationWorker(JiemamyContext context, SerializationDirector director) {
-		super(DiagramFacet.class, DiagramQName.DIAGRAMS, context, director);
+		super(DiagramFacet.class, DiagramQName.DIAGRAMS, director);
 	}
 	
 	@Override

@@ -45,7 +45,7 @@ public final class DefaultColumnModelSerializationWorker extends SerializationWo
 	 * @param director 親となるディレクタ
 	 */
 	public DefaultColumnModelSerializationWorker(JiemamyContext context, SerializationDirector director) {
-		super(DefaultColumnModel.class, CoreQName.COLUMN, context, director);
+		super(DefaultColumnModel.class, CoreQName.COLUMN, director);
 	}
 	
 	@Override

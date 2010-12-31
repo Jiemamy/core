@@ -44,7 +44,7 @@ public final class DefaultDiagramModelSerializationWorker extends SerializationW
 	 * @param director 親となるディレクタ
 	 */
 	public DefaultDiagramModelSerializationWorker(JiemamyContext context, SerializationDirector director) {
-		super(DefaultDiagramModel.class, DiagramQName.DIAGRAM, context, director);
+		super(DefaultDiagramModel.class, DiagramQName.DIAGRAM, director);
 	}
 	
 	@Override

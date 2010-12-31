@@ -43,7 +43,7 @@ import org.jiemamy.xml.DiagramQName;
 public class JmRectangleSerializationWorker extends SerializationWorker<JmRectangle> {
 	
 	public JmRectangleSerializationWorker(JiemamyContext context, SerializationDirector director) {
-		super(JmRectangle.class, DiagramQName.BOUNDARY, context, director);
+		super(JmRectangle.class, DiagramQName.BOUNDARY, director);
 	}
 	
 	@Override

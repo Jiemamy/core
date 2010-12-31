@@ -22,9 +22,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.UUID;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.jiemamy.JiemamyEntity;
 import org.jiemamy.dddbase.AbstractEntity;
 import org.jiemamy.dddbase.Entity;
@@ -37,9 +34,6 @@ import org.jiemamy.dddbase.Entity;
  */
 public abstract class AbstractJiemamyEntity extends AbstractEntity implements JiemamyEntity {
 	
-	private static Logger logger = LoggerFactory.getLogger(AbstractJiemamyEntity.class);
-	
-
 	/**
 	 * インスタンスを生成する。
 	 * 

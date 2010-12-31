@@ -47,7 +47,7 @@ public class DummyWorker extends SerializationWorker<Object> {
 	 * @param director 親となるディレクタ
 	 */
 	public DummyWorker(JiemamyContext context, SerializationDirector director) {
-		super(Object.class, null, context, director);
+		super(Object.class, null, director);
 	}
 	
 	@Override

@@ -54,6 +54,9 @@ import org.jiemamy.xml.JiemamyNamespace;
  */
 public final class JiemamyContextSerializationWorker extends SerializationWorker<JiemamyContext> {
 	
+	private final JiemamyContext context;
+	
+
 	/**
 	 * インスタンスを生成する。
 	 * 
@@ -61,7 +64,8 @@ public final class JiemamyContextSerializationWorker extends SerializationWorker
 	 * @param director 親となるディレクタ
 	 */
 	public JiemamyContextSerializationWorker(JiemamyContext context, SerializationDirector director) {
-		super(JiemamyContext.class, CoreQName.JIEMAMY, context, director);
+		super(JiemamyContext.class, CoreQName.JIEMAMY, director);
+		this.context = context;
 	}
 	
 	@Override
@@ -92,7 +96,7 @@ public final class JiemamyContextSerializationWorker extends SerializationWorker
 	
 	private Iterator<Namespace> nss() {
 		List<Namespace> result = Lists.newArrayList();
-		for (JiemamyNamespace jns : getContext().getNamespaces()) {
+		for (JiemamyNamespace jns : context.getNamespaces()) {
 			Namespace ns = EV_FACTORY.createNamespace(jns.getPrefix(), jns.getNamespaceURI().toString());
 			if (StringUtils.isEmpty(ns.getNamespaceURI()) == false) {
 				result.add(ns);
@@ -102,8 +106,6 @@ public final class JiemamyContextSerializationWorker extends SerializationWorker
 	}
 	
 	private void write1Misc(XMLEventWriter writer) throws XMLStreamException {
-		JiemamyContext context = getContext();
-		
 		if (StringUtils.isEmpty(context.getDialectClassName()) == false) {
 			writer.add(EV_FACTORY.createStartElement(CoreQName.DIALECT.getQName(), null, null));
 			writer.add(EV_FACTORY.createCharacters(context.getDialectClassName()));
@@ -124,8 +126,6 @@ public final class JiemamyContextSerializationWorker extends SerializationWorker
 	}
 	
 	private void write2DatabaseObjects(XMLEventWriter writer) throws XMLStreamException, SerializationException {
-		JiemamyContext context = getContext();
-		
 		Set<? extends DatabaseObjectModel> databaseObjects = context.getDatabaseObjects();
 		if (databaseObjects.size() <= 0) {
 			return;
@@ -140,8 +140,6 @@ public final class JiemamyContextSerializationWorker extends SerializationWorker
 	}
 	
 	private void write3DataSets(XMLEventWriter writer) throws XMLStreamException, SerializationException {
-		JiemamyContext context = getContext();
-		
 		List<? extends DataSetModel> dataSets = context.getDataSets();
 		if (dataSets.size() <= 0) {
 			return;
@@ -154,8 +152,6 @@ public final class JiemamyContextSerializationWorker extends SerializationWorker
 	}
 	
 	private void write4Facets(XMLEventWriter writer) throws XMLStreamException, SerializationException {
-		JiemamyContext context = getContext();
-		
 		Set<JiemamyFacet> facets = context.getFacets();
 		for (JiemamyFacet facet : facets) {
 			getDirector().directSerialization(facet, writer);

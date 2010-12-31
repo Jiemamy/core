@@ -29,13 +29,13 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.Namespace;
 import javax.xml.stream.events.StartElement;
+import javax.xml.stream.events.XMLEvent;
 
 import com.bea.xml.stream.EventFactory;
 import com.google.common.collect.Lists;
 
 import org.apache.commons.lang.StringUtils;
 
-import org.jiemamy.JiemamyContext;
 import org.jiemamy.xml.CoreQName;
 import org.jiemamy.xml.JiemamyQName;
 
@@ -67,6 +67,14 @@ public abstract class SerializationWorker<T> {
 		return null;
 	}
 	
+	protected static String getAttributeAsString(StartElement element, JiemamyQName qName) {
+		return element.getAttributeByName(qName.getQName()).getValue();
+	}
+	
+	protected static boolean isStartElementOf(XMLEvent event, JiemamyQName qName) {
+		return event.isStartElement() && event.asStartElement().getName().equals(qName.getQName());
+	}
+	
 	protected static void writeNameLogNameDesc(XMLEventWriter writer, String name, String logicalName,
 			String description) throws XMLStreamException {
 		writer.add(EV_FACTORY.createStartElement(CoreQName.NAME.getQName(), emptyAttributes(), emptyNamespaces()));
@@ -93,8 +101,6 @@ public abstract class SerializationWorker<T> {
 	
 	private final JiemamyQName headElementQName;
 	
-	private final JiemamyContext context;
-	
 	private final SerializationDirector director;
 	
 	private SerializationWorker<?> next;
@@ -105,23 +111,22 @@ public abstract class SerializationWorker<T> {
 	 * 
 	 * @param clazz シリアライズを担当できる型
 	 * @param headElementQName 
-	 * @param context コンテキスト
 	 * @param director 親となるディレクタ
 	 */
-	public SerializationWorker(Class<T> clazz, JiemamyQName headElementQName, JiemamyContext context,
-			SerializationDirector director) {
+	public SerializationWorker(Class<T> clazz, JiemamyQName headElementQName, SerializationDirector director) {
 		this.clazz = clazz;
 		this.headElementQName = headElementQName;
-		this.context = context;
 		this.director = director;
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * デシリアライズを実行する。
 	 * 
-	 * @param startElement
-	 * @param reader
-	 * @throws SerializationException 
+	 * @param startElement デシリアライズの切っ掛けとなった要素開始イベント
+	 * @param reader 続きのイベントを読むための {@link XMLEventReader}
+	 * @return デシリアライズした結果モデル
+	 * @throws XMLStreamException StAXストリーム異常が発生した場合
+	 * @throws SerializationException デシリアライズできる {@link SerializationWorker} が見つからなかった場合
 	 */
 	public T doDeserialize(StartElement startElement, XMLEventReader reader) throws XMLStreamException,
 			SerializationException {
@@ -167,6 +172,12 @@ public abstract class SerializationWorker<T> {
 		return next;
 	}
 	
+	/**
+	 * 指定した要素開始イベントをデシリアライズできるかどうか調べる。
+	 * 
+	 * @param startElement 要素開始イベント
+	 * @return デシリアライズできる場合は{@code true}、そうでない場合は{@code false}
+	 */
 	protected boolean canDeserialize(StartElement startElement) {
 		if (headElementQName == null) {
 			return true;
@@ -193,10 +204,13 @@ public abstract class SerializationWorker<T> {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * デシリアライズ処理の実装メソッド。
 	 * 
-	 * @param startElement
-	 * @param reader
+	 * @param startElement デシリアライズの切っ掛けとなった要素開始イベント
+	 * @param reader 続きのイベントを読むための {@link XMLEventReader}
+	 * @return デシリアライズした結果モデル
+	 * @throws XMLStreamException StAXストリーム異常が発生した場合
+	 * @throws SerializationException デシリアライズできる {@link SerializationWorker} が見つからなかった場合
 	 */
 	protected abstract T doDeserialize0(StartElement startElement, XMLEventReader reader) throws XMLStreamException,
 			SerializationException;
@@ -212,11 +226,11 @@ public abstract class SerializationWorker<T> {
 	protected abstract void doSerialize0(T model, XMLEventWriter writer) throws XMLStreamException,
 			SerializationException;
 	
-	protected JiemamyContext getContext() {
-		return context;
-	}
-	
 	protected SerializationDirector getDirector() {
 		return director;
+	}
+	
+	protected JiemamyQName getHeadElementQName() {
+		return headElementQName;
 	}
 }

@@ -50,7 +50,7 @@ public class JmColorSerializationWorker extends SerializationWorker<JmColor> {
 	 * @param director
 	 */
 	public JmColorSerializationWorker(JiemamyContext context, SerializationDirector director) {
-		super(JmColor.class, DiagramQName.COLOR, context, director);
+		super(JmColor.class, DiagramQName.COLOR, director);
 	}
 	
 	@Override
