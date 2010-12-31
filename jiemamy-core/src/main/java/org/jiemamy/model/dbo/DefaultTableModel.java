@@ -66,7 +66,7 @@ import org.jiemamy.xml.CoreQName;
  * 
  * @author daisuke
  */
-public final class DefaultTableModel extends AbstractDatabaseObjectModel implements TableModel {
+public/*final*/class DefaultTableModel extends AbstractDatabaseObjectModel implements TableModel {
 	
 	/**
 	 * {@code tables}の中から、このカラムが所属するテーブルを取得する。
