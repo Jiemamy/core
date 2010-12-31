@@ -1,6 +1,6 @@
 /*
  * Copyright 2007-2010 Jiemamy Project and the Others.
- * Created on 2010/12/03
+ * Created on 2010/12/31
  *
  * This file is part of Jiemamy.
  *
@@ -16,37 +16,45 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy;
+package org.jiemamy.serializer.impl;
 
-import java.util.Collection;
+import javax.xml.stream.XMLEventWriter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.jiemamy.JiemamyContext;
 import org.jiemamy.serializer.SerializationDirector;
 import org.jiemamy.serializer.SerializationWorker;
-import org.jiemamy.xml.JiemamyNamespace;
 
 /**
- * TODO for daisuke
- * 
- * {@link JiemamyContext}のみを引数にとるpublicなコンストラクタが必要。
+ * 全てのモデルを
  * 
  * @version $Id$
  * @author daisuke
  */
-public interface JiemamyFacet {
+public class DummyWorker extends SerializationWorker<Object> {
 	
+	private static Logger logger = LoggerFactory.getLogger(DummyWorker.class);
+	
+
 	/**
-	 * このファセットが利用する全ての名前空間を取得する。
+	 * インスタンスを生成する。
 	 * 
-	 * @return 利用する全ての名前空間
+	 * @param context コンテキスト
+	 * @param director 親となるディレクタ
 	 */
-	JiemamyNamespace[] getNamespaces();
+	public DummyWorker(JiemamyContext context, SerializationDirector director) {
+		super(Object.class, context, director);
+	}
 	
-	/**
-	 * TODO for daisuke
-	 * @param director 
-	 * 
-	 * @return 
-	 */
-	Collection<? extends SerializationWorker<?>> getSerializationWorkers(SerializationDirector director);
+	@Override
+	protected void doWork0(Object model, XMLEventWriter writer) {
+		logger.error("DUMMY WORKER IS CALLED.");
+	}
 	
+	@Override
+	protected boolean isSerializable(Object model) {
+		return true;
+	}
 }

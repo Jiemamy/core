@@ -19,25 +19,14 @@
 package org.jiemamy.model.datatype;
 
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
-import javax.xml.stream.XMLEventWriter;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.events.Attribute;
-
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import org.apache.commons.lang.Validate;
 
-import org.jiemamy.JiemamyContext;
-import org.jiemamy.model.dbo.AbstractJiemamyXmlWriter;
 import org.jiemamy.model.params.ModelParameter.Key;
-import org.jiemamy.serializer.JiemamyXmlWriter;
 import org.jiemamy.utils.MutationMonitor;
-import org.jiemamy.xml.CoreQName;
 
 /**
  * 型記述子のデフォルト実装クラス。
@@ -117,58 +106,6 @@ public final class DefaultTypeVariant implements TypeVariant {
 	
 	public String getTypeName() {
 		return typeName;
-	}
-	
-	public JiemamyXmlWriter getWriter(JiemamyContext context) {
-		return new JiemamyXmlWriterImpl(context);
-	}
-	
-
-	private class JiemamyXmlWriterImpl extends AbstractJiemamyXmlWriter {
-		
-		private final JiemamyContext context;
-		
-
-		public JiemamyXmlWriterImpl(JiemamyContext context) {
-			this.context = context;
-		}
-		
-		public void writeTo(XMLEventWriter writer) throws XMLStreamException {
-			writer.add(EV_FACTORY.createStartElement(CoreQName.DATA_TYPE.getQName(), null, nss()));
-			
-			writer.add(EV_FACTORY.createStartElement(CoreQName.TYPE_CATEGORY.getQName(), null, nss()));
-			writer.add(EV_FACTORY.createCharacters(category.name()));
-			writer.add(EV_FACTORY.createEndElement(CoreQName.TYPE_CATEGORY.getQName(), nss()));
-			
-			writer.add(EV_FACTORY.createStartElement(CoreQName.TYPE_NAME.getQName(), null, nss()));
-			writer.add(EV_FACTORY.createCharacters(typeName));
-			writer.add(EV_FACTORY.createEndElement(CoreQName.TYPE_NAME.getQName(), nss()));
-			
-			writeParams(writer);
-			
-			writer.add(EV_FACTORY.createEndElement(CoreQName.DATA_TYPE.getQName(), nss()));
-		}
-		
-		private Iterator<Attribute> paramAttrs(TypeParameter<?> param) {
-			List<Attribute> a = Lists.newArrayList();
-			a.add(EV_FACTORY.createAttribute(CoreQName.PARAMETER_KEY.getQName(), param.getKey().getKeyString()));
-			a.add(EV_FACTORY.createAttribute(CoreQName.CLASS.getQName(),
-					param.getKey().getClass().getTypeParameters()[0].getName()));
-			return a.iterator();
-		}
-		
-		private void writeParams(XMLEventWriter writer) throws XMLStreamException {
-			if (params.size() <= 0) {
-				return;
-			}
-			writer.add(EV_FACTORY.createStartElement(CoreQName.PARAMETERS.getQName(), null, nss()));
-			for (TypeParameter<?> param : params) {
-				writer.add(EV_FACTORY.createStartElement(CoreQName.PARAMETER.getQName(), paramAttrs(param), nss()));
-				writer.add(EV_FACTORY.createCharacters(param.getValue().toString()));
-				writer.add(EV_FACTORY.createEndElement(CoreQName.PARAMETER.getQName(), nss()));
-			}
-			writer.add(EV_FACTORY.createEndElement(CoreQName.PARAMETERS.getQName(), nss()));
-		}
 	}
 	
 }

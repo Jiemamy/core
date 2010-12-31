@@ -19,18 +19,12 @@
 package org.jiemamy.model.dbo;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.UUID;
-
-import javax.xml.stream.XMLEventWriter;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.events.Attribute;
-import javax.xml.stream.events.Namespace;
 
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
@@ -55,11 +49,9 @@ import org.jiemamy.model.attribute.constraint.ConstraintModel;
 import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel;
 import org.jiemamy.model.attribute.constraint.KeyConstraintModel;
 import org.jiemamy.model.attribute.constraint.PrimaryKeyConstraintModel;
-import org.jiemamy.serializer.JiemamyXmlWriter;
 import org.jiemamy.utils.ConstraintComparator;
 import org.jiemamy.utils.MutationMonitor;
 import org.jiemamy.utils.collection.CollectionsUtil;
-import org.jiemamy.xml.CoreQName;
 
 /**
  * テーブルモデル。
@@ -298,11 +290,6 @@ public/*final*/class DefaultTableModel extends AbstractDatabaseObjectModel imple
 	}
 	
 	@Override
-	public JiemamyXmlWriter getWriter(JiemamyContext context) {
-		return new EntityXmlWriterImpl(context);
-	}
-	
-	@Override
 	public boolean isSubDatabaseObjectsNonRecursiveOf(DatabaseObjectModel target, JiemamyContext context) {
 		Validate.notNull(target);
 		Validate.notNull(context);
@@ -388,59 +375,5 @@ public/*final*/class DefaultTableModel extends AbstractDatabaseObjectModel imple
 			}
 		}
 		return result;
-	}
-	
-
-	private class EntityXmlWriterImpl extends AbstractJiemamyXmlWriter {
-		
-		private final JiemamyContext context;
-		
-
-		public EntityXmlWriterImpl(JiemamyContext context) {
-			this.context = context;
-		}
-		
-		@Override
-		public Iterator<Namespace> nss() {
-			return null;
-		}
-		
-		public void writeTo(XMLEventWriter writer) throws XMLStreamException {
-			writer.add(EV_FACTORY.createStartElement(CoreQName.TABLE.getQName(), atts(), nss()));
-			write1Misc(writer);
-			write2Columns(writer);
-			write3Constraints(writer);
-			writer.add(EV_FACTORY.createEndElement(CoreQName.TABLE.getQName(), nss()));
-		}
-		
-		private Iterator<Attribute> atts() {
-			return createIdAndClassAtts(getId(), DefaultTableModel.this);
-		}
-		
-		private void write1Misc(XMLEventWriter writer) throws XMLStreamException {
-			writeNameLogNameDesc(writer, getName(), getLogicalName(), getDescription());
-		}
-		
-		private void write2Columns(XMLEventWriter writer) throws XMLStreamException {
-			if (getColumns().size() <= 0) {
-				return;
-			}
-			writer.add(EV_FACTORY.createStartElement(CoreQName.COLUMNS.getQName(), null, nss()));
-			for (ColumnModel columnModel : getColumns()) {
-				columnModel.getWriter(context).writeTo(writer);
-			}
-			writer.add(EV_FACTORY.createEndElement(CoreQName.COLUMNS.getQName(), nss()));
-		}
-		
-		private void write3Constraints(XMLEventWriter writer) throws XMLStreamException {
-			if (getConstraints().size() <= 0) {
-				return;
-			}
-			writer.add(EV_FACTORY.createStartElement(CoreQName.CONSTRAINTS.getQName(), null, nss()));
-			for (ConstraintModel constraintModel : getConstraints()) {
-				constraintModel.getWriter(context).writeTo(writer);
-			}
-			writer.add(EV_FACTORY.createEndElement(CoreQName.CONSTRAINTS.getQName(), nss()));
-		}
 	}
 }

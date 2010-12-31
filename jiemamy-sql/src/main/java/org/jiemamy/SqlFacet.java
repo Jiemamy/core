@@ -20,8 +20,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
-import javax.xml.stream.XMLEventWriter;
-import javax.xml.stream.XMLStreamException;
+import com.google.common.collect.Lists;
 
 import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
@@ -33,11 +32,11 @@ import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.OnMemoryRepository;
 import org.jiemamy.dialect.Dialect;
 import org.jiemamy.dialect.EmitConfig;
-import org.jiemamy.model.dbo.AbstractJiemamyXmlWriter;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
 import org.jiemamy.model.script.AroundScriptModel;
 import org.jiemamy.model.sql.SqlStatement;
-import org.jiemamy.serializer.JiemamyXmlWriter;
+import org.jiemamy.serializer.SerializationDirector;
+import org.jiemamy.serializer.SerializationWorker;
 import org.jiemamy.transaction.Command;
 import org.jiemamy.xml.JiemamyNamespace;
 import org.jiemamy.xml.SqlNamespace;
@@ -145,8 +144,8 @@ public class SqlFacet implements JiemamyFacet {
 		return SqlNamespace.values();
 	}
 	
-	public JiemamyXmlWriter getWriter(JiemamyContext context) {
-		return new JiemamyXmlWriterImpl(context);
+	public Collection<? extends SerializationWorker<?>> getSerializationWorkers(SerializationDirector director) {
+		return Lists.newArrayList();
 	}
 	
 	public <T2 extends Entity>T2 resolve(EntityRef<T2> ref) {
@@ -182,22 +181,5 @@ public class SqlFacet implements JiemamyFacet {
 				return script.toReference();
 			}
 		});
-	}
-	
-
-	private class JiemamyXmlWriterImpl extends AbstractJiemamyXmlWriter {
-		
-		private final JiemamyContext context;
-		
-
-		public JiemamyXmlWriterImpl(JiemamyContext context) {
-			this.context = context;
-		}
-		
-		public void writeTo(XMLEventWriter writer) throws XMLStreamException {
-			// TODO Auto-generated method stub
-			logger.error("EMPTY WRITER");
-		}
-		
 	}
 }

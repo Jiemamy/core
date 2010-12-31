@@ -22,16 +22,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.UUID;
 
-import javax.xml.stream.XMLEventWriter;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.jiemamy.JiemamyContext;
 import org.jiemamy.JiemamyEntity;
 import org.jiemamy.dddbase.AbstractEntity;
 import org.jiemamy.dddbase.Entity;
-import org.jiemamy.serializer.JiemamyXmlWriter;
 
 /**
  * {@link Entity}の骨格実装クラス。
@@ -62,14 +58,5 @@ public abstract class AbstractJiemamyEntity extends AbstractEntity implements Ji
 	@Override
 	public Collection<? extends Entity> getSubEntities() {
 		return Collections.emptyList();
-	}
-	
-	public JiemamyXmlWriter getWriter(JiemamyContext context) { // FIXME このメソッド消しちゃえ
-		return new JiemamyXmlWriter() {
-			
-			public void writeTo(XMLEventWriter writer) {
-				logger.error("EMPTY WRITER");
-			}
-		};
 	}
 }

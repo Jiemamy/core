@@ -27,13 +27,11 @@ import com.google.common.collect.Lists;
 
 import org.apache.commons.lang.Validate;
 
-import org.jiemamy.JiemamyContext;
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.utils.CloneUtil;
 import org.jiemamy.model.attribute.ColumnModel;
-import org.jiemamy.serializer.JiemamyXmlWriter;
 import org.jiemamy.utils.MutationMonitor;
 
 /**
@@ -222,12 +220,6 @@ public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstrain
 	
 	public Collection<? extends Entity> getSubEntities() {
 		return Collections.emptyList();
-	}
-	
-	@Override
-	public JiemamyXmlWriter getWriter(JiemamyContext context) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 	
 	@Override

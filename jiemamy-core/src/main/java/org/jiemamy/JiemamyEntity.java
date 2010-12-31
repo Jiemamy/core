@@ -20,13 +20,12 @@ package org.jiemamy;
 
 import org.jiemamy.dddbase.Entity;
 
-
 /**
  * TODO for daisuke
  * 
  * @version $Id$
  * @author daisuke
  */
-public interface JiemamyEntity extends XmlWritable, Entity {
+public interface JiemamyEntity extends Entity {
 	
 }

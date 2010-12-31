@@ -22,9 +22,6 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.UUID;
 
-import javax.xml.stream.XMLEventWriter;
-import javax.xml.stream.XMLStreamException;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
@@ -40,7 +37,6 @@ import org.jiemamy.model.datatype.DataTypeCategory;
 import org.jiemamy.model.datatype.TypeParameter;
 import org.jiemamy.model.datatype.TypeVariant;
 import org.jiemamy.model.params.ModelParameter.Key;
-import org.jiemamy.serializer.JiemamyXmlWriter;
 import org.jiemamy.utils.MutationMonitor;
 import org.jiemamy.utils.collection.CollectionsUtil;
 
@@ -173,25 +169,6 @@ public final class DefaultDomainModel extends AbstractDatabaseObjectModel implem
 		
 		public String getTypeName() {
 			return dataType.getTypeName();
-		}
-		
-		public JiemamyXmlWriter getWriter(JiemamyContext context) {
-			return new JiemamyXmlWriterImpl(context);
-		}
-		
-
-		private class JiemamyXmlWriterImpl extends AbstractJiemamyXmlWriter {
-			
-			private final JiemamyContext context;
-			
-
-			public JiemamyXmlWriterImpl(JiemamyContext context) {
-				this.context = context;
-			}
-			
-			public void writeTo(XMLEventWriter writer) throws XMLStreamException {
-				// TODO
-			}
 		}
 	}
 }

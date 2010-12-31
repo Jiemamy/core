@@ -18,13 +18,8 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
-import javax.xml.stream.XMLEventWriter;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import org.jiemamy.JiemamyContext;
-import org.jiemamy.serializer.JiemamyXmlWriter;
 
 /**
  * 抽象制約モデル。
@@ -120,15 +115,6 @@ public abstract class AbstractConstraintModel implements ConstraintModel {
 	
 	public String getName() {
 		return name;
-	}
-	
-	public JiemamyXmlWriter getWriter(JiemamyContext context) { // FIXME このメソッド消しちゃえ
-		return new JiemamyXmlWriter() {
-			
-			public void writeTo(XMLEventWriter writer) {
-				logger.error("EMPTY WRITER");
-			}
-		};
 	}
 	
 	@Override

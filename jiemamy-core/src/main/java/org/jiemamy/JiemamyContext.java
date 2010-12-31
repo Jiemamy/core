@@ -69,6 +69,11 @@ public class JiemamyContext {
 	private static boolean debug = getVersion().isSnapshot();
 	
 
+	/**
+	 * {@link JiemamySerializer}を取得する。
+	 * 
+	 * @return {@link JiemamySerializer}
+	 */
 	public static JiemamySerializer findSerializer() {
 		// THINK シリアライザの差し替えできるように
 		try {
@@ -96,10 +101,20 @@ public class JiemamyContext {
 		return Version.INSTANCE;
 	}
 	
+	/**
+	 * デバッグモードであるかどうか調べる。
+	 * 
+	 * @return デバッグモードである場合は{@code true}、そうでない場合は{@code false}
+	 */
 	public static boolean isDebug() {
 		return debug;
 	}
 	
+	/**
+	 * デバッグモードを設定する。
+	 * 
+	 * @param debug デバッグモードにする場合は{@code true}、そうでない場合は{@code false}
+	 */
 	protected static void setDebug(boolean debug) {
 		JiemamyContext.debug = debug;
 	}
@@ -283,6 +298,11 @@ public class JiemamyContext {
 		return dialectClassName;
 	}
 	
+	/**
+	 * {@link EventBroker}を取得する。
+	 * 
+	 * @return {@link EventBroker}
+	 */
 	public EventBroker getEventBroker() {
 		return eventBroker;
 	}
@@ -341,6 +361,13 @@ public class JiemamyContext {
 		return schemaName;
 	}
 	
+	/**
+	 * このコンテキストが管理する {@link TableModel} の中から、指定したテーブル名を持つものを返す。
+	 * 
+	 * @param name テーブル名
+	 * @return 見つかった  {@link TableModel}
+	 * @throws TableNotFoundException 指定したテーブル名を持つ {@link TableModel} が見つからなかった場合
+	 */
 	public TableModel getTable(String name) {
 		for (TableModel table : getTables()) {
 			if (name.equals(table.getName())) {
@@ -350,6 +377,11 @@ public class JiemamyContext {
 		throw new TableNotFoundException("name=" + name);
 	}
 	
+	/**
+	 * このコンテキストが管理する全ての {@link TableModel} を取得する。
+	 * 
+	 * @return {@link TableModel}のセット
+	 */
 	public Set<TableModel> getTables() {
 		return getDatabaseObjects(TableModel.class);
 	}
@@ -390,10 +422,17 @@ public class JiemamyContext {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * コンテキストが管理する {@link Entity} の中から、指定したIDを持つ実体（{@link Entity}）を探して返す。
+	 * 
+	 * <p>リポジトリは、この実体のクローンを返す。従って、取得した {@link Entity}に対して
+	 * ミューテーションを起こしても、ストアした実体には影響を及ぼさない。</p>
+	 * 
+	 * <p>検索対象は子エンティティも含む。</p>
 	 * 
 	 * @param id ENTITY ID
-	 * @return 
+	 * @return 見つかった{@link Entity}
+	 * @throws EntityNotFoundException このコンテキストが指定した実体を管理していない場合
+	 * @since 1.0.0
 	 */
 	public Entity resolve(UUID id) {
 		return doms.resolve(id);

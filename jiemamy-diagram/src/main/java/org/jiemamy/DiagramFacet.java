@@ -16,11 +16,11 @@
  */
 package org.jiemamy;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
-import javax.xml.stream.XMLEventWriter;
-import javax.xml.stream.XMLStreamException;
+import com.google.common.collect.Lists;
 
 import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
@@ -30,12 +30,12 @@ import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityNotFoundException;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.OnMemoryRepository;
+import org.jiemamy.model.DefaultDiagramModelSerializationWorker;
 import org.jiemamy.model.DiagramModel;
-import org.jiemamy.model.dbo.AbstractJiemamyXmlWriter;
-import org.jiemamy.serializer.JiemamyXmlWriter;
+import org.jiemamy.serializer.SerializationDirector;
+import org.jiemamy.serializer.SerializationWorker;
 import org.jiemamy.transaction.Command;
 import org.jiemamy.xml.DiagramNamespace;
-import org.jiemamy.xml.DiagramQName;
 import org.jiemamy.xml.JiemamyNamespace;
 
 /**
@@ -60,7 +60,7 @@ public class DiagramFacet implements JiemamyFacet {
 		
 	};
 	
-	private OnMemoryRepository<DiagramModel> repos = new OnMemoryRepository<DiagramModel>();
+	OnMemoryRepository<DiagramModel> repos = new OnMemoryRepository<DiagramModel>();
 	
 	private static Logger logger = LoggerFactory.getLogger(DiagramFacet.class);
 	
@@ -105,8 +105,8 @@ public class DiagramFacet implements JiemamyFacet {
 		return DiagramNamespace.values();
 	}
 	
-	public JiemamyXmlWriter getWriter(JiemamyContext context) {
-		return new JiemamyXmlWriterImpl(context);
+	public Collection<? extends SerializationWorker<?>> getSerializationWorkers(SerializationDirector director) {
+		return Lists.newArrayList(new DefaultDiagramModelSerializationWorker(context, director));
 	}
 	
 	/**
@@ -154,29 +154,5 @@ public class DiagramFacet implements JiemamyFacet {
 				return diagram.toReference();
 			}
 		});
-	}
-	
-
-	private class JiemamyXmlWriterImpl extends AbstractJiemamyXmlWriter {
-		
-		private final JiemamyContext context;
-		
-
-		public JiemamyXmlWriterImpl(JiemamyContext context) {
-			this.context = context;
-		}
-		
-		public void writeTo(XMLEventWriter writer) throws XMLStreamException {
-			writer.add(EV_FACTORY.createStartElement(DiagramQName.DIAGRAMS.getQName(), null, null));
-			logger.error("EMPTY WRITER");
-			for (DiagramModel diagramModel : repos.getEntitiesAsList()) {
-				diagramModel.getWriter(context).writeTo(writer);
-			}
-//			write1Misc(context, writer);
-//			write2DatabaseObjects(context, writer);
-//			write3DataSets(context, writer);
-//			write4Facets(context, writer);
-			writer.add(EV_FACTORY.createEndElement(DiagramQName.DIAGRAMS.getQName(), null));
-		}
 	}
 }

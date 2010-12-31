@@ -30,9 +30,9 @@ import org.apache.commons.lang.Validate;
 public final class DefaultDatabaseObjectParameter<T> implements DatabaseObjectParameter<T> {
 	
 	/**
-	 * シリアルパラメータを取得する。
+	 * 無効パラメータを取得する。
 	 * 
-	 * @param serial シリアル
+	 * @param disabled 無効とする場合は{@code true}、そうでない場合は{@code false}
 	 * @return シリアルパラメータ
 	 */
 	public static DefaultDatabaseObjectParameter<Boolean> disabled(boolean disabled) {

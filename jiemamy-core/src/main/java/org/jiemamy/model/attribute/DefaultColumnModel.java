@@ -18,25 +18,15 @@
  */
 package org.jiemamy.model.attribute;
 
-import java.util.Iterator;
 import java.util.UUID;
-
-import javax.xml.stream.XMLEventWriter;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.events.Attribute;
-import javax.xml.stream.events.Namespace;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-import org.jiemamy.JiemamyContext;
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.AbstractJiemamyEntity;
 import org.jiemamy.model.datatype.TypeVariant;
-import org.jiemamy.model.dbo.AbstractJiemamyXmlWriter;
-import org.jiemamy.serializer.JiemamyXmlWriter;
-import org.jiemamy.xml.CoreQName;
 
 /**
  * カラム定義モデル。Artemisにおける{@link ColumnModel}の実装クラス。
@@ -96,11 +86,6 @@ public final class DefaultColumnModel extends AbstractJiemamyEntity implements C
 		return name;
 	}
 	
-	@Override
-	public JiemamyXmlWriter getWriter(JiemamyContext context) {
-		return new EntityXmlWriterImpl(context);
-	}
-	
 	/**
 	 * データタイプを設定する
 	 * 
@@ -152,50 +137,5 @@ public final class DefaultColumnModel extends AbstractJiemamyEntity implements C
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-	}
-	
-
-	private class EntityXmlWriterImpl extends AbstractJiemamyXmlWriter {
-		
-		private final JiemamyContext context;
-		
-
-		public EntityXmlWriterImpl(JiemamyContext context) {
-			this.context = context;
-		}
-		
-		public void writeTo(XMLEventWriter writer) throws XMLStreamException {
-			writer.add(EV_FACTORY.createStartElement(CoreQName.COLUMN.getQName(), atts(), nss()));
-			write1Misc(writer);
-//			write2Columns(writer);
-//			write3Constraints(writer);
-			writer.add(EV_FACTORY.createEndElement(CoreQName.COLUMN.getQName(), nss()));
-		}
-		
-		@Override
-		protected Iterator<Namespace> nss() {
-			return null;
-		}
-		
-		private Iterator<Attribute> atts() {
-			return createIdAndClassAtts(getId(), DefaultColumnModel.this);
-		}
-		
-		private void write1Misc(XMLEventWriter writer) throws XMLStreamException {
-			writeNameLogNameDesc(writer, name, logicalName, description);
-			getDataType().getWriter(context).writeTo(writer);
-		}
-		
-//		private void write2Columns(XMLEventWriter writer) throws XMLStreamException {
-//			writer.add(EV_FACTORY.createStartElement(CoreQName.COLUMNS.getQName(), null, nss()));
-//			//
-//			writer.add(EV_FACTORY.createEndElement(CoreQName.COLUMNS.getQName(), nss()));
-//		}
-//		
-//		private void write3Constraints(XMLEventWriter writer) throws XMLStreamException {
-//			writer.add(EV_FACTORY.createStartElement(CoreQName.CONSTRAINTS.getQName(), null, nss()));
-//			//
-//			writer.add(EV_FACTORY.createEndElement(CoreQName.CONSTRAINTS.getQName(), nss()));
-//		}
 	}
 }

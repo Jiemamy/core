@@ -16,7 +16,7 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.utils;
+package org.jiemamy.model.geometory;
 
 import java.util.Iterator;
 import java.util.List;
@@ -27,10 +27,10 @@ import javax.xml.stream.events.Attribute;
 
 import com.google.common.collect.Lists;
 
-import org.apache.commons.lang.Validate;
-
-import org.jiemamy.model.dbo.AbstractJiemamyXmlWriter;
-import org.jiemamy.model.geometory.JmColor;
+import org.jiemamy.JiemamyContext;
+import org.jiemamy.serializer.SerializationDirector;
+import org.jiemamy.serializer.SerializationException;
+import org.jiemamy.serializer.SerializationWorker;
 import org.jiemamy.xml.DiagramQName;
 
 /**
@@ -39,22 +39,19 @@ import org.jiemamy.xml.DiagramQName;
  * @version $Id$
  * @author daisuke
  */
-public class JmColorWriter extends AbstractJiemamyXmlWriter {
+public class JmColorSerializationWorker extends SerializationWorker<JmColor> {
 	
-	private final JmColor color;
-	
-
-	public JmColorWriter(JmColor color) {
-		Validate.notNull(color);
-		this.color = color;
+	public JmColorSerializationWorker(JiemamyContext context, SerializationDirector director) {
+		super(JmColor.class, context, director);
 	}
 	
-	public void writeTo(XMLEventWriter writer) throws XMLStreamException {
-		writer.add(EV_FACTORY.createStartElement(DiagramQName.BOUNDARY.getQName(), atts(), null));
+	@Override
+	protected void doWork0(JmColor model, XMLEventWriter writer) throws XMLStreamException, SerializationException {
+		writer.add(EV_FACTORY.createStartElement(DiagramQName.BOUNDARY.getQName(), atts(model), null));
 		writer.add(EV_FACTORY.createEndElement(DiagramQName.BOUNDARY.getQName(), null));
 	}
 	
-	private Iterator<Attribute> atts() {
+	private Iterator<Attribute> atts(JmColor color) {
 		List<Attribute> result = Lists.newArrayList();
 		result.add(EV_FACTORY.createAttribute(DiagramQName.R.getQName(), String.valueOf(color.red)));
 		result.add(EV_FACTORY.createAttribute(DiagramQName.G.getQName(), String.valueOf(color.green)));

@@ -23,6 +23,7 @@ import java.io.OutputStream;
 
 import org.jiemamy.FacetProvider;
 import org.jiemamy.JiemamyContext;
+import org.jiemamy.JiemamyFacet;
 
 /**
  * シリアライザインターフェイス。
@@ -52,7 +53,7 @@ public interface JiemamySerializer {
 	 * {@link InputStream} から {@link JiemamyContext} にデシリアライズする。
 	 * 
 	 * @param in デシリアライズするInputStream
-	 * @param facetProviders 
+	 * @param facetProviders デシリアライズした{@link JiemamyContext}がサポートすべき {@link JiemamyFacet} のプロバイダ
 	 * @return デシリアライズしたRootModel
 	 * @throws SerializationException デシリアライズに失敗した時
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
