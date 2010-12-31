@@ -55,18 +55,18 @@ import org.jiemamy.xml.CoreQName;
 import org.jiemamy.xml.JiemamyNamespace;
 
 /**
- * TODO for daisuke
+ * {@link JiemamySerializer}のStAX（イベントモデル）による実装クラス。
  * 
  * @version $Id$
  * @author daisuke
  */
 public class JiemamyStaxSerializer implements JiemamySerializer {
 	
+	/** 共用の{@link EventFactory}インスタンス */
 	protected static final XMLEventFactory EV_FACTORY = EventFactory.newInstance();
 	
 
 	public JiemamyContext deserialize(InputStream in, FacetProvider... facetProviders) throws SerializationException {
-		// TODO Auto-generated method stub
 		XMLEventReader reader = null;
 		XMLInputFactory inFactory = XMLInputFactory.newInstance();
 		try {
