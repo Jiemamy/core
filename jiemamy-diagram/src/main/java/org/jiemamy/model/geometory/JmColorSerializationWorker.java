@@ -21,9 +21,11 @@ package org.jiemamy.model.geometory;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Attribute;
+import javax.xml.stream.events.StartElement;
 
 import com.google.common.collect.Lists;
 
@@ -41,14 +43,28 @@ import org.jiemamy.xml.DiagramQName;
  */
 public class JmColorSerializationWorker extends SerializationWorker<JmColor> {
 	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param context
+	 * @param director
+	 */
 	public JmColorSerializationWorker(JiemamyContext context, SerializationDirector director) {
-		super(JmColor.class, context, director);
+		super(JmColor.class, DiagramQName.COLOR, context, director);
 	}
 	
 	@Override
-	protected void doWork0(JmColor model, XMLEventWriter writer) throws XMLStreamException, SerializationException {
-		writer.add(EV_FACTORY.createStartElement(DiagramQName.BOUNDARY.getQName(), atts(model), null));
-		writer.add(EV_FACTORY.createEndElement(DiagramQName.BOUNDARY.getQName(), null));
+	protected JmColor doDeserialize0(StartElement startElement, XMLEventReader reader) throws XMLStreamException {
+		int r = Integer.parseInt(startElement.getAttributeByName(DiagramQName.R.getQName()).getValue());
+		int g = Integer.parseInt(startElement.getAttributeByName(DiagramQName.G.getQName()).getValue());
+		int b = Integer.parseInt(startElement.getAttributeByName(DiagramQName.B.getQName()).getValue());
+		return new JmColor(r, g, b);
+	}
+	
+	@Override
+	protected void doSerialize0(JmColor model, XMLEventWriter writer) throws XMLStreamException, SerializationException {
+		writer.add(EV_FACTORY.createStartElement(DiagramQName.COLOR.getQName(), atts(model), null));
+		writer.add(EV_FACTORY.createEndElement(DiagramQName.COLOR.getQName(), null));
 	}
 	
 	private Iterator<Attribute> atts(JmColor color) {

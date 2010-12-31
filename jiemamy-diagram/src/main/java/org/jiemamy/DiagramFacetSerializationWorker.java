@@ -18,8 +18,10 @@
  */
 package org.jiemamy;
 
+import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.StartElement;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,16 +50,23 @@ public final class DiagramFacetSerializationWorker extends SerializationWorker<D
 	 * @param director 親となるディレクタ
 	 */
 	public DiagramFacetSerializationWorker(JiemamyContext context, SerializationDirector director) {
-		super(DiagramFacet.class, context, director);
+		super(DiagramFacet.class, DiagramQName.DIAGRAMS, context, director);
 	}
 	
 	@Override
-	protected void doWork0(DiagramFacet model, XMLEventWriter writer) throws XMLStreamException, SerializationException {
+	protected DiagramFacet doDeserialize0(StartElement startElement, XMLEventReader reader) throws XMLStreamException,
+			SerializationException {
+		return null;
+	}
+	
+	@Override
+	protected void doSerialize0(DiagramFacet model, XMLEventWriter writer) throws XMLStreamException,
+			SerializationException {
 		writer
 			.add(EV_FACTORY.createStartElement(DiagramQName.DIAGRAMS.getQName(), emptyAttributes(), emptyNamespaces()));
 		logger.error("EMPTY WRITER");
 		for (DiagramModel diagramModel : model.repos.getEntitiesAsList()) {
-			getDirector().direct(diagramModel, writer);
+			getDirector().directSerialization(diagramModel, writer);
 		}
 //		write1Misc(context, writer);
 //		write2DatabaseObjects(context, writer);

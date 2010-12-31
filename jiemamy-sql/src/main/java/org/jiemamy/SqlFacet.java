@@ -144,7 +144,8 @@ public class SqlFacet implements JiemamyFacet {
 		return SqlNamespace.values();
 	}
 	
-	public Collection<? extends SerializationWorker<?>> getSerializationWorkers(SerializationDirector director) {
+	public Iterable<? extends SerializationWorker<?>> getSerializationWorkers(SerializationDirector director) {
+		Validate.notNull(director);
 		return Lists.newArrayList();
 	}
 	

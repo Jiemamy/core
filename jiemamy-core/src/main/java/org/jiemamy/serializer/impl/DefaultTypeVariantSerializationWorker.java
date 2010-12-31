@@ -21,9 +21,11 @@ package org.jiemamy.serializer.impl;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Attribute;
+import javax.xml.stream.events.StartElement;
 
 import com.google.common.collect.Lists;
 
@@ -51,12 +53,23 @@ public final class DefaultTypeVariantSerializationWorker extends SerializationWo
 	 * @param director 親となるディレクタ
 	 */
 	public DefaultTypeVariantSerializationWorker(JiemamyContext context, SerializationDirector director) {
-		super(DefaultTypeVariant.class, context, director);
+		super(DefaultTypeVariant.class, CoreQName.DATA_TYPE, context, director);
 	}
 	
 	@Override
-	protected void doWork0(DefaultTypeVariant model, XMLEventWriter writer) throws XMLStreamException,
-			SerializationException {
+	protected boolean canDeserialize(StartElement startElement) {
+		return startElement.getName().equals(CoreQName.DATA_TYPE.getQName());
+	}
+	
+	@Override
+	protected DefaultTypeVariant doDeserialize0(StartElement startElement, XMLEventReader reader)
+			throws XMLStreamException, SerializationException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	protected void doSerialize0(DefaultTypeVariant model, XMLEventWriter writer) throws XMLStreamException {
 		writer.add(EV_FACTORY.createStartElement(CoreQName.DATA_TYPE.getQName(), emptyAttributes(), emptyNamespaces()));
 		
 		writer.add(EV_FACTORY.createStartElement(CoreQName.TYPE_CATEGORY.getQName(), emptyAttributes(),

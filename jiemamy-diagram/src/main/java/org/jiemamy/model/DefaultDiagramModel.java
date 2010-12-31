@@ -39,9 +39,9 @@ public class DefaultDiagramModel extends AbstractJiemamyEntity implements Diagra
 	
 	private String name;
 	
-	private Level level;
+	private Level level = Level.ATTRTYPE;
 	
-	private Mode mode;
+	private Mode mode = Mode.PHYSICAL;
 	
 	private OnMemoryRepository<NodeModel> nodeRepos = new OnMemoryRepository<NodeModel>();
 	

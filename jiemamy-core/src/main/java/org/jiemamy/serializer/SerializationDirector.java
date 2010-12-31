@@ -18,8 +18,10 @@
  */
 package org.jiemamy.serializer;
 
+import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.StartElement;
 
 import org.apache.commons.lang.Validate;
 
@@ -50,6 +52,7 @@ public final class SerializationDirector {
 		add(new DummyWorker(context, this)); // FIXME これがケツ持ちをしてる
 		add(new JiemamyContextSerializationWorker(context, this));
 		add(new DefaultTableModelSerializationWorker(context, this));
+		// TODO ... 色々
 		
 		for (JiemamyFacet jiemamyFacet : context.getFacets()) {
 			for (SerializationWorker<?> worker : jiemamyFacet.getSerializationWorkers(this)) {
@@ -62,6 +65,19 @@ public final class SerializationDirector {
 	}
 	
 	/**
+	 * TODO for daisuke
+	 * 
+	 * @param context
+	 * @param startElement
+	 * @param reader
+	 * @throws SerializationException 
+	 */
+	public void directDeserialization(StartElement startElement, XMLEventReader reader) throws XMLStreamException,
+			SerializationException {
+		head.doDeserialize(startElement, reader);
+	}
+	
+	/**
 	 * {@link SerializationWorker}に対してシリアライズを指示し、XMLを出力する。
 	 * 
 	 * @param model シリアライズ対象
@@ -69,8 +85,9 @@ public final class SerializationDirector {
 	 * @throws XMLStreamException StAXストリーム異常が発生した場合 
 	 * @throws SerializationException シリアライズに失敗した場合
 	 */
-	public void direct(Object model, XMLEventWriter writer) throws XMLStreamException, SerializationException {
-		head.doWork(model, writer);
+	public void directSerialization(Object model, XMLEventWriter writer) throws XMLStreamException,
+			SerializationException {
+		head.doSerialize(model, writer);
 	}
 	
 	/**

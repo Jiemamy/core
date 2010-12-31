@@ -21,15 +21,16 @@ package org.jiemamy.model.geometory;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Attribute;
+import javax.xml.stream.events.StartElement;
 
 import com.google.common.collect.Lists;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.serializer.SerializationDirector;
-import org.jiemamy.serializer.SerializationException;
 import org.jiemamy.serializer.SerializationWorker;
 import org.jiemamy.xml.DiagramQName;
 
@@ -42,11 +43,20 @@ import org.jiemamy.xml.DiagramQName;
 public class JmRectangleSerializationWorker extends SerializationWorker<JmRectangle> {
 	
 	public JmRectangleSerializationWorker(JiemamyContext context, SerializationDirector director) {
-		super(JmRectangle.class, context, director);
+		super(JmRectangle.class, DiagramQName.BOUNDARY, context, director);
 	}
 	
 	@Override
-	protected void doWork0(JmRectangle model, XMLEventWriter writer) throws XMLStreamException, SerializationException {
+	protected JmRectangle doDeserialize0(StartElement startElement, XMLEventReader reader) {
+		int x = Integer.parseInt(startElement.getAttributeByName(DiagramQName.X.getQName()).getValue());
+		int y = Integer.parseInt(startElement.getAttributeByName(DiagramQName.Y.getQName()).getValue());
+		int width = Integer.parseInt(startElement.getAttributeByName(DiagramQName.WIDTH.getQName()).getValue());
+		int height = Integer.parseInt(startElement.getAttributeByName(DiagramQName.HEIGHT.getQName()).getValue());
+		return new JmRectangle(x, y, width, height);
+	}
+	
+	@Override
+	protected void doSerialize0(JmRectangle model, XMLEventWriter writer) throws XMLStreamException {
 		writer.add(EV_FACTORY.createStartElement(DiagramQName.BOUNDARY.getQName(), atts(model), null));
 		writer.add(EV_FACTORY.createEndElement(DiagramQName.BOUNDARY.getQName(), null));
 	}

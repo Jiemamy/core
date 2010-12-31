@@ -53,6 +53,9 @@ public enum DiagramQName implements JiemamyQName {
 	Y(DiagramNamespace.NS_DIAGRAM, "y"),
 
 	/***/
+	COLOR(DiagramNamespace.NS_DIAGRAM, "color"),
+
+	/***/
 	R(DiagramNamespace.NS_DIAGRAM, "red"),
 
 	/***/

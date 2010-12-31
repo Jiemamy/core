@@ -23,10 +23,12 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.xml.stream.XMLEventFactory;
+import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.Namespace;
+import javax.xml.stream.events.StartElement;
 
 import com.bea.xml.stream.EventFactory;
 import com.google.common.collect.Lists;
@@ -35,6 +37,7 @@ import org.apache.commons.lang.StringUtils;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.xml.CoreQName;
+import org.jiemamy.xml.JiemamyQName;
 
 /**
  * シリアライズ処理実装クラスの骨格実装。
@@ -48,103 +51,24 @@ public abstract class SerializationWorker<T> {
 	/** 共用の{@link EventFactory}インスタンス */
 	protected static final XMLEventFactory EV_FACTORY = EventFactory.newInstance();
 	
-	private final JiemamyContext context;
-	
-	private final Class<T> clazz;
-	
-	private final SerializationDirector director;
-	
-	private SerializationWorker<?> next;
-	
 
-	/**
-	 * インスタンスを生成する。
-	 * 
-	 * @param clazz シリアライズを担当できる型
-	 * @param context コンテキスト
-	 * @param director 親となるディレクタ
-	 */
-	public SerializationWorker(Class<T> clazz, JiemamyContext context, SerializationDirector director) {
-		this.context = context;
-		this.clazz = clazz;
-		this.director = director;
-	}
-	
-	/**
-	 * シリアライズを実行する。
-	 * 
-	 * <p>自分自身が{@code model}をシリアライズできる場合は {@link #doWork0(Object, XMLEventWriter)} をコールして
-	 * シリアライズを行う。シリアライズできない場合は、次のチェーン要素に処理を委譲する。</p>
-	 * 
-	 * @param model シリアライズ対象モデル
-	 * @param writer XML出力先
-	 * @throws XMLStreamException StAXストリーム異常が発生した場合
-	 * @throws SerializationException シリアライズできる {@link SerializationWorker} が見つからなかった場合
-	 */
-	public void doWork(Object model, XMLEventWriter writer) throws XMLStreamException, SerializationException {
-		if (isSerializable(model)) {
-			doWork0(clazz.cast(model), writer);
-		} else if (next != null) {
-			next.doWork(model, writer);
-		} else {
-			throw new SerializationException("worker not found.");
-		}
-	}
-	
-	/**
-	 * 責務チェーンの次にあたる {@link SerializationWorker} を設定する。
-	 * 
-	 * @param next {@link SerializationWorker}
-	 */
-	public void setNext(SerializationWorker<?> next) {
-		this.next = next;
-	}
-	
-	protected Iterator<Attribute> createIdAndClassAttributes(UUID id, Object obj) {
+	protected static Iterator<Attribute> createIdAndClassAttributes(UUID id, Object obj) {
 		List<Attribute> result = Lists.newArrayList();
 		result.add(EV_FACTORY.createAttribute(CoreQName.CLASS.getQName(), obj.getClass().getName()));
 		result.add(EV_FACTORY.createAttribute(CoreQName.ID.getQName(), id.toString()));
 		return result.iterator();
 	}
 	
-	/**
-	 * シリアライズ処理の実装メソッド。
-	 * 
-	 * @param model シリアライズ対象。
-	 * @param writer XML出力先
-	 * @throws XMLStreamException StAXストリーム異常が発生した場合
-	 * @throws SerializationException 子要素においてシリアライズできる {@link SerializationWorker} が見つからなかった場合
-	 */
-	protected abstract void doWork0(T model, XMLEventWriter writer) throws XMLStreamException, SerializationException;
-	
-	protected final Iterator<Attribute> emptyAttributes() {
+	protected static final Iterator<Attribute> emptyAttributes() {
 		return null;
 	}
 	
-	protected final Iterator<Namespace> emptyNamespaces() {
+	protected static final Iterator<Namespace> emptyNamespaces() {
 		return null;
 	}
 	
-	protected JiemamyContext getContext() {
-		return context;
-	}
-	
-	protected SerializationDirector getDirector() {
-		return director;
-	}
-	
-	/**
-	 * 指定したモデルをシリアライズできるかどうか調べる。
-	 * 
-	 * @param model 対象モデル
-	 * @return シリアライズできる場合は{@code true}、そうでない場合は{@code false}
-	 */
-	protected boolean isSerializable(Object model) {
-		return model.getClass() == clazz;
-	}
-	
-	protected void writeNameLogNameDesc(XMLEventWriter writer, String name, String logicalName, String description)
-			throws XMLStreamException {
+	protected static void writeNameLogNameDesc(XMLEventWriter writer, String name, String logicalName,
+			String description) throws XMLStreamException {
 		writer.add(EV_FACTORY.createStartElement(CoreQName.NAME.getQName(), emptyAttributes(), emptyNamespaces()));
 		writer.add(EV_FACTORY.createCharacters(name));
 		writer.add(EV_FACTORY.createEndElement(CoreQName.NAME.getQName(), emptyNamespaces()));
@@ -162,5 +86,137 @@ public abstract class SerializationWorker<T> {
 			writer.add(EV_FACTORY.createCharacters(description));
 			writer.add(EV_FACTORY.createEndElement(CoreQName.DESCRIPTION.getQName(), emptyNamespaces()));
 		}
+	}
+	
+
+	private final Class<T> clazz;
+	
+	private final JiemamyQName headElementQName;
+	
+	private final JiemamyContext context;
+	
+	private final SerializationDirector director;
+	
+	private SerializationWorker<?> next;
+	
+
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param clazz シリアライズを担当できる型
+	 * @param headElementQName 
+	 * @param context コンテキスト
+	 * @param director 親となるディレクタ
+	 */
+	public SerializationWorker(Class<T> clazz, JiemamyQName headElementQName, JiemamyContext context,
+			SerializationDirector director) {
+		this.clazz = clazz;
+		this.headElementQName = headElementQName;
+		this.context = context;
+		this.director = director;
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param startElement
+	 * @param reader
+	 * @throws SerializationException 
+	 */
+	public T doDeserialize(StartElement startElement, XMLEventReader reader) throws XMLStreamException,
+			SerializationException {
+		if (canDeserialize(startElement)) {
+			return doDeserialize0(startElement, reader);
+		} else if (next != null) {
+			return clazz.cast(next.doDeserialize(startElement, reader));
+		} else {
+			throw new SerializationException("worker not found.");
+		}
+	}
+	
+	/**
+	 * シリアライズを実行する。
+	 * 
+	 * <p>自分自身が{@code model}をシリアライズできる場合は {@link #doSerialize0(Object, XMLEventWriter)} をコールして
+	 * シリアライズを行う。シリアライズできない場合は、次のチェーン要素に処理を委譲する。</p>
+	 * 
+	 * @param model シリアライズ対象モデル
+	 * @param writer XML出力先
+	 * @throws XMLStreamException StAXストリーム異常が発生した場合
+	 * @throws SerializationException シリアライズできる {@link SerializationWorker} が見つからなかった場合
+	 */
+	public final void doSerialize(Object model, XMLEventWriter writer) throws XMLStreamException,
+			SerializationException {
+		if (canSerialize(model)) {
+			doSerialize0(clazz.cast(model), writer);
+		} else if (next != null) {
+			next.doSerialize(model, writer);
+		} else {
+			throw new SerializationException("worker not found.");
+		}
+	}
+	
+	/**
+	 * 責務チェーンの次にあたる {@link SerializationWorker} を設定する。
+	 * 
+	 * @param next {@link SerializationWorker}
+	 * @return {@code next}
+	 */
+	public SerializationWorker<?> setNext(SerializationWorker<?> next) {
+		this.next = next;
+		return next;
+	}
+	
+	protected boolean canDeserialize(StartElement startElement) {
+		if (headElementQName == null) {
+			return true;
+		}
+		
+		if (startElement.getName().equals(headElementQName.getQName()) == false) {
+			return false;
+		}
+		Attribute classAttribute = startElement.getAttributeByName(CoreQName.CLASS.getQName());
+		if (classAttribute == null) {
+			return true;
+		}
+		return clazz.getName().equals(classAttribute.getValue());
+	}
+	
+	/**
+	 * 指定したモデルをシリアライズできるかどうか調べる。
+	 * 
+	 * @param model 対象モデル
+	 * @return シリアライズできる場合は{@code true}、そうでない場合は{@code false}
+	 */
+	protected boolean canSerialize(Object model) {
+		return model.getClass() == clazz;
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param startElement
+	 * @param reader
+	 */
+	protected abstract T doDeserialize0(StartElement startElement, XMLEventReader reader) throws XMLStreamException,
+			SerializationException;
+	
+	/**
+	 * シリアライズ処理の実装メソッド。
+	 * 
+	 * @param model シリアライズ対象。
+	 * @param writer XML出力先
+	 * @throws XMLStreamException StAXストリーム異常が発生した場合
+	 * @throws SerializationException 子要素においてシリアライズできる {@link SerializationWorker} が見つからなかった場合
+	 */
+	protected abstract void doSerialize0(T model, XMLEventWriter writer) throws XMLStreamException,
+			SerializationException;
+	
+	protected JiemamyContext getContext() {
+		return context;
+	}
+	
+	protected SerializationDirector getDirector() {
+		return director;
 	}
 }

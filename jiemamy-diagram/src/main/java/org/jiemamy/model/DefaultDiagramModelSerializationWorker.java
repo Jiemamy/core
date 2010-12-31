@@ -18,8 +18,10 @@
  */
 package org.jiemamy.model;
 
+import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.StartElement;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.serializer.SerializationDirector;
@@ -42,11 +44,18 @@ public final class DefaultDiagramModelSerializationWorker extends SerializationW
 	 * @param director 親となるディレクタ
 	 */
 	public DefaultDiagramModelSerializationWorker(JiemamyContext context, SerializationDirector director) {
-		super(DefaultDiagramModel.class, context, director);
+		super(DefaultDiagramModel.class, DiagramQName.DIAGRAM, context, director);
 	}
 	
 	@Override
-	protected void doWork0(DefaultDiagramModel model, XMLEventWriter writer) throws XMLStreamException,
+	protected DefaultDiagramModel doDeserialize0(StartElement startElement, XMLEventReader reader)
+			throws XMLStreamException, SerializationException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	protected void doSerialize0(DefaultDiagramModel model, XMLEventWriter writer) throws XMLStreamException,
 			SerializationException {
 		writer.add(EV_FACTORY.createStartElement(DiagramQName.DIAGRAM.getQName(),
 				createIdAndClassAttributes(model.getId(), model), emptyNamespaces()));
@@ -70,7 +79,7 @@ public final class DefaultDiagramModelSerializationWorker extends SerializationW
 	private void write2Nodes(DefaultDiagramModel model, XMLEventWriter writer) throws XMLStreamException,
 			SerializationException {
 		for (NodeModel nodeModel : model.getNodes()) {
-			getDirector().direct(nodeModel, writer);
+			getDirector().directSerialization(nodeModel, writer);
 		}
 	}
 }

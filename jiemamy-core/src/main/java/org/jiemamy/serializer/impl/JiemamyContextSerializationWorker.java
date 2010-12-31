@@ -23,10 +23,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
 
+import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.Namespace;
+import javax.xml.stream.events.StartElement;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -59,11 +61,18 @@ public final class JiemamyContextSerializationWorker extends SerializationWorker
 	 * @param director 親となるディレクタ
 	 */
 	public JiemamyContextSerializationWorker(JiemamyContext context, SerializationDirector director) {
-		super(JiemamyContext.class, context, director);
+		super(JiemamyContext.class, CoreQName.JIEMAMY, context, director);
 	}
 	
 	@Override
-	protected void doWork0(JiemamyContext model, XMLEventWriter writer) throws XMLStreamException,
+	protected JiemamyContext doDeserialize0(StartElement startElement, XMLEventReader reader)
+			throws XMLStreamException, SerializationException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	protected void doSerialize0(JiemamyContext model, XMLEventWriter writer) throws XMLStreamException,
 			SerializationException {
 		writer.add(EV_FACTORY.createStartDocument());
 		writer.add(EV_FACTORY.createStartElement(CoreQName.JIEMAMY.getQName(), atts(), nss()));
@@ -125,7 +134,7 @@ public final class JiemamyContextSerializationWorker extends SerializationWorker
 		SortedSet<DatabaseObjectModel> set = Sets.newTreeSet(new DatabaseObjectComparator());
 		set.addAll(databaseObjects);
 		for (DatabaseObjectModel dom : set) {
-			getDirector().direct(dom, writer);
+			getDirector().directSerialization(dom, writer);
 		}
 		writer.add(EV_FACTORY.createEndElement(CoreQName.DBOBJECTS.getQName(), null));
 	}
@@ -139,7 +148,7 @@ public final class JiemamyContextSerializationWorker extends SerializationWorker
 		}
 		writer.add(EV_FACTORY.createStartElement(CoreQName.DATASETS.getQName(), null, null));
 		for (DataSetModel dsm : dataSets) {
-			getDirector().direct(dsm, writer);
+			getDirector().directSerialization(dsm, writer);
 		}
 		writer.add(EV_FACTORY.createEndElement(CoreQName.DATASETS.getQName(), null));
 	}
@@ -149,7 +158,7 @@ public final class JiemamyContextSerializationWorker extends SerializationWorker
 		
 		Set<JiemamyFacet> facets = context.getFacets();
 		for (JiemamyFacet facet : facets) {
-			getDirector().direct(facet, writer);
+			getDirector().directSerialization(facet, writer);
 		}
 	}
 }

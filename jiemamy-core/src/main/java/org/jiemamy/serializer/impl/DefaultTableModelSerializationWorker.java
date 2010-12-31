@@ -18,8 +18,10 @@
  */
 package org.jiemamy.serializer.impl;
 
+import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.StartElement;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.model.attribute.ColumnModel;
@@ -45,11 +47,18 @@ public final class DefaultTableModelSerializationWorker extends SerializationWor
 	 * @param director 親となるディレクタ
 	 */
 	public DefaultTableModelSerializationWorker(JiemamyContext context, SerializationDirector director) {
-		super(DefaultTableModel.class, context, director);
+		super(DefaultTableModel.class, CoreQName.TABLE, context, director);
 	}
 	
 	@Override
-	protected void doWork0(DefaultTableModel model, XMLEventWriter writer) throws XMLStreamException,
+	protected DefaultTableModel doDeserialize0(StartElement startElement, XMLEventReader reader)
+			throws XMLStreamException, SerializationException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	protected void doSerialize0(DefaultTableModel model, XMLEventWriter writer) throws XMLStreamException,
 			SerializationException {
 		writer.add(EV_FACTORY.createStartElement(CoreQName.TABLE.getQName(),
 				createIdAndClassAttributes(model.getId(), model), emptyNamespaces()));
@@ -70,7 +79,7 @@ public final class DefaultTableModelSerializationWorker extends SerializationWor
 		}
 		writer.add(EV_FACTORY.createStartElement(CoreQName.COLUMNS.getQName(), emptyAttributes(), emptyNamespaces()));
 		for (ColumnModel columnModel : model.getColumns()) {
-			getDirector().direct(columnModel, writer);
+			getDirector().directSerialization(columnModel, writer);
 		}
 		writer.add(EV_FACTORY.createEndElement(CoreQName.COLUMNS.getQName(), emptyNamespaces()));
 	}
@@ -83,7 +92,7 @@ public final class DefaultTableModelSerializationWorker extends SerializationWor
 		writer
 			.add(EV_FACTORY.createStartElement(CoreQName.CONSTRAINTS.getQName(), emptyAttributes(), emptyNamespaces()));
 		for (ConstraintModel constraintModel : model.getConstraints()) {
-			getDirector().direct(constraintModel, writer);
+			getDirector().directSerialization(constraintModel, writer);
 		}
 		writer.add(EV_FACTORY.createEndElement(CoreQName.CONSTRAINTS.getQName(), emptyNamespaces()));
 	}

@@ -18,7 +18,9 @@
  */
 package org.jiemamy.serializer.impl;
 
+import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLEventWriter;
+import javax.xml.stream.events.StartElement;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +30,7 @@ import org.jiemamy.serializer.SerializationDirector;
 import org.jiemamy.serializer.SerializationWorker;
 
 /**
- * 全てのモデルを
+ * 全てのモデルをシリアライズ・デシリアライズできる「フリをする」ダミー実装。
  * 
  * @version $Id$
  * @author daisuke
@@ -45,16 +47,27 @@ public class DummyWorker extends SerializationWorker<Object> {
 	 * @param director 親となるディレクタ
 	 */
 	public DummyWorker(JiemamyContext context, SerializationDirector director) {
-		super(Object.class, context, director);
+		super(Object.class, null, context, director);
 	}
 	
 	@Override
-	protected void doWork0(Object model, XMLEventWriter writer) {
-		logger.error("DUMMY WORKER IS CALLED.");
-	}
-	
-	@Override
-	protected boolean isSerializable(Object model) {
+	protected boolean canDeserialize(StartElement startElement) {
 		return true;
+	}
+	
+	@Override
+	protected boolean canSerialize(Object model) {
+		return true;
+	}
+	
+	@Override
+	protected Object doDeserialize0(StartElement startElement, XMLEventReader reader) {
+		logger.error("DUMMY WORKER IS CALLED.");
+		return null;
+	}
+	
+	@Override
+	protected void doSerialize0(Object model, XMLEventWriter writer) {
+		logger.error("DUMMY WORKER IS CALLED.");
 	}
 }

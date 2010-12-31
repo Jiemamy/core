@@ -18,8 +18,10 @@
  */
 package org.jiemamy.serializer.impl;
 
+import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.StartElement;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.model.attribute.DefaultColumnModel;
@@ -43,11 +45,18 @@ public final class DefaultColumnModelSerializationWorker extends SerializationWo
 	 * @param director 親となるディレクタ
 	 */
 	public DefaultColumnModelSerializationWorker(JiemamyContext context, SerializationDirector director) {
-		super(DefaultColumnModel.class, context, director);
+		super(DefaultColumnModel.class, CoreQName.COLUMN, context, director);
 	}
 	
 	@Override
-	protected void doWork0(DefaultColumnModel model, XMLEventWriter writer) throws XMLStreamException,
+	protected DefaultColumnModel doDeserialize0(StartElement startElement, XMLEventReader reader)
+			throws XMLStreamException, SerializationException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	protected void doSerialize0(DefaultColumnModel model, XMLEventWriter writer) throws XMLStreamException,
 			SerializationException {
 		writer.add(EV_FACTORY.createStartElement(CoreQName.COLUMN.getQName(),
 				createIdAndClassAttributes(model.getId(), model), emptyNamespaces()));
@@ -58,6 +67,6 @@ public final class DefaultColumnModelSerializationWorker extends SerializationWo
 	private void write1Misc(DefaultColumnModel model, XMLEventWriter writer) throws XMLStreamException,
 			SerializationException {
 		writeNameLogNameDesc(writer, model.getName(), model.getLogicalName(), model.getDescription());
-		getDirector().direct(model.getDataType(), writer);
+		getDirector().directSerialization(model.getDataType(), writer);
 	}
 }

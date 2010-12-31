@@ -61,7 +61,9 @@ public class JiemamyStaxSerializer implements JiemamySerializer {
 				XMLEvent event = reader.nextEvent();
 				if (event.isStartElement()) {
 					StartElement startElement = event.asStartElement();
-					readEvents(context, startElement);
+					SerializationDirector director = new SerializationDirector(context);
+					director.directDeserialization(startElement, reader);
+					
 				} else {
 					// ... FIXME
 				}
@@ -86,7 +88,7 @@ public class JiemamyStaxSerializer implements JiemamySerializer {
 		try {
 			writer = new IndentingXMLEventWriter(outFactory.createXMLEventWriter(out));
 			SerializationDirector director = new SerializationDirector(context);
-			director.direct(context, writer);
+			director.directSerialization(context, writer);
 		} catch (FactoryConfigurationError e) {
 			throw new JiemamyError("", e);
 		} catch (XMLStreamException e) {

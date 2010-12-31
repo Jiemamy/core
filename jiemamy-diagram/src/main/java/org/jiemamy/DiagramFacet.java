@@ -31,7 +31,10 @@ import org.jiemamy.dddbase.EntityNotFoundException;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.OnMemoryRepository;
 import org.jiemamy.model.DefaultDiagramModelSerializationWorker;
+import org.jiemamy.model.DefaultNodeModelSerializationWorker;
 import org.jiemamy.model.DiagramModel;
+import org.jiemamy.model.geometory.JmColorSerializationWorker;
+import org.jiemamy.model.geometory.JmRectangleSerializationWorker;
 import org.jiemamy.serializer.SerializationDirector;
 import org.jiemamy.serializer.SerializationWorker;
 import org.jiemamy.transaction.Command;
@@ -105,8 +108,16 @@ public class DiagramFacet implements JiemamyFacet {
 		return DiagramNamespace.values();
 	}
 	
-	public Collection<? extends SerializationWorker<?>> getSerializationWorkers(SerializationDirector director) {
-		return Lists.newArrayList(new DefaultDiagramModelSerializationWorker(context, director));
+	public Iterable<? extends SerializationWorker<?>> getSerializationWorkers(SerializationDirector director) {
+		Validate.notNull(director);
+		Collection<SerializationWorker<?>> result = Lists.newArrayList();
+		result.add(new DiagramFacetSerializationWorker(context, director));
+		result.add(new DefaultDiagramModelSerializationWorker(context, director));
+		result.add(new DefaultNodeModelSerializationWorker(context, director));
+		// TODO ...
+		result.add(new JmColorSerializationWorker(context, director));
+		result.add(new JmRectangleSerializationWorker(context, director));
+		return result;
 	}
 	
 	/**

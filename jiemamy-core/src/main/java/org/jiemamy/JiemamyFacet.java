@@ -18,8 +18,6 @@
  */
 package org.jiemamy;
 
-import java.util.Collection;
-
 import org.jiemamy.serializer.SerializationDirector;
 import org.jiemamy.serializer.SerializationWorker;
 import org.jiemamy.xml.JiemamyNamespace;
@@ -46,7 +44,8 @@ public interface JiemamyFacet {
 	 * @param director 
 	 * 
 	 * @return 
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	Collection<? extends SerializationWorker<?>> getSerializationWorkers(SerializationDirector director);
+	Iterable<? extends SerializationWorker<?>> getSerializationWorkers(SerializationDirector director);
 	
 }

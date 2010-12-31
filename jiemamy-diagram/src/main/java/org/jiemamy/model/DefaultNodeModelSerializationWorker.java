@@ -21,9 +21,11 @@ package org.jiemamy.model;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Attribute;
+import javax.xml.stream.events.StartElement;
 
 import com.google.common.collect.Lists;
 
@@ -49,11 +51,18 @@ public final class DefaultNodeModelSerializationWorker extends SerializationWork
 	 * @param director 親となるディレクタ
 	 */
 	public DefaultNodeModelSerializationWorker(JiemamyContext context, SerializationDirector director) {
-		super(DefaultNodeModel.class, context, director);
+		super(DefaultNodeModel.class, DiagramQName.NODE, context, director);
 	}
 	
 	@Override
-	protected void doWork0(DefaultNodeModel model, XMLEventWriter writer) throws XMLStreamException,
+	protected DefaultNodeModel doDeserialize0(StartElement startElement, XMLEventReader reader)
+			throws XMLStreamException, SerializationException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	protected void doSerialize0(DefaultNodeModel model, XMLEventWriter writer) throws XMLStreamException,
 			SerializationException {
 		writer.add(EV_FACTORY.createStartElement(DiagramQName.NODE.getQName(),
 				createIdAndClassAttributes(model.getId(), model), emptyNamespaces()));
@@ -73,16 +82,16 @@ public final class DefaultNodeModelSerializationWorker extends SerializationWork
 			SerializationException {
 		writer.add(EV_FACTORY.createStartElement(DiagramQName.CORE.getQName(), attsForCore(model), emptyNamespaces()));
 		writer.add(EV_FACTORY.createEndElement(DiagramQName.CORE.getQName(), emptyNamespaces()));
-		getDirector().direct(model.getBoundary(), writer);
+		getDirector().directSerialization(model.getBoundary(), writer);
 		if (model.getColor() != null) {
-			getDirector().direct(model.getColor(), writer);
+			getDirector().directSerialization(model.getColor(), writer);
 		}
 	}
 	
 	private void write2Connections(DefaultNodeModel model, XMLEventWriter writer) throws XMLStreamException,
 			SerializationException {
 		for (ConnectionModel connectionModel : model.getSourceConnections()) {
-			getDirector().direct(connectionModel, writer);
+			getDirector().directSerialization(connectionModel, writer);
 		}
 	}
 }
