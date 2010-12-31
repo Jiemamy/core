@@ -24,7 +24,7 @@ package org.jiemamy.model.attribute.constraint;
  * @version $Id$
  * @author daisuke
  */
-public class DefaultPrimaryKeyConstraintModelBuilder extends
+public final class DefaultPrimaryKeyConstraintModelBuilder extends
 		KeyConstraintModelBuilder<DefaultPrimaryKeyConstraintModel, DefaultPrimaryKeyConstraintModelBuilder> {
 	
 	@Override

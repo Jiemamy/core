@@ -20,7 +20,6 @@ package org.jiemamy.model.attribute.constraint;
 
 import org.jiemamy.dddbase.ValueObject;
 import org.jiemamy.dddbase.ValueObjectBuilder;
-import org.jiemamy.dddbase.ValueObjectBuilder.BuilderConfigurator;
 
 /**
  * {@link ConstraintModel}のビルダー骨格実装クラス。

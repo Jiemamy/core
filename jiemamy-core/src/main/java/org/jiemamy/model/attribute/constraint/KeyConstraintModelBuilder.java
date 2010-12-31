@@ -26,7 +26,6 @@ import org.apache.commons.lang.Validate;
 
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.ValueObject;
-import org.jiemamy.dddbase.ValueObjectBuilder.BuilderConfigurator;
 import org.jiemamy.model.attribute.ColumnModel;
 
 /**

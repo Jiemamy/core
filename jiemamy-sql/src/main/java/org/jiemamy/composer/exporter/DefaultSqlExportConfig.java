@@ -23,7 +23,7 @@ package org.jiemamy.composer.exporter;
  * 
  * @author daisuke
  */
-public class DefaultSqlExportConfig extends AbstractFileExportConfig implements SqlExportConfig {
+public final class DefaultSqlExportConfig extends AbstractFileExportConfig implements SqlExportConfig {
 	
 	/** CREATE SCHAMA文を出力するかどうか */
 	private boolean emitCreateSchema;
@@ -48,15 +48,6 @@ public class DefaultSqlExportConfig extends AbstractFileExportConfig implements 
 	}
 	
 	/**
-	 * CREATE文の前にCREATE SCHAMA文を出力するかどうかを設定する。
-	 * 
-	 * @param emitCreateSchema 出力する場合は{@code true}、そうでない場合は{@code false}
-	 */
-	public void setEmitCreateSchema(boolean emitCreateSchema) {
-		this.emitCreateSchema = emitCreateSchema;
-	}
-	
-	/**
 	 * 出力するデータセットのインデックスを設定する。
 	 * 
 	 * <p>INSERT文を出力しない場合は、負数を設定する。</p>
@@ -65,6 +56,15 @@ public class DefaultSqlExportConfig extends AbstractFileExportConfig implements 
 	 */
 	public void setDataSetIndex(int dataSetIndex) {
 		this.dataSetIndex = dataSetIndex;
+	}
+	
+	/**
+	 * CREATE文の前にCREATE SCHAMA文を出力するかどうかを設定する。
+	 * 
+	 * @param emitCreateSchema 出力する場合は{@code true}、そうでない場合は{@code false}
+	 */
+	public void setEmitCreateSchema(boolean emitCreateSchema) {
+		this.emitCreateSchema = emitCreateSchema;
 	}
 	
 	/**

@@ -43,7 +43,7 @@ import org.jiemamy.xml.CoreQName;
  * 
  * @author daisuke
  */
-public class DefaultColumnModel extends AbstractJiemamyEntity implements ColumnModel {
+public final class DefaultColumnModel extends AbstractJiemamyEntity implements ColumnModel {
 	
 	/** 物理名 */
 	private String name;

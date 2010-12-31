@@ -36,7 +36,7 @@ import org.jiemamy.model.sql.Token;
  * 
  * @author daisuke
  */
-public class DefaultTokenResolver implements TokenResolver {
+public final class DefaultTokenResolver implements TokenResolver {
 	
 	public List<Token> resolve(Object value) {
 		List<Token> tokens = Lists.newArrayListWithCapacity(2);

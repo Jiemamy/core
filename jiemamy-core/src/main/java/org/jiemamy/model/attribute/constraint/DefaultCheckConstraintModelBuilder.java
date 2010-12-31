@@ -24,7 +24,7 @@ package org.jiemamy.model.attribute.constraint;
  * @version $Id$
  * @author Keisuke.K
  */
-public class DefaultCheckConstraintModelBuilder extends
+public final class DefaultCheckConstraintModelBuilder extends
 		CheckConstraintModelBuilder<DefaultCheckConstraintModel, DefaultCheckConstraintModelBuilder> {
 	
 	@Override

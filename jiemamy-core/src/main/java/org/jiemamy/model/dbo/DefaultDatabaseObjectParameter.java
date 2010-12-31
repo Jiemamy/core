@@ -27,7 +27,7 @@ import org.apache.commons.lang.Validate;
  * @version $Id$
  * @author daisuke
  */
-public class DefaultDatabaseObjectParameter<T> implements DatabaseObjectParameter<T> {
+public final class DefaultDatabaseObjectParameter<T> implements DatabaseObjectParameter<T> {
 	
 	/**
 	 * シリアルパラメータを取得する。

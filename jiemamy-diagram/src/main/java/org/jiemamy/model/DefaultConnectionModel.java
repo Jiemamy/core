@@ -36,7 +36,7 @@ import org.jiemamy.utils.MutationMonitor;
  * @version $Id$
  * @author daisuke
  */
-public class DefaultConnectionModel extends AbstractJiemamyEntity implements ConnectionModel {
+public final class DefaultConnectionModel extends AbstractJiemamyEntity implements ConnectionModel {
 	
 	private List<JmPoint> bendpoints = Lists.newArrayList();
 	

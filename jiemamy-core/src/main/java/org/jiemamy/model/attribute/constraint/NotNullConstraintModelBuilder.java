@@ -19,7 +19,6 @@
 package org.jiemamy.model.attribute.constraint;
 
 import org.jiemamy.dddbase.EntityRef;
-import org.jiemamy.dddbase.ValueObjectBuilder.BuilderConfigurator;
 import org.jiemamy.model.attribute.ColumnModel;
 
 /**

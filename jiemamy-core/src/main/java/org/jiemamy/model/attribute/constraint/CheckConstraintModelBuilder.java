@@ -18,8 +18,6 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
-import org.jiemamy.dddbase.ValueObjectBuilder.BuilderConfigurator;
-
 /**
  * {@link CheckConstraintModel}のビルダー骨格実装クラス。
  * 

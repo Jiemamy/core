@@ -27,7 +27,7 @@ import org.apache.commons.lang.Validate;
  * @version $Id$
  * @author daisuke
  */
-public class DefaultTypeParameter<T> implements TypeParameter<T> {
+public final class DefaultTypeParameter<T> implements TypeParameter<T> {
 	
 	/**
 	 * 精度パラメータを取得する。

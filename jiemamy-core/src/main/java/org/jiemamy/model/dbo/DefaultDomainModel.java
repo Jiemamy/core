@@ -49,7 +49,7 @@ import org.jiemamy.utils.collection.CollectionsUtil;
  * 
  * @author daisuke
  */
-public class DefaultDomainModel extends AbstractDatabaseObjectModel implements DomainModel {
+public final class DefaultDomainModel extends AbstractDatabaseObjectModel implements DomainModel {
 	
 	/** ドメインとして定義された型記述子 */
 	private TypeVariant dataType;

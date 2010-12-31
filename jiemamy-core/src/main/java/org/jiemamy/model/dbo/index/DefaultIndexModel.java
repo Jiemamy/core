@@ -38,7 +38,7 @@ import org.jiemamy.utils.MutationMonitor;
  * 
  * @author daisuke
  */
-public class DefaultIndexModel extends AbstractDatabaseObjectModel implements IndexModel {
+public final class DefaultIndexModel extends AbstractDatabaseObjectModel implements IndexModel {
 	
 	/** ユニークインデックスか否か */
 	private boolean unique;

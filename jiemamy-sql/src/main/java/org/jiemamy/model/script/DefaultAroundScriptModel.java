@@ -41,7 +41,7 @@ import org.jiemamy.utils.MutationMonitor;
  * 
  * @author daisuke
  */
-public class DefaultAroundScriptModel extends AbstractJiemamyEntity implements AroundScriptModel {
+public final class DefaultAroundScriptModel extends AbstractJiemamyEntity implements AroundScriptModel {
 	
 	private Map<Position, String> scripts = new HashMap<Position, String>();
 	

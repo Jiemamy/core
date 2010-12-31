@@ -24,7 +24,7 @@ package org.jiemamy.model.attribute.constraint;
  * @version $Id$
  * @author Keisuke.K
  */
-public class DefaultNotNullConstraintModelBuilder extends
+public final class DefaultNotNullConstraintModelBuilder extends
 		NotNullConstraintModelBuilder<DefaultNotNullConstraintModel, DefaultNotNullConstraintModelBuilder> {
 	
 	@Override
