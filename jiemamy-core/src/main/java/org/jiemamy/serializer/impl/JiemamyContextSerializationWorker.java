@@ -27,7 +27,6 @@ import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Attribute;
-import javax.xml.stream.events.Namespace;
 import javax.xml.stream.events.StartElement;
 
 import com.google.common.collect.Lists;
@@ -44,7 +43,6 @@ import org.jiemamy.serializer.SerializationDirector;
 import org.jiemamy.serializer.SerializationException;
 import org.jiemamy.serializer.SerializationWorker;
 import org.jiemamy.xml.CoreQName;
-import org.jiemamy.xml.JiemamyNamespace;
 
 /**
  * {@link JiemamyContext}のシリアライズ処理実装クラス。
@@ -79,29 +77,20 @@ public final class JiemamyContextSerializationWorker extends SerializationWorker
 	protected void doSerialize0(JiemamyContext model, XMLEventWriter writer) throws XMLStreamException,
 			SerializationException {
 		writer.add(EV_FACTORY.createStartDocument());
-		writer.add(EV_FACTORY.createStartElement(CoreQName.JIEMAMY.getQName(), atts(), nss()));
+		writer.add(EV_FACTORY.createStartElement(CoreQName.JIEMAMY.getQName(), atts(), getNamespacesIfNotAvailable()));
+		setNamespaceAvailable(true);
 		write1Misc(writer);
 		write2DatabaseObjects(writer);
 		write3DataSets(writer);
 		write4Facets(writer);
-		writer.add(EV_FACTORY.createEndElement(CoreQName.JIEMAMY.getQName(), nss()));
+		writer.add(EV_FACTORY.createEndElement(CoreQName.JIEMAMY.getQName(), getNamespacesIfNotAvailable()));
+		setNamespaceAvailable(false);
 		writer.add(EV_FACTORY.createEndDocument());
 	}
 	
 	private Iterator<Attribute> atts() {
 		List<Attribute> result = Lists.newArrayList();
 		result.add(EV_FACTORY.createAttribute(CoreQName.VERSION.getQName(), JiemamyContext.getVersion().toString()));
-		return result.iterator();
-	}
-	
-	private Iterator<Namespace> nss() {
-		List<Namespace> result = Lists.newArrayList();
-		for (JiemamyNamespace jns : context.getNamespaces()) {
-			Namespace ns = EV_FACTORY.createNamespace(jns.getPrefix(), jns.getNamespaceURI().toString());
-			if (StringUtils.isEmpty(ns.getNamespaceURI()) == false) {
-				result.add(ns);
-			}
-		}
 		return result.iterator();
 	}
 	

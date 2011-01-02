@@ -59,9 +59,11 @@ public final class DefaultColumnModelSerializationWorker extends SerializationWo
 	protected void doSerialize0(DefaultColumnModel model, XMLEventWriter writer) throws XMLStreamException,
 			SerializationException {
 		writer.add(EV_FACTORY.createStartElement(CoreQName.COLUMN.getQName(),
-				createIdAndClassAttributes(model.getId(), model), emptyNamespaces()));
+				createIdAndClassAttributes(model.getId(), model), getNamespacesIfNotAvailable()));
+		setNamespaceAvailable(true);
 		write1Misc(model, writer);
 		writer.add(EV_FACTORY.createEndElement(CoreQName.COLUMN.getQName(), emptyNamespaces()));
+		setNamespaceAvailable(false);
 	}
 	
 	private void write1Misc(DefaultColumnModel model, XMLEventWriter writer) throws XMLStreamException,

@@ -37,6 +37,7 @@ import com.google.common.collect.Lists;
 import org.apache.commons.lang.StringUtils;
 
 import org.jiemamy.xml.CoreQName;
+import org.jiemamy.xml.JiemamyNamespace;
 import org.jiemamy.xml.JiemamyQName;
 
 /**
@@ -78,21 +79,27 @@ public abstract class SerializationWorker<T> {
 	protected static void writeNameLogNameDesc(XMLEventWriter writer, String name, String logicalName,
 			String description) throws XMLStreamException {
 		writer.add(EV_FACTORY.createStartElement(CoreQName.NAME.getQName(), emptyAttributes(), emptyNamespaces()));
-		writer.add(EV_FACTORY.createCharacters(name));
+		writeCharacters(writer, name);
 		writer.add(EV_FACTORY.createEndElement(CoreQName.NAME.getQName(), emptyNamespaces()));
 		
-		if (StringUtils.isEmpty(logicalName) == false) {
+		if (logicalName != null) {
 			writer.add(EV_FACTORY.createStartElement(CoreQName.LOGICAL_NAME.getQName(), emptyAttributes(),
 					emptyNamespaces()));
 			writer.add(EV_FACTORY.createCharacters(logicalName));
 			writer.add(EV_FACTORY.createEndElement(CoreQName.LOGICAL_NAME.getQName(), emptyNamespaces()));
 		}
 		
-		if (StringUtils.isEmpty(description) == false) {
+		if (description != null) {
 			writer.add(EV_FACTORY.createStartElement(CoreQName.DESCRIPTION.getQName(), emptyAttributes(),
 					emptyNamespaces()));
 			writer.add(EV_FACTORY.createCharacters(description));
 			writer.add(EV_FACTORY.createEndElement(CoreQName.DESCRIPTION.getQName(), emptyNamespaces()));
+		}
+	}
+	
+	private static void writeCharacters(XMLEventWriter writer, String chars) throws XMLStreamException {
+		if (StringUtils.isEmpty(chars) == false) {
+			writer.add(EV_FACTORY.createCharacters(chars));
 		}
 	}
 	
@@ -232,5 +239,31 @@ public abstract class SerializationWorker<T> {
 	
 	protected JiemamyQName getHeadElementQName() {
 		return headElementQName;
+	}
+	
+	protected Iterator<Namespace> getNamespaces() {
+		List<Namespace> result = Lists.newArrayList();
+		for (JiemamyNamespace jns : director.getContext().getNamespaces()) {
+			Namespace ns = EV_FACTORY.createNamespace(jns.getPrefix(), jns.getNamespaceURI().toString());
+			if (StringUtils.isEmpty(ns.getNamespaceURI()) == false) {
+				result.add(ns);
+			}
+		}
+		return result.iterator();
+	}
+	
+	protected Iterator<Namespace> getNamespacesIfNotAvailable() {
+		if (director.isNamespaceAvailable()) {
+			return null;
+		}
+		return getNamespaces();
+	}
+	
+	protected boolean isNamespaceAvailable() {
+		return director.isNamespaceAvailable();
+	}
+	
+	protected void setNamespaceAvailable(boolean namespaceAvailable) {
+		director.setNamespaceAvailable(namespaceAvailable);
 	}
 }

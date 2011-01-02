@@ -57,8 +57,11 @@ public class JmRectangleSerializationWorker extends SerializationWorker<JmRectan
 	
 	@Override
 	protected void doSerialize0(JmRectangle model, XMLEventWriter writer) throws XMLStreamException {
-		writer.add(EV_FACTORY.createStartElement(DiagramQName.BOUNDARY.getQName(), atts(model), null));
+		writer.add(EV_FACTORY.createStartElement(DiagramQName.BOUNDARY.getQName(), atts(model),
+				getNamespacesIfNotAvailable()));
+		setNamespaceAvailable(true);
 		writer.add(EV_FACTORY.createEndElement(DiagramQName.BOUNDARY.getQName(), null));
+		setNamespaceAvailable(false);
 	}
 	
 	private Iterator<Attribute> atts(JmRectangle boundary) {

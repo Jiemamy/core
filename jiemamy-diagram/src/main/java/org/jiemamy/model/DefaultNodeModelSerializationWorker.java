@@ -65,10 +65,12 @@ public final class DefaultNodeModelSerializationWorker extends SerializationWork
 	protected void doSerialize0(DefaultNodeModel model, XMLEventWriter writer) throws XMLStreamException,
 			SerializationException {
 		writer.add(EV_FACTORY.createStartElement(DiagramQName.NODE.getQName(),
-				createIdAndClassAttributes(model.getId(), model), emptyNamespaces()));
+				createIdAndClassAttributes(model.getId(), model), getNamespacesIfNotAvailable()));
+		setNamespaceAvailable(true);
 		write1Misc(model, writer);
 		write2Connections(model, writer);
 		writer.add(EV_FACTORY.createEndElement(DiagramQName.NODE.getQName(), emptyNamespaces()));
+		setNamespaceAvailable(false);
 	}
 	
 	private Iterator<Attribute> attsForCore(DefaultNodeModel model) {

@@ -70,7 +70,9 @@ public final class DefaultTypeVariantSerializationWorker extends SerializationWo
 	
 	@Override
 	protected void doSerialize0(DefaultTypeVariant model, XMLEventWriter writer) throws XMLStreamException {
-		writer.add(EV_FACTORY.createStartElement(CoreQName.DATA_TYPE.getQName(), emptyAttributes(), emptyNamespaces()));
+		writer.add(EV_FACTORY.createStartElement(CoreQName.DATA_TYPE.getQName(), emptyAttributes(),
+				getNamespacesIfNotAvailable()));
+		setNamespaceAvailable(true);
 		
 		writer.add(EV_FACTORY.createStartElement(CoreQName.TYPE_CATEGORY.getQName(), emptyAttributes(),
 				emptyNamespaces()));
@@ -84,6 +86,7 @@ public final class DefaultTypeVariantSerializationWorker extends SerializationWo
 		writeParams(model, writer);
 		
 		writer.add(EV_FACTORY.createEndElement(CoreQName.DATA_TYPE.getQName(), emptyNamespaces()));
+		setNamespaceAvailable(false);
 	}
 	
 	private Iterator<Attribute> paramAttrs(TypeParameter<?> param) {

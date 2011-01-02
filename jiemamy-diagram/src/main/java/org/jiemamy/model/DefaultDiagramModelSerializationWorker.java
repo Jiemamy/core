@@ -58,10 +58,12 @@ public final class DefaultDiagramModelSerializationWorker extends SerializationW
 	protected void doSerialize0(DefaultDiagramModel model, XMLEventWriter writer) throws XMLStreamException,
 			SerializationException {
 		writer.add(EV_FACTORY.createStartElement(DiagramQName.DIAGRAM.getQName(),
-				createIdAndClassAttributes(model.getId(), model), emptyNamespaces()));
+				createIdAndClassAttributes(model.getId(), model), getNamespacesIfNotAvailable()));
+		setNamespaceAvailable(true);
 		write1Misc(model, writer);
 		write2Nodes(model, writer);
 		writer.add(EV_FACTORY.createEndElement(DiagramQName.DIAGRAM.getQName(), emptyNamespaces()));
+		setNamespaceAvailable(false);
 	}
 	
 	private void write1Misc(DefaultDiagramModel model, XMLEventWriter writer) throws XMLStreamException {

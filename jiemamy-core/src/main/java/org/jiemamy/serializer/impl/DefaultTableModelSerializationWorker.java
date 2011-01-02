@@ -60,16 +60,30 @@ public final class DefaultTableModelSerializationWorker extends SerializationWor
 		UUID id = UUIDUtil.valueOfOrRandom(getAttributeAsString(startElement, CoreQName.ID));
 		DefaultTableModel model = new DefaultTableModel(id);
 		XMLEvent event = reader.nextEvent();
-		while (event.isEndElement() == false || event.asEndElement().getName().equals(getHeadElementQName()) == false) {
+		// FIXME ↓終了条件がうんこ
+		while (event.isEndElement() == false
+				|| event.asEndElement().getName().equals(getHeadElementQName().getQName()) == false) {
 			if (isStartElementOf(event, CoreQName.NAME)) {
 				XMLEvent nextEvent = reader.nextEvent();
-				model.setName(nextEvent.asCharacters().getData());
+				if (nextEvent.isCharacters()) {
+					model.setName(nextEvent.asCharacters().getData());
+				} else if (nextEvent.isEndElement()) {
+					model.setName("");
+				}
 			} else if (isStartElementOf(event, CoreQName.LOGICAL_NAME)) {
 				XMLEvent nextEvent = reader.nextEvent();
-				model.setLogicalName(nextEvent.asCharacters().getData());
+				if (nextEvent.isCharacters()) {
+					model.setLogicalName(nextEvent.asCharacters().getData());
+				} else if (nextEvent.isEndElement()) {
+					model.setLogicalName("");
+				}
 			} else if (isStartElementOf(event, CoreQName.DESCRIPTION)) {
 				XMLEvent nextEvent = reader.nextEvent();
-				model.setDescription(nextEvent.asCharacters().getData());
+				if (nextEvent.isCharacters()) {
+					model.setDescription(nextEvent.asCharacters().getData());
+				} else if (nextEvent.isEndElement()) {
+					model.setDescription("");
+				}
 			} else if (event.isStartElement()) {
 				getDirector().directDeserialization(event.asStartElement(), reader);
 			}
@@ -84,11 +98,13 @@ public final class DefaultTableModelSerializationWorker extends SerializationWor
 	protected void doSerialize0(DefaultTableModel model, XMLEventWriter writer) throws XMLStreamException,
 			SerializationException {
 		writer.add(EV_FACTORY.createStartElement(CoreQName.TABLE.getQName(),
-				createIdAndClassAttributes(model.getId(), model), emptyNamespaces()));
+				createIdAndClassAttributes(model.getId(), model), getNamespacesIfNotAvailable()));
+		setNamespaceAvailable(true);
 		write1Misc(model, writer);
 		write2Columns(model, writer);
 		write3Constraints(model, writer);
 		writer.add(EV_FACTORY.createEndElement(CoreQName.TABLE.getQName(), emptyNamespaces()));
+		setNamespaceAvailable(false);
 	}
 	
 	private void write1Misc(DefaultTableModel model, XMLEventWriter writer) throws XMLStreamException {

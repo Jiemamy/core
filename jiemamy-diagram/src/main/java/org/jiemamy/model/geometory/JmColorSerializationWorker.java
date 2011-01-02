@@ -63,8 +63,10 @@ public class JmColorSerializationWorker extends SerializationWorker<JmColor> {
 	
 	@Override
 	protected void doSerialize0(JmColor model, XMLEventWriter writer) throws XMLStreamException, SerializationException {
-		writer.add(EV_FACTORY.createStartElement(DiagramQName.COLOR.getQName(), atts(model), null));
+		writer.add(EV_FACTORY.createStartElement(DiagramQName.COLOR.getQName(), atts(model), getNamespacesIfNotAvailable()));
+		setNamespaceAvailable(true);
 		writer.add(EV_FACTORY.createEndElement(DiagramQName.COLOR.getQName(), null));
+		setNamespaceAvailable(false);
 	}
 	
 	private Iterator<Attribute> atts(JmColor color) {

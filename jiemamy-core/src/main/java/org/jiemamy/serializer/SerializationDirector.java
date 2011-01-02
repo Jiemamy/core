@@ -41,6 +41,10 @@ public final class SerializationDirector {
 	
 	private SerializationWorker<?> head;
 	
+	private final JiemamyContext context;
+	
+	private int namespaceAvailableCounter;
+	
 
 	/**
 	 * インスタンスを生成する。
@@ -49,6 +53,9 @@ public final class SerializationDirector {
 	 */
 	public SerializationDirector(JiemamyContext context) {
 		Validate.notNull(context);
+		
+		this.context = context;
+		
 		add(new DummyWorker(context, this)); // FIXME これがケツ持ちをしてる
 		add(new JiemamyContextSerializationWorker(context, this));
 		add(new DefaultTableModelSerializationWorker(context, this));
@@ -91,6 +98,14 @@ public final class SerializationDirector {
 	}
 	
 	/**
+	 * somethingを取得する。 TODO for daisuke
+	 * @return the context
+	 */
+	public JiemamyContext getContext() {
+		return context;
+	}
+	
+	/**
 	 * チェーンに{@link SerializationWorker}を追加する。
 	 * 
 	 * @param worker 追加する{@link SerializationWorker}
@@ -102,6 +117,14 @@ public final class SerializationDirector {
 			worker.setNext(head);
 		}
 		head = worker;
+	}
+	
+	boolean isNamespaceAvailable() {
+		return namespaceAvailableCounter > 0;
+	}
+	
+	void setNamespaceAvailable(boolean namespaceAvailable) {
+		namespaceAvailableCounter += namespaceAvailable ? 1 : -1;
 	}
 	
 }
