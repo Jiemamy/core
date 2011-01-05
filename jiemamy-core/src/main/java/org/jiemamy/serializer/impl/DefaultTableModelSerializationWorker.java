@@ -66,21 +66,21 @@ public final class DefaultTableModelSerializationWorker extends SerializationWor
 			if (isStartElementOf(event, CoreQName.NAME)) {
 				XMLEvent nextEvent = reader.nextEvent();
 				if (nextEvent.isCharacters()) {
-					model.setName(nextEvent.asCharacters().getData());
+					model.setName(nextEvent.asCharacters().getData().trim());
 				} else if (nextEvent.isEndElement()) {
 					model.setName("");
 				}
 			} else if (isStartElementOf(event, CoreQName.LOGICAL_NAME)) {
 				XMLEvent nextEvent = reader.nextEvent();
 				if (nextEvent.isCharacters()) {
-					model.setLogicalName(nextEvent.asCharacters().getData());
+					model.setLogicalName(nextEvent.asCharacters().getData().trim());
 				} else if (nextEvent.isEndElement()) {
 					model.setLogicalName("");
 				}
 			} else if (isStartElementOf(event, CoreQName.DESCRIPTION)) {
 				XMLEvent nextEvent = reader.nextEvent();
 				if (nextEvent.isCharacters()) {
-					model.setDescription(nextEvent.asCharacters().getData());
+					model.setDescription(nextEvent.asCharacters().getData().trim());
 				} else if (nextEvent.isEndElement()) {
 					model.setDescription("");
 				}

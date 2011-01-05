@@ -94,14 +94,9 @@
       <artifactId>google-collections</artifactId>
     </dependency>
     <dependency>
-      <groupId>stax</groupId>
-      <artifactId>stax-api</artifactId>
-      <version>1.0.1</version>
-    </dependency>
-    <dependency>
-      <groupId>stax</groupId>
-      <artifactId>stax</artifactId>
-      <version>1.2.0</version>
+      <groupId>org.codehaus.woodstox</groupId>
+      <artifactId>woodstox-core-asl</artifactId>
+      <version>4.1.0</version>
     </dependency>
     <dependency>
       <groupId>stax-utils</groupId>

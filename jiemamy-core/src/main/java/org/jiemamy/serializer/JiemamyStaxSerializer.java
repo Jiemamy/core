@@ -22,6 +22,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import javanet.staxutils.IndentingXMLEventWriter;
+import javanet.staxutils.events.EventFactory;
 
 import javax.xml.stream.FactoryConfigurationError;
 import javax.xml.stream.XMLEventFactory;
@@ -32,8 +33,6 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
-
-import com.bea.xml.stream.EventFactory;
 
 import org.jiemamy.FacetProvider;
 import org.jiemamy.JiemamyContext;
@@ -48,7 +47,7 @@ import org.jiemamy.JiemamyError;
 public class JiemamyStaxSerializer implements JiemamySerializer {
 	
 	/** 共用の{@link EventFactory}インスタンス */
-	protected static final XMLEventFactory EV_FACTORY = EventFactory.newInstance();
+	protected static final XMLEventFactory EV_FACTORY = XMLEventFactory.newInstance();
 	
 
 	public JiemamyContext deserialize(InputStream in, FacetProvider... facetProviders) throws SerializationException {

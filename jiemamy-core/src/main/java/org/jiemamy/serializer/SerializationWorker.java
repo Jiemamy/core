@@ -22,6 +22,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
+import javanet.staxutils.events.EventFactory;
+
 import javax.xml.stream.XMLEventFactory;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLEventWriter;
@@ -31,7 +33,6 @@ import javax.xml.stream.events.Namespace;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 
-import com.bea.xml.stream.EventFactory;
 import com.google.common.collect.Lists;
 
 import org.apache.commons.lang.StringUtils;
@@ -50,7 +51,7 @@ import org.jiemamy.xml.JiemamyQName;
 public abstract class SerializationWorker<T> {
 	
 	/** 共用の{@link EventFactory}インスタンス */
-	protected static final XMLEventFactory EV_FACTORY = EventFactory.newInstance();
+	protected static final XMLEventFactory EV_FACTORY = XMLEventFactory.newInstance();
 	
 
 	protected static Iterator<Attribute> createIdAndClassAttributes(UUID id, Object obj) {
@@ -92,7 +93,9 @@ public abstract class SerializationWorker<T> {
 		if (description != null) {
 			writer.add(EV_FACTORY.createStartElement(CoreQName.DESCRIPTION.getQName(), emptyAttributes(),
 					emptyNamespaces()));
-			writer.add(EV_FACTORY.createCharacters(description));
+			if (StringUtils.isEmpty(description) == false) {
+				writer.add(EV_FACTORY.createCharacters(description));
+			}
 			writer.add(EV_FACTORY.createEndElement(CoreQName.DESCRIPTION.getQName(), emptyNamespaces()));
 		}
 	}
