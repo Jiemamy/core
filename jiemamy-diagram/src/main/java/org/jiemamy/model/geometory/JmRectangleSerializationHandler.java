@@ -20,9 +20,12 @@ package org.jiemamy.model.geometory;
 
 import javax.xml.stream.XMLStreamException;
 
+import org.apache.commons.lang.Validate;
+
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.serializer.SerializationException;
 import org.jiemamy.serializer.stax2.DeserializationContext;
+import org.jiemamy.serializer.stax2.JiemamyCursor;
 import org.jiemamy.serializer.stax2.JiemamyOutputContainer;
 import org.jiemamy.serializer.stax2.JiemamyOutputElement;
 import org.jiemamy.serializer.stax2.SerializationContext;
@@ -31,13 +34,19 @@ import org.jiemamy.serializer.stax2.SerializationHandler;
 import org.jiemamy.xml.DiagramQName;
 
 /**
- * TODO for daisuke
+ * {@link JmRectangle}をシリアライズ/デシリアライズするハンドラ。
  * 
  * @version $Id$
  * @author daisuke
  */
 public class JmRectangleSerializationHandler extends SerializationHandler<JmRectangle> {
 	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param context
+	 * @param director
+	 */
 	public JmRectangleSerializationHandler(JiemamyContext context, SerializationDirector director) {
 //		super(JmRectangle.class, DiagramQName.BOUNDARY, director);
 		super(director);
@@ -45,13 +54,19 @@ public class JmRectangleSerializationHandler extends SerializationHandler<JmRect
 	
 	@Override
 	public JmRectangle handle(DeserializationContext ctx) throws SerializationException {
-		// TODO Auto-generated method stub
-//		int x = Integer.parseInt(startElement.getAttributeByName(DiagramQName.X.getQName()).getValue());
-//		int y = Integer.parseInt(startElement.getAttributeByName(DiagramQName.Y.getQName()).getValue());
-//		int width = Integer.parseInt(startElement.getAttributeByName(DiagramQName.WIDTH.getQName()).getValue());
-//		int height = Integer.parseInt(startElement.getAttributeByName(DiagramQName.HEIGHT.getQName()).getValue());
-//		return new JmRectangle(x, y, width, height);
-		return null;
+		Validate.notNull(ctx);
+		try {
+			ctx.getCursor().advance();
+			Validate.isTrue(ctx.getCursor().isQName(DiagramQName.BOUNDARY));
+			JiemamyCursor cursor = ctx.getCursor();
+			int x = cursor.getAttrIntValue(DiagramQName.X);
+			int y = cursor.getAttrIntValue(DiagramQName.Y);
+			int width = cursor.getAttrIntValue(DiagramQName.WIDTH);
+			int height = cursor.getAttrIntValue(DiagramQName.HEIGHT);
+			return new JmRectangle(x, y, width, height);
+		} catch (XMLStreamException e) {
+			throw new SerializationException(e);
+		}
 	}
 	
 	@Override

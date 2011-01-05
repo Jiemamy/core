@@ -148,8 +148,9 @@ public class JiemamyStaxSerializerTest {
 	@Test
 	public void test03_Columnを1つ含むTableを1つ含むJiemamyContextのシリアライズ結果を確認() throws Exception {
 		JiemamyContext ctx = new JiemamyContext();
+		ctx.setDialectClassName(null); // null → 要素欠損
 		ctx.setSchemaName("schema-name");
-		ctx.setDescription("");
+		ctx.setDescription(""); // 空文字列 → 空要素
 		
 		UUID tid = UUID.randomUUID();
 		DefaultTableModel t = new DefaultTableModel(tid);
@@ -175,8 +176,9 @@ public class JiemamyStaxSerializerTest {
 		// FORMAT-OFF
 		String expected = "<?xml version='1.0' encoding='UTF-8'?>" + LF
 				+ "<jiemamy xmlns=\"http://jiemamy.org/xml/ns/core\" version=\"0.3.0-SNAPSHOT\">" + LF
+//				+ "  <dialect>com.example.Dialect</dialect>" + LF // nullなので要素欠損
 				+ "  <schemaName>schema-name</schemaName>" + LF
-				+ "  <description/>" + LF
+				+ "  <description/>" + LF // 空文字列なので空要素
 				+ "  <dbobjects>" + LF
 				+ "    <table" +
 							" id=\"" + tid.toString() + "\"" +
@@ -213,8 +215,9 @@ public class JiemamyStaxSerializerTest {
 		// FORMAT-OFF
 		String xml = "<?xml version='1.0' encoding='UTF-8'?>" + LF
 				+ "<jiemamy xmlns=\"http://jiemamy.org/xml/ns/core\" version=\"0.3.0-SNAPSHOT\">" + LF
+//				+ "  <dialect>com.example.Dialect</dialect>" + LF // 要素欠損
 				+ "  <schemaName>schema-name</schemaName>" + LF
-				+ "  <description/>" + LF
+				+ "  <description/>" + LF // 空要素
 				+ "  <dbobjects/>" + LF
 				+ "</jiemamy>" + LF;
 		// FORMAT-ON
@@ -222,8 +225,9 @@ public class JiemamyStaxSerializerTest {
 		JiemamyContext deserialized = serializer.deserialize(bais);
 		
 		assertThat(deserialized, is(notNullValue()));
-		assertThat(deserialized.getDialectClassName(), is(nullValue()));
+		
+		assertThat(deserialized.getDialectClassName(), is(nullValue())); // 要素欠損 → null
 		assertThat(deserialized.getSchemaName(), is("schema-name"));
-		assertThat(deserialized.getDescription(), is(""));
+		assertThat(deserialized.getDescription(), is("")); // 空要素 → 空文字列
 	}
 }

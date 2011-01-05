@@ -34,7 +34,7 @@ import org.jiemamy.serializer.stax2.SerializationHandler;
 import org.jiemamy.xml.CoreQName;
 
 /**
- * TODO for daisuke
+ * {@link DefaultTableModel}をシリアライズ/デシリアライズするハンドラ。
  * 
  * @version $Id$
  * @author daisuke

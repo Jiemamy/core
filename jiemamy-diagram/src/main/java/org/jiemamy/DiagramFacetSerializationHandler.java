@@ -33,7 +33,7 @@ import org.jiemamy.serializer.stax2.SerializationHandler;
 import org.jiemamy.xml.DiagramQName;
 
 /**
- * {@link DiagramFacet}のシリアライズ処理実装クラス。
+ * {@link DiagramFacet}をシリアライズ/デシリアライズするハンドラ。
  * 
  * @version $Id$
  * @author daisuke

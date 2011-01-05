@@ -41,28 +41,28 @@ public enum DiagramQName implements JiemamyQName {
 	BOUNDARY(DiagramNamespace.NS_DIAGRAM, "boundary"),
 
 	/***/
-	HEIGHT(DiagramNamespace.NS_DIAGRAM, "height"),
+	HEIGHT(DiagramNamespace.NONE, "height"),
 
 	/***/
-	WIDTH(DiagramNamespace.NS_DIAGRAM, "width"),
+	WIDTH(DiagramNamespace.NONE, "width"),
 
 	/***/
-	X(DiagramNamespace.NS_DIAGRAM, "x"),
+	X(DiagramNamespace.NONE, "x"),
 
 	/***/
-	Y(DiagramNamespace.NS_DIAGRAM, "y"),
+	Y(DiagramNamespace.NONE, "y"),
 
 	/***/
 	COLOR(DiagramNamespace.NS_DIAGRAM, "color"),
 
 	/***/
-	R(DiagramNamespace.NS_DIAGRAM, "red"),
+	R(DiagramNamespace.NONE, "red"),
 
 	/***/
-	G(DiagramNamespace.NS_DIAGRAM, "green"),
+	G(DiagramNamespace.NONE, "green"),
 
 	/***/
-	B(DiagramNamespace.NS_DIAGRAM, "blue"),
+	B(DiagramNamespace.NONE, "blue"),
 
 	/***/
 	CORE(DiagramNamespace.NS_DIAGRAM, "core"),

@@ -32,7 +32,7 @@ import org.jiemamy.xml.CoreQName;
 import org.jiemamy.xml.DiagramQName;
 
 /**
- * {@link DefaultDiagramModel}のシリアライズ処理実装クラス。
+ * {@link DefaultDiagramModel}をシリアライズ/デシリアライズするハンドラ。
  * 
  * @version $Id$
  * @author daisuke

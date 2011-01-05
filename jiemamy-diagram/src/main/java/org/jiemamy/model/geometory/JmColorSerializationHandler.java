@@ -20,9 +20,12 @@ package org.jiemamy.model.geometory;
 
 import javax.xml.stream.XMLStreamException;
 
+import org.apache.commons.lang.Validate;
+
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.serializer.SerializationException;
 import org.jiemamy.serializer.stax2.DeserializationContext;
+import org.jiemamy.serializer.stax2.JiemamyCursor;
 import org.jiemamy.serializer.stax2.JiemamyOutputContainer;
 import org.jiemamy.serializer.stax2.JiemamyOutputElement;
 import org.jiemamy.serializer.stax2.SerializationContext;
@@ -31,7 +34,7 @@ import org.jiemamy.serializer.stax2.SerializationHandler;
 import org.jiemamy.xml.DiagramQName;
 
 /**
- * TODO for daisuke
+ * {@link JmColor}をシリアライズ/デシリアライズするハンドラ。
  * 
  * @version $Id$
  * @author daisuke
@@ -51,12 +54,18 @@ public class JmColorSerializationHandler extends SerializationHandler<JmColor> {
 	
 	@Override
 	public JmColor handle(DeserializationContext ctx) throws SerializationException {
-		// TODO Auto-generated method stub
-//		int r = Integer.parseInt(startElement.getAttributeByName(DiagramQName.R.getQName()).getValue());
-//		int g = Integer.parseInt(startElement.getAttributeByName(DiagramQName.G.getQName()).getValue());
-//		int b = Integer.parseInt(startElement.getAttributeByName(DiagramQName.B.getQName()).getValue());
-//		return new JmColor(r, g, b);
-		return null;
+		Validate.notNull(ctx);
+		try {
+			ctx.getCursor().advance();
+			Validate.isTrue(ctx.getCursor().isQName(DiagramQName.COLOR));
+			JiemamyCursor cursor = ctx.getCursor();
+			int r = cursor.getAttrIntValue(DiagramQName.R);
+			int g = cursor.getAttrIntValue(DiagramQName.G);
+			int b = cursor.getAttrIntValue(DiagramQName.B);
+			return new JmColor(r, g, b);
+		} catch (XMLStreamException e) {
+			throw new SerializationException(e);
+		}
 	}
 	
 	@Override
