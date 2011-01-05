@@ -1,6 +1,6 @@
 /*
- * Copyright 2007-2010 Jiemamy Project and the Others.
- * Created on 2010/12/03
+ * Copyright 2007-2011 Jiemamy Project and the Others.
+ * Created on 2011/01/05
  *
  * This file is part of Jiemamy.
  *
@@ -16,27 +16,15 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy;
-
-import org.jiemamy.serializer.stax2.SerializationDirector;
-import org.jiemamy.xml.JiemamyNamespace;
+package org.jiemamy.serializer.stax2.handlers;
 
 /**
  * TODO for daisuke
  * 
- * {@link JiemamyContext}のみを引数にとるpublicなコンストラクタが必要。
- * 
  * @version $Id$
  * @author daisuke
  */
-public interface JiemamyFacet {
+public abstract class AbstractSerializationHandlerTest {
 	
-	/**
-	 * このファセットが利用する全ての名前空間を取得する。
-	 * 
-	 * @return 利用する全ての名前空間
-	 */
-	JiemamyNamespace[] getNamespaces();
-	
-	void prepareSerializationWorkers(SerializationDirector serializationDirector);
+	protected static final String LF = "\n";
 }

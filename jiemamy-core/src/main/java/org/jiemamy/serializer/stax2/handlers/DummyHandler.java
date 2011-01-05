@@ -16,18 +16,17 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.serializer.impl;
-
-import javax.xml.stream.XMLEventReader;
-import javax.xml.stream.XMLEventWriter;
-import javax.xml.stream.events.StartElement;
+package org.jiemamy.serializer.stax2.handlers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.serializer.SerializationDirector;
-import org.jiemamy.serializer.SerializationWorker;
+import org.jiemamy.serializer.SerializationException;
+import org.jiemamy.serializer.stax2.DeserializationContext;
+import org.jiemamy.serializer.stax2.SerializationContext;
+import org.jiemamy.serializer.stax2.SerializationDirector;
+import org.jiemamy.serializer.stax2.SerializationHandler;
 
 /**
  * 全てのモデルをシリアライズ・デシリアライズできる「フリをする」ダミー実装。
@@ -35,9 +34,9 @@ import org.jiemamy.serializer.SerializationWorker;
  * @version $Id$
  * @author daisuke
  */
-public class DummyWorker extends SerializationWorker<Object> {
+public class DummyHandler extends SerializationHandler<Object> {
 	
-	private static Logger logger = LoggerFactory.getLogger(DummyWorker.class);
+	private static Logger logger = LoggerFactory.getLogger(DummyHandler.class);
 	
 
 	/**
@@ -46,28 +45,19 @@ public class DummyWorker extends SerializationWorker<Object> {
 	 * @param context コンテキスト
 	 * @param director 親となるディレクタ
 	 */
-	public DummyWorker(JiemamyContext context, SerializationDirector director) {
-		super(Object.class, null, director);
+	public DummyHandler(JiemamyContext context, SerializationDirector director) {
+//		super(Object.class, null, director);
+		super(director);
 	}
 	
 	@Override
-	protected boolean canDeserialize(StartElement startElement) {
-		return true;
-	}
-	
-	@Override
-	protected boolean canSerialize(Object model) {
-		return true;
-	}
-	
-	@Override
-	protected Object doDeserialize0(StartElement startElement, XMLEventReader reader) {
+	public Object handle(DeserializationContext ctx) throws SerializationException {
 		logger.error("DUMMY WORKER IS CALLED.");
 		return null;
 	}
 	
 	@Override
-	protected void doSerialize0(Object model, XMLEventWriter writer) {
+	public void handle(Object model, SerializationContext sctx) throws SerializationException {
 		logger.error("DUMMY WORKER IS CALLED.");
 	}
 }

@@ -45,7 +45,7 @@ import org.jiemamy.model.dbo.DatabaseObjectModel;
 import org.jiemamy.model.dbo.TableModel;
 import org.jiemamy.model.dbo.index.IndexModel;
 import org.jiemamy.serializer.JiemamySerializer;
-import org.jiemamy.serializer.JiemamyStaxSerializer;
+import org.jiemamy.serializer.stax2.JiemamyStaxSerializer;
 import org.jiemamy.transaction.Command;
 import org.jiemamy.transaction.EventBroker;
 import org.jiemamy.transaction.EventBrokerImpl;

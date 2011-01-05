@@ -1,6 +1,6 @@
 /*
- * Copyright 2007-2010 Jiemamy Project and the Others.
- * Created on 2010/12/15
+ * Copyright 2007-2011 Jiemamy Project and the Others.
+ * Created on 2011/01/05
  *
  * This file is part of Jiemamy.
  *
@@ -16,12 +16,9 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.serializer;
+package org.jiemamy.serializer.stax2;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import org.jiemamy.JiemamyContext;
+import org.codehaus.staxmate.in.SMHierarchicCursor;
 
 /**
  * TODO for daisuke
@@ -29,30 +26,26 @@ import org.jiemamy.JiemamyContext;
  * @version $Id$
  * @author daisuke
  */
-public class JiemamyStaxSerializerTest {
+public class DeserializationContext {
 	
-	private JiemamyStaxSerializer serializer;
+	private final JiemamyCursor cursor;
 	
 
 	/**
-	 * テストを初期化する。
+	 * インスタンスを生成する。
 	 * 
-	 * @throws Exception 例外が発生した場合
+	 * @param cursor
 	 */
-	@Before
-	public void setUp() throws Exception {
-		serializer = new JiemamyStaxSerializer();
+	public DeserializationContext(SMHierarchicCursor cursor) {
+		this.cursor = new JiemamyCursor(cursor);
 	}
 	
 	/**
-	 * TODO for daisuke
-	 * 
-	 * @throws Exception 例外が発生した場合
+	 * somethingを取得する。 TODO for daisuke
+	 * @return the cursor
 	 */
-	@Test
-	public void testname() throws Exception {
-		JiemamyContext context = new JiemamyContext();
-		serializer.serialize(context, System.out);
+	public JiemamyCursor getCursor() {
+		return cursor;
 	}
 	
 }

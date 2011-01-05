@@ -40,19 +40,13 @@ public enum CoreQName implements JiemamyQName {
 	SCHEMA_NAME(CoreNamespace.NS_CORE, "schemaName"),
 
 	/***/
-	BEGIN_SCRIPT(CoreNamespace.NS_CORE, "beginScript"),
-
-	/***/
-	END_SCRIPT(CoreNamespace.NS_CORE, "endScript"),
-
-	/***/
-	DESCRIPTION(CoreNamespace.NS_CORE, "description"),
-
-	/***/
 	NAME(CoreNamespace.NS_CORE, "name"),
 
 	/***/
 	LOGICAL_NAME(CoreNamespace.NS_CORE, "logicalName"),
+
+	/***/
+	DESCRIPTION(CoreNamespace.NS_CORE, "description"),
 
 	// --------
 	
@@ -65,7 +59,7 @@ public enum CoreQName implements JiemamyQName {
 	// --------
 	
 	/***/
-	ENTITIES(CoreNamespace.NS_CORE, "entities"),
+	DBOBJECTS(CoreNamespace.NS_CORE, "dbobjects"),
 
 	/***/
 	TABLE(CoreNamespace.NS_CORE, "table"),
@@ -76,7 +70,15 @@ public enum CoreQName implements JiemamyQName {
 	// --------
 	
 	/***/
-	ATTRIBUTES(CoreNamespace.NS_CORE, "attributes"),
+	COLUMNS(CoreNamespace.NS_CORE, "columns"),
+
+	/***/
+	COLUMN(CoreNamespace.NS_CORE, "column"),
+
+	// --------
+	
+	/***/
+	CONSTRAINTS(CoreNamespace.NS_CORE, "constraints"),
 
 	/***/
 	PRIMARY_KEY(CoreNamespace.NS_CORE, "primaryKey"),
@@ -88,10 +90,7 @@ public enum CoreQName implements JiemamyQName {
 	FOREIGN_KEY(CoreNamespace.NS_CORE, "foreignKey"),
 
 	/***/
-	TABLE_CHECK_CONSTRAINT(CoreNamespace.NS_CORE, "tableCheck"),
-
-	/***/
-	COLUMN(CoreNamespace.NS_CORE, "column"),
+	CHECK(CoreNamespace.NS_CORE, "check"),
 
 	/***/
 	REFERENCE_COLUMNS(CoreNamespace.NS_CORE, "referenceColumns"),
@@ -138,18 +137,6 @@ public enum CoreQName implements JiemamyQName {
 
 	/***/
 	DEFAULT_VALUE(CoreNamespace.NS_CORE, "defaultValue"),
-
-	/***/
-	NOT_NULL(CoreNamespace.NS_CORE, "notNull"),
-
-	/***/
-	COLUMN_UNIQUE_KEY(CoreNamespace.NS_CORE, "columnUniqueKey"),
-
-	/***/
-	COLUMN_PRIMARY_KEY(CoreNamespace.NS_CORE, "columnPrimaryKey"),
-
-	/***/
-	COLUMN_CHECK_CONSTRAINT(CoreNamespace.NS_CORE, "columnCheck"),
 
 	/***/
 	EXPRESSION(CoreNamespace.NS_CORE, "expression"),
@@ -212,19 +199,7 @@ public enum CoreQName implements JiemamyQName {
 	REF(CoreNamespace.NONE, "ref"),
 
 	/***/
-	CLASS(CoreNamespace.NONE, "class"),
-
-	/***/
-	ENGINE(CoreNamespace.NONE, "engine"),
-
-	/***/
-	COLUMNS(CoreNamespace.NONE, "columns"),
-
-	/***/
-	CONSTRAINTS(CoreNamespace.NONE, "constraints"),
-
-	/***/
-	DBOBJECTS(CoreNamespace.NONE, "dbobjects");
+	CLASS(CoreNamespace.NONE, "class");
 	
 	/** XML仕様における完全修飾名 */
 	private final QName qName;
@@ -246,4 +221,5 @@ public enum CoreQName implements JiemamyQName {
 	private boolean isEmpty(String str) {
 		return str == null || str.length() == 0;
 	}
+	
 }

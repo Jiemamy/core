@@ -1,6 +1,6 @@
 /*
- * Copyright 2007-2010 Jiemamy Project and the Others.
- * Created on 2010/12/03
+ * Copyright 2007-2011 Jiemamy Project and the Others.
+ * Created on 2011/01/05
  *
  * This file is part of Jiemamy.
  *
@@ -16,27 +16,35 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy;
+package org.jiemamy.serializer.stax2;
 
-import org.jiemamy.serializer.stax2.SerializationDirector;
-import org.jiemamy.xml.JiemamyNamespace;
+import org.jiemamy.serializer.SerializationException;
 
 /**
  * TODO for daisuke
  * 
- * {@link JiemamyContext}のみを引数にとるpublicなコンストラクタが必要。
- * 
  * @version $Id$
  * @author daisuke
  */
-public interface JiemamyFacet {
+public abstract class SerializationHandler<T> {
 	
+	private final SerializationDirector director;
+	
+
 	/**
-	 * このファセットが利用する全ての名前空間を取得する。
+	 * インスタンスを生成する。
 	 * 
-	 * @return 利用する全ての名前空間
+	 * @param director
 	 */
-	JiemamyNamespace[] getNamespaces();
+	public SerializationHandler(SerializationDirector director) {
+		this.director = director;
+	}
 	
-	void prepareSerializationWorkers(SerializationDirector serializationDirector);
+	public abstract T handle(DeserializationContext ctx) throws SerializationException;
+	
+	public abstract void handle(T model, SerializationContext sctx) throws SerializationException;
+	
+	protected SerializationDirector getDirector() {
+		return director;
+	}
 }
