@@ -27,7 +27,7 @@ import org.codehaus.staxmate.in.SMInputCursor;
 import org.jiemamy.xml.JiemamyQName;
 
 /**
- * TODO for daisuke
+ * {@link SMInputCursor}をJiemamyで扱いやすくするためのラッパークラス。
  * 
  * @version $Id$
  * @author daisuke
@@ -63,11 +63,6 @@ public class JiemamyCursor {
 		return null;
 	}
 	
-	/**
-	 * TODO for daisuke
-	 * @throws XMLStreamException 
-	 * 
-	 */
 	public int getAttrIntValue(JiemamyQName jQName) throws XMLStreamException {
 		int index = cursor.findAttrIndex(jQName.getQName().getNamespaceURI(), jQName.getQName().getLocalPart());
 		return cursor.getAttrIntValue(index);

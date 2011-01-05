@@ -52,7 +52,7 @@ public class DefaultColumnModelSerializationHandlerTest extends AbstractSerializ
 	
 	private static Logger logger = LoggerFactory.getLogger(DefaultColumnModelSerializationHandlerTest.class);
 	
-	private static final SMOutputFactory F = new SMOutputFactory(XMLOutputFactory.newInstance());;
+	private static final SMOutputFactory F = new SMOutputFactory(XMLOutputFactory.newInstance());
 	
 	private SerializationDirector director;
 	

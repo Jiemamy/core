@@ -18,11 +18,14 @@
  */
 package org.jiemamy.serializer.stax2;
 
+import org.apache.commons.lang.Validate;
+
 import org.jiemamy.serializer.SerializationException;
 
 /**
- * TODO for daisuke
+ * 各モデルをシリアライズ/デシリアライズするハンドラの抽象クラス。
  * 
+ * @param <T> 処理対象モデルの型 
  * @version $Id$
  * @author daisuke
  */
@@ -34,9 +37,11 @@ public abstract class SerializationHandler<T> {
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param director
+	 * @param director 子要素のハンドリングを別のハンドラに委譲するためのディレクタ
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public SerializationHandler(SerializationDirector director) {
+		Validate.notNull(director);
 		this.director = director;
 	}
 	

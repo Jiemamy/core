@@ -58,6 +58,8 @@ public class SerializationDirector {
 	
 
 	public SerializationDirector(JiemamyContext context) {
+		Validate.notNull(context);
+		
 		this.context = context;
 		
 		dummy = new DummyHandler(context, this); // FIXME これがケツ持ちをしてる
@@ -74,6 +76,9 @@ public class SerializationDirector {
 	}
 	
 	public <T>void addHandler(Class<T> clazz, JiemamyQName jQName, SerializationHandler<T> handler) {
+		Validate.notNull(clazz);
+		Validate.notNull(jQName);
+		Validate.notNull(handler);
 		handlersS.put(clazz.getName(), handler);
 		handlersD.put(jQName.getQName(), handler);
 	}
@@ -86,14 +91,11 @@ public class SerializationDirector {
 	
 	public <T>void direct(T target, SerializationContext sctx) throws SerializationException {
 		Validate.notNull(target);
+		Validate.notNull(sctx);
 		SerializationHandler<T> handler = findHandler(target);
 		handler.handle(target, sctx);
 	}
 	
-	/**
-	 * somethingを取得する。 TODO for daisuke
-	 * @return the context
-	 */
 	public JiemamyContext getContext() {
 		return context;
 	}

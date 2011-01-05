@@ -21,16 +21,13 @@ package org.jiemamy.serializer.stax2;
 import org.codehaus.staxmate.out.SMOutputDocument;
 
 /**
- * TODO for daisuke
+ * {@link SMOutputDocument}をJiemamyで扱いやすくするためのラッパークラス。
  * 
  * @version $Id$
  * @author daisuke
  */
 public class JiemamyDocument extends JiemamyOutputContainer {
 	
-	private final SMOutputDocument document;
-	
-
 	/**
 	 * インスタンスを生成する。
 	 * 
@@ -38,6 +35,5 @@ public class JiemamyDocument extends JiemamyOutputContainer {
 	 */
 	public JiemamyDocument(SMOutputDocument document) {
 		super(document);
-		this.document = document;
 	}
 }

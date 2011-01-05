@@ -22,33 +22,32 @@ import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.Validate;
 import org.codehaus.staxmate.out.SMNamespace;
 import org.codehaus.staxmate.out.SMOutputContainer;
 import org.codehaus.staxmate.out.SMOutputElement;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import org.jiemamy.xml.JiemamyQName;
 
 /**
- * TODO for daisuke
+ * {@link SMOutputContainer}をJiemamyで扱いやすくするためのラッパークラス。
  * 
  * @version $Id$
  * @author daisuke
  */
 public class JiemamyOutputContainer {
 	
-	private final SMOutputContainer container;
-	
-	private static Logger logger = LoggerFactory.getLogger(JiemamyOutputContainer.class);
+	final SMOutputContainer container;
 	
 
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param element
+	 * @param container
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public JiemamyOutputContainer(SMOutputContainer container) {
+		Validate.notNull(container);
 		this.container = container;
 	}
 	

@@ -48,7 +48,6 @@ public class DefaultColumnModelSerializationHandler extends SerializationHandler
 	 */
 	public DefaultColumnModelSerializationHandler(JiemamyContext context, SerializationDirector director) {
 		super(director);
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override

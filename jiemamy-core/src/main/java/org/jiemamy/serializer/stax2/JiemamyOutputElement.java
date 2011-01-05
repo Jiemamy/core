@@ -28,14 +28,14 @@ import org.codehaus.staxmate.out.SMOutputElement;
 import org.jiemamy.xml.JiemamyQName;
 
 /**
- * TODO for daisuke
+ * {@link SMOutputElement}をJiemamyで扱いやすくするためのラッパークラス。
  * 
  * @version $Id$
  * @author daisuke
  */
 public class JiemamyOutputElement extends JiemamyOutputContainer {
 	
-	private final SMOutputElement element;
+	final SMOutputElement element;
 	
 
 	/**
@@ -48,13 +48,6 @@ public class JiemamyOutputElement extends JiemamyOutputContainer {
 		this.element = element;
 	}
 	
-	/**
-	 * TODO for daisuke
-	 * 
-	 * @param class1
-	 * @param class2
-	 * @throws XMLStreamException 
-	 */
 	public void addAttribute(JiemamyQName jQName, Class<?> clazz) throws XMLStreamException {
 		Validate.notNull(clazz);
 		addAttribute(jQName, clazz.getName());

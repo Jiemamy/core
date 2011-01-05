@@ -18,8 +18,6 @@
  */
 package org.jiemamy.model.attribute.constraint;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * 抽象制約モデル。
@@ -27,8 +25,6 @@ import org.slf4j.LoggerFactory;
  * @author daisuke
  */
 public abstract class AbstractConstraintModel implements ConstraintModel {
-	
-	private static Logger logger = LoggerFactory.getLogger(AbstractConstraintModel.class);
 	
 	/** 物理名 */
 	private String name;

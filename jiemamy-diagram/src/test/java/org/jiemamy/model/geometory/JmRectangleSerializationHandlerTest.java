@@ -43,7 +43,7 @@ import org.jiemamy.serializer.stax2.SerializationDirector;
 import org.jiemamy.serializer.stax2.handlers.AbstractSerializationHandlerTest;
 
 /**
- * TODO for daisuke
+ * {@link JmRectangleSerializationHandler}のテストクラス。
  * 
  * @version $Id$
  * @author daisuke

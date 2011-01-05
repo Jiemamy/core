@@ -52,7 +52,7 @@ public class DefaultTableModelSerializationHandlerTest extends AbstractSerializa
 	
 	private static Logger logger = LoggerFactory.getLogger(DefaultTableModelSerializationHandlerTest.class);
 	
-	private static final SMOutputFactory F = new SMOutputFactory(XMLOutputFactory.newInstance());;
+	private static final SMOutputFactory F = new SMOutputFactory(XMLOutputFactory.newInstance());
 	
 	private SerializationDirector director;
 	
