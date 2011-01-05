@@ -62,12 +62,11 @@ public class SerializationDirector {
 		
 		this.context = context;
 		
-		dummy = new DummyHandler(context, this); // FIXME これがケツ持ちをしてる
+		dummy = new DummyHandler(this); // FIXME これがケツ持ちをしてる
 		
-		addHandler(JiemamyContext.class, CoreQName.JIEMAMY, new JiemamyContextSerializationHandler(context, this));
-		addHandler(DefaultTableModel.class, CoreQName.TABLE, new DefaultTableModelSerializationHandler(context, this));
-		addHandler(DefaultColumnModel.class, CoreQName.COLUMN,
-				new DefaultColumnModelSerializationHandler(context, this));
+		addHandler(JiemamyContext.class, CoreQName.JIEMAMY, new JiemamyContextSerializationHandler(this));
+		addHandler(DefaultTableModel.class, CoreQName.TABLE, new DefaultTableModelSerializationHandler(this));
+		addHandler(DefaultColumnModel.class, CoreQName.COLUMN, new DefaultColumnModelSerializationHandler(this));
 		// TODO ... 色々
 		
 		for (JiemamyFacet jiemamyFacet : context.getFacets()) {

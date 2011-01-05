@@ -65,7 +65,7 @@ public class JmRectangleSerializationHandlerTest extends AbstractSerializationHa
 	@Before
 	public void setUp() throws Exception {
 		director = mock(SerializationDirector.class);
-		handler = new JmRectangleSerializationHandler(null, director);
+		handler = new JmRectangleSerializationHandler(director);
 	}
 	
 	/**
@@ -108,7 +108,7 @@ public class JmRectangleSerializationHandlerTest extends AbstractSerializationHa
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test02() throws Exception {
+	public void test11() throws Exception {
 		// FORMAT-OFF
 		String xml = "<?xml version='1.0' encoding='UTF-8'?>" + LF
 				+ "<diagram:boundary xmlns:diagram=\"http://jiemamy.org/xml/ns/diagram\"" +

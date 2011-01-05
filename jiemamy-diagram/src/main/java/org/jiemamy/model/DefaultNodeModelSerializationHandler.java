@@ -20,7 +20,6 @@ package org.jiemamy.model;
 
 import javax.xml.stream.XMLStreamException;
 
-import org.jiemamy.JiemamyContext;
 import org.jiemamy.serializer.SerializationException;
 import org.jiemamy.serializer.stax2.DeserializationContext;
 import org.jiemamy.serializer.stax2.JiemamyOutputContainer;
@@ -42,11 +41,9 @@ public final class DefaultNodeModelSerializationHandler extends SerializationHan
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param context コンテキスト
 	 * @param director 親となるディレクタ
 	 */
-	public DefaultNodeModelSerializationHandler(JiemamyContext context, SerializationDirector director) {
-//		super(DefaultNodeModel.class, DiagramQName.NODE, director);
+	public DefaultNodeModelSerializationHandler(SerializationDirector director) {
 		super(director);
 	}
 	
@@ -54,11 +51,14 @@ public final class DefaultNodeModelSerializationHandler extends SerializationHan
 	public void handle(DefaultNodeModel model, SerializationContext sctx) throws SerializationException {
 		JiemamyOutputContainer parent = sctx.peek();
 		try {
-			JiemamyOutputElement diagram = parent.addElement(DiagramQName.DIAGRAM);
+			JiemamyOutputElement nodeElement = parent.addElement(DiagramQName.NODE);
+			nodeElement.addAttribute(CoreQName.ID, model.getId());
+			nodeElement.addAttribute(CoreQName.CLASS, model.getClass());
+			sctx.push(nodeElement);
 			
-			diagram.addElement(DiagramQName.CORE).addAttribute(CoreQName.REF, model.getCoreModelRef().getReferentId());
+			nodeElement.addElement(DiagramQName.CORE).addAttribute(CoreQName.REF,
+					model.getCoreModelRef().getReferentId());
 			
-			sctx.push(diagram);
 			getDirector().direct(model.getBoundary(), sctx);
 			if (model.getColor() != null) {
 				getDirector().direct(model.getColor(), sctx);

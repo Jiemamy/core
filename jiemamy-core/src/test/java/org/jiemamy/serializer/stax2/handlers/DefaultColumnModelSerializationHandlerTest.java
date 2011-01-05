@@ -67,7 +67,7 @@ public class DefaultColumnModelSerializationHandlerTest extends AbstractSerializ
 	@Before
 	public void setUp() throws Exception {
 		director = mock(SerializationDirector.class);
-		handler = new DefaultColumnModelSerializationHandler(null, director);
+		handler = new DefaultColumnModelSerializationHandler(director);
 	}
 	
 	/**

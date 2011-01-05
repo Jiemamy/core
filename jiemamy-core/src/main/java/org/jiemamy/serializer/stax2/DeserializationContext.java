@@ -31,6 +31,10 @@ public class DeserializationContext {
 	private final JiemamyCursor cursor;
 	
 
+	public DeserializationContext(JiemamyCursor cursor) {
+		this.cursor = cursor;
+	}
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

@@ -67,7 +67,7 @@ public class DefaultTableModelSerializationHandlerTest extends AbstractSerializa
 	@Before
 	public void setUp() throws Exception {
 		director = mock(SerializationDirector.class);
-		handler = new DefaultTableModelSerializationHandler(null, director);
+		handler = new DefaultTableModelSerializationHandler(director);
 	}
 	
 	/**

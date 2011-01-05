@@ -22,7 +22,6 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.commons.lang.Validate;
 
-import org.jiemamy.JiemamyContext;
 import org.jiemamy.serializer.SerializationException;
 import org.jiemamy.serializer.stax2.DeserializationContext;
 import org.jiemamy.serializer.stax2.JiemamyCursor;
@@ -39,16 +38,14 @@ import org.jiemamy.xml.DiagramQName;
  * @version $Id$
  * @author daisuke
  */
-public class JmColorSerializationHandler extends SerializationHandler<JmColor> {
+public final class JmColorSerializationHandler extends SerializationHandler<JmColor> {
 	
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param context
-	 * @param director
+	 * @param director 親となるディレクタ
 	 */
-	public JmColorSerializationHandler(JiemamyContext context, SerializationDirector director) {
-//		super(JmColor.class, DiagramQName.COLOR, director);
+	public JmColorSerializationHandler(SerializationDirector director) {
 		super(director);
 	}
 	

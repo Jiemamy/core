@@ -29,7 +29,6 @@ import java.util.UUID;
 
 import org.apache.commons.lang.CharEncoding;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +36,7 @@ import org.slf4j.LoggerFactory;
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.model.attribute.DefaultColumnModel;
 import org.jiemamy.model.dbo.DefaultTableModel;
+import org.jiemamy.model.dbo.TableModel;
 
 /**
  * {@link JiemamyStaxSerializer}のテストクラス。
@@ -90,6 +90,7 @@ public class JiemamyStaxSerializerTest {
 				+ "  <schemaName>schema-name</schemaName>" + LF
 				+ "  <description/>" + LF
 				+ "  <dbobjects/>" + LF
+				+ "  <dataSets/>" + LF
 				+ "</jiemamy>" + LF;
 		// FORMAT-ON
 		assertThat(actual, is(expected));
@@ -132,6 +133,7 @@ public class JiemamyStaxSerializerTest {
 				+ "      <constraints/>" + LF
 				+ "    </table>" + LF
 				+ "  </dbobjects>" + LF
+				+ "  <dataSets/>" + LF
 				+ "</jiemamy>" + LF;
 		// FORMAT-ON
 		logger.info("actual={}", actual);
@@ -196,6 +198,7 @@ public class JiemamyStaxSerializerTest {
 				+ "      <constraints/>" + LF
 				+ "    </table>" + LF
 				+ "  </dbobjects>" + LF
+				+ "  <dataSets/>" + LF
 				+ "</jiemamy>" + LF;
 		// FORMAT-ON
 		logger.info("actual={}", actual);
@@ -210,7 +213,6 @@ public class JiemamyStaxSerializerTest {
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	@Ignore("未実装")
 	public void test11_簡単なJiemamyContextのデシリアライズ結果を確認() throws Exception {
 		// FORMAT-OFF
 		String xml = "<?xml version='1.0' encoding='UTF-8'?>" + LF
@@ -219,6 +221,7 @@ public class JiemamyStaxSerializerTest {
 				+ "  <schemaName>schema-name</schemaName>" + LF
 				+ "  <description/>" + LF // 空要素
 				+ "  <dbobjects/>" + LF
+				+ "  <dataSets/>" + LF
 				+ "</jiemamy>" + LF;
 		// FORMAT-ON
 		ByteArrayInputStream bais = new ByteArrayInputStream(xml.getBytes(CharEncoding.UTF_8));
@@ -229,5 +232,43 @@ public class JiemamyStaxSerializerTest {
 		assertThat(deserialized.getDialectClassName(), is(nullValue())); // 要素欠損 → null
 		assertThat(deserialized.getSchemaName(), is("schema-name"));
 		assertThat(deserialized.getDescription(), is("")); // 空要素 → 空文字列
+	}
+	
+	/**
+	 * 簡単なJiemamyContextのデシリアライズ結果を確認。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test12_Tableを1つ含むJiemamyContextのデシリアライズ結果を確認() throws Exception {
+		// FORMAT-OFF
+		String xml = "<?xml version='1.0' encoding='UTF-8'?>" + LF
+				+ "<jiemamy xmlns=\"http://jiemamy.org/xml/ns/core\" version=\"0.3.0-SNAPSHOT\">" + LF
+				+ "  <schemaName>schema-name</schemaName>" + LF
+				+ "  <description/>" + LF
+				+ "  <dbobjects>" + LF
+				+ "    <table" +
+							" id=\"94f8923f-9dfe-406b-ab35-d9a7c0b88149\"" +
+							" class=\"org.jiemamy.model.dbo.DefaultTableModel\">" + LF
+				+ "      <columns/>" + LF
+				+ "      <constraints/>" + LF
+				+ "    </table>" + LF
+				+ "  </dbobjects>" + LF
+				+ "  <dataSets/>" + LF
+				+ "</jiemamy>" + LF;
+		// FORMAT-ON
+		ByteArrayInputStream bais = new ByteArrayInputStream(xml.getBytes(CharEncoding.UTF_8));
+		JiemamyContext deserialized = serializer.deserialize(bais);
+		
+		assertThat(deserialized, is(notNullValue()));
+		
+		assertThat(deserialized.getDialectClassName(), is(nullValue())); // 要素欠損 → null
+		assertThat(deserialized.getSchemaName(), is("schema-name"));
+		assertThat(deserialized.getDescription(), is("")); // 空要素 → 空文字列
+		assertThat(deserialized.getTables().size(), is(1));
+		TableModel tableModel = deserialized.getTables().iterator().next();
+		
+		assertThat(tableModel.getId(), is(UUID.fromString("94f8923f-9dfe-406b-ab35-d9a7c0b88149")));
+		assertThat(tableModel.getColumns().size(), is(0));
 	}
 }

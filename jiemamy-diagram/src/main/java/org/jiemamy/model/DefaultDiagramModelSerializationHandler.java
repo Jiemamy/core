@@ -20,7 +20,6 @@ package org.jiemamy.model;
 
 import javax.xml.stream.XMLStreamException;
 
-import org.jiemamy.JiemamyContext;
 import org.jiemamy.serializer.SerializationException;
 import org.jiemamy.serializer.stax2.DeserializationContext;
 import org.jiemamy.serializer.stax2.JiemamyOutputContainer;
@@ -42,11 +41,9 @@ public final class DefaultDiagramModelSerializationHandler extends Serialization
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param context コンテキスト
 	 * @param director 親となるディレクタ
 	 */
-	public DefaultDiagramModelSerializationHandler(JiemamyContext context, SerializationDirector director) {
-//		super(DefaultDiagramModel.class, DiagramQName.DIAGRAM, director);
+	public DefaultDiagramModelSerializationHandler(SerializationDirector director) {
 		super(director);
 	}
 	
@@ -54,17 +51,19 @@ public final class DefaultDiagramModelSerializationHandler extends Serialization
 	public void handle(DefaultDiagramModel model, SerializationContext sctx) throws SerializationException {
 		JiemamyOutputContainer parent = sctx.peek();
 		try {
-			JiemamyOutputElement element = parent.addElement(DiagramQName.DIAGRAM);
-			element.addAttribute(CoreQName.ID, model.getId());
-			element.addAttribute(CoreQName.CLASS, model.getClass());
+			JiemamyOutputElement diagramElement = parent.addElement(DiagramQName.DIAGRAM);
+			sctx.push(diagramElement);
+			diagramElement.addAttribute(CoreQName.ID, model.getId());
+			diagramElement.addAttribute(CoreQName.CLASS, model.getClass());
 			
-			element.addElementAndCharacters(CoreQName.NAME, model.getName());
-			element.addElementAndCharacters(DiagramQName.LEVEL, model.getLevel());
-			element.addElementAndCharacters(DiagramQName.MODE, model.getMode());
+			diagramElement.addElementAndCharacters(CoreQName.NAME, model.getName());
+			diagramElement.addElementAndCharacters(DiagramQName.LEVEL, model.getLevel());
+			diagramElement.addElementAndCharacters(DiagramQName.MODE, model.getMode());
 			
 			for (NodeModel nodeModel : model.getNodes()) {
 				getDirector().direct(nodeModel, sctx);
 			}
+			sctx.pop();
 		} catch (XMLStreamException e) {
 			throw new SerializationException(e);
 		}

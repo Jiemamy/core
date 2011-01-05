@@ -21,7 +21,6 @@ package org.jiemamy.serializer.stax2.handlers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.jiemamy.JiemamyContext;
 import org.jiemamy.serializer.SerializationException;
 import org.jiemamy.serializer.stax2.DeserializationContext;
 import org.jiemamy.serializer.stax2.SerializationContext;
@@ -42,11 +41,9 @@ public class DummyHandler extends SerializationHandler<Object> {
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param context コンテキスト
 	 * @param director 親となるディレクタ
 	 */
-	public DummyHandler(JiemamyContext context, SerializationDirector director) {
-//		super(Object.class, null, director);
+	public DummyHandler(SerializationDirector director) {
 		super(director);
 	}
 	

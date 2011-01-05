@@ -20,9 +20,6 @@ package org.jiemamy;
 
 import javax.xml.stream.XMLStreamException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.jiemamy.model.DiagramModel;
 import org.jiemamy.serializer.SerializationException;
 import org.jiemamy.serializer.stax2.DeserializationContext;
@@ -40,17 +37,12 @@ import org.jiemamy.xml.DiagramQName;
  */
 public final class DiagramFacetSerializationHandler extends SerializationHandler<DiagramFacet> {
 	
-	private static Logger logger = LoggerFactory.getLogger(DiagramFacetSerializationHandler.class);
-	
-
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param context コンテキスト
 	 * @param director 親となるディレクタ
 	 */
-	public DiagramFacetSerializationHandler(JiemamyContext context, SerializationDirector director) {
-//		super(DiagramFacet.class, DiagramQName.DIAGRAMS, director);
+	public DiagramFacetSerializationHandler(SerializationDirector director) {
 		super(director);
 	}
 	

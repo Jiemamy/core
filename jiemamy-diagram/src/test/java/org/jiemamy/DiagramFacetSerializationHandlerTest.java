@@ -1,6 +1,6 @@
 /*
  * Copyright 2007-2011 Jiemamy Project and the Others.
- * Created on 2011/01/05
+ * Created on 2011/01/06
  *
  * This file is part of Jiemamy.
  *
@@ -16,7 +16,7 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.model.geometory;
+package org.jiemamy;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
@@ -31,6 +31,7 @@ import org.apache.commons.lang.CharEncoding;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.out.SMOutputDocument;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,18 +44,20 @@ import org.jiemamy.serializer.stax2.SerializationDirector;
 import org.jiemamy.serializer.stax2.handlers.AbstractSerializationHandlerTest;
 
 /**
- * {@link JmColorSerializationHandler}のテストクラス。
+ * TODO for daisuke
  * 
  * @version $Id$
  * @author daisuke
  */
-public class JmColorSerializationHandlerTest extends AbstractSerializationHandlerTest {
+public class DiagramFacetSerializationHandlerTest extends AbstractSerializationHandlerTest {
 	
-	private static Logger logger = LoggerFactory.getLogger(JmColorSerializationHandlerTest.class);
+	private static Logger logger = LoggerFactory.getLogger(DiagramFacetSerializationHandlerTest.class);
 	
 	private SerializationDirector director;
 	
-	private JmColorSerializationHandler handler;
+	private DiagramFacetSerializationHandler handler;
+	
+	private JiemamyContext context;
 	
 
 	/**
@@ -64,8 +67,9 @@ public class JmColorSerializationHandlerTest extends AbstractSerializationHandle
 	 */
 	@Before
 	public void setUp() throws Exception {
-		director = mock(SerializationDirector.class);
-		handler = new JmColorSerializationHandler(director);
+		context = new JiemamyContext(DiagramFacet.PROVIDER);
+		director = new SerializationDirector(context);
+		handler = new DiagramFacetSerializationHandler(director);
 	}
 	
 	/**
@@ -78,7 +82,7 @@ public class JmColorSerializationHandlerTest extends AbstractSerializationHandle
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		SMOutputDocument doc = getDocument(baos);
 		
-		JmColor model = new JmColor(1, 2, 3);
+		DiagramFacet model = context.getFacet(DiagramFacet.class);
 		
 		SerializationContext sctx = mock(SerializationContext.class);
 		when(sctx.peek()).thenReturn(new JiemamyDocument(doc));
@@ -90,10 +94,7 @@ public class JmColorSerializationHandlerTest extends AbstractSerializationHandle
 		
 		// FORMAT-OFF
 		String expected = "<?xml version='1.0' encoding='UTF-8'?>" + LF
-				+ "<diagram:color xmlns:diagram=\"http://jiemamy.org/xml/ns/diagram\"" +
-						" red=\"1\"" +
-						" green=\"2\"" +
-						" blue=\"3\"/>";
+				+ "<diagram:diagrams xmlns:diagram=\"http://jiemamy.org/xml/ns/diagram\"/>";
 		// FORMAT-ON
 		logger.info("actual={}", actual);
 		logger.info("expected={}", expected);
@@ -107,13 +108,12 @@ public class JmColorSerializationHandlerTest extends AbstractSerializationHandle
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
+	@Ignore("未実装")
 	public void test11() throws Exception {
 		// FORMAT-OFF
 		String xml = "<?xml version='1.0' encoding='UTF-8'?>" + LF
-				+ "<diagram:color xmlns:diagram=\"http://jiemamy.org/xml/ns/diagram\"" +
-						" red=\"1\"" +
-						" green=\"2\"" +
-						" blue=\"3\"/>";
+				+ "<diagram:diagrams xmlns:diagram=\"http://jiemamy.org/xml/ns/diagram\">" + LF
+				+ "</diagram:diagrams>";
 		// FORMAT-ON
 		ByteArrayInputStream bais = new ByteArrayInputStream(xml.getBytes(CharEncoding.UTF_8));
 		
@@ -121,11 +121,9 @@ public class JmColorSerializationHandlerTest extends AbstractSerializationHandle
 		
 		DeserializationContext dctx = mock(DeserializationContext.class);
 		when(dctx.getCursor()).thenReturn(new JiemamyCursor(cursor));
-		JmColor color = handler.handle(dctx);
+		DiagramFacet facet = handler.handle(dctx);
 		
-		assertThat(color, is(notNullValue()));
-		assertThat(color.red, is(1));
-		assertThat(color.green, is(2));
-		assertThat(color.blue, is(3));
+		assertThat(facet, is(notNullValue()));
+		// TODO assert
 	}
 }

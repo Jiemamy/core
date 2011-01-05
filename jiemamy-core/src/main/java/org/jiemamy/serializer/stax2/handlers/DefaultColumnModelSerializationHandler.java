@@ -20,7 +20,6 @@ package org.jiemamy.serializer.stax2.handlers;
 
 import javax.xml.stream.XMLStreamException;
 
-import org.jiemamy.JiemamyContext;
 import org.jiemamy.model.attribute.DefaultColumnModel;
 import org.jiemamy.model.datatype.TypeVariant;
 import org.jiemamy.serializer.SerializationException;
@@ -38,15 +37,14 @@ import org.jiemamy.xml.CoreQName;
  * @version $Id$
  * @author daisuke
  */
-public class DefaultColumnModelSerializationHandler extends SerializationHandler<DefaultColumnModel> {
+public final class DefaultColumnModelSerializationHandler extends SerializationHandler<DefaultColumnModel> {
 	
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param context
-	 * @param director
+	 * @param director 親となるディレクタ
 	 */
-	public DefaultColumnModelSerializationHandler(JiemamyContext context, SerializationDirector director) {
+	public DefaultColumnModelSerializationHandler(SerializationDirector director) {
 		super(director);
 	}
 	

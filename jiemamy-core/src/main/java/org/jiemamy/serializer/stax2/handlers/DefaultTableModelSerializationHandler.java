@@ -18,19 +18,28 @@
  */
 package org.jiemamy.serializer.stax2.handlers;
 
+import java.util.UUID;
+
 import javax.xml.stream.XMLStreamException;
 
-import org.jiemamy.JiemamyContext;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.Validate;
+import org.codehaus.staxmate.in.SMEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.jiemamy.model.attribute.ColumnModel;
 import org.jiemamy.model.attribute.constraint.ConstraintModel;
 import org.jiemamy.model.dbo.DefaultTableModel;
 import org.jiemamy.serializer.SerializationException;
 import org.jiemamy.serializer.stax2.DeserializationContext;
+import org.jiemamy.serializer.stax2.JiemamyCursor;
 import org.jiemamy.serializer.stax2.JiemamyOutputContainer;
 import org.jiemamy.serializer.stax2.JiemamyOutputElement;
 import org.jiemamy.serializer.stax2.SerializationContext;
 import org.jiemamy.serializer.stax2.SerializationDirector;
 import org.jiemamy.serializer.stax2.SerializationHandler;
+import org.jiemamy.utils.UUIDUtil;
 import org.jiemamy.xml.CoreQName;
 
 /**
@@ -39,17 +48,18 @@ import org.jiemamy.xml.CoreQName;
  * @version $Id$
  * @author daisuke
  */
-public class DefaultTableModelSerializationHandler extends SerializationHandler<DefaultTableModel> {
+public final class DefaultTableModelSerializationHandler extends SerializationHandler<DefaultTableModel> {
 	
+	private static Logger logger = LoggerFactory.getLogger(DefaultTableModelSerializationHandler.class);
+	
+
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param context
-	 * @param director
+	 * @param director 親となるディレクタ
 	 */
-	public DefaultTableModelSerializationHandler(JiemamyContext context, SerializationDirector director) {
+	public DefaultTableModelSerializationHandler(SerializationDirector director) {
 		super(director);
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
@@ -82,8 +92,68 @@ public class DefaultTableModelSerializationHandler extends SerializationHandler<
 	
 	@Override
 	public DefaultTableModel handle(DeserializationContext ctx) throws SerializationException {
-		// TODO Auto-generated method stub
-		return null;
+		Validate.notNull(ctx);
+		try {
+			Validate.isTrue(ctx.getCursor().getCurrEvent() == SMEvent.START_ELEMENT);
+			Validate.isTrue(ctx.getCursor().isQName(CoreQName.TABLE));
+			
+			JiemamyCursor cursor = ctx.getCursor();
+			
+			String idString = cursor.getAttrValue(CoreQName.ID);
+			UUID id = UUIDUtil.valueOfOrRandom(idString);
+			DefaultTableModel tableModel = new DefaultTableModel(id);
+			
+			JiemamyCursor childCursor = cursor.childCursor();
+			do {
+				childCursor.advance();
+				if (childCursor.getCurrEvent() == SMEvent.START_ELEMENT) {
+					if (childCursor.isQName(CoreQName.NAME)) {
+						tableModel.setName(childCursor.collectDescendantText(false));
+					} else if (childCursor.isQName(CoreQName.LOGICAL_NAME)) {
+						tableModel.setLogicalName(childCursor.collectDescendantText(false));
+					} else if (childCursor.isQName(CoreQName.DESCRIPTION)) {
+						tableModel.setDescription(childCursor.collectDescendantText(false));
+					} else if (childCursor.isQName(CoreQName.COLUMNS)) {
+						JiemamyCursor descendantCursor = childCursor.descendantCursor().advance();
+						while (descendantCursor.getCurrEvent() != SMEvent.START_ELEMENT
+								&& descendantCursor.getCurrEvent() != null) {
+							descendantCursor.advance();
+						}
+						if (descendantCursor.getCurrEvent() != null) {
+							DeserializationContext ctx2 = new DeserializationContext(descendantCursor);
+							ColumnModel columnModel = getDirector().direct(ctx2);
+							if (columnModel != null) {
+								tableModel.store(columnModel);
+							} else {
+								logger.warn("null columnModel");
+							}
+						}
+					} else if (childCursor.isQName(CoreQName.CONSTRAINTS)) {
+						JiemamyCursor descendantCursor = childCursor.descendantCursor().advance();
+						if (descendantCursor.getCurrEvent() != null) {
+							DeserializationContext ctx2 = new DeserializationContext(descendantCursor);
+							ConstraintModel constraintModel = getDirector().direct(ctx2);
+							if (constraintModel != null) {
+								tableModel.addConstraint(constraintModel);
+							} else {
+								logger.warn("null constraintModel");
+							}
+						}
+					} else {
+						logger.warn("UNKNOWN ELEMENT: {}", childCursor.getQName().toString());
+					}
+				} else if (childCursor.getCurrEvent() == SMEvent.TEXT) {
+					if (StringUtils.isEmpty(childCursor.getText().trim()) == false) {
+						logger.warn("UNKNOWN TEXT: {}", childCursor.getCurrEvent());
+					}
+				} else if (childCursor.getCurrEvent() != null) {
+					logger.warn("UNKNOWN EVENT: {}", childCursor.getCurrEvent());
+				}
+			} while (childCursor.getCurrEvent() != null);
+			
+			return tableModel;
+		} catch (XMLStreamException e) {
+			throw new SerializationException(e);
+		}
 	}
-	
 }

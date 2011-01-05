@@ -112,12 +112,12 @@ public class DiagramFacet implements JiemamyFacet {
 	public void prepareSerializationWorkers(SerializationDirector director) {
 		Validate.notNull(director);
 		// FORMAT-OFF CHECKSTYLE:OFF
-		director.addHandler(DiagramFacet.class, DiagramQName.DIAGRAMS, new DiagramFacetSerializationHandler(context, director));
-		director.addHandler(DefaultDiagramModel.class, DiagramQName.DIAGRAM, new DefaultDiagramModelSerializationHandler(context, director));
-		director.addHandler(DefaultNodeModel.class, DiagramQName.NODE, new DefaultNodeModelSerializationHandler(context, director));
+		director.addHandler(DiagramFacet.class, DiagramQName.DIAGRAMS, new DiagramFacetSerializationHandler( director));
+		director.addHandler(DefaultDiagramModel.class, DiagramQName.DIAGRAM, new DefaultDiagramModelSerializationHandler( director));
+		director.addHandler(DefaultNodeModel.class, DiagramQName.NODE, new DefaultNodeModelSerializationHandler( director));
 		// TODO ...
-		director.addHandler(JmColor.class, DiagramQName.COLOR, new JmColorSerializationHandler(context, director));
-		director.addHandler(JmRectangle.class, DiagramQName.BOUNDARY, new JmRectangleSerializationHandler(context, director));
+		director.addHandler(JmColor.class, DiagramQName.COLOR, new JmColorSerializationHandler( director));
+		director.addHandler(JmRectangle.class, DiagramQName.BOUNDARY, new JmRectangleSerializationHandler( director));
 		// CHECKSTYLE:ON FORMAT-ON
 	}
 	

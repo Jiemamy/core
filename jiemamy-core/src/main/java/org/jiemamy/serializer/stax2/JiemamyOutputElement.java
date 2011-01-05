@@ -22,7 +22,11 @@ import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.commons.lang.Validate;
+import org.codehaus.staxmate.out.SMBufferable;
+import org.codehaus.staxmate.out.SMBufferedElement;
+import org.codehaus.staxmate.out.SMBufferedFragment;
 import org.codehaus.staxmate.out.SMNamespace;
+import org.codehaus.staxmate.out.SMOutputContainer;
 import org.codehaus.staxmate.out.SMOutputElement;
 
 import org.jiemamy.xml.JiemamyQName;
@@ -48,6 +52,31 @@ public class JiemamyOutputElement extends JiemamyOutputContainer {
 		this.element = element;
 	}
 	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @return
+	 * @throws XMLStreamException
+	 * @see org.codehaus.staxmate.out.SMOutputElement#_canOutputNewChild()
+	 */
+	@Override
+	public boolean _canOutputNewChild() throws XMLStreamException {
+		return element._canOutputNewChild();
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param buffered
+	 * @return
+	 * @throws XMLStreamException
+	 * @see org.codehaus.staxmate.out.SMOutputContainer#addAndReleaseBuffered(org.codehaus.staxmate.out.SMBufferable)
+	 */
+	@Override
+	public SMBufferable addAndReleaseBuffered(SMBufferable buffered) throws XMLStreamException {
+		return element.addAndReleaseBuffered(buffered);
+	}
+	
 	public void addAttribute(JiemamyQName jQName, Class<?> clazz) throws XMLStreamException {
 		Validate.notNull(clazz);
 		addAttribute(jQName, clazz.getName());
@@ -64,8 +93,115 @@ public class JiemamyOutputElement extends JiemamyOutputContainer {
 		element.addAttribute(ns, qName.getLocalPart(), value);
 	}
 	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param ns
+	 * @param localName
+	 * @param value
+	 * @throws XMLStreamException
+	 * @see org.codehaus.staxmate.out.SMOutputElement#addAttribute(org.codehaus.staxmate.out.SMNamespace, java.lang.String, boolean)
+	 */
+	public void addAttribute(SMNamespace ns, String localName, boolean value) throws XMLStreamException {
+		element.addAttribute(ns, localName, value);
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param ns
+	 * @param localName
+	 * @param value
+	 * @throws XMLStreamException
+	 * @see org.codehaus.staxmate.out.SMOutputElement#addAttribute(org.codehaus.staxmate.out.SMNamespace, java.lang.String, int)
+	 */
+	public void addAttribute(SMNamespace ns, String localName, int value) throws XMLStreamException {
+		element.addAttribute(ns, localName, value);
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param ns
+	 * @param localName
+	 * @param value
+	 * @throws XMLStreamException
+	 * @see org.codehaus.staxmate.out.SMOutputElement#addAttribute(org.codehaus.staxmate.out.SMNamespace, java.lang.String, long)
+	 */
+	public void addAttribute(SMNamespace ns, String localName, long value) throws XMLStreamException {
+		element.addAttribute(ns, localName, value);
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param ns
+	 * @param localName
+	 * @param value
+	 * @throws XMLStreamException
+	 * @see org.codehaus.staxmate.out.SMOutputElement#addAttribute(org.codehaus.staxmate.out.SMNamespace, java.lang.String, java.lang.String)
+	 */
+	public void addAttribute(SMNamespace ns, String localName, String value) throws XMLStreamException {
+		element.addAttribute(ns, localName, value);
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param localName
+	 * @param value
+	 * @throws XMLStreamException
+	 * @see org.codehaus.staxmate.out.SMOutputElement#addAttribute(java.lang.String, java.lang.String)
+	 */
+	public final void addAttribute(String localName, String value) throws XMLStreamException {
+		element.addAttribute(localName, value);
+	}
+	
 	public void addElementAndCharacters(JiemamyQName jQName, Enum<?> e) throws XMLStreamException {
 		addElementAndCharacters(jQName, e.name());
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @return
+	 * @see org.codehaus.staxmate.out.SMOutputElement#getLocalName()
+	 */
+	public String getLocalName() {
+		return element.getLocalName();
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @return
+	 * @see org.codehaus.staxmate.out.SMOutputElement#getNamespace()
+	 */
+	public SMNamespace getNamespace() {
+		return element.getNamespace();
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param parent
+	 * @param blocked
+	 * @throws XMLStreamException
+	 * @see org.codehaus.staxmate.out.SMOutputElement#linkParent(org.codehaus.staxmate.out.SMOutputContainer, boolean)
+	 */
+	public void linkParent(SMOutputContainer parent, boolean blocked) throws XMLStreamException {
+		element.linkParent(parent, blocked);
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param ns
+	 * @throws XMLStreamException
+	 * @see org.codehaus.staxmate.out.SMOutputElement#predeclareNamespace(org.codehaus.staxmate.out.SMNamespace)
+	 */
+	public void predeclareNamespace(SMNamespace ns) throws XMLStreamException {
+		element.predeclareNamespace(ns);
 	}
 	
 }
