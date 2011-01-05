@@ -39,7 +39,7 @@ import org.jiemamy.model.attribute.DefaultColumnModel;
 import org.jiemamy.model.dbo.DefaultTableModel;
 
 /**
- * TODO for daisuke
+ * {@link JiemamyStaxSerializer}のテストクラス。
  * 
  * @version $Id$
  * @author daisuke
