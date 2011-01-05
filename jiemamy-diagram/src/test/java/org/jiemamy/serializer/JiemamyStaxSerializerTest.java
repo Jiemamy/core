@@ -24,6 +24,7 @@ import org.junit.Test;
 
 import org.jiemamy.DiagramFacet;
 import org.jiemamy.JiemamyContext;
+import org.jiemamy.serializer.stax2.JiemamyStaxSerializer;
 
 /**
  * TODO for daisuke

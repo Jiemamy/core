@@ -16,11 +16,8 @@
  */
 package org.jiemamy;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
-
-import com.google.common.collect.Lists;
 
 import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
@@ -30,15 +27,19 @@ import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityNotFoundException;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.OnMemoryRepository;
-import org.jiemamy.model.DefaultDiagramModelSerializationWorker;
-import org.jiemamy.model.DefaultNodeModelSerializationWorker;
+import org.jiemamy.model.DefaultDiagramModel;
+import org.jiemamy.model.DefaultDiagramModelSerializationHandler;
+import org.jiemamy.model.DefaultNodeModel;
+import org.jiemamy.model.DefaultNodeModelSerializationHandler;
 import org.jiemamy.model.DiagramModel;
-import org.jiemamy.model.geometory.JmColorSerializationWorker;
-import org.jiemamy.model.geometory.JmRectangleSerializationWorker;
-import org.jiemamy.serializer.SerializationDirector;
-import org.jiemamy.serializer.SerializationWorker;
+import org.jiemamy.model.geometory.JmColor;
+import org.jiemamy.model.geometory.JmColorSerializationHandler;
+import org.jiemamy.model.geometory.JmRectangle;
+import org.jiemamy.model.geometory.JmRectangleSerializationHandler;
+import org.jiemamy.serializer.stax2.SerializationDirector;
 import org.jiemamy.transaction.Command;
 import org.jiemamy.xml.DiagramNamespace;
+import org.jiemamy.xml.DiagramQName;
 import org.jiemamy.xml.JiemamyNamespace;
 
 /**
@@ -108,16 +109,16 @@ public class DiagramFacet implements JiemamyFacet {
 		return DiagramNamespace.values();
 	}
 	
-	public Iterable<? extends SerializationWorker<?>> getSerializationWorkers(SerializationDirector director) {
+	public void prepareSerializationWorkers(SerializationDirector director) {
 		Validate.notNull(director);
-		Collection<SerializationWorker<?>> result = Lists.newArrayList();
-		result.add(new DiagramFacetSerializationWorker(context, director));
-		result.add(new DefaultDiagramModelSerializationWorker(context, director));
-		result.add(new DefaultNodeModelSerializationWorker(context, director));
+		// FORMAT-OFF CHECKSTYLE:OFF
+		director.addHandler(DiagramFacet.class, DiagramQName.DIAGRAMS, new DiagramFacetSerializationHandler(context, director));
+		director.addHandler(DefaultDiagramModel.class, DiagramQName.DIAGRAM, new DefaultDiagramModelSerializationHandler(context, director));
+		director.addHandler(DefaultNodeModel.class, DiagramQName.NODE, new DefaultNodeModelSerializationHandler(context, director));
 		// TODO ...
-		result.add(new JmColorSerializationWorker(context, director));
-		result.add(new JmRectangleSerializationWorker(context, director));
-		return result;
+		director.addHandler(JmColor.class, DiagramQName.COLOR, new JmColorSerializationHandler(context, director));
+		director.addHandler(JmRectangle.class, DiagramQName.BOUNDARY, new JmRectangleSerializationHandler(context, director));
+		// CHECKSTYLE:ON FORMAT-ON
 	}
 	
 	/**
