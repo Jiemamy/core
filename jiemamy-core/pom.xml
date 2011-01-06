@@ -44,6 +44,22 @@
     <developerConnection>scm:svn:http://svn.jiemamy.org/products/artemis/trunk/jiemamy-core</developerConnection>
     <url>http://fisheye.jiemamy.org/browse/artemis/trunk/jiemamy-core</url>
   </scm>
+  <build>
+    <plugins>
+     <plugin>
+       <groupId>org.apache.maven.plugins</groupId>
+       <artifactId>maven-jar-plugin</artifactId>
+       <version>2.2</version>
+       <executions>
+         <execution>
+           <goals>
+             <goal>test-jar</goal>
+           </goals>
+         </execution>
+       </executions>
+     </plugin>
+    </plugins>
+  </build>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>

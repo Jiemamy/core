@@ -11,7 +11,7 @@
   <groupId>org.jiemamy</groupId>
   <artifactId>jiemamy-artemis-parent</artifactId>
   <packaging>pom</packaging>
-  <name>Jiemamy API</name>
+  <name>Jiemamy APIs</name>
   <version>0.3.0-SNAPSHOT</version>
   <inceptionYear>2007</inceptionYear>
   <modules>
