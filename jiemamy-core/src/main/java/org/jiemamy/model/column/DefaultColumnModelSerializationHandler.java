@@ -18,16 +18,26 @@
  */
 package org.jiemamy.model.column;
 
+import java.util.UUID;
+
 import javax.xml.stream.XMLStreamException;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.Validate;
+import org.codehaus.staxmate.in.SMEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.jiemamy.model.datatype.TypeVariant;
 import org.jiemamy.serializer.SerializationException;
 import org.jiemamy.serializer.stax2.DeserializationContext;
+import org.jiemamy.serializer.stax2.JiemamyCursor;
 import org.jiemamy.serializer.stax2.JiemamyOutputContainer;
 import org.jiemamy.serializer.stax2.JiemamyOutputElement;
 import org.jiemamy.serializer.stax2.SerializationContext;
 import org.jiemamy.serializer.stax2.SerializationDirector;
 import org.jiemamy.serializer.stax2.SerializationHandler;
+import org.jiemamy.utils.UUIDUtil;
 import org.jiemamy.xml.CoreQName;
 
 /**
@@ -38,6 +48,9 @@ import org.jiemamy.xml.CoreQName;
  */
 public final class DefaultColumnModelSerializationHandler extends SerializationHandler<DefaultColumnModel> {
 	
+	private static Logger logger = LoggerFactory.getLogger(DefaultColumnModelSerializationHandler.class);
+	
+
 	/**
 	 * インスタンスを生成する。
 	 * 
@@ -70,8 +83,58 @@ public final class DefaultColumnModelSerializationHandler extends SerializationH
 	
 	@Override
 	public DefaultColumnModel handle(DeserializationContext ctx) throws SerializationException {
-		// TODO Auto-generated method stub
-		return null;
+		Validate.notNull(ctx);
+		try {
+			Validate.isTrue(ctx.getCursor().getCurrEvent() == SMEvent.START_ELEMENT);
+			Validate.isTrue(ctx.getCursor().isQName(CoreQName.COLUMN));
+			
+			JiemamyCursor cursor = ctx.getCursor();
+			
+			String idString = cursor.getAttrValue(CoreQName.ID);
+			UUID id = UUIDUtil.valueOfOrRandom(idString);
+			DefaultColumnModel columnModel = new DefaultColumnModel(id);
+			
+			JiemamyCursor childCursor = cursor.childCursor();
+			do {
+				childCursor.advance();
+				if (childCursor.getCurrEvent() == SMEvent.START_ELEMENT) {
+					if (childCursor.isQName(CoreQName.NAME)) {
+						columnModel.setName(childCursor.collectDescendantText(false));
+					} else if (childCursor.isQName(CoreQName.LOGICAL_NAME)) {
+						columnModel.setLogicalName(childCursor.collectDescendantText(false));
+					} else if (childCursor.isQName(CoreQName.DESCRIPTION)) {
+						columnModel.setDescription(childCursor.collectDescendantText(false));
+					} else if (childCursor.isQName(CoreQName.DATA_TYPE)) {
+						JiemamyCursor descendantCursor = childCursor.descendantCursor().advance();
+						while (descendantCursor.getCurrEvent() != SMEvent.START_ELEMENT
+								&& descendantCursor.getCurrEvent() != null) {
+							descendantCursor.advance();
+						}
+						if (descendantCursor.getCurrEvent() != null) {
+							DeserializationContext ctx2 = new DeserializationContext(descendantCursor);
+							TypeVariant type = getDirector().direct(ctx2);
+							if (type != null) {
+								columnModel.setDataType(type);
+							} else {
+								logger.warn("null type");
+							}
+						}
+					} else {
+						logger.warn("UNKNOWN ELEMENT: {}", childCursor.getQName().toString());
+					}
+				} else if (childCursor.getCurrEvent() == SMEvent.TEXT) {
+					if (StringUtils.isEmpty(childCursor.getText().trim()) == false) {
+						logger.warn("UNKNOWN TEXT: {}", childCursor.getCurrEvent());
+					}
+				} else if (childCursor.getCurrEvent() != null) {
+					logger.warn("UNKNOWN EVENT: {}", childCursor.getCurrEvent());
+				}
+			} while (childCursor.getCurrEvent() != null);
+			
+			return columnModel;
+		} catch (XMLStreamException e) {
+			throw new SerializationException(e);
+		}
 	}
 	
 }

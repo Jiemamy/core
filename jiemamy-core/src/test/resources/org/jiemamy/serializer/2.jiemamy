@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jiemamy xmlns="http://jiemamy.org/xml/ns/core" version="0.3.0-SNAPSHOT">
+  <schemaName>schema-name</schemaName>
+  <description/>
+  <dbobjects>
+    <table id="d23695f8-76dd-4f8c-b5a2-1e02087ba44d" class="org.jiemamy.model.table.DefaultTableModel">
+      <columns/>
+      <constraints/>
+    </table>
+  </dbobjects>
+  <dataSets/>
+</jiemamy>

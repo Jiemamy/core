@@ -90,7 +90,7 @@ public class JiemamyStaxSerializerTest {
 		String expected = "<?xml version='1.0' encoding='UTF-8'?>" + LF +
 				"<jiemamy xmlns=\"http://jiemamy.org/xml/ns/core\" version=\"0.3.0-SNAPSHOT\">" + LF +
 				"  <dbobjects>" + LF +
-				"    <table id=\"5780585f-5f3d-4f72-a38b-7665042e6c00\" class=\"org.jiemamy.model.dbo.DefaultTableModel\">" + LF +
+				"    <table id=\"5780585f-5f3d-4f72-a38b-7665042e6c00\" class=\"org.jiemamy.model.table.DefaultTableModel\">" + LF +
 				"      <columns/>" + LF +
 				"      <constraints/>" + LF +
 				"    </table>" + LF +

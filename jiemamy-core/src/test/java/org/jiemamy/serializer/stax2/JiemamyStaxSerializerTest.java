@@ -25,15 +25,21 @@ import static org.junit.Assert.assertThat;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.UUID;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.CharEncoding;
+import org.custommonkey.xmlunit.DetailedDiff;
+import org.custommonkey.xmlunit.Diff;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.jiemamy.JiemamyContext;
+import org.jiemamy.model.column.ColumnModel;
 import org.jiemamy.model.column.DefaultColumnModel;
 import org.jiemamy.model.table.DefaultTableModel;
 import org.jiemamy.model.table.TableModel;
@@ -77,23 +83,15 @@ public class JiemamyStaxSerializerTest {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		serializer.serialize(ctx, baos);
 		String actual = baos.toString(CharEncoding.UTF_8);
-		logger.info(actual);
 		
-		// インデントは2であること
 		// DialectClassNameはnullなので出力されない
 		// schemaNameが設定通りに出力される
 		// descriptionは空文字なので空要素として出力される
 		
-		// FORMAT-OFF
-		String expected = "<?xml version='1.0' encoding='UTF-8'?>" + LF
-				+ "<jiemamy xmlns=\"http://jiemamy.org/xml/ns/core\" version=\"0.3.0-SNAPSHOT\">" + LF
-				+ "  <schemaName>schema-name</schemaName>" + LF
-				+ "  <description/>" + LF
-				+ "  <dbobjects/>" + LF
-				+ "  <dataSets/>" + LF
-				+ "</jiemamy>" + LF;
-		// FORMAT-ON
-		assertThat(actual, is(expected));
+		String expected = getXml("1.jiemamy");
+		
+		DetailedDiff diff = new DetailedDiff(new Diff(actual, expected));
+		assertThat(diff.getAllDifferences().toString(), diff.similar(), is(true));
 	}
 	
 	/**
@@ -107,7 +105,7 @@ public class JiemamyStaxSerializerTest {
 		ctx.setSchemaName("schema-name");
 		ctx.setDescription("");
 		
-		UUID id = UUID.randomUUID();
+		UUID id = UUID.fromString("d23695f8-76dd-4f8c-b5a2-1e02087ba44d");
 		DefaultTableModel t = new DefaultTableModel(id);
 		ctx.store(t);
 		
@@ -115,31 +113,14 @@ public class JiemamyStaxSerializerTest {
 		serializer.serialize(ctx, baos);
 		String actual = baos.toString(CharEncoding.UTF_8);
 		
-		// インデントは2であること
 		// DialectClassNameはnullなので出力されない
 		// schemaNameが設定通りに出力される
 		// descriptionは空文字なので空要素として出力される
 		
-		// FORMAT-OFF
-		String expected = "<?xml version='1.0' encoding='UTF-8'?>" + LF
-				+ "<jiemamy xmlns=\"http://jiemamy.org/xml/ns/core\" version=\"0.3.0-SNAPSHOT\">" + LF
-				+ "  <schemaName>schema-name</schemaName>" + LF
-				+ "  <description/>" + LF
-				+ "  <dbobjects>" + LF
-				+ "    <table" +
-							" id=\"" + id.toString() + "\"" +
-							" class=\"" + t.getClass().getName() + "\">" + LF
-				+ "      <columns/>" + LF
-				+ "      <constraints/>" + LF
-				+ "    </table>" + LF
-				+ "  </dbobjects>" + LF
-				+ "  <dataSets/>" + LF
-				+ "</jiemamy>" + LF;
-		// FORMAT-ON
-		logger.info("actual={}", actual);
-		logger.info("expected={}", expected);
+		String expected = getXml("2.jiemamy");
 		
-		assertThat(actual, is(expected));
+		DetailedDiff diff = new DetailedDiff(new Diff(actual, expected));
+		assertThat(diff.getAllDifferences().toString(), diff.similar(), is(true));
 	}
 	
 	/**
@@ -154,11 +135,11 @@ public class JiemamyStaxSerializerTest {
 		ctx.setSchemaName("schema-name");
 		ctx.setDescription(""); // 空文字列 → 空要素
 		
-		UUID tid = UUID.randomUUID();
+		UUID tid = UUID.fromString("d23695f8-76dd-4f8c-b5a2-1e02087ba44d");
 		DefaultTableModel t = new DefaultTableModel(tid);
 		t.setName("foo");
 		
-		UUID cid = UUID.randomUUID();
+		UUID cid = UUID.fromString("58a57dcc-7745-4718-b03d-0143eaaa8af3");
 		DefaultColumnModel c = new DefaultColumnModel(cid);
 		c.setName("bar");
 		c.setLogicalName("baz");
@@ -170,41 +151,16 @@ public class JiemamyStaxSerializerTest {
 		serializer.serialize(ctx, baos);
 		String actual = baos.toString(CharEncoding.UTF_8);
 		
-		// インデントは2であること
 		// DialectClassNameはnullなので出力されない
 		// schemaNameが設定通りに出力される
 		// descriptionは空文字なので空要素として出力される
 		
-		// FORMAT-OFF
-		String expected = "<?xml version='1.0' encoding='UTF-8'?>" + LF
-				+ "<jiemamy xmlns=\"http://jiemamy.org/xml/ns/core\" version=\"0.3.0-SNAPSHOT\">" + LF
-//				+ "  <dialect>com.example.Dialect</dialect>" + LF // nullなので要素欠損
-				+ "  <schemaName>schema-name</schemaName>" + LF
-				+ "  <description/>" + LF // 空文字列なので空要素
-				+ "  <dbobjects>" + LF
-				+ "    <table" +
-							" id=\"" + tid.toString() + "\"" +
-							" class=\"" + t.getClass().getName() + "\">" + LF
-				+ "      <name>foo</name>" + LF
-				+ "      <columns>" + LF
-				+ "        <column" +
-								" id=\"" + cid.toString() + "\"" +
-								" class=\"" + c.getClass().getName() + "\">" + LF
-				+ "          <name>bar</name>" + LF
-				+ "          <logicalName>baz</logicalName>" + LF
-				+ "          <description/>" + LF
-				+ "        </column>" + LF
-				+ "      </columns>" + LF
-				+ "      <constraints/>" + LF
-				+ "    </table>" + LF
-				+ "  </dbobjects>" + LF
-				+ "  <dataSets/>" + LF
-				+ "</jiemamy>" + LF;
-		// FORMAT-ON
-		logger.info("actual={}", actual);
-		logger.info("expected={}", expected);
+		String expected = getXml("3.jiemamy");
+		DetailedDiff diff = new DetailedDiff(new Diff(actual, expected));
+		assertThat(diff.getAllDifferences().toString(), diff.similar(), is(true));
 		
-		assertThat(actual, is(expected));
+//		logger.info("actual  ={}", actual.replaceAll("[\n\r]", ""));
+//		logger.info("expected={}", expected.replaceAll("[\n\r]", ""));
 	}
 	
 	/**
@@ -214,16 +170,7 @@ public class JiemamyStaxSerializerTest {
 	 */
 	@Test
 	public void test11_簡単なJiemamyContextのデシリアライズ結果を確認() throws Exception {
-		// FORMAT-OFF
-		String xml = "<?xml version='1.0' encoding='UTF-8'?>" + LF
-				+ "<jiemamy xmlns=\"http://jiemamy.org/xml/ns/core\" version=\"0.3.0-SNAPSHOT\">" + LF
-//				+ "  <dialect>com.example.Dialect</dialect>" + LF // 要素欠損
-				+ "  <schemaName>schema-name</schemaName>" + LF
-				+ "  <description/>" + LF // 空要素
-				+ "  <dbobjects/>" + LF
-				+ "  <dataSets/>" + LF
-				+ "</jiemamy>" + LF;
-		// FORMAT-ON
+		String xml = getXml("1.jiemamy");
 		ByteArrayInputStream bais = new ByteArrayInputStream(xml.getBytes(CharEncoding.UTF_8));
 		JiemamyContext deserialized = serializer.deserialize(bais);
 		
@@ -241,22 +188,7 @@ public class JiemamyStaxSerializerTest {
 	 */
 	@Test
 	public void test12_Tableを1つ含むJiemamyContextのデシリアライズ結果を確認() throws Exception {
-		// FORMAT-OFF
-		String xml = "<?xml version='1.0' encoding='UTF-8'?>" + LF
-				+ "<jiemamy xmlns=\"http://jiemamy.org/xml/ns/core\" version=\"0.3.0-SNAPSHOT\">" + LF
-				+ "  <schemaName>schema-name</schemaName>" + LF
-				+ "  <description/>" + LF
-				+ "  <dbobjects>" + LF
-				+ "    <table" +
-							" id=\"94f8923f-9dfe-406b-ab35-d9a7c0b88149\"" +
-							" class=\"org.jiemamy.model.dbo.DefaultTableModel\">" + LF
-				+ "      <columns/>" + LF
-				+ "      <constraints/>" + LF
-				+ "    </table>" + LF
-				+ "  </dbobjects>" + LF
-				+ "  <dataSets/>" + LF
-				+ "</jiemamy>" + LF;
-		// FORMAT-ON
+		String xml = getXml("2.jiemamy");
 		ByteArrayInputStream bais = new ByteArrayInputStream(xml.getBytes(CharEncoding.UTF_8));
 		JiemamyContext deserialized = serializer.deserialize(bais);
 		
@@ -268,7 +200,48 @@ public class JiemamyStaxSerializerTest {
 		assertThat(deserialized.getTables().size(), is(1));
 		TableModel tableModel = deserialized.getTables().iterator().next();
 		
-		assertThat(tableModel.getId(), is(UUID.fromString("94f8923f-9dfe-406b-ab35-d9a7c0b88149")));
+		assertThat(tableModel.getId(), is(UUID.fromString("d23695f8-76dd-4f8c-b5a2-1e02087ba44d")));
 		assertThat(tableModel.getColumns().size(), is(0));
+	}
+	
+	/**
+	 * 簡単なJiemamyContextのデシリアライズ結果を確認。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test13_Columnを1つ含むTableを1つ含むJiemamyContextのデシリアライズ結果を確認() throws Exception {
+		String xml = getXml("3.jiemamy");
+		ByteArrayInputStream bais = new ByteArrayInputStream(xml.getBytes(CharEncoding.UTF_8));
+		JiemamyContext deserialized = serializer.deserialize(bais);
+		
+		assertThat(deserialized, is(notNullValue()));
+		assertThat(deserialized.getTables().size(), is(1));
+		
+		TableModel tableModel = deserialized.getTables().iterator().next();
+		assertThat(tableModel.getId(), is(UUID.fromString("d23695f8-76dd-4f8c-b5a2-1e02087ba44d")));
+		assertThat(tableModel.getName(), is("foo"));
+		assertThat(tableModel.getLogicalName(), is(nullValue()));
+		assertThat(tableModel.getDescription(), is(nullValue()));
+		assertThat(tableModel.getColumns().size(), is(1));
+		
+		ColumnModel columnModel = tableModel.getColumns().get(0);
+		assertThat(columnModel.getId(), is(UUID.fromString("58a57dcc-7745-4718-b03d-0143eaaa8af3")));
+		assertThat(columnModel.getName(), is("bar"));
+		assertThat(columnModel.getLogicalName(), is("baz"));
+		assertThat(columnModel.getDescription(), is(""));
+	}
+	
+	private String getXml(String name) {
+		InputStream in = null;
+		String result = null;
+		try {
+			in = getClass().getResourceAsStream("/org/jiemamy/serializer/" + name);
+			result = IOUtils.toString(in);
+		} catch (IOException e) {
+		} finally {
+			IOUtils.closeQuietly(in);
+		}
+		return result;
 	}
 }
