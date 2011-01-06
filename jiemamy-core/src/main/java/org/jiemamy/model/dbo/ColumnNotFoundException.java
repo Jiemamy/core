@@ -19,7 +19,7 @@
 package org.jiemamy.model.dbo;
 
 import org.jiemamy.dddbase.EntityNotFoundException;
-import org.jiemamy.model.attribute.ColumnModel;
+import org.jiemamy.model.column.ColumnModel;
 
 /**
  * {@link TableModel}に対するクエリの結果、該当する {@link ColumnModel} が見つからなかったことを表す例外クラス。

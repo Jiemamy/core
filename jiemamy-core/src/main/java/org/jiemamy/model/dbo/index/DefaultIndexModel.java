@@ -30,7 +30,7 @@ import org.jiemamy.JiemamyContext;
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.utils.CloneUtil;
-import org.jiemamy.model.dbo.AbstractDatabaseObjectModel;
+import org.jiemamy.model.dbo.DefaultDatabaseObjectModel;
 import org.jiemamy.utils.MutationMonitor;
 
 /**
@@ -38,7 +38,7 @@ import org.jiemamy.utils.MutationMonitor;
  * 
  * @author daisuke
  */
-public final class DefaultIndexModel extends AbstractDatabaseObjectModel implements IndexModel {
+public final class DefaultIndexModel extends DefaultDatabaseObjectModel implements IndexModel {
 	
 	/** ユニークインデックスか否か */
 	private boolean unique;

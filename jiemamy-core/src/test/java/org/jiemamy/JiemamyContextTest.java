@@ -31,7 +31,7 @@ import org.junit.Test;
 
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityNotFoundException;
-import org.jiemamy.model.attribute.DefaultColumnModel;
+import org.jiemamy.model.column.DefaultColumnModel;
 import org.jiemamy.model.dbo.DefaultTableModel;
 import org.jiemamy.model.dbo.TableModel;
 import org.jiemamy.utils.UUIDUtil;

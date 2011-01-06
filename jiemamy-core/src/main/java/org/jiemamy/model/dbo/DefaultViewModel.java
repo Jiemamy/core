@@ -32,7 +32,7 @@ import org.jiemamy.dddbase.EntityRef;
  * 
  * @author daisuke
  */
-public final class DefaultViewModel extends AbstractDatabaseObjectModel implements ViewModel {
+public final class DefaultViewModel extends DefaultDatabaseObjectModel implements ViewModel {
 	
 	/** VIEW定義SELECT文 */
 	private String definition;

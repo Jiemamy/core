@@ -24,6 +24,7 @@ import com.google.common.collect.Lists;
 
 import org.apache.commons.lang.Validate;
 
+import org.jiemamy.dddbase.AbstractEntity;
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityNotFoundException;
@@ -41,7 +42,7 @@ import org.jiemamy.utils.MutationMonitor;
  * @version $Id$
  * @author daisuke
  */
-public class DefaultNodeModel extends AbstractJiemamyEntity implements NodeModel {
+public class DefaultNodeModel extends AbstractEntity implements NodeModel {
 	
 	private JmRectangle boundary;
 	

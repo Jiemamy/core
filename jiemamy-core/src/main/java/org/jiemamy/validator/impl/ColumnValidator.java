@@ -25,7 +25,7 @@ import com.google.common.collect.Lists;
 import org.apache.commons.lang.StringUtils;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.model.attribute.ColumnModel;
+import org.jiemamy.model.column.ColumnModel;
 import org.jiemamy.model.dbo.TableModel;
 import org.jiemamy.validator.AbstractProblem;
 import org.jiemamy.validator.AbstractValidator;

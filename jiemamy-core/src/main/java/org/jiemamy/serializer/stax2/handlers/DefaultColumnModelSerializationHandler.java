@@ -20,7 +20,7 @@ package org.jiemamy.serializer.stax2.handlers;
 
 import javax.xml.stream.XMLStreamException;
 
-import org.jiemamy.model.attribute.DefaultColumnModel;
+import org.jiemamy.model.column.DefaultColumnModel;
 import org.jiemamy.model.datatype.TypeVariant;
 import org.jiemamy.serializer.SerializationException;
 import org.jiemamy.serializer.stax2.DeserializationContext;

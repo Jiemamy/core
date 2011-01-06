@@ -40,7 +40,7 @@ import org.jiemamy.model.geometory.JmRectangle;
 import org.jiemamy.serializer.stax2.JiemamyStaxSerializer;
 
 /**
- * TODO for daisuke
+ * {@link JiemamyStaxSerializer}のテスト：Diagram版。
  * 
  * @version $Id$
  * @author daisuke
@@ -109,8 +109,8 @@ public class JiemamyStaxSerializerTest {
 				"</jiemamy>" + LF;
 		// FORMAT-ON
 		
-		logger.info("actual  ={}", actual.replaceAll("\n", ""));
-		logger.info("expected={}", expected.replaceAll("\n", ""));
+		logger.info("actual={}", actual);
+		logger.info("expected={}", expected);
 		
 		assertThat(actual, is(expected));
 	}

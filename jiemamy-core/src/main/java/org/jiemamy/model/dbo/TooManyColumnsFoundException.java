@@ -23,7 +23,7 @@ import java.util.Collection;
 import com.google.common.collect.Lists;
 
 import org.jiemamy.model.ModelConsistencyException;
-import org.jiemamy.model.attribute.ColumnModel;
+import org.jiemamy.model.column.ColumnModel;
 
 /**
  * クエリの結果、該当する {@link ColumnModel} が複数見つかったことを表す例外クラス。

@@ -21,7 +21,7 @@ package org.jiemamy.utils;
 import java.util.Comparator;
 
 import org.jiemamy.dddbase.EntityRef;
-import org.jiemamy.model.attribute.ColumnModel;
+import org.jiemamy.model.column.ColumnModel;
 
 /**
  * TODO for daisuke

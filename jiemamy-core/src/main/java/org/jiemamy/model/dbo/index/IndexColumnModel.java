@@ -20,7 +20,7 @@ package org.jiemamy.model.dbo.index;
 
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.ValueObject;
-import org.jiemamy.model.attribute.ColumnModel;
+import org.jiemamy.model.column.ColumnModel;
 
 /**
  * インデックス対象のカラムを表すモデルインターフェイス。

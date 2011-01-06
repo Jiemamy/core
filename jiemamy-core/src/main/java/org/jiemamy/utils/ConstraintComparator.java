@@ -29,16 +29,16 @@ import com.google.common.collect.Lists;
 import org.apache.commons.lang.ArrayUtils;
 
 import org.jiemamy.dddbase.EntityRef;
-import org.jiemamy.model.attribute.ColumnModel;
-import org.jiemamy.model.attribute.constraint.CheckConstraintModel;
-import org.jiemamy.model.attribute.constraint.ConstraintModel;
-import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel;
-import org.jiemamy.model.attribute.constraint.KeyConstraintModel;
-import org.jiemamy.model.attribute.constraint.LocalKeyConstraintModel;
-import org.jiemamy.model.attribute.constraint.NotNullConstraintModel;
-import org.jiemamy.model.attribute.constraint.PrimaryKeyConstraintModel;
-import org.jiemamy.model.attribute.constraint.UniqueKeyConstraintModel;
-import org.jiemamy.model.attribute.constraint.ValueConstraintModel;
+import org.jiemamy.model.column.ColumnModel;
+import org.jiemamy.model.constraint.CheckConstraintModel;
+import org.jiemamy.model.constraint.ConstraintModel;
+import org.jiemamy.model.constraint.ForeignKeyConstraintModel;
+import org.jiemamy.model.constraint.KeyConstraintModel;
+import org.jiemamy.model.constraint.LocalKeyConstraintModel;
+import org.jiemamy.model.constraint.NotNullConstraintModel;
+import org.jiemamy.model.constraint.PrimaryKeyConstraintModel;
+import org.jiemamy.model.constraint.UniqueKeyConstraintModel;
+import org.jiemamy.model.constraint.ValueConstraintModel;
 
 /**
  * 属性の出力順を整列させるコンパレータ。

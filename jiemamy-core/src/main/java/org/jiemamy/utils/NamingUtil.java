@@ -21,7 +21,7 @@ package org.jiemamy.utils;
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.model.dbo.AbstractDatabaseObjectModel;
+import org.jiemamy.model.dbo.DefaultDatabaseObjectModel;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
 import org.jiemamy.model.dbo.DomainModel;
 import org.jiemamy.model.dbo.TableModel;
@@ -43,7 +43,7 @@ public class NamingUtil {
 	 * @param context ルートモデル
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public static void autoName(AbstractDatabaseObjectModel target, JiemamyContext context) {
+	public static void autoName(DefaultDatabaseObjectModel target, JiemamyContext context) {
 		Validate.notNull(target);
 		Validate.notNull(context);
 		

@@ -29,7 +29,7 @@ import org.apache.commons.lang.Validate;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.JiemamyFacet;
-import org.jiemamy.model.attribute.DefaultColumnModel;
+import org.jiemamy.model.column.DefaultColumnModel;
 import org.jiemamy.model.dbo.DefaultTableModel;
 import org.jiemamy.serializer.SerializationException;
 import org.jiemamy.serializer.stax2.handlers.DefaultColumnModelSerializationHandler;

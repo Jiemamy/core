@@ -23,11 +23,11 @@ import java.util.List;
 import java.util.SortedSet;
 
 import org.jiemamy.dddbase.EntityRef;
-import org.jiemamy.model.attribute.ColumnModel;
-import org.jiemamy.model.attribute.constraint.ConstraintModel;
-import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel;
-import org.jiemamy.model.attribute.constraint.KeyConstraintModel;
-import org.jiemamy.model.attribute.constraint.PrimaryKeyConstraintModel;
+import org.jiemamy.model.column.ColumnModel;
+import org.jiemamy.model.constraint.ConstraintModel;
+import org.jiemamy.model.constraint.ForeignKeyConstraintModel;
+import org.jiemamy.model.constraint.KeyConstraintModel;
+import org.jiemamy.model.constraint.PrimaryKeyConstraintModel;
 
 /**
  * リレーショナルデータベースにおける「テーブル」を表すモデルインターフェイス。

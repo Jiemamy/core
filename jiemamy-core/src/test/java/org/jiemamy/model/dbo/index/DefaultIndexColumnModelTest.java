@@ -25,7 +25,7 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
-import org.jiemamy.model.attribute.DefaultColumnModel;
+import org.jiemamy.model.column.DefaultColumnModel;
 import org.jiemamy.model.dbo.index.IndexColumnModel.SortOrder;
 import org.jiemamy.utils.UUIDUtil;
 

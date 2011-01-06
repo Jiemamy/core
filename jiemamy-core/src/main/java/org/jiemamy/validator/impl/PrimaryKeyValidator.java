@@ -23,7 +23,7 @@ import java.util.Collection;
 import com.google.common.collect.Lists;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.model.attribute.constraint.PrimaryKeyConstraintModel;
+import org.jiemamy.model.constraint.PrimaryKeyConstraintModel;
 import org.jiemamy.model.dbo.TableModel;
 import org.jiemamy.validator.AbstractProblem;
 import org.jiemamy.validator.AbstractValidator;

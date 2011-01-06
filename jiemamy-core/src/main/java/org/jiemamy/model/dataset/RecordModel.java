@@ -22,7 +22,7 @@ import java.util.Map;
 
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.ValueObject;
-import org.jiemamy.model.attribute.ColumnModel;
+import org.jiemamy.model.column.ColumnModel;
 
 /**
  * DB上のデータの各レコード（Row）を表すモデルインターフェイス。

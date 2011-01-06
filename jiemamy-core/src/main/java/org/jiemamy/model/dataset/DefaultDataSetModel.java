@@ -29,9 +29,9 @@ import com.google.common.collect.Maps;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
+import org.jiemamy.dddbase.AbstractEntity;
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
-import org.jiemamy.model.AbstractJiemamyEntity;
 import org.jiemamy.model.dbo.TableModel;
 import org.jiemamy.utils.MutationMonitor;
 
@@ -40,7 +40,7 @@ import org.jiemamy.utils.MutationMonitor;
  * 
  * @author daisuke
  */
-public final class DefaultDataSetModel extends AbstractJiemamyEntity implements DataSetModel {
+public final class DefaultDataSetModel extends AbstractEntity implements DataSetModel {
 	
 	/** データセット名 */
 	private String name;

@@ -34,16 +34,16 @@ import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.jiemamy.model.attribute.DefaultColumnModel;
-import org.jiemamy.model.attribute.constraint.CheckConstraintModel;
-import org.jiemamy.model.attribute.constraint.ConstraintModel;
-import org.jiemamy.model.attribute.constraint.DefaultCheckConstraintModel;
-import org.jiemamy.model.attribute.constraint.DefaultNotNullConstraintModel;
-import org.jiemamy.model.attribute.constraint.DefaultPrimaryKeyConstraintModel;
-import org.jiemamy.model.attribute.constraint.DefaultUniqueKeyConstraintModel;
-import org.jiemamy.model.attribute.constraint.NotNullConstraintModel;
-import org.jiemamy.model.attribute.constraint.PrimaryKeyConstraintModel;
-import org.jiemamy.model.attribute.constraint.UniqueKeyConstraintModel;
+import org.jiemamy.model.column.DefaultColumnModel;
+import org.jiemamy.model.constraint.CheckConstraintModel;
+import org.jiemamy.model.constraint.ConstraintModel;
+import org.jiemamy.model.constraint.DefaultCheckConstraintModel;
+import org.jiemamy.model.constraint.DefaultNotNullConstraintModel;
+import org.jiemamy.model.constraint.DefaultPrimaryKeyConstraintModel;
+import org.jiemamy.model.constraint.DefaultUniqueKeyConstraintModel;
+import org.jiemamy.model.constraint.NotNullConstraintModel;
+import org.jiemamy.model.constraint.PrimaryKeyConstraintModel;
+import org.jiemamy.model.constraint.UniqueKeyConstraintModel;
 import org.jiemamy.utils.ConstraintComparator;
 
 /**

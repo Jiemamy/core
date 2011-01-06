@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.UUID;
 
 import org.jiemamy.dddbase.AbstractEntityFactory;
-import org.jiemamy.model.attribute.ColumnModel;
-import org.jiemamy.model.attribute.constraint.ConstraintModel;
+import org.jiemamy.model.column.ColumnModel;
+import org.jiemamy.model.constraint.ConstraintModel;
 
 /**
  * {@link DefaultTableModel}のファクトリクラス。

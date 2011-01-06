@@ -44,11 +44,11 @@ import org.jiemamy.dddbase.EntityNotFoundException;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.utils.CloneUtil;
 import org.jiemamy.model.ModelConsistencyException;
-import org.jiemamy.model.attribute.ColumnModel;
-import org.jiemamy.model.attribute.constraint.ConstraintModel;
-import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel;
-import org.jiemamy.model.attribute.constraint.KeyConstraintModel;
-import org.jiemamy.model.attribute.constraint.PrimaryKeyConstraintModel;
+import org.jiemamy.model.column.ColumnModel;
+import org.jiemamy.model.constraint.ConstraintModel;
+import org.jiemamy.model.constraint.ForeignKeyConstraintModel;
+import org.jiemamy.model.constraint.KeyConstraintModel;
+import org.jiemamy.model.constraint.PrimaryKeyConstraintModel;
 import org.jiemamy.utils.ConstraintComparator;
 import org.jiemamy.utils.MutationMonitor;
 import org.jiemamy.utils.collection.CollectionsUtil;
@@ -58,7 +58,7 @@ import org.jiemamy.utils.collection.CollectionsUtil;
  * 
  * @author daisuke
  */
-public/*final*/class DefaultTableModel extends AbstractDatabaseObjectModel implements TableModel {
+public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implements TableModel {
 	
 	/**
 	 * {@code tables}の中から、このカラムが所属するテーブルを取得する。

@@ -21,6 +21,7 @@ import java.util.UUID;
 
 import org.apache.commons.lang.Validate;
 
+import org.jiemamy.dddbase.AbstractEntity;
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityNotFoundException;
@@ -35,7 +36,7 @@ import org.jiemamy.model.dbo.DatabaseObjectModel;
  * @version $Id$
  * @author daisuke
  */
-public class DefaultDiagramModel extends AbstractJiemamyEntity implements DiagramModel {
+public class DefaultDiagramModel extends AbstractEntity implements DiagramModel {
 	
 	private String name;
 	

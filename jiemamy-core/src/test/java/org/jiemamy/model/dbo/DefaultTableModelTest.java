@@ -29,13 +29,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.model.attribute.Column;
-import org.jiemamy.model.attribute.ColumnModel;
-import org.jiemamy.model.attribute.DefaultColumnModel;
-import org.jiemamy.model.attribute.constraint.DefaultForeignKeyConstraintModel;
-import org.jiemamy.model.attribute.constraint.DefaultPrimaryKeyConstraintModel;
-import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel;
-import org.jiemamy.model.attribute.constraint.KeyConstraintModel;
+import org.jiemamy.model.column.Column;
+import org.jiemamy.model.column.ColumnModel;
+import org.jiemamy.model.column.DefaultColumnModel;
+import org.jiemamy.model.constraint.DefaultForeignKeyConstraintModel;
+import org.jiemamy.model.constraint.DefaultPrimaryKeyConstraintModel;
+import org.jiemamy.model.constraint.ForeignKeyConstraintModel;
+import org.jiemamy.model.constraint.KeyConstraintModel;
 import org.jiemamy.utils.UUIDUtil;
 
 /**

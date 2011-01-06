@@ -21,7 +21,7 @@ package org.jiemamy.model;
 import java.util.List;
 
 import org.jiemamy.dddbase.EntityRef;
-import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel;
+import org.jiemamy.model.constraint.ForeignKeyConstraintModel;
 import org.jiemamy.model.geometory.JmColor;
 import org.jiemamy.model.geometory.JmPoint;
 

@@ -29,7 +29,7 @@ import com.google.common.collect.Maps;
 import org.junit.Test;
 
 import org.jiemamy.dddbase.EntityRef;
-import org.jiemamy.model.attribute.ColumnModel;
+import org.jiemamy.model.column.ColumnModel;
 
 /**
  * {@link DefaultRecordModel}のテストクラス。

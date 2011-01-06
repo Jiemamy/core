@@ -39,7 +39,7 @@ import org.jiemamy.JiemamyContext;
 import org.jiemamy.composer.ImportException;
 import org.jiemamy.composer.Importer;
 import org.jiemamy.dialect.Dialect;
-import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel;
+import org.jiemamy.model.constraint.ForeignKeyConstraintModel;
 import org.jiemamy.model.dbo.DatabaseObjectModel;
 import org.jiemamy.utils.sql.DriverNotFoundException;
 import org.jiemamy.utils.sql.DriverUtil;

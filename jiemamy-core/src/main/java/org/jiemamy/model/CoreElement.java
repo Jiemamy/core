@@ -18,7 +18,7 @@
  */
 package org.jiemamy.model;
 
-import org.jiemamy.JiemamyEntity;
+import org.jiemamy.dddbase.Entity;
 
 /**
  * TODO for daisuke
@@ -26,6 +26,6 @@ import org.jiemamy.JiemamyEntity;
  * @version $Id$
  * @author daisuke
  */
-public interface CoreElement extends JiemamyEntity {
+public interface CoreElement extends Entity {
 	
 }

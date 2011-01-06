@@ -32,7 +32,7 @@ import org.jiemamy.JiemamyContext;
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.utils.CloneUtil;
-import org.jiemamy.model.attribute.constraint.CheckConstraintModel;
+import org.jiemamy.model.constraint.CheckConstraintModel;
 import org.jiemamy.model.datatype.DataTypeCategory;
 import org.jiemamy.model.datatype.TypeParameter;
 import org.jiemamy.model.datatype.TypeVariant;
@@ -45,7 +45,7 @@ import org.jiemamy.utils.collection.CollectionsUtil;
  * 
  * @author daisuke
  */
-public final class DefaultDomainModel extends AbstractDatabaseObjectModel implements DomainModel {
+public final class DefaultDomainModel extends DefaultDatabaseObjectModel implements DomainModel {
 	
 	/** ドメインとして定義された型記述子 */
 	private TypeVariant dataType;

@@ -22,9 +22,9 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import org.jiemamy.model.attribute.constraint.DeferrabilityModel.InitiallyCheckTime;
-import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel.MatchType;
-import org.jiemamy.model.attribute.constraint.ForeignKeyConstraintModel.ReferentialAction;
+import org.jiemamy.model.constraint.DeferrabilityModel.InitiallyCheckTime;
+import org.jiemamy.model.constraint.ForeignKeyConstraintModel.MatchType;
+import org.jiemamy.model.constraint.ForeignKeyConstraintModel.ReferentialAction;
 import org.jiemamy.model.dbo.TableModel;
 import org.jiemamy.model.dbo.ViewModel;
 import org.jiemamy.model.dbo.index.IndexColumnModel.SortOrder;
