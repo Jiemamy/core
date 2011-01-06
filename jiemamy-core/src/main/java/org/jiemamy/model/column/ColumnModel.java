@@ -18,8 +18,11 @@
  */
 package org.jiemamy.model.column;
 
+import java.util.Set;
+
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.CoreElement;
+import org.jiemamy.model.ModelParameter.Key;
 import org.jiemamy.model.datatype.TypeVariant;
 
 /**
@@ -71,6 +74,22 @@ public interface ColumnModel extends CoreElement {
 	 * @since 0.2
 	 */
 	String getName();
+	
+	/**
+	 * パラメータを取得する。
+	 * 
+	 * @param <T> 値の型
+	 * @param key キー
+	 * @return 型パラメータ
+	 */
+	<T>ColumnParameter<T> getParam(Key<T> key);
+	
+	/**
+	 * パラメータを取得する。
+	 * 
+	 * @return 型パラメータの{@link Set}
+	 */
+	Set<ColumnParameter<?>> getParams();
 	
 	EntityRef<? extends ColumnModel> toReference();
 	

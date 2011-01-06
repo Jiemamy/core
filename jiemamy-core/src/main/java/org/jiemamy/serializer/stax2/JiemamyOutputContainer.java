@@ -174,6 +174,10 @@ public class JiemamyOutputContainer {
 		return new JiemamyOutputElement(container.addElement(localName));
 	}
 	
+	public JiemamyOutputElement addElementAndCharacters(JiemamyQName jQName, Enum<?> e) throws XMLStreamException {
+		return addElementAndCharacters(jQName, e.name());
+	}
+	
 	public JiemamyOutputElement addElementAndCharacters(JiemamyQName jQName, String text) throws XMLStreamException {
 		if (text == null) {
 			return null;

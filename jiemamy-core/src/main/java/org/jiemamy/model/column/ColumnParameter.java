@@ -1,6 +1,6 @@
 /*
  * Copyright 2007-2010 Jiemamy Project and the Others.
- * Created on 2010/12/14
+ * Created on 2010/12/13
  *
  * This file is part of Jiemamy.
  *
@@ -16,30 +16,20 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.utils;
+package org.jiemamy.model.column;
 
-import java.util.Comparator;
-
-import org.jiemamy.dddbase.EntityRef;
-import org.jiemamy.model.column.ColumnModel;
+import org.jiemamy.model.ModelParameter;
 
 /**
- * TODO for daisuke
+ * {@link ColumnModel}のパラメータを表すインターフェイス。
  * 
+ * @param <T> 値の型
  * @version $Id$
  * @author daisuke
  */
-public class EntityRefComparator implements Comparator<EntityRef<? extends ColumnModel>> {
+public interface ColumnParameter<T> extends ModelParameter<T> {
 	
-	/** singleton instance */
-	public static final EntityRefComparator INSTANCE = new EntityRefComparator();
-	
-
-	private EntityRefComparator() {
-	}
-	
-	public int compare(EntityRef<? extends ColumnModel> o1, EntityRef<? extends ColumnModel> o2) {
-		return o1.getReferentId().compareTo(o2.getReferentId());
-	}
+	/** 無効フラグ用のキー */
+	Key<Boolean> DISABLED = new Key<Boolean>("disabled");
 	
 }

@@ -82,7 +82,7 @@ public class JmRectangleSerializationHandlerTest extends AbstractSerializationHa
 		
 		SerializationContext sctx = mock(SerializationContext.class);
 		when(sctx.peek()).thenReturn(new JiemamyDocument(doc));
-		handler.handle(model, sctx);
+		handler.handleSerialization(model, sctx);
 		
 		doc.closeRootAndWriter();
 		
@@ -123,7 +123,7 @@ public class JmRectangleSerializationHandlerTest extends AbstractSerializationHa
 		
 		DeserializationContext dctx = mock(DeserializationContext.class);
 		when(dctx.getCursor()).thenReturn(new JiemamyCursor(cursor));
-		JmRectangle rectangle = handler.handle(dctx);
+		JmRectangle rectangle = handler.handleDeserialization(dctx);
 		
 		assertThat(rectangle, is(notNullValue()));
 		assertThat(rectangle.x, is(1));

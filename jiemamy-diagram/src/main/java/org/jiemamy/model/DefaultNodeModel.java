@@ -106,7 +106,7 @@ public class DefaultNodeModel extends AbstractEntity implements NodeModel {
 	}
 	
 	public Collection<? extends ConnectionModel> getTargetConnections() {
-		return Collections.emptyList(); // FIXME
+		return Collections.emptyList(); // FIXME ロジックで算出しなければならない
 	}
 	
 	/**

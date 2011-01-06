@@ -25,7 +25,7 @@ import com.google.common.collect.Sets;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.dddbase.AbstractEntity;
-import org.jiemamy.model.params.ModelParameter.Key;
+import org.jiemamy.model.ModelParameter.Key;
 import org.jiemamy.utils.MutationMonitor;
 
 /**
@@ -44,7 +44,7 @@ public abstract class DefaultDatabaseObjectModel extends AbstractEntity implemen
 	/** 説明文 */
 	private String description;
 	
-	private Set<DatabaseObjectParameter<?>> params;
+	private Set<DatabaseObjectParameter<?>> params = Sets.newHashSet();
 	
 
 	/**

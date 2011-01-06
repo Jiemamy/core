@@ -91,8 +91,8 @@ public class ConstraintComparator implements Comparator<ConstraintModel> {
 			
 			List<EntityRef<? extends ColumnModel>> kc1 = u1.getKeyColumns();
 			List<EntityRef<? extends ColumnModel>> kc2 = u2.getKeyColumns();
-			Collections.sort(kc1, new EntityRefComparator());
-			Collections.sort(kc2, new EntityRefComparator());
+			Collections.sort(kc1, EntityRefComparator.INSTANCE);
+			Collections.sort(kc2, EntityRefComparator.INSTANCE);
 			if (kc1.equals(kc2)) {
 				return 0;
 			} else if (o1 instanceof PrimaryKeyConstraintModel && o2 instanceof PrimaryKeyConstraintModel) {
@@ -103,7 +103,7 @@ public class ConstraintComparator implements Comparator<ConstraintModel> {
 				if (i1 != i2) {
 					return i1 - i2;
 				} else {
-					return 1; // FIXME
+					return 1; // FIXME 対称性がない
 				}
 			}
 		}
@@ -129,12 +129,12 @@ public class ConstraintComparator implements Comparator<ConstraintModel> {
 					&& f1.getReferenceColumns().equals(f2.getReferenceColumns())) {
 				return 0;
 			} else {
-				return 1; // FIXME
+				return 1; // FIXME 対称性がない
 			}
 		} else if (o1 instanceof NotNullConstraintModel && o2 instanceof NotNullConstraintModel) {
 			NotNullConstraintModel n1 = (NotNullConstraintModel) o1;
 			NotNullConstraintModel n2 = (NotNullConstraintModel) o2;
-			return n1.getColumn().getReferentId().compareTo(n2.getColumn().getReferentId()); // FIXME
+			return EntityRefComparator.INSTANCE.compare(n1.getColumn(), n2.getColumn());
 		} else if (o1 instanceof CheckConstraintModel && o2 instanceof CheckConstraintModel) {
 			CheckConstraintModel c1 = (CheckConstraintModel) o1;
 			CheckConstraintModel c2 = (CheckConstraintModel) o2;

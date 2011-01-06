@@ -89,7 +89,7 @@ public class DefaultColumnModelSerializationHandlerTest extends AbstractSerializ
 		
 		SerializationContext sctx = mock(SerializationContext.class);
 		when(sctx.peek()).thenReturn(new JiemamyDocument(doc));
-		handler.handle(model, sctx);
+		handler.handleSerialization(model, sctx);
 		
 		doc.closeRootAndWriter();
 		

@@ -48,6 +48,7 @@ public class DefaultServiceLocator implements ServiceLocator {
 		
 		// FIXME テストクラスから実行されると、サービスロケータによってserviceを読み込めない。
 		// このtryブロックがなければMySqlEmitterTestがコケる。なぜだろうか。
+		// (v0.2で確認した事象。v0.3以降では未検証)
 		try {
 			@SuppressWarnings("unchecked")
 			T result = (T) Class.forName(fqcn).newInstance();

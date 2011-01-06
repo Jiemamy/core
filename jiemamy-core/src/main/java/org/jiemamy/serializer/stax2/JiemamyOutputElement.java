@@ -23,8 +23,6 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.commons.lang.Validate;
 import org.codehaus.staxmate.out.SMBufferable;
-import org.codehaus.staxmate.out.SMBufferedElement;
-import org.codehaus.staxmate.out.SMBufferedFragment;
 import org.codehaus.staxmate.out.SMNamespace;
 import org.codehaus.staxmate.out.SMOutputContainer;
 import org.codehaus.staxmate.out.SMOutputElement;
@@ -155,10 +153,6 @@ public class JiemamyOutputElement extends JiemamyOutputContainer {
 	 */
 	public final void addAttribute(String localName, String value) throws XMLStreamException {
 		element.addAttribute(localName, value);
-	}
-	
-	public void addElementAndCharacters(JiemamyQName jQName, Enum<?> e) throws XMLStreamException {
-		addElementAndCharacters(jQName, e.name());
 	}
 	
 	/**

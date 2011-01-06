@@ -144,11 +144,6 @@ public class JiemamyContext {
 		this(new FacetProvider[0]);
 	}
 	
-	// FIXME
-//	public void delete(EntityRef<? extends DataSetModel> reference) {
-//		dsms.delete(reference);
-//	}
-	
 	/**
 	 * インスタンスを生成する。
 	 * 
@@ -165,6 +160,7 @@ public class JiemamyContext {
 	 * {@link DatabaseObjectModel}を削除する。
 	 * 
 	 * @param reference 削除する{@link DatabaseObjectModel}への参照
+	 * TODO {@link #deleteDataSet(EntityRef)}と対象となるよう、リネーム
 	 */
 	public void delete(final EntityRef<? extends DatabaseObjectModel> reference) {
 		doms.delete(reference);
@@ -183,6 +179,10 @@ public class JiemamyContext {
 				return reference;
 			}
 		});
+	}
+	
+	public void deleteDataSet(EntityRef<? extends DataSetModel> reference) {
+		dsms.delete(reference);
 	}
 	
 	/**

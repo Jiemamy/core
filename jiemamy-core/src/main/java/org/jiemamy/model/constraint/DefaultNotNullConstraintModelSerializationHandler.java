@@ -1,6 +1,6 @@
 /*
- * Copyright 2007-2010 Jiemamy Project and the Others.
- * Created on 2010/12/31
+ * Copyright 2007-2011 Jiemamy Project and the Others.
+ * Created on 2011/01/05
  *
  * This file is part of Jiemamy.
  *
@@ -16,9 +16,7 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.model;
-
-import java.util.UUID;
+package org.jiemamy.model.constraint;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -28,6 +26,9 @@ import org.codehaus.staxmate.in.SMEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.model.column.ColumnModel;
+import org.jiemamy.model.table.DefaultTableModel;
 import org.jiemamy.serializer.SerializationException;
 import org.jiemamy.serializer.stax2.DeserializationContext;
 import org.jiemamy.serializer.stax2.JiemamyCursor;
@@ -36,19 +37,18 @@ import org.jiemamy.serializer.stax2.JiemamyOutputElement;
 import org.jiemamy.serializer.stax2.SerializationContext;
 import org.jiemamy.serializer.stax2.SerializationDirector;
 import org.jiemamy.serializer.stax2.SerializationHandler;
-import org.jiemamy.utils.UUIDUtil;
 import org.jiemamy.xml.CoreQName;
-import org.jiemamy.xml.DiagramQName;
 
 /**
- * {@link DefaultDiagramModel}をシリアライズ/デシリアライズするハンドラ。
+ * {@link DefaultTableModel}をシリアライズ/デシリアライズするハンドラ。
  * 
  * @version $Id$
  * @author daisuke
  */
-public final class DefaultDiagramModelSerializationHandler extends SerializationHandler<DefaultDiagramModel> {
+public final class DefaultNotNullConstraintModelSerializationHandler extends
+		SerializationHandler<DefaultNotNullConstraintModel> {
 	
-	private static Logger logger = LoggerFactory.getLogger(DefaultDiagramModelSerializationHandler.class);
+	private static Logger logger = LoggerFactory.getLogger(DefaultNotNullConstraintModelSerializationHandler.class);
 	
 
 	/**
@@ -56,36 +56,40 @@ public final class DefaultDiagramModelSerializationHandler extends Serialization
 	 * 
 	 * @param director 親となるディレクタ
 	 */
-	public DefaultDiagramModelSerializationHandler(SerializationDirector director) {
+	public DefaultNotNullConstraintModelSerializationHandler(SerializationDirector director) {
 		super(director);
 	}
 	
 	@Override
-	public DefaultDiagramModel handleDeserialization(DeserializationContext ctx) throws SerializationException {
+	public DefaultNotNullConstraintModel handleDeserialization(DeserializationContext ctx)
+			throws SerializationException {
 		Validate.notNull(ctx);
 		try {
 			Validate.isTrue(ctx.getCursor().getCurrEvent() == SMEvent.START_ELEMENT);
-			Validate.isTrue(ctx.getCursor().isQName(DiagramQName.DIAGRAM));
+			Validate.isTrue(ctx.getCursor().isQName(CoreQName.NOT_NULL));
 			
 			JiemamyCursor cursor = ctx.getCursor();
-			
-			String idString = cursor.getAttrValue(CoreQName.ID);
-			UUID id = UUIDUtil.valueOfOrRandom(idString);
-			DefaultDiagramModel diagramModel = new DefaultDiagramModel(id);
-			
 			JiemamyCursor childCursor = cursor.childCursor();
+			
+			String name = null;
+			String logicalName = null;
+			String description = null;
+			DeferrabilityModel deferrability = null;
+			EntityRef<? extends ColumnModel> ref = null;
+			
 			do {
 				childCursor.advance();
 				if (childCursor.getCurrEvent() == SMEvent.START_ELEMENT) {
 					if (childCursor.isQName(CoreQName.NAME)) {
-						diagramModel.setName(childCursor.collectDescendantText(false));
-					} else if (childCursor.isQName(DiagramQName.LEVEL)) {
+						name = childCursor.collectDescendantText(false);
+					} else if (childCursor.isQName(CoreQName.LOGICAL_NAME)) {
+						logicalName = childCursor.collectDescendantText(false);
+					} else if (childCursor.isQName(CoreQName.DESCRIPTION)) {
+						description = childCursor.collectDescendantText(false);
+					} else if (childCursor.isQName(CoreQName.DEFERRABILITY)) {
 						String text = childCursor.collectDescendantText(false);
-						diagramModel.setLevel(Level.valueOf(text));
-					} else if (childCursor.isQName(DiagramQName.MODE)) {
-						String text = childCursor.collectDescendantText(false);
-						diagramModel.setMode(Mode.valueOf(text));
-					} else if (childCursor.isQName(DiagramQName.NODES)) {
+						deferrability = DefaultDeferrabilityModel.valueOf(text);
+					} else if (childCursor.isQName(CoreQName.COLUMN_REF)) {
 						JiemamyCursor descendantCursor = childCursor.descendantCursor().advance();
 						while (descendantCursor.getCurrEvent() != SMEvent.START_ELEMENT
 								&& descendantCursor.getCurrEvent() != null) {
@@ -93,12 +97,7 @@ public final class DefaultDiagramModelSerializationHandler extends Serialization
 						}
 						if (descendantCursor.getCurrEvent() != null) {
 							DeserializationContext ctx2 = new DeserializationContext(descendantCursor);
-							NodeModel nodeModel = getDirector().direct(ctx2);
-							if (nodeModel != null) {
-								diagramModel.store(nodeModel);
-							} else {
-								logger.warn("null nodeModel");
-							}
+							ref = getDirector().direct(ctx2);
 						}
 					} else {
 						logger.warn("UNKNOWN ELEMENT: {}", childCursor.getQName().toString());
@@ -112,29 +111,27 @@ public final class DefaultDiagramModelSerializationHandler extends Serialization
 				}
 			} while (childCursor.getCurrEvent() != null);
 			
-			return diagramModel;
+			return new DefaultNotNullConstraintModel(name, logicalName, description, deferrability, ref);
 		} catch (XMLStreamException e) {
 			throw new SerializationException(e);
 		}
 	}
 	
 	@Override
-	public void handleSerialization(DefaultDiagramModel model, SerializationContext sctx) throws SerializationException {
+	public void handleSerialization(DefaultNotNullConstraintModel model, SerializationContext sctx)
+			throws SerializationException {
 		JiemamyOutputContainer parent = sctx.peek();
 		try {
-			JiemamyOutputElement diagramElement = parent.addElement(DiagramQName.DIAGRAM);
-			sctx.push(diagramElement);
-			diagramElement.addAttribute(CoreQName.ID, model.getId());
-			diagramElement.addAttribute(CoreQName.CLASS, model.getClass());
+			JiemamyOutputElement element = parent.addElement(CoreQName.TABLE);
+			element.addAttribute(CoreQName.CLASS, model.getClass());
 			
-			diagramElement.addElementAndCharacters(CoreQName.NAME, model.getName());
-			diagramElement.addElementAndCharacters(DiagramQName.LEVEL, model.getLevel());
-			diagramElement.addElementAndCharacters(DiagramQName.MODE, model.getMode());
+			element.addElementAndCharacters(CoreQName.NAME, model.getName());
+			element.addElementAndCharacters(CoreQName.LOGICAL_NAME, model.getLogicalName());
+			element.addElementAndCharacters(CoreQName.DESCRIPTION, model.getDescription());
+			getDirector().direct(model.getDeferrability(), sctx);
 			
-			for (NodeModel nodeModel : model.getNodes()) {
-				getDirector().direct(nodeModel, sctx);
-			}
-			sctx.pop();
+			JiemamyOutputElement colRefElement = element.addElement(CoreQName.COLUMN_REF);
+			colRefElement.addAttribute(CoreQName.REF, model.getColumn().getReferentId());
 		} catch (XMLStreamException e) {
 			throw new SerializationException(e);
 		}

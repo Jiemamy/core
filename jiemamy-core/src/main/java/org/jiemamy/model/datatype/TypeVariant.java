@@ -21,7 +21,7 @@ package org.jiemamy.model.datatype;
 import java.util.Set;
 
 import org.jiemamy.dddbase.ValueObject;
-import org.jiemamy.model.params.ModelParameter.Key;
+import org.jiemamy.model.ModelParameter.Key;
 
 /**
  * 型記述子。

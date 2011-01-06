@@ -18,7 +18,7 @@
  */
 package org.jiemamy.model.datatype;
 
-import org.jiemamy.model.params.ModelParameter;
+import org.jiemamy.model.ModelParameter;
 
 /**
  * データ型のパラメータを表すインターフェイス。

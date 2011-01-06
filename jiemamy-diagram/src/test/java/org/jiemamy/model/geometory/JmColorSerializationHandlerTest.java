@@ -82,7 +82,7 @@ public class JmColorSerializationHandlerTest extends AbstractSerializationHandle
 		
 		SerializationContext sctx = mock(SerializationContext.class);
 		when(sctx.peek()).thenReturn(new JiemamyDocument(doc));
-		handler.handle(model, sctx);
+		handler.handleSerialization(model, sctx);
 		
 		doc.closeRootAndWriter();
 		
@@ -121,7 +121,7 @@ public class JmColorSerializationHandlerTest extends AbstractSerializationHandle
 		
 		DeserializationContext dctx = mock(DeserializationContext.class);
 		when(dctx.getCursor()).thenReturn(new JiemamyCursor(cursor));
-		JmColor color = handler.handle(dctx);
+		JmColor color = handler.handleDeserialization(dctx);
 		
 		assertThat(color, is(notNullValue()));
 		assertThat(color.red, is(1));

@@ -32,8 +32,14 @@ import org.jiemamy.JiemamyContextSerializationHandler;
 import org.jiemamy.JiemamyFacet;
 import org.jiemamy.model.column.DefaultColumnModel;
 import org.jiemamy.model.column.DefaultColumnModelSerializationHandler;
+import org.jiemamy.model.constraint.DefaultNotNullConstraintModel;
+import org.jiemamy.model.constraint.DefaultNotNullConstraintModelSerializationHandler;
+import org.jiemamy.model.constraint.DefaultPrimaryKeyConstraintModel;
+import org.jiemamy.model.constraint.DefaultPrimaryKeyConstraintModelSerializationHandler;
 import org.jiemamy.model.table.DefaultTableModel;
 import org.jiemamy.model.table.DefaultTableModelSerializationHandler;
+import org.jiemamy.model.view.DefaultViewModel;
+import org.jiemamy.model.view.DefaultViewModelSerializationHandler;
 import org.jiemamy.serializer.SerializationException;
 import org.jiemamy.xml.CoreQName;
 import org.jiemamy.xml.JiemamyQName;
@@ -56,6 +62,12 @@ public class SerializationDirector {
 	private final JiemamyContext context;
 	
 
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param context コンテキスト
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
 	public SerializationDirector(JiemamyContext context) {
 		Validate.notNull(context);
 		
@@ -64,9 +76,14 @@ public class SerializationDirector {
 		dummy = new DummyHandler(this); // FIXME これがケツ持ちをしてる
 		
 		addHandler(JiemamyContext.class, CoreQName.JIEMAMY, new JiemamyContextSerializationHandler(this));
+		addHandler(DefaultViewModel.class, CoreQName.VIEW, new DefaultViewModelSerializationHandler(this));
 		addHandler(DefaultTableModel.class, CoreQName.TABLE, new DefaultTableModelSerializationHandler(this));
 		addHandler(DefaultColumnModel.class, CoreQName.COLUMN, new DefaultColumnModelSerializationHandler(this));
-		// TODO ... 色々
+		addHandler(DefaultNotNullConstraintModel.class, CoreQName.NOT_NULL,
+				new DefaultNotNullConstraintModelSerializationHandler(this));
+		addHandler(DefaultPrimaryKeyConstraintModel.class, CoreQName.PRIMARY_KEY,
+				new DefaultPrimaryKeyConstraintModelSerializationHandler(this));
+		// TODO ... 色々まだ追加するものがあるはず
 		
 		for (JiemamyFacet jiemamyFacet : context.getFacets()) {
 			jiemamyFacet.prepareSerializationWorkers(this);
@@ -84,14 +101,14 @@ public class SerializationDirector {
 	public <T>T direct(DeserializationContext ctx) throws SerializationException {
 		Validate.notNull(ctx);
 		SerializationHandler<T> handler = findHandler(ctx.getCursor());
-		return handler.handle(ctx);
+		return handler.handleDeserialization(ctx);
 	}
 	
 	public <T>void direct(T target, SerializationContext sctx) throws SerializationException {
 		Validate.notNull(target);
 		Validate.notNull(sctx);
 		SerializationHandler<T> handler = findHandler(target);
-		handler.handle(target, sctx);
+		handler.handleSerialization(target, sctx);
 	}
 	
 	public JiemamyContext getContext() {
@@ -110,7 +127,7 @@ public class SerializationDirector {
 			if (handler == null) {
 				handler = (SerializationHandler<T>) dummy;
 			}
-			// FIXME ケツ持ち処理end
+			// ケツ持ち処理end
 			
 			return handler;
 		} catch (XMLStreamException e) {
@@ -127,7 +144,7 @@ public class SerializationDirector {
 		if (handler == null) {
 			handler = (SerializationHandler<T>) dummy;
 		}
-		// FIXME ケツ持ち処理end
+		// ケツ持ち処理end
 		
 		return handler;
 	}

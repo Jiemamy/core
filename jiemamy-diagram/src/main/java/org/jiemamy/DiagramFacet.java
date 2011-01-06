@@ -20,13 +20,13 @@ import java.util.List;
 import java.util.UUID;
 
 import org.apache.commons.lang.Validate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityNotFoundException;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.OnMemoryRepository;
+import org.jiemamy.model.DefaultConnectionModel;
+import org.jiemamy.model.DefaultConnectionModelSerializationHandler;
 import org.jiemamy.model.DefaultDiagramModel;
 import org.jiemamy.model.DefaultDiagramModelSerializationHandler;
 import org.jiemamy.model.DefaultNodeModel;
@@ -34,6 +34,8 @@ import org.jiemamy.model.DefaultNodeModelSerializationHandler;
 import org.jiemamy.model.DiagramModel;
 import org.jiemamy.model.geometory.JmColor;
 import org.jiemamy.model.geometory.JmColorSerializationHandler;
+import org.jiemamy.model.geometory.JmPoint;
+import org.jiemamy.model.geometory.JmPointSerializationHandler;
 import org.jiemamy.model.geometory.JmRectangle;
 import org.jiemamy.model.geometory.JmRectangleSerializationHandler;
 import org.jiemamy.serializer.stax2.SerializationDirector;
@@ -65,8 +67,6 @@ public class DiagramFacet implements JiemamyFacet {
 	};
 	
 	OnMemoryRepository<DiagramModel> repos = new OnMemoryRepository<DiagramModel>();
-	
-	private static Logger logger = LoggerFactory.getLogger(DiagramFacet.class);
 	
 	private final JiemamyContext context;
 	
@@ -112,12 +112,14 @@ public class DiagramFacet implements JiemamyFacet {
 	public void prepareSerializationWorkers(SerializationDirector director) {
 		Validate.notNull(director);
 		// FORMAT-OFF CHECKSTYLE:OFF
-		director.addHandler(DiagramFacet.class, DiagramQName.DIAGRAMS, new DiagramFacetSerializationHandler( director));
-		director.addHandler(DefaultDiagramModel.class, DiagramQName.DIAGRAM, new DefaultDiagramModelSerializationHandler( director));
-		director.addHandler(DefaultNodeModel.class, DiagramQName.NODE, new DefaultNodeModelSerializationHandler( director));
-		// TODO ...
-		director.addHandler(JmColor.class, DiagramQName.COLOR, new JmColorSerializationHandler( director));
-		director.addHandler(JmRectangle.class, DiagramQName.BOUNDARY, new JmRectangleSerializationHandler( director));
+		director.addHandler(DiagramFacet.class, DiagramQName.DIAGRAMS, new DiagramFacetSerializationHandler(director));
+		director.addHandler(DefaultDiagramModel.class, DiagramQName.DIAGRAM, new DefaultDiagramModelSerializationHandler(director));
+		director.addHandler(DefaultNodeModel.class, DiagramQName.NODE, new DefaultNodeModelSerializationHandler(director));
+		director.addHandler(DefaultConnectionModel.class, DiagramQName.CONNECTION, new DefaultConnectionModelSerializationHandler(director));
+		// TODO sticky handler
+		director.addHandler(JmColor.class, DiagramQName.COLOR, new JmColorSerializationHandler(director));
+		director.addHandler(JmPoint.class, DiagramQName.BENDPOINT, new JmPointSerializationHandler(director));
+		director.addHandler(JmRectangle.class, DiagramQName.BOUNDARY, new JmRectangleSerializationHandler(director));
 		// CHECKSTYLE:ON FORMAT-ON
 	}
 	

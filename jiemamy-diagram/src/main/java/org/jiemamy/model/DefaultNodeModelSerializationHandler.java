@@ -31,7 +31,7 @@ import org.jiemamy.xml.CoreQName;
 import org.jiemamy.xml.DiagramQName;
 
 /**
- * {@link DefaultDiagramModel}をシリアライズ/デシリアライズするハンドラ。
+ * {@link DefaultNodeModel}をシリアライズ/デシリアライズするハンドラ。
  * 
  * @version $Id$
  * @author daisuke
@@ -48,7 +48,7 @@ public final class DefaultNodeModelSerializationHandler extends SerializationHan
 	}
 	
 	@Override
-	public void handle(DefaultNodeModel model, SerializationContext sctx) throws SerializationException {
+	public void handleSerialization(DefaultNodeModel model, SerializationContext sctx) throws SerializationException {
 		JiemamyOutputContainer parent = sctx.peek();
 		try {
 			JiemamyOutputElement nodeElement = parent.addElement(DiagramQName.NODE);
@@ -73,7 +73,7 @@ public final class DefaultNodeModelSerializationHandler extends SerializationHan
 	}
 	
 	@Override
-	public DefaultNodeModel handle(DeserializationContext ctx) throws SerializationException {
+	public DefaultNodeModel handleDeserialization(DeserializationContext ctx) throws SerializationException {
 		// TODO Auto-generated method stub
 		return null;
 	}

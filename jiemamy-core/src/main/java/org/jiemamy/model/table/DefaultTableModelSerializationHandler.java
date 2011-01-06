@@ -18,6 +18,7 @@
  */
 package org.jiemamy.model.table;
 
+import java.util.Set;
 import java.util.UUID;
 
 import javax.xml.stream.XMLStreamException;
@@ -28,6 +29,7 @@ import org.codehaus.staxmate.in.SMEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.jiemamy.model.DatabaseObjectParameter;
 import org.jiemamy.model.column.ColumnModel;
 import org.jiemamy.model.constraint.ConstraintModel;
 import org.jiemamy.serializer.SerializationException;
@@ -62,7 +64,7 @@ public final class DefaultTableModelSerializationHandler extends SerializationHa
 	}
 	
 	@Override
-	public void handle(DefaultTableModel model, SerializationContext sctx) throws SerializationException {
+	public void handleSerialization(DefaultTableModel model, SerializationContext sctx) throws SerializationException {
 		JiemamyOutputContainer parent = sctx.peek();
 		try {
 			JiemamyOutputElement element = parent.addElement(CoreQName.TABLE);
@@ -84,13 +86,23 @@ public final class DefaultTableModelSerializationHandler extends SerializationHa
 				getDirector().direct(constraints, sctx);
 			}
 			sctx.pop();
+			
+			Set<DatabaseObjectParameter<?>> params = model.getParams();
+			if (params.size() > 0) {
+				JiemamyOutputElement paramesElement = element.addElement(CoreQName.PARAMETERS);
+				for (DatabaseObjectParameter<?> param : params) {
+					JiemamyOutputElement paramElement = paramesElement.addElement(CoreQName.PARAMETER);
+					paramElement.addAttribute(CoreQName.PARAMETER_KEY, param.getKey().getKeyString());
+					paramElement.addCharacters(param.getValue().toString());
+				}
+			}
 		} catch (XMLStreamException e) {
 			throw new SerializationException(e);
 		}
 	}
 	
 	@Override
-	public DefaultTableModel handle(DeserializationContext ctx) throws SerializationException {
+	public DefaultTableModel handleDeserialization(DeserializationContext ctx) throws SerializationException {
 		Validate.notNull(ctx);
 		try {
 			Validate.isTrue(ctx.getCursor().getCurrEvent() == SMEvent.START_ELEMENT);

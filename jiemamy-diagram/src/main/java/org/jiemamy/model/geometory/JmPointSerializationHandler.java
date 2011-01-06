@@ -33,47 +33,44 @@ import org.jiemamy.serializer.stax2.SerializationHandler;
 import org.jiemamy.xml.DiagramQName;
 
 /**
- * {@link JmColor}をシリアライズ/デシリアライズするハンドラ。
+ * {@link JmPoint}をシリアライズ/デシリアライズするハンドラ。
  * 
  * @version $Id$
  * @author daisuke
  */
-public final class JmColorSerializationHandler extends SerializationHandler<JmColor> {
+public final class JmPointSerializationHandler extends SerializationHandler<JmPoint> {
 	
 	/**
 	 * インスタンスを生成する。
 	 * 
 	 * @param director 親となるディレクタ
 	 */
-	public JmColorSerializationHandler(SerializationDirector director) {
+	public JmPointSerializationHandler(SerializationDirector director) {
 		super(director);
 	}
 	
 	@Override
-	public JmColor handleDeserialization(DeserializationContext ctx) throws SerializationException {
+	public JmPoint handleDeserialization(DeserializationContext ctx) throws SerializationException {
 		Validate.notNull(ctx);
 		try {
 			ctx.getCursor().advance();
-			Validate.isTrue(ctx.getCursor().isQName(DiagramQName.COLOR));
+			Validate.isTrue(ctx.getCursor().isQName(DiagramQName.BOUNDARY));
 			JiemamyCursor cursor = ctx.getCursor();
-			int r = cursor.getAttrIntValue(DiagramQName.R);
-			int g = cursor.getAttrIntValue(DiagramQName.G);
-			int b = cursor.getAttrIntValue(DiagramQName.B);
-			return new JmColor(r, g, b);
+			int x = cursor.getAttrIntValue(DiagramQName.X);
+			int y = cursor.getAttrIntValue(DiagramQName.Y);
+			return new JmPoint(x, y);
 		} catch (XMLStreamException e) {
 			throw new SerializationException(e);
 		}
 	}
 	
 	@Override
-	public void handleSerialization(JmColor model, SerializationContext sctx) throws SerializationException {
+	public void handleSerialization(JmPoint model, SerializationContext sctx) throws SerializationException {
 		JiemamyOutputContainer parent = sctx.peek();
-		
 		try {
-			JiemamyOutputElement colorElement = parent.addElement(DiagramQName.COLOR);
-			colorElement.addAttribute(DiagramQName.R, model.red);
-			colorElement.addAttribute(DiagramQName.G, model.green);
-			colorElement.addAttribute(DiagramQName.B, model.blue);
+			JiemamyOutputElement boundaryElement = parent.addElement(DiagramQName.BOUNDARY);
+			boundaryElement.addAttribute(DiagramQName.X, model.x);
+			boundaryElement.addAttribute(DiagramQName.Y, model.y);
 		} catch (XMLStreamException e) {
 			throw new SerializationException(e);
 		}

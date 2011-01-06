@@ -50,7 +50,7 @@ public final class JmRectangleSerializationHandler extends SerializationHandler<
 	}
 	
 	@Override
-	public JmRectangle handle(DeserializationContext ctx) throws SerializationException {
+	public JmRectangle handleDeserialization(DeserializationContext ctx) throws SerializationException {
 		Validate.notNull(ctx);
 		try {
 			ctx.getCursor().advance();
@@ -67,7 +67,7 @@ public final class JmRectangleSerializationHandler extends SerializationHandler<
 	}
 	
 	@Override
-	public void handle(JmRectangle model, SerializationContext sctx) throws SerializationException {
+	public void handleSerialization(JmRectangle model, SerializationContext sctx) throws SerializationException {
 		JiemamyOutputContainer parent = sctx.peek();
 		try {
 			JiemamyOutputElement boundaryElement = parent.addElement(DiagramQName.BOUNDARY);

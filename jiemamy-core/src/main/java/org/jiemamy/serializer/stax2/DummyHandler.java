@@ -44,13 +44,13 @@ public class DummyHandler extends SerializationHandler<Object> {
 	}
 	
 	@Override
-	public Object handle(DeserializationContext ctx) throws SerializationException {
+	public Object handleDeserialization(DeserializationContext ctx) throws SerializationException {
 		logger.error("DUMMY WORKER IS CALLED.");
 		return null;
 	}
 	
 	@Override
-	public void handle(Object model, SerializationContext sctx) throws SerializationException {
+	public void handleSerialization(Object model, SerializationContext sctx) throws SerializationException {
 		logger.error("DUMMY WORKER IS CALLED.");
 	}
 }

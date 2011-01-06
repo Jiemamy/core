@@ -22,7 +22,7 @@ import java.util.Set;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.dddbase.EntityRef;
-import org.jiemamy.model.params.ModelParameter.Key;
+import org.jiemamy.model.ModelParameter.Key;
 
 /**
  * リレーショナルデータベースモデルにおける「CREATE対象」を表すモデルインターフェイス。

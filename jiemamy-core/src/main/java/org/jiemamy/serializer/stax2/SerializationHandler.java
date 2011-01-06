@@ -45,9 +45,23 @@ public abstract class SerializationHandler<T> {
 		this.director = director;
 	}
 	
-	public abstract T handle(DeserializationContext ctx) throws SerializationException;
+	/**
+	 * デシリアライズする。
+	 * 
+	 * @param dctx デシリアライズコンテキスト
+	 * @return デシリアライズの結果モデル
+	 * @throws SerializationException デシリアライズに失敗した場合
+	 */
+	public abstract T handleDeserialization(DeserializationContext dctx) throws SerializationException;
 	
-	public abstract void handle(T model, SerializationContext sctx) throws SerializationException;
+	/**
+	 * シリアライズする。
+	 * 
+	 * @param model シリアライズ対象モデル
+	 * @param sctx シリアライズコンテキスト
+	 * @throws SerializationException デシリアライズに失敗した場合
+	 */
+	public abstract void handleSerialization(T model, SerializationContext sctx) throws SerializationException;
 	
 	protected SerializationDirector getDirector() {
 		return director;

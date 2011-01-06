@@ -28,10 +28,9 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
 import org.apache.commons.lang.CharEncoding;
-import org.codehaus.staxmate.in.SMHierarchicCursor;
+import org.codehaus.staxmate.in.SMInputCursor;
 import org.codehaus.staxmate.out.SMOutputDocument;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,7 +85,7 @@ public class DiagramFacetSerializationHandlerTest extends AbstractSerializationH
 		
 		SerializationContext sctx = mock(SerializationContext.class);
 		when(sctx.peek()).thenReturn(new JiemamyDocument(doc));
-		handler.handle(model, sctx);
+		handler.handleSerialization(model, sctx);
 		
 		doc.closeRootAndWriter();
 		
@@ -108,7 +107,6 @@ public class DiagramFacetSerializationHandlerTest extends AbstractSerializationH
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	@Ignore("未実装")
 	public void test11() throws Exception {
 		// FORMAT-OFF
 		String xml = "<?xml version='1.0' encoding='UTF-8'?>" + LF
@@ -117,13 +115,13 @@ public class DiagramFacetSerializationHandlerTest extends AbstractSerializationH
 		// FORMAT-ON
 		ByteArrayInputStream bais = new ByteArrayInputStream(xml.getBytes(CharEncoding.UTF_8));
 		
-		SMHierarchicCursor cursor = getCursor(bais);
+		SMInputCursor cursor = getCursor(bais).advance();
 		
 		DeserializationContext dctx = mock(DeserializationContext.class);
 		when(dctx.getCursor()).thenReturn(new JiemamyCursor(cursor));
-		DiagramFacet facet = handler.handle(dctx);
+		DiagramFacet facet = handler.handleDeserialization(dctx);
 		
 		assertThat(facet, is(notNullValue()));
-		// TODO assert
+		assertThat(facet.getDiagrams().size(), is(0));
 	}
 }

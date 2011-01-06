@@ -18,7 +18,10 @@
  */
 package org.jiemamy.model.column;
 
+import java.util.Set;
 import java.util.UUID;
+
+import com.google.common.collect.Sets;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
@@ -26,7 +29,9 @@ import org.apache.commons.lang.builder.ToStringStyle;
 import org.jiemamy.dddbase.AbstractEntity;
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.model.ModelParameter.Key;
 import org.jiemamy.model.datatype.TypeVariant;
+import org.jiemamy.utils.MutationMonitor;
 
 /**
  * カラム定義モデル。Artemisにおける{@link ColumnModel}の実装クラス。
@@ -49,6 +54,8 @@ public final class DefaultColumnModel extends AbstractEntity implements ColumnMo
 	
 	/** デフォルト値 */
 	private String defaultValue;
+	
+	private Set<ColumnParameter<?>> params = Sets.newHashSet();
 	
 
 	/**
@@ -84,6 +91,28 @@ public final class DefaultColumnModel extends AbstractEntity implements ColumnMo
 	
 	public String getName() {
 		return name;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public <T>ColumnParameter<T> getParam(Key<T> key) {
+		for (ColumnParameter<?> param : params) {
+			if (param.getKey().equals(key)) {
+				return (ColumnParameter<T>) param;
+			}
+		}
+		return null;
+	}
+	
+	public Set<ColumnParameter<?>> getParams() {
+		return MutationMonitor.monitor(Sets.newHashSet(params));
+	}
+	
+	public <T>void putParam(Key<T> key, T value) {
+		params.add(new DefaultColumnParameter<T>(key, value));
+	}
+	
+	public <T>void removeParam(Key<T> key) {
+		params.remove(new DefaultColumnParameter<T>(key, null));
 	}
 	
 	/**
@@ -138,4 +167,5 @@ public final class DefaultColumnModel extends AbstractEntity implements ColumnMo
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
+	
 }

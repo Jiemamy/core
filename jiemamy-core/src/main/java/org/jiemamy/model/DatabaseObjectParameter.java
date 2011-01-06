@@ -18,7 +18,6 @@
  */
 package org.jiemamy.model;
 
-import org.jiemamy.model.params.ModelParameter;
 
 /**
  * {@link DatabaseObjectModel}のパラメータを表すインターフェイス。

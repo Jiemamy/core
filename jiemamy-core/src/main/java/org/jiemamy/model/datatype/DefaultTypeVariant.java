@@ -25,7 +25,7 @@ import com.google.common.collect.Sets;
 
 import org.apache.commons.lang.Validate;
 
-import org.jiemamy.model.params.ModelParameter.Key;
+import org.jiemamy.model.ModelParameter.Key;
 import org.jiemamy.utils.MutationMonitor;
 
 /**

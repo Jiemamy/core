@@ -67,8 +67,11 @@ public enum DiagramQName implements JiemamyQName {
 	/***/
 	CORE(DiagramNamespace.NS_DIAGRAM, "core"),
 
-//	/***/
-//	DIAGRAM_PRESENTATION(DiagramNamespace.NS_DIAGRAM, "diagramPresentation"),
+	/***/
+	CONNECTION(DiagramNamespace.NS_DIAGRAM, "connection"),
+
+	/***/
+	NODES(DiagramNamespace.NS_DIAGRAM, "nodes"),
 //
 //	/***/
 //	NODE_PROFILES(DiagramNamespace.NS_DIAGRAM, "nodeProfiles"),

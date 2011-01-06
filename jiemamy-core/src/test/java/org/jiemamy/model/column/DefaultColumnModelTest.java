@@ -32,8 +32,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.jiemamy.dddbase.EntityRef;
-import org.jiemamy.model.column.ColumnModel;
-import org.jiemamy.model.column.DefaultColumnModel;
 import org.jiemamy.model.datatype.DataTypeCategory;
 import org.jiemamy.model.datatype.DefaultTypeVariant;
 import org.jiemamy.model.datatype.TypeVariant;
@@ -91,7 +89,7 @@ public class DefaultColumnModelTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * {@link DefaultColumnModel#toReference()}のテスト。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
@@ -103,37 +101,40 @@ public class DefaultColumnModelTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * {@link DefaultColumnModel#toString()}のテスト。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test03() throws Exception {
+	public void test03_toString() throws Exception {
 		UUID id = UUIDUtil.valueOfOrRandom("a");
 		assertThat(column.toString(), is("DefaultColumnModel[name=<null>,logicalName=<null>,description=<null>,"
-				+ "dataType=<null>,defaultValue=<null>,id=" + id.toString() + "]"));
+				+ "dataType=<null>,defaultValue=<null>,params=[],id=" + id.toString() + "]"));
 		
 		column.setName("name1");
 		
 		assertThat(column.toString(), is("DefaultColumnModel[name=name1,logicalName=<null>,description=<null>,"
-				+ "dataType=<null>,defaultValue=<null>,id=" + id.toString() + "]"));
+				+ "dataType=<null>,defaultValue=<null>,params=[],id=" + id.toString() + "]"));
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * {@link DefaultColumnModel#clone()}のテスト。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test04() throws Exception {
+	public void test04_clone() throws Exception {
 		column.setName("name2");
 		DefaultColumnModel clone = column.clone();
+		
+		// cloneはcolumnとは別のインスタンスだが、同じ値を持つ
 		assertThat(clone, is(not(sameInstance(column))));
 		assertThat(clone, is(equalTo(column)));
 		assertThat(clone.getName(), is("name2"));
 		
 		column.setName("name3");
 		
+		// cloneはcolumnの変更に影響されない
 		assertThat(column.getName(), is("name3"));
 		assertThat(clone.getName(), is("name2"));
 	}

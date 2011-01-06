@@ -86,7 +86,7 @@ public class DefaultTableModelSerializationHandlerTest extends AbstractSerializa
 		
 		SerializationContext sctx = mock(SerializationContext.class);
 		when(sctx.peek()).thenReturn(new JiemamyDocument(doc));
-		handler.handle(model, sctx);
+		handler.handleSerialization(model, sctx);
 		
 		doc.closeRootAndWriter();
 		

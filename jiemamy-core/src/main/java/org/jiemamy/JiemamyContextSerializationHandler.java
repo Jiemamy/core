@@ -58,13 +58,14 @@ public final class JiemamyContextSerializationHandler extends SerializationHandl
 	 * インスタンスを生成する。
 	 * 
 	 * @param director 親となるディレクタ
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public JiemamyContextSerializationHandler(SerializationDirector director) {
 		super(director);
 	}
 	
 	@Override
-	public JiemamyContext handle(DeserializationContext ctx) throws SerializationException {
+	public JiemamyContext handleDeserialization(DeserializationContext ctx) throws SerializationException {
 		Validate.notNull(ctx);
 		try {
 			Validate.isTrue(ctx.getCursor().getCurrEvent() == SMEvent.START_ELEMENT);
@@ -128,7 +129,7 @@ public final class JiemamyContextSerializationHandler extends SerializationHandl
 	}
 	
 	@Override
-	public void handle(JiemamyContext model, SerializationContext sctx) throws SerializationException {
+	public void handleSerialization(JiemamyContext model, SerializationContext sctx) throws SerializationException {
 		JiemamyOutputContainer parent = sctx.peek();
 		try {
 			JiemamyOutputElement element = parent.addElement(CoreQName.JIEMAMY);

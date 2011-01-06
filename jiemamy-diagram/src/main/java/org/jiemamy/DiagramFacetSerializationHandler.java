@@ -20,9 +20,15 @@ package org.jiemamy;
 
 import javax.xml.stream.XMLStreamException;
 
+import org.apache.commons.lang.Validate;
+import org.codehaus.staxmate.in.SMEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.jiemamy.model.DiagramModel;
 import org.jiemamy.serializer.SerializationException;
 import org.jiemamy.serializer.stax2.DeserializationContext;
+import org.jiemamy.serializer.stax2.JiemamyCursor;
 import org.jiemamy.serializer.stax2.JiemamyOutputContainer;
 import org.jiemamy.serializer.stax2.SerializationContext;
 import org.jiemamy.serializer.stax2.SerializationDirector;
@@ -37,6 +43,9 @@ import org.jiemamy.xml.DiagramQName;
  */
 public final class DiagramFacetSerializationHandler extends SerializationHandler<DiagramFacet> {
 	
+	private static Logger logger = LoggerFactory.getLogger(DiagramFacetSerializationHandler.class);
+	
+
 	/**
 	 * インスタンスを生成する。
 	 * 
@@ -47,13 +56,41 @@ public final class DiagramFacetSerializationHandler extends SerializationHandler
 	}
 	
 	@Override
-	public DiagramFacet handle(DeserializationContext ctx) throws SerializationException {
-		// TODO Auto-generated method stub
-		return null;
+	public DiagramFacet handleDeserialization(DeserializationContext ctx) throws SerializationException {
+		Validate.notNull(ctx);
+		try {
+			Validate.isTrue(ctx.getCursor().getCurrEvent() == SMEvent.START_ELEMENT);
+			Validate.isTrue(ctx.getCursor().isQName(DiagramQName.DIAGRAMS));
+			Validate.isTrue(getDirector().getContext().hasFacet(DiagramFacet.class));
+			
+			DiagramFacet facet = getDirector().getContext().getFacet(DiagramFacet.class);
+			
+			JiemamyCursor cursor = ctx.getCursor();
+			JiemamyCursor childCursor = cursor.childCursor();
+			do {
+				childCursor.advance();
+				while (childCursor.getCurrEvent() != SMEvent.START_ELEMENT && childCursor.getCurrEvent() != null) {
+					childCursor.advance();
+				}
+				if (childCursor.getCurrEvent() != null) {
+					DeserializationContext ctx2 = new DeserializationContext(childCursor);
+					DiagramModel diagramModel = getDirector().direct(ctx2);
+					if (diagramModel != null) {
+						facet.store(diagramModel);
+					} else {
+						logger.warn("null diagramModel");
+					}
+				}
+			} while (childCursor.getCurrEvent() != null);
+			
+			return facet;
+		} catch (XMLStreamException e) {
+			throw new SerializationException(e);
+		}
 	}
 	
 	@Override
-	public void handle(DiagramFacet model, SerializationContext sctx) throws SerializationException {
+	public void handleSerialization(DiagramFacet model, SerializationContext sctx) throws SerializationException {
 		JiemamyOutputContainer parent = sctx.peek();
 		try {
 			sctx.push(parent.addElement(DiagramQName.DIAGRAMS));

@@ -33,11 +33,11 @@ import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.utils.CloneUtil;
 import org.jiemamy.model.DefaultDatabaseObjectModel;
+import org.jiemamy.model.ModelParameter.Key;
 import org.jiemamy.model.constraint.CheckConstraintModel;
 import org.jiemamy.model.datatype.DataTypeCategory;
 import org.jiemamy.model.datatype.TypeParameter;
 import org.jiemamy.model.datatype.TypeVariant;
-import org.jiemamy.model.params.ModelParameter.Key;
 import org.jiemamy.utils.MutationMonitor;
 import org.jiemamy.utils.collection.CollectionsUtil;
 

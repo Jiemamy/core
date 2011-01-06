@@ -199,7 +199,10 @@ public enum CoreQName implements JiemamyQName {
 	REF(CoreNamespace.NONE, "ref"),
 
 	/***/
-	CLASS(CoreNamespace.NONE, "class");
+	CLASS(CoreNamespace.NONE, "class"),
+
+	/***/
+	NOT_NULL(CoreNamespace.NS_CORE, "notNull");
 	
 	/** XML仕様における完全修飾名 */
 	private final QName qName;
