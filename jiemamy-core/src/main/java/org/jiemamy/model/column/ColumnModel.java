@@ -22,7 +22,7 @@ import java.util.Set;
 
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.CoreElement;
-import org.jiemamy.model.ModelParameter.Key;
+import org.jiemamy.model.Key;
 import org.jiemamy.model.datatype.TypeVariant;
 
 /**

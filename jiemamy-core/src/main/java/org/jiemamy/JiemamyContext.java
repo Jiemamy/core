@@ -26,6 +26,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import javax.xml.namespace.NamespaceContext;
+import javax.xml.stream.events.Namespace;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -160,29 +161,44 @@ public class JiemamyContext {
 	 * {@link DatabaseObjectModel}を削除する。
 	 * 
 	 * @param reference 削除する{@link DatabaseObjectModel}への参照
-	 * TODO {@link #deleteDataSet(EntityRef)}と対象となるよう、リネーム
 	 */
-	public void delete(final EntityRef<? extends DatabaseObjectModel> reference) {
+	public void deleteDatabaseObject(final EntityRef<? extends DatabaseObjectModel> reference) {
 		doms.delete(reference);
-		eventBroker.fireCommandProcessed(new Command() {
+		eventBroker.fireCommandProcessed(new Command() { // FIXME コマンド使ってない
 			
-			public void execute() {
+				public void execute() {
+				}
 				
-			}
-			
-			public Command getNegateCommand() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-			
-			public EntityRef<? extends DatabaseObjectModel> getTarget() {
-				return reference;
-			}
-		});
+				public Command getNegateCommand() {
+					return null;
+				}
+				
+				public EntityRef<? extends DatabaseObjectModel> getTarget() {
+					return reference;
+				}
+			});
 	}
 	
-	public void deleteDataSet(EntityRef<? extends DataSetModel> reference) {
+	/**
+	 * {@link DataSetModel}を削除する。
+	 * 
+	 * @param reference 削除する{@link DataSetModel}への参照
+	 */
+	public void deleteDataSet(final EntityRef<? extends DataSetModel> reference) {
 		dsms.delete(reference);
+		eventBroker.fireCommandProcessed(new Command() { // FIXME コマンド使ってない
+			
+				public void execute() {
+				}
+				
+				public Command getNegateCommand() {
+					return null;
+				}
+				
+				public EntityRef<? extends DataSetModel> getTarget() {
+					return reference;
+				}
+			});
 	}
 	
 	/**
@@ -263,18 +279,18 @@ public class JiemamyContext {
 	}
 	
 	/**
-	 * {@link DatabaseObjectModel} の{@link List}を取得する。
+	 * このコンテキストが管理する全ての {@link DatabaseObjectModel} の{@link List}を取得する。
 	 * 
-	 * @return データセットの{@link List}
+	 * @return {@link DatabaseObjectModel} の{@link List}
 	 */
 	public Set<DatabaseObjectModel> getDatabaseObjects() {
 		return doms.getEntitiesAsSet();
 	}
 	
 	/**
-	 * {@link DataSetModel} の{@link List}を取得する。
+	 * このコンテキストが管理する全ての {@link DataSetModel} の{@link List}を取得する。
 	 * 
-	 * @return データセットの{@link List}
+	 * @return {@link DataSetModel} の{@link List}
 	 */
 	public List<DataSetModel> getDataSets() {
 		return dsms.getEntitiesAsList();
@@ -330,10 +346,23 @@ public class JiemamyContext {
 		return MutationMonitor.monitor(Sets.newHashSet(facets.values()));
 	}
 	
+	/**
+	 * このコンテキストが管理する全ての {@link IndexModel} を取得する。
+	 * 
+	 * <p>Note: Convenience method; equivalent to
+	 * {@code getDatabaseObjects(IndexModel.class));}.</p>
+	 * 
+	 * @return {@link TableModel}のセット
+	 */
 	public Set<IndexModel> getIndexes() {
 		return getDatabaseObjects(IndexModel.class);
 	}
 	
+	/**
+	 * このコンテキストが利用する {@link Namespace} を表現する {@link NamespaceContext} を取得する。
+	 * 
+	 * @return {@link NamespaceContext}
+	 */
 	public NamespaceContext getNamespaceContext() {
 		return new JiemamyNamespaceContext(getNamespaces());
 	}
@@ -379,6 +408,9 @@ public class JiemamyContext {
 	
 	/**
 	 * このコンテキストが管理する全ての {@link TableModel} を取得する。
+	 * 
+	 * <p>Note: Convenience method; equivalent to
+	 * {@code getDatabaseObjects(TableModel.class));}.</p>
 	 * 
 	 * @return {@link TableModel}のセット
 	 */
@@ -472,21 +504,19 @@ public class JiemamyContext {
 	 */
 	public void store(final DatabaseObjectModel dom) {
 		doms.store(dom);
-		eventBroker.fireCommandProcessed(new Command() {
+		eventBroker.fireCommandProcessed(new Command() { // FIXME コマンド使ってない
 			
-			public void execute() {
+				public void execute() {
+				}
 				
-			}
-			
-			public Command getNegateCommand() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-			
-			public EntityRef<? extends DatabaseObjectModel> getTarget() {
-				return dom.toReference();
-			}
-		});
+				public Command getNegateCommand() {
+					return null;
+				}
+				
+				public EntityRef<? extends DatabaseObjectModel> getTarget() {
+					return dom.toReference();
+				}
+			});
 	}
 	
 	/**
@@ -496,21 +526,20 @@ public class JiemamyContext {
 	 */
 	public void store(final DataSetModel dsm) {
 		dsms.store(dsm);
-		eventBroker.fireCommandProcessed(new Command() {
+		eventBroker.fireCommandProcessed(new Command() { // FIXME コマンド使ってない
 			
-			public void execute() {
+				public void execute() {
+					
+				}
 				
-			}
-			
-			public Command getNegateCommand() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-			
-			public EntityRef<? extends DataSetModel> getTarget() {
-				return dsm.toReference();
-			}
-		});
+				public Command getNegateCommand() {
+					return null;
+				}
+				
+				public EntityRef<? extends DataSetModel> getTarget() {
+					return dsm.toReference();
+				}
+			});
 	}
 	
 	@Override

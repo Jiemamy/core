@@ -31,9 +31,9 @@ import org.jiemamy.model.geometory.JmPoint;
 import org.jiemamy.utils.MutationMonitor;
 
 /**
- * TODO for daisuke
+ * {@link ConnectionModel}のデフォルト実装クラス。
  * 
- * @since TODO for daisuke
+ * @since 0.3
  * @version $Id$
  * @author daisuke
  */

@@ -19,12 +19,13 @@
 package org.jiemamy;
 
 import org.jiemamy.serializer.stax2.SerializationDirector;
+import org.jiemamy.serializer.stax2.SerializationHandler;
 import org.jiemamy.xml.JiemamyNamespace;
 
 /**
- * TODO for daisuke
+ * Jiemamyに対する拡張を表すインターフェイス。
  * 
- * {@link JiemamyContext}のみを引数にとるpublicなコンストラクタが必要。
+ * <p>一般的に、{@link JiemamyContext}のみを引数にとるpublicなコンストラクタが必要となる。</p>
  * 
  * @version $Id$
  * @author daisuke
@@ -38,5 +39,12 @@ public interface JiemamyFacet {
 	 */
 	JiemamyNamespace[] getNamespaces();
 	
+	/**
+	 * {@link SerializationDirector}に対して各種 {@link SerializationHandler} を設定する。
+	 * 
+	 * <p>このメソッドはユーザが呼び出すことを想定していない。</p>
+	 * 
+	 * @param serializationDirector
+	 */
 	void prepareSerializationWorkers(SerializationDirector serializationDirector);
 }

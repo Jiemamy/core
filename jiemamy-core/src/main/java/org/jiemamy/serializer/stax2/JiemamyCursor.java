@@ -261,7 +261,7 @@ public class JiemamyCursor {
 		try {
 			return cursor.collectDescendantText(includeIgnorable);
 		} catch (XMLStreamException e) {
-			// TODO
+			// TODO この挙動にしてよいか？
 		}
 		return null;
 	}

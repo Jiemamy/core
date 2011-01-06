@@ -18,6 +18,7 @@
  */
 package org.jiemamy.model.datatype;
 
+import org.jiemamy.model.Key;
 import org.jiemamy.model.ModelParameter;
 
 /**

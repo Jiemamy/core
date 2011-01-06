@@ -37,15 +37,13 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.jiemamy.model.column.DefaultColumnModel;
-import org.jiemamy.model.column.DefaultColumnModelSerializationHandler;
 import org.jiemamy.serializer.stax2.AbstractSerializationHandlerTest;
 import org.jiemamy.serializer.stax2.JiemamyDocument;
 import org.jiemamy.serializer.stax2.SerializationContext;
 import org.jiemamy.serializer.stax2.SerializationDirector;
 
 /**
- * TODO for daisuke
+ * {@link DefaultColumnModelSerializationHandler}のテストクラス。
  * 
  * @version $Id$
  * @author daisuke

@@ -52,12 +52,12 @@ public class DefaultSqlExportConfigTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * 作ったインスタンスのチェック。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test01_() throws Exception {
+	public void test01_作ったインスタンスのチェック() throws Exception {
 		assertThat(config.emitCreateSchemaStatement(), is(false));
 		assertThat(config.emitDropStatements(), is(false));
 		assertThat(config.getDataSetIndex(), is(0));

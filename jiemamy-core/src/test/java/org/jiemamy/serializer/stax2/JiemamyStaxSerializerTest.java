@@ -34,11 +34,13 @@ import org.apache.commons.lang.CharEncoding;
 import org.custommonkey.xmlunit.DetailedDiff;
 import org.custommonkey.xmlunit.Diff;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.jiemamy.JiemamyContext;
+import org.jiemamy.JiemamyContextTest;
 import org.jiemamy.model.column.ColumnModel;
 import org.jiemamy.model.column.DefaultColumnModel;
 import org.jiemamy.model.table.DefaultTableModel;
@@ -230,6 +232,41 @@ public class JiemamyStaxSerializerTest {
 		assertThat(columnModel.getName(), is("bar"));
 		assertThat(columnModel.getLogicalName(), is("baz"));
 		assertThat(columnModel.getDescription(), is(""));
+	}
+	
+	/**
+	 * 適当なモデルを一杯作ってみて、それぞれのシリアライズやデシリアライズが異常終了しないことを確認。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	@Ignore("実装が不完全なので通らない")
+	public void test99_適当なモデルを一杯作ってみて_それぞれのシリアライズやデシリアライズが異常終了しないことを確認() throws Exception {
+		for (int i = 0; i < 100; i++) {
+			// 適当なモデルを生成
+			JiemamyContext original = JiemamyContextTest.random();
+			
+			// XMLにシリアライズして、logに出してみる
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			serializer.serialize(original, baos);
+			String first = baos.toString(CharEncoding.UTF_8);
+			logger.info("1 = {}", first);
+			
+			// そのXMLをデシリアライズしてみる
+			ByteArrayInputStream bais = new ByteArrayInputStream(first.getBytes());
+			JiemamyContext deserialized = serializer.deserialize(bais);
+			assertThat(deserialized, is(notNullValue()));
+			
+			// デシリアライズされた新しいcontextを再びシリアライズして、logに出してみる
+			ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
+			serializer.serialize(deserialized, baos2);
+			String second = baos2.toString(CharEncoding.UTF_8);
+			logger.info("2 = {}", second);
+			
+			// 何度やってもXMLは全く同じモノになるハズだ
+			DetailedDiff diff = new DetailedDiff(new Diff(first, second));
+			assertThat(diff.getAllDifferences().toString(), diff.similar(), is(true));
+		}
 	}
 	
 	private String getXml(String name) {

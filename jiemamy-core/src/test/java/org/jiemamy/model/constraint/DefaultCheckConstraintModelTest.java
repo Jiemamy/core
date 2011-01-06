@@ -26,8 +26,6 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
-import org.jiemamy.model.constraint.DefaultCheckConstraintModel;
-
 /**
  * {@link DefaultCheckConstraintModel}のテストクラス。
  * 
@@ -37,7 +35,8 @@ import org.jiemamy.model.constraint.DefaultCheckConstraintModel;
 public class DefaultCheckConstraintModelTest {
 	
 	/**
-	 * TODO for daisuke
+	 * {@link DefaultCheckConstraintModel#of(String)}及び
+	 * {@link DefaultCheckConstraintModel#of(String, String)}のテスト。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */

@@ -18,6 +18,7 @@
  */
 package org.jiemamy.model.column;
 
+import org.jiemamy.model.Key;
 import org.jiemamy.model.ModelParameter;
 
 /**

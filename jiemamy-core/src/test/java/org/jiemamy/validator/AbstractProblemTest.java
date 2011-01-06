@@ -27,7 +27,7 @@ import java.util.ResourceBundle;
 import org.junit.Test;
 
 /**
- * TODO for daisuke
+ * {@link AbstractProblem}のテストクラス。
  * 
  * @version $Id$
  * @author daisuke
@@ -35,7 +35,7 @@ import org.junit.Test;
 public class AbstractProblemTest {
 	
 	/**
-	 * TODO for daisuke
+	 * リソースファイルにアクセスできる。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */

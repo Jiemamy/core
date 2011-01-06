@@ -23,7 +23,7 @@ import java.util.Comparator;
 import org.jiemamy.model.DatabaseObjectModel;
 
 /**
- * TODO for daisuke
+ * {@link DatabaseObjectModel}をID順に並べるコンパレータ。
  * 
  * @version $Id$
  * @author daisuke

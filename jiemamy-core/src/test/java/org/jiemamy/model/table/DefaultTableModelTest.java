@@ -19,6 +19,9 @@
 package org.jiemamy.model.table;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.hasItems;
+import static org.jiemamy.utils.RandomUtil.integer;
+import static org.jiemamy.utils.RandomUtil.str;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
@@ -33,6 +36,7 @@ import org.jiemamy.model.DatabaseObjectModel;
 import org.jiemamy.model.column.Column;
 import org.jiemamy.model.column.ColumnModel;
 import org.jiemamy.model.column.DefaultColumnModel;
+import org.jiemamy.model.column.DefaultColumnModelTest;
 import org.jiemamy.model.constraint.DefaultForeignKeyConstraintModel;
 import org.jiemamy.model.constraint.DefaultPrimaryKeyConstraintModel;
 import org.jiemamy.model.constraint.ForeignKeyConstraintModel;
@@ -48,6 +52,26 @@ import org.jiemamy.utils.UUIDUtil;
  */
 public class DefaultTableModelTest {
 	
+	/**
+	 * 適当な {@link DefaultTableModel} のインスタンスを作る。
+	 * 
+	 * @return {@link DefaultTableModel}
+	 */
+	public static DefaultTableModel random() {
+		DefaultTableModel model = new DefaultTableModel(UUID.randomUUID());
+		model.setName(str());
+		model.setLogicalName(str());
+		model.setDescription(str());
+		
+		final int count = integer(5) + 1;
+		for (int i = 0; i < count; i++) {
+			model.store(DefaultColumnModelTest.random());
+		}
+		
+		return model;
+	}
+	
+
 	private JiemamyContext ctx;
 	
 
@@ -115,7 +139,105 @@ public class DefaultTableModelTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * {@link DefaultTableModel#clone()}のテスト。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test03_clone() throws Exception {
+		DefaultTableModel original = new DefaultTableModel(UUIDUtil.valueOfOrRandom("a"));
+		original.setName("name1");
+		
+		DefaultTableModel clone = original.clone();
+		
+		// cloneはoriginalと同じステートのはず
+		assertThat(clone.getName(), is("name1"));
+		assertThat(clone.getColumns().size(), is(0));
+		
+		// originalを書き換えてもcloneには影響しない
+		original.setName("name2");
+		assertThat(original.getName(), is("name2"));
+		assertThat(clone.getName(), is("name1"));
+		
+		// cloneを書き換えてもoriginalには影響しない
+		clone.setName("name3");
+		assertThat(original.getName(), is("name2"));
+		assertThat(clone.getName(), is("name3"));
+		
+		// cloneにcolumnを追加してもoriginalに影響しない
+		clone.store(new DefaultColumnModel(UUIDUtil.valueOfOrRandom("b")));
+		assertThat(clone.getColumns().size(), is(1));
+		assertThat(original.getColumns().size(), is(0));
+		
+		// originalにcolumnを追加してもcloneに影響しない
+		original.store(new DefaultColumnModel(UUIDUtil.valueOfOrRandom("c")));
+		assertThat(original.getColumns().size(), is(1));
+		assertThat(clone.getColumns().size(), is(1));
+	}
+	
+	/**
+	 * {@link DefaultTableModel#getColumn(org.jiemamy.dddbase.EntityRef)}のテスト。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test04_getColumn() throws Exception {
+		DefaultTableModel table = new Table("HOGE").build();
+		ColumnModel foo = new Column("FOO").build();
+		ColumnModel foo2 = new Column("FOO").build();
+		ColumnModel bar = new Column("BAR").build();
+		
+		// 最初はcolumn数0のはず
+		assertThat(table.getColumns().size(), is(0));
+		
+		table.store(foo);
+		table.store(bar);
+		
+		// 2つstoreした
+		assertThat(table.getColumns().size(), is(2));
+		
+		ctx.store(table);
+		
+		// contextにstoreしても特に変わらず
+		assertThat(table.getColumns().size(), is(2));
+		
+		// 名前でcolumnを取得できる（sameinstanceではなく、IDが同じなだけ）
+		assertThat(table.getColumn("FOO"), is(foo));
+		assertThat(table.getColumn("BAR"), is(bar));
+		
+		table.delete(bar.toReference());
+		
+		// 消したら1つになる
+		assertThat(table.getColumns().size(), is(1));
+		
+		// FOOの方は同じように取得できる
+		assertThat(table.getColumn("FOO"), is(foo));
+		
+		// BARはColumnNotFoundExceptionとなる
+		try {
+			table.getColumn("BAR");
+			fail();
+		} catch (ColumnNotFoundException e) {
+			// success
+		}
+		
+		// FOOと別IDだが同名のカラムをstoreした
+		table.store(foo2);
+		
+		// 名前では解決できなくなる
+		try {
+			table.getColumn("FOO");
+			fail();
+		} catch (TooManyColumnsFoundException e) {
+			// 見つかったカラムは2つ
+			assertThat(e.getColumns().size(), is(2));
+			// fooとfoo2が見つかったはず
+			assertThat(e.getColumns(), hasItems(foo, foo2));
+		}
+	}
+	
+	/**
+	 * {@link DefaultTableModel#findDeclaringTable(Collection, ColumnModel)}のテスト。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
@@ -174,51 +296,6 @@ public class DefaultTableModelTest {
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test10_getColumn() throws Exception {
-		DefaultTableModel table = new Table("HOGE").build();
-		ColumnModel foo = new Column("FOO").build();
-		ColumnModel foo2 = new Column("FOO").build();
-		ColumnModel bar = new Column("BAR").build();
-		
-		assertThat(table.getColumns().size(), is(0));
-		
-		table.store(foo);
-		table.store(bar);
-		assertThat(table.getColumns().size(), is(2));
-		
-		ctx.store(table);
-		
-		assertThat(table.getColumns().size(), is(2));
-		assertThat(table.getColumn("FOO"), is(foo));
-		assertThat(table.getColumn("BAR"), is(bar));
-		
-		table.delete(bar.toReference());
-		
-		assertThat(table.getColumns().size(), is(1));
-		assertThat(table.getColumn("FOO"), is(foo));
-		
-		try {
-			table.getColumn("BAR");
-			fail();
-		} catch (ColumnNotFoundException e) {
-			// success
-		}
-		
-		table.store(foo2);
-		try {
-			table.getColumn("FOO");
-			fail();
-		} catch (TooManyColumnsFoundException e) {
-			// success
-		}
-	}
-	
-	/**
-	 * TODO for daisuke
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
-	@Test
 	public void test11() throws Exception {
 		ColumnModel b;
 		ColumnModel c;
@@ -256,37 +333,5 @@ public class DefaultTableModelTest {
 		assertThat(DefaultTableModel.findReferencedKeyConstraint(ctx.getDatabaseObjects(), fk12), is(pk1));
 		assertThat(DefaultTableModel.findReferencedKeyConstraint(ctx.getDatabaseObjects(), fk23), is(pk2));
 		// FORMAT-ON
-	}
-	
-	/**
-	 * TODO for daisuke
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
-	@Test
-	public void test12_clone() throws Exception {
-		DefaultTableModel table = new DefaultTableModel(UUIDUtil.valueOfOrRandom("a"));
-		table.setName("name1");
-		
-		DefaultTableModel clone = table.clone();
-		
-		assertThat(clone.getName(), is("name1"));
-		assertThat(clone.getColumns().size(), is(0));
-		
-		table.setName("name2");
-		assertThat(table.getName(), is("name2"));
-		assertThat(clone.getName(), is("name1"));
-		
-		clone.setName("name3");
-		assertThat(table.getName(), is("name2"));
-		assertThat(clone.getName(), is("name3"));
-		
-		clone.store(new DefaultColumnModel(UUIDUtil.valueOfOrRandom("b")));
-		assertThat(table.getColumns().size(), is(0));
-		assertThat(clone.getColumns().size(), is(1));
-		
-		table.store(new DefaultColumnModel(UUIDUtil.valueOfOrRandom("c")));
-		assertThat(table.getColumns().size(), is(1));
-		assertThat(clone.getColumns().size(), is(1));
 	}
 }

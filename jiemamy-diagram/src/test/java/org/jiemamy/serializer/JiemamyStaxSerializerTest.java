@@ -65,12 +65,12 @@ public class JiemamyStaxSerializerTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * 簡単なシリアライズ。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void testname() throws Exception {
+	public void test01_簡単なシリアライズ() throws Exception {
 		JiemamyContext context = new JiemamyContext(DiagramFacet.PROVIDER);
 		
 		DefaultTableModel t = new DefaultTableModel(UUID.fromString("5780585f-5f3d-4f72-a38b-7665042e6c00"));

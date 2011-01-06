@@ -31,7 +31,7 @@ import org.jiemamy.JiemamyContext;
 import org.jiemamy.model.table.DefaultTableModel;
 
 /**
- * TODO for daisuke
+ * {@link NamingUtil}のテストクラス。
  * 
  * @version $Id$
  * @author daisuke
@@ -57,12 +57,12 @@ public class NamingUtilTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * autoNameで適切な自動命名が行われる。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void testname() throws Exception {
+	public void test01_autoNameで適切な自動命名が行われる() throws Exception {
 		DefaultTableModel t2 = new DefaultTableModel(UUID.randomUUID());
 		NamingUtil.autoName(t2, context);
 		

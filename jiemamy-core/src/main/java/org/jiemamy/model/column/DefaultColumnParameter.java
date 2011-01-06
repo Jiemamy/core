@@ -21,9 +21,10 @@ package org.jiemamy.model.column;
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.model.DatabaseObjectParameter;
+import org.jiemamy.model.Key;
 
 /**
- * TODO for daisuke
+ * {@link ColumnParameter}のデフォルト実装クラス。
  * 
  * @param <T> 値の型
  * @version $Id$

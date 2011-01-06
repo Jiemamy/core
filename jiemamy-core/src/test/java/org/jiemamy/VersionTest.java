@@ -94,12 +94,12 @@ public class VersionTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * 不正な文字列をパースする場合の例外確認。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test02() throws Exception {
+	public void test02_不正な文字列をパースする場合の例外確認() throws Exception {
 		try {
 			Version.parse("10");
 			fail();
@@ -121,7 +121,7 @@ public class VersionTest {
 	}
 	
 	/**
-	 * {@link #equals(Object)}と {@link #hashCode()}が仕様に従って実装されていること
+	 * {@link #equals(Object)}と {@link #hashCode()}が仕様に従って実装されていること。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */

@@ -108,7 +108,7 @@ public final class DefaultAroundScriptModel extends AbstractEntity implements Ar
 		Validate.notNull(context);
 		Validate.notNull(position);
 		Validate.notNull(target);
-		return process(context.getServiceLocator(), position, target);
+		return process(JiemamyContext.getServiceLocator(), position, target);
 	}
 	
 	public String process(ServiceLocator serviceLocator, Position position, DatabaseObjectModel target)

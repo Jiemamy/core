@@ -21,7 +21,7 @@ package org.jiemamy.model;
 import org.apache.commons.lang.Validate;
 
 /**
- * TODO for daisuke
+ * {@link DatabaseObjectParameter}のデフォルト実装クラス。
  * 
  * @param <T> 値の型
  * @version $Id$

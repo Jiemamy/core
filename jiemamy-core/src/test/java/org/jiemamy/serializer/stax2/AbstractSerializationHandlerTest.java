@@ -32,7 +32,7 @@ import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.out.SMOutputDocument;
 
 /**
- * TODO for daisuke
+ * {@link SerializationHandler}をテストする際の骨格実装テストクラス。
  * 
  * @version $Id$
  * @author daisuke

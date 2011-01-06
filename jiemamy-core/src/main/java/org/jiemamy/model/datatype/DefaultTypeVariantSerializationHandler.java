@@ -16,12 +16,13 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.model.column;
+package org.jiemamy.model.datatype;
 
 import java.util.Set;
-import java.util.UUID;
 
 import javax.xml.stream.XMLStreamException;
+
+import com.google.common.collect.Sets;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
@@ -29,7 +30,6 @@ import org.codehaus.staxmate.in.SMEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.jiemamy.model.datatype.TypeVariant;
 import org.jiemamy.serializer.SerializationException;
 import org.jiemamy.serializer.stax2.DeserializationContext;
 import org.jiemamy.serializer.stax2.JiemamyCursor;
@@ -38,67 +38,66 @@ import org.jiemamy.serializer.stax2.JiemamyOutputElement;
 import org.jiemamy.serializer.stax2.SerializationContext;
 import org.jiemamy.serializer.stax2.SerializationDirector;
 import org.jiemamy.serializer.stax2.SerializationHandler;
-import org.jiemamy.utils.UUIDUtil;
 import org.jiemamy.xml.CoreQName;
 
 /**
- * {@link DefaultColumnModel}をシリアライズ/デシリアライズするハンドラ。
+ * {@link DefaultTypeVariant}をシリアライズ/デシリアライズするハンドラ。
  * 
  * @version $Id$
  * @author daisuke
  */
-public final class DefaultColumnModelSerializationHandler extends SerializationHandler<DefaultColumnModel> {
+public final class DefaultTypeVariantSerializationHandler extends SerializationHandler<DefaultTypeVariant> {
 	
-	private static Logger logger = LoggerFactory.getLogger(DefaultColumnModelSerializationHandler.class);
+	private static Logger logger = LoggerFactory.getLogger(DefaultTypeVariantSerializationHandler.class);
 	
 
 	/**
 	 * インスタンスを生成する。
 	 * 
 	 * @param director 親となるディレクタ
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public DefaultColumnModelSerializationHandler(SerializationDirector director) {
+	public DefaultTypeVariantSerializationHandler(SerializationDirector director) {
 		super(director);
 	}
 	
 	@Override
-	public DefaultColumnModel handleDeserialization(DeserializationContext ctx) throws SerializationException {
+	public DefaultTypeVariant handleDeserialization(DeserializationContext ctx) throws SerializationException {
 		Validate.notNull(ctx);
 		try {
 			Validate.isTrue(ctx.getCursor().getCurrEvent() == SMEvent.START_ELEMENT);
-			Validate.isTrue(ctx.getCursor().isQName(CoreQName.COLUMN));
+			Validate.isTrue(ctx.getCursor().isQName(CoreQName.DATA_TYPE));
 			
 			JiemamyCursor cursor = ctx.getCursor();
 			
-			String idString = cursor.getAttrValue(CoreQName.ID);
-			UUID id = UUIDUtil.valueOfOrRandom(idString);
-			DefaultColumnModel columnModel = new DefaultColumnModel(id);
+			DataTypeCategory category = DataTypeCategory.INTEGER;
+			String typeName = "INTEGER";
+			Set<TypeParameter<?>> params = Sets.newHashSet();
 			
 			JiemamyCursor childCursor = cursor.childCursor();
 			do {
 				childCursor.advance();
 				if (childCursor.getCurrEvent() == SMEvent.START_ELEMENT) {
-					if (childCursor.isQName(CoreQName.NAME)) {
-						columnModel.setName(childCursor.collectDescendantText(false));
-					} else if (childCursor.isQName(CoreQName.LOGICAL_NAME)) {
-						columnModel.setLogicalName(childCursor.collectDescendantText(false));
-					} else if (childCursor.isQName(CoreQName.DESCRIPTION)) {
-						columnModel.setDescription(childCursor.collectDescendantText(false));
-					} else if (childCursor.isQName(CoreQName.DEFAULT_VALUE)) {
-						columnModel.setDefaultValue(childCursor.collectDescendantText(false));
-					} else if (childCursor.isQName(CoreQName.DATA_TYPE)) {
+					if (childCursor.isQName(CoreQName.TYPE_CATEGORY)) {
+						String text = childCursor.collectDescendantText(false);
+						category = DataTypeCategory.valueOf(text);
+					} else if (childCursor.isQName(CoreQName.TYPE_NAME)) {
+						typeName = childCursor.collectDescendantText(false);
+					} else if (childCursor.isQName(CoreQName.PARAMETERS)) {
 						JiemamyCursor descendantCursor = childCursor.descendantCursor().advance();
 						while (descendantCursor.getCurrEvent() != SMEvent.START_ELEMENT
 								&& descendantCursor.getCurrEvent() != null) {
 							descendantCursor.advance();
 						}
 						if (descendantCursor.getCurrEvent() != null) {
-							DeserializationContext ctx2 = new DeserializationContext(descendantCursor);
-							TypeVariant type = getDirector().direct(ctx2);
-							if (type != null) {
-								columnModel.setDataType(type);
+							if (descendantCursor.isQName(CoreQName.PARAMETER)) {
+								String key = descendantCursor.getAttrValue(CoreQName.PARAMETER_KEY);
+								String v = descendantCursor.collectDescendantText(false);
+								// TODO んおーー。イレイジャにやられている
+//								TypeParameter<?> param = new DefaultTypeParameter<Object>(new Key<Object>(key), v);
+//								params.add(param);
 							} else {
-								logger.warn("null type");
+								logger.warn("unexpected: " + descendantCursor.getQName());
 							}
 						}
 					} else {
@@ -113,44 +112,33 @@ public final class DefaultColumnModelSerializationHandler extends SerializationH
 				}
 			} while (childCursor.getCurrEvent() != null);
 			
-			return columnModel;
+			return new DefaultTypeVariant(category, typeName, params);
 		} catch (XMLStreamException e) {
 			throw new SerializationException(e);
 		}
 	}
 	
 	@Override
-	public void handleSerialization(DefaultColumnModel model, SerializationContext sctx) throws SerializationException {
+	public void handleSerialization(DefaultTypeVariant model, SerializationContext sctx) throws SerializationException {
 		JiemamyOutputContainer parent = sctx.peek();
 		try {
-			JiemamyOutputElement element = parent.addElement(CoreQName.COLUMN);
-			element.addAttribute(CoreQName.ID, model.getId());
+			JiemamyOutputElement element = parent.addElement(CoreQName.DATA_TYPE);
 			element.addAttribute(CoreQName.CLASS, model.getClass());
 			
-			element.addElementAndCharacters(CoreQName.NAME, model.getName());
-			element.addElementAndCharacters(CoreQName.LOGICAL_NAME, model.getLogicalName());
-			element.addElementAndCharacters(CoreQName.DESCRIPTION, model.getDescription());
-			element.addElementAndCharacters(CoreQName.DEFAULT_VALUE, model.getDefaultValue());
+			element.addElementAndCharacters(CoreQName.TYPE_CATEGORY, model.getCategory());
+			element.addElementAndCharacters(CoreQName.TYPE_NAME, model.getTypeName());
 			
-			sctx.push(element);
-			TypeVariant dataType = model.getDataType();
-			if (dataType != null) {
-				getDirector().direct(dataType, sctx);
-			}
-			
-			Set<ColumnParameter<?>> params = model.getParams();
+			Set<TypeParameter<?>> params = model.getParams();
 			if (params.size() > 0) {
 				JiemamyOutputElement paramesElement = element.addElement(CoreQName.PARAMETERS);
-				for (ColumnParameter<?> param : params) {
+				for (TypeParameter<?> param : params) {
 					JiemamyOutputElement paramElement = paramesElement.addElement(CoreQName.PARAMETER);
 					paramElement.addAttribute(CoreQName.PARAMETER_KEY, param.getKey().getKeyString());
 					paramElement.addCharacters(param.getValue().toString());
 				}
 			}
-			sctx.pop();
 		} catch (XMLStreamException e) {
 			throw new SerializationException(e);
 		}
 	}
-	
 }

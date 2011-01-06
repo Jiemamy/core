@@ -29,4 +29,5 @@ import org.jiemamy.model.datatype.TypeVariant;
 public interface Dummy {
 	
 	TypeVariant TYPE = null;
+	
 }

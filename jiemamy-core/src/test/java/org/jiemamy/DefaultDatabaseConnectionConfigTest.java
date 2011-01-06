@@ -50,12 +50,12 @@ public class DefaultDatabaseConnectionConfigTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * 作ったインスタンスの挙動チェック。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test01() throws Exception {
+	public void test01_作ったインスタンスの挙動チェック() throws Exception {
 		assertThat(config.getDriverClassName(), is(nullValue()));
 		assertThat(config.getPassword(), is(nullValue()));
 		assertThat(config.getUsername(), is(nullValue()));

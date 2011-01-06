@@ -35,9 +35,9 @@ import org.jiemamy.model.geometory.JmRectangle;
 import org.jiemamy.utils.MutationMonitor;
 
 /**
- * TODO for daisuke
+ * {@link NodeModel}のデフォルト実装クラス。
  * 
- * @since TODO for daisuke
+ * @since 0.3
  * @version $Id$
  * @author daisuke
  */
@@ -128,7 +128,7 @@ public class DefaultNodeModel extends AbstractEntity implements NodeModel {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * 
 	 * 
 	 * @param connection source connection
 	 */

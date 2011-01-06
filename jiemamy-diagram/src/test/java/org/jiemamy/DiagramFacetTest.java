@@ -24,9 +24,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * TODO for daisuke
+ * {@link DiagramFacet}のテストクラス。
  * 
- * @since TODO for daisuke
+ * @since 0.3
  * @version $Id$
  * @author daisuke
  */

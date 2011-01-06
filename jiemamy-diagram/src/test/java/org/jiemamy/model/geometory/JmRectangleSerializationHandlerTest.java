@@ -69,12 +69,12 @@ public class JmRectangleSerializationHandlerTest extends AbstractSerializationHa
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * 簡単なシリアライズ。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test01() throws Exception {
+	public void test01_簡単なシリアライズ() throws Exception {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		SMOutputDocument doc = getDocument(baos);
 		
@@ -103,12 +103,12 @@ public class JmRectangleSerializationHandlerTest extends AbstractSerializationHa
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * 簡単なデシリアライズ。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test11() throws Exception {
+	public void test11_簡単なデシリアライズ() throws Exception {
 		// FORMAT-OFF
 		String xml = "<?xml version='1.0' encoding='UTF-8'?>" + LF
 				+ "<diagram:boundary xmlns:diagram=\"http://jiemamy.org/xml/ns/diagram\"" +

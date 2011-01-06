@@ -20,16 +20,16 @@ package org.jiemamy.utils;
 
 import java.util.Comparator;
 
+import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityRef;
-import org.jiemamy.model.column.ColumnModel;
 
 /**
- * TODO for daisuke
+ * {@link EntityRef}をreferentのID順にするコンパレータ。
  * 
  * @version $Id$
  * @author daisuke
  */
-public class EntityRefComparator implements Comparator<EntityRef<? extends ColumnModel>> {
+public class EntityRefComparator implements Comparator<EntityRef<? extends Entity>> {
 	
 	/** singleton instance */
 	public static final EntityRefComparator INSTANCE = new EntityRefComparator();
@@ -38,7 +38,7 @@ public class EntityRefComparator implements Comparator<EntityRef<? extends Colum
 	private EntityRefComparator() {
 	}
 	
-	public int compare(EntityRef<? extends ColumnModel> o1, EntityRef<? extends ColumnModel> o2) {
+	public int compare(EntityRef<? extends Entity> o1, EntityRef<? extends Entity> o2) {
 		return o1.getReferentId().compareTo(o2.getReferentId());
 	}
 	

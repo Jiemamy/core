@@ -21,7 +21,7 @@ import java.util.Collection;
 import org.jiemamy.dddbase.EntityRef;
 
 /**
- * TODO for daisuke
+ * 一枚のER図を表すモデルインターフェイス。
  * 
  * @since TODO for daisuke
  * @version $Id$
@@ -49,10 +49,26 @@ public interface DiagramModel extends DiagramElement {
 	 */
 	Mode getMode();
 	
+	/**
+	 * ダイアグラム名を取得する。
+	 * 
+	 * @return ダイアグラム名
+	 */
 	String getName();
 	
+	/**
+	 * このダイアグラムにおける、指定した {@link DatabaseObjectModel} の写像となる {@link NodeModel} を取得する。
+	 * 
+	 * @param ref {@link DatabaseObjectModel}の参照
+	 * @return 写像となる {@link NodeModel}
+	 */
 	NodeModel getNodeFor(EntityRef<? extends DatabaseObjectModel> ref);
 	
+	/**
+	 * このダイアグラムが持つ{@link NodeModel}の集合を取得する。
+	 * 
+	 * @return {@link NodeModel}の集合
+	 */
 	Collection<? extends NodeModel> getNodes();
 	
 	EntityRef<? extends DiagramModel> toReference();

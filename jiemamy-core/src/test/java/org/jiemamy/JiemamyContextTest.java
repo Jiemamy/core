@@ -19,25 +19,38 @@
 package org.jiemamy;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.nullValue;
+import static org.jiemamy.utils.RandomUtil.integer;
+import static org.jiemamy.utils.RandomUtil.strNullable;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
+import static org.mockito.Mockito.spy;
 
 import java.util.UUID;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityNotFoundException;
+import org.jiemamy.model.DatabaseObjectModel;
+import org.jiemamy.model.column.Column;
+import org.jiemamy.model.column.ColumnModel;
 import org.jiemamy.model.column.DefaultColumnModel;
+import org.jiemamy.model.constraint.DefaultForeignKeyConstraintModel;
+import org.jiemamy.model.constraint.DefaultPrimaryKeyConstraintModel;
 import org.jiemamy.model.table.DefaultTableModel;
+import org.jiemamy.model.table.DefaultTableModelTest;
+import org.jiemamy.model.table.Table;
 import org.jiemamy.model.table.TableModel;
 import org.jiemamy.utils.UUIDUtil;
 
 /**
- * TODO for daisuke
+ * {@link JiemamyContext}のテストクラス。
  * 
  * @version $Id$
  * @author daisuke
@@ -56,6 +69,29 @@ public class JiemamyContextTest {
 	
 	private static final UUID CID3 = UUIDUtil.valueOfOrRandom("cid3");
 	
+
+	/**
+	 * 適当な {@link JiemamyContext} のインスタンスを作る。
+	 * 
+	 * @return {@link JiemamyContext}
+	 */
+	public static JiemamyContext random() {
+		JiemamyContext context = new JiemamyContext();
+		context.setDescription(strNullable());
+		context.setDialectClassName(strNullable());
+		context.setSchemaName(strNullable());
+		
+		int count = integer(5) + 1;
+		for (int i = 0; i < count; i++) {
+			context.store(DefaultTableModelTest.random());
+		}
+		
+		// TODO datasetとかもstoreする
+		
+		return context;
+	}
+	
+
 	private JiemamyContext ctx1;
 	
 	private JiemamyContext ctx2;
@@ -101,7 +137,7 @@ public class JiemamyContextTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * IDが違うテーブルを同じctxに追加できる。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
@@ -114,7 +150,7 @@ public class JiemamyContextTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * IDが同じテーブルを同じctxに追加すると置換更新となる。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
@@ -126,7 +162,7 @@ public class JiemamyContextTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * IDが同じであってもctxが違えば普通に別管理となる。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
@@ -139,7 +175,7 @@ public class JiemamyContextTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * 同一テーブルを同じctx内にaddする意味はあまりない。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
@@ -151,7 +187,7 @@ public class JiemamyContextTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * 同一テーブルを2つの異なるctxにaddしてもお互い影響しない。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
@@ -170,38 +206,38 @@ public class JiemamyContextTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * removeしたテーブルを同じctxに追加できる。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
 	public void test05_removeしたテーブルを同じctxに追加できる() throws Exception {
 		ctx1.store(t1a);
-		ctx1.delete(t1a.toReference());
+		ctx1.deleteDatabaseObject(t1a.toReference());
 		ctx1.store(t1a);
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * もちろんremoveしたテーブルを他のctxに追加してもよい。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
 	public void test06_もちろんremoveしたテーブルを他のctxに追加してもよい() throws Exception {
 		ctx1.store(t1a);
-		ctx1.delete(t1a.toReference());
+		ctx1.deleteDatabaseObject(t1a.toReference());
 		ctx2.store(t1a);
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * ctx1で管理したのはt1bじゃなくてt1aだけどIDが同じなのでremoveできる。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
 	public void test07_ctx1で管理したのはt1bじゃなくてt1aだけどIDが同じなのでremoveできる() throws Exception {
 		ctx1.store(t1a);
-		ctx1.delete(t1b.toReference());
+		ctx1.deleteDatabaseObject(t1b.toReference());
 		try {
 			ctx1.resolve(t1a.toReference());
 			fail();
@@ -211,28 +247,28 @@ public class JiemamyContextTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * 管理していないインスタンスをremoveできない。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test(expected = EntityNotFoundException.class)
 	public void test08_管理していないインスタンスをremoveできない() throws Exception {
-		ctx1.delete(t1a.toReference());
+		ctx1.deleteDatabaseObject(t1a.toReference());
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * t1aを管理しているのはctx2じゃないので例外。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test(expected = EntityNotFoundException.class)
 	public void test09_t1aを管理しているのはctx2じゃないので例外() throws Exception {
 		ctx1.store(t1a);
-		ctx2.delete(t1a.toReference());
+		ctx2.deleteDatabaseObject(t1a.toReference());
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * IDが違うカラムを同じctxに追加できる。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
@@ -245,7 +281,7 @@ public class JiemamyContextTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * IDが同じカラムを同じテーブル内に置くことはできない。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
@@ -257,7 +293,7 @@ public class JiemamyContextTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * IDが同じであってもテーブルが違えば置くことができる。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
@@ -328,7 +364,7 @@ public class JiemamyContextTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * 同一カラムを同じテーブル内に置くことはできない。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
@@ -341,7 +377,7 @@ public class JiemamyContextTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * たとえテーブルが違っていても同一カラムだったら置けない。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
@@ -355,7 +391,7 @@ public class JiemamyContextTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * removeしたカラムを同じテーブルに追加できる。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
@@ -367,7 +403,7 @@ public class JiemamyContextTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * もちろんremoveしたカラムを他のテーブルに追加してもよい。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
@@ -379,7 +415,7 @@ public class JiemamyContextTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * t1aで管理したのはc1bじゃなくてc1だけどremoveできる。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
@@ -390,7 +426,7 @@ public class JiemamyContextTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * 管理していないカラムをremoveできない。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
@@ -400,7 +436,7 @@ public class JiemamyContextTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * c1aを管理しているのはt2じゃないので例外。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
@@ -513,7 +549,7 @@ public class JiemamyContextTest {
 		t3.store(c3);
 		
 		ctx1.store(t1a);
-		ctx1.delete(t1a.toReference());
+		ctx1.deleteDatabaseObject(t1a.toReference());
 		
 		try {
 			ctx1.resolve(TID1);
@@ -562,5 +598,152 @@ public class JiemamyContextTest {
 	public void test21() throws Exception {
 		ctx1.setDialectClassName(MockDialect.class.getName());
 		assertThat(ctx1.findDialect(), is(instanceOf(MockDialect.class)));
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test31_double_add() throws Exception {
+		TableModel table = spy(new DefaultTableModel(UUID.randomUUID()));
+		
+		ctx1.store(table);
+		ctx1.store(table);
+		ctx2.store(table);
+		ctx2.deleteDatabaseObject(table.toReference());
+		ctx1.deleteDatabaseObject(table.toReference());
+		
+		try {
+			ctx1.deleteDatabaseObject(table.toReference());
+			fail();
+		} catch (EntityNotFoundException e) {
+			// success
+		}
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test32_double_add() throws Exception {
+		TableModel table1 = new DefaultTableModel(UUIDUtil.valueOfOrRandom("a"));
+		TableModel table2 = new DefaultTableModel(UUIDUtil.valueOfOrRandom("a"));
+		
+		ctx1.store(table1);
+		ctx1.store(table1);
+		ctx1.store(table2);
+		ctx2.store(table1);
+		ctx2.store(table2);
+		ctx2.deleteDatabaseObject(table1.toReference());
+		ctx1.deleteDatabaseObject(table2.toReference());
+		
+		try {
+			ctx1.deleteDatabaseObject(table1.toReference());
+			fail();
+		} catch (EntityNotFoundException e) {
+			// success
+		}
+		
+		try {
+			ctx2.deleteDatabaseObject(table2.toReference());
+			fail();
+		} catch (EntityNotFoundException e) {
+			// success
+		}
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test34_get() throws Exception {
+		UUID id = UUID.randomUUID();
+		DefaultEntityRef<TableModel> ref = new DefaultEntityRef<TableModel>(id);
+		
+		try {
+			ctx1.resolve(id);
+			fail();
+		} catch (EntityNotFoundException e) {
+			// success
+		}
+		
+		try {
+			ctx1.resolve(ref);
+			fail();
+		} catch (EntityNotFoundException e) {
+			// success
+		}
+		
+		TableModel table = new DefaultTableModel(id);
+		ctx1.store(table);
+		
+		assertThat(ctx1.resolve(id), is((Entity) table));
+		assertThat(ctx1.resolve(ref), is((Entity) table));
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test37_query() throws Exception {
+		ColumnModel b;
+		ColumnModel c;
+		ColumnModel d;
+		ColumnModel e;
+		
+		// FORMAT-OFF
+		TableModel t1 = new Table("ONE")
+				.with(new Column("A").build())
+				.with(b = new Column("B").build())
+				.with(DefaultPrimaryKeyConstraintModel.of(b))
+				.build();
+		TableModel t2 = new Table("TWO")
+				.with(c = new Column("C").build())
+				.with(d = new Column("D").build())
+				.with(DefaultPrimaryKeyConstraintModel.of(d))
+				.with(DefaultForeignKeyConstraintModel.of(c, b))
+				.build();
+		TableModel t3 = new Table("THREE")
+				.with(e = new Column("E").build())
+				.with(new Column("F").build())
+				.with(DefaultForeignKeyConstraintModel.of(e, d))
+				.build();
+		
+		ctx1.store(t1);
+		ctx1.store(t2);
+		ctx1.store(t3);
+		
+		assertThat(ctx1.findSubDatabaseObjectsNonRecursive(t1).size(), is(1));
+		assertThat(ctx1.findSubDatabaseObjectsNonRecursive(t2).size(), is(1));
+		assertThat(ctx1.findSubDatabaseObjectsNonRecursive(t3).size(), is(0));
+		assertThat(ctx1.findSubDatabaseObjectsNonRecursive(t1), hasItem((DatabaseObjectModel) t2));
+		assertThat(ctx1.findSubDatabaseObjectsNonRecursive(t2), hasItem((DatabaseObjectModel) t3));
+		
+		assertThat(ctx1.findSubDatabaseObjectsRecursive(t1).size(), is(2));
+		assertThat(ctx1.findSubDatabaseObjectsRecursive(t2).size(), is(1));
+		assertThat(ctx1.findSubDatabaseObjectsRecursive(t3).size(), is(0));
+		assertThat(ctx1.findSubDatabaseObjectsRecursive(t1), hasItems((DatabaseObjectModel) t2, (DatabaseObjectModel) t3));
+		assertThat(ctx1.findSubDatabaseObjectsRecursive(t2), hasItem((DatabaseObjectModel) t3));
+		
+		assertThat(ctx1.findSuperDatabaseObjectsNonRecursive(t1).size(), is(0));
+		assertThat(ctx1.findSuperDatabaseObjectsNonRecursive(t2).size(), is(1));
+		assertThat(ctx1.findSuperDatabaseObjectsNonRecursive(t3).size(), is(1));
+		assertThat(ctx1.findSuperDatabaseObjectsNonRecursive(t2), hasItem((DatabaseObjectModel) t1));
+		assertThat(ctx1.findSuperDatabaseObjectsNonRecursive(t3), hasItem((DatabaseObjectModel) t2));
+		
+		assertThat(ctx1.findSuperDatabaseObjectsRecursive(t1).size(), is(0));
+		assertThat(ctx1.findSuperDatabaseObjectsRecursive(t2).size(), is(1));
+		assertThat(ctx1.findSuperDatabaseObjectsRecursive(t3).size(), is(2));
+		assertThat(ctx1.findSuperDatabaseObjectsRecursive(t2), hasItem((DatabaseObjectModel) t1));
+		assertThat(ctx1.findSuperDatabaseObjectsRecursive(t3), hasItems((DatabaseObjectModel) t1, (DatabaseObjectModel) t2));
+		// FORMAT-ON
 	}
 }

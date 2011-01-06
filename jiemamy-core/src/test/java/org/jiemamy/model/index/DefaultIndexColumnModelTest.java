@@ -26,7 +26,6 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 
 import org.jiemamy.model.column.DefaultColumnModel;
-import org.jiemamy.model.index.DefaultIndexColumnModel;
 import org.jiemamy.model.index.IndexColumnModel.SortOrder;
 import org.jiemamy.utils.UUIDUtil;
 
@@ -39,12 +38,12 @@ import org.jiemamy.utils.UUIDUtil;
 public class DefaultIndexColumnModelTest {
 	
 	/**
-	 * TODO for daisuke
+	 * 作ったインスタンスの挙動チェック。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test01_() throws Exception {
+	public void test01_作ったインスタンスの挙動チェック() throws Exception {
 		DefaultColumnModel column1 = new DefaultColumnModel(UUIDUtil.valueOfOrRandom("a"));
 		DefaultColumnModel column2 = new DefaultColumnModel(UUIDUtil.valueOfOrRandom("b"));
 		DefaultIndexColumnModel model = new DefaultIndexColumnModel(column1.toReference());
@@ -57,12 +56,12 @@ public class DefaultIndexColumnModelTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * {@link DefaultIndexColumnModel#equals(Object)}のテスト。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test02_() throws Exception {
+	public void test02_equals() throws Exception {
 		DefaultColumnModel column1 = new DefaultColumnModel(UUIDUtil.valueOfOrRandom("a"));
 		DefaultColumnModel column2 = new DefaultColumnModel(UUIDUtil.valueOfOrRandom("b"));
 		DefaultIndexColumnModel icm1 = DefaultIndexColumnModel.of(column1);

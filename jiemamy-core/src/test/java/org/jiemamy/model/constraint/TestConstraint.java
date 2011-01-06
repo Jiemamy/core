@@ -19,11 +19,9 @@
 package org.jiemamy.model.constraint;
 
 import org.jiemamy.dddbase.ValueObject;
-import org.jiemamy.model.constraint.ConstraintModel;
-
 
 /**
- * TODO for daisuke
+ * テスト用の制約型。
  * 
  * @version $Id$
  * @author daisuke

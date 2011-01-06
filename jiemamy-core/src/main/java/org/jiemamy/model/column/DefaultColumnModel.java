@@ -29,7 +29,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 import org.jiemamy.dddbase.AbstractEntity;
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
-import org.jiemamy.model.ModelParameter.Key;
+import org.jiemamy.model.Key;
 import org.jiemamy.model.datatype.TypeVariant;
 import org.jiemamy.utils.MutationMonitor;
 

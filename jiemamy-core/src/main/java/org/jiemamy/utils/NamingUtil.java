@@ -29,12 +29,12 @@ import org.jiemamy.model.table.TableModel;
 import org.jiemamy.model.view.ViewModel;
 
 /**
- * TODO for daisuke
+ * {@link DatabaseObjectModel}名に関するユーティリティクラス。
  * 
  * @version $Id$
  * @author daisuke
  */
-public class NamingUtil {
+public final class NamingUtil {
 	
 	/**
 	 * 自動的にエンティティ名を生成し、設定する。

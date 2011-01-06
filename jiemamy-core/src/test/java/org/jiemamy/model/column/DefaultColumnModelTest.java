@@ -24,6 +24,7 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.Matchers.sameInstance;
+import static org.jiemamy.utils.RandomUtil.str;
 import static org.junit.Assert.assertThat;
 
 import java.util.UUID;
@@ -34,17 +35,41 @@ import org.junit.Test;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.datatype.DataTypeCategory;
 import org.jiemamy.model.datatype.DefaultTypeVariant;
+import org.jiemamy.model.datatype.DefaultTypeVariantTest;
 import org.jiemamy.model.datatype.TypeVariant;
 import org.jiemamy.utils.UUIDUtil;
 
 /**
- * TODO for daisuke
+ * {@link DefaultColumnModel}のテストクラス。
  * 
  * @version $Id$
  * @author daisuke
  */
 public class DefaultColumnModelTest {
 	
+	/**
+	 * 適当な {@link DefaultColumnModel} のインスタンスを作る。
+	 * 
+	 * @return {@link DefaultColumnModel}
+	 */
+	public static DefaultColumnModel random() {
+		DefaultColumnModel model = new DefaultColumnModel(UUID.randomUUID());
+		model.setName(str());
+		model.setLogicalName(str());
+		model.setDescription(str());
+		model.setDefaultValue(str());
+		model.setDataType(DefaultTypeVariantTest.random());
+		// TODO パラメータも追加する
+//		int k = integer(10);
+//		if (k == 0) {
+//			columnModel.putParam(DefaultColumnParameter.DISABLED, true);
+//		} else if (k == 1) {
+//			columnModel.putParam(DefaultColumnParameter.DISABLED, false);
+//		}
+		return model;
+	}
+	
+
 	private DefaultColumnModel column;
 	
 
@@ -59,12 +84,12 @@ public class DefaultColumnModelTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * 作ったインスタンスの挙動チェック。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test01() throws Exception {
+	public void test01_作ったインスタンスの挙動チェック() throws Exception {
 		TypeVariant type = DefaultTypeVariant.of(DataTypeCategory.INTEGER);
 		
 		assertThat(column.getName(), is(nullValue()));

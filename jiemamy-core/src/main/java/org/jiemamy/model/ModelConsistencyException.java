@@ -19,7 +19,7 @@
 package org.jiemamy.model;
 
 /**
- * TODO for daisuke
+ * モデル不整合を表す例外クラス。
  * 
  * @version $Id$
  * @author daisuke

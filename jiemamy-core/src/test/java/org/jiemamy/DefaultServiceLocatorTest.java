@@ -31,7 +31,7 @@ import org.junit.Test;
 import org.jiemamy.dialect.Dialect;
 
 /**
- * TODO for daisuke
+ * {@link DefaultServiceLocator}のテストクラス。
  * 
  * @version $Id$
  * @author daisuke
@@ -54,10 +54,13 @@ public class DefaultServiceLocatorTest {
 	/**
 	 * コンストラクタのリフレクション呼び出しによるサービス取得。
 	 * 
+	 * <p> {@link MockDialect} は {@link DefaultServiceLocator} をロードした
+	 * classloaderから辿れるのでインスタンスを取得できる。</p>
+	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test01() throws Exception {
+	public void test01コンストラクタのリフレクション呼び出しによるサービス取得() throws Exception {
 		Dialect dialect = serviceLocator.getService(Dialect.class, "org.jiemamy.MockDialect");
 		assertThat(dialect, is(notNullValue()));
 		assertThat(dialect, is(instanceOf(MockDialect.class)));
@@ -66,10 +69,13 @@ public class DefaultServiceLocatorTest {
 	/**
 	 * {@link ServiceRegistry}経由によるサービス取得。
 	 * 
+	 * <p> {@link SampleServiceImpl1} と {@link SampleServiceImpl2} は
+	 * {@code META-INF/services/org.jiemamy.SampleService}で定義してある。</p>
+	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test02() throws Exception {
+	public void test02_ServiceRegistry経由によるサービス取得() throws Exception {
 		SampleService service1 = serviceLocator.getService(SampleService.class, "org.jiemamy.SampleServiceImpl1");
 		assertThat(service1, is(notNullValue()));
 		assertThat(service1, is(instanceOf(SampleServiceImpl1.class)));

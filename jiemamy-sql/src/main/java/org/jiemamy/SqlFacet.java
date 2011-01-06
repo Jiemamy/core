@@ -79,22 +79,19 @@ public class SqlFacet implements JiemamyFacet {
 	
 	public void delete(final EntityRef<? extends AroundScriptModel> ref) {
 		scripts.delete(ref);
-		context.getEventBroker().fireCommandProcessed(new Command() {
-			
-			public void execute() {
-				// TODO Auto-generated method stub
+		context.getEventBroker().fireCommandProcessed(new Command() { // FIXME コマンド使ってない
 				
-			}
-			
-			public Command getNegateCommand() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-			
-			public EntityRef<?> getTarget() {
-				return ref;
-			}
-		});
+					public void execute() {
+					}
+					
+					public Command getNegateCommand() {
+						return null;
+					}
+					
+					public EntityRef<?> getTarget() {
+						return ref;
+					}
+				});
 	}
 	
 	/**
@@ -112,12 +109,6 @@ public class SqlFacet implements JiemamyFacet {
 		return null;
 	}
 	
-	/**
-	 * TODO for daisuke
-	 * 
-	 * @param ref
-	 * @return
-	 */
 	public AroundScriptModel getAroundScriptFor(EntityRef<? extends DatabaseObjectModel> ref) {
 		Validate.notNull(ref);
 		for (AroundScriptModel aroundScriptModel : scripts.getEntitiesAsSet()) {
@@ -129,9 +120,9 @@ public class SqlFacet implements JiemamyFacet {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * このファセットが管理する全ての {@link AroundScriptModel} の集合を取得する。
 	 * 
-	 * @return
+	 * @return {@link AroundScriptModel}の集合
 	 */
 	public Collection<? extends AroundScriptModel> getAroundScripts() {
 		return scripts.getEntitiesAsSet();
@@ -164,20 +155,18 @@ public class SqlFacet implements JiemamyFacet {
 		Validate.notNull(script.getId());
 //		Validate.notNull(script.getTarget());
 		scripts.store(script);
-		context.getEventBroker().fireCommandProcessed(new Command() {
-			
-			public void execute() {
+		context.getEventBroker().fireCommandProcessed(new Command() { // FIXME コマンド使ってない
 				
-			}
-			
-			public Command getNegateCommand() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-			
-			public EntityRef<?> getTarget() {
-				return script.toReference();
-			}
-		});
+					public void execute() {
+					}
+					
+					public Command getNegateCommand() {
+						return null;
+					}
+					
+					public EntityRef<?> getTarget() {
+						return script.toReference();
+					}
+				});
 	}
 }

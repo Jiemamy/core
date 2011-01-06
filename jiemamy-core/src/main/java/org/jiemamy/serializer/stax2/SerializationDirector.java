@@ -36,6 +36,8 @@ import org.jiemamy.model.constraint.DefaultNotNullConstraintModel;
 import org.jiemamy.model.constraint.DefaultNotNullConstraintModelSerializationHandler;
 import org.jiemamy.model.constraint.DefaultPrimaryKeyConstraintModel;
 import org.jiemamy.model.constraint.DefaultPrimaryKeyConstraintModelSerializationHandler;
+import org.jiemamy.model.datatype.DefaultTypeVariant;
+import org.jiemamy.model.datatype.DefaultTypeVariantSerializationHandler;
 import org.jiemamy.model.table.DefaultTableModel;
 import org.jiemamy.model.table.DefaultTableModelSerializationHandler;
 import org.jiemamy.model.view.DefaultViewModel;
@@ -45,7 +47,7 @@ import org.jiemamy.xml.CoreQName;
 import org.jiemamy.xml.JiemamyQName;
 
 /**
- * TODO for daisuke
+ * シリアライズ・デシリアライズ処理の指揮をとり、各 {@link SerializationHandler} に処理を委譲するクラス。
  * 
  * @version $Id$
  * @author daisuke
@@ -83,6 +85,7 @@ public class SerializationDirector {
 				new DefaultNotNullConstraintModelSerializationHandler(this));
 		addHandler(DefaultPrimaryKeyConstraintModel.class, CoreQName.PRIMARY_KEY,
 				new DefaultPrimaryKeyConstraintModelSerializationHandler(this));
+		addHandler(DefaultTypeVariant.class, CoreQName.DATA_TYPE, new DefaultTypeVariantSerializationHandler(this));
 		// TODO ... 色々まだ追加するものがあるはず
 		
 		for (JiemamyFacet jiemamyFacet : context.getFacets()) {

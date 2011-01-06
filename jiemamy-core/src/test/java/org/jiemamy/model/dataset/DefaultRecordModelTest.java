@@ -40,7 +40,7 @@ import org.jiemamy.model.column.ColumnModel;
 public class DefaultRecordModelTest {
 	
 	/**
-	 * TODO for daisuke
+	 * mapがしっかりcloneされてるかチェック。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
@@ -66,7 +66,7 @@ public class DefaultRecordModelTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * {@link DefaultRecordModel#equals(Object)}のテスト。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */

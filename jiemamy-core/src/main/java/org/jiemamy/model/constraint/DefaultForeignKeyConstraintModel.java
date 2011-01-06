@@ -35,7 +35,7 @@ import org.jiemamy.model.column.ColumnModel;
 import org.jiemamy.utils.MutationMonitor;
 
 /**
- * 外部キーモデル。
+ * {@link ForeignKeyConstraintModel}のデフォルト実装クラス。
  * 
  * @author daisuke
  */
@@ -43,12 +43,13 @@ public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstrain
 		ForeignKeyConstraintModel {
 	
 	/**
-	 * TODO for daisuke
+	 * インスタンスを生成する。
 	 * 
-	 * @param keyColumn キーカラム
-	 * @param referenceColumn 参照カラム
+	 * @param keyColumn キー制約を構成するカラム
+	 * @param referenceColumn 制約を受けるカラム
 	 * @return 新しい{@link DefaultForeignKeyConstraintModel}
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @throws IllegalArgumentException 引数{@code keyColumns}と{@code referenceColumns}のサイズが一致していない場合
 	 */
 	public static ForeignKeyConstraintModel of(ColumnModel keyColumn, ColumnModel referenceColumn) {
 		return new DefaultForeignKeyConstraintModel(UUID.randomUUID(), null, null, null, toRefList(keyColumn), null,

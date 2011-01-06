@@ -18,35 +18,44 @@
  */
 package org.jiemamy.serializer.stax2;
 
+import org.apache.commons.lang.Validate;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 
 /**
- * TODO for daisuke
+ * デシリアライズ処理のコンテキストクラス。
  * 
  * @version $Id$
  * @author daisuke
  */
 public class DeserializationContext {
 	
+	// TODO stackにしなきゃ
 	private final JiemamyCursor cursor;
 	
 
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param cursor カーソル
+	 */
 	public DeserializationContext(JiemamyCursor cursor) {
+		Validate.notNull(cursor);
 		this.cursor = cursor;
 	}
 	
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param cursor
+	 * @param cursor カーソル
 	 */
 	public DeserializationContext(SMHierarchicCursor cursor) {
 		this.cursor = new JiemamyCursor(cursor);
 	}
 	
 	/**
-	 * somethingを取得する。 TODO for daisuke
-	 * @return the cursor
+	 * カーソルを取得する。
+	 * 
+	 * @return カーソル
 	 */
 	public JiemamyCursor getCursor() {
 		return cursor;

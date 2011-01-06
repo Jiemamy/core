@@ -24,13 +24,14 @@ import org.jiemamy.utils.collection.ArrayEssentialStack;
 import org.jiemamy.utils.collection.EssentialStack;
 
 /**
- * TODO for daisuke
+ * シリアライズ処理のコンテキストクラス。
  * 
  * @version $Id$
  * @author daisuke
  */
 public class SerializationContext {
 	
+	/** コンテナスタック */
 	private final EssentialStack<JiemamyOutputContainer> containerStack =
 			new ArrayEssentialStack<JiemamyOutputContainer>();
 	
@@ -38,20 +39,35 @@ public class SerializationContext {
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param document
+	 * @param document XMLドキュメント
 	 */
 	SerializationContext(SMOutputDocument document) {
 		push(new JiemamyDocument(document));
 	}
 	
+	/**
+	 * コンテナスタックの一番上の要素を参照する。（スタックから削除はしない）
+	 * 
+	 * @return コンテナ
+	 */
 	public JiemamyOutputContainer peek() {
 		return containerStack.peek();
 	}
 	
+	/**
+	 * コンテナスタックの一番上の要素を取得する。（スタックから削除する）
+	 * 
+	 * @return コンテナ
+	 */
 	public JiemamyOutputContainer pop() {
 		return containerStack.pop();
 	}
 	
+	/**
+	 * コンテナスタックに要素を追加する。
+	 * 
+	 * @param container コンテナ
+	 */
 	public void push(JiemamyOutputContainer container) {
 		containerStack.push(container);
 	}

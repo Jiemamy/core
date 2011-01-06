@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
 import org.jiemamy.JiemamyContext;
 
 /**
- * TODO for daisuke
+ * コレクションに対するミューテーションを監視するデバッグ用クラス。
  * 
  * @version $Id$
  * @author daisuke

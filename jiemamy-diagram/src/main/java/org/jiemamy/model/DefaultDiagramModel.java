@@ -29,9 +29,9 @@ import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.OnMemoryRepository;
 
 /**
- * TODO for daisuke
+ * {@link DiagramModel}のデフォルト実装クラス。
  * 
- * @since TODO for daisuke
+ * @since 0.3
  * @version $Id$
  * @author daisuke
  */

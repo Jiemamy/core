@@ -46,7 +46,7 @@ public class DatabaseImporterTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * {@link DatabaseImporter#getName()}のテスト。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */

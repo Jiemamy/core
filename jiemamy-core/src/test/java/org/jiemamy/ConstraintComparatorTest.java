@@ -47,7 +47,7 @@ import org.jiemamy.model.constraint.UniqueKeyConstraintModel;
 import org.jiemamy.utils.ConstraintComparator;
 
 /**
- * TODO for daisuke
+ * {@link ConstraintComparator}のテストクラス。
  * 
  * @version $Id$
  * @author daisuke
@@ -68,12 +68,12 @@ public class ConstraintComparatorTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * compareを呼びながらコンパレータの挙動を確認。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test01_() throws Exception {
+	public void test01_compareを呼びながらコンパレータの挙動を確認() throws Exception {
 		PrimaryKeyConstraintModel pk1 = mock(PrimaryKeyConstraintModel.class);
 		PrimaryKeyConstraintModel pk2 = mock(PrimaryKeyConstraintModel.class);
 		CheckConstraintModel ch1 = mock(CheckConstraintModel.class);
@@ -93,12 +93,12 @@ public class ConstraintComparatorTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * TreeSetにaddしながらコンパレータの挙動を確認。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void testname() throws Exception {
+	public void test02_TreeSetにaddしながらコンパレータの挙動を確認() throws Exception {
 		TreeSet<ConstraintModel> set = new TreeSet<ConstraintModel>(comparator);
 		DefaultColumnModel c1 = new DefaultColumnModel(UUID.randomUUID());
 		DefaultColumnModel c2 = new DefaultColumnModel(UUID.randomUUID());

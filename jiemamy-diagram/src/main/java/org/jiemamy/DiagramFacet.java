@@ -84,21 +84,19 @@ public class DiagramFacet implements JiemamyFacet {
 	
 	public void delete(final EntityRef<? extends DiagramModel> ref) {
 		repos.delete(ref);
-		context.getEventBroker().fireCommandProcessed(new Command() {
-			
-			public void execute() {
+		context.getEventBroker().fireCommandProcessed(new Command() { // FIXME コマンド使ってない
 				
-			}
-			
-			public Command getNegateCommand() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-			
-			public EntityRef<?> getTarget() {
-				return ref;
-			}
-		});
+					public void execute() {
+					}
+					
+					public Command getNegateCommand() {
+						return null;
+					}
+					
+					public EntityRef<?> getTarget() {
+						return ref;
+					}
+				});
 	}
 	
 	public List<? extends DiagramModel> getDiagrams() {
@@ -135,12 +133,6 @@ public class DiagramFacet implements JiemamyFacet {
 		return repos.resolve(ref);
 	}
 	
-	/**
-	 * TODO for daisuke
-	 * 
-	 * @param id ENTITY ID
-	 * @return 
-	 */
 	public Entity resolve(UUID id) {
 		return repos.resolve(id);
 	}
@@ -152,21 +144,18 @@ public class DiagramFacet implements JiemamyFacet {
 	 */
 	public void store(final DiagramModel diagram) {
 		repos.store(diagram);
-		context.getEventBroker().fireCommandProcessed(new Command() {
-			
-			public void execute() {
-				// TODO Auto-generated method stub
+		context.getEventBroker().fireCommandProcessed(new Command() { // FIXME コマンド使ってない
 				
-			}
-			
-			public Command getNegateCommand() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-			
-			public EntityRef<?> getTarget() {
-				return diagram.toReference();
-			}
-		});
+					public void execute() {
+					}
+					
+					public Command getNegateCommand() {
+						return null;
+					}
+					
+					public EntityRef<?> getTarget() {
+						return diagram.toReference();
+					}
+				});
 	}
 }

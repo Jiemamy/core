@@ -25,7 +25,6 @@ import com.google.common.collect.Sets;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.dddbase.AbstractEntity;
-import org.jiemamy.model.ModelParameter.Key;
 import org.jiemamy.utils.MutationMonitor;
 
 /**
@@ -73,7 +72,7 @@ public abstract class DefaultDatabaseObjectModel extends AbstractEntity implemen
 	}
 	
 	public Set<DatabaseObjectModel> findSuperDatabaseObjectsNonRecursive(Set<DatabaseObjectModel> databaseObjects) {
-		return null; // TODO
+		return null; // TODO 未実装
 	}
 	
 	public String getDescription() {
