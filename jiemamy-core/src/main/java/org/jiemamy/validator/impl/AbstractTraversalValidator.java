@@ -27,6 +27,7 @@ import com.google.common.collect.Maps;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.model.DatabaseObjectModel;
 import org.jiemamy.model.column.ColumnModel;
 import org.jiemamy.model.constraint.CheckConstraintModel;
 import org.jiemamy.model.constraint.ConstraintModel;
@@ -36,8 +37,7 @@ import org.jiemamy.model.constraint.PrimaryKeyConstraintModel;
 import org.jiemamy.model.constraint.UniqueKeyConstraintModel;
 import org.jiemamy.model.dataset.DataSetModel;
 import org.jiemamy.model.dataset.RecordModel;
-import org.jiemamy.model.dbo.DatabaseObjectModel;
-import org.jiemamy.model.dbo.TableModel;
+import org.jiemamy.model.table.TableModel;
 import org.jiemamy.validator.AbstractValidator;
 import org.jiemamy.validator.Problem;
 

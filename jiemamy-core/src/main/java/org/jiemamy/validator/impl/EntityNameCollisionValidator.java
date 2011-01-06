@@ -26,7 +26,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.model.dbo.DatabaseObjectModel;
+import org.jiemamy.model.DatabaseObjectModel;
 import org.jiemamy.validator.AbstractProblem;
 import org.jiemamy.validator.AbstractValidator;
 import org.jiemamy.validator.Problem;

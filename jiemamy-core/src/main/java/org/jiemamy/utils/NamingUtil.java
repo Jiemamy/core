@@ -21,12 +21,12 @@ package org.jiemamy.utils;
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.model.dbo.DefaultDatabaseObjectModel;
-import org.jiemamy.model.dbo.DatabaseObjectModel;
-import org.jiemamy.model.dbo.DomainModel;
-import org.jiemamy.model.dbo.TableModel;
-import org.jiemamy.model.dbo.ViewModel;
-import org.jiemamy.model.dbo.index.IndexModel;
+import org.jiemamy.model.DatabaseObjectModel;
+import org.jiemamy.model.DefaultDatabaseObjectModel;
+import org.jiemamy.model.domain.DomainModel;
+import org.jiemamy.model.index.IndexModel;
+import org.jiemamy.model.table.TableModel;
+import org.jiemamy.model.view.ViewModel;
 
 /**
  * TODO for daisuke

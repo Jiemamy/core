@@ -18,7 +18,7 @@
  */
 package org.jiemamy.model.script;
 
-import org.jiemamy.model.dbo.DatabaseObjectModel;
+import org.jiemamy.model.DatabaseObjectModel;
 
 /**
  * スクリプトの処理エンジンインターフェイス。

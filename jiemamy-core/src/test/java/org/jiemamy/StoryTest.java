@@ -35,9 +35,9 @@ import org.jiemamy.model.column.DefaultColumnModel;
 import org.jiemamy.model.constraint.DefaultForeignKeyConstraintModel;
 import org.jiemamy.model.constraint.DefaultPrimaryKeyConstraintModel;
 import org.jiemamy.model.constraint.DefaultPrimaryKeyConstraintModelBuilder;
-import org.jiemamy.model.dbo.DefaultTableModel;
-import org.jiemamy.model.dbo.Table;
-import org.jiemamy.model.dbo.TableModel;
+import org.jiemamy.model.table.DefaultTableModel;
+import org.jiemamy.model.table.Table;
+import org.jiemamy.model.table.TableModel;
 
 /**
  * TODO for daisuke

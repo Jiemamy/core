@@ -28,14 +28,13 @@ import com.google.common.collect.Maps;
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.JiemamyContext;
+import org.jiemamy.JiemamyContextSerializationHandler;
 import org.jiemamy.JiemamyFacet;
 import org.jiemamy.model.column.DefaultColumnModel;
-import org.jiemamy.model.dbo.DefaultTableModel;
+import org.jiemamy.model.column.DefaultColumnModelSerializationHandler;
+import org.jiemamy.model.table.DefaultTableModel;
+import org.jiemamy.model.table.DefaultTableModelSerializationHandler;
 import org.jiemamy.serializer.SerializationException;
-import org.jiemamy.serializer.stax2.handlers.DefaultColumnModelSerializationHandler;
-import org.jiemamy.serializer.stax2.handlers.DefaultTableModelSerializationHandler;
-import org.jiemamy.serializer.stax2.handlers.DummyHandler;
-import org.jiemamy.serializer.stax2.handlers.JiemamyContextSerializationHandler;
 import org.jiemamy.xml.CoreQName;
 import org.jiemamy.xml.JiemamyQName;
 

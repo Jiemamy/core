@@ -30,7 +30,6 @@ import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityNotFoundException;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.utils.CloneUtil;
-import org.jiemamy.model.dbo.DatabaseObjectModel;
 import org.jiemamy.model.geometory.JmColor;
 import org.jiemamy.model.geometory.JmRectangle;
 import org.jiemamy.utils.MutationMonitor;

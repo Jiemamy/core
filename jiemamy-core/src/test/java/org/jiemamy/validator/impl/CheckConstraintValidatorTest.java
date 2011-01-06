@@ -34,7 +34,7 @@ import org.jiemamy.JiemamyContext;
 import org.jiemamy.model.column.DefaultColumnModel;
 import org.jiemamy.model.constraint.DefaultCheckConstraintModel;
 import org.jiemamy.model.constraint.DefaultCheckConstraintModelBuilder;
-import org.jiemamy.model.dbo.DefaultTableModel;
+import org.jiemamy.model.table.DefaultTableModel;
 import org.jiemamy.utils.UUIDUtil;
 import org.jiemamy.validator.Problem;
 

@@ -23,7 +23,7 @@ import java.util.List;
 
 import org.apache.commons.lang.Validate;
 
-import org.jiemamy.model.dbo.DatabaseObjectModel;
+import org.jiemamy.model.DatabaseObjectModel;
 
 /**
  * エンティティの依存度を計算するクラス。

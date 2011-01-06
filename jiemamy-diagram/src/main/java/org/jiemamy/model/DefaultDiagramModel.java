@@ -27,7 +27,6 @@ import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityNotFoundException;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.OnMemoryRepository;
-import org.jiemamy.model.dbo.DatabaseObjectModel;
 
 /**
  * TODO for daisuke

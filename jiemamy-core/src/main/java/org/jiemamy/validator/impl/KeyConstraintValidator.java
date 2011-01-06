@@ -29,7 +29,7 @@ import org.jiemamy.JiemamyContext;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.column.ColumnModel;
 import org.jiemamy.model.constraint.KeyConstraintModel;
-import org.jiemamy.model.dbo.TableModel;
+import org.jiemamy.model.table.TableModel;
 import org.jiemamy.validator.AbstractProblem;
 import org.jiemamy.validator.AbstractValidator;
 import org.jiemamy.validator.Problem;

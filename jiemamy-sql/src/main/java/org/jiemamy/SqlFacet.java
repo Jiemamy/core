@@ -30,7 +30,7 @@ import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.OnMemoryRepository;
 import org.jiemamy.dialect.Dialect;
 import org.jiemamy.dialect.EmitConfig;
-import org.jiemamy.model.dbo.DatabaseObjectModel;
+import org.jiemamy.model.DatabaseObjectModel;
 import org.jiemamy.model.script.AroundScriptModel;
 import org.jiemamy.model.sql.SqlStatement;
 import org.jiemamy.serializer.stax2.SerializationDirector;

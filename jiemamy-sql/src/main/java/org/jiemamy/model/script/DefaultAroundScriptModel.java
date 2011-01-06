@@ -33,7 +33,7 @@ import org.jiemamy.ServiceLocator;
 import org.jiemamy.dddbase.AbstractEntity;
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
-import org.jiemamy.model.dbo.DatabaseObjectModel;
+import org.jiemamy.model.DatabaseObjectModel;
 import org.jiemamy.utils.MutationMonitor;
 
 /**

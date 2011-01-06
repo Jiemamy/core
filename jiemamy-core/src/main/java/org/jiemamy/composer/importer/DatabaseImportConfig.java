@@ -22,7 +22,7 @@ import org.jiemamy.DatabaseConnectionConfig;
 import org.jiemamy.composer.ImportConfig;
 import org.jiemamy.dialect.Dialect;
 import org.jiemamy.dialect.ImportMetadataConfig;
-import org.jiemamy.model.dbo.DatabaseObjectModel;
+import org.jiemamy.model.DatabaseObjectModel;
 
 /**
  * {@link DatabaseImporter}に関する設定情報を供給するインターフェイス。

@@ -23,7 +23,7 @@ import java.util.Map;
 
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.CoreElement;
-import org.jiemamy.model.dbo.TableModel;
+import org.jiemamy.model.table.TableModel;
 
 /**
  * INSERT用データセットを表すモデルインターフェイス。

@@ -20,7 +20,7 @@ package org.jiemamy.serializer;
 
 import java.util.Comparator;
 
-import org.jiemamy.model.dbo.DatabaseObjectModel;
+import org.jiemamy.model.DatabaseObjectModel;
 
 /**
  * TODO for daisuke

@@ -30,11 +30,11 @@ import org.junit.Test;
 
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityNotFoundException;
-import org.jiemamy.model.dbo.DefaultTableModel;
 import org.jiemamy.model.script.AroundScriptModel;
 import org.jiemamy.model.script.DefaultAroundScriptModel;
 import org.jiemamy.model.script.PlainScriptEngine;
 import org.jiemamy.model.script.Position;
+import org.jiemamy.model.table.DefaultTableModel;
 import org.jiemamy.utils.UUIDUtil;
 
 /**

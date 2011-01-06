@@ -35,12 +35,12 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.jiemamy.serializer.stax2.AbstractSerializationHandlerTest;
 import org.jiemamy.serializer.stax2.DeserializationContext;
 import org.jiemamy.serializer.stax2.JiemamyCursor;
 import org.jiemamy.serializer.stax2.JiemamyDocument;
 import org.jiemamy.serializer.stax2.SerializationContext;
 import org.jiemamy.serializer.stax2.SerializationDirector;
-import org.jiemamy.serializer.stax2.handlers.AbstractSerializationHandlerTest;
 
 /**
  * {@link JmRectangleSerializationHandler}のテストクラス。

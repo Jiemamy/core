@@ -33,14 +33,14 @@ import org.junit.Test;
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityNotFoundException;
+import org.jiemamy.model.DatabaseObjectModel;
 import org.jiemamy.model.column.Column;
 import org.jiemamy.model.column.ColumnModel;
 import org.jiemamy.model.constraint.DefaultForeignKeyConstraintModel;
 import org.jiemamy.model.constraint.DefaultPrimaryKeyConstraintModel;
-import org.jiemamy.model.dbo.DatabaseObjectModel;
-import org.jiemamy.model.dbo.DefaultTableModel;
-import org.jiemamy.model.dbo.Table;
-import org.jiemamy.model.dbo.TableModel;
+import org.jiemamy.model.table.DefaultTableModel;
+import org.jiemamy.model.table.Table;
+import org.jiemamy.model.table.TableModel;
 import org.jiemamy.utils.UUIDUtil;
 
 /**

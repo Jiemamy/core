@@ -18,7 +18,7 @@
  */
 package org.jiemamy.model.script;
 
-import org.jiemamy.model.dbo.DatabaseObjectModel;
+import org.jiemamy.model.DatabaseObjectModel;
 
 /**
  * スクリプトの内容をそのまま出力するプレーン文字列スクリプトエンジン。

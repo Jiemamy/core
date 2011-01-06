@@ -35,8 +35,8 @@ import org.jiemamy.DiagramFacet;
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.model.DefaultDiagramModel;
 import org.jiemamy.model.DefaultNodeModel;
-import org.jiemamy.model.dbo.DefaultTableModel;
 import org.jiemamy.model.geometory.JmRectangle;
+import org.jiemamy.model.table.DefaultTableModel;
 import org.jiemamy.serializer.stax2.JiemamyStaxSerializer;
 
 /**

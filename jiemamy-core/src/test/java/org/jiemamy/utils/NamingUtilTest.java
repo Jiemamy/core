@@ -28,7 +28,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.model.dbo.DefaultTableModel;
+import org.jiemamy.model.table.DefaultTableModel;
 
 /**
  * TODO for daisuke

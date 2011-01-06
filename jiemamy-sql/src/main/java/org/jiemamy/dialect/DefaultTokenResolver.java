@@ -25,11 +25,11 @@ import com.google.common.collect.Lists;
 import org.jiemamy.model.constraint.DeferrabilityModel.InitiallyCheckTime;
 import org.jiemamy.model.constraint.ForeignKeyConstraintModel.MatchType;
 import org.jiemamy.model.constraint.ForeignKeyConstraintModel.ReferentialAction;
-import org.jiemamy.model.dbo.TableModel;
-import org.jiemamy.model.dbo.ViewModel;
-import org.jiemamy.model.dbo.index.IndexColumnModel.SortOrder;
+import org.jiemamy.model.index.IndexColumnModel.SortOrder;
 import org.jiemamy.model.sql.Keyword;
 import org.jiemamy.model.sql.Token;
+import org.jiemamy.model.table.TableModel;
+import org.jiemamy.model.view.ViewModel;
 
 /**
  * {@link TokenResolver}の標準実装クラス。

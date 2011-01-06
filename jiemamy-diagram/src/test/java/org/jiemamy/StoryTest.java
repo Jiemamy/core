@@ -24,8 +24,8 @@ import org.junit.Test;
 
 import org.jiemamy.model.DefaultDiagramModel;
 import org.jiemamy.model.DefaultNodeModel;
-import org.jiemamy.model.dbo.DefaultTableModel;
 import org.jiemamy.model.geometory.JmRectangle;
+import org.jiemamy.model.table.DefaultTableModel;
 import org.jiemamy.utils.UUIDUtil;
 
 /**

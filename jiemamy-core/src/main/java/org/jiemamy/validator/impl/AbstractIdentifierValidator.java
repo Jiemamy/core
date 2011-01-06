@@ -27,10 +27,10 @@ import org.apache.commons.lang.Validate;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.dialect.ReservedWordsChecker;
+import org.jiemamy.model.DatabaseObjectModel;
 import org.jiemamy.model.column.ColumnModel;
 import org.jiemamy.model.constraint.ConstraintModel;
-import org.jiemamy.model.dbo.DatabaseObjectModel;
-import org.jiemamy.model.dbo.TableModel;
+import org.jiemamy.model.table.TableModel;
 import org.jiemamy.validator.AbstractProblem;
 import org.jiemamy.validator.AbstractValidator;
 import org.jiemamy.validator.Problem;

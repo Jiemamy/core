@@ -23,8 +23,8 @@ import java.util.Collection;
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.model.column.ColumnModel;
-import org.jiemamy.model.dbo.DefaultTableModel;
-import org.jiemamy.model.dbo.TableModel;
+import org.jiemamy.model.table.DefaultTableModel;
+import org.jiemamy.model.table.TableModel;
 import org.jiemamy.transaction.Command;
 import org.jiemamy.transaction.EventBroker;
 

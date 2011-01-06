@@ -21,8 +21,8 @@ package org.jiemamy.model.script;
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.ServiceLocator;
 import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.model.DatabaseObjectModel;
 import org.jiemamy.model.SqlElement;
-import org.jiemamy.model.dbo.DatabaseObjectModel;
 
 /**
  * 開始/終了スクリプトモデル。
