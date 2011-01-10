@@ -22,12 +22,15 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.UUID;
+
+import com.google.common.collect.Iterables;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.CharEncoding;
@@ -57,8 +60,6 @@ public class JiemamyStaxSerializerTest {
 	private static Logger logger = LoggerFactory.getLogger(JiemamyStaxSerializerTest.class);
 	
 	private JiemamyStaxSerializer serializer;
-	
-	private static final String LF = "\n";
 	
 
 	/**
@@ -166,6 +167,38 @@ public class JiemamyStaxSerializerTest {
 	}
 	
 	/**
+	 * Tableを2つ含むJiemamyContextのシリアライズ結果を確認。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test04_Tableを2つ含むJiemamyContextのシリアライズ結果を確認() throws Exception {
+		JiemamyContext ctx = new JiemamyContext();
+		
+		UUID id1 = UUID.fromString("cbe160fd-e229-4ede-ae01-3a0ea44ae5d6");
+		DefaultTableModel t1 = new DefaultTableModel(id1);
+		t1.setName("FOO");
+		ctx.store(t1);
+		
+		UUID id2 = UUID.fromString("76d03b4d-c959-48e9-bd0e-d6c2f61ec54d");
+		DefaultTableModel t2 = new DefaultTableModel(id2);
+		t2.setName("BAR");
+		ctx.store(t2);
+		
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		serializer.serialize(ctx, baos);
+		String actual = baos.toString(CharEncoding.UTF_8);
+		
+		String expected = getXml("core4.jiemamy");
+		
+		logger.info("actual  ={}", actual.replaceAll("[\n\r]", ""));
+		logger.info("expected={}", expected.replaceAll("[\n\r]", ""));
+		
+		DetailedDiff diff = new DetailedDiff(new Diff(actual, expected));
+		assertThat(diff.getAllDifferences().toString(), diff.similar(), is(true));
+	}
+	
+	/**
 	 * 簡単なJiemamyContextのデシリアライズ結果を確認。
 	 * 
 	 * @throws Exception 例外が発生した場合
@@ -184,7 +217,7 @@ public class JiemamyStaxSerializerTest {
 	}
 	
 	/**
-	 * 簡単なJiemamyContextのデシリアライズ結果を確認。
+	 * Tableを1つ含むJiemamyContextのデシリアライズ結果を確認。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
@@ -200,14 +233,14 @@ public class JiemamyStaxSerializerTest {
 		assertThat(deserialized.getSchemaName(), is("schema-name"));
 		assertThat(deserialized.getDescription(), is("")); // 空要素 → 空文字列
 		assertThat(deserialized.getTables().size(), is(1));
-		TableModel tableModel = deserialized.getTables().iterator().next();
+		TableModel tableModel = Iterables.get(deserialized.getTables(), 0);
 		
 		assertThat(tableModel.getId(), is(UUID.fromString("d23695f8-76dd-4f8c-b5a2-1e02087ba44d")));
 		assertThat(tableModel.getColumns().size(), is(0));
 	}
 	
 	/**
-	 * 簡単なJiemamyContextのデシリアライズ結果を確認。
+	 * Columnを1つ含むTableを1つ含むJiemamyContextのデシリアライズ結果を確認。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
@@ -220,7 +253,7 @@ public class JiemamyStaxSerializerTest {
 		assertThat(deserialized, is(notNullValue()));
 		assertThat(deserialized.getTables().size(), is(1));
 		
-		TableModel tableModel = deserialized.getTables().iterator().next();
+		TableModel tableModel = Iterables.get(deserialized.getTables(), 0);
 		assertThat(tableModel.getId(), is(UUID.fromString("d23695f8-76dd-4f8c-b5a2-1e02087ba44d")));
 		assertThat(tableModel.getName(), is("foo"));
 		assertThat(tableModel.getLogicalName(), is(nullValue()));
@@ -232,6 +265,32 @@ public class JiemamyStaxSerializerTest {
 		assertThat(columnModel.getName(), is("bar"));
 		assertThat(columnModel.getLogicalName(), is("baz"));
 		assertThat(columnModel.getDescription(), is(""));
+	}
+	
+	/**
+	 * Tableを2つ含むJiemamyContextのデシリアライズ結果を確認。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	@Ignore("TODO yamkazu")
+	public void test14_Tableを2つ含むJiemamyContextのデシリアライズ結果を確認() throws Exception {
+		String xml = getXml("core4.jiemamy");
+		ByteArrayInputStream bais = new ByteArrayInputStream(xml.getBytes(CharEncoding.UTF_8));
+		JiemamyContext deserialized = serializer.deserialize(bais);
+		
+		assertThat(deserialized, is(notNullValue()));
+		
+		assertThat(deserialized.getTables().size(), is(2));
+		for (TableModel table : deserialized.getTables()) {
+			if (UUID.fromString("cbe160fd-e229-4ede-ae01-3a0ea44ae5d6").equals(table.getId())) {
+				assertThat(table.getName(), is("FOO"));
+			} else if (UUID.fromString("76d03b4d-c959-48e9-bd0e-d6c2f61ec54d").equals(table.getId())) {
+				assertThat(table.getName(), is("BAR"));
+			} else {
+				fail("unexpeceted id: " + table.getId());
+			}
+		}
 	}
 	
 	/**
