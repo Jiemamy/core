@@ -53,9 +53,9 @@ public final class JmRectangleSerializationHandler extends SerializationHandler<
 	public JmRectangle handleDeserialization(DeserializationContext ctx) throws SerializationException {
 		Validate.notNull(ctx);
 		try {
-			ctx.getCursor().advance();
-			Validate.isTrue(ctx.getCursor().isQName(DiagramQName.BOUNDARY));
-			JiemamyCursor cursor = ctx.getCursor();
+			ctx.peek().advance();
+			Validate.isTrue(ctx.peek().isQName(DiagramQName.BOUNDARY));
+			JiemamyCursor cursor = ctx.peek();
 			int x = cursor.getAttrIntValue(DiagramQName.X);
 			int y = cursor.getAttrIntValue(DiagramQName.Y);
 			int width = cursor.getAttrIntValue(DiagramQName.WIDTH);

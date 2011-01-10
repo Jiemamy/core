@@ -68,12 +68,12 @@ public final class JiemamyContextSerializationHandler extends SerializationHandl
 	public JiemamyContext handleDeserialization(DeserializationContext ctx) throws SerializationException {
 		Validate.notNull(ctx);
 		try {
-			Validate.isTrue(ctx.getCursor().getCurrEvent() == SMEvent.START_ELEMENT);
-			Validate.isTrue(ctx.getCursor().isQName(CoreQName.JIEMAMY));
+			Validate.isTrue(ctx.peek().getCurrEvent() == SMEvent.START_ELEMENT);
+			Validate.isTrue(ctx.peek().isQName(CoreQName.JIEMAMY));
 			
 			JiemamyContext context = getDirector().getContext();
 			
-			JiemamyCursor cursor = ctx.getCursor();
+			JiemamyCursor cursor = ctx.peek();
 			JiemamyCursor childCursor = cursor.childCursor();
 			do {
 				childCursor.advance();

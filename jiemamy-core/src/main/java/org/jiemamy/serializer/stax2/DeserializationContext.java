@@ -59,7 +59,7 @@ public class DeserializationContext {
 	 * 
 	 * @return カーソル
 	 */
-	public JiemamyCursor getCursor() {
+	public JiemamyCursor peek() {
 		return stack.peek();
 	}
 	

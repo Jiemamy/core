@@ -120,7 +120,7 @@ public class JmColorSerializationHandlerTest extends AbstractSerializationHandle
 		SMHierarchicCursor cursor = getCursor(bais);
 		
 		DeserializationContext dctx = mock(DeserializationContext.class);
-		when(dctx.getCursor()).thenReturn(new JiemamyCursor(cursor));
+		when(dctx.peek()).thenReturn(new JiemamyCursor(cursor));
 		JmColor color = handler.handleDeserialization(dctx);
 		
 		assertThat(color, is(notNullValue()));

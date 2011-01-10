@@ -122,7 +122,7 @@ public class JmRectangleSerializationHandlerTest extends AbstractSerializationHa
 		SMHierarchicCursor cursor = getCursor(bais);
 		
 		DeserializationContext dctx = mock(DeserializationContext.class);
-		when(dctx.getCursor()).thenReturn(new JiemamyCursor(cursor));
+		when(dctx.peek()).thenReturn(new JiemamyCursor(cursor));
 		JmRectangle rectangle = handler.handleDeserialization(dctx);
 		
 		assertThat(rectangle, is(notNullValue()));

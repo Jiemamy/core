@@ -53,9 +53,9 @@ public final class JmPointSerializationHandler extends SerializationHandler<JmPo
 	public JmPoint handleDeserialization(DeserializationContext ctx) throws SerializationException {
 		Validate.notNull(ctx);
 		try {
-			ctx.getCursor().advance();
-			Validate.isTrue(ctx.getCursor().isQName(DiagramQName.BOUNDARY));
-			JiemamyCursor cursor = ctx.getCursor();
+			ctx.peek().advance();
+			Validate.isTrue(ctx.peek().isQName(DiagramQName.BOUNDARY));
+			JiemamyCursor cursor = ctx.peek();
 			int x = cursor.getAttrIntValue(DiagramQName.X);
 			int y = cursor.getAttrIntValue(DiagramQName.Y);
 			return new JmPoint(x, y);

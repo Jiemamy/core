@@ -72,10 +72,10 @@ public final class DefaultPrimaryKeyConstraintModelSerializationHandler extends
 			throws SerializationException {
 		Validate.notNull(ctx);
 		try {
-			Validate.isTrue(ctx.getCursor().getCurrEvent() == SMEvent.START_ELEMENT);
-			Validate.isTrue(ctx.getCursor().isQName(CoreQName.NOT_NULL));
+			Validate.isTrue(ctx.peek().getCurrEvent() == SMEvent.START_ELEMENT);
+			Validate.isTrue(ctx.peek().isQName(CoreQName.NOT_NULL));
 			
-			JiemamyCursor cursor = ctx.getCursor();
+			JiemamyCursor cursor = ctx.peek();
 			JiemamyCursor childCursor = cursor.childCursor();
 			
 			String name = null;

@@ -103,7 +103,7 @@ public class SerializationDirector {
 	
 	public <T>T direct(DeserializationContext ctx) throws SerializationException {
 		Validate.notNull(ctx);
-		SerializationHandler<T> handler = findHandler(ctx.getCursor());
+		SerializationHandler<T> handler = findHandler(ctx.peek());
 		return handler.handleDeserialization(ctx);
 	}
 	

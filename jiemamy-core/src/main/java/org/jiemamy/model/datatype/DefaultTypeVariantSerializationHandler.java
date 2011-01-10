@@ -65,10 +65,10 @@ public final class DefaultTypeVariantSerializationHandler extends SerializationH
 	public DefaultTypeVariant handleDeserialization(DeserializationContext ctx) throws SerializationException {
 		Validate.notNull(ctx);
 		try {
-			Validate.isTrue(ctx.getCursor().getCurrEvent() == SMEvent.START_ELEMENT);
-			Validate.isTrue(ctx.getCursor().isQName(CoreQName.DATA_TYPE));
+			Validate.isTrue(ctx.peek().getCurrEvent() == SMEvent.START_ELEMENT);
+			Validate.isTrue(ctx.peek().isQName(CoreQName.DATA_TYPE));
 			
-			JiemamyCursor cursor = ctx.getCursor();
+			JiemamyCursor cursor = ctx.peek();
 			
 			DataTypeCategory category = DataTypeCategory.INTEGER;
 			String typeName = "INTEGER";

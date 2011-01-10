@@ -59,13 +59,13 @@ public final class DiagramFacetSerializationHandler extends SerializationHandler
 	public DiagramFacet handleDeserialization(DeserializationContext ctx) throws SerializationException {
 		Validate.notNull(ctx);
 		try {
-			Validate.isTrue(ctx.getCursor().getCurrEvent() == SMEvent.START_ELEMENT);
-			Validate.isTrue(ctx.getCursor().isQName(DiagramQName.DIAGRAMS));
+			Validate.isTrue(ctx.peek().getCurrEvent() == SMEvent.START_ELEMENT);
+			Validate.isTrue(ctx.peek().isQName(DiagramQName.DIAGRAMS));
 			Validate.isTrue(getDirector().getContext().hasFacet(DiagramFacet.class));
 			
 			DiagramFacet facet = getDirector().getContext().getFacet(DiagramFacet.class);
 			
-			JiemamyCursor cursor = ctx.getCursor();
+			JiemamyCursor cursor = ctx.peek();
 			JiemamyCursor childCursor = cursor.childCursor();
 			do {
 				childCursor.advance();

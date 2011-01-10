@@ -67,10 +67,10 @@ public final class DefaultTableModelSerializationHandler extends SerializationHa
 	public DefaultTableModel handleDeserialization(DeserializationContext ctx) throws SerializationException {
 		Validate.notNull(ctx);
 		try {
-			Validate.isTrue(ctx.getCursor().getCurrEvent() == SMEvent.START_ELEMENT);
-			Validate.isTrue(ctx.getCursor().isQName(CoreQName.TABLE));
+			Validate.isTrue(ctx.peek().getCurrEvent() == SMEvent.START_ELEMENT);
+			Validate.isTrue(ctx.peek().isQName(CoreQName.TABLE));
 			
-			JiemamyCursor cursor = ctx.getCursor();
+			JiemamyCursor cursor = ctx.peek();
 			
 			String idString = cursor.getAttrValue(CoreQName.ID);
 			UUID id = UUIDUtil.valueOfOrRandom(idString);
