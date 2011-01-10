@@ -64,6 +64,75 @@ public final class DefaultTableModelSerializationHandler extends SerializationHa
 	}
 	
 	@Override
+	public DefaultTableModel handleDeserialization(DeserializationContext ctx) throws SerializationException {
+		Validate.notNull(ctx);
+		try {
+			Validate.isTrue(ctx.getCursor().getCurrEvent() == SMEvent.START_ELEMENT);
+			Validate.isTrue(ctx.getCursor().isQName(CoreQName.TABLE));
+			
+			JiemamyCursor cursor = ctx.getCursor();
+			
+			String idString = cursor.getAttrValue(CoreQName.ID);
+			UUID id = UUIDUtil.valueOfOrRandom(idString);
+			DefaultTableModel tableModel = new DefaultTableModel(id);
+			
+			JiemamyCursor childCursor = cursor.childCursor();
+			do {
+				childCursor.advance();
+				if (childCursor.getCurrEvent() == SMEvent.START_ELEMENT) {
+					if (childCursor.isQName(CoreQName.NAME)) {
+						tableModel.setName(childCursor.collectDescendantText(false));
+					} else if (childCursor.isQName(CoreQName.LOGICAL_NAME)) {
+						tableModel.setLogicalName(childCursor.collectDescendantText(false));
+					} else if (childCursor.isQName(CoreQName.DESCRIPTION)) {
+						tableModel.setDescription(childCursor.collectDescendantText(false));
+					} else if (childCursor.isQName(CoreQName.COLUMNS)) {
+						JiemamyCursor descendantCursor = childCursor.descendantCursor().advance();
+						while (descendantCursor.getCurrEvent() != SMEvent.START_ELEMENT
+								&& descendantCursor.getCurrEvent() != null) {
+							descendantCursor.advance();
+						}
+						if (descendantCursor.getCurrEvent() != null) {
+							ctx.push(descendantCursor);
+							ColumnModel columnModel = getDirector().direct(ctx);
+							if (columnModel != null) {
+								tableModel.store(columnModel);
+							} else {
+								logger.warn("null columnModel");
+							}
+							ctx.pop();
+						}
+					} else if (childCursor.isQName(CoreQName.CONSTRAINTS)) {
+						JiemamyCursor descendantCursor = childCursor.descendantCursor().advance();
+						if (descendantCursor.getCurrEvent() != null) {
+							ctx.push(descendantCursor);
+							ConstraintModel constraintModel = getDirector().direct(ctx);
+							if (constraintModel != null) {
+								tableModel.addConstraint(constraintModel);
+							} else {
+								logger.warn("null constraintModel");
+							}
+							ctx.pop();
+						}
+					} else {
+						logger.warn("UNKNOWN ELEMENT: {}", childCursor.getQName().toString());
+					}
+				} else if (childCursor.getCurrEvent() == SMEvent.TEXT) {
+					if (StringUtils.isEmpty(childCursor.getText().trim()) == false) {
+						logger.warn("UNKNOWN TEXT: {}", childCursor.getCurrEvent());
+					}
+				} else if (childCursor.getCurrEvent() != null) {
+					logger.warn("UNKNOWN EVENT: {}", childCursor.getCurrEvent());
+				}
+			} while (childCursor.getCurrEvent() != null);
+			
+			return tableModel;
+		} catch (XMLStreamException e) {
+			throw new SerializationException(e);
+		}
+	}
+	
+	@Override
 	public void handleSerialization(DefaultTableModel model, SerializationContext sctx) throws SerializationException {
 		JiemamyOutputContainer parent = sctx.peek();
 		try {
@@ -96,73 +165,6 @@ public final class DefaultTableModelSerializationHandler extends SerializationHa
 					paramElement.addCharacters(param.getValue().toString());
 				}
 			}
-		} catch (XMLStreamException e) {
-			throw new SerializationException(e);
-		}
-	}
-	
-	@Override
-	public DefaultTableModel handleDeserialization(DeserializationContext ctx) throws SerializationException {
-		Validate.notNull(ctx);
-		try {
-			Validate.isTrue(ctx.getCursor().getCurrEvent() == SMEvent.START_ELEMENT);
-			Validate.isTrue(ctx.getCursor().isQName(CoreQName.TABLE));
-			
-			JiemamyCursor cursor = ctx.getCursor();
-			
-			String idString = cursor.getAttrValue(CoreQName.ID);
-			UUID id = UUIDUtil.valueOfOrRandom(idString);
-			DefaultTableModel tableModel = new DefaultTableModel(id);
-			
-			JiemamyCursor childCursor = cursor.childCursor();
-			do {
-				childCursor.advance();
-				if (childCursor.getCurrEvent() == SMEvent.START_ELEMENT) {
-					if (childCursor.isQName(CoreQName.NAME)) {
-						tableModel.setName(childCursor.collectDescendantText(false));
-					} else if (childCursor.isQName(CoreQName.LOGICAL_NAME)) {
-						tableModel.setLogicalName(childCursor.collectDescendantText(false));
-					} else if (childCursor.isQName(CoreQName.DESCRIPTION)) {
-						tableModel.setDescription(childCursor.collectDescendantText(false));
-					} else if (childCursor.isQName(CoreQName.COLUMNS)) {
-						JiemamyCursor descendantCursor = childCursor.descendantCursor().advance();
-						while (descendantCursor.getCurrEvent() != SMEvent.START_ELEMENT
-								&& descendantCursor.getCurrEvent() != null) {
-							descendantCursor.advance();
-						}
-						if (descendantCursor.getCurrEvent() != null) {
-							DeserializationContext ctx2 = new DeserializationContext(descendantCursor);
-							ColumnModel columnModel = getDirector().direct(ctx2);
-							if (columnModel != null) {
-								tableModel.store(columnModel);
-							} else {
-								logger.warn("null columnModel");
-							}
-						}
-					} else if (childCursor.isQName(CoreQName.CONSTRAINTS)) {
-						JiemamyCursor descendantCursor = childCursor.descendantCursor().advance();
-						if (descendantCursor.getCurrEvent() != null) {
-							DeserializationContext ctx2 = new DeserializationContext(descendantCursor);
-							ConstraintModel constraintModel = getDirector().direct(ctx2);
-							if (constraintModel != null) {
-								tableModel.addConstraint(constraintModel);
-							} else {
-								logger.warn("null constraintModel");
-							}
-						}
-					} else {
-						logger.warn("UNKNOWN ELEMENT: {}", childCursor.getQName().toString());
-					}
-				} else if (childCursor.getCurrEvent() == SMEvent.TEXT) {
-					if (StringUtils.isEmpty(childCursor.getText().trim()) == false) {
-						logger.warn("UNKNOWN TEXT: {}", childCursor.getCurrEvent());
-					}
-				} else if (childCursor.getCurrEvent() != null) {
-					logger.warn("UNKNOWN EVENT: {}", childCursor.getCurrEvent());
-				}
-			} while (childCursor.getCurrEvent() != null);
-			
-			return tableModel;
 		} catch (XMLStreamException e) {
 			throw new SerializationException(e);
 		}

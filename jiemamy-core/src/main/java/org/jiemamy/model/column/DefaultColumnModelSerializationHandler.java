@@ -93,13 +93,14 @@ public final class DefaultColumnModelSerializationHandler extends SerializationH
 							descendantCursor.advance();
 						}
 						if (descendantCursor.getCurrEvent() != null) {
-							DeserializationContext ctx2 = new DeserializationContext(descendantCursor);
-							TypeVariant type = getDirector().direct(ctx2);
+							ctx.push(descendantCursor);
+							TypeVariant type = getDirector().direct(ctx);
 							if (type != null) {
 								columnModel.setDataType(type);
 							} else {
 								logger.warn("null type");
 							}
+							ctx.pop();
 						}
 					} else {
 						logger.warn("UNKNOWN ELEMENT: {}", childCursor.getQName().toString());

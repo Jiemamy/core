@@ -92,24 +92,26 @@ public final class JiemamyContextSerializationHandler extends SerializationHandl
 							descendantCursor.advance();
 						}
 						if (descendantCursor.getCurrEvent() != null) {
-							DeserializationContext ctx2 = new DeserializationContext(descendantCursor);
-							DatabaseObjectModel databaseObject = getDirector().direct(ctx2);
+							ctx.push(descendantCursor);
+							DatabaseObjectModel databaseObject = getDirector().direct(ctx);
 							if (databaseObject != null) {
 								context.store(databaseObject);
 							} else {
 								logger.warn("null databaseObject");
 							}
+							ctx.pop();
 						}
 					} else if (childCursor.isQName(CoreQName.DATASETS)) {
 						JiemamyCursor descendantCursor = childCursor.descendantCursor().advance();
 						if (descendantCursor.getCurrEvent() != null) {
-							DeserializationContext ctx2 = new DeserializationContext(descendantCursor);
-							DataSetModel dataSetModel = getDirector().direct(ctx2);
+							ctx.push(descendantCursor);
+							DataSetModel dataSetModel = getDirector().direct(ctx);
 							if (dataSetModel != null) {
 								context.store(dataSetModel);
 							} else {
 								logger.warn("null dataSetModel");
 							}
+							ctx.pop();
 						}
 					} else {
 						logger.warn("UNKNOWN ELEMENT: {}", childCursor.getQName().toString());
@@ -119,6 +121,8 @@ public final class JiemamyContextSerializationHandler extends SerializationHandl
 						logger.warn("UNKNOWN TEXT: {}", childCursor.getCurrEvent());
 					}
 				} else if (childCursor.getCurrEvent() != null) {
+					getDirector().direct(ctx);
+					// FIXME facetがdeserializeされない
 					logger.warn("UNKNOWN EVENT: {}", childCursor.getCurrEvent());
 				}
 			} while (childCursor.getCurrEvent() != null);

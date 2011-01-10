@@ -63,38 +63,11 @@ public final class DefaultViewModelSerializationHandler extends SerializationHan
 	}
 	
 	@Override
-	public void handleSerialization(DefaultViewModel model, SerializationContext sctx) throws SerializationException {
-		JiemamyOutputContainer parent = sctx.peek();
-		try {
-			JiemamyOutputElement element = parent.addElement(CoreQName.VIEW);
-			element.addAttribute(CoreQName.ID, model.getId());
-			element.addAttribute(CoreQName.CLASS, model.getClass());
-			
-			element.addElementAndCharacters(CoreQName.NAME, model.getName());
-			element.addElementAndCharacters(CoreQName.LOGICAL_NAME, model.getLogicalName());
-			element.addElementAndCharacters(CoreQName.DESCRIPTION, model.getDescription());
-			element.addElementAndCharacters(CoreQName.DEFINITION, model.getDefinition());
-			
-			Set<DatabaseObjectParameter<?>> params = model.getParams();
-			if (params.size() > 0) {
-				JiemamyOutputElement paramesElement = element.addElement(CoreQName.PARAMETERS);
-				for (DatabaseObjectParameter<?> param : params) {
-					JiemamyOutputElement paramElement = paramesElement.addElement(CoreQName.PARAMETER);
-					paramElement.addAttribute(CoreQName.PARAMETER_KEY, param.getKey().getKeyString());
-					paramElement.addCharacters(param.getValue().toString());
-				}
-			}
-		} catch (XMLStreamException e) {
-			throw new SerializationException(e);
-		}
-	}
-	
-	@Override
 	public DefaultViewModel handleDeserialization(DeserializationContext ctx) throws SerializationException {
 		Validate.notNull(ctx);
 		try {
 			Validate.isTrue(ctx.getCursor().getCurrEvent() == SMEvent.START_ELEMENT);
-			Validate.isTrue(ctx.getCursor().isQName(CoreQName.TABLE));
+			Validate.isTrue(ctx.getCursor().isQName(CoreQName.VIEW));
 			
 			JiemamyCursor cursor = ctx.getCursor();
 			
@@ -127,6 +100,33 @@ public final class DefaultViewModelSerializationHandler extends SerializationHan
 			} while (childCursor.getCurrEvent() != null);
 			
 			return viewModel;
+		} catch (XMLStreamException e) {
+			throw new SerializationException(e);
+		}
+	}
+	
+	@Override
+	public void handleSerialization(DefaultViewModel model, SerializationContext sctx) throws SerializationException {
+		JiemamyOutputContainer parent = sctx.peek();
+		try {
+			JiemamyOutputElement element = parent.addElement(CoreQName.VIEW);
+			element.addAttribute(CoreQName.ID, model.getId());
+			element.addAttribute(CoreQName.CLASS, model.getClass());
+			
+			element.addElementAndCharacters(CoreQName.NAME, model.getName());
+			element.addElementAndCharacters(CoreQName.LOGICAL_NAME, model.getLogicalName());
+			element.addElementAndCharacters(CoreQName.DESCRIPTION, model.getDescription());
+			element.addElementAndCharacters(CoreQName.DEFINITION, model.getDefinition());
+			
+			Set<DatabaseObjectParameter<?>> params = model.getParams();
+			if (params.size() > 0) {
+				JiemamyOutputElement paramesElement = element.addElement(CoreQName.PARAMETERS);
+				for (DatabaseObjectParameter<?> param : params) {
+					JiemamyOutputElement paramElement = paramesElement.addElement(CoreQName.PARAMETER);
+					paramElement.addAttribute(CoreQName.PARAMETER_KEY, param.getKey().getKeyString());
+					paramElement.addCharacters(param.getValue().toString());
+				}
+			}
 		} catch (XMLStreamException e) {
 			throw new SerializationException(e);
 		}

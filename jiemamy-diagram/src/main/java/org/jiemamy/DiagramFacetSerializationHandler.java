@@ -73,13 +73,14 @@ public final class DiagramFacetSerializationHandler extends SerializationHandler
 					childCursor.advance();
 				}
 				if (childCursor.getCurrEvent() != null) {
-					DeserializationContext ctx2 = new DeserializationContext(childCursor);
-					DiagramModel diagramModel = getDirector().direct(ctx2);
+					ctx.push(childCursor);
+					DiagramModel diagramModel = getDirector().direct(ctx);
 					if (diagramModel != null) {
 						facet.store(diagramModel);
 					} else {
 						logger.warn("null diagramModel");
 					}
+					ctx.pop();
 				}
 			} while (childCursor.getCurrEvent() != null);
 			

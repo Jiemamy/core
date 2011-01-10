@@ -21,6 +21,9 @@ package org.jiemamy.serializer.stax2;
 import org.apache.commons.lang.Validate;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 
+import org.jiemamy.utils.collection.ArrayEssentialStack;
+import org.jiemamy.utils.collection.EssentialStack;
+
 /**
  * デシリアライズ処理のコンテキストクラス。
  * 
@@ -29,8 +32,7 @@ import org.codehaus.staxmate.in.SMHierarchicCursor;
  */
 public class DeserializationContext {
 	
-	// TODO stackにしなきゃ
-	private final JiemamyCursor cursor;
+	private final EssentialStack<JiemamyCursor> stack = new ArrayEssentialStack<JiemamyCursor>();;
 	
 
 	/**
@@ -38,9 +40,9 @@ public class DeserializationContext {
 	 * 
 	 * @param cursor カーソル
 	 */
-	public DeserializationContext(JiemamyCursor cursor) {
+	DeserializationContext(JiemamyCursor cursor) {
 		Validate.notNull(cursor);
-		this.cursor = cursor;
+		stack.push(cursor);
 	}
 	
 	/**
@@ -48,8 +50,8 @@ public class DeserializationContext {
 	 * 
 	 * @param cursor カーソル
 	 */
-	public DeserializationContext(SMHierarchicCursor cursor) {
-		this.cursor = new JiemamyCursor(cursor);
+	DeserializationContext(SMHierarchicCursor cursor) {
+		this(new JiemamyCursor(cursor));
 	}
 	
 	/**
@@ -58,7 +60,18 @@ public class DeserializationContext {
 	 * @return カーソル
 	 */
 	public JiemamyCursor getCursor() {
-		return cursor;
+		return stack.peek();
 	}
 	
+	public JiemamyCursor pop() {
+		return stack.pop();
+	}
+	
+	public void push(JiemamyCursor cursor) {
+		stack.push(cursor);
+	}
+	
+	public void push(SMHierarchicCursor cursor) {
+		push(new JiemamyCursor(cursor));
+	}
 }

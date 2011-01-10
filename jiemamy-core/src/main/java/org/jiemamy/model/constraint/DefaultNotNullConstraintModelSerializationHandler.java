@@ -96,8 +96,9 @@ public final class DefaultNotNullConstraintModelSerializationHandler extends
 							descendantCursor.advance();
 						}
 						if (descendantCursor.getCurrEvent() != null) {
-							DeserializationContext ctx2 = new DeserializationContext(descendantCursor);
-							ref = getDirector().direct(ctx2);
+							ctx.push(descendantCursor);
+							ref = getDirector().direct(ctx);
+							ctx.pop();
 						}
 					} else {
 						logger.warn("UNKNOWN ELEMENT: {}", childCursor.getQName().toString());

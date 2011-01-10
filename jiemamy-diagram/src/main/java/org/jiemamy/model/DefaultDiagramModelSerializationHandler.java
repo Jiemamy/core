@@ -92,13 +92,14 @@ public final class DefaultDiagramModelSerializationHandler extends Serialization
 							descendantCursor.advance();
 						}
 						if (descendantCursor.getCurrEvent() != null) {
-							DeserializationContext ctx2 = new DeserializationContext(descendantCursor);
-							NodeModel nodeModel = getDirector().direct(ctx2);
+							ctx.push(descendantCursor);
+							NodeModel nodeModel = getDirector().direct(ctx);
 							if (nodeModel != null) {
 								diagramModel.store(nodeModel);
 							} else {
 								logger.warn("null nodeModel");
 							}
+							ctx.pop();
 						}
 					} else {
 						logger.warn("UNKNOWN ELEMENT: {}", childCursor.getQName().toString());

@@ -62,7 +62,7 @@ public interface JiemamySerializer {
 	JiemamyContext deserialize(InputStream in, FacetProvider... facetProviders) throws SerializationException;
 	
 	/**
-	 * {@link JiemamyContext} を {@link InputStream} にシリアライズする。
+	 * {@link JiemamyContext} を {@link OutputStream} にシリアライズする。
 	 * 
 	 * @param context シリアライズする {@link JiemamyContext}
 	 * @param out シリアライズ結果を出力するstream
