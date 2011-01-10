@@ -76,7 +76,6 @@ public final class DefaultPrimaryKeyConstraintModelSerializationHandler extends
 			Validate.isTrue(ctx.peek().isQName(CoreQName.NOT_NULL));
 			
 			JiemamyCursor cursor = ctx.peek();
-			JiemamyCursor childCursor = cursor.childCursor();
 			
 			String name = null;
 			String logicalName = null;
@@ -84,6 +83,8 @@ public final class DefaultPrimaryKeyConstraintModelSerializationHandler extends
 			DeferrabilityModel deferrability = null;
 			List<EntityRef<? extends ColumnModel>> keyColumns = Lists.newArrayList();
 			
+			JiemamyCursor childCursor = cursor.childCursor();
+			ctx.push(childCursor);
 			do {
 				childCursor.advance();
 				if (childCursor.getCurrEvent() == SMEvent.START_ELEMENT) {
@@ -119,6 +120,7 @@ public final class DefaultPrimaryKeyConstraintModelSerializationHandler extends
 					logger.warn("UNKNOWN EVENT: {}", childCursor.getCurrEvent());
 				}
 			} while (childCursor.getCurrEvent() != null);
+			ctx.pop();
 			
 			return new DefaultPrimaryKeyConstraintModel(name, logicalName, description, keyColumns, deferrability);
 		} catch (XMLStreamException e) {

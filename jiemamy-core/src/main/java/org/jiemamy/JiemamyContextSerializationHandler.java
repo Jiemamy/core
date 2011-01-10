@@ -75,6 +75,7 @@ public final class JiemamyContextSerializationHandler extends SerializationHandl
 			
 			JiemamyCursor cursor = ctx.peek();
 			JiemamyCursor childCursor = cursor.childCursor();
+			ctx.push(childCursor);
 			do {
 				childCursor.advance();
 				if (childCursor.getCurrEvent() == SMEvent.START_ELEMENT) {
@@ -86,7 +87,7 @@ public final class JiemamyContextSerializationHandler extends SerializationHandl
 						context.setDescription(childCursor.collectDescendantText(false));
 					} else if (childCursor.isQName(CoreQName.DBOBJECTS)) {
 						// FIXME あれ…このロジックじゃ一件しかこなせない…？
-						JiemamyCursor descendantCursor = childCursor.descendantCursor().advance();
+						JiemamyCursor descendantCursor = childCursor.childCursor().advance();
 						while (descendantCursor.getCurrEvent() != SMEvent.START_ELEMENT
 								&& descendantCursor.getCurrEvent() != null) {
 							descendantCursor.advance();
@@ -102,7 +103,7 @@ public final class JiemamyContextSerializationHandler extends SerializationHandl
 							ctx.pop();
 						}
 					} else if (childCursor.isQName(CoreQName.DATASETS)) {
-						JiemamyCursor descendantCursor = childCursor.descendantCursor().advance();
+						JiemamyCursor descendantCursor = childCursor.childCursor().advance();
 						if (descendantCursor.getCurrEvent() != null) {
 							ctx.push(descendantCursor);
 							DataSetModel dataSetModel = getDirector().direct(ctx);
@@ -114,18 +115,18 @@ public final class JiemamyContextSerializationHandler extends SerializationHandl
 							ctx.pop();
 						}
 					} else {
-						logger.warn("UNKNOWN ELEMENT: {}", childCursor.getQName().toString());
+						getDirector().direct(ctx);
+//						logger.warn("UNKNOWN ELEMENT: {}", childCursor.getQName().toString());
 					}
 				} else if (childCursor.getCurrEvent() == SMEvent.TEXT) {
 					if (StringUtils.isEmpty(childCursor.getText().trim()) == false) {
 						logger.warn("UNKNOWN TEXT: {}", childCursor.getCurrEvent());
 					}
 				} else if (childCursor.getCurrEvent() != null) {
-					getDirector().direct(ctx);
-					// FIXME facetがdeserializeされない
 					logger.warn("UNKNOWN EVENT: {}", childCursor.getCurrEvent());
 				}
 			} while (childCursor.getCurrEvent() != null);
+			ctx.pop();
 			
 			return context;
 		} catch (XMLStreamException e) {

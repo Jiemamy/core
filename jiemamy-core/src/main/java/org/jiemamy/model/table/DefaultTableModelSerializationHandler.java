@@ -77,6 +77,7 @@ public final class DefaultTableModelSerializationHandler extends SerializationHa
 			DefaultTableModel tableModel = new DefaultTableModel(id);
 			
 			JiemamyCursor childCursor = cursor.childCursor();
+			ctx.push(childCursor);
 			do {
 				childCursor.advance();
 				if (childCursor.getCurrEvent() == SMEvent.START_ELEMENT) {
@@ -125,6 +126,7 @@ public final class DefaultTableModelSerializationHandler extends SerializationHa
 					logger.warn("UNKNOWN EVENT: {}", childCursor.getCurrEvent());
 				}
 			} while (childCursor.getCurrEvent() != null);
+			ctx.pop();
 			
 			return tableModel;
 		} catch (XMLStreamException e) {

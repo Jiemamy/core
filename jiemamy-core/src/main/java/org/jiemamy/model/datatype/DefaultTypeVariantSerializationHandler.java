@@ -75,6 +75,7 @@ public final class DefaultTypeVariantSerializationHandler extends SerializationH
 			Set<TypeParameter<?>> params = Sets.newHashSet();
 			
 			JiemamyCursor childCursor = cursor.childCursor();
+			ctx.push(childCursor);
 			do {
 				childCursor.advance();
 				if (childCursor.getCurrEvent() == SMEvent.START_ELEMENT) {
@@ -111,6 +112,7 @@ public final class DefaultTypeVariantSerializationHandler extends SerializationH
 					logger.warn("UNKNOWN EVENT: {}", childCursor.getCurrEvent());
 				}
 			} while (childCursor.getCurrEvent() != null);
+			ctx.pop();
 			
 			return new DefaultTypeVariant(category, typeName, params);
 		} catch (XMLStreamException e) {

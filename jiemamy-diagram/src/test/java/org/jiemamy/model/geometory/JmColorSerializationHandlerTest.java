@@ -28,7 +28,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
 import org.apache.commons.lang.CharEncoding;
-import org.codehaus.staxmate.in.SMHierarchicCursor;
+import org.codehaus.staxmate.in.SMInputCursor;
 import org.codehaus.staxmate.out.SMOutputDocument;
 import org.junit.Before;
 import org.junit.Test;
@@ -117,7 +117,7 @@ public class JmColorSerializationHandlerTest extends AbstractSerializationHandle
 		// FORMAT-ON
 		ByteArrayInputStream bais = new ByteArrayInputStream(xml.getBytes(CharEncoding.UTF_8));
 		
-		SMHierarchicCursor cursor = getCursor(bais);
+		SMInputCursor cursor = getCursor(bais).advance();
 		
 		DeserializationContext dctx = mock(DeserializationContext.class);
 		when(dctx.peek()).thenReturn(new JiemamyCursor(cursor));

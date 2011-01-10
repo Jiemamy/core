@@ -76,6 +76,7 @@ public final class DefaultViewModelSerializationHandler extends SerializationHan
 			DefaultViewModel viewModel = new DefaultViewModel(id);
 			
 			JiemamyCursor childCursor = cursor.childCursor();
+			ctx.push(childCursor);
 			do {
 				childCursor.advance();
 				if (childCursor.getCurrEvent() == SMEvent.START_ELEMENT) {
@@ -98,6 +99,7 @@ public final class DefaultViewModelSerializationHandler extends SerializationHan
 					logger.warn("UNKNOWN EVENT: {}", childCursor.getCurrEvent());
 				}
 			} while (childCursor.getCurrEvent() != null);
+			ctx.pop();
 			
 			return viewModel;
 		} catch (XMLStreamException e) {

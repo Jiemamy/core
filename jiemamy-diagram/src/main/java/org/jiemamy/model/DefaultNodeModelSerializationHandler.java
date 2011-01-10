@@ -18,15 +18,29 @@
  */
 package org.jiemamy.model;
 
+import java.util.UUID;
+
 import javax.xml.stream.XMLStreamException;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.Validate;
+import org.codehaus.staxmate.in.SMEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.jiemamy.dddbase.DefaultEntityRef;
+import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.model.geometory.JmColor;
+import org.jiemamy.model.geometory.JmRectangle;
 import org.jiemamy.serializer.SerializationException;
 import org.jiemamy.serializer.stax2.DeserializationContext;
+import org.jiemamy.serializer.stax2.JiemamyCursor;
 import org.jiemamy.serializer.stax2.JiemamyOutputContainer;
 import org.jiemamy.serializer.stax2.JiemamyOutputElement;
 import org.jiemamy.serializer.stax2.SerializationContext;
 import org.jiemamy.serializer.stax2.SerializationDirector;
 import org.jiemamy.serializer.stax2.SerializationHandler;
+import org.jiemamy.utils.UUIDUtil;
 import org.jiemamy.xml.CoreQName;
 import org.jiemamy.xml.DiagramQName;
 
@@ -38,6 +52,9 @@ import org.jiemamy.xml.DiagramQName;
  */
 public final class DefaultNodeModelSerializationHandler extends SerializationHandler<DefaultNodeModel> {
 	
+	private static Logger logger = LoggerFactory.getLogger(DefaultNodeModelSerializationHandler.class);
+	
+
 	/**
 	 * インスタンスを生成する。
 	 * 
@@ -45,6 +62,56 @@ public final class DefaultNodeModelSerializationHandler extends SerializationHan
 	 */
 	public DefaultNodeModelSerializationHandler(SerializationDirector director) {
 		super(director);
+	}
+	
+	@Override
+	public DefaultNodeModel handleDeserialization(DeserializationContext ctx) throws SerializationException {
+		Validate.notNull(ctx);
+		try {
+			Validate.isTrue(ctx.peek().getCurrEvent() == SMEvent.START_ELEMENT);
+			Validate.isTrue(ctx.peek().isQName(DiagramQName.NODE));
+			
+			JiemamyCursor cursor = ctx.peek();
+			
+			String idString = cursor.getAttrValue(CoreQName.ID);
+			UUID id = UUIDUtil.valueOfOrRandom(idString);
+			EntityRef<? extends DatabaseObjectModel> core = null;
+			JmRectangle boundary = null;
+			JmColor color = null;
+			
+			JiemamyCursor childCursor = cursor.childCursor();
+			ctx.push(childCursor);
+			do {
+				childCursor.advance();
+				if (childCursor.getCurrEvent() == SMEvent.START_ELEMENT) {
+					if (childCursor.isQName(DiagramQName.CORE)) {
+						String coreIdString = childCursor.getAttrValue(CoreQName.REF);
+						UUID coreId = UUIDUtil.valueOfOrRandom(coreIdString);
+						core = DefaultEntityRef.of(coreId);
+					} else if (childCursor.isQName(DiagramQName.BOUNDARY)) {
+						boundary = getDirector().direct(ctx);
+					} else if (childCursor.isQName(DiagramQName.COLOR)) {
+						color = getDirector().direct(ctx);
+					} else {
+						logger.warn("UNKNOWN ELEMENT: {}", childCursor.getQName().toString());
+					}
+				} else if (childCursor.getCurrEvent() == SMEvent.TEXT) {
+					if (StringUtils.isEmpty(childCursor.getText().trim()) == false) {
+						logger.warn("UNKNOWN TEXT: {}", childCursor.getCurrEvent());
+					}
+				} else if (childCursor.getCurrEvent() != null) {
+					logger.warn("UNKNOWN EVENT: {}", childCursor.getCurrEvent());
+				}
+			} while (childCursor.getCurrEvent() != null);
+			ctx.pop();
+			
+			DefaultNodeModel nodeModel = new DefaultNodeModel(id, core);
+			nodeModel.setBoundary(boundary);
+			nodeModel.setColor(color);
+			return nodeModel;
+		} catch (XMLStreamException e) {
+			throw new SerializationException(e);
+		}
 	}
 	
 	@Override
@@ -70,11 +137,5 @@ public final class DefaultNodeModelSerializationHandler extends SerializationHan
 		} catch (XMLStreamException e) {
 			throw new SerializationException(e);
 		}
-	}
-	
-	@Override
-	public DefaultNodeModel handleDeserialization(DeserializationContext ctx) throws SerializationException {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

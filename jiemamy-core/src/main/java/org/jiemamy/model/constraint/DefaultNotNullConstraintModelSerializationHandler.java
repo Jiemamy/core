@@ -69,7 +69,6 @@ public final class DefaultNotNullConstraintModelSerializationHandler extends
 			Validate.isTrue(ctx.peek().isQName(CoreQName.NOT_NULL));
 			
 			JiemamyCursor cursor = ctx.peek();
-			JiemamyCursor childCursor = cursor.childCursor();
 			
 			String name = null;
 			String logicalName = null;
@@ -77,6 +76,8 @@ public final class DefaultNotNullConstraintModelSerializationHandler extends
 			DeferrabilityModel deferrability = null;
 			EntityRef<? extends ColumnModel> ref = null;
 			
+			JiemamyCursor childCursor = cursor.childCursor();
+			ctx.push(childCursor);
 			do {
 				childCursor.advance();
 				if (childCursor.getCurrEvent() == SMEvent.START_ELEMENT) {
@@ -111,6 +112,7 @@ public final class DefaultNotNullConstraintModelSerializationHandler extends
 					logger.warn("UNKNOWN EVENT: {}", childCursor.getCurrEvent());
 				}
 			} while (childCursor.getCurrEvent() != null);
+			ctx.pop();
 			
 			return new DefaultNotNullConstraintModel(name, logicalName, description, deferrability, ref);
 		} catch (XMLStreamException e) {

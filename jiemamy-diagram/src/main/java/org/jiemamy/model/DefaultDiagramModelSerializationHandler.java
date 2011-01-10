@@ -74,6 +74,7 @@ public final class DefaultDiagramModelSerializationHandler extends Serialization
 			DefaultDiagramModel diagramModel = new DefaultDiagramModel(id);
 			
 			JiemamyCursor childCursor = cursor.childCursor();
+			ctx.push(childCursor);
 			do {
 				childCursor.advance();
 				if (childCursor.getCurrEvent() == SMEvent.START_ELEMENT) {
@@ -112,6 +113,7 @@ public final class DefaultDiagramModelSerializationHandler extends Serialization
 					logger.warn("UNKNOWN EVENT: {}", childCursor.getCurrEvent());
 				}
 			} while (childCursor.getCurrEvent() != null);
+			ctx.pop();
 			
 			return diagramModel;
 		} catch (XMLStreamException e) {
@@ -132,10 +134,13 @@ public final class DefaultDiagramModelSerializationHandler extends Serialization
 			diagramElement.addElementAndCharacters(DiagramQName.LEVEL, model.getLevel());
 			diagramElement.addElementAndCharacters(DiagramQName.MODE, model.getMode());
 			
+			JiemamyOutputElement nodesElement = diagramElement.addElement(DiagramQName.NODES);
+			sctx.push(nodesElement);
 			for (NodeModel nodeModel : model.getNodes()) {
 				getDirector().direct(nodeModel, sctx);
 			}
-			sctx.pop();
+			sctx.pop(); // -- end of nodes
+			sctx.pop(); // -- end of diagram
 		} catch (XMLStreamException e) {
 			throw new SerializationException(e);
 		}

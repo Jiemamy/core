@@ -90,7 +90,7 @@ public class JiemamyStaxSerializerTest {
 		// schemaNameが設定通りに出力される
 		// descriptionは空文字なので空要素として出力される
 		
-		String expected = getXml("1.jiemamy");
+		String expected = getXml("core1.jiemamy");
 		
 		DetailedDiff diff = new DetailedDiff(new Diff(actual, expected));
 		assertThat(diff.getAllDifferences().toString(), diff.similar(), is(true));
@@ -119,7 +119,7 @@ public class JiemamyStaxSerializerTest {
 		// schemaNameが設定通りに出力される
 		// descriptionは空文字なので空要素として出力される
 		
-		String expected = getXml("2.jiemamy");
+		String expected = getXml("core2.jiemamy");
 		
 		DetailedDiff diff = new DetailedDiff(new Diff(actual, expected));
 		assertThat(diff.getAllDifferences().toString(), diff.similar(), is(true));
@@ -157,7 +157,7 @@ public class JiemamyStaxSerializerTest {
 		// schemaNameが設定通りに出力される
 		// descriptionは空文字なので空要素として出力される
 		
-		String expected = getXml("3.jiemamy");
+		String expected = getXml("core3.jiemamy");
 		DetailedDiff diff = new DetailedDiff(new Diff(actual, expected));
 		assertThat(diff.getAllDifferences().toString(), diff.similar(), is(true));
 		
@@ -172,7 +172,7 @@ public class JiemamyStaxSerializerTest {
 	 */
 	@Test
 	public void test11_簡単なJiemamyContextのデシリアライズ結果を確認() throws Exception {
-		String xml = getXml("1.jiemamy");
+		String xml = getXml("core1.jiemamy");
 		ByteArrayInputStream bais = new ByteArrayInputStream(xml.getBytes(CharEncoding.UTF_8));
 		JiemamyContext deserialized = serializer.deserialize(bais);
 		
@@ -190,7 +190,7 @@ public class JiemamyStaxSerializerTest {
 	 */
 	@Test
 	public void test12_Tableを1つ含むJiemamyContextのデシリアライズ結果を確認() throws Exception {
-		String xml = getXml("2.jiemamy");
+		String xml = getXml("core2.jiemamy");
 		ByteArrayInputStream bais = new ByteArrayInputStream(xml.getBytes(CharEncoding.UTF_8));
 		JiemamyContext deserialized = serializer.deserialize(bais);
 		
@@ -213,7 +213,7 @@ public class JiemamyStaxSerializerTest {
 	 */
 	@Test
 	public void test13_Columnを1つ含むTableを1つ含むJiemamyContextのデシリアライズ結果を確認() throws Exception {
-		String xml = getXml("3.jiemamy");
+		String xml = getXml("core3.jiemamy");
 		ByteArrayInputStream bais = new ByteArrayInputStream(xml.getBytes(CharEncoding.UTF_8));
 		JiemamyContext deserialized = serializer.deserialize(bais);
 		

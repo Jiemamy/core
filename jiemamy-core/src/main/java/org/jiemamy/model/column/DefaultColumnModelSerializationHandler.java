@@ -75,6 +75,7 @@ public final class DefaultColumnModelSerializationHandler extends SerializationH
 			DefaultColumnModel columnModel = new DefaultColumnModel(id);
 			
 			JiemamyCursor childCursor = cursor.childCursor();
+			ctx.push(childCursor);
 			do {
 				childCursor.advance();
 				if (childCursor.getCurrEvent() == SMEvent.START_ELEMENT) {
@@ -113,6 +114,7 @@ public final class DefaultColumnModelSerializationHandler extends SerializationH
 					logger.warn("UNKNOWN EVENT: {}", childCursor.getCurrEvent());
 				}
 			} while (childCursor.getCurrEvent() != null);
+			ctx.pop();
 			
 			return columnModel;
 		} catch (XMLStreamException e) {

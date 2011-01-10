@@ -67,6 +67,7 @@ public final class DiagramFacetSerializationHandler extends SerializationHandler
 			
 			JiemamyCursor cursor = ctx.peek();
 			JiemamyCursor childCursor = cursor.childCursor();
+			ctx.push(childCursor);
 			do {
 				childCursor.advance();
 				while (childCursor.getCurrEvent() != SMEvent.START_ELEMENT && childCursor.getCurrEvent() != null) {
@@ -83,6 +84,7 @@ public final class DiagramFacetSerializationHandler extends SerializationHandler
 					ctx.pop();
 				}
 			} while (childCursor.getCurrEvent() != null);
+			ctx.pop();
 			
 			return facet;
 		} catch (XMLStreamException e) {

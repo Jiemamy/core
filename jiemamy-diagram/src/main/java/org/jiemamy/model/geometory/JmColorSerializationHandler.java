@@ -53,9 +53,9 @@ public final class JmColorSerializationHandler extends SerializationHandler<JmCo
 	public JmColor handleDeserialization(DeserializationContext ctx) throws SerializationException {
 		Validate.notNull(ctx);
 		try {
-			ctx.peek().advance();
 			Validate.isTrue(ctx.peek().isQName(DiagramQName.COLOR));
 			JiemamyCursor cursor = ctx.peek();
+			
 			int r = cursor.getAttrIntValue(DiagramQName.R);
 			int g = cursor.getAttrIntValue(DiagramQName.G);
 			int b = cursor.getAttrIntValue(DiagramQName.B);
