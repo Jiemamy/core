@@ -89,7 +89,7 @@ public class SerializationDirector {
 		// TODO ... 色々まだ追加するものがあるはず
 		
 		for (JiemamyFacet jiemamyFacet : context.getFacets()) {
-			jiemamyFacet.prepareSerializationWorkers(this);
+			jiemamyFacet.prepareSerializationHandlers(this);
 		}
 	}
 	

@@ -132,7 +132,7 @@ public class SqlFacet implements JiemamyFacet {
 		return SqlNamespace.values();
 	}
 	
-	public void prepareSerializationWorkers(SerializationDirector serializationDirector) {
+	public void prepareSerializationHandlers(SerializationDirector serializationDirector) {
 		// TODO Auto-generated method stub
 		
 	}

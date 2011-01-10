@@ -107,7 +107,7 @@ public class DiagramFacet implements JiemamyFacet {
 		return DiagramNamespace.values();
 	}
 	
-	public void prepareSerializationWorkers(SerializationDirector director) {
+	public void prepareSerializationHandlers(SerializationDirector director) {
 		Validate.notNull(director);
 		// FORMAT-OFF CHECKSTYLE:OFF
 		director.addHandler(DiagramFacet.class, DiagramQName.DIAGRAMS, new DiagramFacetSerializationHandler(director));

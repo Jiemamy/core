@@ -46,5 +46,5 @@ public interface JiemamyFacet {
 	 * 
 	 * @param serializationDirector
 	 */
-	void prepareSerializationWorkers(SerializationDirector serializationDirector);
+	void prepareSerializationHandlers(SerializationDirector serializationDirector);
 }
