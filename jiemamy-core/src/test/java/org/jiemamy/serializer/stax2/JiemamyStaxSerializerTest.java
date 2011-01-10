@@ -199,6 +199,43 @@ public class JiemamyStaxSerializerTest {
 	}
 	
 	/**
+	 * Columnを2つ含むTableを1つ含むJiemamyContextのシリアライズ結果を確認。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test05_Columnを2つ含むTableを1つ含むJiemamyContextのシリアライズ結果を確認() throws Exception {
+		JiemamyContext ctx = new JiemamyContext();
+		
+		UUID tid = UUID.fromString("0d7bf352-59c4-4683-ae59-2808f30e686e");
+		DefaultTableModel t = new DefaultTableModel(tid);
+		t.setName("TTTT");
+		
+		UUID cid1 = UUID.fromString("a4333846-1292-4b82-b68c-454762bf92a1");
+		DefaultColumnModel c1 = new DefaultColumnModel(cid1);
+		c1.setName("CCCC1");
+		t.store(c1);
+		
+		UUID cid2 = UUID.fromString("7774052e-40ee-4796-b990-2411be64fb35");
+		DefaultColumnModel c2 = new DefaultColumnModel(cid2);
+		c2.setName("CCCC2");
+		t.store(c2);
+		
+		ctx.store(t);
+		
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		serializer.serialize(ctx, baos);
+		String actual = baos.toString(CharEncoding.UTF_8);
+		String expected = getXml("core5.jiemamy");
+		
+		logger.info("actual  ={}", actual.replaceAll("[\n\r]", ""));
+		logger.info("expected={}", expected.replaceAll("[\n\r]", ""));
+		
+		DetailedDiff diff = new DetailedDiff(new Diff(actual, expected));
+		assertThat(diff.getAllDifferences().toString(), diff.similar(), is(true));
+	}
+	
+	/**
 	 * 簡単なJiemamyContextのデシリアライズ結果を確認。
 	 * 
 	 * @throws Exception 例外が発生した場合
@@ -291,6 +328,35 @@ public class JiemamyStaxSerializerTest {
 				fail("unexpeceted id: " + table.getId());
 			}
 		}
+	}
+	
+	/**
+	 * Columnを1つ含むTableを1つ含むJiemamyContextのデシリアライズ結果を確認。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	@Ignore("TODO yamkazu - 多分test14と直し方同じだと思う")
+	public void test15_Columnを2つ含むTableを1つ含むJiemamyContextのデシリアライズ結果を確認() throws Exception {
+		String xml = getXml("core5.jiemamy");
+		ByteArrayInputStream bais = new ByteArrayInputStream(xml.getBytes(CharEncoding.UTF_8));
+		JiemamyContext deserialized = serializer.deserialize(bais);
+		
+		assertThat(deserialized, is(notNullValue()));
+		assertThat(deserialized.getTables().size(), is(1));
+		
+		TableModel tableModel = Iterables.get(deserialized.getTables(), 0);
+		assertThat(tableModel.getId(), is(UUID.fromString("0d7bf352-59c4-4683-ae59-2808f30e686e")));
+		assertThat(tableModel.getName(), is("TTTT"));
+		assertThat(tableModel.getColumns().size(), is(2));
+		
+		ColumnModel c1 = tableModel.getColumns().get(0);
+		assertThat(c1.getId(), is(UUID.fromString("a4333846-1292-4b82-b68c-454762bf92a1")));
+		assertThat(c1.getName(), is("CCCC1"));
+		
+		ColumnModel c2 = tableModel.getColumns().get(1);
+		assertThat(c2.getId(), is(UUID.fromString("7774052e-40ee-4796-b990-2411be64fb35")));
+		assertThat(c2.getName(), is("CCCC2"));
 	}
 	
 	/**

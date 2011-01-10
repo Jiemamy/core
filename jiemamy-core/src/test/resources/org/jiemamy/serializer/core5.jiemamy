@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jiemamy xmlns="http://jiemamy.org/xml/ns/core" version="0.3.0-SNAPSHOT">
+  <dbobjects>
+    <table id="0d7bf352-59c4-4683-ae59-2808f30e686e" class="org.jiemamy.model.table.DefaultTableModel">
+      <name>TTTT</name>
+      <columns>
+        <column id="a4333846-1292-4b82-b68c-454762bf92a1" class="org.jiemamy.model.column.DefaultColumnModel">
+          <name>CCCC1</name>
+        </column>
+        <column id="7774052e-40ee-4796-b990-2411be64fb35" class="org.jiemamy.model.column.DefaultColumnModel">
+          <name>CCCC2</name>
+        </column>
+      </columns>
+      <constraints/>
+    </table>
+  </dbobjects>
+  <dataSets/>
+</jiemamy>
