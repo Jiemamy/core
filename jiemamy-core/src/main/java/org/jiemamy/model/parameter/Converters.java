@@ -1,6 +1,6 @@
 /*
- * Copyright 2007-2010 Jiemamy Project and the Others.
- * Created on 2010/12/13
+ * Copyright 2007-2011 Jiemamy Project and the Others.
+ * Created on 2011/01/11
  *
  * This file is part of Jiemamy.
  *
@@ -16,21 +16,24 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.model.column;
-
-import org.jiemamy.model.Key;
-import org.jiemamy.model.ModelParameter;
+package org.jiemamy.model.parameter;
 
 /**
- * {@link ColumnModel}のパラメータを表すインターフェイス。
+ * TODO for daisuke
  * 
- * @param <T> 値の型
  * @version $Id$
  * @author daisuke
  */
-public interface ColumnParameter<T> extends ModelParameter<T> {
+public final class Converters {
 	
-	/** 無効フラグ用のキー */
-	Key<Boolean> DISABLED = new Key<Boolean>("disabled");
+	public static final Converter<Boolean> BOOLEAN = new BooleanConverter();
+	
+	public static final Converter<Integer> INTEGER = new IntegerConverter();
+	
+	public static final Converter<String> STRING = new StringConverter();
+	
+
+	private Converters() {
+	}
 	
 }

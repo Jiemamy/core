@@ -18,15 +18,9 @@
  */
 package org.jiemamy.model.datatype;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import com.google.common.collect.Sets;
-
 import org.apache.commons.lang.Validate;
 
-import org.jiemamy.model.Key;
-import org.jiemamy.utils.MutationMonitor;
+import org.jiemamy.model.parameter.ParameterMap;
 
 /**
  * 型記述子のデフォルト実装クラス。
@@ -43,7 +37,7 @@ public final class DefaultTypeVariant implements TypeVariant {
 	 * @return 型記述子
 	 */
 	public static DefaultTypeVariant of(DataTypeCategory category) {
-		return new DefaultTypeVariant(category, category.name(), new HashSet<TypeParameter<?>>());
+		return new DefaultTypeVariant(category, category.name(), new ParameterMap());
 	}
 	
 	/**
@@ -53,12 +47,8 @@ public final class DefaultTypeVariant implements TypeVariant {
 	 * @param params 型パラメータ
 	 * @return 型記述子
 	 */
-	public static DefaultTypeVariant of(DataTypeCategory category, TypeParameter<?>... params) {
-		Set<TypeParameter<?>> p = Sets.newHashSetWithExpectedSize(params.length);
-		for (TypeParameter<?> typeParameter : params) {
-			p.add(typeParameter);
-		}
-		return new DefaultTypeVariant(category, category.name(), p);
+	public static DefaultTypeVariant of(DataTypeCategory category, ParameterMap params) {
+		return new DefaultTypeVariant(category, category.name(), params);
 		
 	}
 	
@@ -67,7 +57,7 @@ public final class DefaultTypeVariant implements TypeVariant {
 	
 	private String typeName;
 	
-	private Set<TypeParameter<?>> params;
+	private ParameterMap params;
 	
 
 	/**
@@ -77,31 +67,25 @@ public final class DefaultTypeVariant implements TypeVariant {
 	 * @param typeName 型名
 	 * @param params 型パラメータ
 	 */
-	public DefaultTypeVariant(DataTypeCategory category, String typeName, Set<TypeParameter<?>> params) {
+	public DefaultTypeVariant(DataTypeCategory category, String typeName, ParameterMap params) {
 		Validate.notNull(category);
 		Validate.notNull(typeName);
-		Validate.noNullElements(params);
+		Validate.notNull(params);
 		this.category = category;
 		this.typeName = typeName;
-		this.params = Sets.newHashSet(params);
+		this.params = params.clone();
 	}
 	
 	public DataTypeCategory getCategory() {
 		return category;
 	}
 	
-	@SuppressWarnings("unchecked")
-	public <T>TypeParameter<T> getParam(Key<T> key) {
-		for (TypeParameter<?> param : params) {
-			if (param.getKey().equals(key)) {
-				return (TypeParameter<T>) param;
-			}
-		}
-		return null;
+	public <T>T getParam(TypeParameterKey<T> key) {
+		return params.get(key);
 	}
 	
-	public Set<TypeParameter<?>> getParams() {
-		return MutationMonitor.monitor(Sets.newHashSet(params));
+	public ParameterMap getParams() {
+		return params.clone();
 	}
 	
 	public String getTypeName() {

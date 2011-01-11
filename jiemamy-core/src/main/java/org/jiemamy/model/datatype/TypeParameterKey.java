@@ -18,8 +18,9 @@
  */
 package org.jiemamy.model.datatype;
 
-import org.jiemamy.model.Key;
-import org.jiemamy.model.ModelParameter;
+import org.jiemamy.model.parameter.Converter;
+import org.jiemamy.model.parameter.Converters;
+import org.jiemamy.model.parameter.ParameterKey;
 
 /**
  * データ型のパラメータを表すインターフェイス。
@@ -28,18 +29,30 @@ import org.jiemamy.model.ModelParameter;
  * @version $Id$
  * @author daisuke
  */
-public interface TypeParameter<T> extends ModelParameter<T> {
+public class TypeParameterKey<T> extends ParameterKey<T> {
 	
 	/** サイズパラメータ用のキー */
-	Key<Integer> SIZE = new Key<Integer>("size");
+	public static final TypeParameterKey<Integer> SIZE = new TypeParameterKey<Integer>(Converters.INTEGER, "size");
 	
 	/** スケールパラメータ用のキー */
-	Key<Integer> SCALE = new Key<Integer>("scale");
+	public static final TypeParameterKey<Integer> SCALE = new TypeParameterKey<Integer>(Converters.INTEGER, "scale");
 	
 	/** 精度パラメータ用のキー */
-	Key<Integer> PRECISION = new Key<Integer>("precision");
+	public static final TypeParameterKey<Integer> PRECISION = new TypeParameterKey<Integer>(Converters.INTEGER,
+			"precision");
 	
 	/** シリアルパラメータ用のキー */
-	Key<Boolean> SERIAL = new Key<Boolean>("serial");
+	public static final TypeParameterKey<Boolean> SERIAL = new TypeParameterKey<Boolean>(Converters.BOOLEAN, "serial");
+	
+
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param converter
+	 * @param keyString
+	 */
+	public TypeParameterKey(Converter<T> converter, String keyString) {
+		super(converter, keyString);
+	}
 	
 }

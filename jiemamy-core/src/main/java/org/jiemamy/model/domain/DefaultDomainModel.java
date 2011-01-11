@@ -33,11 +33,11 @@ import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.utils.CloneUtil;
 import org.jiemamy.model.DefaultDatabaseObjectModel;
-import org.jiemamy.model.Key;
 import org.jiemamy.model.constraint.CheckConstraintModel;
 import org.jiemamy.model.datatype.DataTypeCategory;
-import org.jiemamy.model.datatype.TypeParameter;
+import org.jiemamy.model.datatype.TypeParameterKey;
 import org.jiemamy.model.datatype.TypeVariant;
+import org.jiemamy.model.parameter.ParameterMap;
 import org.jiemamy.utils.MutationMonitor;
 import org.jiemamy.utils.collection.CollectionsUtil;
 
@@ -55,7 +55,7 @@ public final class DefaultDomainModel extends DefaultDatabaseObjectModel impleme
 	
 	private boolean notNull;
 	
-	Set<TypeParameter<?>> params = Sets.newHashSet();
+	Set<TypeParameterKey<?>> params = Sets.newHashSet();
 	
 
 	/**
@@ -83,7 +83,7 @@ public final class DefaultDomainModel extends DefaultDatabaseObjectModel impleme
 	 * 
 	 * @param param 追加するパラメータ
 	 */
-	public void addParameter(TypeParameter<?> param) {
+	public void addParameter(TypeParameterKey<?> param) {
 		CollectionsUtil.addOrReplace(params, param);
 	}
 	
@@ -160,11 +160,11 @@ public final class DefaultDomainModel extends DefaultDatabaseObjectModel impleme
 			return dataType.getCategory();
 		}
 		
-		public <T>TypeParameter<T> getParam(Key<T> key) {
+		public <T>T getParam(TypeParameterKey<T> key) {
 			return dataType.getParam(key);
 		}
 		
-		public Set<TypeParameter<?>> getParams() {
+		public ParameterMap getParams() {
 			return dataType.getParams();
 		}
 		

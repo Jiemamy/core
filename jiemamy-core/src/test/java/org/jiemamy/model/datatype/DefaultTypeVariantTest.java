@@ -24,12 +24,10 @@ import static org.jiemamy.utils.RandomUtil.enume;
 import static org.jiemamy.utils.RandomUtil.str;
 import static org.junit.Assert.assertThat;
 
-import java.util.Set;
-
-import com.google.common.collect.Sets;
-
 import org.junit.Before;
 import org.junit.Test;
+
+import org.jiemamy.model.parameter.ParameterMap;
 
 /**
  * {@link DefaultTypeVariant}のテストクラス。
@@ -47,7 +45,7 @@ public class DefaultTypeVariantTest {
 	public static DefaultTypeVariant random() {
 		DataTypeCategory category = enume(DataTypeCategory.class);
 		String typeName = str();
-		Set<TypeParameter<?>> params = Sets.newHashSet();
+		ParameterMap params = new ParameterMap();
 		
 		// TODO paramも適当に追加する処理
 		
@@ -65,8 +63,8 @@ public class DefaultTypeVariantTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		Set<TypeParameter<?>> params = Sets.newHashSet();
-		params.add(DefaultTypeParameter.size(10));
+		ParameterMap params = new ParameterMap();
+		params.put(TypeParameterKey.SIZE, 10);
 		typeVariant = new DefaultTypeVariant(DataTypeCategory.VARCHAR, "VARCHAR", params);
 	}
 	
@@ -79,7 +77,7 @@ public class DefaultTypeVariantTest {
 	public void test01_作ったインスタンスの挙動チェック() throws Exception {
 		assertThat(typeVariant.getCategory(), is(DataTypeCategory.VARCHAR));
 		assertThat(typeVariant.getTypeName(), is("VARCHAR"));
-		assertThat(typeVariant.getParam(DefaultTypeParameter.SIZE).getValue(), is(10));
-		assertThat(typeVariant.getParam(DefaultTypeParameter.PRECISION), is(nullValue()));
+		assertThat(typeVariant.getParam(TypeParameterKey.SIZE), is(10));
+		assertThat(typeVariant.getParam(TypeParameterKey.PRECISION), is(nullValue()));
 	}
 }

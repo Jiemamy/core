@@ -25,7 +25,8 @@ import com.google.common.collect.Sets;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.dddbase.AbstractEntity;
-import org.jiemamy.utils.MutationMonitor;
+import org.jiemamy.model.parameter.ParameterMap;
+import org.jiemamy.model.parameter.ParameterKey;
 
 /**
  * データベースオブジェクト（TableやView）の抽象モデルクラス。
@@ -43,7 +44,7 @@ public abstract class DefaultDatabaseObjectModel extends AbstractEntity implemen
 	/** 説明文 */
 	private String description;
 	
-	private Set<DatabaseObjectParameter<?>> params = Sets.newHashSet();
+	private ParameterMap params = new ParameterMap();
 	
 
 	/**
@@ -88,29 +89,24 @@ public abstract class DefaultDatabaseObjectModel extends AbstractEntity implemen
 	}
 	
 	@SuppressWarnings("unchecked")
-	public <T>DatabaseObjectParameter<T> getParam(Key<T> key) {
-		for (DatabaseObjectParameter<?> param : params) {
-			if (param.getKey().equals(key)) {
-				return (DatabaseObjectParameter<T>) param;
-			}
-		}
-		return null;
+	public <T>T getParam(ParameterKey<T> key) {
+		return params.get(key);
 	}
 	
-	public Set<DatabaseObjectParameter<?>> getParams() {
-		return MutationMonitor.monitor(Sets.newHashSet(params));
+	public ParameterMap getParams() {
+		return params.clone();
 	}
 	
 	public boolean isSubDatabaseObjectsNonRecursiveOf(DatabaseObjectModel target, JiemamyContext context) {
 		return false;
 	}
 	
-	public <T>void putParam(Key<T> key, T value) {
-		params.add(new DefaultDatabaseObjectParameter<T>(key, value));
+	public <T>void putParam(ParameterKey<T> key, T value) {
+		params.put(key, value);
 	}
 	
-	public <T>void removeParam(Key<T> key) {
-		params.remove(new DefaultDatabaseObjectParameter<T>(key, null));
+	public <T>void removeParam(ParameterKey<T> key) {
+		params.remove(key);
 	}
 	
 	/**

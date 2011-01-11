@@ -22,8 +22,8 @@ import java.util.Set;
 
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.CoreElement;
-import org.jiemamy.model.Key;
 import org.jiemamy.model.datatype.TypeVariant;
+import org.jiemamy.model.parameter.ParameterMap;
 
 /**
  * リレーショナルデータベースにおける「カラム」を表すモデルインターフェイス。
@@ -82,14 +82,14 @@ public interface ColumnModel extends CoreElement {
 	 * @param key キー
 	 * @return 型パラメータ
 	 */
-	<T>ColumnParameter<T> getParam(Key<T> key);
+	<T>T getParam(ColumnParameterKey<T> key);
 	
 	/**
 	 * パラメータを取得する。
 	 * 
 	 * @return 型パラメータの{@link Set}
 	 */
-	Set<ColumnParameter<?>> getParams();
+	ParameterMap getParams();
 	
 	EntityRef<? extends ColumnModel> toReference();
 	

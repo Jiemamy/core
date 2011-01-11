@@ -18,7 +18,7 @@
  */
 package org.jiemamy.model.view;
 
-import java.util.Set;
+import java.util.Map.Entry;
 import java.util.UUID;
 
 import javax.xml.stream.XMLStreamException;
@@ -29,7 +29,7 @@ import org.codehaus.staxmate.in.SMEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.jiemamy.model.DatabaseObjectParameter;
+import org.jiemamy.model.parameter.ParameterMap;
 import org.jiemamy.serializer.SerializationException;
 import org.jiemamy.serializer.stax2.DeserializationContext;
 import org.jiemamy.serializer.stax2.JiemamyCursor;
@@ -120,13 +120,13 @@ public final class DefaultViewModelSerializationHandler extends SerializationHan
 			element.addElementAndCharacters(CoreQName.DESCRIPTION, model.getDescription());
 			element.addElementAndCharacters(CoreQName.DEFINITION, model.getDefinition());
 			
-			Set<DatabaseObjectParameter<?>> params = model.getParams();
+			ParameterMap params = model.getParams();
 			if (params.size() > 0) {
 				JiemamyOutputElement paramesElement = element.addElement(CoreQName.PARAMETERS);
-				for (DatabaseObjectParameter<?> param : params) {
+				for (Entry<String, String> entry : params) {
 					JiemamyOutputElement paramElement = paramesElement.addElement(CoreQName.PARAMETER);
-					paramElement.addAttribute(CoreQName.PARAMETER_KEY, param.getKey().getKeyString());
-					paramElement.addCharacters(param.getValue().toString());
+					paramElement.addAttribute(CoreQName.PARAMETER_KEY, entry.getKey());
+					paramElement.addCharacters(entry.getValue());
 				}
 			}
 		} catch (XMLStreamException e) {

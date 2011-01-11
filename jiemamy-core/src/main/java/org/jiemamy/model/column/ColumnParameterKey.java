@@ -16,24 +16,23 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.model;
+package org.jiemamy.model.column;
 
 import org.jiemamy.model.parameter.Converter;
 import org.jiemamy.model.parameter.Converters;
 import org.jiemamy.model.parameter.ParameterKey;
 
 /**
- * {@link DatabaseObjectModel}のパラメータを表すインターフェイス。
+ * {@link ColumnModel}のパラメータを表すインターフェイス。
  * 
  * @param <T> 値の型
  * @version $Id$
  * @author daisuke
  */
-public class DatabaseObjectParameter<T> extends ParameterKey<T> {
+public final class ColumnParameterKey<T> extends ParameterKey<T> {
 	
 	/** 無効フラグ用のキー */
-	public static DatabaseObjectParameter<Boolean> DISABLED = new DatabaseObjectParameter<Boolean>(Converters.BOOLEAN,
-			"disabled");
+	public static ColumnParameterKey<Boolean> DISABLED = new ColumnParameterKey<Boolean>(Converters.BOOLEAN, "disabled");
 	
 
 	/**
@@ -42,7 +41,7 @@ public class DatabaseObjectParameter<T> extends ParameterKey<T> {
 	 * @param converter
 	 * @param keyString
 	 */
-	public DatabaseObjectParameter(Converter<T> converter, String keyString) {
+	public ColumnParameterKey(Converter<T> converter, String keyString) {
 		super(converter, keyString);
 	}
 	

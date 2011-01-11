@@ -21,7 +21,7 @@ package org.jiemamy.model.datatype;
 import java.util.Set;
 
 import org.jiemamy.dddbase.ValueObject;
-import org.jiemamy.model.Key;
+import org.jiemamy.model.parameter.ParameterMap;
 
 /**
  * 型記述子。
@@ -44,14 +44,14 @@ public interface TypeVariant extends ValueObject {
 	 * @param key キー
 	 * @return 型パラメータ
 	 */
-	<T>TypeParameter<T> getParam(Key<T> key);
+	<T>T getParam(TypeParameterKey<T> key);
 	
 	/**
 	 * 型パラメータを取得する。
 	 * 
 	 * @return 型パラメータの{@link Set}
 	 */
-	Set<TypeParameter<?>> getParams();
+	ParameterMap getParams();
 	
 	/**
 	 * 型名の文字列を取得する。

@@ -18,11 +18,9 @@
  */
 package org.jiemamy.model.datatype;
 
-import java.util.Set;
+import java.util.Map.Entry;
 
 import javax.xml.stream.XMLStreamException;
-
-import com.google.common.collect.Sets;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
@@ -30,6 +28,7 @@ import org.codehaus.staxmate.in.SMEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.jiemamy.model.parameter.ParameterMap;
 import org.jiemamy.serializer.SerializationException;
 import org.jiemamy.serializer.stax2.DeserializationContext;
 import org.jiemamy.serializer.stax2.JiemamyCursor;
@@ -72,7 +71,7 @@ public final class DefaultTypeVariantSerializationHandler extends SerializationH
 			
 			DataTypeCategory category = DataTypeCategory.INTEGER;
 			String typeName = "INTEGER";
-			Set<TypeParameter<?>> params = Sets.newHashSet();
+			ParameterMap params = new ParameterMap();
 			
 			JiemamyCursor childCursor = cursor.childCursor();
 			ctx.push(childCursor);
@@ -94,9 +93,7 @@ public final class DefaultTypeVariantSerializationHandler extends SerializationH
 							if (descendantCursor.isQName(CoreQName.PARAMETER)) {
 								String key = descendantCursor.getAttrValue(CoreQName.PARAMETER_KEY);
 								String v = descendantCursor.collectDescendantText(false);
-								// TODO んおーー。イレイジャにやられている
-//								TypeParameter<?> param = new DefaultTypeParameter<Object>(new Key<Object>(key), v);
-//								params.add(param);
+								params.put(key, v);
 							} else {
 								logger.warn("unexpected: " + descendantCursor.getQName());
 							}
@@ -130,13 +127,13 @@ public final class DefaultTypeVariantSerializationHandler extends SerializationH
 			element.addElementAndCharacters(CoreQName.TYPE_CATEGORY, model.getCategory());
 			element.addElementAndCharacters(CoreQName.TYPE_NAME, model.getTypeName());
 			
-			Set<TypeParameter<?>> params = model.getParams();
+			ParameterMap params = model.getParams();
 			if (params.size() > 0) {
 				JiemamyOutputElement paramesElement = element.addElement(CoreQName.PARAMETERS);
-				for (TypeParameter<?> param : params) {
+				for (Entry<String, String> param : params) {
 					JiemamyOutputElement paramElement = paramesElement.addElement(CoreQName.PARAMETER);
-					paramElement.addAttribute(CoreQName.PARAMETER_KEY, param.getKey().getKeyString());
-					paramElement.addCharacters(param.getValue().toString());
+					paramElement.addAttribute(CoreQName.PARAMETER_KEY, param.getKey());
+					paramElement.addCharacters(param.getValue());
 				}
 			}
 		} catch (XMLStreamException e) {

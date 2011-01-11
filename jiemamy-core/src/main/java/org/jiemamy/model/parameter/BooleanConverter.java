@@ -1,6 +1,6 @@
 /*
- * Copyright 2007-2010 Jiemamy Project and the Others.
- * Created on 2010/12/27
+ * Copyright 2007-2011 Jiemamy Project and the Others.
+ * Created on 2011/01/11
  *
  * This file is part of Jiemamy.
  *
@@ -16,31 +16,26 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.model;
+package org.jiemamy.model.parameter;
 
-import org.jiemamy.dddbase.ValueObject;
+import org.apache.commons.lang.Validate;
 
 /**
- * モデルのパラメータを表すインターフェイス。
+ * TODO for daisuke
  * 
- * @param <T> 値の型
  * @version $Id$
  * @author daisuke
  */
-public interface ModelParameter<T> extends ValueObject {
+public class BooleanConverter implements Converter<Boolean> {
 	
-	/**
-	 * キーを取得する。
-	 * 
-	 * @return キー
-	 */
-	Key<T> getKey();
+	public String toString(Boolean obj) {
+		Validate.notNull(obj);
+		return obj.toString();
+	}
 	
-	/**
-	 * 値を取得する。
-	 * 
-	 * @return 値
-	 */
-	T getValue();
+	public Boolean valueOf(String str) {
+		Validate.notNull(str);
+		return Boolean.valueOf(str);
+	}
 	
 }
