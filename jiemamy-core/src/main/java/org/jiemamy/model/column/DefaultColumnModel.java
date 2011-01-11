@@ -28,7 +28,6 @@ import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.datatype.TypeVariant;
 import org.jiemamy.model.parameter.ParameterMap;
-import org.jiemamy.model.parameter.ParameterKey;
 
 /**
  * カラム定義モデル。Artemisにおける{@link ColumnModel}の実装クラス。
@@ -90,7 +89,6 @@ public final class DefaultColumnModel extends AbstractEntity implements ColumnMo
 		return name;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public <T>T getParam(ColumnParameterKey<T> key) {
 		return params.get(key);
 	}
@@ -99,11 +97,11 @@ public final class DefaultColumnModel extends AbstractEntity implements ColumnMo
 		return params.clone();
 	}
 	
-	public <T>void putParam(ParameterKey<T> key, T value) {
+	public <T>void putParam(ColumnParameterKey<T> key, T value) {
 		params.put(key, value);
 	}
 	
-	public <T>void removeParam(ParameterKey<T> key) {
+	public <T>void removeParam(ColumnParameterKey<T> key) {
 		params.remove(key);
 	}
 	

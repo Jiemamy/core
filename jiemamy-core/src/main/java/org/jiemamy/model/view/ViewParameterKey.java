@@ -1,6 +1,6 @@
 /*
  * Copyright 2007-2010 Jiemamy Project and the Others.
- * Created on 2010/12/14
+ * Created on 2010/12/13
  *
  * This file is part of Jiemamy.
  *
@@ -16,29 +16,34 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy;
+package org.jiemamy.model.view;
 
-import org.jiemamy.dialect.Dialect;
-import org.jiemamy.validator.CompositeValidator;
-import org.jiemamy.validator.Validator;
+import org.jiemamy.model.parameter.Converter;
+import org.jiemamy.model.parameter.Converters;
+import org.jiemamy.model.parameter.ParameterKey;
 
 /**
- * テスト用のモックSQL方言実装クラス。
+ * {@link TableModel}のパラメータを表すインターフェイス。
  * 
+ * @param <T> 値の型
  * @version $Id$
  * @author daisuke
  */
-public class MockDialect implements Dialect {
+public final class ViewParameterKey<T> extends ParameterKey<T> {
 	
-	public String getConnectionUriTemplate() {
-		return "jdbc:dummy:foobar";
+	/** 無効フラグ用のキー */
+	public static final ViewParameterKey<Boolean> DISABLED = new ViewParameterKey<Boolean>(Converters.BOOLEAN,
+			"disabled");
+	
+
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param converter
+	 * @param keyString
+	 */
+	public ViewParameterKey(Converter<T> converter, String keyString) {
+		super(converter, keyString);
 	}
 	
-	public String getName() {
-		return this.getClass().getName();
-	}
-	
-	public Validator getValidator() {
-		return new CompositeValidator();
-	}
 }

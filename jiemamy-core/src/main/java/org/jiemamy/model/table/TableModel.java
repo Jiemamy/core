@@ -20,6 +20,7 @@ package org.jiemamy.model.table;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.SortedSet;
 
 import org.jiemamy.dddbase.EntityRef;
@@ -28,7 +29,9 @@ import org.jiemamy.model.column.ColumnModel;
 import org.jiemamy.model.constraint.ConstraintModel;
 import org.jiemamy.model.constraint.ForeignKeyConstraintModel;
 import org.jiemamy.model.constraint.KeyConstraintModel;
+import org.jiemamy.model.constraint.NotNullConstraintModel;
 import org.jiemamy.model.constraint.PrimaryKeyConstraintModel;
+import org.jiemamy.model.parameter.ParameterMap;
 
 /**
  * リレーショナルデータベースにおける「テーブル」を表すモデルインターフェイス。
@@ -105,9 +108,31 @@ public interface TableModel extends DatabaseObjectModel {
 	 */
 	Collection<? extends KeyConstraintModel> getKeyConstraintModels();
 	
+	NotNullConstraintModel getNotNullConstraintFor(EntityRef<? extends ColumnModel> reference);
+	
+	/**
+	 * パラメータを取得する。
+	 * 
+	 * @param <T> 値の型
+	 * @param key キー
+	 * @return 型パラメータ
+	 */
+	<T>T getParam(TableParameterKey<T> key);
+	
+	/**
+	 * パラメータを取得する。
+	 * 
+	 * @return 型パラメータの{@link Set}
+	 */
+	ParameterMap getParams();
+	
 	PrimaryKeyConstraintModel getPrimaryKey();
 	
 	Collection<? extends ColumnModel> getSubEntities();
+	
+	boolean isNotNullColumn(EntityRef<? extends ColumnModel> ref);
+	
+	boolean isPrimaryKeyColumn(EntityRef<? extends ColumnModel> ref);
 	
 	EntityRef<? extends TableModel> toReference();
 	

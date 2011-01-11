@@ -23,6 +23,7 @@ import java.util.Collection;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.DatabaseObjectModel;
 import org.jiemamy.model.constraint.CheckConstraintModel;
+import org.jiemamy.model.datatype.TypeReference;
 import org.jiemamy.model.datatype.TypeVariant;
 
 /**
@@ -39,7 +40,7 @@ public interface DomainModel extends DatabaseObjectModel {
 	 * @return ドメインを指す型記述子
 	 * @since 0.3
 	 */
-	TypeVariant asType();
+	TypeReference asType();
 	
 	DomainModel clone();
 	

@@ -32,7 +32,8 @@ import org.jiemamy.model.parameter.ParameterKey;
 public final class ColumnParameterKey<T> extends ParameterKey<T> {
 	
 	/** 無効フラグ用のキー */
-	public static ColumnParameterKey<Boolean> DISABLED = new ColumnParameterKey<Boolean>(Converters.BOOLEAN, "disabled");
+	public static final ColumnParameterKey<Boolean> DISABLED = new ColumnParameterKey<Boolean>(Converters.BOOLEAN,
+			"disabled");
 	
 
 	/**

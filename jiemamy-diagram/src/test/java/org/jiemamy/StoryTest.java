@@ -23,7 +23,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.jiemamy.model.DefaultDiagramModel;
-import org.jiemamy.model.DefaultNodeModel;
+import org.jiemamy.model.DefaultDatabaseObjectNodeModel;
 import org.jiemamy.model.geometory.JmRectangle;
 import org.jiemamy.model.table.DefaultTableModel;
 import org.jiemamy.utils.UUIDUtil;
@@ -58,8 +58,8 @@ public class StoryTest {
 	@Test
 	public void testname() throws Exception {
 		DefaultTableModel table = new DefaultTableModel(UUIDUtil.valueOfOrRandom("table"));
-		DefaultNodeModel node = new DefaultNodeModel(UUIDUtil.valueOfOrRandom("node"), table.toReference());
-		DefaultNodeModel node2 = new DefaultNodeModel(UUIDUtil.valueOfOrRandom("node2"), table.toReference());
+		DefaultDatabaseObjectNodeModel node = new DefaultDatabaseObjectNodeModel(UUIDUtil.valueOfOrRandom("node"), table.toReference());
+		DefaultDatabaseObjectNodeModel node2 = new DefaultDatabaseObjectNodeModel(UUIDUtil.valueOfOrRandom("node2"), table.toReference());
 		DefaultDiagramModel diagram = new DefaultDiagramModel(UUIDUtil.valueOfOrRandom("diagram"));
 		DefaultDiagramModel diagram2 = new DefaultDiagramModel(UUIDUtil.valueOfOrRandom("diagram2"));
 		

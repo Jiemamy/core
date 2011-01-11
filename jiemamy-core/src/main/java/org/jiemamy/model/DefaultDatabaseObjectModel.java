@@ -25,8 +25,8 @@ import com.google.common.collect.Sets;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.dddbase.AbstractEntity;
-import org.jiemamy.model.parameter.ParameterMap;
 import org.jiemamy.model.parameter.ParameterKey;
+import org.jiemamy.model.parameter.ParameterMap;
 
 /**
  * データベースオブジェクト（TableやView）の抽象モデルクラス。
@@ -88,7 +88,6 @@ public abstract class DefaultDatabaseObjectModel extends AbstractEntity implemen
 		return name;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public <T>T getParam(ParameterKey<T> key) {
 		return params.get(key);
 	}

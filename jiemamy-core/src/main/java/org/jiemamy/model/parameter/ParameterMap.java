@@ -30,7 +30,8 @@ import org.apache.commons.lang.Validate;
 import org.jiemamy.JiemamyError;
 
 /**
- * TODO for daisuke
+ * {@link ParameterKey}が持つ {@link Converter} を利用して、タイプセーフに値を取り扱いつつ、
+ * 容易に{@link String}へのシリアライズ・デシリアライズができる {@link Map} ライクなクラス。
  * 
  * @version $Id$
  * @author daisuke

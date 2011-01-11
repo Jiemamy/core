@@ -51,14 +51,6 @@ public interface NodeModel extends DiagramElement {
 	JmColor getColor();
 	
 	/**
-	 * コアモデルへの参照を取得する。
-	 * 
-	 * @return コアモデルへの参照。コアが無い場合は{@code null}
-	 * @since 0.3
-	 */
-	EntityRef<? extends DatabaseObjectModel> getCoreModelRef();
-	
-	/**
 	 * このモデルを接続元とするコネクションの集合を取得する。
 	 * 
 	 * <p>返される{@link Collection}は他に影響を及ぼさない独立したインスタンスである。</p>

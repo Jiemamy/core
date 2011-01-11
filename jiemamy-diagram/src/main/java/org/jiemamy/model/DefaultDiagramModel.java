@@ -81,8 +81,11 @@ public class DefaultDiagramModel extends AbstractEntity implements DiagramModel 
 	public NodeModel getNodeFor(EntityRef<? extends DatabaseObjectModel> ref) {
 		Validate.notNull(ref);
 		for (NodeModel node : nodeRepos.getEntitiesAsSet()) {
-			if (ref.equals(node.getCoreModelRef())) {
-				return node;
+			if (node instanceof DatabaseObjectNodeModel) {
+				DatabaseObjectNodeModel databaseObjectNodeModel = (DatabaseObjectNodeModel) node;
+				if (ref.equals(databaseObjectNodeModel.getCoreModelRef())) {
+					return node;
+				}
 			}
 		}
 		throw new EntityNotFoundException("ref=" + ref);

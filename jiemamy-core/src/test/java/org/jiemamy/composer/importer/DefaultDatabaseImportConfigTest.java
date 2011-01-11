@@ -29,7 +29,7 @@ import java.net.URL;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.jiemamy.MockDialect;
+import org.jiemamy.dialect.MockDialect;
 
 /**
  * {@link DefaultDatabaseImportConfig}のテストクラス。

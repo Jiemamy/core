@@ -16,36 +16,24 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.model.datatype;
+package org.jiemamy.model.table;
 
 import org.jiemamy.model.parameter.Converter;
 import org.jiemamy.model.parameter.Converters;
 import org.jiemamy.model.parameter.ParameterKey;
 
 /**
- * データ型のパラメータを表すインターフェイス。
+ * {@link TableModel}のパラメータを表すインターフェイス。
  * 
  * @param <T> 値の型
  * @version $Id$
  * @author daisuke
  */
-public class TypeParameterKey<T> extends ParameterKey<T> {
+public final class TableParameterKey<T> extends ParameterKey<T> {
 	
-	/** サイズパラメータ用のキー */
-	public static final TypeParameterKey<Integer> SIZE = new TypeParameterKey<Integer>(Converters.INTEGER, "size");
-	
-	/** スケールパラメータ用のキー */
-	public static final TypeParameterKey<Integer> SCALE = new TypeParameterKey<Integer>(Converters.INTEGER, "scale");
-	
-	/** 精度パラメータ用のキー */
-	public static final TypeParameterKey<Integer> PRECISION = new TypeParameterKey<Integer>(Converters.INTEGER,
-			"precision");
-	
-	/** シリアルパラメータ用のキー */
-	public static final TypeParameterKey<Boolean> SERIAL = new TypeParameterKey<Boolean>(Converters.BOOLEAN, "serial");
-	
-	public static final TypeParameterKey<Boolean> WITH_TIMEZONE = new TypeParameterKey<Boolean>(Converters.BOOLEAN,
-			"with_timezone");
+	/** 無効フラグ用のキー */
+	public static final TableParameterKey<Boolean> DISABLED = new TableParameterKey<Boolean>(Converters.BOOLEAN,
+			"disabled");
 	
 
 	/**
@@ -54,7 +42,7 @@ public class TypeParameterKey<T> extends ParameterKey<T> {
 	 * @param converter
 	 * @param keyString
 	 */
-	public TypeParameterKey(Converter<T> converter, String keyString) {
+	public TableParameterKey(Converter<T> converter, String keyString) {
 		super(converter, keyString);
 	}
 	

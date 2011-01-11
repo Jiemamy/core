@@ -36,6 +36,7 @@ import org.jiemamy.model.DefaultDatabaseObjectModel;
 import org.jiemamy.model.constraint.CheckConstraintModel;
 import org.jiemamy.model.datatype.DataTypeCategory;
 import org.jiemamy.model.datatype.TypeParameterKey;
+import org.jiemamy.model.datatype.TypeReference;
 import org.jiemamy.model.datatype.TypeVariant;
 import org.jiemamy.model.parameter.ParameterMap;
 import org.jiemamy.utils.MutationMonitor;
@@ -87,7 +88,7 @@ public final class DefaultDomainModel extends DefaultDatabaseObjectModel impleme
 		CollectionsUtil.addOrReplace(params, param);
 	}
 	
-	public TypeVariant asType() {
+	public TypeReference asType() {
 		return new DomainType();
 	}
 	
@@ -150,14 +151,14 @@ public final class DefaultDomainModel extends DefaultDatabaseObjectModel impleme
 	}
 	
 
-	final class DomainType extends DefaultEntityRef<DomainModel> implements TypeVariant {
+	public final class DomainType extends DefaultEntityRef<DomainModel> implements TypeReference {
 		
 		public DomainType() {
 			super(DefaultDomainModel.this);
 		}
 		
 		public DataTypeCategory getCategory() {
-			return dataType.getCategory();
+			return dataType.getTypeReference().getCategory();
 		}
 		
 		public <T>T getParam(TypeParameterKey<T> key) {
@@ -169,7 +170,11 @@ public final class DefaultDomainModel extends DefaultDatabaseObjectModel impleme
 		}
 		
 		public String getTypeName() {
-			return dataType.getTypeName();
+			return dataType.getTypeReference().getTypeName();
+		}
+		
+		public TypeReference getTypeReference() {
+			return dataType.getTypeReference();
 		}
 	}
 }

@@ -29,6 +29,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.jiemamy.dialect.Dialect;
+import org.jiemamy.dialect.MockDialect;
 
 /**
  * {@link DefaultServiceLocator}のテストクラス。
@@ -61,7 +62,7 @@ public class DefaultServiceLocatorTest {
 	 */
 	@Test
 	public void test01コンストラクタのリフレクション呼び出しによるサービス取得() throws Exception {
-		Dialect dialect = serviceLocator.getService(Dialect.class, "org.jiemamy.MockDialect");
+		Dialect dialect = serviceLocator.getService(Dialect.class, "org.jiemamy.dialect.MockDialect");
 		assertThat(dialect, is(notNullValue()));
 		assertThat(dialect, is(instanceOf(MockDialect.class)));
 	}

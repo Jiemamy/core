@@ -24,14 +24,11 @@ import com.google.common.collect.Lists;
 
 import org.apache.commons.lang.Validate;
 
-import org.jiemamy.dddbase.AbstractEntity;
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityNotFoundException;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.utils.CloneUtil;
-import org.jiemamy.model.geometory.JmColor;
-import org.jiemamy.model.geometory.JmRectangle;
 import org.jiemamy.utils.MutationMonitor;
 
 /**
@@ -41,13 +38,9 @@ import org.jiemamy.utils.MutationMonitor;
  * @version $Id$
  * @author daisuke
  */
-public abstract class DefaultNodeModel extends AbstractEntity implements NodeModel {
+public class DefaultDatabaseObjectNodeModel extends DefaultNodeModel implements DatabaseObjectNodeModel {
 	
-	private JmRectangle boundary;
-	
-	private JmColor color;
-	
-	Collection<ConnectionModel> sourceConnections = Lists.newArrayList();
+	private final EntityRef<? extends DatabaseObjectModel> coreModelRef;
 	
 
 	/**
@@ -56,21 +49,24 @@ public abstract class DefaultNodeModel extends AbstractEntity implements NodeMod
 	 * @param id ENTITY ID
 	 * @param coreModelRef コアモデルへの参照
 	 */
-	public DefaultNodeModel(UUID id) {
+	public DefaultDatabaseObjectNodeModel(UUID id, EntityRef<? extends DatabaseObjectModel> coreModelRef) {
 		super(id);
+		this.coreModelRef = coreModelRef;
 	}
 	
+	@Override
 	public Collection<? extends ConnectionModel> breachEncapsulationOfSourceConnections() {
 		return sourceConnections;
 	}
 	
 	@Override
-	public DefaultNodeModel clone() {
-		DefaultNodeModel clone = (DefaultNodeModel) super.clone();
+	public DefaultDatabaseObjectNodeModel clone() {
+		DefaultDatabaseObjectNodeModel clone = (DefaultDatabaseObjectNodeModel) super.clone();
 		clone.sourceConnections = CloneUtil.cloneEntityArrayList(sourceConnections);
 		return clone;
 	}
 	
+	@Override
 	public void delete(EntityRef<? extends ConnectionModel> reference) {
 		for (ConnectionModel connectionModel : Lists.newArrayList(sourceConnections)) {
 			if (reference.isReferenceOf(connectionModel)) {
@@ -81,14 +77,11 @@ public abstract class DefaultNodeModel extends AbstractEntity implements NodeMod
 		throw new EntityNotFoundException("ref=" + reference);
 	}
 	
-	public JmRectangle getBoundary() {
-		return boundary;
+	public EntityRef<? extends DatabaseObjectModel> getCoreModelRef() {
+		return coreModelRef;
 	}
 	
-	public JmColor getColor() {
-		return color;
-	}
-	
+	@Override
 	public Collection<? extends ConnectionModel> getSourceConnections() {
 		return MutationMonitor.monitor(Lists.newArrayList(sourceConnections));
 	}
@@ -98,33 +91,12 @@ public abstract class DefaultNodeModel extends AbstractEntity implements NodeMod
 		return Lists.newArrayList(sourceConnections);
 	}
 	
+	@Override
 	public Collection<? extends ConnectionModel> getTargetConnections() {
 		return Collections.emptyList(); // FIXME ロジックで算出しなければならない
 	}
 	
-	/**
-	 * ノードの位置を設定する。
-	 * 
-	 * @param boundary 位置
-	 */
-	public void setBoundary(JmRectangle boundary) {
-		this.boundary = boundary;
-	}
-	
-	/**
-	 * ノードの色を設定する。
-	 * 
-	 * @param color 色
-	 */
-	public void setColor(JmColor color) {
-		this.color = color;
-	}
-	
-	/**
-	 * 
-	 * 
-	 * @param connection source connection
-	 */
+	@Override
 	public void store(ConnectionModel connection) {
 		Validate.notNull(connection);
 		if (sourceConnections.contains(connection)) {
@@ -133,7 +105,8 @@ public abstract class DefaultNodeModel extends AbstractEntity implements NodeMod
 		sourceConnections.add(connection.clone());
 	}
 	
-	public EntityRef<? extends DefaultNodeModel> toReference() {
-		return new DefaultEntityRef<DefaultNodeModel>(this);
+	@Override
+	public EntityRef<? extends DefaultDatabaseObjectNodeModel> toReference() {
+		return new DefaultEntityRef<DefaultDatabaseObjectNodeModel>(this);
 	}
 }

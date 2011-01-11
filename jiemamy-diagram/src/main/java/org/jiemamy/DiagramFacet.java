@@ -29,8 +29,8 @@ import org.jiemamy.model.DefaultConnectionModel;
 import org.jiemamy.model.DefaultConnectionModelSerializationHandler;
 import org.jiemamy.model.DefaultDiagramModel;
 import org.jiemamy.model.DefaultDiagramModelSerializationHandler;
-import org.jiemamy.model.DefaultNodeModel;
-import org.jiemamy.model.DefaultNodeModelSerializationHandler;
+import org.jiemamy.model.DefaultDatabaseObjectNodeModel;
+import org.jiemamy.model.DefaultDatabaseObjectNodeModelSerializationHandler;
 import org.jiemamy.model.DiagramModel;
 import org.jiemamy.model.geometory.JmColor;
 import org.jiemamy.model.geometory.JmColorSerializationHandler;
@@ -112,7 +112,7 @@ public class DiagramFacet implements JiemamyFacet {
 		// FORMAT-OFF CHECKSTYLE:OFF
 		director.addHandler(DiagramFacet.class, DiagramQName.DIAGRAMS, new DiagramFacetSerializationHandler(director));
 		director.addHandler(DefaultDiagramModel.class, DiagramQName.DIAGRAM, new DefaultDiagramModelSerializationHandler(director));
-		director.addHandler(DefaultNodeModel.class, DiagramQName.NODE, new DefaultNodeModelSerializationHandler(director));
+		director.addHandler(DefaultDatabaseObjectNodeModel.class, DiagramQName.NODE, new DefaultDatabaseObjectNodeModelSerializationHandler(director));
 		director.addHandler(DefaultConnectionModel.class, DiagramQName.CONNECTION, new DefaultConnectionModelSerializationHandler(director));
 		// TODO sticky handler
 		director.addHandler(JmColor.class, DiagramQName.COLOR, new JmColorSerializationHandler(director));

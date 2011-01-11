@@ -18,6 +18,9 @@
  */
 package org.jiemamy.dialect;
 
+import java.util.List;
+
+import org.jiemamy.model.datatype.TypeReference;
 import org.jiemamy.validator.Validator;
 
 /**
@@ -82,17 +85,16 @@ public interface Dialect {
 //	@Deprecated
 //	BuiltinDataTypeMold findDataTypeMold(DataTypeCategory category, String typeName);
 //	
-//	/**
-//	 * データ型名を全て取得する。
-//	 * 
-//	 * <p>{@code null}を返してはならない。</p>
-//	 * 
-//	 * @return データ型名のリスト
-//	 * @since 0.2
-//	 * @deprecated use {@link #getMoldManager()} and {@link MoldManager#getTypeList()}
-//	 */
-//	@Deprecated
-//	List<BuiltinDataTypeMold> getAllDataTypes();
+	/**
+	 * データ型名を全て取得する。
+	 * 
+	 * <p>{@code null}を返してはならない。</p>
+	 * 
+	 * @return データ型名のリスト
+	 * @since 0.2
+	 * TODO rename getAllTypeReferences
+	 */
+	List<TypeReference> getAllDataTypes();
 	
 	/**
 	 * JDBC接続URLの雛形文字列を取得する。

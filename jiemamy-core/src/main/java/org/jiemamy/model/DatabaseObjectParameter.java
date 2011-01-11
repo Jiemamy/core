@@ -32,8 +32,8 @@ import org.jiemamy.model.parameter.ParameterKey;
 public class DatabaseObjectParameter<T> extends ParameterKey<T> {
 	
 	/** 無効フラグ用のキー */
-	public static DatabaseObjectParameter<Boolean> DISABLED = new DatabaseObjectParameter<Boolean>(Converters.BOOLEAN,
-			"disabled");
+	public static final DatabaseObjectParameter<Boolean> DISABLED = new DatabaseObjectParameter<Boolean>(
+			Converters.BOOLEAN, "disabled");
 	
 
 	/**

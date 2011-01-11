@@ -31,7 +31,7 @@ import org.jiemamy.dddbase.EntityRef;
  * @since 0.2
  * @author daisuke
  */
-public class StickyNodeModel extends DefaultNodeModel implements NodeModel {
+public class StickyNodeModel extends DefaultNodeModel {
 	
 	/** 内容文 */
 	private String contents;
@@ -43,7 +43,7 @@ public class StickyNodeModel extends DefaultNodeModel implements NodeModel {
 	 * @param id ENTITY ID
 	 */
 	public StickyNodeModel(UUID id) {
-		super(id, null);
+		super(id);
 	}
 	
 	@Override

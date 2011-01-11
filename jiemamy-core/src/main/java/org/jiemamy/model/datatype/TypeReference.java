@@ -1,6 +1,6 @@
 /*
- * Copyright 2007-2010 Jiemamy Project and the Others.
- * Created on 2008/12/10
+ * Copyright 2007-2011 Jiemamy Project and the Others.
+ * Created on 2011/01/11
  *
  * This file is part of Jiemamy.
  *
@@ -18,49 +18,17 @@
  */
 package org.jiemamy.model.datatype;
 
-import java.util.Set;
-
 import org.jiemamy.dddbase.ValueObject;
-import org.jiemamy.model.parameter.ParameterMap;
 
 /**
- * 型記述子。
+ * TODO for daisuke
  * 
+ * @version $Id$
  * @author daisuke
  */
-public interface TypeVariant extends ValueObject {
+public interface TypeReference extends ValueObject {
 	
-	/**
-	 * 型カテゴリを取得する。
-	 * 
-	 * @return 型カテゴリ
-	 */
-	@Deprecated
 	DataTypeCategory getCategory();
 	
-	/**
-	 * 型パラメータを取得する。
-	 * 
-	 * @param <T> 値の型
-	 * @param key キー
-	 * @return 型パラメータ
-	 */
-	<T>T getParam(TypeParameterKey<T> key);
-	
-	/**
-	 * 型パラメータを取得する。
-	 * 
-	 * @return 型パラメータの{@link Set}
-	 */
-	ParameterMap getParams();
-	
-	/**
-	 * 型名の文字列を取得する。
-	 * 
-	 * @return 型名の文字列
-	 */
-	@Deprecated
 	String getTypeName();
-	
-	TypeReference getTypeReference();
 }

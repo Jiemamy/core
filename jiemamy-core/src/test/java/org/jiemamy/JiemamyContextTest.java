@@ -37,6 +37,7 @@ import org.junit.Test;
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityNotFoundException;
+import org.jiemamy.dialect.MockDialect;
 import org.jiemamy.model.DatabaseObjectModel;
 import org.jiemamy.model.column.Column;
 import org.jiemamy.model.column.ColumnModel;

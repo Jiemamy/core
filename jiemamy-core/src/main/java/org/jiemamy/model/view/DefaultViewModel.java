@@ -58,6 +58,18 @@ public final class DefaultViewModel extends DefaultDatabaseObjectModel implement
 		return definition;
 	}
 	
+	public <T>T getParam(ViewParameterKey<T> key) {
+		return super.getParam(key);
+	}
+	
+	public <T>void putParam(ViewParameterKey<T> key, T value) {
+		super.putParam(key, value);
+	}
+	
+	public <T>void removeParam(ViewParameterKey<T> key) {
+		super.removeParam(key);
+	}
+	
 	/**
 	 * VIEW定義SELECT文を設定する。 
 	 * @param definition VIEW定義SELECT文

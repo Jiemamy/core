@@ -42,7 +42,7 @@ import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityNotFoundException;
 import org.jiemamy.dddbase.EntityRef;
-import org.jiemamy.dddbase.utils.CloneUtil;
+import org.jiemamy.dddbase.OnMemoryRepository;
 import org.jiemamy.model.DatabaseObjectModel;
 import org.jiemamy.model.DefaultDatabaseObjectModel;
 import org.jiemamy.model.ModelConsistencyException;
@@ -50,6 +50,7 @@ import org.jiemamy.model.column.ColumnModel;
 import org.jiemamy.model.constraint.ConstraintModel;
 import org.jiemamy.model.constraint.ForeignKeyConstraintModel;
 import org.jiemamy.model.constraint.KeyConstraintModel;
+import org.jiemamy.model.constraint.NotNullConstraintModel;
 import org.jiemamy.model.constraint.PrimaryKeyConstraintModel;
 import org.jiemamy.utils.ConstraintComparator;
 import org.jiemamy.utils.MutationMonitor;
@@ -134,7 +135,7 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	
 
 	/** カラムのリスト */
-	private List<ColumnModel> columns = Lists.newArrayList();
+	private OnMemoryRepository<ColumnModel> columns = new OnMemoryRepository<ColumnModel>();
 	
 	/** 制約のリスト */
 	private SortedSet<ConstraintModel> constraints = Sets.newTreeSet(new ConstraintComparator());
@@ -164,10 +165,6 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 		CollectionsUtil.addOrReplace(constraints, constraint);
 	}
 	
-	public List<ColumnModel> breachEncapsulationOfColumns() {
-		return columns;
-	}
-	
 	public SortedSet<? extends ConstraintModel> breachEncapsulationOfConstraints() {
 		return constraints;
 	}
@@ -175,7 +172,7 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	@Override
 	public DefaultTableModel clone() {
 		DefaultTableModel clone = (DefaultTableModel) super.clone();
-		clone.columns = CloneUtil.cloneEntityArrayList(columns);
+		clone.columns = columns.clone();
 		TreeSet<ConstraintModel> set = new TreeSet<ConstraintModel>(new ConstraintComparator());
 		set.addAll(constraints);
 		clone.constraints = set;
@@ -191,13 +188,7 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	 */
 	public void delete(EntityRef<? extends ColumnModel> ref) {
 		Validate.notNull(ref);
-		for (ColumnModel column : Lists.newArrayList(columns)) {
-			if (ref.isReferenceOf(column)) {
-				columns.remove(column);
-				return;
-			}
-		}
-		throw new EntityNotFoundException(ref.toString());
+		columns.delete(ref);
 	}
 	
 	public KeyConstraintModel findReferencedKeyConstraint(ForeignKeyConstraintModel foreignKey) {
@@ -229,7 +220,7 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	
 	public ColumnModel getColumn(final String name) {
 		assert columns != null;
-		Collection<ColumnModel> c = Collections2.filter(columns, new Predicate<ColumnModel>() {
+		Collection<ColumnModel> c = Collections2.filter(columns.getEntitiesAsList(), new Predicate<ColumnModel>() {
 			
 			public boolean apply(ColumnModel col) {
 				return col.getName().equals(name);
@@ -247,7 +238,7 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	
 	public List<ColumnModel> getColumns() {
 		assert columns != null;
-		return MutationMonitor.monitor(CloneUtil.cloneEntityArrayList(columns));
+		return columns.getEntitiesAsList();
 	}
 	
 	public SortedSet<? extends ConstraintModel> getConstraints() {
@@ -269,11 +260,25 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	}
 	
 	public Collection<? extends ForeignKeyConstraintModel> getForeignKeyConstraintModels() {
-		return findConstraints(ForeignKeyConstraintModel.class);
+		return getConstraints(ForeignKeyConstraintModel.class);
 	}
 	
 	public Collection<? extends KeyConstraintModel> getKeyConstraintModels() {
-		return findConstraints(KeyConstraintModel.class);
+		return getConstraints(KeyConstraintModel.class);
+	}
+	
+	public NotNullConstraintModel getNotNullConstraintFor(EntityRef<? extends ColumnModel> reference) {
+		Validate.notNull(reference);
+		for (NotNullConstraintModel nn : getConstraints(NotNullConstraintModel.class)) {
+			if (nn.getColumn().equals(reference)) {
+				return nn;
+			}
+		}
+		return null;
+	}
+	
+	public <T>T getParam(TableParameterKey<T> key) {
+		return super.getParam(key);
 	}
 	
 	public PrimaryKeyConstraintModel getPrimaryKey() {
@@ -289,6 +294,24 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	@Override
 	public Collection<? extends ColumnModel> getSubEntities() {
 		return getColumns();
+	}
+	
+	public boolean isNotNullColumn(EntityRef<? extends ColumnModel> ref) {
+		List<NotNullConstraintModel> nns = getConstraints(NotNullConstraintModel.class);
+		for (NotNullConstraintModel nn : nns) {
+			if (nn.getColumn().equals(ref)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean isPrimaryKeyColumn(EntityRef<? extends ColumnModel> ref) {
+		PrimaryKeyConstraintModel primaryKey = getPrimaryKey();
+		if (primaryKey == null) {
+			return false;
+		}
+		return primaryKey.getKeyColumns().contains(ref);
 	}
 	
 	@Override
@@ -309,6 +332,10 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 		return false;
 	}
 	
+	public <T>void putParam(TableParameterKey<T> key, T value) {
+		super.putParam(key, value);
+	}
+	
 	/**
 	 * テーブルから属性を削除する。
 	 * 
@@ -320,23 +347,17 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 		constraints.remove(attribute);
 	}
 	
+	public <T>void removeParam(TableParameterKey<T> key) {
+		super.removeParam(key);
+	}
+	
 	@SuppressWarnings("unchecked")
 	public <T extends Entity>T resolve(EntityRef<T> reference) {
-		for (ColumnModel column : columns) {
-			if (reference.isReferenceOf(column)) {
-				return (T) column.clone();
-			}
-		}
-		throw new ColumnNotFoundException("ref=" + reference);
+		return columns.resolve(reference);
 	}
 	
 	public Entity resolve(UUID id) {
-		for (ColumnModel column : columns) {
-			if (column.getId().equals(id)) {
-				return column;
-			}
-		}
-		throw new EntityNotFoundException("id=" + id);
+		return columns.resolve(id);
 	}
 	
 	/**
@@ -347,11 +368,7 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	 */
 	public void store(ColumnModel column) {
 		Validate.notNull(column);
-		if (columns.contains(column)) {
-			columns.set(columns.indexOf(column), column.clone());
-		} else {
-			columns.add(column.clone());
-		}
+		columns.store(column);
 	}
 	
 	public EntityRef<DefaultTableModel> toReference() {
@@ -367,15 +384,5 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 			sb.append("Table ").append(getName());
 		}
 		return sb.toString();
-	}
-	
-	private <T extends ConstraintModel>Collection<T> findConstraints(Class<T> clazz) {
-		Collection<T> result = Lists.newArrayList();
-		for (ConstraintModel attribute : constraints) {
-			if (clazz.isAssignableFrom(attribute.getClass())) {
-				result.add(clazz.cast(attribute));
-			}
-		}
-		return result;
 	}
 }

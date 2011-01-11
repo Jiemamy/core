@@ -43,10 +43,10 @@ import org.slf4j.LoggerFactory;
 
 import org.jiemamy.DiagramFacet;
 import org.jiemamy.JiemamyContext;
+import org.jiemamy.model.DatabaseObjectNodeModel;
+import org.jiemamy.model.DefaultDatabaseObjectNodeModel;
 import org.jiemamy.model.DefaultDiagramModel;
-import org.jiemamy.model.DefaultNodeModel;
 import org.jiemamy.model.DiagramModel;
-import org.jiemamy.model.NodeModel;
 import org.jiemamy.model.geometory.JmRectangle;
 import org.jiemamy.model.table.DefaultTableModel;
 import org.jiemamy.model.table.TableModel;
@@ -61,8 +61,6 @@ import org.jiemamy.serializer.stax2.JiemamyStaxSerializer;
 public class JiemamyStaxSerializerTest {
 	
 	private JiemamyStaxSerializer serializer;
-	
-	private static final String LF = "\n";
 	
 	private static Logger logger = LoggerFactory.getLogger(JiemamyStaxSerializerTest.class);
 	
@@ -93,7 +91,7 @@ public class JiemamyStaxSerializerTest {
 		DefaultTableModel table = new DefaultTableModel(tableId);
 		context.store(table);
 		
-		DefaultNodeModel nnode = new DefaultNodeModel(nodeId, table.toReference());
+		DefaultDatabaseObjectNodeModel nnode = new DefaultDatabaseObjectNodeModel(nodeId, table.toReference());
 		nnode.setBoundary(new JmRectangle(100, 100));
 		DefaultDiagramModel diagram = new DefaultDiagramModel(diagramId);
 		diagram.store(nnode);
@@ -104,8 +102,8 @@ public class JiemamyStaxSerializerTest {
 		String actual = baos.toString(CharEncoding.UTF_8);
 		String expected = getXml("diagram1.jiemamy");
 		
-		logger.info("actual={}", actual);
-		logger.info("expected={}", expected);
+		logger.info("actual  ={}", actual.replaceAll("[\r\n]", ""));
+		logger.info("expected={}", expected.replaceAll("[\r\n]", ""));
 		
 		DetailedDiff diff = new DetailedDiff(new Diff(actual, expected));
 		assertThat(diff.getAllDifferences().toString(), diff.similar(), is(true));
@@ -137,7 +135,7 @@ public class JiemamyStaxSerializerTest {
 		DiagramModel diagramModel = facet.getDiagrams().get(0);
 		assertThat(diagramModel.getId(), is(diagramId));
 		assertThat(diagramModel.getNodes().size(), is(1));
-		NodeModel nodeModel = Iterables.get(diagramModel.getNodes(), 0);
+		DatabaseObjectNodeModel nodeModel = (DatabaseObjectNodeModel) Iterables.get(diagramModel.getNodes(), 0);
 		assertThat(nodeModel.getId(), is(nodeId));
 		
 		assertThat(nodeModel.getCoreModelRef().isReferenceOf(tableModel), is(true));

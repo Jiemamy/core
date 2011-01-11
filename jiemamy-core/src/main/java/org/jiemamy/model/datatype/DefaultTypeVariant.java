@@ -53,11 +53,9 @@ public final class DefaultTypeVariant implements TypeVariant {
 	}
 	
 
-	private DataTypeCategory category;
-	
-	private String typeName;
-	
 	private ParameterMap params;
+	
+	private TypeReference typeReference;
 	
 
 	/**
@@ -67,17 +65,21 @@ public final class DefaultTypeVariant implements TypeVariant {
 	 * @param typeName 型名
 	 * @param params 型パラメータ
 	 */
+	@Deprecated
 	public DefaultTypeVariant(DataTypeCategory category, String typeName, ParameterMap params) {
-		Validate.notNull(category);
-		Validate.notNull(typeName);
+		this(new DefaultTypeReference(category, typeName), params);
+	}
+	
+	public DefaultTypeVariant(TypeReference typeReference, ParameterMap params) {
+		Validate.notNull(typeReference);
 		Validate.notNull(params);
-		this.category = category;
-		this.typeName = typeName;
+		this.typeReference = typeReference;
 		this.params = params.clone();
 	}
 	
+	@Deprecated
 	public DataTypeCategory getCategory() {
-		return category;
+		return typeReference.getCategory();
 	}
 	
 	public <T>T getParam(TypeParameterKey<T> key) {
@@ -88,8 +90,13 @@ public final class DefaultTypeVariant implements TypeVariant {
 		return params.clone();
 	}
 	
+	@Deprecated
 	public String getTypeName() {
-		return typeName;
+		return typeReference.getTypeName();
+	}
+	
+	public TypeReference getTypeReference() {
+		return typeReference;
 	}
 	
 }

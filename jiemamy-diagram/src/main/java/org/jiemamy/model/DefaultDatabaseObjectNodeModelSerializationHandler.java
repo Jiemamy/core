@@ -45,14 +45,15 @@ import org.jiemamy.xml.CoreQName;
 import org.jiemamy.xml.DiagramQName;
 
 /**
- * {@link DefaultNodeModel}をシリアライズ/デシリアライズするハンドラ。
+ * {@link DefaultDatabaseObjectNodeModel}をシリアライズ/デシリアライズするハンドラ。
  * 
  * @version $Id$
  * @author daisuke
  */
-public final class DefaultNodeModelSerializationHandler extends SerializationHandler<DefaultNodeModel> {
+public final class DefaultDatabaseObjectNodeModelSerializationHandler extends
+		SerializationHandler<DefaultDatabaseObjectNodeModel> {
 	
-	private static Logger logger = LoggerFactory.getLogger(DefaultNodeModelSerializationHandler.class);
+	private static Logger logger = LoggerFactory.getLogger(DefaultDatabaseObjectNodeModelSerializationHandler.class);
 	
 
 	/**
@@ -60,12 +61,13 @@ public final class DefaultNodeModelSerializationHandler extends SerializationHan
 	 * 
 	 * @param director 親となるディレクタ
 	 */
-	public DefaultNodeModelSerializationHandler(SerializationDirector director) {
+	public DefaultDatabaseObjectNodeModelSerializationHandler(SerializationDirector director) {
 		super(director);
 	}
 	
 	@Override
-	public DefaultNodeModel handleDeserialization(DeserializationContext ctx) throws SerializationException {
+	public DefaultDatabaseObjectNodeModel handleDeserialization(DeserializationContext ctx)
+			throws SerializationException {
 		Validate.notNull(ctx);
 		try {
 			Validate.isTrue(ctx.peek().getCurrEvent() == SMEvent.START_ELEMENT);
@@ -105,7 +107,7 @@ public final class DefaultNodeModelSerializationHandler extends SerializationHan
 			} while (childCursor.getCurrEvent() != null);
 			ctx.pop();
 			
-			DefaultNodeModel nodeModel = new DefaultNodeModel(id, core);
+			DefaultDatabaseObjectNodeModel nodeModel = new DefaultDatabaseObjectNodeModel(id, core);
 			nodeModel.setBoundary(boundary);
 			nodeModel.setColor(color);
 			return nodeModel;
@@ -115,7 +117,8 @@ public final class DefaultNodeModelSerializationHandler extends SerializationHan
 	}
 	
 	@Override
-	public void handleSerialization(DefaultNodeModel model, SerializationContext sctx) throws SerializationException {
+	public void handleSerialization(DefaultDatabaseObjectNodeModel model, SerializationContext sctx)
+			throws SerializationException {
 		JiemamyOutputContainer parent = sctx.peek();
 		try {
 			JiemamyOutputElement nodeElement = parent.addElement(DiagramQName.NODE);

@@ -1,6 +1,6 @@
 /*
- * Copyright 2007-2010 Jiemamy Project and the Others.
- * Created on 2008/09/17
+ * Copyright 2007-2011 Jiemamy Project and the Others.
+ * Created on 2011/01/11
  *
  * This file is part of Jiemamy.
  *
@@ -16,30 +16,24 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.model.view;
+package org.jiemamy.model;
 
 import org.jiemamy.dddbase.EntityRef;
-import org.jiemamy.model.DatabaseObjectModel;
 
 /**
- * リレーショナルデータベースにおける「ビュー」を表すモデルインターフェイス。
+ * TODO for daisuke
  * 
- * @since 0.2
+ * @version $Id$
  * @author daisuke
  */
-public interface ViewModel extends DatabaseObjectModel {
-	
-	ViewModel clone();
+public interface DatabaseObjectNodeModel extends NodeModel {
 	
 	/**
-	 * VIEW定義SELECT文を取得する。
+	 * コアモデルへの参照を取得する。
 	 * 
-	 * @return VIEW定義SELECT文. 未設定の場合は{@code null}
-	 * @since 0.2
+	 * @return コアモデルへの参照。コアが無い場合は{@code null}
+	 * @since 0.3
 	 */
-	String getDefinition();
+	EntityRef<? extends DatabaseObjectModel> getCoreModelRef();
 	
-	<T>T getParam(ViewParameterKey<T> key);
-	
-	EntityRef<? extends ViewModel> toReference();
 }
