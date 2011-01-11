@@ -43,8 +43,10 @@ import org.jiemamy.dddbase.OnMemoryRepository;
 import org.jiemamy.dialect.Dialect;
 import org.jiemamy.model.DatabaseObjectModel;
 import org.jiemamy.model.dataset.DataSetModel;
+import org.jiemamy.model.domain.DomainModel;
 import org.jiemamy.model.index.IndexModel;
 import org.jiemamy.model.table.TableModel;
+import org.jiemamy.model.view.ViewModel;
 import org.jiemamy.serializer.JiemamySerializer;
 import org.jiemamy.serializer.stax2.JiemamyStaxSerializer;
 import org.jiemamy.transaction.Command;
@@ -287,6 +289,16 @@ public class JiemamyContext {
 		return doms.getEntitiesAsSet();
 	}
 	
+	public <T extends DatabaseObjectModel>Set<T> getDatabaseObjects(Class<T> clazz) {
+		Set<T> result = Sets.newHashSet();
+		for (DatabaseObjectModel dom : doms.getEntitiesAsSet()) {
+			if (clazz.isInstance(dom)) {
+				result.add(clazz.cast(dom));
+			}
+		}
+		return result;
+	}
+	
 	/**
 	 * このコンテキストが管理する全ての {@link DataSetModel} の{@link List}を取得する。
 	 * 
@@ -312,6 +324,18 @@ public class JiemamyContext {
 	 */
 	public String getDialectClassName() {
 		return dialectClassName;
+	}
+	
+	/**
+	 * このコンテキストが管理する全ての {@link DomainModel} を取得する。
+	 * 
+	 * <p>Note: Convenience method; equivalent to
+	 * {@code getDatabaseObjects(DomainModel.class));}.</p>
+	 * 
+	 * @return {@link DomainModel}のセット
+	 */
+	public Set<DomainModel> getDomains() {
+		return getDatabaseObjects(DomainModel.class);
 	}
 	
 	/**
@@ -431,6 +455,18 @@ public class JiemamyContext {
 	}
 	
 	/**
+	 * このコンテキストが管理する全ての {@link ViewModel} を取得する。
+	 * 
+	 * <p>Note: Convenience method; equivalent to
+	 * {@code getDatabaseObjects(ViewModel.class));}.</p>
+	 * 
+	 * @return {@link ViewModel}のセット
+	 */
+	public Set<ViewModel> getViews() {
+		return getDatabaseObjects(ViewModel.class);
+	}
+	
+	/**
 	 * 指定したファセットを持つかどうか調べる。
 	 * 
 	 * @param <T> ファセットの型
@@ -545,15 +581,5 @@ public class JiemamyContext {
 	@Override
 	public String toString() {
 		return ClassUtil.getShortClassName(getClass()) + "@" + Integer.toHexString(hashCode());
-	}
-	
-	<T extends DatabaseObjectModel>Set<T> getDatabaseObjects(Class<T> clazz) {
-		Set<T> result = Sets.newHashSet();
-		for (DatabaseObjectModel dom : doms.getEntitiesAsSet()) {
-			if (clazz.isInstance(dom)) {
-				result.add(clazz.cast(dom));
-			}
-		}
-		return result;
 	}
 }
