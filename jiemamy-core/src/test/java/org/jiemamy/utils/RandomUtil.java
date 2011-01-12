@@ -47,24 +47,34 @@ public final class RandomUtil {
 		return R.nextBoolean() ? null : enumConstants[R.nextInt(enumConstants.length)];
 	}
 	
+	/**
+	 * 0〜{@code limit}までの整数乱数を生成する。
+	 * 
+	 * @param limit 限界
+	 * @return 乱数
+	 */
 	public static int integer(int limit) {
-		return R.nextInt() % limit;
+		return Math.abs(R.nextInt()) % limit;
 	}
 	
+	/**
+	 * 0〜10文字までの乱英数文字列を生成する。
+	 * 
+	 * @return 乱文字列
+	 */
 	public static String str() {
-		return R.nextBoolean() ? "" : RandomStringUtils.randomAlphanumeric(5);
+		return bool() ? "" : RandomStringUtils.randomAlphanumeric(integer(10));
 	}
 	
+	/**
+	 * 0〜10文字までの乱英数文字列または {@code null}を返す。
+	 * 
+	 * @return 乱文字列または {@code null}
+	 */
 	public static String strNullable() {
-		int x = R.nextInt() % 3;
-		// FORMAT-OFF
-		switch (x) {
-			case 0:	return "";
-			case 1:	return RandomStringUtils.randomAlphanumeric(5);
-			default: return null;
-		}
-		// FORAMT-ON
+		return bool() ? null : str();
 	}
 	
-	private RandomUtil(){}
+	private RandomUtil() {
+	}
 }

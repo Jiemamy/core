@@ -21,6 +21,7 @@ package org.jiemamy.model.table;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasItems;
 import static org.jiemamy.utils.RandomUtil.bool;
+import static org.jiemamy.utils.RandomUtil.enumeNullable;
 import static org.jiemamy.utils.RandomUtil.integer;
 import static org.jiemamy.utils.RandomUtil.str;
 import static org.junit.Assert.assertThat;
@@ -42,7 +43,7 @@ import org.jiemamy.model.column.Column;
 import org.jiemamy.model.column.ColumnModel;
 import org.jiemamy.model.column.DefaultColumnModel;
 import org.jiemamy.model.column.DefaultColumnModelTest;
-import org.jiemamy.model.constraint.DefaultDeferrabilityModelTest;
+import org.jiemamy.model.constraint.DefaultDeferrabilityModel;
 import org.jiemamy.model.constraint.DefaultForeignKeyConstraintModel;
 import org.jiemamy.model.constraint.DefaultPrimaryKeyConstraintModel;
 import org.jiemamy.model.constraint.DeferrabilityModel;
@@ -81,7 +82,7 @@ public class DefaultTableModelTest {
 			if (bool() && model.getColumns().size() >= 2) {
 				columns.add(model.getColumns().get(0).toReference());
 			}
-			DeferrabilityModel def = DefaultDeferrabilityModelTest.randomNullable();
+			DeferrabilityModel def = enumeNullable(DefaultDeferrabilityModel.class);
 			DefaultPrimaryKeyConstraintModel pk =
 					new DefaultPrimaryKeyConstraintModel(str(), str(), str(), columns, def);
 			model.addConstraint(pk);
