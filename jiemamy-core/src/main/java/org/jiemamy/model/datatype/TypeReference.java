@@ -28,7 +28,17 @@ import org.jiemamy.dddbase.ValueObject;
  */
 public interface TypeReference extends ValueObject {
 	
+	/**
+	 * 型カテゴリを取得する。
+	 * 
+	 * @return 型カテゴリ
+	 */
 	DataTypeCategory getCategory();
 	
+	/**
+	 * 型名の文字列を取得する。
+	 * 
+	 * @return 型名の文字列
+	 */
 	String getTypeName();
 }

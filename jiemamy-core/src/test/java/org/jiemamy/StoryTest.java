@@ -35,6 +35,7 @@ import org.jiemamy.model.column.DefaultColumnModel;
 import org.jiemamy.model.constraint.DefaultForeignKeyConstraintModel;
 import org.jiemamy.model.constraint.DefaultPrimaryKeyConstraintModel;
 import org.jiemamy.model.constraint.DefaultPrimaryKeyConstraintModelBuilder;
+import org.jiemamy.model.datatype.DefaultTypeVariantTest;
 import org.jiemamy.model.table.DefaultTableModel;
 import org.jiemamy.model.table.Table;
 import org.jiemamy.model.table.TableModel;
@@ -73,9 +74,9 @@ public class StoryTest {
 		// FORMAT-OFF
 		ColumnModel pk;
 		TableModel dept = new Table("T_DEPT").with(
-			pk = new Column("ID").whoseTypeIs(Dummy.TYPE).build(),
-			new Column("NAME").whoseTypeIs(Dummy.TYPE).build(),
-			new Column("LOC").whoseTypeIs(Dummy.TYPE).build()
+			pk = new Column("ID").whoseTypeIs(DefaultTypeVariantTest.random()).build(),
+			new Column("NAME").whoseTypeIs(DefaultTypeVariantTest.random()).build(),
+			new Column("LOC").whoseTypeIs(DefaultTypeVariantTest.random()).build()
 		).with(new DefaultPrimaryKeyConstraintModelBuilder().addKeyColumn(pk).build()).build();
 		
 		ctx1.store(dept);

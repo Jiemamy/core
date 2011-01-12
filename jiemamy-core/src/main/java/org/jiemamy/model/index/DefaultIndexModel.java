@@ -30,8 +30,8 @@ import org.jiemamy.JiemamyContext;
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.utils.CloneUtil;
+import org.jiemamy.dddbase.utils.MutationMonitor;
 import org.jiemamy.model.DefaultDatabaseObjectModel;
-import org.jiemamy.utils.MutationMonitor;
 
 /**
  * インデックスモデル。

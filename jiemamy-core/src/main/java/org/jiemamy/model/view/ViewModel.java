@@ -20,6 +20,7 @@ package org.jiemamy.model.view;
 
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.DatabaseObjectModel;
+import org.jiemamy.model.parameter.ParameterMap;
 
 /**
  * リレーショナルデータベースにおける「ビュー」を表すモデルインターフェイス。
@@ -39,7 +40,21 @@ public interface ViewModel extends DatabaseObjectModel {
 	 */
 	String getDefinition();
 	
+	/**
+	 * パラメータを取得する。
+	 * 
+	 * @param <T> 値の型
+	 * @param key キー
+	 * @return 型パラメータ
+	 */
 	<T>T getParam(ViewParameterKey<T> key);
+	
+	/**
+	 * 全パラメータを取得する。
+	 * 
+	 * @return 全パラメータ
+	 */
+	ParameterMap getParams();
 	
 	EntityRef<? extends ViewModel> toReference();
 }

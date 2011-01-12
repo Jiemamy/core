@@ -21,8 +21,6 @@ package org.jiemamy.serializer.stax2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.jiemamy.serializer.SerializationException;
-
 /**
  * 全てのモデルをシリアライズ・デシリアライズできる「フリをする」ダミー実装。
  * 
@@ -44,13 +42,13 @@ public class DummyHandler extends SerializationHandler<Object> {
 	}
 	
 	@Override
-	public Object handleDeserialization(DeserializationContext ctx) throws SerializationException {
+	public Object handleDeserialization(DeserializationContext ctx) {
 		logger.error("DUMMY WORKER IS CALLED.");
 		return null;
 	}
 	
 	@Override
-	public void handleSerialization(Object model, SerializationContext sctx) throws SerializationException {
+	public void handleSerialization(Object model, SerializationContext sctx) {
 		logger.error("DUMMY WORKER IS CALLED.");
 	}
 }

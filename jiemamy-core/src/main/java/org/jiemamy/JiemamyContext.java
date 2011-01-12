@@ -41,6 +41,7 @@ import org.jiemamy.dddbase.EntityNotFoundException;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.OnMemoryRepository;
 import org.jiemamy.dddbase.OrderedOnMemoryRepository;
+import org.jiemamy.dddbase.utils.MutationMonitor;
 import org.jiemamy.dialect.Dialect;
 import org.jiemamy.model.DatabaseObjectModel;
 import org.jiemamy.model.dataset.DataSetModel;
@@ -54,7 +55,6 @@ import org.jiemamy.transaction.Command;
 import org.jiemamy.transaction.EventBroker;
 import org.jiemamy.transaction.EventBrokerImpl;
 import org.jiemamy.transaction.JiemamyTransaction;
-import org.jiemamy.utils.MutationMonitor;
 import org.jiemamy.utils.reflect.ClassUtil;
 import org.jiemamy.xml.CoreNamespace;
 import org.jiemamy.xml.JiemamyNamespace;
@@ -71,6 +71,10 @@ public class JiemamyContext {
 	private static Logger logger = LoggerFactory.getLogger(JiemamyContext.class);
 	
 	private static boolean debug = getVersion().isSnapshot();
+	
+	static {
+		MutationMonitor.setDebug(debug);
+	}
 	
 
 	/**

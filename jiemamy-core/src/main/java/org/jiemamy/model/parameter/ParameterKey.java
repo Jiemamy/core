@@ -21,18 +21,28 @@ package org.jiemamy.model.parameter;
 import org.apache.commons.lang.Validate;
 
 /**
- * TODO for daisuke
+ * {@link ParameterMap}用のキーオブジェクト。
  * 
+ * @param <T> キーに対する値の型
  * @version $Id$
  * @author daisuke
  */
 public class ParameterKey<T> {
 	
+	/** 値の文字列変換に用いるコンバータ */
 	private final Converter<T> converter;
 	
+	/** キー文字列 */
 	private final String keyString;
 	
 
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param converter 値の文字列変換に用いるコンバータ
+	 * @param keyString キー文字列
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
 	public ParameterKey(Converter<T> converter, String keyString) {
 		Validate.notNull(converter);
 		Validate.notNull(keyString);
@@ -63,6 +73,11 @@ public class ParameterKey<T> {
 		return converter;
 	}
 	
+	/**
+	 * キー文字列を取得する。
+	 * 
+	 * @return キー文字列
+	 */
 	public String getKeyString() {
 		return keyString;
 	}

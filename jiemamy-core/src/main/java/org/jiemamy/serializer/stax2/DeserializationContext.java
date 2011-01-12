@@ -32,7 +32,7 @@ import org.jiemamy.utils.collection.EssentialStack;
  */
 public class DeserializationContext {
 	
-	private final EssentialStack<JiemamyCursor> stack = new ArrayEssentialStack<JiemamyCursor>();;
+	private final EssentialStack<JiemamyCursor> stack = new ArrayEssentialStack<JiemamyCursor>();
 	
 
 	/**

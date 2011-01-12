@@ -43,6 +43,7 @@ import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityNotFoundException;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.OrderedOnMemoryRepository;
+import org.jiemamy.dddbase.utils.MutationMonitor;
 import org.jiemamy.model.DatabaseObjectModel;
 import org.jiemamy.model.DefaultDatabaseObjectModel;
 import org.jiemamy.model.ModelConsistencyException;
@@ -53,7 +54,6 @@ import org.jiemamy.model.constraint.KeyConstraintModel;
 import org.jiemamy.model.constraint.NotNullConstraintModel;
 import org.jiemamy.model.constraint.PrimaryKeyConstraintModel;
 import org.jiemamy.utils.ConstraintComparator;
-import org.jiemamy.utils.MutationMonitor;
 import org.jiemamy.utils.collection.CollectionsUtil;
 
 /**
@@ -351,7 +351,6 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 		super.removeParam(key);
 	}
 	
-	@SuppressWarnings("unchecked")
 	public <T extends Entity>T resolve(EntityRef<T> reference) {
 		return columns.resolve(reference);
 	}

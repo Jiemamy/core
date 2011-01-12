@@ -296,18 +296,6 @@ public class JiemamyOutputContainer {
 	/**
 	 * TODO for daisuke
 	 * 
-	 * @param obj
-	 * @return
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		return container.equals(obj);
-	}
-	
-	/**
-	 * TODO for daisuke
-	 * 
 	 * @return
 	 * @see org.codehaus.staxmate.out.SMOutputContainer#getContext()
 	 */
@@ -366,17 +354,6 @@ public class JiemamyOutputContainer {
 	 */
 	public void getPath(StringBuilder sb) {
 		container.getPath(sb);
-	}
-	
-	/**
-	 * TODO for daisuke
-	 * 
-	 * @return
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		return container.hashCode();
 	}
 	
 	/**

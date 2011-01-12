@@ -32,6 +32,7 @@ import org.jiemamy.JiemamyContext;
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.utils.CloneUtil;
+import org.jiemamy.dddbase.utils.MutationMonitor;
 import org.jiemamy.model.DefaultDatabaseObjectModel;
 import org.jiemamy.model.constraint.CheckConstraintModel;
 import org.jiemamy.model.datatype.DataTypeCategory;
@@ -39,7 +40,6 @@ import org.jiemamy.model.datatype.TypeParameterKey;
 import org.jiemamy.model.datatype.TypeReference;
 import org.jiemamy.model.datatype.TypeVariant;
 import org.jiemamy.model.parameter.ParameterMap;
-import org.jiemamy.utils.MutationMonitor;
 import org.jiemamy.utils.collection.CollectionsUtil;
 
 /**

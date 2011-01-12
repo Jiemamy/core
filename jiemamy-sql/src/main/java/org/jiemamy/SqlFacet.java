@@ -21,8 +21,6 @@ import java.util.List;
 import java.util.UUID;
 
 import org.apache.commons.lang.Validate;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityNotFoundException;
@@ -61,8 +59,6 @@ public class SqlFacet implements JiemamyFacet {
 	};
 	
 	private OnMemoryRepository<AroundScriptModel> scripts = new OnMemoryRepository<AroundScriptModel>();
-	
-	private static Logger logger = LoggerFactory.getLogger(SqlFacet.class);
 	
 	private final JiemamyContext context;
 	

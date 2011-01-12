@@ -33,8 +33,8 @@ import org.jiemamy.ServiceLocator;
 import org.jiemamy.dddbase.AbstractEntity;
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.utils.MutationMonitor;
 import org.jiemamy.model.DatabaseObjectModel;
-import org.jiemamy.utils.MutationMonitor;
 
 /**
  * {@link AroundScriptModel}の実装クラス。

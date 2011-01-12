@@ -27,8 +27,8 @@ import org.apache.commons.lang.Validate;
 import org.jiemamy.JiemamyError;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.utils.CloneUtil;
+import org.jiemamy.dddbase.utils.MutationMonitor;
 import org.jiemamy.model.column.ColumnModel;
-import org.jiemamy.utils.MutationMonitor;
 
 /**
  * 抽象キー制約モデル。

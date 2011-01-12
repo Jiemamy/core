@@ -18,8 +18,6 @@
  */
 package org.jiemamy.model.datatype;
 
-import java.util.Set;
-
 import org.jiemamy.dddbase.ValueObject;
 import org.jiemamy.model.parameter.ParameterMap;
 
@@ -48,9 +46,9 @@ public interface TypeVariant extends ValueObject {
 	<T>T getParam(TypeParameterKey<T> key);
 	
 	/**
-	 * 型パラメータを取得する。
+	 * 全パラメータを取得する。
 	 * 
-	 * @return 型パラメータの{@link Set}
+	 * @return 全パラメータ
 	 */
 	ParameterMap getParams();
 	

@@ -19,28 +19,31 @@
 package org.jiemamy.model.parameter;
 
 /**
- * TODO for daisuke
+ * 任意のオブジェクト{@code T}と{@link String}を相互変換するコンバータ。
  * 
- * @param <T> 
+ * <p>一般に、{@code converter.valueOf(converter.toString(obj)).equals.(obj)} 及び
+ * {@code converter.toString(converter.valueOf(str)).equals(str)}が成り立つべきである。</p>
+ * 
+ * @param <T> 変換対象オブジェクトの型
  * @version $Id$
  * @author daisuke
  */
 public interface Converter<T> {
 	
 	/**
-	 * TODO for daisuke
+	 * オブジェクトを文字列に変換する。
 	 * 
-	 * @param obj
-	 * @return
+	 * @param obj 変換対象オブジェクト
+	 * @return オブジェクトの文字列表現
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	String toString(T obj);
 	
 	/**
-	 * TODO for daisuke
+	 * 文字列をオブジェクトに変換する。
 	 * 
-	 * @param str
-	 * @return
+	 * @param str 変換対象文字列
+	 * @return 文字列のオブジェクト表現
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	T valueOf(String str);

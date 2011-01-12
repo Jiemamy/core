@@ -25,10 +25,10 @@ import org.jiemamy.dddbase.AbstractEntity;
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.utils.CloneUtil;
+import org.jiemamy.dddbase.utils.MutationMonitor;
 import org.jiemamy.model.constraint.ForeignKeyConstraintModel;
 import org.jiemamy.model.geometory.JmColor;
 import org.jiemamy.model.geometory.JmPoint;
-import org.jiemamy.utils.MutationMonitor;
 
 /**
  * {@link ConnectionModel}のデフォルト実装クラス。

@@ -53,6 +53,14 @@ public final class ParameterMap implements Iterable<Map.Entry<String, String>>, 
 		}
 	}
 	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param <T>
+	 * @param key
+	 * @return
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
 	public <T>T get(ParameterKey<T> key) {
 		Validate.notNull(key);
 		if (map.containsKey(key.getKeyString()) == false) {

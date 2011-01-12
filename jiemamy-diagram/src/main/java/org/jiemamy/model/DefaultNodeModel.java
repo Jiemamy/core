@@ -20,19 +20,13 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.UUID;
 
-import com.google.common.collect.Lists;
-
-import org.apache.commons.lang.Validate;
-
 import org.jiemamy.dddbase.AbstractEntity;
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.Entity;
-import org.jiemamy.dddbase.EntityNotFoundException;
 import org.jiemamy.dddbase.EntityRef;
-import org.jiemamy.dddbase.utils.CloneUtil;
+import org.jiemamy.dddbase.OnMemoryRepository;
 import org.jiemamy.model.geometory.JmColor;
 import org.jiemamy.model.geometory.JmRectangle;
-import org.jiemamy.utils.MutationMonitor;
 
 /**
  * {@link NodeModel}のデフォルト実装クラス。
@@ -47,38 +41,29 @@ public abstract class DefaultNodeModel extends AbstractEntity implements NodeMod
 	
 	private JmColor color;
 	
-	Collection<ConnectionModel> sourceConnections = Lists.newArrayList();
+	OnMemoryRepository<ConnectionModel> sourceConnections = new OnMemoryRepository<ConnectionModel>();
 	
 
+//	Collection<ConnectionModel> sourceConnections = Lists.newArrayList();
+	
 	/**
 	 * インスタンスを生成する。
 	 * 
 	 * @param id ENTITY ID
-	 * @param coreModelRef コアモデルへの参照
 	 */
 	public DefaultNodeModel(UUID id) {
 		super(id);
 	}
 	
-	public Collection<? extends ConnectionModel> breachEncapsulationOfSourceConnections() {
-		return sourceConnections;
-	}
-	
 	@Override
 	public DefaultNodeModel clone() {
 		DefaultNodeModel clone = (DefaultNodeModel) super.clone();
-		clone.sourceConnections = CloneUtil.cloneEntityArrayList(sourceConnections);
+		clone.sourceConnections = sourceConnections.clone();
 		return clone;
 	}
 	
 	public void delete(EntityRef<? extends ConnectionModel> reference) {
-		for (ConnectionModel connectionModel : Lists.newArrayList(sourceConnections)) {
-			if (reference.isReferenceOf(connectionModel)) {
-				sourceConnections.remove(connectionModel);
-				return;
-			}
-		}
-		throw new EntityNotFoundException("ref=" + reference);
+		sourceConnections.delete(reference);
 	}
 	
 	public JmRectangle getBoundary() {
@@ -90,12 +75,12 @@ public abstract class DefaultNodeModel extends AbstractEntity implements NodeMod
 	}
 	
 	public Collection<? extends ConnectionModel> getSourceConnections() {
-		return MutationMonitor.monitor(Lists.newArrayList(sourceConnections));
+		return sourceConnections.getEntitiesAsSet();
 	}
 	
 	@Override
 	public Collection<? extends Entity> getSubEntities() {
-		return Lists.newArrayList(sourceConnections);
+		return getSourceConnections();
 	}
 	
 	public Collection<? extends ConnectionModel> getTargetConnections() {
@@ -126,11 +111,7 @@ public abstract class DefaultNodeModel extends AbstractEntity implements NodeMod
 	 * @param connection source connection
 	 */
 	public void store(ConnectionModel connection) {
-		Validate.notNull(connection);
-		if (sourceConnections.contains(connection)) {
-			sourceConnections.remove(connection);
-		}
-		sourceConnections.add(connection.clone());
+		sourceConnections.store(connection);
 	}
 	
 	public EntityRef<? extends DefaultNodeModel> toReference() {

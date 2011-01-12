@@ -27,8 +27,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.utils.MutationMonitor;
 import org.jiemamy.model.column.ColumnModel;
-import org.jiemamy.utils.MutationMonitor;
 
 /**
  * レコード（INSERT文1つ分）モデル。

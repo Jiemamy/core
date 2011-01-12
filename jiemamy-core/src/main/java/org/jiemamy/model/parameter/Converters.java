@@ -19,17 +19,20 @@
 package org.jiemamy.model.parameter;
 
 /**
- * TODO for daisuke
+ * 各種コンバータを提供する定数クラス。
  * 
  * @version $Id$
  * @author daisuke
  */
 public final class Converters {
 	
+	/** {@link Boolean}型のコンバータ */
 	public static final Converter<Boolean> BOOLEAN = new BooleanConverter();
 	
+	/** {@link Integer}型のコンバータ */
 	public static final Converter<Integer> INTEGER = new IntegerConverter();
 	
+	/** {@link String}型のコンバータ */
 	public static final Converter<String> STRING = new StringConverter();
 	
 

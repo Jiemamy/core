@@ -49,7 +49,7 @@ public class DefaultTypeVariantTest {
 		
 		// TODO paramも適当に追加する処理
 		
-		return new DefaultTypeVariant(category, typeName, params);
+		return new DefaultTypeVariant(new DefaultTypeReference(category, typeName), params);
 	}
 	
 
@@ -65,7 +65,7 @@ public class DefaultTypeVariantTest {
 	public void setUp() throws Exception {
 		ParameterMap params = new ParameterMap();
 		params.put(TypeParameterKey.SIZE, 10);
-		typeVariant = new DefaultTypeVariant(DataTypeCategory.VARCHAR, "VARCHAR", params);
+		typeVariant = new DefaultTypeVariant(new DefaultTypeReference(DataTypeCategory.VARCHAR, "VARCHAR"), params);
 	}
 	
 	/**
@@ -75,8 +75,8 @@ public class DefaultTypeVariantTest {
 	 */
 	@Test
 	public void test01_作ったインスタンスの挙動チェック() throws Exception {
-		assertThat(typeVariant.getCategory(), is(DataTypeCategory.VARCHAR));
-		assertThat(typeVariant.getTypeName(), is("VARCHAR"));
+		assertThat(typeVariant.getTypeReference().getCategory(), is(DataTypeCategory.VARCHAR));
+		assertThat(typeVariant.getTypeReference().getTypeName(), is("VARCHAR"));
 		assertThat(typeVariant.getParam(TypeParameterKey.SIZE), is(10));
 		assertThat(typeVariant.getParam(TypeParameterKey.PRECISION), is(nullValue()));
 	}

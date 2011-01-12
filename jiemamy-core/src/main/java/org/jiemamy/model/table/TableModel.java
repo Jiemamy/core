@@ -20,7 +20,6 @@ package org.jiemamy.model.table;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 import java.util.SortedSet;
 
 import org.jiemamy.dddbase.EntityRef;
@@ -108,6 +107,12 @@ public interface TableModel extends DatabaseObjectModel {
 	 */
 	Collection<? extends KeyConstraintModel> getKeyConstraintModels();
 	
+	/**
+	 * 指定したカラム参照に対する NOT NULL 制約を取得する。
+	 * 
+	 * @param reference カラム参照
+	 * @return NOT NULL制約。無い場合は{@code null}
+	 */
 	NotNullConstraintModel getNotNullConstraintFor(EntityRef<? extends ColumnModel> reference);
 	
 	/**
@@ -120,18 +125,39 @@ public interface TableModel extends DatabaseObjectModel {
 	<T>T getParam(TableParameterKey<T> key);
 	
 	/**
-	 * パラメータを取得する。
+	 * 全パラメータを取得する。
 	 * 
-	 * @return 型パラメータの{@link Set}
+	 * @return 全パラメータ
 	 */
 	ParameterMap getParams();
 	
+	/**
+	 * このテーブルの主キー制約を取得する。
+	 * 
+	 * @return 主キー制約。無い場合は {@code null}
+	 */
 	PrimaryKeyConstraintModel getPrimaryKey();
 	
 	Collection<? extends ColumnModel> getSubEntities();
 	
+	/**
+	 * 指定したカラムがこのテーブルにおいて NOT NULL 制約を受けているかどうか調べる。
+	 * 
+	 * <p>但し、指定したカラムがこのテーブルのカラムでない場合は常に {@code false} を返すので注意すること。</p>
+	 * 
+	 * @param ref カラム参照
+	 * @return 制約を受けている場合は{@code true}、そうでない場合は{@code false}
+	 */
 	boolean isNotNullColumn(EntityRef<? extends ColumnModel> ref);
 	
+	/**
+	 * 指定したカラムがこのテーブルの主キーカラムを構成しているかどうか調べる。
+	 * 
+	 * <p>但し、指定したカラムがこのテーブルのカラムでない場合は常に {@code false} を返すので注意すること。</p>
+	 * 
+	 * @param ref カラム参照
+	 * @return このテーブルの主キーカラムを構成している場合は{@code true}、そうでない場合は{@code false}
+	 */
 	boolean isPrimaryKeyColumn(EntityRef<? extends ColumnModel> ref);
 	
 	EntityRef<? extends TableModel> toReference();
