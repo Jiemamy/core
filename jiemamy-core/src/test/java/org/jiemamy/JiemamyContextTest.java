@@ -48,6 +48,7 @@ import org.jiemamy.model.table.DefaultTableModel;
 import org.jiemamy.model.table.DefaultTableModelTest;
 import org.jiemamy.model.table.Table;
 import org.jiemamy.model.table.TableModel;
+import org.jiemamy.model.view.DefaultViewModelTest;
 import org.jiemamy.utils.UUIDUtil;
 
 /**
@@ -82,9 +83,15 @@ public class JiemamyContextTest {
 		context.setDialectClassName(strNullable());
 		context.setSchemaName(strNullable());
 		
+		// tablemodelの生成
 		int count = integer(5) + 1;
 		for (int i = 0; i < count; i++) {
 			context.store(DefaultTableModelTest.random());
+		}
+		// viewmodelの生成
+		count = integer(5) + 1;
+		for (int i = 0; i < count; i++) {
+			context.store(DefaultViewModelTest.random());
 		}
 		
 		// TODO datasetとかもstoreする
