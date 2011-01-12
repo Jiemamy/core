@@ -73,7 +73,7 @@ public final class DefaultPrimaryKeyConstraintModelSerializationHandler extends
 		Validate.notNull(ctx);
 		try {
 			Validate.isTrue(ctx.peek().getCurrEvent() == SMEvent.START_ELEMENT);
-			Validate.isTrue(ctx.peek().isQName(CoreQName.NOT_NULL));
+			Validate.isTrue(ctx.peek().isQName(CoreQName.PRIMARY_KEY));
 			
 			JiemamyCursor cursor = ctx.peek();
 			
@@ -98,13 +98,9 @@ public final class DefaultPrimaryKeyConstraintModelSerializationHandler extends
 						String text = childCursor.collectDescendantText(false);
 						deferrability = DefaultDeferrabilityModel.valueOf(text);
 					} else if (childCursor.isQName(CoreQName.COLUMN_REFS)) {
-						JiemamyCursor descendantCursor = childCursor.descendantCursor().advance();
-						while (descendantCursor.getCurrEvent() != SMEvent.START_ELEMENT
-								&& descendantCursor.getCurrEvent() != null) {
-							descendantCursor.advance();
-						}
-						if (descendantCursor.getCurrEvent() != null) {
-							String idStr = descendantCursor.getAttrValue(CoreQName.REF);
+						JiemamyCursor columnRefsCursor = childCursor.childElementCursor();
+						while (columnRefsCursor.getNext() != null) {
+							String idStr = columnRefsCursor.getAttrValue(CoreQName.REF);
 							UUID id = UUIDUtil.valueOfOrRandom(idStr);
 							EntityRef<ColumnModel> ref = DefaultEntityRef.of(id);
 							keyColumns.add(ref);
@@ -133,7 +129,7 @@ public final class DefaultPrimaryKeyConstraintModelSerializationHandler extends
 			throws SerializationException {
 		JiemamyOutputContainer parent = sctx.peek();
 		try {
-			JiemamyOutputElement element = parent.addElement(CoreQName.TABLE);
+			JiemamyOutputElement element = parent.addElement(CoreQName.PRIMARY_KEY);
 			element.addAttribute(CoreQName.CLASS, model.getClass());
 			
 			element.addElementAndCharacters(CoreQName.NAME, model.getName());

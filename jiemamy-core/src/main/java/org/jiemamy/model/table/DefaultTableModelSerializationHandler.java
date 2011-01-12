@@ -100,9 +100,9 @@ public final class DefaultTableModelSerializationHandler extends SerializationHa
 							ctx.pop();
 						}
 					} else if (childCursor.isQName(CoreQName.CONSTRAINTS)) {
-						JiemamyCursor descendantCursor = childCursor.descendantCursor().advance();
-						if (descendantCursor.getCurrEvent() != null) {
-							ctx.push(descendantCursor);
+						JiemamyCursor constraintsCursor = childCursor.childElementCursor();
+						while (constraintsCursor.getNext() != null) {
+							ctx.push(constraintsCursor);
 							ConstraintModel constraintModel = getDirector().direct(ctx);
 							if (constraintModel != null) {
 								tableModel.addConstraint(constraintModel);
