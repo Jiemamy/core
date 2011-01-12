@@ -42,7 +42,7 @@ import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityNotFoundException;
 import org.jiemamy.dddbase.EntityRef;
-import org.jiemamy.dddbase.OnMemoryRepository;
+import org.jiemamy.dddbase.OrderedOnMemoryRepository;
 import org.jiemamy.model.DatabaseObjectModel;
 import org.jiemamy.model.DefaultDatabaseObjectModel;
 import org.jiemamy.model.ModelConsistencyException;
@@ -135,7 +135,7 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	
 
 	/** カラムのリスト */
-	private OnMemoryRepository<ColumnModel> columns = new OnMemoryRepository<ColumnModel>();
+	private OrderedOnMemoryRepository<ColumnModel> columns = new OrderedOnMemoryRepository<ColumnModel>();
 	
 	/** 制約のリスト */
 	private SortedSet<ConstraintModel> constraints = Sets.newTreeSet(new ConstraintComparator());

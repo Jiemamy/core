@@ -53,6 +53,8 @@ public final class DefaultColumnModel extends AbstractEntity implements ColumnMo
 	
 	private ParameterMap params = new ParameterMap();
 	
+	private int index = -1;
+	
 
 	/**
 	 * インスタンスを生成する。
@@ -79,6 +81,10 @@ public final class DefaultColumnModel extends AbstractEntity implements ColumnMo
 	
 	public String getDescription() {
 		return description;
+	}
+	
+	public int getIndex() {
+		return index;
 	}
 	
 	public String getLogicalName() {
@@ -131,6 +137,10 @@ public final class DefaultColumnModel extends AbstractEntity implements ColumnMo
 	 */
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	public void setIndex(int index) {
+		this.index = index;
 	}
 	
 	/**

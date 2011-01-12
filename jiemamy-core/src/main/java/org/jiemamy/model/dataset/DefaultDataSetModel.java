@@ -48,6 +48,8 @@ public final class DefaultDataSetModel extends AbstractEntity implements DataSet
 	/** レコード情報 */
 	private Map<EntityRef<? extends TableModel>, List<RecordModel>> records = Maps.newHashMap();
 	
+	private int index = -1;
+	
 
 	/**
 	 * インスタンスを生成する。
@@ -74,6 +76,10 @@ public final class DefaultDataSetModel extends AbstractEntity implements DataSet
 			clone.records.put(e.getKey(), cloneValue);
 		}
 		return clone;
+	}
+	
+	public int getIndex() {
+		return index;
 	}
 	
 	/**
@@ -104,6 +110,10 @@ public final class DefaultDataSetModel extends AbstractEntity implements DataSet
 	
 	public void removeRecord(EntityRef<? extends TableModel> ref) {
 		records.remove(ref);
+	}
+	
+	public void setIndex(int index) {
+		this.index = index;
 	}
 	
 	/**

@@ -24,13 +24,13 @@ import org.apache.commons.lang.Validate;
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityNotFoundException;
 import org.jiemamy.dddbase.EntityRef;
-import org.jiemamy.dddbase.OnMemoryRepository;
+import org.jiemamy.dddbase.OrderedOnMemoryRepository;
 import org.jiemamy.model.DefaultConnectionModel;
 import org.jiemamy.model.DefaultConnectionModelSerializationHandler;
-import org.jiemamy.model.DefaultDiagramModel;
-import org.jiemamy.model.DefaultDiagramModelSerializationHandler;
 import org.jiemamy.model.DefaultDatabaseObjectNodeModel;
 import org.jiemamy.model.DefaultDatabaseObjectNodeModelSerializationHandler;
+import org.jiemamy.model.DefaultDiagramModel;
+import org.jiemamy.model.DefaultDiagramModelSerializationHandler;
 import org.jiemamy.model.DiagramModel;
 import org.jiemamy.model.geometory.JmColor;
 import org.jiemamy.model.geometory.JmColorSerializationHandler;
@@ -66,7 +66,7 @@ public class DiagramFacet implements JiemamyFacet {
 		
 	};
 	
-	OnMemoryRepository<DiagramModel> repos = new OnMemoryRepository<DiagramModel>();
+	private OrderedOnMemoryRepository<DiagramModel> repos = new OrderedOnMemoryRepository<DiagramModel>();
 	
 	private final JiemamyContext context;
 	

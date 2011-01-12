@@ -97,7 +97,7 @@ public final class DiagramFacetSerializationHandler extends SerializationHandler
 		JiemamyOutputContainer parent = sctx.peek();
 		try {
 			sctx.push(parent.addElement(DiagramQName.DIAGRAMS));
-			for (DiagramModel diagramModel : model.repos.getEntitiesAsList()) {
+			for (DiagramModel diagramModel : model.getDiagrams()) {
 				getDirector().direct(diagramModel, sctx);
 			}
 			sctx.pop();

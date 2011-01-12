@@ -40,6 +40,7 @@ import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityNotFoundException;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.OnMemoryRepository;
+import org.jiemamy.dddbase.OrderedOnMemoryRepository;
 import org.jiemamy.dialect.Dialect;
 import org.jiemamy.model.DatabaseObjectModel;
 import org.jiemamy.model.dataset.DataSetModel;
@@ -127,7 +128,7 @@ public class JiemamyContext {
 	
 	private OnMemoryRepository<DatabaseObjectModel> doms = new OnMemoryRepository<DatabaseObjectModel>();
 	
-	private OnMemoryRepository<DataSetModel> dsms = new OnMemoryRepository<DataSetModel>();
+	private OrderedOnMemoryRepository<DataSetModel> dsms = new OrderedOnMemoryRepository<DataSetModel>();
 	
 	private String dialectClassName;
 	

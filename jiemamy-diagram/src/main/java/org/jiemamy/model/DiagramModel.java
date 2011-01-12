@@ -19,6 +19,7 @@ package org.jiemamy.model;
 import java.util.Collection;
 
 import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.OrderedEntity;
 
 /**
  * 一枚のER図を表すモデルインターフェイス。
@@ -27,7 +28,7 @@ import org.jiemamy.dddbase.EntityRef;
  * @version $Id$
  * @author daisuke
  */
-public interface DiagramModel extends DiagramElement {
+public interface DiagramModel extends DiagramElement, OrderedEntity {
 	
 	DiagramModel clone();
 	

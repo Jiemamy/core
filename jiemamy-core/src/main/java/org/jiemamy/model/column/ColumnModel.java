@@ -21,6 +21,7 @@ package org.jiemamy.model.column;
 import java.util.Set;
 
 import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.OrderedEntity;
 import org.jiemamy.model.CoreElement;
 import org.jiemamy.model.datatype.TypeVariant;
 import org.jiemamy.model.parameter.ParameterMap;
@@ -31,7 +32,7 @@ import org.jiemamy.model.parameter.ParameterMap;
  * @since 0.2
  * @author daisuke
  */
-public interface ColumnModel extends CoreElement {
+public interface ColumnModel extends CoreElement, OrderedEntity {
 	
 	ColumnModel clone();
 	

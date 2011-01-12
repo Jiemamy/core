@@ -45,6 +45,8 @@ public class DefaultDiagramModel extends AbstractEntity implements DiagramModel 
 	
 	private OnMemoryRepository<NodeModel> nodeRepos = new OnMemoryRepository<NodeModel>();
 	
+	private int index = -1;
+	
 
 	/**
 	 * インスタンスを生成する。
@@ -64,6 +66,10 @@ public class DefaultDiagramModel extends AbstractEntity implements DiagramModel 
 	
 	public void delete(EntityRef<? extends NodeModel> ref) {
 		nodeRepos.delete(ref);
+	}
+	
+	public int getIndex() {
+		return index;
 	}
 	
 	public Level getLevel() {
@@ -106,6 +112,10 @@ public class DefaultDiagramModel extends AbstractEntity implements DiagramModel 
 	
 	public Entity resolve(UUID id) {
 		return nodeRepos.resolve(id);
+	}
+	
+	public void setIndex(int index) {
+		this.index = index;
 	}
 	
 	/**
