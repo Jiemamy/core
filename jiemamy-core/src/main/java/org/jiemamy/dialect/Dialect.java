@@ -88,7 +88,7 @@ public interface Dialect {
 	/**
 	 * データ型名を全て取得する。
 	 * 
-	 * <p>{@code null}を返してはならない。</p>
+	 * <p>必ず要素数が{@code 1}以上のリストを返さなければならない。</p>
 	 * 
 	 * @return データ型名のリスト
 	 * @since 0.2
