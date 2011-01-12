@@ -363,27 +363,33 @@ public class JiemamyStaxSerializerTest {
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	@Ignore("実装が不完全なので通らない")
+	@Ignore("実装が不完全なので通らない - マダマダァ！")
 	public void test99_適当なモデルを一杯作ってみて_それぞれのシリアライズやデシリアライズが異常終了しないことを確認() throws Exception {
 		for (int i = 0; i < 100; i++) {
 			// 適当なモデルを生成
 			JiemamyContext original = JiemamyContextTest.random();
 			
-			// XMLにシリアライズして、logに出してみる
+			// XMLにシリアライズしてみる(1)
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			serializer.serialize(original, baos);
 			String first = baos.toString(CharEncoding.UTF_8);
-			logger.info("1 = {}", first);
 			
 			// そのXMLをデシリアライズしてみる
 			ByteArrayInputStream bais = new ByteArrayInputStream(first.getBytes());
 			JiemamyContext deserialized = serializer.deserialize(bais);
 			assertThat(deserialized, is(notNullValue()));
 			
-			// デシリアライズされた新しいcontextを再びシリアライズして、logに出してみる
+			// デシリアライズされた新しいcontextを再びシリアライズしてみる(2)
 			ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
 			serializer.serialize(deserialized, baos2);
 			String second = baos2.toString(CharEncoding.UTF_8);
+			
+			// (1)と(2)をログに出してみる（比較用の1行ログ）
+			logger.info("1 = {}", first.replaceAll("[\r\n]", ""));
+			logger.info("2 = {}", second.replaceAll("[\r\n]", ""));
+			
+			// (1)と(2)をログに出してみる（個別チェック用のインデント付きログ）
+			logger.info("1 = {}", first);
 			logger.info("2 = {}", second);
 			
 			// 何度やってもXMLは全く同じモノになるハズだ

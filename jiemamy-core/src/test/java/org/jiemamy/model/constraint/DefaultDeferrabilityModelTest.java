@@ -19,6 +19,8 @@
 package org.jiemamy.model.constraint;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.jiemamy.utils.RandomUtil.bool;
+import static org.jiemamy.utils.RandomUtil.integer;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -26,9 +28,8 @@ import static org.mockito.Mockito.when;
 import org.junit.Test;
 
 import org.jiemamy.dddbase.ValueObject;
-import org.jiemamy.model.constraint.DefaultDeferrabilityModel;
-import org.jiemamy.model.constraint.DeferrabilityModel;
 import org.jiemamy.model.constraint.DeferrabilityModel.InitiallyCheckTime;
+import org.jiemamy.model.table.DefaultTableModel;
 
 /**
  * {@link DefaultDeferrabilityModel}のテストクラス。
@@ -38,6 +39,16 @@ import org.jiemamy.model.constraint.DeferrabilityModel.InitiallyCheckTime;
  * @author daisuke
  */
 public class DefaultDeferrabilityModelTest {
+	
+	/**
+	 * 適当な {@link DefaultTableModel} のインスタンスを返す。
+	 * 
+	 * @return {@link DefaultTableModel}
+	 */
+	public static DeferrabilityModel randomNullable() {
+		DefaultDeferrabilityModel[] values = DefaultDeferrabilityModel.values();
+		return bool() ? null : values[integer(values.length - 1)];
+	}
 	
 	/**
 	 * {@link DefaultDeferrabilityModel#equals(Object)}が、{@link ValueObject}として正しい実装になっていること。

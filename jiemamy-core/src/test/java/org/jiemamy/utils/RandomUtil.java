@@ -33,6 +33,10 @@ public final class RandomUtil {
 	static final Random R = new Random();
 	
 
+	public static boolean bool() {
+		return R.nextBoolean();
+	}
+	
 	public static <T extends Enum<T>>T enume(Class<T> clazz) {
 		T[] enumConstants = clazz.getEnumConstants();
 		return enumConstants[R.nextInt(enumConstants.length)];

@@ -139,7 +139,9 @@ public final class DefaultPrimaryKeyConstraintModelSerializationHandler extends
 			element.addElementAndCharacters(CoreQName.NAME, model.getName());
 			element.addElementAndCharacters(CoreQName.LOGICAL_NAME, model.getLogicalName());
 			element.addElementAndCharacters(CoreQName.DESCRIPTION, model.getDescription());
-			getDirector().direct(model.getDeferrability(), sctx);
+			if (model.getDeferrability() != null) {
+				getDirector().direct(model.getDeferrability(), sctx);
+			}
 			
 			JiemamyOutputElement refsElement = element.addElement(CoreQName.COLUMN_REFS);
 			
