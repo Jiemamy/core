@@ -86,14 +86,9 @@ public final class JiemamyContextSerializationHandler extends SerializationHandl
 					} else if (childCursor.isQName(CoreQName.DESCRIPTION)) {
 						context.setDescription(childCursor.collectDescendantText(false));
 					} else if (childCursor.isQName(CoreQName.DBOBJECTS)) {
-						// FIXME あれ…このロジックじゃ一件しかこなせない…？
-						JiemamyCursor descendantCursor = childCursor.childCursor().advance();
-						while (descendantCursor.getCurrEvent() != SMEvent.START_ELEMENT
-								&& descendantCursor.getCurrEvent() != null) {
-							descendantCursor.advance();
-						}
-						if (descendantCursor.getCurrEvent() != null) {
-							ctx.push(descendantCursor);
+						JiemamyCursor databaseObjectsCursor = childCursor.childElementCursor();
+						while (databaseObjectsCursor.getNext() != null) {
+							ctx.push(databaseObjectsCursor);
 							DatabaseObjectModel databaseObject = getDirector().direct(ctx);
 							if (databaseObject != null) {
 								context.store(databaseObject);
