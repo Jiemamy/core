@@ -25,7 +25,6 @@ import javax.xml.stream.XMLStreamException;
 
 import com.google.common.collect.Lists;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.codehaus.staxmate.in.SMEvent;
 import org.slf4j.Logger;
@@ -83,7 +82,7 @@ public final class DefaultPrimaryKeyConstraintModelSerializationHandler extends
 			DeferrabilityModel deferrability = null;
 			List<EntityRef<? extends ColumnModel>> keyColumns = Lists.newArrayList();
 			
-			JiemamyCursor childCursor = cursor.childCursor();
+			JiemamyCursor childCursor = cursor.childElementCursor();
 			ctx.push(childCursor);
 			do {
 				childCursor.advance();
@@ -107,10 +106,6 @@ public final class DefaultPrimaryKeyConstraintModelSerializationHandler extends
 						}
 					} else {
 						logger.warn("UNKNOWN ELEMENT: {}", childCursor.getQName().toString());
-					}
-				} else if (childCursor.getCurrEvent() == SMEvent.TEXT) {
-					if (StringUtils.isEmpty(childCursor.getText().trim()) == false) {
-						logger.warn("UNKNOWN TEXT: {}", childCursor.getCurrEvent());
 					}
 				} else if (childCursor.getCurrEvent() != null) {
 					logger.warn("UNKNOWN EVENT: {}", childCursor.getCurrEvent());

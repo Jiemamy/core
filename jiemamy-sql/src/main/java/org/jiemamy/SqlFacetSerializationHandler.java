@@ -25,7 +25,7 @@ import org.codehaus.staxmate.in.SMEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.jiemamy.model.DiagramModel;
+import org.jiemamy.model.script.AroundScriptModel;
 import org.jiemamy.serializer.SerializationException;
 import org.jiemamy.serializer.stax2.DeserializationContext;
 import org.jiemamy.serializer.stax2.JiemamyCursor;
@@ -33,17 +33,17 @@ import org.jiemamy.serializer.stax2.JiemamyOutputContainer;
 import org.jiemamy.serializer.stax2.SerializationContext;
 import org.jiemamy.serializer.stax2.SerializationDirector;
 import org.jiemamy.serializer.stax2.SerializationHandler;
-import org.jiemamy.xml.DiagramQName;
+import org.jiemamy.xml.SqlQName;
 
 /**
- * {@link DiagramFacet}をシリアライズ/デシリアライズするハンドラ。
+ * {@link SqlFacet}をシリアライズ/デシリアライズするハンドラ。
  * 
  * @version $Id$
  * @author daisuke
  */
-public final class DiagramFacetSerializationHandler extends SerializationHandler<DiagramFacet> {
+public final class SqlFacetSerializationHandler extends SerializationHandler<SqlFacet> {
 	
-	private static Logger logger = LoggerFactory.getLogger(DiagramFacetSerializationHandler.class);
+	private static Logger logger = LoggerFactory.getLogger(SqlFacetSerializationHandler.class);
 	
 
 	/**
@@ -51,27 +51,27 @@ public final class DiagramFacetSerializationHandler extends SerializationHandler
 	 * 
 	 * @param director 親となるディレクタ
 	 */
-	public DiagramFacetSerializationHandler(SerializationDirector director) {
+	public SqlFacetSerializationHandler(SerializationDirector director) {
 		super(director);
 	}
 	
 	@Override
-	public DiagramFacet handleDeserialization(DeserializationContext ctx) throws SerializationException {
+	public SqlFacet handleDeserialization(DeserializationContext ctx) throws SerializationException {
 		Validate.notNull(ctx);
 		try {
 			Validate.isTrue(ctx.peek().getCurrEvent() == SMEvent.START_ELEMENT);
-			Validate.isTrue(ctx.peek().isQName(DiagramQName.DIAGRAMS));
-			Validate.isTrue(getDirector().getContext().hasFacet(DiagramFacet.class));
+			Validate.isTrue(ctx.peek().isQName(SqlQName.AROUND_SCRIPT));
+			Validate.isTrue(getDirector().getContext().hasFacet(SqlFacet.class));
 			
-			DiagramFacet facet = getDirector().getContext().getFacet(DiagramFacet.class);
+			SqlFacet facet = getDirector().getContext().getFacet(SqlFacet.class);
 			
 			JiemamyCursor cursor = ctx.peek();
 			JiemamyCursor diagramsCursor = cursor.childElementCursor();
 			while (diagramsCursor.getNext() != null) {
 				ctx.push(diagramsCursor);
-				DiagramModel diagramModel = getDirector().direct(ctx);
-				if (diagramModel != null) {
-					facet.store(diagramModel);
+				AroundScriptModel aroundScriptModel = getDirector().direct(ctx);
+				if (aroundScriptModel != null) {
+					facet.store(aroundScriptModel);
 				} else {
 					logger.warn("null diagramModel");
 				}
@@ -85,12 +85,12 @@ public final class DiagramFacetSerializationHandler extends SerializationHandler
 	}
 	
 	@Override
-	public void handleSerialization(DiagramFacet model, SerializationContext sctx) throws SerializationException {
+	public void handleSerialization(SqlFacet model, SerializationContext sctx) throws SerializationException {
 		JiemamyOutputContainer parent = sctx.peek();
 		try {
-			sctx.push(parent.addElement(DiagramQName.DIAGRAMS));
-			for (DiagramModel diagramModel : model.getDiagrams()) {
-				getDirector().direct(diagramModel, sctx);
+			sctx.push(parent.addElement(SqlQName.AROUND_SCRIPT));
+			for (AroundScriptModel aroundScript : model.getAroundScripts()) {
+				getDirector().direct(aroundScript, sctx);
 			}
 			sctx.pop();
 		} catch (XMLStreamException e) {

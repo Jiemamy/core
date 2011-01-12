@@ -24,7 +24,6 @@ import javax.xml.stream.XMLStreamException;
 
 import com.google.common.collect.Sets;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.codehaus.staxmate.in.SMEvent;
 import org.slf4j.Logger;
@@ -74,7 +73,7 @@ public final class JiemamyContextSerializationHandler extends SerializationHandl
 			JiemamyContext context = getDirector().getContext();
 			
 			JiemamyCursor cursor = ctx.peek();
-			JiemamyCursor childCursor = cursor.childCursor();
+			JiemamyCursor childCursor = cursor.childElementCursor();
 			ctx.push(childCursor);
 			do {
 				childCursor.advance();
@@ -98,9 +97,9 @@ public final class JiemamyContextSerializationHandler extends SerializationHandl
 							ctx.pop();
 						}
 					} else if (childCursor.isQName(CoreQName.DATASETS)) {
-						JiemamyCursor descendantCursor = childCursor.childCursor().advance();
-						if (descendantCursor.getCurrEvent() != null) {
-							ctx.push(descendantCursor);
+						JiemamyCursor dataSetsCursor = childCursor.childElementCursor();
+						while (dataSetsCursor.getNext() != null) {
+							ctx.push(dataSetsCursor);
 							DataSetModel dataSetModel = getDirector().direct(ctx);
 							if (dataSetModel != null) {
 								context.store(dataSetModel);
@@ -112,10 +111,6 @@ public final class JiemamyContextSerializationHandler extends SerializationHandl
 					} else {
 						getDirector().direct(ctx);
 //						logger.warn("UNKNOWN ELEMENT: {}", childCursor.getQName().toString());
-					}
-				} else if (childCursor.getCurrEvent() == SMEvent.TEXT) {
-					if (StringUtils.isEmpty(childCursor.getText().trim()) == false) {
-						logger.warn("UNKNOWN TEXT: {}", childCursor.getCurrEvent());
 					}
 				} else if (childCursor.getCurrEvent() != null) {
 					logger.warn("UNKNOWN EVENT: {}", childCursor.getCurrEvent());

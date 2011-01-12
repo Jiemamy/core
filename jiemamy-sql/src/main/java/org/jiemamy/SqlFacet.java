@@ -35,6 +35,7 @@ import org.jiemamy.serializer.stax2.SerializationDirector;
 import org.jiemamy.transaction.Command;
 import org.jiemamy.xml.JiemamyNamespace;
 import org.jiemamy.xml.SqlNamespace;
+import org.jiemamy.xml.SqlQName;
 
 /**
  * SQL表現ファセット。
@@ -128,9 +129,11 @@ public class SqlFacet implements JiemamyFacet {
 		return SqlNamespace.values();
 	}
 	
-	public void prepareSerializationHandlers(SerializationDirector serializationDirector) {
-		// TODO Auto-generated method stub
-		
+	public void prepareSerializationHandlers(SerializationDirector director) {
+		Validate.notNull(director);
+		// FORMAT-OFF CHECKSTYLE:OFF
+		director.addHandler(SqlFacet.class, SqlQName.AROUND_SCRIPT, new SqlFacetSerializationHandler(director));
+		// CHECKSTYLE:ON FORMAT-ON
 	}
 	
 	public <T2 extends Entity>T2 resolve(EntityRef<T2> ref) {

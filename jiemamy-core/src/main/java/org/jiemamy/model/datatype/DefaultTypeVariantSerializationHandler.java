@@ -22,7 +22,6 @@ import java.util.Map.Entry;
 
 import javax.xml.stream.XMLStreamException;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.codehaus.staxmate.in.SMEvent;
 import org.slf4j.Logger;
@@ -73,7 +72,7 @@ public final class DefaultTypeVariantSerializationHandler extends SerializationH
 			String typeName = "INTEGER";
 			ParameterMap params = new ParameterMap();
 			
-			JiemamyCursor childCursor = cursor.childCursor();
+			JiemamyCursor childCursor = cursor.childElementCursor();
 			ctx.push(childCursor);
 			do {
 				childCursor.advance();
@@ -84,11 +83,7 @@ public final class DefaultTypeVariantSerializationHandler extends SerializationH
 					} else if (childCursor.isQName(CoreQName.TYPE_NAME)) {
 						typeName = childCursor.collectDescendantText(false);
 					} else if (childCursor.isQName(CoreQName.PARAMETERS)) {
-						JiemamyCursor descendantCursor = childCursor.descendantCursor().advance();
-						while (descendantCursor.getCurrEvent() != SMEvent.START_ELEMENT
-								&& descendantCursor.getCurrEvent() != null) {
-							descendantCursor.advance();
-						}
+						JiemamyCursor descendantCursor = childCursor.childElementCursor().advance();
 						if (descendantCursor.getCurrEvent() != null) {
 							if (descendantCursor.isQName(CoreQName.PARAMETER)) {
 								String key = descendantCursor.getAttrValue(CoreQName.PARAMETER_KEY);
@@ -100,10 +95,6 @@ public final class DefaultTypeVariantSerializationHandler extends SerializationH
 						}
 					} else {
 						logger.warn("UNKNOWN ELEMENT: {}", childCursor.getQName().toString());
-					}
-				} else if (childCursor.getCurrEvent() == SMEvent.TEXT) {
-					if (StringUtils.isEmpty(childCursor.getText().trim()) == false) {
-						logger.warn("UNKNOWN TEXT: {}", childCursor.getCurrEvent());
 					}
 				} else if (childCursor.getCurrEvent() != null) {
 					logger.warn("UNKNOWN EVENT: {}", childCursor.getCurrEvent());

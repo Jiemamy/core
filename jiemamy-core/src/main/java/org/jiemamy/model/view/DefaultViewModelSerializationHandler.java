@@ -23,7 +23,6 @@ import java.util.UUID;
 
 import javax.xml.stream.XMLStreamException;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.codehaus.staxmate.in.SMEvent;
 import org.slf4j.Logger;
@@ -75,7 +74,7 @@ public final class DefaultViewModelSerializationHandler extends SerializationHan
 			UUID id = UUIDUtil.valueOfOrRandom(idString);
 			DefaultViewModel viewModel = new DefaultViewModel(id);
 			
-			JiemamyCursor childCursor = cursor.childCursor();
+			JiemamyCursor childCursor = cursor.childElementCursor();
 			ctx.push(childCursor);
 			do {
 				childCursor.advance();
@@ -90,10 +89,6 @@ public final class DefaultViewModelSerializationHandler extends SerializationHan
 						viewModel.setDefinition(childCursor.collectDescendantText(false));
 					} else {
 						logger.warn("UNKNOWN ELEMENT: {}", childCursor.getQName().toString());
-					}
-				} else if (childCursor.getCurrEvent() == SMEvent.TEXT) {
-					if (StringUtils.isEmpty(childCursor.getText().trim()) == false) {
-						logger.warn("UNKNOWN TEXT: {}", childCursor.getCurrEvent());
 					}
 				} else if (childCursor.getCurrEvent() != null) {
 					logger.warn("UNKNOWN EVENT: {}", childCursor.getCurrEvent());

@@ -20,7 +20,6 @@ package org.jiemamy.model.constraint;
 
 import javax.xml.stream.XMLStreamException;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.codehaus.staxmate.in.SMEvent;
 import org.slf4j.Logger;
@@ -76,7 +75,7 @@ public final class DefaultNotNullConstraintModelSerializationHandler extends
 			DeferrabilityModel deferrability = null;
 			EntityRef<? extends ColumnModel> ref = null;
 			
-			JiemamyCursor childCursor = cursor.childCursor();
+			JiemamyCursor childCursor = cursor.childElementCursor();
 			ctx.push(childCursor);
 			do {
 				childCursor.advance();
@@ -91,11 +90,7 @@ public final class DefaultNotNullConstraintModelSerializationHandler extends
 						String text = childCursor.collectDescendantText(false);
 						deferrability = DefaultDeferrabilityModel.valueOf(text);
 					} else if (childCursor.isQName(CoreQName.COLUMN_REF)) {
-						JiemamyCursor descendantCursor = childCursor.descendantCursor().advance();
-						while (descendantCursor.getCurrEvent() != SMEvent.START_ELEMENT
-								&& descendantCursor.getCurrEvent() != null) {
-							descendantCursor.advance();
-						}
+						JiemamyCursor descendantCursor = childCursor.childElementCursor().advance();
 						if (descendantCursor.getCurrEvent() != null) {
 							ctx.push(descendantCursor);
 							ref = getDirector().direct(ctx);
@@ -103,10 +98,6 @@ public final class DefaultNotNullConstraintModelSerializationHandler extends
 						}
 					} else {
 						logger.warn("UNKNOWN ELEMENT: {}", childCursor.getQName().toString());
-					}
-				} else if (childCursor.getCurrEvent() == SMEvent.TEXT) {
-					if (StringUtils.isEmpty(childCursor.getText().trim()) == false) {
-						logger.warn("UNKNOWN TEXT: {}", childCursor.getCurrEvent());
 					}
 				} else if (childCursor.getCurrEvent() != null) {
 					logger.warn("UNKNOWN EVENT: {}", childCursor.getCurrEvent());
