@@ -89,20 +89,11 @@ public final class DefaultColumnModelSerializationHandler extends SerializationH
 					} else if (childCursor.isQName(CoreQName.DEFAULT_VALUE)) {
 						columnModel.setDefaultValue(childCursor.collectDescendantText(false));
 					} else if (childCursor.isQName(CoreQName.DATA_TYPE)) {
-						JiemamyCursor descendantCursor = childCursor.descendantCursor().advance();
-						while (descendantCursor.getCurrEvent() != SMEvent.START_ELEMENT
-								&& descendantCursor.getCurrEvent() != null) {
-							descendantCursor.advance();
-						}
-						if (descendantCursor.getCurrEvent() != null) {
-							ctx.push(descendantCursor);
-							TypeVariant type = getDirector().direct(ctx);
-							if (type != null) {
-								columnModel.setDataType(type);
-							} else {
-								logger.warn("null type");
-							}
-							ctx.pop();
+						TypeVariant type = getDirector().direct(ctx);
+						if (type != null) {
+							columnModel.setDataType(type);
+						} else {
+							logger.warn("null type");
 						}
 					} else {
 						logger.warn("UNKNOWN ELEMENT: {}", childCursor.getQName().toString());
