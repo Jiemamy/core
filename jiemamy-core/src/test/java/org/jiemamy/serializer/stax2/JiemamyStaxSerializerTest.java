@@ -335,7 +335,6 @@ public class JiemamyStaxSerializerTest {
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	@Ignore("TODO yamkazu - 多分test14と直し方同じだと思う")
 	public void test15_Columnを2つ含むTableを1つ含むJiemamyContextのデシリアライズ結果を確認() throws Exception {
 		String xml = getXml("core5.jiemamy");
 		ByteArrayInputStream bais = new ByteArrayInputStream(xml.getBytes(CharEncoding.UTF_8));

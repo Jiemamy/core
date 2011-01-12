@@ -88,13 +88,9 @@ public final class DefaultTableModelSerializationHandler extends SerializationHa
 					} else if (childCursor.isQName(CoreQName.DESCRIPTION)) {
 						tableModel.setDescription(childCursor.collectDescendantText(false));
 					} else if (childCursor.isQName(CoreQName.COLUMNS)) {
-						JiemamyCursor descendantCursor = childCursor.descendantCursor().advance();
-						while (descendantCursor.getCurrEvent() != SMEvent.START_ELEMENT
-								&& descendantCursor.getCurrEvent() != null) {
-							descendantCursor.advance();
-						}
-						if (descendantCursor.getCurrEvent() != null) {
-							ctx.push(descendantCursor);
+						JiemamyCursor columnsCursor = childCursor.childElementCursor();
+						while (columnsCursor.getNext() != null) {
+							ctx.push(columnsCursor);
 							ColumnModel columnModel = getDirector().direct(ctx);
 							if (columnModel != null) {
 								tableModel.store(columnModel);
