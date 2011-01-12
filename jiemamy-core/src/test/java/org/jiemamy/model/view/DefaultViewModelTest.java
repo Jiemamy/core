@@ -18,9 +18,13 @@
  */
 package org.jiemamy.model.view;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.jiemamy.utils.RandomUtil.str;
+import static org.junit.Assert.assertThat;
 
 import java.util.UUID;
+
+import org.junit.Test;
 
 /**
  * {@link DefaultViewModel}のテストクラス。
@@ -44,6 +48,35 @@ public class DefaultViewModelTest {
 		model.setName(str());
 		
 		return model;
+	}
+	
+	/**
+	 * オブジェクト生成テスト。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test01_create() throws Exception {
+		try {
+			@SuppressWarnings("unused")
+			DefaultViewModel unused = new DefaultViewModel(null);
+		} catch (IllegalArgumentException e) {
+			// success
+		}
+		
+		UUID id = UUID.randomUUID();
+		DefaultViewModel model = new DefaultViewModel(id);
+		model.setDescription("HOGE");
+		model.setName("FOO");
+		model.setLogicalName("BAR");
+		model.setDescription("I am View");
+		model.setDefinition("SELECT * FROM BAR");
+		
+		assertThat(model.getId(), is(id));
+		assertThat(model.getName(), is("FOO"));
+		assertThat(model.getLogicalName(), is("BAR"));
+		assertThat(model.getDescription(), is("I am View"));
+		assertThat(model.getDefinition(), is("SELECT * FROM BAR"));
 	}
 	
 }
