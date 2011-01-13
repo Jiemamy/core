@@ -43,6 +43,7 @@ import org.slf4j.LoggerFactory;
 
 import org.jiemamy.DiagramFacet;
 import org.jiemamy.JiemamyContext;
+import org.jiemamy.JiemamyContextDiagramTest;
 import org.jiemamy.model.DatabaseObjectNodeModel;
 import org.jiemamy.model.DefaultDatabaseObjectNodeModel;
 import org.jiemamy.model.DefaultDiagramModel;
@@ -58,11 +59,11 @@ import org.jiemamy.serializer.stax2.JiemamyStaxSerializer;
  * @version $Id$
  * @author daisuke
  */
-public class JiemamyStaxSerializerTest {
+public class JiemamyStaxSerializerDiagramTest {
 	
 	private JiemamyStaxSerializer serializer;
 	
-	private static Logger logger = LoggerFactory.getLogger(JiemamyStaxSerializerTest.class);
+	private static Logger logger = LoggerFactory.getLogger(JiemamyStaxSerializerDiagramTest.class);
 	
 
 	/**
@@ -141,6 +142,45 @@ public class JiemamyStaxSerializerTest {
 		assertThat(nodeModel.getCoreModelRef().isReferenceOf(tableModel), is(true));
 		assertThat(nodeModel.getBoundary(), is(new JmRectangle(100, 100)));
 		assertThat(nodeModel.getColor(), is(nullValue()));
+	}
+	
+	/**
+	 * 適当なモデルを一杯作ってみて、それぞれのシリアライズやデシリアライズが異常終了しないことを確認。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+//	@Ignore("実装が不完全なので通らない - マダマダァ！ - イケタ？")
+	public void test99_適当なモデルを一杯作ってみて_それぞれのシリアライズやデシリアライズが異常終了しないことを確認() throws Exception {
+		for (int i = 0; i < 100; i++) {
+			// 適当なモデルを生成
+			JiemamyContext original = JiemamyContextDiagramTest.random();
+			
+			// XMLにシリアライズしてみる(1)
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			serializer.serialize(original, baos);
+			String first = baos.toString(CharEncoding.UTF_8);
+			logger.info("1 = {}", first);
+			
+			// そのXMLをデシリアライズしてみる
+			ByteArrayInputStream bais = new ByteArrayInputStream(first.getBytes());
+			JiemamyContext deserialized = serializer.deserialize(bais, DiagramFacet.PROVIDER);
+			assertThat(deserialized, is(notNullValue()));
+			
+			// デシリアライズされた新しいcontextを再びシリアライズしてみる(2)
+			ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
+			serializer.serialize(deserialized, baos2);
+			String second = baos2.toString(CharEncoding.UTF_8);
+			logger.info("2 = {}", second);
+			
+			// (1)と(2)をログに出してみる（比較用の1行ログ）
+			logger.info("1 = {}", first.replaceAll("[\r\n]", ""));
+			logger.info("2 = {}", second.replaceAll("[\r\n]", ""));
+			
+			// 何度やってもXMLは全く同じモノになるハズだ
+			DetailedDiff diff = new DetailedDiff(new Diff(first, second));
+			assertThat(diff.getAllDifferences().toString(), diff.similar(), is(true));
+		}
 	}
 	
 	private String getXml(String name) {

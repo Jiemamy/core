@@ -18,11 +18,12 @@
  */
 package org.jiemamy;
 
-import java.util.SortedSet;
+import java.util.Collections;
+import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
 
-import com.google.common.collect.Sets;
+import com.google.common.collect.Lists;
 
 import org.apache.commons.lang.Validate;
 import org.codehaus.staxmate.in.SMEvent;
@@ -31,7 +32,7 @@ import org.slf4j.LoggerFactory;
 
 import org.jiemamy.model.DatabaseObjectModel;
 import org.jiemamy.model.dataset.DataSetModel;
-import org.jiemamy.serializer.DatabaseObjectComparator;
+import org.jiemamy.serializer.DBOComparator;
 import org.jiemamy.serializer.SerializationException;
 import org.jiemamy.serializer.stax2.DeserializationContext;
 import org.jiemamy.serializer.stax2.JiemamyCursor;
@@ -137,10 +138,10 @@ public final class JiemamyContextSerializationHandler extends SerializationHandl
 			element.addElementAndCharacters(CoreQName.SCHEMA_NAME, model.getSchemaName());
 			element.addElementAndCharacters(CoreQName.DESCRIPTION, model.getDescription());
 			
-			SortedSet<DatabaseObjectModel> set = Sets.newTreeSet(new DatabaseObjectComparator());
-			set.addAll(model.getDatabaseObjects());
+			List<DatabaseObjectModel> list = Lists.newArrayList(model.getDatabaseObjects());
+			Collections.sort(list, new DBOComparator());
 			sctx.push(element.addElement(CoreQName.DBOBJECTS));
-			for (DatabaseObjectModel databaseObject : set) {
+			for (DatabaseObjectModel databaseObject : list) {
 				getDirector().direct(databaseObject, sctx);
 			}
 			sctx.pop(); // end of dbObjects

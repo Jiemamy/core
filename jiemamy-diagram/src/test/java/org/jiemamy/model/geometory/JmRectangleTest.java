@@ -1,6 +1,6 @@
 /*
- * Copyright 2007-2010 Jiemamy Project and the Others.
- * Created on 2010/12/15
+ * Copyright 2007-2011 Jiemamy Project and the Others.
+ * Created on 2011/01/13
  *
  * This file is part of Jiemamy.
  *
@@ -16,22 +16,38 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.serializer;
+package org.jiemamy.model.geometory;
 
-import java.util.Comparator;
+import org.junit.Test;
 
-import org.jiemamy.model.DatabaseObjectModel;
+import org.jiemamy.utils.RandomUtil;
 
 /**
- * {@link DatabaseObjectModel}をID順に並べるコンパレータ。
+ * TODO for daisuke
  * 
  * @version $Id$
  * @author daisuke
  */
-public class DatabaseObjectComparator implements Comparator<DatabaseObjectModel> {
+public class JmRectangleTest {
 	
-	public int compare(DatabaseObjectModel o1, DatabaseObjectModel o2) {
-		return o1.getId().compareTo(o2.getId());
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @return
+	 */
+	public static JmRectangle random() {
+		int x = RandomUtil.integer(100);
+		int y = RandomUtil.integer(100);
+		return new JmRectangle(x, y);
 	}
 	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void testname() throws Exception {
+		
+	}
 }

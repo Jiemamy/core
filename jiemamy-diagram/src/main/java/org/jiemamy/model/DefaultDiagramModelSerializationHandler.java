@@ -18,15 +18,20 @@
  */
 package org.jiemamy.model;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 import javax.xml.stream.XMLStreamException;
+
+import com.google.common.collect.Lists;
 
 import org.apache.commons.lang.Validate;
 import org.codehaus.staxmate.in.SMEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.jiemamy.serializer.EntityComparator;
 import org.jiemamy.serializer.SerializationException;
 import org.jiemamy.serializer.stax2.DeserializationContext;
 import org.jiemamy.serializer.stax2.JiemamyCursor;
@@ -85,13 +90,9 @@ public final class DefaultDiagramModelSerializationHandler extends Serialization
 						String text = childCursor.collectDescendantText(false);
 						diagramModel.setMode(Mode.valueOf(text));
 					} else if (childCursor.isQName(DiagramQName.NODES)) {
-						JiemamyCursor descendantCursor = childCursor.descendantCursor().advance();
-						while (descendantCursor.getCurrEvent() != SMEvent.START_ELEMENT
-								&& descendantCursor.getCurrEvent() != null) {
-							descendantCursor.advance();
-						}
-						if (descendantCursor.getCurrEvent() != null) {
-							ctx.push(descendantCursor);
+						JiemamyCursor nodesCursor = childCursor.childElementCursor();
+						while (nodesCursor.getNext() != null) {
+							ctx.push(nodesCursor);
 							NodeModel nodeModel = getDirector().direct(ctx);
 							if (nodeModel != null) {
 								diagramModel.store(nodeModel);
@@ -130,7 +131,9 @@ public final class DefaultDiagramModelSerializationHandler extends Serialization
 			
 			JiemamyOutputElement nodesElement = diagramElement.addElement(DiagramQName.NODES);
 			sctx.push(nodesElement);
-			for (NodeModel nodeModel : model.getNodes()) {
+			List<? extends NodeModel> nodes = Lists.newArrayList(model.getNodes());
+			Collections.sort(nodes, new EntityComparator());
+			for (NodeModel nodeModel : nodes) {
 				getDirector().direct(nodeModel, sctx);
 			}
 			sctx.pop(); // -- end of nodes

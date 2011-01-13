@@ -23,12 +23,26 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
+import org.jiemamy.utils.RandomUtil;
+
 /**
  * {@link JmColor}のテストクラス。
  * 
  * @author daisuke
  */
 public class JmColorTest {
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @return
+	 */
+	public static JmColor random() {
+		int r = RandomUtil.integer(255);
+		int g = RandomUtil.integer(255);
+		int b = RandomUtil.integer(255);
+		return new JmColor(r, g, b);
+	}
 	
 	/**
 	 * {@link #toString()}のテスト。
