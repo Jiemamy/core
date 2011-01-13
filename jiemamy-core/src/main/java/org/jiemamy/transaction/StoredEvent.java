@@ -18,7 +18,9 @@
  */
 package org.jiemamy.transaction;
 
-import org.jiemamy.dddbase.EntityRef;
+import java.util.EventObject;
+
+import org.jiemamy.dddbase.Entity;
 
 /**
  * モデルを編集するためのEDITコマンドのインターフェース。
@@ -29,33 +31,33 @@ import org.jiemamy.dddbase.EntityRef;
  * @author daisuke
  * @author shin1ogawa
  */
-public interface Command {
+@SuppressWarnings("serial")
+public class StoredEvent<T extends Entity> extends EventObject {
 	
-	/**
-	 * EDITコマンドを実行する。
-	 * 
-	 * @since 0.2
-	 */
-	void execute();
+	private final T before;
 	
-	/**
-	 * 取り消しEDITコマンドを取得する。
-	 * 
-	 * <p>このメソッドは、常に同じ効果をもたらす取り消しEDITコマンドを返さなければならない。
-	 * 例えば、{@link #execute()}を実行前後で変化してはならない。
-	 * このインターフェイスの実装は、イミュータブルであることが望ましいのは、以上の理由である。</p>
-	 * 
-	 * @return 取り消しEDITコマンド
-	 * @since 0.2
-	 */
-	Command getNegateCommand();
+	private final T after;
 	
+
 	/**
-	 * 操作対象の{@link EntityRef}を返す。
+	 * インスタンスを生成する。
 	 * 
-	 * @return 操作対象の{@link EntityRef}
-	 * @since 0.2
+	 * @param source
+	 * @param before 
+	 * @param after 
 	 */
-	EntityRef<?> getTarget();
+	public StoredEvent(Object source, T before, T after) {
+		super(source);
+		this.before = before;
+		this.after = after;
+	}
+	
+	public T getAfter() {
+		return after;
+	}
+	
+	public T getBefore() {
+		return before;
+	}
 	
 }

@@ -78,4 +78,6 @@ public interface AroundScriptModel extends SqlElement {
 	 */
 	String process(ServiceLocator serviceLocator, Position position, DatabaseObjectModel target)
 			throws ClassNotFoundException;
+	
+	EntityRef<? extends AroundScriptModel> toReference();
 }

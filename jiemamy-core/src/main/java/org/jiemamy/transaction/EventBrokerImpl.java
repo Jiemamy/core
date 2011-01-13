@@ -31,10 +31,10 @@ import org.slf4j.LoggerFactory;
 import org.jiemamy.utils.LogMarker;
 
 /**
- * EDITコマンドの実行を監視し、登録されている{@link CommandListener}にイベントを通知する。
+ * EDITコマンドの実行を監視し、登録されている{@link StoredEventListener}にイベントを通知する。
  * 
- * <p>{@link Command}が実行されたタイミングで、{@link #listeners}として保持している{@link CommandListener}の中で,
- * {@link Command#getTarget()}を監視する必要があるものにイベントを通知する。</p>
+ * <p>{@link StoredEvent}が実行されたタイミングで、{@link #listeners}として保持している{@link StoredEventListener}の中で,
+ * {@link StoredEvent#getTarget()}を監視する必要があるものにイベントを通知する。</p>
  * 
  * @author shin1ogawa
  */
@@ -42,21 +42,21 @@ public class EventBrokerImpl implements EventBroker {
 	
 	private static Logger logger = LoggerFactory.getLogger(EventBrokerImpl.class);
 	
-	private List<CommandListener> listeners = Lists.newArrayList();
+	private List<StoredEventListener> listeners = Lists.newArrayList();
 	
 	private DispatchStrategy strategy = new DefaultDispatchStrategy();
 	
-	private Map<CommandListener, DispatchStrategy> strategies = Maps.newHashMap();
+	private Map<StoredEventListener, DispatchStrategy> strategies = Maps.newHashMap();
 	
 
-	public void addListener(CommandListener listener) {
+	public void addListener(StoredEventListener listener) {
 		assert listeners != null;
 		Validate.notNull(listener);
 		listeners.add(listener);
 		logger.info(LogMarker.LIFECYCLE, "CommandListener is registered: " + listener.toString());
 	}
 	
-	public void addListener(CommandListener listener, DispatchStrategy strategy) {
+	public void addListener(StoredEventListener listener, DispatchStrategy strategy) {
 		assert listeners != null;
 		Validate.notNull(listener);
 		Validate.notNull(strategy);
@@ -66,14 +66,13 @@ public class EventBrokerImpl implements EventBroker {
 				+ "," + strategy.toString());
 	}
 	
-	public void fireCommandProcessed(Command command) {
+	public void fireCommandProcessed(StoredEvent command) {
 		Validate.notNull(command);
 		assert listeners != null;
 		logger.info(LogMarker.LIFECYCLE, "EventBroker is kicked enter: " + command.toString());
-		logger.debug(LogMarker.LIFECYCLE, "target : " + command.getTarget());
 		// java.util.ConcurrentModificationExceptionへの対策。
-		List<CommandListener> listenersSnapthot = Lists.newArrayList(listeners);
-		for (CommandListener listener : listenersSnapthot) {
+		List<StoredEventListener> listenersSnapthot = Lists.newArrayList(listeners);
+		for (StoredEventListener listener : listenersSnapthot) {
 			boolean needToDispatch = false;
 			if (strategies.containsKey(listener)) {
 				needToDispatch = strategies.get(listener).needToDispatch(listener, command);
@@ -96,12 +95,12 @@ public class EventBrokerImpl implements EventBroker {
 	 * 
 	 * @return the listeners
 	 */
-	public List<CommandListener> getListeners() {
+	public List<StoredEventListener> getListeners() {
 		assert listeners != null;
 		return Lists.newArrayList(listeners);
 	}
 	
-	public void removeListener(CommandListener listener) {
+	public void removeListener(StoredEventListener listener) {
 		assert listeners != null;
 		Validate.notNull(listener);
 		listeners.remove(listener);
@@ -119,7 +118,7 @@ public class EventBrokerImpl implements EventBroker {
 
 	static class DefaultDispatchStrategy implements DispatchStrategy {
 		
-		public boolean needToDispatch(CommandListener listener, Command command) {
+		public boolean needToDispatch(StoredEventListener listener, StoredEvent command) {
 			return true;
 		}
 	}

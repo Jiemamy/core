@@ -35,7 +35,7 @@ import org.jiemamy.dddbase.OnMemoryRepository;
  * @version $Id$
  * @author daisuke
  */
-public class DefaultDiagramModel extends AbstractEntity implements DiagramModel {
+public final class DefaultDiagramModel extends AbstractEntity implements DiagramModel {
 	
 	private String name;
 	
@@ -149,7 +149,7 @@ public class DefaultDiagramModel extends AbstractEntity implements DiagramModel 
 		nodeRepos.store(entity);
 	}
 	
-	public EntityRef<DiagramModel> toReference() {
-		return new DefaultEntityRef<DiagramModel>(this);
+	public EntityRef<DefaultDiagramModel> toReference() {
+		return new DefaultEntityRef<DefaultDiagramModel>(this);
 	}
 }

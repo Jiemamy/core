@@ -39,7 +39,7 @@ import org.jiemamy.model.geometory.JmPointSerializationHandler;
 import org.jiemamy.model.geometory.JmRectangle;
 import org.jiemamy.model.geometory.JmRectangleSerializationHandler;
 import org.jiemamy.serializer.stax2.SerializationDirector;
-import org.jiemamy.transaction.Command;
+import org.jiemamy.transaction.StoredEvent;
 import org.jiemamy.xml.DiagramNamespace;
 import org.jiemamy.xml.DiagramQName;
 import org.jiemamy.xml.JiemamyNamespace;
@@ -82,21 +82,9 @@ public class DiagramFacet implements JiemamyFacet {
 		this.context = context;
 	}
 	
-	public void delete(final EntityRef<? extends DiagramModel> ref) {
-		repos.delete(ref);
-		context.getEventBroker().fireCommandProcessed(new Command() { // FIXME コマンド使ってない
-				
-					public void execute() {
-					}
-					
-					public Command getNegateCommand() {
-						return null;
-					}
-					
-					public EntityRef<?> getTarget() {
-						return ref;
-					}
-				});
+	public void delete(EntityRef<? extends DiagramModel> ref) {
+		DiagramModel deleted = repos.delete(ref);
+		context.getEventBroker().fireCommandProcessed(new StoredEvent<DiagramModel>(this, deleted, null));
 	}
 	
 	public List<? extends DiagramModel> getDiagrams() {
@@ -142,20 +130,14 @@ public class DiagramFacet implements JiemamyFacet {
 	 * 
 	 * @param diagram ダイアグラム
 	 */
-	public void store(final DiagramModel diagram) {
+	public void store(DiagramModel diagram) {
+		DiagramModel old = null;
+		try {
+			old = resolve(diagram.toReference());
+		} catch (EntityNotFoundException e) {
+			// ignore
+		}
 		repos.store(diagram);
-		context.getEventBroker().fireCommandProcessed(new Command() { // FIXME コマンド使ってない
-				
-					public void execute() {
-					}
-					
-					public Command getNegateCommand() {
-						return null;
-					}
-					
-					public EntityRef<?> getTarget() {
-						return diagram.toReference();
-					}
-				});
+		context.getEventBroker().fireCommandProcessed(new StoredEvent<DiagramModel>(this, old, diagram));
 	}
 }

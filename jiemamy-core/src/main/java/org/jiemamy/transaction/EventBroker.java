@@ -19,7 +19,7 @@
 package org.jiemamy.transaction;
 
 /**
- * EDITコマンドの実行を監視し、登録されている{@link CommandListener}にイベントを通知する。
+ * EDITコマンドの実行を監視し、登録されている{@link StoredEventListener}にイベントを通知する。
  * 
  * @since 0.2
  * @author shin1ogawa
@@ -33,7 +33,7 @@ public interface EventBroker {
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 0.2
 	 */
-	void addListener(CommandListener listener);
+	void addListener(StoredEventListener listener);
 	
 	/**
 	 * 指定されたリスナを、通知の判断を行う戦略と共に登録する。
@@ -43,7 +43,7 @@ public interface EventBroker {
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 0.2
 	 */
-	void addListener(CommandListener listener, DispatchStrategy strategy);
+	void addListener(StoredEventListener listener, DispatchStrategy strategy);
 	
 	/**
 	 * EDITコマンドをイベントとして登録されたリスナに通知する。
@@ -54,7 +54,7 @@ public interface EventBroker {
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 0.2
 	 */
-	void fireCommandProcessed(Command command);
+	void fireCommandProcessed(StoredEvent command);
 	
 	/**
 	 * 指定されたリスナを削除する。
@@ -63,7 +63,7 @@ public interface EventBroker {
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 0.2
 	 */
-	void removeListener(CommandListener listener);
+	void removeListener(StoredEventListener listener);
 	
 	/**
 	 * リスナに対する通知が必要かどうかを判断するための戦略を設定する。

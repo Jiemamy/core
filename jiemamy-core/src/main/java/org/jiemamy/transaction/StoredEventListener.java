@@ -26,7 +26,7 @@ import org.jiemamy.dddbase.Entity;
  * @since 0.2
  * @author shin1ogawa
  */
-public interface CommandListener {
+public interface StoredEventListener {
 	
 	/**
 	 * コマンドが実行されたことを通知するcallbackメソッド。
@@ -36,7 +36,7 @@ public interface CommandListener {
 	 * @param command 実行されたコマンド
 	 * @since 0.2
 	 */
-	void commandExecuted(Command command);
+	void commandExecuted(StoredEvent<?> command);
 	
 	/**
 	 * 監視対象を返す。

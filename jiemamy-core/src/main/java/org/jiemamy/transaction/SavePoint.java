@@ -33,7 +33,7 @@ import org.jiemamy.utils.collection.EssentialStack;
  */
 public class SavePoint {
 	
-	private final EssentialStack<Command> undoStackSnapShot;
+	private final EssentialStack<StoredEvent> undoStackSnapShot;
 	
 
 	/**
@@ -42,9 +42,9 @@ public class SavePoint {
 	 * @param undoStack save時のundo stackの状態
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	SavePoint(EssentialStack<Command> undoStack) {
+	SavePoint(EssentialStack<StoredEvent> undoStack) {
 		Validate.notNull(undoStack);
-		undoStackSnapShot = new ArrayEssentialStack<Command>(undoStack);
+		undoStackSnapShot = new ArrayEssentialStack<StoredEvent>(undoStack);
 	}
 	
 	/**
@@ -52,9 +52,9 @@ public class SavePoint {
 	 * 
 	 * @return スナップショット取得時点のundoスタック
 	 */
-	EssentialStack<Command> getUndoStackSnapshot() {
+	EssentialStack<StoredEvent> getUndoStackSnapshot() {
 		// イミュータブルにする為、防御コピーを返す
-		return new ArrayEssentialStack<Command>(undoStackSnapShot);
+		return new ArrayEssentialStack<StoredEvent>(undoStackSnapShot);
 	}
 	
 }

@@ -32,7 +32,7 @@ import org.jiemamy.model.DatabaseObjectModel;
 import org.jiemamy.model.script.AroundScriptModel;
 import org.jiemamy.model.sql.SqlStatement;
 import org.jiemamy.serializer.stax2.SerializationDirector;
-import org.jiemamy.transaction.Command;
+import org.jiemamy.transaction.StoredEvent;
 import org.jiemamy.xml.JiemamyNamespace;
 import org.jiemamy.xml.SqlNamespace;
 import org.jiemamy.xml.SqlQName;
@@ -74,21 +74,9 @@ public class SqlFacet implements JiemamyFacet {
 		this.context = context;
 	}
 	
-	public void delete(final EntityRef<? extends AroundScriptModel> ref) {
-		scripts.delete(ref);
-		context.getEventBroker().fireCommandProcessed(new Command() { // FIXME コマンド使ってない
-				
-					public void execute() {
-					}
-					
-					public Command getNegateCommand() {
-						return null;
-					}
-					
-					public EntityRef<?> getTarget() {
-						return ref;
-					}
-				});
+	public void delete(EntityRef<? extends AroundScriptModel> ref) {
+		AroundScriptModel deleted = scripts.delete(ref);
+		context.getEventBroker().fireCommandProcessed(new StoredEvent<AroundScriptModel>(this, deleted, null));
 	}
 	
 	/**
@@ -136,7 +124,7 @@ public class SqlFacet implements JiemamyFacet {
 		// CHECKSTYLE:ON FORMAT-ON
 	}
 	
-	public <T2 extends Entity>T2 resolve(EntityRef<T2> ref) {
+	public <T extends Entity>T resolve(EntityRef<T> ref) {
 		return scripts.resolve(ref);
 	}
 	
@@ -148,24 +136,17 @@ public class SqlFacet implements JiemamyFacet {
 	 * スクリプトを保存する。
 	 * 
 	 * @param script スクリプト
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public void store(final AroundScriptModel script) {
+	public void store(AroundScriptModel script) {
 		Validate.notNull(script);
-		Validate.notNull(script.getId());
-//		Validate.notNull(script.getTarget());
+		AroundScriptModel old = null;
+		try {
+			old = resolve(script.toReference());
+		} catch (EntityNotFoundException e) {
+			// ignore
+		}
 		scripts.store(script);
-		context.getEventBroker().fireCommandProcessed(new Command() { // FIXME コマンド使ってない
-				
-					public void execute() {
-					}
-					
-					public Command getNegateCommand() {
-						return null;
-					}
-					
-					public EntityRef<?> getTarget() {
-						return script.toReference();
-					}
-				});
+		context.getEventBroker().fireCommandProcessed(new StoredEvent<AroundScriptModel>(this, old, script));
 	}
 }

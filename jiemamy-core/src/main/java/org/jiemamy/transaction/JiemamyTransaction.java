@@ -47,7 +47,7 @@ public abstract class JiemamyTransaction {
 	private Collection<SavePoint> publishedSavePoints = Lists.newArrayList();
 	
 	/** UNDOスタック */
-	protected EssentialStack<Command> undoStack = new ArrayEssentialStack<Command>();
+	protected EssentialStack<StoredEvent> undoStack = new ArrayEssentialStack<StoredEvent>();
 	
 	/** イベントブローカ */
 	protected EventBroker eventBroker;
@@ -68,32 +68,31 @@ public abstract class JiemamyTransaction {
 		}
 		
 		// this.undoStack(現状スタック)が ABCPQR, savePointStack(セーブ時スタック)が ABCXYZ だったとすると…
-		
-		EssentialStack<Command> savePointStack = savePoint.getUndoStackSnapshot();
+		EssentialStack<StoredEvent> savePointStack = savePoint.getUndoStackSnapshot();
 		
 		// intersect = ABC (先頭共通部分の抽出)
-		EssentialStack<Command> intersect = EssentialStacks.intersection(undoStack, savePointStack);
+		EssentialStack<StoredEvent> intersect = EssentialStacks.intersection(undoStack, savePointStack);
 		
 		// undoStackMinus = PQR (引き算)
-		EssentialStack<Command> undoStackMinus = EssentialStacks.minus(undoStack, intersect);
+		EssentialStack<StoredEvent> undoStackMinus = EssentialStacks.minus(undoStack, intersect);
 		
-		// RQPの順番（pop順）でundoコマンドを実行し、現状を ABC 状態まで退行させる。
-		while (undoStackMinus.isEmpty() == false) {
-			Command command = undoStackMinus.pop();
-			command.execute();
-		}
-		
-		// savePointStackMinus = XYZ (引き算)
-		EssentialStack<Command> savePointStackMinus = EssentialStacks.minus(savePointStack, intersect);
-		
-		// XYZの順番（foreach順）でredoコマンド（スタックから得られたコマンドの逆コマンド）を実行し、savePoint状態を再現する。
-		for (Command negateCommand : savePointStackMinus) {
-			Command command = negateCommand.getNegateCommand();
-			command.execute();
-		}
-		
-		// 現状スタックをセーブ時の状況に直しておく。
-		undoStack = savePointStack;
+//		// RQPの順番（pop順）でundoコマンドを実行し、現状を ABC 状態まで退行させる。
+//		while (undoStackMinus.isEmpty() == false) {
+//			StoredEvent command = undoStackMinus.pop();
+//			command.execute();
+//		}
+//		
+//		// savePointStackMinus = XYZ (引き算)
+//		EssentialStack<StoredEvent> savePointStackMinus = EssentialStacks.minus(savePointStack, intersect);
+//		
+//		// XYZの順番（foreach順）でredoコマンド（スタックから得られたコマンドの逆コマンド）を実行し、savePoint状態を再現する。
+//		for (StoredEvent negateCommand : savePointStackMinus) {
+//			StoredEvent command = negateCommand.getNegateCommand();
+//			command.execute();
+//		}
+//		
+//		// 現状スタックをセーブ時の状況に直しておく。
+//		undoStack = savePointStack;
 	}
 	
 	/**
@@ -103,7 +102,7 @@ public abstract class JiemamyTransaction {
 	 * @since 0.2
 	 */
 	public SavePoint save() {
-		EssentialStack<Command> undoCopy = new ArrayEssentialStack<Command>(undoStack);
+		EssentialStack<StoredEvent> undoCopy = new ArrayEssentialStack<StoredEvent>(undoStack);
 		SavePoint sp = new SavePoint(undoCopy);
 		publishedSavePoints.add(sp);
 		return sp;

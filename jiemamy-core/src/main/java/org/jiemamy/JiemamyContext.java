@@ -51,10 +51,10 @@ import org.jiemamy.model.table.TableModel;
 import org.jiemamy.model.view.ViewModel;
 import org.jiemamy.serializer.JiemamySerializer;
 import org.jiemamy.serializer.stax2.JiemamyStaxSerializer;
-import org.jiemamy.transaction.Command;
 import org.jiemamy.transaction.EventBroker;
 import org.jiemamy.transaction.EventBrokerImpl;
 import org.jiemamy.transaction.JiemamyTransaction;
+import org.jiemamy.transaction.StoredEvent;
 import org.jiemamy.utils.reflect.ClassUtil;
 import org.jiemamy.xml.CoreNamespace;
 import org.jiemamy.xml.JiemamyNamespace;
@@ -170,20 +170,8 @@ public class JiemamyContext {
 	 * @param reference 削除する{@link DatabaseObjectModel}への参照
 	 */
 	public void deleteDatabaseObject(final EntityRef<? extends DatabaseObjectModel> reference) {
-		doms.delete(reference);
-		eventBroker.fireCommandProcessed(new Command() { // FIXME コマンド使ってない
-			
-				public void execute() {
-				}
-				
-				public Command getNegateCommand() {
-					return null;
-				}
-				
-				public EntityRef<? extends DatabaseObjectModel> getTarget() {
-					return reference;
-				}
-			});
+		DatabaseObjectModel deleted = doms.delete(reference);
+		eventBroker.fireCommandProcessed(new StoredEvent<DatabaseObjectModel>(this, deleted, null));
 	}
 	
 	/**
@@ -192,20 +180,8 @@ public class JiemamyContext {
 	 * @param reference 削除する{@link DataSetModel}への参照
 	 */
 	public void deleteDataSet(final EntityRef<? extends DataSetModel> reference) {
-		dsms.delete(reference);
-		eventBroker.fireCommandProcessed(new Command() { // FIXME コマンド使ってない
-			
-				public void execute() {
-				}
-				
-				public Command getNegateCommand() {
-					return null;
-				}
-				
-				public EntityRef<? extends DataSetModel> getTarget() {
-					return reference;
-				}
-			});
+		DataSetModel deleted = dsms.delete(reference);
+		eventBroker.fireCommandProcessed(new StoredEvent<DataSetModel>(this, deleted, null));
 	}
 	
 	/**
@@ -543,21 +519,15 @@ public class JiemamyContext {
 	 * 
 	 * @param dom {@link DatabaseObjectModel}
 	 */
-	public void store(final DatabaseObjectModel dom) {
+	public void store(DatabaseObjectModel dom) {
+		DatabaseObjectModel old = null;
+		try {
+			old = doms.resolve(dom.toReference());
+		} catch (EntityNotFoundException e) {
+			// ignore
+		}
 		doms.store(dom);
-		eventBroker.fireCommandProcessed(new Command() { // FIXME コマンド使ってない
-			
-				public void execute() {
-				}
-				
-				public Command getNegateCommand() {
-					return null;
-				}
-				
-				public EntityRef<? extends DatabaseObjectModel> getTarget() {
-					return dom.toReference();
-				}
-			});
+		eventBroker.fireCommandProcessed(new StoredEvent<DatabaseObjectModel>(this, old, dom));
 	}
 	
 	/**
@@ -565,22 +535,15 @@ public class JiemamyContext {
 	 * 
 	 * @param dsm {@link DataSetModel}
 	 */
-	public void store(final DataSetModel dsm) {
+	public void store(DataSetModel dsm) {
+		DataSetModel old = null;
+		try {
+			old = dsms.resolve(dsm.toReference());
+		} catch (EntityNotFoundException e) {
+			// ignore
+		}
 		dsms.store(dsm);
-		eventBroker.fireCommandProcessed(new Command() { // FIXME コマンド使ってない
-			
-				public void execute() {
-					
-				}
-				
-				public Command getNegateCommand() {
-					return null;
-				}
-				
-				public EntityRef<? extends DataSetModel> getTarget() {
-					return dsm.toReference();
-				}
-			});
+		eventBroker.fireCommandProcessed(new StoredEvent<DataSetModel>(this, old, dsm));
 	}
 	
 	@Override
