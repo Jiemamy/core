@@ -18,7 +18,6 @@
  */
 package org.jiemamy.model.script;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -43,13 +42,13 @@ import org.jiemamy.model.DatabaseObjectModel;
  */
 public final class DefaultAroundScriptModel extends AbstractEntity implements AroundScriptModel {
 	
-	private Map<Position, String> scripts = new HashMap<Position, String>();
+	private Map<Position, String> scripts = Maps.newHashMap();
 	
-	private Map<Position, String> scriptEngineClassNames = new HashMap<Position, String>();
+	private Map<Position, String> scriptEngineClassNames = Maps.newHashMap();
 	
 	private static final String DEFAULT_ENGINE = PlainScriptEngine.class.getName();
 	
-	private EntityRef<? extends DatabaseObjectModel> target;
+	private EntityRef<? extends DatabaseObjectModel> coreModelRef;
 	
 
 	/**
@@ -70,7 +69,7 @@ public final class DefaultAroundScriptModel extends AbstractEntity implements Ar
 	}
 	
 	public EntityRef<? extends DatabaseObjectModel> getCoreModelRef() {
-		return target;
+		return coreModelRef;
 	}
 	
 	public String getScript(Position position) {
@@ -121,6 +120,17 @@ public final class DefaultAroundScriptModel extends AbstractEntity implements Ar
 	}
 	
 	/**
+	 * TODO for daisuke
+	 * 
+	 * @param coreModelRef
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public void setCoreModelRef(EntityRef<? extends DatabaseObjectModel> coreModelRef) {
+		Validate.notNull(coreModelRef);
+		this.coreModelRef = coreModelRef;
+	}
+	
+	/**
 	 * スクリプトを設定する。
 	 * 
 	 * @param position スクリプト挿入位置
@@ -156,17 +166,6 @@ public final class DefaultAroundScriptModel extends AbstractEntity implements Ar
 		} else {
 			scriptEngineClassNames.put(position, scriptEngineClassName);
 		}
-	}
-	
-	/**
-	 * TODO for daisuke
-	 * 
-	 * @param target
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 */
-	public void setTarget(EntityRef<? extends DatabaseObjectModel> target) {
-		Validate.notNull(target);
-		this.target = target;
 	}
 	
 	public EntityRef<DefaultAroundScriptModel> toReference() {

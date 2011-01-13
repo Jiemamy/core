@@ -20,6 +20,7 @@ package org.jiemamy.model.view;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.jiemamy.utils.RandomUtil.str;
+import static org.jiemamy.utils.RandomUtil.strNotEmpty;
 import static org.junit.Assert.assertThat;
 
 import java.util.UUID;
@@ -42,10 +43,10 @@ public class DefaultViewModelTest {
 	public static DefaultViewModel random() {
 		DefaultViewModel model = new DefaultViewModel(UUID.randomUUID());
 		
+		model.setName(strNotEmpty());
+		model.setLogicalName(str());
 		model.setDefinition("SELECT * FROM " + str());
 		model.setDescription(str());
-		model.setLogicalName(str());
-		model.setName(str());
 		
 		return model;
 	}

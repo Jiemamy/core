@@ -30,6 +30,8 @@ import org.jiemamy.dialect.Dialect;
 import org.jiemamy.dialect.EmitConfig;
 import org.jiemamy.model.DatabaseObjectModel;
 import org.jiemamy.model.script.AroundScriptModel;
+import org.jiemamy.model.script.DefaultAroundScriptModel;
+import org.jiemamy.model.script.DefaultAroundScriptModelSerializationHandler;
 import org.jiemamy.model.sql.SqlStatement;
 import org.jiemamy.serializer.stax2.SerializationDirector;
 import org.jiemamy.transaction.StoredEvent;
@@ -120,7 +122,8 @@ public class SqlFacet implements JiemamyFacet {
 	public void prepareSerializationHandlers(SerializationDirector director) {
 		Validate.notNull(director);
 		// FORMAT-OFF CHECKSTYLE:OFF
-		director.addHandler(SqlFacet.class, SqlQName.AROUND_SCRIPT, new SqlFacetSerializationHandler(director));
+		director.addHandler(SqlFacet.class, SqlQName.SQLS, new SqlFacetSerializationHandler(director));
+		director.addHandler(DefaultAroundScriptModel.class, SqlQName.AROUND_SCRIPT, new DefaultAroundScriptModelSerializationHandler(director));
 		// CHECKSTYLE:ON FORMAT-ON
 	}
 	

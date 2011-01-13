@@ -67,6 +67,15 @@ public final class RandomUtil {
 	}
 	
 	/**
+	 * 1〜10文字までの乱英数文字列を生成する。
+	 * 
+	 * @return 乱文字列
+	 */
+	public static String strNotEmpty() {
+		return RandomStringUtils.randomAlphanumeric(integer(9) + 1);
+	}
+	
+	/**
 	 * 0〜10文字までの乱英数文字列または {@code null}を返す。
 	 * 
 	 * @return 乱文字列または {@code null}

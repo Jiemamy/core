@@ -29,16 +29,22 @@ import javax.xml.namespace.QName;
 public enum SqlQName implements JiemamyQName {
 	
 	/***/
+	SQLS(SqlNamespace.NS_SQL, "sqls"),
+
+	/***/
 	AROUND_SCRIPT(SqlNamespace.NS_SQL, "aroundScript"),
 
 	/***/
-	ENGINE(SqlNamespace.NS_SQL, "engine"),
+	CORE(SqlNamespace.NS_SQL, "core"),
 
 	/***/
 	SCRIPT(SqlNamespace.NS_SQL, "script"),
 
 	/***/
-	POSITION(SqlNamespace.NS_SQL, "position");
+	ENGINE(SqlNamespace.NONE, "engine"),
+
+	/***/
+	POSITION(SqlNamespace.NONE, "position");
 	
 	/** XML仕様における完全修飾名 */
 	private final QName qName;

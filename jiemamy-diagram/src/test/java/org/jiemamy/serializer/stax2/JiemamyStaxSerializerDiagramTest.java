@@ -1,4 +1,4 @@
-package org.jiemamy.serializer;
+package org.jiemamy.serializer.stax2;
 
 /*
  * Copyright 2007-2010 Jiemamy Project and the Others.

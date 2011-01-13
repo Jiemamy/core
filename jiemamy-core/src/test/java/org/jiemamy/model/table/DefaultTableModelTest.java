@@ -24,6 +24,7 @@ import static org.jiemamy.utils.RandomUtil.bool;
 import static org.jiemamy.utils.RandomUtil.enumeNullable;
 import static org.jiemamy.utils.RandomUtil.integer;
 import static org.jiemamy.utils.RandomUtil.str;
+import static org.jiemamy.utils.RandomUtil.strNotEmpty;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
@@ -68,7 +69,7 @@ public class DefaultTableModelTest {
 	 */
 	public static DefaultTableModel random() {
 		DefaultTableModel model = new DefaultTableModel(UUID.randomUUID());
-		model.setName(str());
+		model.setName(strNotEmpty());
 		model.setLogicalName(str());
 		model.setDescription(str());
 		

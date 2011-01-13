@@ -90,7 +90,7 @@ public class SqlFacetTest {
 		DefaultAroundScriptModel asm = new DefaultAroundScriptModel(UUIDUtil.valueOfOrRandom("b"));
 		asm.setScriptEngineClass(Position.BEGIN, PlainScriptEngine.class);
 		asm.setScript(Position.BEGIN, "-- BEGIN");
-		asm.setTarget(table.toReference());
+		asm.setCoreModelRef(table.toReference());
 		facet.store(asm);
 		
 		// SqlFacet#getAroundScriptFor(Entity) で取り出せる

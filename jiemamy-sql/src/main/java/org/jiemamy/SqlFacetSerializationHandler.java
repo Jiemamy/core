@@ -18,7 +18,12 @@
  */
 package org.jiemamy;
 
+import java.util.Collections;
+import java.util.List;
+
 import javax.xml.stream.XMLStreamException;
+
+import com.google.common.collect.Lists;
 
 import org.apache.commons.lang.Validate;
 import org.codehaus.staxmate.in.SMEvent;
@@ -26,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.jiemamy.model.script.AroundScriptModel;
+import org.jiemamy.serializer.EntityComparator;
 import org.jiemamy.serializer.SerializationException;
 import org.jiemamy.serializer.stax2.DeserializationContext;
 import org.jiemamy.serializer.stax2.JiemamyCursor;
@@ -60,7 +66,8 @@ public final class SqlFacetSerializationHandler extends SerializationHandler<Sql
 		Validate.notNull(ctx);
 		try {
 			Validate.isTrue(ctx.peek().getCurrEvent() == SMEvent.START_ELEMENT);
-			Validate.isTrue(ctx.peek().isQName(SqlQName.AROUND_SCRIPT));
+			Validate.isTrue(ctx.peek().isQName(SqlQName.SQLS));
+			Validate.notNull(ctx.getContext());
 			Validate.isTrue(ctx.getContext().hasFacet(SqlFacet.class));
 			
 			SqlFacet facet = ctx.getContext().getFacet(SqlFacet.class);
@@ -73,7 +80,7 @@ public final class SqlFacetSerializationHandler extends SerializationHandler<Sql
 				if (aroundScriptModel != null) {
 					facet.store(aroundScriptModel);
 				} else {
-					logger.warn("null diagramModel");
+					logger.warn("null aroundScriptModel");
 				}
 				ctx.pop();
 			}
@@ -88,8 +95,10 @@ public final class SqlFacetSerializationHandler extends SerializationHandler<Sql
 	public void handleSerialization(SqlFacet model, SerializationContext sctx) throws SerializationException {
 		JiemamyOutputContainer parent = sctx.peek();
 		try {
-			sctx.push(parent.addElement(SqlQName.AROUND_SCRIPT));
-			for (AroundScriptModel aroundScript : model.getAroundScripts()) {
+			sctx.push(parent.addElement(SqlQName.SQLS));
+			List<AroundScriptModel> list = Lists.newArrayList(model.getAroundScripts());
+			Collections.sort(list, new EntityComparator());
+			for (AroundScriptModel aroundScript : list) {
 				getDirector().direct(aroundScript, sctx);
 			}
 			sctx.pop();
