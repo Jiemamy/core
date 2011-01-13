@@ -100,6 +100,16 @@ public class JiemamyContextTest {
 		return context;
 	}
 	
+	/**
+	 * テストの情報を破棄する。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@AfterClass
+	public static void tearDownClass() throws Exception {
+		UUIDUtil.clear();
+	}
+	
 
 	private JiemamyContext ctx1;
 	
@@ -143,16 +153,6 @@ public class JiemamyContextTest {
 		c2 = new DefaultColumnModel(CID2);
 		c3 = new DefaultColumnModel(CID3);
 		// FORMAT-ON
-	}
-	
-	/**
-	 * テストの情報を破棄する。
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
-	@AfterClass
-	public void tearDownClass() throws Exception {
-		UUIDUtil.clear();
 	}
 	
 	/**

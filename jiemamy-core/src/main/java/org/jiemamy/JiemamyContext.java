@@ -67,7 +67,7 @@ import org.jiemamy.xml.JiemamyNamespaceContext;
  * @version $Id$
  * @author daisuke
  */
-public class JiemamyContext {
+public/*final*/class JiemamyContext {
 	
 	private static Logger logger = LoggerFactory.getLogger(JiemamyContext.class);
 	
