@@ -68,6 +68,7 @@ public class DeserializationContext {
 	 * @return the context
 	 */
 	public JiemamyContext getContext() {
+		assert context != null;
 		return context;
 	}
 	

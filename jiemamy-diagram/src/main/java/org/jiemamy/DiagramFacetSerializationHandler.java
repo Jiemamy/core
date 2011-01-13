@@ -61,6 +61,7 @@ public final class DiagramFacetSerializationHandler extends SerializationHandler
 		try {
 			Validate.isTrue(ctx.peek().getCurrEvent() == SMEvent.START_ELEMENT);
 			Validate.isTrue(ctx.peek().isQName(DiagramQName.DIAGRAMS));
+			Validate.notNull(ctx.getContext());
 			Validate.isTrue(ctx.getContext().hasFacet(DiagramFacet.class));
 			
 			DiagramFacet facet = ctx.getContext().getFacet(DiagramFacet.class);
