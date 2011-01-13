@@ -149,9 +149,7 @@ public interface Dialect {
 //			Map<String, EntityModel> importedEntities, Map<String, ForeignKey> importedForeignKeys) throws SQLException;
 //	
 //	/**
-//	 * SQL文のリストから、{@link RootModel} を生成する。
-//	 * 
-//	 * <p>{@code null}を返してはならない。</p>
+//	 * SQL文のリストから、{@link JiemamyContext} を生成する。
 //	 * 
 //	 * @param statements SQL文のリスト
 //	 * @return 生成した{@link RootModel}

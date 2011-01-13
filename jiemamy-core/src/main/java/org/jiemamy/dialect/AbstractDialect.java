@@ -18,50 +18,34 @@
  */
 package org.jiemamy.dialect;
 
-import java.util.List;
-
-import com.google.common.collect.Lists;
-
-import org.jiemamy.model.datatype.DataTypeCategory;
-import org.jiemamy.model.datatype.DefaultTypeReference;
-import org.jiemamy.model.datatype.TypeReference;
-import org.jiemamy.validator.CompositeValidator;
-import org.jiemamy.validator.Validator;
+import org.apache.commons.lang.Validate;
 
 /**
- * テスト用のモックSQL方言実装クラス。
+ * SQL方言の抽象実装クラス。
  * 
  * @version $Id$
  * @author daisuke
  */
-public class MockDialect implements Dialect {
+public abstract class AbstractDialect implements Dialect {
 	
-	private List<TypeReference> allDataTypes = Lists.newArrayList();
-	
-	private Validator validator = new CompositeValidator();
+	private final String connectionUriTemplate;
 	
 
 	/**
 	 * インスタンスを生成する。
+	 * 
+	 * @param connectionUriTemplate
 	 */
-	public MockDialect() {
-		allDataTypes.add(new DefaultTypeReference(DataTypeCategory.INTEGER));
-		allDataTypes.add(new DefaultTypeReference(DataTypeCategory.VARCHAR));
-	}
-	
-	public List<TypeReference> getAllDataTypes() {
-		return allDataTypes;
+	public AbstractDialect(String connectionUriTemplate) {
+		Validate.notNull(connectionUriTemplate);
+		this.connectionUriTemplate = connectionUriTemplate;
 	}
 	
 	public String getConnectionUriTemplate() {
-		return "jdbc:dummy:foobar";
+		return connectionUriTemplate;
 	}
 	
 	public String getName() {
 		return this.getClass().getName();
-	}
-	
-	public Validator getValidator() {
-		return validator;
 	}
 }

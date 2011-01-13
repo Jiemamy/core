@@ -29,12 +29,14 @@ import org.jiemamy.validator.CompositeValidator;
 import org.jiemamy.validator.Validator;
 
 /**
- * テスト用のモックSQL方言実装クラス。
+ * SQL方言の抽象実装クラス。
  * 
  * @version $Id$
  * @author daisuke
+ * @deprecated テスト用のサンプルなので使わないこと
  */
-public class MockDialect implements Dialect {
+@Deprecated
+public class SampleDialect extends AbstractDialect {
 	
 	private List<TypeReference> allDataTypes = Lists.newArrayList();
 	
@@ -44,21 +46,14 @@ public class MockDialect implements Dialect {
 	/**
 	 * インスタンスを生成する。
 	 */
-	public MockDialect() {
+	public SampleDialect() {
+		super("jdbc:dummy:foobar");
 		allDataTypes.add(new DefaultTypeReference(DataTypeCategory.INTEGER));
 		allDataTypes.add(new DefaultTypeReference(DataTypeCategory.VARCHAR));
 	}
 	
 	public List<TypeReference> getAllDataTypes() {
 		return allDataTypes;
-	}
-	
-	public String getConnectionUriTemplate() {
-		return "jdbc:dummy:foobar";
-	}
-	
-	public String getName() {
-		return this.getClass().getName();
 	}
 	
 	public Validator getValidator() {
