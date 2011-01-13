@@ -53,6 +53,9 @@ import org.jiemamy.model.constraint.ForeignKeyConstraintModel;
 import org.jiemamy.model.constraint.KeyConstraintModel;
 import org.jiemamy.model.constraint.NotNullConstraintModel;
 import org.jiemamy.model.constraint.PrimaryKeyConstraintModel;
+import org.jiemamy.transaction.EventBroker;
+import org.jiemamy.transaction.EventBrokerImpl;
+import org.jiemamy.transaction.StoredEvent;
 import org.jiemamy.utils.ConstraintComparator;
 import org.jiemamy.utils.collection.CollectionsUtil;
 
@@ -140,6 +143,8 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	/** 制約のリスト */
 	private SortedSet<ConstraintModel> constraints = Sets.newTreeSet(new ConstraintComparator());
 	
+	private final EventBroker eventBroker = new EventBrokerImpl();
+	
 
 	/**
 	 * インスタンスを生成する。
@@ -188,7 +193,8 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	 */
 	public void delete(EntityRef<? extends ColumnModel> ref) {
 		Validate.notNull(ref);
-		columns.delete(ref);
+		ColumnModel deleted = columns.delete(ref);
+		eventBroker.fireEvent(new StoredEvent<ColumnModel>(this, deleted, null));
 	}
 	
 	public KeyConstraintModel findReferencedKeyConstraint(ForeignKeyConstraintModel foreignKey) {
@@ -257,6 +263,15 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 			}
 		}
 		return MutationMonitor.monitor(result);
+	}
+	
+	/**
+	 * {@link EventBroker}を取得する。
+	 * 
+	 * @return {@link EventBroker}
+	 */
+	public EventBroker getEventBroker() {
+		return eventBroker;
 	}
 	
 	public Collection<? extends ForeignKeyConstraintModel> getForeignKeyConstraintModels() {
@@ -368,6 +383,7 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	public void store(ColumnModel column) {
 		Validate.notNull(column);
 		columns.store(column);
+		eventBroker.fireEvent(new StoredEvent<ColumnModel>(this, null, column));
 	}
 	
 	public EntityRef<DefaultTableModel> toReference() {

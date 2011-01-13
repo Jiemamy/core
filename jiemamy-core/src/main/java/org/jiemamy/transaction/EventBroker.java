@@ -54,7 +54,7 @@ public interface EventBroker {
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 0.2
 	 */
-	void fireCommandProcessed(StoredEvent<?> command);
+	void fireEvent(StoredEvent<?> command);
 	
 	/**
 	 * 指定されたリスナを削除する。

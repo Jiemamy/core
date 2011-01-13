@@ -64,7 +64,7 @@ public class EventBrokerImpl implements EventBroker {
 				+ "," + strategy.toString());
 	}
 	
-	public void fireCommandProcessed(StoredEvent<?> command) {
+	public void fireEvent(StoredEvent<?> command) {
 		Validate.notNull(command);
 		logger.info(LogMarker.LIFECYCLE, "EventBroker is kicked enter: " + command.toString());
 		// java.util.ConcurrentModificationExceptionへの対策。

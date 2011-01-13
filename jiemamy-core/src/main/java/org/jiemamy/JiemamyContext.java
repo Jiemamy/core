@@ -143,7 +143,7 @@ public/*final*/class JiemamyContext {
 	
 	private final UUIDProvider uuidProvider = new UUIDProvider();
 	
-	private EventBroker eventBroker = new EventBrokerImpl();
+	private final EventBroker eventBroker = new EventBrokerImpl();
 	
 
 	/**
@@ -172,7 +172,7 @@ public/*final*/class JiemamyContext {
 	 */
 	public void deleteDatabaseObject(final EntityRef<? extends DatabaseObjectModel> reference) {
 		DatabaseObjectModel deleted = doms.delete(reference);
-		eventBroker.fireCommandProcessed(new StoredEvent<DatabaseObjectModel>(this, deleted, null));
+		eventBroker.fireEvent(new StoredEvent<DatabaseObjectModel>(this, deleted, null));
 	}
 	
 	/**
@@ -182,7 +182,7 @@ public/*final*/class JiemamyContext {
 	 */
 	public void deleteDataSet(final EntityRef<? extends DataSetModel> reference) {
 		DataSetModel deleted = dsms.delete(reference);
-		eventBroker.fireCommandProcessed(new StoredEvent<DataSetModel>(this, deleted, null));
+		eventBroker.fireEvent(new StoredEvent<DataSetModel>(this, deleted, null));
 	}
 	
 	/**
@@ -528,7 +528,7 @@ public/*final*/class JiemamyContext {
 			// ignore
 		}
 		doms.store(dom);
-		eventBroker.fireCommandProcessed(new StoredEvent<DatabaseObjectModel>(this, old, dom));
+		eventBroker.fireEvent(new StoredEvent<DatabaseObjectModel>(this, old, dom));
 	}
 	
 	/**
@@ -544,7 +544,7 @@ public/*final*/class JiemamyContext {
 			// ignore
 		}
 		dsms.store(dsm);
-		eventBroker.fireCommandProcessed(new StoredEvent<DataSetModel>(this, old, dsm));
+		eventBroker.fireEvent(new StoredEvent<DataSetModel>(this, old, dsm));
 	}
 	
 	@Override

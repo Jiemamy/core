@@ -84,7 +84,7 @@ public class DiagramFacet implements JiemamyFacet {
 	
 	public void delete(EntityRef<? extends DiagramModel> ref) {
 		DiagramModel deleted = repos.delete(ref);
-		context.getEventBroker().fireCommandProcessed(new StoredEvent<DiagramModel>(this, deleted, null));
+		context.getEventBroker().fireEvent(new StoredEvent<DiagramModel>(this, deleted, null));
 	}
 	
 	public List<? extends DiagramModel> getDiagrams() {
@@ -138,6 +138,6 @@ public class DiagramFacet implements JiemamyFacet {
 			// ignore
 		}
 		repos.store(diagram);
-		context.getEventBroker().fireCommandProcessed(new StoredEvent<DiagramModel>(this, old, diagram));
+		context.getEventBroker().fireEvent(new StoredEvent<DiagramModel>(this, old, diagram));
 	}
 }
