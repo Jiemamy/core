@@ -41,7 +41,9 @@ public class DeserializationContext {
 	/**
 	 * インスタンスを生成する。
 	 * 
+	 * @param context コンテキスト
 	 * @param cursor カーソル
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	DeserializationContext(JiemamyContext context, JiemamyCursor cursor) {
 		Validate.notNull(context);
@@ -53,7 +55,9 @@ public class DeserializationContext {
 	/**
 	 * インスタンスを生成する。
 	 * 
+	 * @param context コンテキスト
 	 * @param cursor カーソル
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	DeserializationContext(JiemamyContext context, SMHierarchicCursor cursor) {
 		this(context, new JiemamyCursor(cursor));
