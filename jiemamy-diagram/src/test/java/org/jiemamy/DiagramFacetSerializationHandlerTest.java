@@ -117,8 +117,10 @@ public class DiagramFacetSerializationHandlerTest extends AbstractSerializationH
 		
 		SMInputCursor cursor = getCursor(bais).advance();
 		
+		JiemamyContext context = new JiemamyContext(DiagramFacet.PROVIDER);
 		DeserializationContext dctx = mock(DeserializationContext.class);
 		when(dctx.peek()).thenReturn(new JiemamyCursor(cursor));
+		when(dctx.getContext()).thenReturn(context);
 		DiagramFacet facet = handler.handleDeserialization(dctx);
 		
 		assertThat(facet, is(notNullValue()));
