@@ -745,10 +745,14 @@ public class JiemamyCursor {
 	 * @return
 	 * @throws XMLStreamException if either the underlying parser has
 	 *   problems (cursor not valid or not pointing to START_ELEMENT),
-	 *   or if invalid attribute 
+	 *   or if invalid attribute
+	 * @throws IllegalArgumentException if attribute was not found 
 	 */
 	public String getAttrValue(JiemamyQName jQName) throws XMLStreamException {
 		int index = cursor.findAttrIndex(jQName.getQName().getNamespaceURI(), jQName.getQName().getLocalPart());
+		if (index == -1) {
+			throw new IllegalArgumentException("attribute not found: " + jQName);
+		}
 		return cursor.getAttrValue(index);
 	}
 	
