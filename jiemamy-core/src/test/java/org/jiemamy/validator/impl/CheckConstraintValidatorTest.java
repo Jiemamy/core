@@ -66,7 +66,7 @@ public class CheckConstraintValidatorTest {
 	 */
 	@After
 	public void tearDown() throws Exception {
-		validator = null;
+		UUIDUtil.clear();
 	}
 	
 	/**

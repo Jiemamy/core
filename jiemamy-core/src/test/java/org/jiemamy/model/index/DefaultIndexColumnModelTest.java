@@ -23,6 +23,7 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
+import org.junit.After;
 import org.junit.Test;
 
 import org.jiemamy.model.column.DefaultColumnModel;
@@ -36,6 +37,16 @@ import org.jiemamy.utils.UUIDUtil;
  * @author daisuke
  */
 public class DefaultIndexColumnModelTest {
+	
+	/**
+	 * テストの情報を破棄する。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@After
+	public void tearDown() throws Exception {
+		UUIDUtil.clear();
+	}
 	
 	/**
 	 * 作ったインスタンスの挙動チェック。

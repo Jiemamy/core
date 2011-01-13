@@ -20,6 +20,7 @@ package org.jiemamy.serializer.stax2;
 
 import org.codehaus.staxmate.out.SMOutputDocument;
 
+import org.jiemamy.JiemamyContext;
 import org.jiemamy.utils.collection.ArrayEssentialStack;
 import org.jiemamy.utils.collection.EssentialStack;
 
@@ -35,14 +36,25 @@ public class SerializationContext {
 	private final EssentialStack<JiemamyOutputContainer> containerStack =
 			new ArrayEssentialStack<JiemamyOutputContainer>();
 	
+	private final JiemamyContext context;
+	
 
 	/**
 	 * インスタンスを生成する。
 	 * 
 	 * @param document XMLドキュメント
 	 */
-	SerializationContext(SMOutputDocument document) {
+	SerializationContext(JiemamyContext context, SMOutputDocument document) {
+		this.context = context;
 		push(new JiemamyDocument(document));
+	}
+	
+	/**
+	 * somethingを取得する。 TODO for daisuke
+	 * @return the context
+	 */
+	public JiemamyContext getContext() {
+		return context;
 	}
 	
 	/**

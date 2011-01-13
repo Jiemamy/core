@@ -35,7 +35,6 @@ import org.jiemamy.serializer.stax2.JiemamyOutputElement;
 import org.jiemamy.serializer.stax2.SerializationContext;
 import org.jiemamy.serializer.stax2.SerializationDirector;
 import org.jiemamy.serializer.stax2.SerializationHandler;
-import org.jiemamy.utils.UUIDUtil;
 import org.jiemamy.xml.CoreQName;
 import org.jiemamy.xml.DiagramQName;
 
@@ -69,7 +68,7 @@ public final class DefaultDiagramModelSerializationHandler extends Serialization
 			JiemamyCursor cursor = ctx.peek();
 			
 			String idString = cursor.getAttrValue(CoreQName.ID);
-			UUID id = UUIDUtil.valueOfOrRandom(idString);
+			UUID id = ctx.getContext().toUUID(idString);
 			DefaultDiagramModel diagramModel = new DefaultDiagramModel(id);
 			
 			JiemamyCursor childCursor = cursor.childElementCursor();

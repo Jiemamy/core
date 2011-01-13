@@ -34,7 +34,7 @@ import org.jiemamy.utils.LogMarker;
  * EDITコマンドの実行を監視し、登録されている{@link StoredEventListener}にイベントを通知する。
  * 
  * <p>{@link StoredEvent}が実行されたタイミングで、{@link #listeners}として保持している{@link StoredEventListener}の中で,
- * {@link StoredEvent#getTarget()}を監視する必要があるものにイベントを通知する。</p>
+ * {@link StoredEvent#getSource()}を監視する必要があるものにイベントを通知する。</p>
  * 
  * @author shin1ogawa
  */
@@ -50,14 +50,12 @@ public class EventBrokerImpl implements EventBroker {
 	
 
 	public void addListener(StoredEventListener listener) {
-		assert listeners != null;
 		Validate.notNull(listener);
 		listeners.add(listener);
 		logger.info(LogMarker.LIFECYCLE, "CommandListener is registered: " + listener.toString());
 	}
 	
 	public void addListener(StoredEventListener listener, DispatchStrategy strategy) {
-		assert listeners != null;
 		Validate.notNull(listener);
 		Validate.notNull(strategy);
 		listeners.add(listener);
@@ -66,9 +64,8 @@ public class EventBrokerImpl implements EventBroker {
 				+ "," + strategy.toString());
 	}
 	
-	public void fireCommandProcessed(StoredEvent command) {
+	public void fireCommandProcessed(StoredEvent<?> command) {
 		Validate.notNull(command);
-		assert listeners != null;
 		logger.info(LogMarker.LIFECYCLE, "EventBroker is kicked enter: " + command.toString());
 		// java.util.ConcurrentModificationExceptionへの対策。
 		List<StoredEventListener> listenersSnapthot = Lists.newArrayList(listeners);
@@ -96,12 +93,10 @@ public class EventBrokerImpl implements EventBroker {
 	 * @return the listeners
 	 */
 	public List<StoredEventListener> getListeners() {
-		assert listeners != null;
 		return Lists.newArrayList(listeners);
 	}
 	
 	public void removeListener(StoredEventListener listener) {
-		assert listeners != null;
 		Validate.notNull(listener);
 		listeners.remove(listener);
 		if (strategies.containsKey(listener)) {

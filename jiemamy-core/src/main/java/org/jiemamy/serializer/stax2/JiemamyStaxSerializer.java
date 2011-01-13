@@ -51,7 +51,7 @@ public class JiemamyStaxSerializer implements JiemamySerializer {
 		SMInputFactory inFactory = new SMInputFactory(XMLInputFactory.newInstance());
 		try {
 			cursor = inFactory.rootElementCursor(in);
-			DeserializationContext ctx = new DeserializationContext(cursor);
+			DeserializationContext ctx = new DeserializationContext(context, cursor);
 			SerializationDirector director = new SerializationDirector(context);
 			cursor.advance();
 			director.direct(ctx);
@@ -76,7 +76,7 @@ public class JiemamyStaxSerializer implements JiemamySerializer {
 			doc = outFactory.createOutputDocument(out);
 			doc.setIndentation("\n" + StringUtils.repeat("  ", 100), 1, 2); // CHECKSTYLE IGNORE THIS LINE
 			
-			SerializationContext ctx = new SerializationContext(doc);
+			SerializationContext ctx = new SerializationContext(context, doc);
 			SerializationDirector director = new SerializationDirector(context);
 			director.direct(context, ctx);
 		} catch (XMLStreamException e) {

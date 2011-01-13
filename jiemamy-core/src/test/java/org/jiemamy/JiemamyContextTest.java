@@ -31,6 +31,7 @@ import static org.mockito.Mockito.spy;
 
 import java.util.UUID;
 
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -142,6 +143,16 @@ public class JiemamyContextTest {
 		c2 = new DefaultColumnModel(CID2);
 		c3 = new DefaultColumnModel(CID3);
 		// FORMAT-ON
+	}
+	
+	/**
+	 * テストの情報を破棄する。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@AfterClass
+	public void tearDownClass() throws Exception {
+		UUIDUtil.clear();
 	}
 	
 	/**

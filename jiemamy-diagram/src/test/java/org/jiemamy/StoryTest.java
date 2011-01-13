@@ -19,11 +19,12 @@ package org.jiemamy;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.jiemamy.model.DefaultDiagramModel;
 import org.jiemamy.model.DefaultDatabaseObjectNodeModel;
+import org.jiemamy.model.DefaultDiagramModel;
 import org.jiemamy.model.geometory.JmRectangle;
 import org.jiemamy.model.table.DefaultTableModel;
 import org.jiemamy.utils.UUIDUtil;
@@ -51,6 +52,16 @@ public class StoryTest {
 	}
 	
 	/**
+	 * テストの情報を破棄する。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@After
+	public void tearDown() throws Exception {
+		UUIDUtil.clear();
+	}
+	
+	/**
 	 * TODO for daisuke
 	 * 
 	 * @throws Exception 例外が発生した場合
@@ -58,8 +69,10 @@ public class StoryTest {
 	@Test
 	public void testname() throws Exception {
 		DefaultTableModel table = new DefaultTableModel(UUIDUtil.valueOfOrRandom("table"));
-		DefaultDatabaseObjectNodeModel node = new DefaultDatabaseObjectNodeModel(UUIDUtil.valueOfOrRandom("node"), table.toReference());
-		DefaultDatabaseObjectNodeModel node2 = new DefaultDatabaseObjectNodeModel(UUIDUtil.valueOfOrRandom("node2"), table.toReference());
+		DefaultDatabaseObjectNodeModel node =
+				new DefaultDatabaseObjectNodeModel(UUIDUtil.valueOfOrRandom("node"), table.toReference());
+		DefaultDatabaseObjectNodeModel node2 =
+				new DefaultDatabaseObjectNodeModel(UUIDUtil.valueOfOrRandom("node2"), table.toReference());
 		DefaultDiagramModel diagram = new DefaultDiagramModel(UUIDUtil.valueOfOrRandom("diagram"));
 		DefaultDiagramModel diagram2 = new DefaultDiagramModel(UUIDUtil.valueOfOrRandom("diagram2"));
 		

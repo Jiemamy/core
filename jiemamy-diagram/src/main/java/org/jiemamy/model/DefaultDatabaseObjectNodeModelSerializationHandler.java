@@ -75,7 +75,7 @@ public final class DefaultDatabaseObjectNodeModelSerializationHandler extends
 			JiemamyCursor cursor = ctx.peek();
 			
 			String idString = cursor.getAttrValue(CoreQName.ID);
-			UUID id = UUIDUtil.valueOfOrRandom(idString);
+			UUID id = ctx.getContext().toUUID(idString);
 			EntityRef<? extends DatabaseObjectModel> core = null;
 			JmRectangle boundary = null;
 			JmColor color = null;

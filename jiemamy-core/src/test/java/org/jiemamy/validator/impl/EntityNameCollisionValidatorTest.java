@@ -66,8 +66,7 @@ public class EntityNameCollisionValidatorTest {
 	 */
 	@After
 	public void tearDown() throws Exception {
-		validator = null;
-		problem = null;
+		UUIDUtil.clear();
 	}
 	
 	/**

@@ -61,9 +61,9 @@ public final class SqlFacetSerializationHandler extends SerializationHandler<Sql
 		try {
 			Validate.isTrue(ctx.peek().getCurrEvent() == SMEvent.START_ELEMENT);
 			Validate.isTrue(ctx.peek().isQName(SqlQName.AROUND_SCRIPT));
-			Validate.isTrue(getDirector().getContext().hasFacet(SqlFacet.class));
+			Validate.isTrue(ctx.getContext().hasFacet(SqlFacet.class));
 			
-			SqlFacet facet = getDirector().getContext().getFacet(SqlFacet.class);
+			SqlFacet facet = ctx.getContext().getFacet(SqlFacet.class);
 			
 			JiemamyCursor cursor = ctx.peek();
 			JiemamyCursor diagramsCursor = cursor.childElementCursor();

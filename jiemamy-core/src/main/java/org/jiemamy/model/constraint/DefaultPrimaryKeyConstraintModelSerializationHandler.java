@@ -42,7 +42,6 @@ import org.jiemamy.serializer.stax2.JiemamyOutputElement;
 import org.jiemamy.serializer.stax2.SerializationContext;
 import org.jiemamy.serializer.stax2.SerializationDirector;
 import org.jiemamy.serializer.stax2.SerializationHandler;
-import org.jiemamy.utils.UUIDUtil;
 import org.jiemamy.xml.CoreQName;
 
 /**
@@ -100,7 +99,7 @@ public final class DefaultPrimaryKeyConstraintModelSerializationHandler extends
 						JiemamyCursor columnRefsCursor = childCursor.childElementCursor();
 						while (columnRefsCursor.getNext() != null) {
 							String idStr = columnRefsCursor.getAttrValue(CoreQName.REF);
-							UUID id = UUIDUtil.valueOfOrRandom(idStr);
+							UUID id = ctx.getContext().toUUID(idStr);
 							EntityRef<ColumnModel> ref = DefaultEntityRef.of(id);
 							keyColumns.add(ref);
 						}

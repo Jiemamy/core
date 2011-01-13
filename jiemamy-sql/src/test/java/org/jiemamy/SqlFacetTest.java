@@ -25,6 +25,7 @@ import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -59,7 +60,16 @@ public class SqlFacetTest {
 	public void setUp() throws Exception {
 		context = new JiemamyContext(SqlFacet.PROVIDER);
 		facet = context.getFacet(SqlFacet.class);
-		
+	}
+	
+	/**
+	 * テストの情報を破棄する。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@After
+	public void tearDown() throws Exception {
+		UUIDUtil.clear();
 	}
 	
 	/**

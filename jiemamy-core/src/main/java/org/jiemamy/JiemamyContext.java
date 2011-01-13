@@ -55,6 +55,7 @@ import org.jiemamy.transaction.EventBroker;
 import org.jiemamy.transaction.EventBrokerImpl;
 import org.jiemamy.transaction.JiemamyTransaction;
 import org.jiemamy.transaction.StoredEvent;
+import org.jiemamy.utils.UUIDProvider;
 import org.jiemamy.utils.reflect.ClassUtil;
 import org.jiemamy.xml.CoreNamespace;
 import org.jiemamy.xml.JiemamyNamespace;
@@ -140,7 +141,7 @@ public class JiemamyContext {
 	
 	private String schemaName;
 	
-//	private final UUIDProvider uuidProvider = new UUIDProvider();
+	private final UUIDProvider uuidProvider = new UUIDProvider();
 	
 	private EventBroker eventBroker = new EventBrokerImpl();
 	
@@ -549,5 +550,15 @@ public class JiemamyContext {
 	@Override
 	public String toString() {
 		return ClassUtil.getShortClassName(getClass()) + "@" + Integer.toHexString(hashCode());
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param idString
+	 * @return
+	 */
+	public UUID toUUID(String name) {
+		return uuidProvider.valueOfOrRandom(name);
 	}
 }

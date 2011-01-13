@@ -38,7 +38,6 @@ import org.jiemamy.serializer.stax2.JiemamyOutputElement;
 import org.jiemamy.serializer.stax2.SerializationContext;
 import org.jiemamy.serializer.stax2.SerializationDirector;
 import org.jiemamy.serializer.stax2.SerializationHandler;
-import org.jiemamy.utils.UUIDUtil;
 import org.jiemamy.xml.CoreQName;
 
 /**
@@ -71,7 +70,7 @@ public final class DefaultColumnModelSerializationHandler extends SerializationH
 			JiemamyCursor cursor = ctx.peek();
 			
 			String idString = cursor.getAttrValue(CoreQName.ID);
-			UUID id = UUIDUtil.valueOfOrRandom(idString);
+			UUID id = ctx.getContext().toUUID(idString);
 			DefaultColumnModel columnModel = new DefaultColumnModel(id);
 			
 			JiemamyCursor childCursor = cursor.childElementCursor();

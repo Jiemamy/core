@@ -61,8 +61,6 @@ public class SerializationDirector {
 	@Deprecated
 	private final DummyHandler dummy;
 	
-	private final JiemamyContext context;
-	
 
 	/**
 	 * インスタンスを生成する。
@@ -72,8 +70,6 @@ public class SerializationDirector {
 	 */
 	public SerializationDirector(JiemamyContext context) {
 		Validate.notNull(context);
-		
-		this.context = context;
 		
 		dummy = new DummyHandler(this); // FIXME これがケツ持ちをしてる
 		
@@ -112,10 +108,6 @@ public class SerializationDirector {
 		Validate.notNull(sctx);
 		SerializationHandler<T> handler = findHandler(target);
 		handler.handleSerialization(target, sctx);
-	}
-	
-	public JiemamyContext getContext() {
-		return context;
 	}
 	
 	@SuppressWarnings("unchecked")

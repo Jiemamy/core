@@ -21,6 +21,7 @@ package org.jiemamy.serializer.stax2;
 import org.apache.commons.lang.Validate;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 
+import org.jiemamy.JiemamyContext;
 import org.jiemamy.utils.collection.ArrayEssentialStack;
 import org.jiemamy.utils.collection.EssentialStack;
 
@@ -34,14 +35,18 @@ public class DeserializationContext {
 	
 	private final EssentialStack<JiemamyCursor> stack = new ArrayEssentialStack<JiemamyCursor>();
 	
+	private final JiemamyContext context;
+	
 
 	/**
 	 * インスタンスを生成する。
 	 * 
 	 * @param cursor カーソル
 	 */
-	DeserializationContext(JiemamyCursor cursor) {
+	DeserializationContext(JiemamyContext context, JiemamyCursor cursor) {
+		Validate.notNull(context);
 		Validate.notNull(cursor);
+		this.context = context;
 		stack.push(cursor);
 	}
 	
@@ -50,8 +55,16 @@ public class DeserializationContext {
 	 * 
 	 * @param cursor カーソル
 	 */
-	DeserializationContext(SMHierarchicCursor cursor) {
-		this(new JiemamyCursor(cursor));
+	DeserializationContext(JiemamyContext context, SMHierarchicCursor cursor) {
+		this(context, new JiemamyCursor(cursor));
+	}
+	
+	/**
+	 * somethingを取得する。 TODO for daisuke
+	 * @return the context
+	 */
+	public JiemamyContext getContext() {
+		return context;
 	}
 	
 	/**

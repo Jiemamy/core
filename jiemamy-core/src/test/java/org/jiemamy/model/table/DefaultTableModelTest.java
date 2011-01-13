@@ -33,6 +33,7 @@ import java.util.UUID;
 
 import com.google.common.collect.Lists;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -105,6 +106,16 @@ public class DefaultTableModelTest {
 	@Before
 	public void setUp() throws Exception {
 		ctx = new JiemamyContext();
+	}
+	
+	/**
+	 * テストの情報を破棄する。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@After
+	public void tearDown() throws Exception {
+		UUIDUtil.clear();
 	}
 	
 	/**

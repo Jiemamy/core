@@ -29,6 +29,7 @@ import static org.junit.Assert.assertThat;
 
 import java.util.UUID;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -81,6 +82,16 @@ public class DefaultColumnModelTest {
 	@Before
 	public void setUp() throws Exception {
 		column = new DefaultColumnModel(UUIDUtil.valueOfOrRandom("a"));
+	}
+	
+	/**
+	 * テストの情報を破棄する。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@After
+	public void tearDown() throws Exception {
+		UUIDUtil.clear();
 	}
 	
 	/**

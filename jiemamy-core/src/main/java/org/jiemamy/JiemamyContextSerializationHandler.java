@@ -70,7 +70,7 @@ public final class JiemamyContextSerializationHandler extends SerializationHandl
 			Validate.isTrue(ctx.peek().getCurrEvent() == SMEvent.START_ELEMENT);
 			Validate.isTrue(ctx.peek().isQName(CoreQName.JIEMAMY));
 			
-			JiemamyContext context = getDirector().getContext();
+			JiemamyContext context = ctx.getContext();
 			
 			JiemamyCursor cursor = ctx.peek();
 			JiemamyCursor childCursor = cursor.childElementCursor();
