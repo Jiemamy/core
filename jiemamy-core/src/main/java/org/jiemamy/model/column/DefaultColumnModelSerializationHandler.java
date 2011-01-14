@@ -93,6 +93,13 @@ public final class DefaultColumnModelSerializationHandler extends SerializationH
 						} else {
 							logger.warn("null type");
 						}
+					} else if (childCursor.isQName(CoreQName.PARAMETERS)) {
+						JiemamyCursor parameterCursor = childCursor.childElementCursor();
+						ParameterMap params = columnModel.breachEncapsulationOfParams();
+						while (parameterCursor.getNext() != null) {
+							params.put(parameterCursor.getAttrValue(CoreQName.PARAMETER_KEY),
+									parameterCursor.collectDescendantText(false));
+						}
 					} else {
 						logger.warn("UNKNOWN ELEMENT: {}", childCursor.getQName().toString());
 					}

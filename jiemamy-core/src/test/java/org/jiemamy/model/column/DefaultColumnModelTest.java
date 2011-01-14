@@ -24,6 +24,8 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.Matchers.sameInstance;
+import static org.jiemamy.utils.RandomUtil.bool;
+import static org.jiemamy.utils.RandomUtil.integer;
 import static org.jiemamy.utils.RandomUtil.str;
 import static org.junit.Assert.assertThat;
 
@@ -38,6 +40,10 @@ import org.jiemamy.model.datatype.DataTypeCategory;
 import org.jiemamy.model.datatype.DefaultTypeVariant;
 import org.jiemamy.model.datatype.DefaultTypeVariantTest;
 import org.jiemamy.model.datatype.TypeVariant;
+import org.jiemamy.model.parameter.BooleanConverter;
+import org.jiemamy.model.parameter.IntegerConverter;
+import org.jiemamy.model.parameter.StringConverter;
+import org.jiemamy.utils.RandomUtil;
 import org.jiemamy.utils.UUIDUtil;
 
 /**
@@ -60,13 +66,19 @@ public class DefaultColumnModelTest {
 		model.setDescription(str());
 		model.setDefaultValue(str());
 		model.setDataType(DefaultTypeVariantTest.random());
-		// TODO パラメータも追加する
-//		int k = integer(10);
-//		if (k == 0) {
-//			columnModel.putParam(DefaultColumnParameter.DISABLED, true);
-//		} else if (k == 1) {
-//			columnModel.putParam(DefaultColumnParameter.DISABLED, false);
-//		}
+		
+		// 適当にパラメータを追加する
+		int integer = integer(5);
+		for (int i = 0; i < integer; i++) {
+			int p = RandomUtil.integer(2);
+			if (p == 0) {
+				model.putParam(new ColumnParameterKey<Boolean>(new BooleanConverter(), str()), bool());
+			} else if (p == 1) {
+				model.putParam(new ColumnParameterKey<Integer>(new IntegerConverter(), str()), integer(100));
+			} else {
+				model.putParam(new ColumnParameterKey<String>(new StringConverter(), str()), RandomUtil.str());
+			}
+		}
 		return model;
 	}
 	
