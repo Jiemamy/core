@@ -18,7 +18,6 @@
  */
 package org.jiemamy.model.constraint;
 
-import org.jiemamy.dddbase.ValueObject;
 
 /**
  * 値に対する単純な制約を表す制約モデル。
@@ -28,6 +27,6 @@ import org.jiemamy.dddbase.ValueObject;
  * @since 0.2
  * @author daisuke
  */
-public interface ValueConstraintModel extends ConstraintModel, ValueObject {
+public interface ValueConstraintModel extends ConstraintModel {
 	
 }

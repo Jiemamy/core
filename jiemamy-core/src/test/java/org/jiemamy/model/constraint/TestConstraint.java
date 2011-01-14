@@ -18,7 +18,6 @@
  */
 package org.jiemamy.model.constraint;
 
-import org.jiemamy.dddbase.ValueObject;
 
 /**
  * テスト用の制約型。
@@ -26,6 +25,6 @@ import org.jiemamy.dddbase.ValueObject;
  * @version $Id$
  * @author daisuke
  */
-public interface TestConstraint extends ConstraintModel, ValueObject {
+public interface TestConstraint extends ConstraintModel {
 	
 }

@@ -18,7 +18,10 @@
  */
 package org.jiemamy.model.constraint;
 
-import org.apache.commons.lang.Validate;
+import java.util.UUID;
+
+import org.jiemamy.dddbase.DefaultEntityRef;
+import org.jiemamy.dddbase.EntityRef;
 
 /**
  * チェック制約のモデル。
@@ -34,7 +37,9 @@ public final class DefaultCheckConstraintModel extends AbstractConstraintModel i
 	 * @return {@link DefaultCheckConstraintModel}
 	 */
 	public static DefaultCheckConstraintModel of(String expression) {
-		return new DefaultCheckConstraintModel(null, null, null, expression, null);
+		DefaultCheckConstraintModel model = new DefaultCheckConstraintModel(UUID.randomUUID());
+		model.setExpression(expression);
+		return model;
 	}
 	
 	/**
@@ -45,37 +50,48 @@ public final class DefaultCheckConstraintModel extends AbstractConstraintModel i
 	 * @return {@link DefaultCheckConstraintModel}
 	 */
 	public static DefaultCheckConstraintModel of(String expression, String name) {
-		return new DefaultCheckConstraintModel(name, null, null, expression, null);
+		DefaultCheckConstraintModel model = new DefaultCheckConstraintModel(UUID.randomUUID());
+		model.setName(name);
+		model.setExpression(expression);
+		return model;
 	}
 	
 
 	/** CHEKC制約定義式 */
-	private final String expression;
+	private String expression;
 	
 
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param name 物理名
-	 * @param logicalName 論理名
-	 * @param description 説明
-	 * @param expression CHEKC制約定義式
-	 * @param deferrability 遅延評価可能性
-	 * @throws IllegalArgumentException 引数{@code expression}に{@code null}を与えた場合
+	 * @param id ENTITY ID
+	 * @throws IllegalArgumentException 引数{@code id}に{@code null}を与えた場合
 	 */
-	public DefaultCheckConstraintModel(String name, String logicalName, String description, String expression,
-			DeferrabilityModel deferrability) {
-		super(name, logicalName, description, deferrability);
-		Validate.notNull(expression);
-		this.expression = expression;
+	public DefaultCheckConstraintModel(UUID id) {
+		super(id);
+	}
+	
+	@Override
+	public DefaultCheckConstraintModel clone() {
+		DefaultCheckConstraintModel clone = (DefaultCheckConstraintModel) super.clone();
+		return clone;
 	}
 	
 	public String getExpression() {
 		return expression;
 	}
 	
+	public void setExpression(String expression) {
+		this.expression = expression;
+	}
+	
+	@Override
+	public EntityRef<? extends DefaultCheckConstraintModel> toReference() {
+		return new DefaultEntityRef<DefaultCheckConstraintModel>(this);
+	}
+	
 	@Override
 	public String toString() {
-		return super.toString() + "[" + expression + "]";
+		return "CC[" + expression + "]";
 	}
 }

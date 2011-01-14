@@ -20,9 +20,6 @@ package org.jiemamy.model.column;
 
 import java.util.UUID;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
-
 import org.jiemamy.dddbase.AbstractEntity;
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
@@ -181,7 +178,7 @@ public final class DefaultColumnModel extends AbstractEntity implements ColumnMo
 	
 	@Override
 	public String toString() {
-		return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+		return "Column[" + name + "]";
 	}
 	
 }

@@ -18,12 +18,9 @@
  */
 package org.jiemamy.model.constraint;
 
-import java.util.List;
 import java.util.UUID;
 
 import javax.xml.stream.XMLStreamException;
-
-import com.google.common.collect.Lists;
 
 import org.apache.commons.lang.Validate;
 import org.codehaus.staxmate.in.SMEvent;
@@ -75,11 +72,9 @@ public final class DefaultPrimaryKeyConstraintModelSerializationHandler extends
 			
 			JiemamyCursor cursor = ctx.peek();
 			
-			String name = null;
-			String logicalName = null;
-			String description = null;
-			DeferrabilityModel deferrability = null;
-			List<EntityRef<? extends ColumnModel>> keyColumns = Lists.newArrayList();
+			String idString = cursor.getAttrValue(CoreQName.ID);
+			UUID id = ctx.getContext().toUUID(idString);
+			DefaultPrimaryKeyConstraintModel pkModel = new DefaultPrimaryKeyConstraintModel(id);
 			
 			JiemamyCursor childCursor = cursor.childElementCursor();
 			ctx.push(childCursor);
@@ -87,21 +82,21 @@ public final class DefaultPrimaryKeyConstraintModelSerializationHandler extends
 				childCursor.advance();
 				if (childCursor.getCurrEvent() == SMEvent.START_ELEMENT) {
 					if (childCursor.isQName(CoreQName.NAME)) {
-						name = childCursor.collectDescendantText(false);
+						pkModel.setName(childCursor.collectDescendantText(false));
 					} else if (childCursor.isQName(CoreQName.LOGICAL_NAME)) {
-						logicalName = childCursor.collectDescendantText(false);
+						pkModel.setLogicalName(childCursor.collectDescendantText(false));
 					} else if (childCursor.isQName(CoreQName.DESCRIPTION)) {
-						description = childCursor.collectDescendantText(false);
+						pkModel.setDescription(childCursor.collectDescendantText(false));
 					} else if (childCursor.isQName(CoreQName.DEFERRABILITY)) {
 						String text = childCursor.collectDescendantText(false);
-						deferrability = DefaultDeferrabilityModel.valueOf(text);
+						pkModel.setDeferrability(DefaultDeferrabilityModel.valueOf(text));
 					} else if (childCursor.isQName(CoreQName.COLUMN_REFS)) {
 						JiemamyCursor columnRefsCursor = childCursor.childElementCursor();
 						while (columnRefsCursor.getNext() != null) {
 							String idStr = columnRefsCursor.getAttrValue(CoreQName.REF);
-							UUID id = ctx.getContext().toUUID(idStr);
-							EntityRef<ColumnModel> ref = DefaultEntityRef.of(id);
-							keyColumns.add(ref);
+							UUID refid = ctx.getContext().toUUID(idStr);
+							EntityRef<ColumnModel> ref = DefaultEntityRef.of(refid);
+							pkModel.addKeyColumn(ref);
 						}
 					} else {
 						logger.warn("UNKNOWN ELEMENT: {}", childCursor.getQName().toString());
@@ -112,7 +107,7 @@ public final class DefaultPrimaryKeyConstraintModelSerializationHandler extends
 			} while (childCursor.getCurrEvent() != null);
 			ctx.pop();
 			
-			return new DefaultPrimaryKeyConstraintModel(name, logicalName, description, keyColumns, deferrability);
+			return pkModel;
 		} catch (XMLStreamException e) {
 			throw new SerializationException(e);
 		}
@@ -124,6 +119,7 @@ public final class DefaultPrimaryKeyConstraintModelSerializationHandler extends
 		JiemamyOutputContainer parent = sctx.peek();
 		try {
 			JiemamyOutputElement element = parent.addElement(CoreQName.PRIMARY_KEY);
+			element.addAttribute(CoreQName.ID, model.getId());
 			element.addAttribute(CoreQName.CLASS, model.getClass());
 			
 			element.addElementAndCharacters(CoreQName.NAME, model.getName());

@@ -18,8 +18,9 @@
  */
 package org.jiemamy.model.constraint;
 
-import org.apache.commons.lang.Validate;
+import java.util.UUID;
 
+import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.column.ColumnModel;
 
@@ -37,31 +38,46 @@ public final class DefaultNotNullConstraintModel extends AbstractConstraintModel
 	 * @return {@link DefaultNotNullConstraintModel}
 	 */
 	public static DefaultNotNullConstraintModel of(ColumnModel column) {
-		return new DefaultNotNullConstraintModel(null, null, null, null, column.toReference());
+		DefaultNotNullConstraintModel model = new DefaultNotNullConstraintModel(UUID.randomUUID());
+		model.setColumn(column.toReference());
+		return model;
 	}
 	
 
-	private final EntityRef<? extends ColumnModel> column;
+	private EntityRef<? extends ColumnModel> column;
 	
 
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param name 物理名
-	 * @param logicalName 論理名
-	 * @param description 説明
-	 * @param deferrability 遅延評価可能性
-	 * @param column 対象カラム
+	 * @param id ENTITY ID
+	 * @throws IllegalArgumentException 引数{@code id}に{@code null}を与えた場合
 	 */
-	public DefaultNotNullConstraintModel(String name, String logicalName, String description,
-			DeferrabilityModel deferrability, EntityRef<? extends ColumnModel> column) {
-		super(name, logicalName, description, deferrability);
-		Validate.notNull(column);
-		this.column = column;
+	public DefaultNotNullConstraintModel(UUID id) {
+		super(id);
+	}
+	
+	@Override
+	public DefaultNotNullConstraintModel clone() {
+		DefaultNotNullConstraintModel clone = (DefaultNotNullConstraintModel) super.clone();
+		return clone;
 	}
 	
 	public EntityRef<? extends ColumnModel> getColumn() {
 		return column;
 	}
 	
+	public void setColumn(EntityRef<? extends ColumnModel> column) {
+		this.column = column;
+	}
+	
+	@Override
+	public EntityRef<? extends DefaultNotNullConstraintModel> toReference() {
+		return new DefaultEntityRef<DefaultNotNullConstraintModel>(this);
+	}
+	
+	@Override
+	public String toString() {
+		return "NN[" + column + "]";
+	}
 }

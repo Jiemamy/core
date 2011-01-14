@@ -18,13 +18,14 @@
  */
 package org.jiemamy.model.constraint;
 
+import org.jiemamy.dddbase.Entity;
 
 /**
  * 制約を表すモデルのインターフェイス。
  * 
  * @author daisuke
  */
-public interface ConstraintModel {
+public interface ConstraintModel extends Entity {
 	
 	/**
 	 * 遅延評価可能性モデルを取得する。

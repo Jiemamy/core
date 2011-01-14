@@ -53,7 +53,7 @@ public class Table extends AbstractEntityFactory<DefaultTableModel> {
 			tableModel.store(column);
 		}
 		for (ConstraintModel constraint : constraints) {
-			tableModel.addConstraint(constraint);
+			tableModel.store(constraint);
 		}
 		return tableModel;
 	}

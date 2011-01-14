@@ -18,13 +18,18 @@
  */
 package org.jiemamy.model.constraint;
 
+import java.util.UUID;
+
+import org.jiemamy.dddbase.AbstractEntity;
+import org.jiemamy.dddbase.DefaultEntityRef;
+import org.jiemamy.dddbase.EntityRef;
 
 /**
  * 抽象制約モデル。
  * 
  * @author daisuke
  */
-public abstract class AbstractConstraintModel implements ConstraintModel {
+public abstract class AbstractConstraintModel extends AbstractEntity implements ConstraintModel {
 	
 	/** 物理名 */
 	private String name;
@@ -42,59 +47,17 @@ public abstract class AbstractConstraintModel implements ConstraintModel {
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param name 物理名
-	 * @param logicalName 論理名
-	 * @param description 説明
-	 * @param deferrability 遅延評価可能性
+	 * @param id ENTITY ID
+	 * @throws IllegalArgumentException 引数{@code id}に{@code null}を与えた場合
 	 */
-	public AbstractConstraintModel(String name, String logicalName, String description, DeferrabilityModel deferrability) {
-		this.name = name;
-		this.logicalName = logicalName;
-		this.description = description;
-		this.deferrability = deferrability;
+	public AbstractConstraintModel(UUID id) {
+		super(id);
 	}
 	
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if ((obj instanceof AbstractConstraintModel) == false) {
-			return false;
-		}
-		AbstractConstraintModel other = (AbstractConstraintModel) obj;
-		if (description == null) {
-			if (other.description != null) {
-				return false;
-			}
-		} else if (!description.equals(other.description)) {
-			return false;
-		}
-		if (logicalName == null) {
-			if (other.logicalName != null) {
-				return false;
-			}
-		} else if (!logicalName.equals(other.logicalName)) {
-			return false;
-		}
-		if (name == null) {
-			if (other.name != null) {
-				return false;
-			}
-		} else if (!name.equals(other.name)) {
-			return false;
-		}
-		if (deferrability == null) {
-			if (other.deferrability != null) {
-				return false;
-			}
-		} else if (!deferrability.equals(other.deferrability)) {
-			return false;
-		}
-		return true;
+	public AbstractConstraintModel clone() {
+		AbstractConstraintModel clone = (AbstractConstraintModel) super.clone();
+		return clone;
 	}
 	
 	public DeferrabilityModel getDeferrability() {
@@ -113,35 +76,28 @@ public abstract class AbstractConstraintModel implements ConstraintModel {
 		return name;
 	}
 	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((description == null) ? 0 : description.hashCode());
-		result = prime * result + ((logicalName == null) ? 0 : logicalName.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((deferrability == null) ? 0 : deferrability.hashCode());
-		return result;
+	public void setDeferrability(DeferrabilityModel deferrability) {
+		this.deferrability = deferrability;
+	}
+	
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
+	public void setLogicalName(String logicalName) {
+		this.logicalName = logicalName;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public EntityRef<? extends AbstractConstraintModel> toReference() {
+		return new DefaultEntityRef<AbstractConstraintModel>(this);
 	}
 	
 	@Override
 	public String toString() {
 		return "Constraint " + getName();
-	}
-	
-	protected void setDeferrability(DeferrabilityModel deferrability) {
-		this.deferrability = deferrability;
-	}
-	
-	protected void setDescription(String description) {
-		this.description = description;
-	}
-	
-	protected void setLogicalName(String logicalName) {
-		this.logicalName = logicalName;
-	}
-	
-	protected void setName(String name) {
-		this.name = name;
 	}
 }

@@ -18,7 +18,6 @@
  */
 package org.jiemamy.model.constraint;
 
-import org.jiemamy.dddbase.ValueObject;
 
 /**
  * 内部キー制約を表すインターフェイス。
@@ -28,6 +27,6 @@ import org.jiemamy.dddbase.ValueObject;
  * @since 0.2
  * @author daisuke
  */
-public interface LocalKeyConstraintModel extends KeyConstraintModel, ValueObject {
+public interface LocalKeyConstraintModel extends KeyConstraintModel {
 	
 }

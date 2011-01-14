@@ -19,12 +19,11 @@
 package org.jiemamy.model.constraint;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.google.common.collect.Lists;
 
-import org.apache.commons.lang.Validate;
-
-import org.jiemamy.JiemamyError;
+import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.utils.CloneUtil;
 import org.jiemamy.dddbase.utils.MutationMonitor;
@@ -38,64 +37,40 @@ import org.jiemamy.model.column.ColumnModel;
 public abstract class AbstractKeyConstraintModel extends AbstractConstraintModel implements KeyConstraintModel {
 	
 	/** キー制約を構成するカラムのリスト */
-	private List<EntityRef<? extends ColumnModel>> keyColumns;
+	private List<EntityRef<? extends ColumnModel>> keyColumns = Lists.newArrayList();
 	
 
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param name 物理名
-	 * @param logicalName 論理名
-	 * @param description 説明
-	 * @param keyColumns キー制約を構成するカラムのリスト
-	 * @param deferrability 遅延評価可能性
-	 * @throws IllegalArgumentException 引数{@code keyColumns}に{@code null}を与えた場合
+	 * @param id ENTITY ID
+	 * @throws IllegalArgumentException 引数{@code id}に{@code null}を与えた場合
 	 */
-	public AbstractKeyConstraintModel(String name, String logicalName, String description,
-			List<EntityRef<? extends ColumnModel>> keyColumns, DeferrabilityModel deferrability) {
-		super(name, logicalName, description, deferrability);
-		Validate.notNull(keyColumns);
-		
-		this.keyColumns = Lists.newArrayList(keyColumns);
+	public AbstractKeyConstraintModel(UUID id) {
+		super(id);
 	}
 	
-	public List<EntityRef<? extends ColumnModel>> breachEncapsulationOfKeyColumns() {
-		return keyColumns;
+	public void addKeyColumn(EntityRef<? extends ColumnModel> keyColumn) {
+		keyColumns.add(keyColumn);
 	}
 	
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (super.equals(obj) == false) {
-			return false;
-		}
-		if ((obj instanceof AbstractKeyConstraintModel) == false) {
-			return false;
-		}
-		AbstractKeyConstraintModel other = (AbstractKeyConstraintModel) obj;
-		return keyColumns.equals(other.keyColumns);
+	public AbstractKeyConstraintModel clone() {
+		AbstractKeyConstraintModel clone = (AbstractKeyConstraintModel) super.clone();
+		clone.keyColumns = CloneUtil.cloneValueArrayList(keyColumns);
+		return clone;
 	}
 	
 	public List<EntityRef<? extends ColumnModel>> getKeyColumns() {
 		return MutationMonitor.monitor(Lists.newArrayList(keyColumns));
 	}
 	
-	@Override
-	public int hashCode() {
-		return keyColumns.hashCode();
+	public void removeKeyColumn(EntityRef<? extends ColumnModel> keyColumn) {
+		keyColumns.remove(keyColumn);
 	}
 	
 	@Override
-	protected AbstractKeyConstraintModel clone() {
-		try {
-			AbstractKeyConstraintModel clone = (AbstractKeyConstraintModel) super.clone();
-			clone.keyColumns = CloneUtil.cloneValueArrayList(keyColumns);
-			return clone;
-		} catch (CloneNotSupportedException e) {
-			throw new JiemamyError("clone not supported", e);
-		}
+	public EntityRef<? extends AbstractConstraintModel> toReference() {
+		return new DefaultEntityRef<AbstractConstraintModel>(this);
 	}
-	
 }

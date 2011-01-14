@@ -33,7 +33,6 @@ import org.junit.Test;
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.model.column.DefaultColumnModel;
 import org.jiemamy.model.constraint.DefaultCheckConstraintModel;
-import org.jiemamy.model.constraint.DefaultCheckConstraintModelBuilder;
 import org.jiemamy.model.table.DefaultTableModel;
 import org.jiemamy.utils.UUIDUtil;
 import org.jiemamy.validator.Problem;
@@ -91,9 +90,8 @@ public class CheckConstraintValidatorTest {
 		Collection<? extends Problem> result1 = validator.validate(context);
 		assertThat(result1.size(), is(0)); // 問題なし
 		
-		DefaultCheckConstraintModel checkConstraint =
-				new DefaultCheckConstraintModelBuilder().setExpression("").build();
-		tableModel1.addConstraint(checkConstraint);
+		DefaultCheckConstraintModel checkConstraint = DefaultCheckConstraintModel.of("");
+		tableModel1.store(checkConstraint);
 		context.store(tableModel1);
 		
 		Collection<? extends Problem> result2 = validator.validate(context);
@@ -104,10 +102,10 @@ public class CheckConstraintValidatorTest {
 		assertThat(problem1.getMessage(Locale.JAPAN), is("テーブルfooの1番目のチェック制約に制約式がありません"));
 		assertThat(problem1.getErrorCode(), is("E0031"));
 		
-		tableModel1.removeConstraint(checkConstraint);
+		tableModel1.deleteConstraint(checkConstraint.toReference());
 		
-		checkConstraint = new DefaultCheckConstraintModelBuilder().setName("cc").setExpression("").build();
-		tableModel1.addConstraint(checkConstraint);
+		checkConstraint = DefaultCheckConstraintModel.of("", "cc");
+		tableModel1.store(checkConstraint);
 		context.store(tableModel1);
 		
 		Collection<? extends Problem> result3 = validator.validate(context);
@@ -118,10 +116,10 @@ public class CheckConstraintValidatorTest {
 		assertThat(problem2.getMessage(Locale.JAPAN), is("テーブルfooに設定されたチェック制約ccに制約式がありません"));
 		assertThat(problem2.getErrorCode(), is("E0030"));
 		
-		tableModel1.removeConstraint(checkConstraint);
+		tableModel1.deleteConstraint(checkConstraint.toReference());
 		
-		checkConstraint = new DefaultCheckConstraintModelBuilder().setExpression("bar > 0").apply(checkConstraint);
-		tableModel1.addConstraint(checkConstraint);
+		checkConstraint = DefaultCheckConstraintModel.of("bar > 0", "cc");
+		tableModel1.store(checkConstraint);
 		context.store(tableModel1);
 		
 		Collection<? extends Problem> result4 = validator.validate(context);

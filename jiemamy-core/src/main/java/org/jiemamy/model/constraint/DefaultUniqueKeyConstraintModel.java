@@ -18,11 +18,9 @@
  */
 package org.jiemamy.model.constraint;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.UUID;
 
-import org.apache.commons.lang.Validate;
-
+import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.column.ColumnModel;
 
@@ -41,27 +39,36 @@ public final class DefaultUniqueKeyConstraintModel extends AbstractKeyConstraint
 	 * @return {@link DefaultUniqueKeyConstraintModel}
 	 */
 	public static DefaultUniqueKeyConstraintModel of(ColumnModel... columns) {
-		List<EntityRef<? extends ColumnModel>> keyColumnRefs = new ArrayList<EntityRef<? extends ColumnModel>>();
+		DefaultUniqueKeyConstraintModel model = new DefaultUniqueKeyConstraintModel(UUID.randomUUID());
 		for (ColumnModel columnModel : columns) {
-			keyColumnRefs.add(columnModel.toReference());
+			model.addKeyColumn(columnModel.toReference());
 		}
-		return new DefaultUniqueKeyConstraintModel(null, null, null, keyColumnRefs, null);
+		return model;
 	}
 	
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param name 物理名
-	 * @param logicalName 論理名
-	 * @param description 説明
-	 * @param keyColumns キー制約を構成するカラムのリスト
-	 * @param deferrability 遅延評価可能性モデル
-	 * @throws IllegalArgumentException 引数{@code keyColumns}が{@code null}または要素が空だった場合
+	 * @param id ENTITY ID
+	 * @throws IllegalArgumentException 引数{@code id}に{@code null}を与えた場合
 	 */
-	public DefaultUniqueKeyConstraintModel(String name, String logicalName, String description,
-			List<EntityRef<? extends ColumnModel>> keyColumns, DeferrabilityModel deferrability) {
-		super(name, logicalName, description, keyColumns, deferrability);
-		Validate.notEmpty(keyColumns);
+	public DefaultUniqueKeyConstraintModel(UUID id) {
+		super(id);
 	}
 	
+	@Override
+	public DefaultUniqueKeyConstraintModel clone() {
+		DefaultUniqueKeyConstraintModel clone = (DefaultUniqueKeyConstraintModel) super.clone();
+		return clone;
+	}
+	
+	@Override
+	public EntityRef<? extends DefaultUniqueKeyConstraintModel> toReference() {
+		return new DefaultEntityRef<DefaultUniqueKeyConstraintModel>(this);
+	}
+	
+	@Override
+	public String toString() {
+		return "UK[" + getKeyColumns() + "]";
+	}
 }

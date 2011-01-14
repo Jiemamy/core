@@ -18,15 +18,12 @@
  */
 package org.jiemamy.model.constraint;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
 import com.google.common.collect.Lists;
-
-import org.apache.commons.lang.Validate;
 
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.Entity;
@@ -74,8 +71,6 @@ public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstrain
 	
 	/** マッチ型 */
 	private MatchType matchType;
-	
-	private final UUID id;
 	
 
 //	/**
@@ -148,19 +143,19 @@ public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstrain
 //		this.referenceColumns = Lists.newArrayList(referenceColumns);
 //	}
 	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param id ENTITY ID
+	 * @throws IllegalArgumentException 引数{@code id}に{@code null}を与えた場合
+	 */
 	public DefaultForeignKeyConstraintModel(UUID id) {
-		super(null, null, null, new ArrayList<EntityRef<? extends ColumnModel>>(), null);
-		Validate.notNull(id);
-		this.id = id;
+		super(id);
 	}
 	
 	public void addReferencing(EntityRef<? extends ColumnModel> key, EntityRef<? extends ColumnModel> ref) {
-		breachEncapsulationOfKeyColumns().add(key);
+		addKeyColumn(key);
 		referenceColumns.add(ref);
-	}
-	
-	public List<EntityRef<? extends ColumnModel>> breachEncapsulationOfReferenceColumns() {
-		return referenceColumns;
 	}
 	
 	@Override
@@ -168,24 +163,6 @@ public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstrain
 		DefaultForeignKeyConstraintModel clone = (DefaultForeignKeyConstraintModel) super.clone();
 		clone.referenceColumns = CloneUtil.cloneValueArrayList(referenceColumns);
 		return clone;
-	}
-	
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (obj instanceof Entity == false) {
-			return false;
-		}
-		return id.equals(((Entity) obj).getId());
-	}
-	
-	public UUID getId() {
-		return id;
 	}
 	
 	public MatchType getMatchType() {
@@ -204,27 +181,13 @@ public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstrain
 		return MutationMonitor.monitor(Lists.newArrayList(referenceColumns));
 	}
 	
+	@Override
 	public Collection<? extends Entity> getSubEntities() {
 		return Collections.emptyList();
 	}
 	
-	@Override
-	public int hashCode() {
-		return id.hashCode();
-	}
-	
-	@Override
-	public void setDeferrability(DeferrabilityModel deferrability) {
-		super.setDeferrability(deferrability);
-	}
-	
 	public void setMatchType(MatchType matchType) {
 		this.matchType = matchType;
-	}
-	
-	@Override
-	public void setName(String name) {
-		super.setName(name);
 	}
 	
 	public void setOnDelete(ReferentialAction onDelete) {
@@ -235,13 +198,13 @@ public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstrain
 		this.onUpdate = onUpdate;
 	}
 	
-	public EntityRef<DefaultForeignKeyConstraintModel> toReference() {
+	@Override
+	public EntityRef<? extends DefaultForeignKeyConstraintModel> toReference() {
 		return new DefaultEntityRef<DefaultForeignKeyConstraintModel>(this);
 	}
 	
 	@Override
 	public String toString() {
-		return getClass().getName() + "@" + id;
+		return "FK[" + getKeyColumns() + " -> " + getReferenceColumns() + "]";
 	}
-	
 }

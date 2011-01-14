@@ -24,8 +24,6 @@ import java.util.UUID;
 import com.google.common.collect.Maps;
 
 import org.apache.commons.lang.Validate;
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.ServiceLocator;
@@ -174,6 +172,6 @@ public final class DefaultAroundScriptModel extends AbstractEntity implements Ar
 	
 	@Override
 	public String toString() {
-		return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+		return "Script[" + scripts + "]";
 	}
 }

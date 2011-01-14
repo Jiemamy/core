@@ -152,4 +152,9 @@ public final class DefaultDiagramModel extends AbstractEntity implements Diagram
 	public EntityRef<DefaultDiagramModel> toReference() {
 		return new DefaultEntityRef<DefaultDiagramModel>(this);
 	}
+	
+	@Override
+	public String toString() {
+		return "Diagram[" + index + ":" + name + "]";
+	}
 }

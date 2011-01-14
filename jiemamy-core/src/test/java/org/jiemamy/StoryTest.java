@@ -34,7 +34,6 @@ import org.jiemamy.model.column.ColumnModel;
 import org.jiemamy.model.column.DefaultColumnModel;
 import org.jiemamy.model.constraint.DefaultForeignKeyConstraintModel;
 import org.jiemamy.model.constraint.DefaultPrimaryKeyConstraintModel;
-import org.jiemamy.model.constraint.DefaultPrimaryKeyConstraintModelBuilder;
 import org.jiemamy.model.datatype.DefaultTypeVariantTest;
 import org.jiemamy.model.table.DefaultTableModel;
 import org.jiemamy.model.table.Table;
@@ -77,7 +76,7 @@ public class StoryTest {
 			pk = new Column("ID").whoseTypeIs(DefaultTypeVariantTest.random()).build(),
 			new Column("NAME").whoseTypeIs(DefaultTypeVariantTest.random()).build(),
 			new Column("LOC").whoseTypeIs(DefaultTypeVariantTest.random()).build()
-		).with(new DefaultPrimaryKeyConstraintModelBuilder().addKeyColumn(pk).build()).build();
+		).with( DefaultPrimaryKeyConstraintModel.of(pk)).build();
 		
 		ctx1.store(dept);
 		
@@ -111,7 +110,7 @@ public class StoryTest {
 		tableModel.store(col2);
 		List<EntityRef<? extends ColumnModel>> pk = new ArrayList<EntityRef<? extends ColumnModel>>();
 		pk.add(col1.toReference());
-		tableModel.addConstraint(new DefaultPrimaryKeyConstraintModel(null, null, null, pk, null));
+		tableModel.store(DefaultPrimaryKeyConstraintModel.of(pk));
 		ctx1.store(tableModel);
 		
 		assertThat(tableModel.getColumns().size(), is(2));
@@ -155,14 +154,14 @@ public class StoryTest {
 				.with(pkColumn = refColumn = new Column().whoseNameIs("ID").build())
 				.with(new Column().whoseNameIs("NAME").build())
 				.with(new Column().whoseNameIs("LOC").build())
-				.with(new DefaultPrimaryKeyConstraintModelBuilder().addKeyColumn(pkColumn).build())
+				.with( DefaultPrimaryKeyConstraintModel.of(pkColumn))
 				.build();
 		DefaultTableModel emp = new Table().whoseNameIs("T_EMP")
 				.with(pkColumn = new Column().whoseNameIs("ID").build())
 				.with(new Column().whoseNameIs("NAME").build())
 				.with(fkColumn1 = new Column().whoseNameIs("DEPT_ID").build())
 				.with(fkColumn2 = new Column().whoseNameIs("MGR_ID").build())
-				.with(new DefaultPrimaryKeyConstraintModelBuilder().addKeyColumn(pkColumn).build())
+				.with( DefaultPrimaryKeyConstraintModel.of(pkColumn))
 				.with(DefaultForeignKeyConstraintModel.of(fkColumn1,refColumn))
 				.with(DefaultForeignKeyConstraintModel.of(fkColumn2,pkColumn))
 				.build();

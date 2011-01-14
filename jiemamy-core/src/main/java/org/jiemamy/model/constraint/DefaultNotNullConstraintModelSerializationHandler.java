@@ -18,6 +18,8 @@
  */
 package org.jiemamy.model.constraint;
 
+import java.util.UUID;
+
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.commons.lang.Validate;
@@ -69,11 +71,9 @@ public final class DefaultNotNullConstraintModelSerializationHandler extends
 			
 			JiemamyCursor cursor = ctx.peek();
 			
-			String name = null;
-			String logicalName = null;
-			String description = null;
-			DeferrabilityModel deferrability = null;
-			EntityRef<? extends ColumnModel> ref = null;
+			String idString = cursor.getAttrValue(CoreQName.ID);
+			UUID id = ctx.getContext().toUUID(idString);
+			DefaultNotNullConstraintModel notNull = new DefaultNotNullConstraintModel(id);
 			
 			JiemamyCursor childCursor = cursor.childElementCursor();
 			ctx.push(childCursor);
@@ -81,19 +81,20 @@ public final class DefaultNotNullConstraintModelSerializationHandler extends
 				childCursor.advance();
 				if (childCursor.getCurrEvent() == SMEvent.START_ELEMENT) {
 					if (childCursor.isQName(CoreQName.NAME)) {
-						name = childCursor.collectDescendantText(false);
+						notNull.setName(childCursor.collectDescendantText(false));
 					} else if (childCursor.isQName(CoreQName.LOGICAL_NAME)) {
-						logicalName = childCursor.collectDescendantText(false);
+						notNull.setLogicalName(childCursor.collectDescendantText(false));
 					} else if (childCursor.isQName(CoreQName.DESCRIPTION)) {
-						description = childCursor.collectDescendantText(false);
+						notNull.setDescription(childCursor.collectDescendantText(false));
 					} else if (childCursor.isQName(CoreQName.DEFERRABILITY)) {
 						String text = childCursor.collectDescendantText(false);
-						deferrability = DefaultDeferrabilityModel.valueOf(text);
+						notNull.setDeferrability(DefaultDeferrabilityModel.valueOf(text));
 					} else if (childCursor.isQName(CoreQName.COLUMN_REF)) {
 						JiemamyCursor descendantCursor = childCursor.childElementCursor().advance();
 						if (descendantCursor.getCurrEvent() != null) {
 							ctx.push(descendantCursor);
-							ref = getDirector().direct(ctx);
+							EntityRef<? extends ColumnModel> ref = getDirector().direct(ctx);
+							notNull.setColumn(ref);
 							ctx.pop();
 						}
 					} else {
@@ -105,7 +106,7 @@ public final class DefaultNotNullConstraintModelSerializationHandler extends
 			} while (childCursor.getCurrEvent() != null);
 			ctx.pop();
 			
-			return new DefaultNotNullConstraintModel(name, logicalName, description, deferrability, ref);
+			return notNull;
 		} catch (XMLStreamException e) {
 			throw new SerializationException(e);
 		}
@@ -116,7 +117,8 @@ public final class DefaultNotNullConstraintModelSerializationHandler extends
 			throws SerializationException {
 		JiemamyOutputContainer parent = sctx.peek();
 		try {
-			JiemamyOutputElement element = parent.addElement(CoreQName.TABLE);
+			JiemamyOutputElement element = parent.addElement(CoreQName.NOT_NULL);
+			element.addAttribute(CoreQName.ID, model.getId());
 			element.addAttribute(CoreQName.CLASS, model.getClass());
 			
 			element.addElementAndCharacters(CoreQName.NAME, model.getName());

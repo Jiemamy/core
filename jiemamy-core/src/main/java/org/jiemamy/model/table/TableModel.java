@@ -20,7 +20,7 @@ package org.jiemamy.model.table;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.SortedSet;
+import java.util.Set;
 
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.DatabaseObjectModel;
@@ -81,7 +81,7 @@ public interface TableModel extends DatabaseObjectModel {
 	 * @return 属性のリスト
 	 * @since 0.2
 	 */
-	SortedSet<? extends ConstraintModel> getConstraints();
+	Set<? extends ConstraintModel> getConstraints();
 	
 	/**
 	 * 属性のリストを取得する。
@@ -91,7 +91,7 @@ public interface TableModel extends DatabaseObjectModel {
 	 * @return 属性のリスト
 	 * @since 0.2
 	 */
-	<T extends ConstraintModel>List<T> getConstraints(Class<T> clazz);
+	<T extends ConstraintModel>Collection<T> getConstraints(Class<T> clazz);
 	
 	/**
 	 * このテーブルの外部キー制約の集合を返す。

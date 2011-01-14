@@ -103,7 +103,7 @@ public final class DefaultTableModelSerializationHandler extends SerializationHa
 							ctx.push(constraintsCursor);
 							ConstraintModel constraintModel = getDirector().direct(ctx);
 							if (constraintModel != null) {
-								tableModel.addConstraint(constraintModel);
+								tableModel.store(constraintModel);
 							} else {
 								logger.warn("null constraintModel");
 							}

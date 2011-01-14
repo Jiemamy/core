@@ -143,14 +143,9 @@ public class DefaultColumnModelTest {
 	 */
 	@Test
 	public void test03_toString() throws Exception {
-		UUID id = UUIDUtil.valueOfOrRandom("a");
-		assertThat(column.toString(), is("DefaultColumnModel[name=<null>,logicalName=<null>,description=<null>,"
-				+ "dataType=<null>,defaultValue=<null>,params={},index=-1,id=" + id.toString() + "]"));
-		
+		assertThat(column.toString(), is("Column[null]"));
 		column.setName("name1");
-		
-		assertThat(column.toString(), is("DefaultColumnModel[name=name1,logicalName=<null>,description=<null>,"
-				+ "dataType=<null>,defaultValue=<null>,params={},index=-1,id=" + id.toString() + "]"));
+		assertThat(column.toString(), is("Column[name1]"));
 	}
 	
 	/**

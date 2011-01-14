@@ -22,14 +22,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
 import java.util.UUID;
 
 import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import org.apache.commons.lang.Validate;
@@ -42,6 +40,7 @@ import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityNotFoundException;
 import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.OnMemoryRepository;
 import org.jiemamy.dddbase.OrderedOnMemoryRepository;
 import org.jiemamy.dddbase.utils.MutationMonitor;
 import org.jiemamy.model.DatabaseObjectModel;
@@ -56,8 +55,6 @@ import org.jiemamy.model.constraint.PrimaryKeyConstraintModel;
 import org.jiemamy.transaction.EventBroker;
 import org.jiemamy.transaction.EventBrokerImpl;
 import org.jiemamy.transaction.StoredEvent;
-import org.jiemamy.utils.ConstraintComparator;
-import org.jiemamy.utils.collection.CollectionsUtil;
 
 /**
  * テーブルモデル。
@@ -141,7 +138,7 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	private OrderedOnMemoryRepository<ColumnModel> columns = new OrderedOnMemoryRepository<ColumnModel>();
 	
 	/** 制約のリスト */
-	private SortedSet<ConstraintModel> constraints = Sets.newTreeSet(new ConstraintComparator());
+	private OnMemoryRepository<ConstraintModel> constraints = new OnMemoryRepository<ConstraintModel>();
 	
 	private final EventBroker eventBroker = new EventBrokerImpl();
 	
@@ -156,31 +153,11 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 		super(id);
 	}
 	
-	/**
-	 * テーブルに属性を追加する。
-	 * 
-	 * @param constraint 属性
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 */
-	public void addConstraint(ConstraintModel constraint) {
-		Validate.notNull(constraint);
-		if (constraint instanceof ForeignKeyConstraintModel) {
-			constraint = ((ForeignKeyConstraintModel) constraint).clone();
-		}
-		CollectionsUtil.addOrReplace(constraints, constraint);
-	}
-	
-	public SortedSet<? extends ConstraintModel> breachEncapsulationOfConstraints() {
-		return constraints;
-	}
-	
 	@Override
 	public DefaultTableModel clone() {
 		DefaultTableModel clone = (DefaultTableModel) super.clone();
 		clone.columns = columns.clone();
-		TreeSet<ConstraintModel> set = new TreeSet<ConstraintModel>(new ConstraintComparator());
-		set.addAll(constraints);
-		clone.constraints = set;
+		clone.constraints = constraints.clone();
 		return clone;
 	}
 	
@@ -247,16 +224,13 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 		return columns.getEntitiesAsList();
 	}
 	
-	public SortedSet<? extends ConstraintModel> getConstraints() {
-		assert constraints != null;
-		TreeSet<ConstraintModel> result = new TreeSet<ConstraintModel>(new ConstraintComparator());
-		result.addAll(constraints);
-		return MutationMonitor.monitor(result);
+	public Set<? extends ConstraintModel> getConstraints() {
+		return constraints.getEntitiesAsSet();
 	}
 	
 	@SuppressWarnings("unchecked")
-	public <T extends ConstraintModel>List<T> getConstraints(Class<T> clazz) {
-		List<T> result = Lists.newArrayList();
+	public <T extends ConstraintModel>Set<T> getConstraints(Class<T> clazz) {
+		Set<T> result = Sets.newHashSet();
 		for (ConstraintModel constraint : getConstraints()) {
 			if (clazz.isInstance(constraint)) {
 				result.add((T) constraint);
@@ -297,13 +271,14 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	}
 	
 	public PrimaryKeyConstraintModel getPrimaryKey() {
-		if (constraints.size() != 0) {
-			ConstraintModel first = constraints.iterator().next();
-			if (first instanceof PrimaryKeyConstraintModel) {
-				return (PrimaryKeyConstraintModel) first;
-			}
+		Collection<ConstraintModel> pks =
+				Collections2.filter(constraints.getEntitiesAsSet(),
+						Predicates.instanceOf(PrimaryKeyConstraintModel.class));
+		try {
+			return (PrimaryKeyConstraintModel) Iterables.getOnlyElement(pks);
+		} catch (NoSuchElementException e) {
+			return null;
 		}
-		return null;
 	}
 	
 	@Override
@@ -312,7 +287,7 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	}
 	
 	public boolean isNotNullColumn(EntityRef<? extends ColumnModel> ref) {
-		List<NotNullConstraintModel> nns = getConstraints(NotNullConstraintModel.class);
+		Collection<NotNullConstraintModel> nns = getConstraints(NotNullConstraintModel.class);
 		for (NotNullConstraintModel nn : nns) {
 			if (nn.getColumn().equals(ref)) {
 				return true;
@@ -360,14 +335,13 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	}
 	
 	/**
-	 * テーブルから属性を削除する。
+	 * テーブルから制約を削除する。
 	 * 
-	 * @param attribute 属性
+	 * @param ref 制約
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public void removeConstraint(ConstraintModel attribute) {
-		Validate.notNull(attribute);
-		constraints.remove(attribute);
+	public void deleteConstraint(EntityRef<? extends ConstraintModel> ref) {
+		constraints.delete(ref);
 	}
 	
 	/**
@@ -397,6 +371,16 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 		Validate.notNull(column);
 		columns.store(column);
 		eventBroker.fireEvent(new StoredEvent<ColumnModel>(this, null, column));
+	}
+	
+	/**
+	 * テーブルに属性を追加する。
+	 * 
+	 * @param constraint 属性
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public void store(ConstraintModel constraint) {
+		constraints.store(constraint);
 	}
 	
 	public EntityRef<DefaultTableModel> toReference() {
