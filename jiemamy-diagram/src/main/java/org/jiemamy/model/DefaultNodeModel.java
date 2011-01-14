@@ -44,8 +44,6 @@ public abstract class DefaultNodeModel extends AbstractEntity implements NodeMod
 	OnMemoryRepository<ConnectionModel> sourceConnections = new OnMemoryRepository<ConnectionModel>();
 	
 
-//	Collection<ConnectionModel> sourceConnections = Lists.newArrayList();
-	
 	/**
 	 * インスタンスを生成する。
 	 * 

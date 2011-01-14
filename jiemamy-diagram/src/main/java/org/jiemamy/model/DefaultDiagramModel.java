@@ -43,7 +43,7 @@ public final class DefaultDiagramModel extends AbstractEntity implements Diagram
 	
 	private Mode mode = Mode.PHYSICAL;
 	
-	private OnMemoryRepository<NodeModel> nodeRepos = new OnMemoryRepository<NodeModel>();
+	private OnMemoryRepository<NodeModel> nodes = new OnMemoryRepository<NodeModel>();
 	
 	private int index = -1;
 	
@@ -60,12 +60,12 @@ public final class DefaultDiagramModel extends AbstractEntity implements Diagram
 	@Override
 	public DefaultDiagramModel clone() {
 		DefaultDiagramModel clone = (DefaultDiagramModel) super.clone();
-		clone.nodeRepos = nodeRepos.clone();
+		clone.nodes = nodes.clone();
 		return clone;
 	}
 	
 	public void delete(EntityRef<? extends NodeModel> ref) {
-		nodeRepos.delete(ref);
+		nodes.delete(ref);
 	}
 	
 	public int getIndex() {
@@ -86,7 +86,7 @@ public final class DefaultDiagramModel extends AbstractEntity implements Diagram
 	
 	public NodeModel getNodeFor(EntityRef<? extends DatabaseObjectModel> ref) {
 		Validate.notNull(ref);
-		for (NodeModel node : nodeRepos.getEntitiesAsSet()) {
+		for (NodeModel node : nodes.getEntitiesAsSet()) {
 			if (node instanceof DatabaseObjectNodeModel) {
 				DatabaseObjectNodeModel databaseObjectNodeModel = (DatabaseObjectNodeModel) node;
 				if (ref.equals(databaseObjectNodeModel.getCoreModelRef())) {
@@ -98,20 +98,20 @@ public final class DefaultDiagramModel extends AbstractEntity implements Diagram
 	}
 	
 	public Collection<? extends NodeModel> getNodes() {
-		return nodeRepos.getEntitiesAsSet();
+		return nodes.getEntitiesAsSet();
 	}
 	
 	@Override
 	public Collection<? extends Entity> getSubEntities() {
-		return nodeRepos.getEntitiesAsSet();
+		return getNodes();
 	}
 	
 	public <T2 extends Entity>T2 resolve(EntityRef<T2> ref) {
-		return nodeRepos.resolve(ref);
+		return nodes.resolve(ref);
 	}
 	
 	public Entity resolve(UUID id) {
-		return nodeRepos.resolve(id);
+		return nodes.resolve(id);
 	}
 	
 	public void setIndex(int index) {
@@ -146,7 +146,7 @@ public final class DefaultDiagramModel extends AbstractEntity implements Diagram
 	}
 	
 	public void store(NodeModel entity) {
-		nodeRepos.store(entity);
+		nodes.store(entity);
 	}
 	
 	public EntityRef<DefaultDiagramModel> toReference() {

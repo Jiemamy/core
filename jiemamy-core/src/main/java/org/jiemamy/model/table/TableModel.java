@@ -139,8 +139,6 @@ public interface TableModel extends DatabaseObjectModel {
 	 */
 	PrimaryKeyConstraintModel getPrimaryKey();
 	
-	Collection<? extends ColumnModel> getSubEntities();
-	
 	/**
 	 * 指定したカラムがこのテーブルにおいて NOT NULL 制約を受けているかどうか調べる。
 	 * 

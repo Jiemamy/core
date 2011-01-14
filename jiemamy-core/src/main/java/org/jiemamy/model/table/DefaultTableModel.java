@@ -28,6 +28,7 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import org.apache.commons.lang.Validate;
@@ -174,6 +175,16 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 		eventBroker.fireEvent(new StoredEvent<ColumnModel>(this, deleted, null));
 	}
 	
+	/**
+	 * テーブルから制約を削除する。
+	 * 
+	 * @param ref 制約
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public void deleteConstraint(EntityRef<? extends ConstraintModel> ref) {
+		constraints.delete(ref);
+	}
+	
 	public KeyConstraintModel findReferencedKeyConstraint(ForeignKeyConstraintModel foreignKey) {
 		for (KeyConstraintModel keyConstraint : getKeyConstraintModels()) {
 			// サイズ不一致であれば、そもそもこのキーを参照したものではない
@@ -282,8 +293,8 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	}
 	
 	@Override
-	public Collection<? extends ColumnModel> getSubEntities() {
-		return getColumns();
+	public Collection<? extends Entity> getSubEntities() {
+		return Lists.newArrayList(Iterables.concat(getColumns(), getConstraints()));
 	}
 	
 	public boolean isNotNullColumn(EntityRef<? extends ColumnModel> ref) {
@@ -332,16 +343,6 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	 */
 	public <T>void putParam(TableParameterKey<T> key, T value) {
 		super.putParam(key, value);
-	}
-	
-	/**
-	 * テーブルから制約を削除する。
-	 * 
-	 * @param ref 制約
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 */
-	public void deleteConstraint(EntityRef<? extends ConstraintModel> ref) {
-		constraints.delete(ref);
 	}
 	
 	/**
