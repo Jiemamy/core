@@ -20,6 +20,8 @@ package org.jiemamy.model.parameter;
 
 import org.apache.commons.lang.Validate;
 
+import org.jiemamy.dddbase.ValueObject;
+
 /**
  * {@link ParameterMap}用のキーオブジェクト。
  * 
@@ -27,7 +29,7 @@ import org.apache.commons.lang.Validate;
  * @version $Id$
  * @author daisuke
  */
-public class ParameterKey<T> {
+public class ParameterKey<T> implements ValueObject {
 	
 	/** 値の文字列変換に用いるコンバータ */
 	private final Converter<T> converter;

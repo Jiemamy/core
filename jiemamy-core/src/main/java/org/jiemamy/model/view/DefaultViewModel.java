@@ -62,11 +62,25 @@ public final class DefaultViewModel extends DefaultDatabaseObjectModel implement
 		return super.getParam(key);
 	}
 	
+	/**
+	 * パラメータを追加する。
+	 * 
+	 * @param key キー
+	 * @param value 値
+	 * @param <T> 値の型
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
 	public <T>void putParam(ViewParameterKey<T> key, T value) {
 		super.putParam(key, value);
 	}
 	
-	public <T>void removeParam(ViewParameterKey<T> key) {
+	/**
+	 * パラメータを削除する。
+	 * 
+	 * @param key キー
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public void removeParam(ViewParameterKey<?> key) {
 		super.removeParam(key);
 	}
 	

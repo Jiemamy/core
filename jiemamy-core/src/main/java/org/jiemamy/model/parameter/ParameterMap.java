@@ -30,8 +30,11 @@ import org.apache.commons.lang.Validate;
 import org.jiemamy.JiemamyError;
 
 /**
- * {@link ParameterKey}が持つ {@link Converter} を利用して、タイプセーフに値を取り扱いつつ、
- * 容易に{@link String}へのシリアライズ・デシリアライズができる {@link Map} ライクなクラス。
+ * 不確定（存在するかどうか分からない・項目をcoreは知らず、dialectが知っているもの）なモデル情報
+ * （パラメータ）を保持するクラス。
+ * 
+ * <p>{@link ParameterKey}が持つ {@link Converter} を利用して、タイプセーフに値を取り扱いつつ、
+ * 容易に{@link String}へのシリアライズ・デシリアライズができる {@link Map} ライクなクラス。</p>
  * 
  * @version $Id$
  * @author daisuke

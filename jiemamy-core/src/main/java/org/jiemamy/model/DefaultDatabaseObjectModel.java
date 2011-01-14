@@ -100,11 +100,25 @@ public abstract class DefaultDatabaseObjectModel extends AbstractEntity implemen
 		return false;
 	}
 	
+	/**
+	 * パラメータを追加する。
+	 * 
+	 * @param key キー
+	 * @param value 値
+	 * @param <T> 値の型
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
 	public <T>void putParam(ParameterKey<T> key, T value) {
 		params.put(key, value);
 	}
 	
-	public <T>void removeParam(ParameterKey<T> key) {
+	/**
+	 * パラメータを削除する。
+	 * 
+	 * @param key キー
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public void removeParam(ParameterKey<?> key) {
 		params.remove(key);
 	}
 	

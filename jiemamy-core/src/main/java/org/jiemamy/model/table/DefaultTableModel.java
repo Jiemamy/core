@@ -347,6 +347,14 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 		return false;
 	}
 	
+	/**
+	 * パラメータを追加する。
+	 * 
+	 * @param key キー
+	 * @param value 値
+	 * @param <T> 値の型
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
 	public <T>void putParam(TableParameterKey<T> key, T value) {
 		super.putParam(key, value);
 	}
@@ -362,7 +370,12 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 		constraints.remove(attribute);
 	}
 	
-	public <T>void removeParam(TableParameterKey<T> key) {
+	/**
+	 * パラメータを削除する。
+	 * 
+	 * @param key キー
+	 */
+	public void removeParam(TableParameterKey<?> key) {
 		super.removeParam(key);
 	}
 	

@@ -68,7 +68,9 @@ public final class DefaultColumnModel extends AbstractEntity implements ColumnMo
 	
 	@Override
 	public DefaultColumnModel clone() {
-		return (DefaultColumnModel) super.clone();
+		DefaultColumnModel clone = (DefaultColumnModel) super.clone();
+		clone.params = params.clone();
+		return clone;
 	}
 	
 	public TypeVariant getDataType() {
@@ -103,11 +105,25 @@ public final class DefaultColumnModel extends AbstractEntity implements ColumnMo
 		return params.clone();
 	}
 	
+	/**
+	 * パラメータを追加する。
+	 * 
+	 * @param key キー
+	 * @param value 値
+	 * @param <T> 値の型
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
 	public <T>void putParam(ColumnParameterKey<T> key, T value) {
 		params.put(key, value);
 	}
 	
-	public <T>void removeParam(ColumnParameterKey<T> key) {
+	/**
+	 * パラメータを削除する。
+	 * 
+	 * @param key キー
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public void removeParam(ColumnParameterKey<?> key) {
 		params.remove(key);
 	}
 	

@@ -23,8 +23,10 @@ import java.util.Collection;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.DatabaseObjectModel;
 import org.jiemamy.model.constraint.CheckConstraintModel;
+import org.jiemamy.model.datatype.TypeParameterKey;
 import org.jiemamy.model.datatype.TypeReference;
 import org.jiemamy.model.datatype.TypeVariant;
+import org.jiemamy.model.parameter.ParameterMap;
 
 /**
  * ドメインを表すモデルインターフェイス。
@@ -59,6 +61,22 @@ public interface DomainModel extends DatabaseObjectModel {
 	 * @since 0.3
 	 */
 	TypeVariant getDataType();
+	
+	/**
+	 * キーに対応するパラメータの値を取得する。
+	 * 
+	 * @param <T> 値の型
+	 * @param key キー
+	 * @return パラメータの値
+	 */
+	<T>T getParam(TypeParameterKey<T> key);
+	
+	/**
+	 * このモデルが持つ全パラメータを取得する。
+	 * 
+	 * @return カラムが持つ全パラメータ
+	 */
+	ParameterMap getParams();
 	
 	/**
 	 * NOT　NULL制約を取得する。

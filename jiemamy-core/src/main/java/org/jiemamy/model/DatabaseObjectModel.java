@@ -22,8 +22,8 @@ import java.util.Set;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.dddbase.EntityRef;
-import org.jiemamy.model.parameter.ParameterMap;
 import org.jiemamy.model.parameter.ParameterKey;
+import org.jiemamy.model.parameter.ParameterMap;
 
 /**
  * リレーショナルデータベースモデルにおける「CREATE対象」を表すモデルインターフェイス。
@@ -78,18 +78,19 @@ public interface DatabaseObjectModel extends CoreElement {
 	String getName();
 	
 	/**
-	 * パラメータを取得する。
+	 * キーに対応するパラメータの値を取得する。
 	 * 
 	 * @param <T> 値の型
 	 * @param key キー
-	 * @return 型パラメータ
+	 * @return パラメータの値
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	<T>T getParam(ParameterKey<T> key);
 	
 	/**
-	 * パラメータを取得する。
+	 * このモデルが持つ全パラメータを取得する。
 	 * 
-	 * @return 型パラメータの{@link Set}
+	 * @return カラムが持つ全パラメータ
 	 */
 	ParameterMap getParams();
 	

@@ -37,18 +37,19 @@ public interface TypeVariant extends ValueObject {
 	DataTypeCategory getCategory();
 	
 	/**
-	 * 型パラメータを取得する。
+	 * キーに対応するパラメータの値を取得する。
 	 * 
 	 * @param <T> 値の型
 	 * @param key キー
-	 * @return 型パラメータ
+	 * @return パラメータの値
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	<T>T getParam(TypeParameterKey<T> key);
 	
 	/**
-	 * 全パラメータを取得する。
+	 * このモデルが持つ全パラメータを取得する。
 	 * 
-	 * @return 全パラメータ
+	 * @return カラムが持つ全パラメータ
 	 */
 	ParameterMap getParams();
 	

@@ -19,11 +19,9 @@
 package org.jiemamy.model.domain;
 
 import java.util.Collection;
-import java.util.Set;
 import java.util.UUID;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
@@ -40,7 +38,6 @@ import org.jiemamy.model.datatype.TypeParameterKey;
 import org.jiemamy.model.datatype.TypeReference;
 import org.jiemamy.model.datatype.TypeVariant;
 import org.jiemamy.model.parameter.ParameterMap;
-import org.jiemamy.utils.collection.CollectionsUtil;
 
 /**
  * ドメイン定義モデル。
@@ -56,7 +53,7 @@ public final class DefaultDomainModel extends DefaultDatabaseObjectModel impleme
 	
 	private boolean notNull;
 	
-	Set<TypeParameterKey<?>> params = Sets.newHashSet();
+	private ParameterMap params = new ParameterMap();
 	
 
 	/**
@@ -79,15 +76,6 @@ public final class DefaultDomainModel extends DefaultDatabaseObjectModel impleme
 		checkConstraints.add(checkConstraint);
 	}
 	
-	/**
-	 * パラメータを追加する。
-	 * 
-	 * @param param 追加するパラメータ
-	 */
-	public void addParameter(TypeParameterKey<?> param) {
-		CollectionsUtil.addOrReplace(params, param);
-	}
-	
 	public TypeReference asType() {
 		return new DomainType();
 	}
@@ -100,6 +88,7 @@ public final class DefaultDomainModel extends DefaultDatabaseObjectModel impleme
 	public DefaultDomainModel clone() {
 		DefaultDomainModel clone = (DefaultDomainModel) super.clone();
 		clone.checkConstraints = CloneUtil.cloneValueArrayList(checkConstraints);
+		clone.params = params.clone();
 		return clone;
 	}
 	
@@ -111,8 +100,35 @@ public final class DefaultDomainModel extends DefaultDatabaseObjectModel impleme
 		return dataType;
 	}
 	
+	public <T>T getParam(TypeParameterKey<T> key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	public boolean isNotNull() {
 		return notNull;
+	}
+	
+	/**
+	 * パラメータを追加する。
+	 * 
+	 * @param key キー
+	 * @param value 値
+	 * @param <T> 値の型
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public <T>void putParam(TypeParameterKey<T> key, T value) {
+		params.put(key, value);
+	}
+	
+	/**
+	 * パラメータを削除する。
+	 * 
+	 * @param key キー
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public void removeParam(TypeParameterKey<?> key) {
+		params.remove(key);
 	}
 	
 	/**
