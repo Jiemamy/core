@@ -49,12 +49,12 @@ public abstract class AbstractKeyConstraintModel extends AbstractConstraintModel
 	 * @param description 説明
 	 * @param keyColumns キー制約を構成するカラムのリスト
 	 * @param deferrability 遅延評価可能性
-	 * @throws IllegalArgumentException 引数{@code keyColumns}の要素が空の場合
+	 * @throws IllegalArgumentException 引数{@code keyColumns}に{@code null}を与えた場合
 	 */
 	public AbstractKeyConstraintModel(String name, String logicalName, String description,
 			List<EntityRef<? extends ColumnModel>> keyColumns, DeferrabilityModel deferrability) {
 		super(name, logicalName, description, deferrability);
-		Validate.notEmpty(keyColumns);
+		Validate.notNull(keyColumns);
 		
 		this.keyColumns = Lists.newArrayList(keyColumns);
 	}
@@ -68,21 +68,14 @@ public abstract class AbstractKeyConstraintModel extends AbstractConstraintModel
 		if (this == obj) {
 			return true;
 		}
-		if (!super.equals(obj)) {
+		if (super.equals(obj) == false) {
 			return false;
 		}
-		if (!(obj instanceof AbstractKeyConstraintModel)) {
+		if ((obj instanceof AbstractKeyConstraintModel) == false) {
 			return false;
 		}
 		AbstractKeyConstraintModel other = (AbstractKeyConstraintModel) obj;
-		if (keyColumns == null) {
-			if (other.keyColumns != null) {
-				return false;
-			}
-		} else if (!keyColumns.equals(other.keyColumns)) {
-			return false;
-		}
-		return true;
+		return keyColumns.equals(other.keyColumns);
 	}
 	
 	public List<EntityRef<? extends ColumnModel>> getKeyColumns() {
@@ -91,10 +84,7 @@ public abstract class AbstractKeyConstraintModel extends AbstractConstraintModel
 	
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((keyColumns == null) ? 0 : keyColumns.hashCode());
-		return result;
+		return keyColumns.hashCode();
 	}
 	
 	@Override

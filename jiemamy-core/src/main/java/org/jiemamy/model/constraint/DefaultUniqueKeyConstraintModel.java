@@ -21,6 +21,8 @@ package org.jiemamy.model.constraint;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.Validate;
+
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.column.ColumnModel;
 
@@ -54,10 +56,12 @@ public final class DefaultUniqueKeyConstraintModel extends AbstractKeyConstraint
 	 * @param description 説明
 	 * @param keyColumns キー制約を構成するカラムのリスト
 	 * @param deferrability 遅延評価可能性モデル
+	 * @throws IllegalArgumentException 引数{@code keyColumns}が{@code null}または要素が空だった場合
 	 */
 	public DefaultUniqueKeyConstraintModel(String name, String logicalName, String description,
 			List<EntityRef<? extends ColumnModel>> keyColumns, DeferrabilityModel deferrability) {
 		super(name, logicalName, description, keyColumns, deferrability);
+		Validate.notEmpty(keyColumns);
 	}
 	
 }
