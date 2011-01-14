@@ -18,6 +18,8 @@
  */
 package org.jiemamy.model.constraint;
 
+import org.jiemamy.dddbase.EntityRef;
+
 /**
  * 主キー制約を表すモデルインターフェイス。
  * 
@@ -25,5 +27,9 @@ package org.jiemamy.model.constraint;
  * @author daisuke
  */
 public interface PrimaryKeyConstraintModel extends LocalKeyConstraintModel {
+	
+	PrimaryKeyConstraintModel clone();
+	
+	EntityRef<? extends PrimaryKeyConstraintModel> toReference();
 	
 }

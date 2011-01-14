@@ -70,7 +70,7 @@ public abstract class AbstractKeyConstraintModel extends AbstractConstraintModel
 	}
 	
 	@Override
-	public EntityRef<? extends AbstractConstraintModel> toReference() {
-		return new DefaultEntityRef<AbstractConstraintModel>(this);
+	public EntityRef<? extends AbstractKeyConstraintModel> toReference() {
+		return new DefaultEntityRef<AbstractKeyConstraintModel>(this);
 	}
 }

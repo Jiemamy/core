@@ -170,7 +170,7 @@ public/*final*/class JiemamyContext {
 	 * 
 	 * @param reference 削除する{@link DatabaseObjectModel}への参照
 	 */
-	public void deleteDatabaseObject(final EntityRef<? extends DatabaseObjectModel> reference) {
+	public void deleteDatabaseObject(EntityRef<? extends DatabaseObjectModel> reference) {
 		DatabaseObjectModel deleted = doms.delete(reference);
 		eventBroker.fireEvent(new StoredEvent<DatabaseObjectModel>(this, deleted, null));
 	}
@@ -180,7 +180,7 @@ public/*final*/class JiemamyContext {
 	 * 
 	 * @param reference 削除する{@link DataSetModel}への参照
 	 */
-	public void deleteDataSet(final EntityRef<? extends DataSetModel> reference) {
+	public void deleteDataSet(EntityRef<? extends DataSetModel> reference) {
 		DataSetModel deleted = dsms.delete(reference);
 		eventBroker.fireEvent(new StoredEvent<DataSetModel>(this, deleted, null));
 	}

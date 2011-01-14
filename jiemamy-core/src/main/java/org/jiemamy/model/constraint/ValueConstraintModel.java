@@ -18,6 +18,7 @@
  */
 package org.jiemamy.model.constraint;
 
+import org.jiemamy.dddbase.EntityRef;
 
 /**
  * 値に対する単純な制約を表す制約モデル。
@@ -28,5 +29,9 @@ package org.jiemamy.model.constraint;
  * @author daisuke
  */
 public interface ValueConstraintModel extends ConstraintModel {
+	
+	ValueConstraintModel clone();
+	
+	EntityRef<? extends ValueConstraintModel> toReference();
 	
 }

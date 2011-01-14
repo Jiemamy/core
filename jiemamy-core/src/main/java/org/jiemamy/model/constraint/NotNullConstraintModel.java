@@ -29,10 +29,14 @@ import org.jiemamy.model.column.ColumnModel;
  */
 public interface NotNullConstraintModel extends ValueConstraintModel {
 	
+	NotNullConstraintModel clone();
+	
 	/**
-	 * 対象カラムを取得する。
-	 * 
-	 * @return 対象カラム
-	 */
+	* 対象カラムを取得する。
+	* 
+	* @return 対象カラム
+	*/
 	EntityRef<? extends ColumnModel> getColumn();
+	
+	EntityRef<? extends NotNullConstraintModel> toReference();
 }

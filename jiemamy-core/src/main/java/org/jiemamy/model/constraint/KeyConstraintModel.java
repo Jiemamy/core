@@ -30,14 +30,18 @@ import org.jiemamy.model.column.ColumnModel;
  */
 public interface KeyConstraintModel extends ConstraintModel {
 	
+	KeyConstraintModel clone();
+	
 	/**
-	 * キーを構成するカラムのリストを取得する。
-	 * 
-	 * <p>返される{@link List}は他に影響を及ぼさない独立したインスタンスである。</p>
-	 * 
-	 * @return キーを構成するカラムのリスト
-	 * @since 0.2
-	 */
+	* キーを構成するカラムのリストを取得する。
+	* 
+	* <p>返される{@link List}は他に影響を及ぼさない独立したインスタンスである。</p>
+	* 
+	* @return キーを構成するカラムのリスト
+	* @since 0.2
+	*/
 	List<EntityRef<? extends ColumnModel>> getKeyColumns();
+	
+	EntityRef<? extends KeyConstraintModel> toReference();
 	
 }

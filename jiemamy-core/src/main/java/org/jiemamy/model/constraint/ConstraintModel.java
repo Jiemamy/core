@@ -19,6 +19,7 @@
 package org.jiemamy.model.constraint;
 
 import org.jiemamy.dddbase.Entity;
+import org.jiemamy.dddbase.EntityRef;
 
 /**
  * 制約を表すモデルのインターフェイス。
@@ -26,6 +27,8 @@ import org.jiemamy.dddbase.Entity;
  * @author daisuke
  */
 public interface ConstraintModel extends Entity {
+	
+	ConstraintModel clone();
 	
 	/**
 	 * 遅延評価可能性モデルを取得する。
@@ -56,5 +59,7 @@ public interface ConstraintModel extends Entity {
 	 * @since 0.2
 	 */
 	String getName();
+	
+	EntityRef<? extends ConstraintModel> toReference();
 	
 }

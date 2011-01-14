@@ -18,6 +18,7 @@
  */
 package org.jiemamy.model.constraint;
 
+import org.jiemamy.dddbase.EntityRef;
 
 /**
  * テスト用の制約型。
@@ -26,5 +27,9 @@ package org.jiemamy.model.constraint;
  * @author daisuke
  */
 public interface TestConstraint extends ConstraintModel {
+	
+	TestConstraint clone();
+	
+	EntityRef<? extends TestConstraint> toReference();
 	
 }

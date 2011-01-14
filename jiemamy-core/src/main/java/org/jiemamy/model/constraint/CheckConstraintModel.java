@@ -18,6 +18,8 @@
  */
 package org.jiemamy.model.constraint;
 
+import org.jiemamy.dddbase.EntityRef;
+
 /**
  * チェック制約を表すモデルインターフェイス。
  * 
@@ -25,12 +27,15 @@ package org.jiemamy.model.constraint;
  */
 public interface CheckConstraintModel extends ValueConstraintModel {
 	
+	CheckConstraintModel clone();
+	
 	/**
-	 * CHECK制約定義式を取得する。
-	 * 
-	 * @return CHECK制約定義式. 未設定の場合は{@code null}
-	 * @since 0.2
-	 */
+	* CHECK制約定義式を取得する。
+	* 
+	* @return CHECK制約定義式. 未設定の場合は{@code null}
+	* @since 0.2
+	*/
 	String getExpression();
 	
+	EntityRef<? extends CheckConstraintModel> toReference();
 }

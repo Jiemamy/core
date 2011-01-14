@@ -18,6 +18,8 @@
  */
 package org.jiemamy.model.constraint;
 
+import org.jiemamy.dddbase.EntityRef;
+
 /**
  * UNIQUE制約を表すモデルインターフェイス。
  * 
@@ -25,5 +27,9 @@ package org.jiemamy.model.constraint;
  * @author daisuke
  */
 public interface UniqueKeyConstraintModel extends LocalKeyConstraintModel {
+	
+	UniqueKeyConstraintModel clone();
+	
+	EntityRef<? extends UniqueKeyConstraintModel> toReference();
 	
 }
