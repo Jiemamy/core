@@ -172,7 +172,7 @@ public/*final*/class JiemamyContext {
 	 */
 	public void deleteDatabaseObject(EntityRef<? extends DatabaseObjectModel> reference) {
 		DatabaseObjectModel deleted = doms.delete(reference);
-		eventBroker.fireEvent(new StoredEvent<DatabaseObjectModel>(this, deleted, null));
+		eventBroker.fireEvent(new StoredEvent<DatabaseObjectModel>(doms, deleted, null));
 	}
 	
 	/**
@@ -182,7 +182,7 @@ public/*final*/class JiemamyContext {
 	 */
 	public void deleteDataSet(EntityRef<? extends DataSetModel> reference) {
 		DataSetModel deleted = dsms.delete(reference);
-		eventBroker.fireEvent(new StoredEvent<DataSetModel>(this, deleted, null));
+		eventBroker.fireEvent(new StoredEvent<DataSetModel>(dsms, deleted, null));
 	}
 	
 	/**
@@ -427,13 +427,11 @@ public/*final*/class JiemamyContext {
 	/**
 	 * 新しいファサードインスタンスを生成し、取得する。
 	 * 
-	 * @param <T> 取得するファサードの型
-	 * @param clazz 取得するファサードの型
 	 * @return 新しいファサード
 	 * @since 0.2
 	 */
-	public <T extends JiemamyTransaction>T getTransaction(Class<T> clazz) {
-		return null; // FIXME
+	public JiemamyTransaction<DatabaseObjectModel> getTransaction() {
+		return new JiemamyTransaction<DatabaseObjectModel>(this);
 	}
 	
 	/**
@@ -528,7 +526,7 @@ public/*final*/class JiemamyContext {
 			// ignore
 		}
 		doms.store(dom);
-		eventBroker.fireEvent(new StoredEvent<DatabaseObjectModel>(this, old, dom));
+		eventBroker.fireEvent(new StoredEvent<DatabaseObjectModel>(doms, old, dom));
 	}
 	
 	/**
@@ -544,7 +542,7 @@ public/*final*/class JiemamyContext {
 			// ignore
 		}
 		dsms.store(dsm);
-		eventBroker.fireEvent(new StoredEvent<DataSetModel>(this, old, dsm));
+		eventBroker.fireEvent(new StoredEvent<DataSetModel>(dsms, old, dsm));
 	}
 	
 	@Override
@@ -561,4 +559,5 @@ public/*final*/class JiemamyContext {
 	public UUID toUUID(String name) {
 		return uuidProvider.valueOfOrRandom(name);
 	}
+	
 }

@@ -22,8 +22,8 @@ import org.apache.commons.lang.Validate;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.utils.collection.ArrayEssentialStack;
 import org.jiemamy.utils.collection.EssentialStack;
+import org.jiemamy.utils.collection.EssentialStacks;
 
 /**
  * デシリアライズ処理のコンテキストクラス。
@@ -33,7 +33,7 @@ import org.jiemamy.utils.collection.EssentialStack;
  */
 public class DeserializationContext {
 	
-	private final EssentialStack<JiemamyCursor> stack = new ArrayEssentialStack<JiemamyCursor>();
+	private final EssentialStack<JiemamyCursor> stack = EssentialStacks.newArrayEssentialStack();
 	
 	private final JiemamyContext context;
 	

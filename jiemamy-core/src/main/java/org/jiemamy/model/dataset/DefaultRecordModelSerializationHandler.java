@@ -79,7 +79,7 @@ public final class DefaultRecordModelSerializationHandler extends SerializationH
 			do {
 				childCursor.advance();
 				if (childCursor.getCurrEvent() == SMEvent.START_ELEMENT) {
-					// TODO
+					// TODO yamkazu
 //					if (childCursor.isQName(CoreQName.CORE)) {
 //						String coreIdString = childCursor.getAttrValue(CoreQName.REF);
 //						UUID coreId = UUIDUtil.valueOfOrRandom(coreIdString);

@@ -23,10 +23,10 @@ import org.jiemamy.dddbase.Entity;
 /**
  * EDITコマンドが実行されたイベントの通知を受け取るリスナ。
  * 
- * @since 0.2
+ * @since 0.3
  * @author shin1ogawa
  */
-public interface StoredEventListener {
+public interface StoredEventListener<T extends Entity> {
 	
 	/**
 	 * コマンドが実行されたことを通知するcallbackメソッド。
@@ -34,16 +34,8 @@ public interface StoredEventListener {
 	 * <p>監視対象に変更があった場合に{@link EventBroker}によってcallbackされる。</p>
 	 * 
 	 * @param command 実行されたコマンド
-	 * @since 0.2
+	 * @since 0.3
 	 */
-	void commandExecuted(StoredEvent<?> command);
-	
-	/**
-	 * 監視対象を返す。
-	 * 
-	 * @return 監視対象の{@link Entity}
-	 * @since 0.2
-	 */
-	Object getTargetModel();
+	void commandExecuted(StoredEvent<T> command);
 	
 }

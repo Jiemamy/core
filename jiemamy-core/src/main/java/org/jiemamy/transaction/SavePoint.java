@@ -20,6 +20,7 @@ package org.jiemamy.transaction;
 
 import org.apache.commons.lang.Validate;
 
+import org.jiemamy.dddbase.Entity;
 import org.jiemamy.utils.collection.ArrayEssentialStack;
 import org.jiemamy.utils.collection.EssentialStack;
 
@@ -31,9 +32,9 @@ import org.jiemamy.utils.collection.EssentialStack;
  * @since 0.2
  * @author daisuke
  */
-public class SavePoint {
+public class SavePoint<T extends Entity> {
 	
-	private final EssentialStack<StoredEvent> undoStackSnapShot;
+	private final EssentialStack<StoredEvent<T>> undoStackSnapShot;
 	
 
 	/**
@@ -42,9 +43,9 @@ public class SavePoint {
 	 * @param undoStack save時のundo stackの状態
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	SavePoint(EssentialStack<StoredEvent> undoStack) {
+	SavePoint(EssentialStack<StoredEvent<T>> undoStack) {
 		Validate.notNull(undoStack);
-		undoStackSnapShot = new ArrayEssentialStack<StoredEvent>(undoStack);
+		undoStackSnapShot = new ArrayEssentialStack<StoredEvent<T>>(undoStack);
 	}
 	
 	/**
@@ -52,9 +53,9 @@ public class SavePoint {
 	 * 
 	 * @return スナップショット取得時点のundoスタック
 	 */
-	EssentialStack<StoredEvent> getUndoStackSnapshot() {
+	EssentialStack<StoredEvent<T>> getUndoStackSnapshot() {
 		// イミュータブルにする為、防御コピーを返す
-		return new ArrayEssentialStack<StoredEvent>(undoStackSnapShot);
+		return new ArrayEssentialStack<StoredEvent<T>>(undoStackSnapShot);
 	}
 	
 }

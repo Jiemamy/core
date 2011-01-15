@@ -21,6 +21,7 @@ package org.jiemamy.transaction;
 import java.util.EventObject;
 
 import org.jiemamy.dddbase.Entity;
+import org.jiemamy.dddbase.Repository;
 
 /**
  * モデルを編集するためのEDITコマンドのインターフェース。
@@ -46,7 +47,7 @@ public class StoredEvent<T extends Entity> extends EventObject {
 	 * @param before 
 	 * @param after 
 	 */
-	public StoredEvent(Object source, T before, T after) {
+	public StoredEvent(Repository<T> source, T before, T after) {
 		super(source);
 		this.before = before;
 		this.after = after;
@@ -58,6 +59,12 @@ public class StoredEvent<T extends Entity> extends EventObject {
 	
 	public T getBefore() {
 		return before;
+	}
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	public Repository<T> getSource() {
+		return (Repository<T>) super.getSource();
 	}
 	
 	@Override

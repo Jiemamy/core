@@ -172,7 +172,7 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	public void delete(EntityRef<? extends ColumnModel> ref) {
 		Validate.notNull(ref);
 		ColumnModel deleted = columns.delete(ref);
-		eventBroker.fireEvent(new StoredEvent<ColumnModel>(this, deleted, null));
+		eventBroker.fireEvent(new StoredEvent<ColumnModel>(columns, deleted, null));
 	}
 	
 	/**
@@ -371,7 +371,7 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	public void store(ColumnModel column) {
 		Validate.notNull(column);
 		columns.store(column);
-		eventBroker.fireEvent(new StoredEvent<ColumnModel>(this, null, column));
+		eventBroker.fireEvent(new StoredEvent<ColumnModel>(columns, null, column));
 	}
 	
 	/**

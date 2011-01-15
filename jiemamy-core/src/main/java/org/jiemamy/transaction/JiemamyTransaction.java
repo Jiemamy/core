@@ -24,6 +24,12 @@ import com.google.common.collect.Lists;
 
 import org.apache.commons.lang.Validate;
 
+import org.jiemamy.JiemamyContext;
+import org.jiemamy.JiemamyError;
+import org.jiemamy.dddbase.Entity;
+import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.Repository;
+import org.jiemamy.dddbase.RepositoryException;
 import org.jiemamy.utils.collection.ArrayEssentialStack;
 import org.jiemamy.utils.collection.EssentialStack;
 import org.jiemamy.utils.collection.EssentialStacks;
@@ -38,21 +44,33 @@ import org.jiemamy.utils.collection.EssentialStacks;
  *   <li>{@link SavePoint}によるロールバックを提供する。</li>
  * </ul></p>
  * 
- * @since 0.2
+ * @since 0.3
  * @author daisuke
  */
-public abstract class JiemamyTransaction {
+public class JiemamyTransaction<T extends Entity> implements StoredEventListener<T> {
 	
 	/** このファサードが発行したセーブポイントの集合 */
-	private Collection<SavePoint> publishedSavePoints = Lists.newArrayList();
+	private Collection<SavePoint<T>> publishedSavePoints = Lists.newArrayList();
 	
 	/** UNDOスタック */
-	protected EssentialStack<StoredEvent> undoStack = new ArrayEssentialStack<StoredEvent>();
+	protected EssentialStack<StoredEvent<T>> undoStack = new ArrayEssentialStack<StoredEvent<T>>();
 	
 	/** イベントブローカ */
 	protected EventBroker eventBroker;
 	
+	private final JiemamyContext context;
+	
 
+	public JiemamyTransaction(JiemamyContext context) {
+		Validate.notNull(context);
+		this.context = context;
+		context.getEventBroker().addListener(this);
+	}
+	
+	public void commandExecuted(StoredEvent<T> command) {
+		undoStack.push(command);
+	}
+	
 	/**
 	 * モデルの状態をセーブポイントまでロールバックする。
 	 * 
@@ -61,38 +79,59 @@ public abstract class JiemamyTransaction {
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 0.2
 	 */
-	public void rollback(SavePoint savePoint) {
+	public void rollback(SavePoint<T> savePoint) {
 		Validate.notNull(savePoint);
 		if (publishedSavePoints.contains(savePoint) == false) {
 			throw new IllegalArgumentException();
 		}
 		
 		// this.undoStack(現状スタック)が ABCPQR, savePointStack(セーブ時スタック)が ABCXYZ だったとすると…
-		EssentialStack<StoredEvent> savePointStack = savePoint.getUndoStackSnapshot();
+		EssentialStack<StoredEvent<T>> savePointStack = savePoint.getUndoStackSnapshot();
 		
 		// intersect = ABC (先頭共通部分の抽出)
-		EssentialStack<StoredEvent> intersect = EssentialStacks.intersection(undoStack, savePointStack);
+		EssentialStack<StoredEvent<T>> intersect = EssentialStacks.intersection(undoStack, savePointStack);
 		
 		// undoStackMinus = PQR (引き算)
-		EssentialStack<StoredEvent> undoStackMinus = EssentialStacks.minus(undoStack, intersect);
+		EssentialStack<StoredEvent<T>> undoStackMinus = EssentialStacks.minus(undoStack, intersect);
 		
-//		// RQPの順番（pop順）でundoコマンドを実行し、現状を ABC 状態まで退行させる。
-//		while (undoStackMinus.isEmpty() == false) {
-//			StoredEvent command = undoStackMinus.pop();
-//			command.execute();
-//		}
-//		
-//		// savePointStackMinus = XYZ (引き算)
-//		EssentialStack<StoredEvent> savePointStackMinus = EssentialStacks.minus(savePointStack, intersect);
-//		
-//		// XYZの順番（foreach順）でredoコマンド（スタックから得られたコマンドの逆コマンド）を実行し、savePoint状態を再現する。
-//		for (StoredEvent negateCommand : savePointStackMinus) {
-//			StoredEvent command = negateCommand.getNegateCommand();
-//			command.execute();
-//		}
-//		
-//		// 現状スタックをセーブ時の状況に直しておく。
-//		undoStack = savePointStack;
+		// RQPの順番（pop順）でundoコマンドを実行し、現状を ABC 状態まで退行させる。
+		while (undoStackMinus.isEmpty() == false) {
+			StoredEvent<T> command = undoStackMinus.pop();
+			Repository<T> source = command.getSource();
+			T before = command.getBefore();
+			T after = command.getAfter();
+			try {
+				if (before == null) {
+					source.delete((EntityRef<? extends T>) after.toReference());
+				} else {
+					source.store(before);
+				}
+			} catch (RepositoryException e) {
+				throw new JiemamyError("OnMemory実装なので発生しないはず", e);
+			}
+		}
+		
+		// savePointStackMinus = XYZ (引き算)
+		EssentialStack<StoredEvent<T>> savePointStackMinus = EssentialStacks.minus(savePointStack, intersect);
+		
+		// XYZの順番（foreach順）でredoコマンド（スタックから得られたコマンドの逆コマンド）を実行し、savePoint状態を再現する。
+		for (StoredEvent<T> negateCommand : savePointStackMinus) {
+			Repository<T> source = negateCommand.getSource();
+			T after = negateCommand.getAfter();
+			T before = negateCommand.getBefore();
+			try {
+				if (after == null) {
+					source.delete((EntityRef<? extends T>) before.toReference());
+				} else {
+					source.store(after);
+				}
+			} catch (RepositoryException e) {
+				throw new JiemamyError("OnMemory実装なので発生しないはず", e);
+			}
+		}
+		
+		// 現状スタックをセーブ時の状況に直しておく。
+		undoStack = savePointStack;
 	}
 	
 	/**
@@ -101,9 +140,9 @@ public abstract class JiemamyTransaction {
 	 * @return セーブポイント
 	 * @since 0.2
 	 */
-	public SavePoint save() {
-		EssentialStack<StoredEvent> undoCopy = new ArrayEssentialStack<StoredEvent>(undoStack);
-		SavePoint sp = new SavePoint(undoCopy);
+	public SavePoint<T> save() {
+		EssentialStack<StoredEvent<T>> undoCopy = new ArrayEssentialStack<StoredEvent<T>>(undoStack);
+		SavePoint<T> sp = new SavePoint<T>(undoCopy);
 		publishedSavePoints.add(sp);
 		return sp;
 	}

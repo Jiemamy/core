@@ -16,9 +16,16 @@
  */
 package org.jiemamy;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Iterables;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.dddbase.Entity;
@@ -32,6 +39,8 @@ import org.jiemamy.model.DefaultDatabaseObjectNodeModelSerializationHandler;
 import org.jiemamy.model.DefaultDiagramModel;
 import org.jiemamy.model.DefaultDiagramModelSerializationHandler;
 import org.jiemamy.model.DiagramModel;
+import org.jiemamy.model.DiagramNotFoundException;
+import org.jiemamy.model.TooManyDiagramsFoundException;
 import org.jiemamy.model.geometory.JmColor;
 import org.jiemamy.model.geometory.JmColorSerializationHandler;
 import org.jiemamy.model.geometory.JmPoint;
@@ -66,7 +75,7 @@ public class DiagramFacet implements JiemamyFacet {
 		
 	};
 	
-	private OrderedOnMemoryRepository<DiagramModel> repos = new OrderedOnMemoryRepository<DiagramModel>();
+	private OrderedOnMemoryRepository<DiagramModel> diagrams = new OrderedOnMemoryRepository<DiagramModel>();
 	
 	private final JiemamyContext context;
 	
@@ -83,12 +92,35 @@ public class DiagramFacet implements JiemamyFacet {
 	}
 	
 	public void delete(EntityRef<? extends DiagramModel> ref) {
-		DiagramModel deleted = repos.delete(ref);
-		context.getEventBroker().fireEvent(new StoredEvent<DiagramModel>(this, deleted, null));
+		DiagramModel deleted = diagrams.delete(ref);
+		context.getEventBroker().fireEvent(new StoredEvent<DiagramModel>(diagrams, deleted, null));
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param name ダイアグラム名
+	 * @return
+	 */
+	public DiagramModel getDiagram(final String name) {
+		Collection<DiagramModel> c = Collections2.filter(diagrams.getEntitiesAsList(), new Predicate<DiagramModel>() {
+			
+			public boolean apply(DiagramModel diagram) {
+				return StringUtils.equals(diagram.getName(), name);
+			}
+		});
+		
+		try {
+			return Iterables.getOnlyElement(c);
+		} catch (NoSuchElementException e) {
+			throw new DiagramNotFoundException("name=" + name);
+		} catch (IllegalArgumentException e) {
+			throw new TooManyDiagramsFoundException(c);
+		}
 	}
 	
 	public List<? extends DiagramModel> getDiagrams() {
-		return repos.getEntitiesAsList();
+		return diagrams.getEntitiesAsList();
 	}
 	
 	public JiemamyNamespace[] getNamespaces() {
@@ -118,11 +150,11 @@ public class DiagramFacet implements JiemamyFacet {
 	 * @throws EntityNotFoundException 参照で示すエンティティが見つからなかった場合
 	 */
 	public <T extends Entity>T resolve(EntityRef<T> ref) {
-		return repos.resolve(ref);
+		return diagrams.resolve(ref);
 	}
 	
 	public Entity resolve(UUID id) {
-		return repos.resolve(id);
+		return diagrams.resolve(id);
 	}
 	
 	/**
@@ -137,7 +169,7 @@ public class DiagramFacet implements JiemamyFacet {
 		} catch (EntityNotFoundException e) {
 			// ignore
 		}
-		repos.store(diagram);
-		context.getEventBroker().fireEvent(new StoredEvent<DiagramModel>(this, old, diagram));
+		diagrams.store(diagram);
+		context.getEventBroker().fireEvent(new StoredEvent<DiagramModel>(diagrams, old, diagram));
 	}
 }

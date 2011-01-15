@@ -29,6 +29,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.model.DatabaseObjectModel;
 import org.jiemamy.model.column.Column;
 import org.jiemamy.model.column.ColumnModel;
 import org.jiemamy.model.column.DefaultColumnModel;
@@ -38,6 +39,8 @@ import org.jiemamy.model.datatype.DefaultTypeVariantTest;
 import org.jiemamy.model.table.DefaultTableModel;
 import org.jiemamy.model.table.Table;
 import org.jiemamy.model.table.TableModel;
+import org.jiemamy.transaction.JiemamyTransaction;
+import org.jiemamy.transaction.SavePoint;
 
 /**
  * TODO for daisuke
@@ -70,17 +73,31 @@ public class StoryTest {
 	 */
 	@Test
 	public void story1() throws Exception {
+		
+		JiemamyTransaction<DatabaseObjectModel> transaction = ctx1.getTransaction();
+		
+		SavePoint<DatabaseObjectModel> save1 = transaction.save();
 		// FORMAT-OFF
 		ColumnModel pk;
 		TableModel dept = new Table("T_DEPT").with(
 			pk = new Column("ID").whoseTypeIs(DefaultTypeVariantTest.random()).build(),
 			new Column("NAME").whoseTypeIs(DefaultTypeVariantTest.random()).build(),
 			new Column("LOC").whoseTypeIs(DefaultTypeVariantTest.random()).build()
-		).with( DefaultPrimaryKeyConstraintModel.of(pk)).build();
+		).with(DefaultPrimaryKeyConstraintModel.of(pk)).build();
+		//FORMAT-ON
 		
 		ctx1.store(dept);
 		
-		//FORMAT-ON
+		assertThat(ctx1.getDatabaseObjects().size(), is(1));
+		
+		SavePoint<DatabaseObjectModel> save2 = transaction.save();
+		transaction.rollback(save1);
+		
+		assertThat(ctx1.getDatabaseObjects().size(), is(0));
+		
+		transaction.rollback(save2);
+		
+		assertThat(ctx1.getDatabaseObjects().size(), is(1));
 	}
 	
 	/**

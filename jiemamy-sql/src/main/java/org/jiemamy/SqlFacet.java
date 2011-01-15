@@ -78,7 +78,7 @@ public class SqlFacet implements JiemamyFacet {
 	
 	public void delete(EntityRef<? extends AroundScriptModel> ref) {
 		AroundScriptModel deleted = scripts.delete(ref);
-		context.getEventBroker().fireEvent(new StoredEvent<AroundScriptModel>(this, deleted, null));
+		context.getEventBroker().fireEvent(new StoredEvent<AroundScriptModel>(scripts, deleted, null));
 	}
 	
 	/**
@@ -150,6 +150,6 @@ public class SqlFacet implements JiemamyFacet {
 			// ignore
 		}
 		scripts.store(script);
-		context.getEventBroker().fireEvent(new StoredEvent<AroundScriptModel>(this, old, script));
+		context.getEventBroker().fireEvent(new StoredEvent<AroundScriptModel>(scripts, old, script));
 	}
 }
