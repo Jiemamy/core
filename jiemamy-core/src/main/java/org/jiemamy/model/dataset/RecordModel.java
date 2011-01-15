@@ -26,6 +26,7 @@ import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.ValueObject;
 import org.jiemamy.model.column.ColumnModel;
 import org.jiemamy.model.table.TableModel;
+import org.jiemamy.script.ScriptString;
 
 /**
  * DB上のデータの各レコード（Row）を表すモデルインターフェイス。
@@ -75,7 +76,7 @@ public interface RecordModel extends ValueObject {
 	 * @return カラムに対応するデータ
 	 * @since 0.2
 	 */
-	Map<EntityRef<? extends ColumnModel>, String> getValues();
+	Map<EntityRef<? extends ColumnModel>, ScriptString> getValues();
 	
 	/**
 	 * 1レコード分の各カラムとそのカラムに対する値のセットを、テーブルに定義したカラム順に取得するための {@link Iterable} インスタンスを取得する。
@@ -85,6 +86,6 @@ public interface RecordModel extends ValueObject {
 	 * @return {@link Iterable}
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	Iterable<Entry<EntityRef<? extends ColumnModel>, String>> toIterable(JiemamyContext context,
+	Iterable<Entry<EntityRef<? extends ColumnModel>, ScriptString>> toIterable(JiemamyContext context,
 			EntityRef<? extends TableModel> tableRef);
 }

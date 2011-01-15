@@ -133,9 +133,6 @@ public enum CoreQName implements JiemamyQName {
 	PARAMETER(CoreNamespace.NS_CORE, "parameter"),
 
 	/***/
-	PARAMETER_KEY(CoreNamespace.NONE, "key"),
-
-	/***/
 	DEFAULT_VALUE(CoreNamespace.NS_CORE, "defaultValue"),
 
 	/***/
@@ -198,6 +195,12 @@ public enum CoreQName implements JiemamyQName {
 
 	// -------- Attributes
 	
+	/***/
+	PARAMETER_KEY(CoreNamespace.NONE, "key"),
+
+	/***/
+	ENGINE(CoreNamespace.NONE, "engine"),
+
 	/***/
 	VERSION(CoreNamespace.NONE, "version"),
 

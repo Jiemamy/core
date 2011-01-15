@@ -20,6 +20,7 @@ package org.jiemamy.model.dataset;
 
 import static org.hamcrest.Matchers.is;
 import static org.jiemamy.utils.RandomUtil.bool;
+import static org.jiemamy.utils.RandomUtil.meta;
 import static org.jiemamy.utils.RandomUtil.strNullable;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
@@ -33,6 +34,7 @@ import org.junit.Test;
 
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.column.ColumnModel;
+import org.jiemamy.script.ScriptString;
 
 /**
  * {@link DefaultRecordModel}のテストクラス。
@@ -49,11 +51,12 @@ public class DefaultRecordModelTest {
 	 * @return {@link DefaultRecordModel}
 	 */
 	public static DefaultRecordModel random(List<ColumnModel> columns) {
-		Map<EntityRef<? extends ColumnModel>, String> values = Maps.newHashMap();
+		Map<EntityRef<? extends ColumnModel>, ScriptString> values = Maps.newHashMap();
 		
 		for (ColumnModel columnModel : columns) {
 			if (bool()) {
-				values.put(columnModel.toReference(), strNullable());
+				
+				values.put(columnModel.toReference(), new ScriptString(strNullable(), meta()));
 			}
 		}
 		
@@ -68,22 +71,22 @@ public class DefaultRecordModelTest {
 	@Test
 	@SuppressWarnings("unchecked")
 	public void test01_mapがしっかりcloneされてるかチェック() throws Exception {
-		Map<EntityRef<? extends ColumnModel>, String> map = Maps.newHashMap();
-		map.put(mock(EntityRef.class), "a");
-		map.put(mock(EntityRef.class), "b");
-		map.put(mock(EntityRef.class), "c");
+		Map<EntityRef<? extends ColumnModel>, ScriptString> map = Maps.newHashMap();
+		map.put(mock(EntityRef.class), new ScriptString("a"));
+		map.put(mock(EntityRef.class), new ScriptString("b"));
+		map.put(mock(EntityRef.class), new ScriptString("c"));
 		DefaultRecordModel model1 = new DefaultRecordModel(map);
 		
 		assertThat(model1.getValues().size(), is(3));
 		
-		map.put(mock(EntityRef.class), "d"); // model1に影響しないはず
-		model1.getValues().put(mock(EntityRef.class), "e"); // これもclone返ししているので影響しないはず
+		map.put(mock(EntityRef.class), new ScriptString("d")); // model1に影響しないはず
+		model1.getValues().put(mock(EntityRef.class), new ScriptString("e")); // これもclone返ししているので影響しないはず
 		
 		assertThat(model1.getValues().size(), is(3));
-		assertThat(model1.getValues().containsValue("a"), is(true));
-		assertThat(model1.getValues().containsValue("b"), is(true));
-		assertThat(model1.getValues().containsValue("c"), is(true));
-		assertThat(model1.getValues().containsValue("d"), is(false));
+		assertThat(model1.getValues().containsValue(new ScriptString("a")), is(true));
+		assertThat(model1.getValues().containsValue(new ScriptString("b")), is(true));
+		assertThat(model1.getValues().containsValue(new ScriptString("c")), is(true));
+		assertThat(model1.getValues().containsValue(new ScriptString("d")), is(false));
 	}
 	
 	/**
@@ -94,14 +97,14 @@ public class DefaultRecordModelTest {
 	@Test
 	@SuppressWarnings("unchecked")
 	public void test02_equals() throws Exception {
-		Map<EntityRef<? extends ColumnModel>, String> map = Maps.newHashMap();
-		map.put(mock(EntityRef.class), "a");
-		map.put(mock(EntityRef.class), "b");
-		map.put(mock(EntityRef.class), "c");
+		Map<EntityRef<? extends ColumnModel>, ScriptString> map = Maps.newHashMap();
+		map.put(mock(EntityRef.class), new ScriptString("a"));
+		map.put(mock(EntityRef.class), new ScriptString("b"));
+		map.put(mock(EntityRef.class), new ScriptString("c"));
 		DefaultRecordModel model1 = new DefaultRecordModel(map);
 		DefaultRecordModel model2 = new DefaultRecordModel(map);
 		
-		map.put(mock(EntityRef.class), "d");
+		map.put(mock(EntityRef.class), new ScriptString("d"));
 		
 		DefaultRecordModel model3 = new DefaultRecordModel(map);
 		

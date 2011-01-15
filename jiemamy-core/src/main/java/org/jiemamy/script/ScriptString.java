@@ -74,12 +74,50 @@ public final class ScriptString {
 		this.scriptEngineClassName = scriptEngineClassName;
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		ScriptString other = (ScriptString) obj;
+		if (script == null) {
+			if (other.script != null) {
+				return false;
+			}
+		} else if (!script.equals(other.script)) {
+			return false;
+		}
+		if (scriptEngineClassName == null) {
+			if (other.scriptEngineClassName != null) {
+				return false;
+			}
+		} else if (!scriptEngineClassName.equals(other.scriptEngineClassName)) {
+			return false;
+		}
+		return true;
+	}
+	
 	public String getScript() {
 		return script;
 	}
 	
 	public String getScriptEngineClassName() {
 		return scriptEngineClassName;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((script == null) ? 0 : script.hashCode());
+		result = prime * result + ((scriptEngineClassName == null) ? 0 : scriptEngineClassName.hashCode());
+		return result;
 	}
 	
 	public String process(JiemamyContext context, Map<String, Object> env) throws ClassNotFoundException {

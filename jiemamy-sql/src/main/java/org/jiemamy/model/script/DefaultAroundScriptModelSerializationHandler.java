@@ -90,7 +90,7 @@ public final class DefaultAroundScriptModelSerializationHandler extends Serializ
 						scriptModel.setCoreModelRef(core);
 					} else if (childCursor.isQName(SqlQName.SCRIPT)) {
 						Position position = childCursor.getAttrEnumValue(SqlQName.POSITION, Position.class);
-						String engine = childCursor.getAttrValue(SqlQName.ENGINE);
+						String engine = childCursor.getAttrValue(CoreQName.ENGINE);
 						String script = childCursor.collectDescendantText(true);
 						scriptModel.setScript(position, script, engine);
 					} else {
@@ -124,7 +124,7 @@ public final class DefaultAroundScriptModelSerializationHandler extends Serializ
 				ScriptString value = e.getValue();
 				JiemamyOutputElement scriptElement = aroundScriptElement.addElement(SqlQName.SCRIPT);
 				scriptElement.addAttribute(SqlQName.POSITION, e.getKey());
-				scriptElement.addAttribute(SqlQName.ENGINE, value.getScriptEngineClassName());
+				scriptElement.addAttribute(CoreQName.ENGINE, value.getScriptEngineClassName());
 				scriptElement.addCharacters(value.getScript());
 			}
 			

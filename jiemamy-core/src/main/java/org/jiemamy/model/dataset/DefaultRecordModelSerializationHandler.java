@@ -33,6 +33,7 @@ import org.slf4j.LoggerFactory;
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.column.ColumnModel;
+import org.jiemamy.script.ScriptString;
 import org.jiemamy.serializer.SerializationException;
 import org.jiemamy.serializer.stax2.DeserializationContext;
 import org.jiemamy.serializer.stax2.JiemamyCursor;
@@ -72,7 +73,7 @@ public final class DefaultRecordModelSerializationHandler extends SerializationH
 			
 			JiemamyCursor cursor = ctx.peek();
 			
-			Map<EntityRef<? extends ColumnModel>, String> values = Maps.newHashMap();
+			Map<EntityRef<? extends ColumnModel>, ScriptString> values = Maps.newHashMap();
 			
 			JiemamyCursor childCursor = cursor.childElementCursor();
 			ctx.push(childCursor);
@@ -110,16 +111,18 @@ public final class DefaultRecordModelSerializationHandler extends SerializationH
 			
 			JiemamyContext context = sctx.getContext();
 			
-			Iterable<Entry<EntityRef<? extends ColumnModel>, String>> values =
+			Iterable<Entry<EntityRef<? extends ColumnModel>, ScriptString>> values =
 					model.toIterable(sctx.getContext(), sctx.getCurrentTableRef());
-			for (Entry<EntityRef<? extends ColumnModel>, String> e : values) {
+			for (Entry<EntityRef<? extends ColumnModel>, ScriptString> e : values) {
 				EntityRef<? extends ColumnModel> columnRef = e.getKey();
+				ScriptString value = e.getValue();
 				if (JiemamyContext.isDebug()) {
 					recordsElement.addComment(" ColumnName: " + context.resolve(columnRef).getName() + " ");
 				}
 				JiemamyOutputElement recordElement = recordsElement.addElement(CoreQName.RECORD);
 				recordElement.addAttribute(CoreQName.REF, columnRef.getReferentId());
-				recordElement.addCharacters(e.getValue());
+				recordElement.addAttribute(CoreQName.ENGINE, value.getScriptEngineClassName());
+				recordElement.addCharacters(value.getScript());
 			}
 			
 			sctx.pop();

@@ -34,6 +34,7 @@ import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.utils.MutationMonitor;
 import org.jiemamy.model.column.ColumnModel;
 import org.jiemamy.model.table.TableModel;
+import org.jiemamy.script.ScriptString;
 
 /**
  * レコード（INSERT文1つ分）モデル。
@@ -43,7 +44,7 @@ import org.jiemamy.model.table.TableModel;
 public final class DefaultRecordModel implements RecordModel {
 	
 	/** カラムに対応するデータ */
-	private final Map<EntityRef<? extends ColumnModel>, String> values;
+	private final Map<EntityRef<? extends ColumnModel>, ScriptString> values;
 	
 
 	/**
@@ -53,7 +54,7 @@ public final class DefaultRecordModel implements RecordModel {
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @throws IllegalArgumentException 引数に{@code null}をキーに含む{@link Map}を与えた場合
 	 */
-	public DefaultRecordModel(Map<EntityRef<? extends ColumnModel>, String> values) {
+	public DefaultRecordModel(Map<EntityRef<? extends ColumnModel>, ScriptString> values) {
 		Validate.notNull(values);
 		Validate.noNullElements(values.keySet());
 		/* Validate.noNullElements(values.values()); */// valuesにはnullを含むことがある 
@@ -75,7 +76,7 @@ public final class DefaultRecordModel implements RecordModel {
 		return values.equals(other.values);
 	}
 	
-	public Map<EntityRef<? extends ColumnModel>, String> getValues() {
+	public Map<EntityRef<? extends ColumnModel>, ScriptString> getValues() {
 		assert values != null;
 		return MutationMonitor.monitor(Maps.newHashMap(values));
 	}
@@ -85,12 +86,12 @@ public final class DefaultRecordModel implements RecordModel {
 		return values.hashCode();
 	}
 	
-	public Iterable<Entry<EntityRef<? extends ColumnModel>, String>> toIterable(JiemamyContext context,
+	public Iterable<Entry<EntityRef<? extends ColumnModel>, ScriptString>> toIterable(JiemamyContext context,
 			EntityRef<? extends TableModel> tableRef) {
 		Validate.notNull(context);
 		Validate.notNull(tableRef);
 		final TableModel tableModel = context.resolve(tableRef);
-		Map<EntityRef<? extends ColumnModel>, String> sortedMap =
+		Map<EntityRef<? extends ColumnModel>, ScriptString> sortedMap =
 				Maps.newTreeMap(new ColumnOrderComparator(tableModel));
 		sortedMap.putAll(values);
 		return sortedMap.entrySet();

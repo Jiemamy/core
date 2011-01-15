@@ -41,9 +41,6 @@ public enum SqlQName implements JiemamyQName {
 	SCRIPT(SqlNamespace.NS_SQL, "script"),
 
 	/***/
-	ENGINE(SqlNamespace.NONE, "engine"),
-
-	/***/
 	POSITION(SqlNamespace.NONE, "position");
 	
 	/** XML仕様における完全修飾名 */
