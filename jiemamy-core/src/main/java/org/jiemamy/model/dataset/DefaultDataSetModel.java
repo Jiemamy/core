@@ -23,7 +23,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -32,6 +31,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
 import org.jiemamy.dddbase.AbstractEntity;
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.utils.CloneUtil;
 import org.jiemamy.dddbase.utils.MutationMonitor;
 import org.jiemamy.model.table.TableModel;
 
@@ -65,16 +65,17 @@ public final class DefaultDataSetModel extends AbstractEntity implements DataSet
 	}
 	
 	@Override
-	public DefaultDataSetModel clone() {
+	public synchronized DefaultDataSetModel clone() {
 		DefaultDataSetModel clone = (DefaultDataSetModel) super.clone();
-		clone.records = Maps.newHashMap();
-		for (Entry<EntityRef<? extends TableModel>, List<RecordModel>> e : records.entrySet()) {
-			List<RecordModel> cloneValue = Lists.newArrayList();
-			for (RecordModel recordModel : e.getValue()) {
-				cloneValue.add(recordModel);
-			}
-			clone.records.put(e.getKey(), cloneValue);
+		
+		Map<EntityRef<? extends TableModel>, List<RecordModel>> cloneMap =
+				Maps.newHashMapWithExpectedSize(records.size());
+		for (Entry<EntityRef<? extends TableModel>, List<RecordModel>> entry : records.entrySet()) {
+			List<RecordModel> value = entry.getValue();
+			cloneMap.put(entry.getKey(), CloneUtil.cloneValueArrayList(value));
 		}
+		clone.records = cloneMap;
+		
 		return clone;
 	}
 	
@@ -91,7 +92,7 @@ public final class DefaultDataSetModel extends AbstractEntity implements DataSet
 		return name;
 	}
 	
-	public void getRecord(EntityRef<? extends TableModel> ref) {
+	public synchronized void getRecord(EntityRef<? extends TableModel> ref) {
 		records.get(ref);
 	}
 	
@@ -100,15 +101,15 @@ public final class DefaultDataSetModel extends AbstractEntity implements DataSet
 	 * 
 	 * @return レコード情報
 	 */
-	public Map<EntityRef<? extends TableModel>, List<RecordModel>> getRecords() {
+	public synchronized Map<EntityRef<? extends TableModel>, List<RecordModel>> getRecords() {
 		return MutationMonitor.monitor(Maps.newHashMap(records));
 	}
 	
-	public void putRecord(EntityRef<? extends TableModel> ref, List<RecordModel> record) {
+	public synchronized void putRecord(EntityRef<? extends TableModel> ref, List<RecordModel> record) {
 		records.put(ref, record);
 	}
 	
-	public void removeRecord(EntityRef<? extends TableModel> ref) {
+	public synchronized void removeRecord(EntityRef<? extends TableModel> ref) {
 		records.remove(ref);
 	}
 	
@@ -125,7 +126,7 @@ public final class DefaultDataSetModel extends AbstractEntity implements DataSet
 		this.name = name;
 	}
 	
-	public EntityRef<DefaultDataSetModel> toReference() {
+	public EntityRef<? extends DefaultDataSetModel> toReference() {
 		return new DefaultEntityRef<DefaultDataSetModel>(this);
 	}
 	

@@ -21,7 +21,6 @@ package org.jiemamy;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.jiemamy.utils.RandomUtil.integer;
-import static org.jiemamy.utils.RandomUtil.strNullable;
 import static org.junit.Assert.assertThat;
 
 import java.util.Iterator;
@@ -30,9 +29,7 @@ import java.util.Set;
 import org.junit.Test;
 
 import org.jiemamy.model.script.DefaultAroundScriptModelTest;
-import org.jiemamy.model.table.DefaultTableModelTest;
 import org.jiemamy.model.table.TableModel;
-import org.jiemamy.model.view.DefaultViewModelTest;
 
 /**
  * TODO for daisuke
@@ -48,23 +45,7 @@ public class JiemamyContextSqlTest {
 	 * @return {@link JiemamyContext}
 	 */
 	public static JiemamyContext random() {
-		JiemamyContext context = new JiemamyContext(SqlFacet.PROVIDER);
-		context.setDescription(strNullable());
-		context.setDialectClassName(strNullable());
-		context.setSchemaName(strNullable());
-		
-		// tablemodelの生成
-		int count = integer(5) + 1;
-		for (int i = 0; i < count; i++) {
-			context.store(DefaultTableModelTest.random());
-		}
-		// viewmodelの生成
-		count = integer(5) + 1;
-		for (int i = 0; i < count; i++) {
-			context.store(DefaultViewModelTest.random());
-		}
-		
-		// TODO datasetとかもstoreする
+		JiemamyContext context = JiemamyContextTest.random(SqlFacet.PROVIDER);
 		
 		SqlFacet facet = context.getFacet(SqlFacet.class);
 		

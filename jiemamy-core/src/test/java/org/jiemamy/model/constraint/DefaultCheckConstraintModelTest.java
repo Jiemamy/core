@@ -22,7 +22,13 @@ import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
+import static org.jiemamy.utils.RandomUtil.enumeNullable;
+import static org.jiemamy.utils.RandomUtil.str;
+import static org.jiemamy.utils.RandomUtil.strNotEmpty;
+import static org.jiemamy.utils.RandomUtil.strNullable;
 import static org.junit.Assert.assertThat;
+
+import java.util.UUID;
 
 import org.junit.Test;
 
@@ -33,6 +39,21 @@ import org.junit.Test;
  * @author daisuke
  */
 public class DefaultCheckConstraintModelTest {
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @return
+	 */
+	public static DefaultCheckConstraintModel random() {
+		DefaultCheckConstraintModel model = new DefaultCheckConstraintModel(UUID.randomUUID());
+		model.setName(str());
+		model.setLogicalName(strNullable());
+		model.setDescription(strNullable());
+		model.setDeferrability(enumeNullable(DefaultDeferrabilityModel.class));
+		model.setExpression(strNotEmpty());
+		return model;
+	}
 	
 	/**
 	 * {@link DefaultCheckConstraintModel#of(String)}及び

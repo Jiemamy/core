@@ -19,10 +19,13 @@
 package org.jiemamy.model.dataset;
 
 import java.util.Map;
+import java.util.Map.Entry;
 
+import org.jiemamy.JiemamyContext;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.ValueObject;
 import org.jiemamy.model.column.ColumnModel;
+import org.jiemamy.model.table.TableModel;
 
 /**
  * DB上のデータの各レコード（Row）を表すモデルインターフェイス。
@@ -74,4 +77,14 @@ public interface RecordModel extends ValueObject {
 	 */
 	Map<EntityRef<? extends ColumnModel>, String> getValues();
 	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param context コンテキスト
+	 * @param tableRef テーブル参照
+	 * @return {@link Iterable}
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	Iterable<Entry<EntityRef<? extends ColumnModel>, String>> toIterable(JiemamyContext context,
+			EntityRef<? extends TableModel> tableRef);
 }

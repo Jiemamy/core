@@ -26,7 +26,9 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.jiemamy.utils.RandomUtil.bool;
 import static org.jiemamy.utils.RandomUtil.integer;
+import static org.jiemamy.utils.RandomUtil.meta;
 import static org.jiemamy.utils.RandomUtil.str;
+import static org.jiemamy.utils.RandomUtil.strNotEmpty;
 import static org.junit.Assert.assertThat;
 
 import java.util.UUID;
@@ -61,7 +63,7 @@ public class DefaultColumnModelTest {
 	 */
 	public static DefaultColumnModel random() {
 		DefaultColumnModel model = new DefaultColumnModel(UUID.randomUUID());
-		model.setName(str());
+		model.setName(meta(3));
 		model.setLogicalName(str());
 		model.setDescription(str());
 		model.setDefaultValue(str());
@@ -72,13 +74,14 @@ public class DefaultColumnModelTest {
 		for (int i = 0; i < integer; i++) {
 			int p = RandomUtil.integer(2);
 			if (p == 0) {
-				model.putParam(new ColumnParameterKey<Boolean>(new BooleanConverter(), str()), bool());
+				model.putParam(new ColumnParameterKey<Boolean>(new BooleanConverter(), strNotEmpty()), bool());
 			} else if (p == 1) {
-				model.putParam(new ColumnParameterKey<Integer>(new IntegerConverter(), str()), integer(100));
+				model.putParam(new ColumnParameterKey<Integer>(new IntegerConverter(), strNotEmpty()), integer(100));
 			} else {
-				model.putParam(new ColumnParameterKey<String>(new StringConverter(), str()), RandomUtil.str());
+				model.putParam(new ColumnParameterKey<String>(new StringConverter(), strNotEmpty()), str());
 			}
 		}
+		
 		return model;
 	}
 	

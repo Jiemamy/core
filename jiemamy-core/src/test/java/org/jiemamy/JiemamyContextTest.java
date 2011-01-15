@@ -45,6 +45,7 @@ import org.jiemamy.model.column.ColumnModel;
 import org.jiemamy.model.column.DefaultColumnModel;
 import org.jiemamy.model.constraint.DefaultForeignKeyConstraintModel;
 import org.jiemamy.model.constraint.DefaultPrimaryKeyConstraintModel;
+import org.jiemamy.model.dataset.DefaultDataSetModelTest;
 import org.jiemamy.model.table.DefaultTableModel;
 import org.jiemamy.model.table.DefaultTableModelTest;
 import org.jiemamy.model.table.Table;
@@ -78,24 +79,30 @@ public class JiemamyContextTest {
 	 * 
 	 * @return {@link JiemamyContext}
 	 */
-	public static JiemamyContext random() {
-		JiemamyContext context = new JiemamyContext();
+	public static JiemamyContext random(FacetProvider... providers) {
+		JiemamyContext context = new JiemamyContext(providers);
 		context.setDescription(strNullable());
 		context.setDialectClassName(strNullable());
 		context.setSchemaName(strNullable());
 		
 		// tablemodelの生成
-		int count = integer(5) + 1;
-		for (int i = 0; i < count; i++) {
+		int size = integer(5) + 1;
+		for (int i = 0; i < size; i++) {
 			context.store(DefaultTableModelTest.random());
 		}
 		// viewmodelの生成
-		count = integer(5) + 1;
-		for (int i = 0; i < count; i++) {
+		size = integer(5) + 1;
+		for (int i = 0; i < size; i++) {
 			context.store(DefaultViewModelTest.random());
 		}
 		
-		// TODO datasetとかもstoreする
+		// TODO domain, indexとかもstoreする
+		
+		// dateSetの生成
+		size = integer(5) + 1;
+		for (int i = 0; i < size; i++) {
+			context.store(DefaultDataSetModelTest.random(context.getTables()));
+		}
 		
 		return context;
 	}

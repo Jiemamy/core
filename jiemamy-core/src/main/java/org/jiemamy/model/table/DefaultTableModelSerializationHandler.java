@@ -143,8 +143,8 @@ public final class DefaultTableModelSerializationHandler extends SerializationHa
 			sctx.pop();
 			
 			sctx.push(element.addElement(CoreQName.CONSTRAINTS));
-			for (ConstraintModel constraints : model.getConstraints()) {
-				getDirector().direct(constraints, sctx);
+			for (ConstraintModel constraint : model.getConstraints()) {
+				getDirector().direct(constraint, sctx);
 			}
 			sctx.pop();
 			

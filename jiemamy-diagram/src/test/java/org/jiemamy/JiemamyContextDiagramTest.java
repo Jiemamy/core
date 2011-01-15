@@ -21,14 +21,11 @@ package org.jiemamy;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.jiemamy.utils.RandomUtil.integer;
-import static org.jiemamy.utils.RandomUtil.strNullable;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
 import org.jiemamy.model.DefaultDiagramModelTest;
-import org.jiemamy.model.table.DefaultTableModelTest;
-import org.jiemamy.model.view.DefaultViewModelTest;
 
 /**
  * TODO for daisuke
@@ -44,28 +41,11 @@ public class JiemamyContextDiagramTest {
 	 * @return {@link JiemamyContext}
 	 */
 	public static JiemamyContext random() {
-		JiemamyContext context = new JiemamyContext(DiagramFacet.PROVIDER);
-		context.setDescription(strNullable());
-		context.setDialectClassName(strNullable());
-		context.setSchemaName(strNullable());
-		
-		// tablemodelの生成
-		int count = integer(5) + 1;
-		for (int i = 0; i < count; i++) {
-			context.store(DefaultTableModelTest.random());
-		}
-		// viewmodelの生成
-		count = integer(5) + 1;
-		for (int i = 0; i < count; i++) {
-			context.store(DefaultViewModelTest.random());
-		}
-		
-		// TODO datasetとかもstoreする
-		
+		JiemamyContext context = JiemamyContextTest.random(DiagramFacet.PROVIDER);
 		DiagramFacet facet = context.getFacet(DiagramFacet.class);
 		
 		// tablemodelの生成
-		count = integer(5) + 1;
+		int count = integer(5) + 1;
 		for (int i = 0; i < count; i++) {
 			facet.store(DefaultDiagramModelTest.random(context.getTables()));
 		}

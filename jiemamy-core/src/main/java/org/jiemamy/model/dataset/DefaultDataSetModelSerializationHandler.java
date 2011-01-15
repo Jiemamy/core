@@ -16,8 +16,10 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.model.constraint;
+package org.jiemamy.model.dataset;
 
+import java.util.List;
+import java.util.Map.Entry;
 import java.util.UUID;
 
 import javax.xml.stream.XMLStreamException;
@@ -27,9 +29,9 @@ import org.codehaus.staxmate.in.SMEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.jiemamy.JiemamyContext;
 import org.jiemamy.dddbase.EntityRef;
-import org.jiemamy.model.column.ColumnModel;
-import org.jiemamy.model.table.DefaultTableModel;
+import org.jiemamy.model.table.TableModel;
 import org.jiemamy.serializer.SerializationException;
 import org.jiemamy.serializer.stax2.DeserializationContext;
 import org.jiemamy.serializer.stax2.JiemamyCursor;
@@ -41,15 +43,14 @@ import org.jiemamy.serializer.stax2.SerializationHandler;
 import org.jiemamy.xml.CoreQName;
 
 /**
- * {@link DefaultTableModel}をシリアライズ/デシリアライズするハンドラ。
+ * {@link DefaultDataSetModel}をシリアライズ/デシリアライズするハンドラ。
  * 
  * @version $Id$
  * @author daisuke
  */
-public final class DefaultNotNullConstraintModelSerializationHandler extends
-		SerializationHandler<DefaultNotNullConstraintModel> {
+public final class DefaultDataSetModelSerializationHandler extends SerializationHandler<DefaultDataSetModel> {
 	
-	private static Logger logger = LoggerFactory.getLogger(DefaultNotNullConstraintModelSerializationHandler.class);
+	private static Logger logger = LoggerFactory.getLogger(DefaultDataSetModelSerializationHandler.class);
 	
 
 	/**
@@ -57,23 +58,22 @@ public final class DefaultNotNullConstraintModelSerializationHandler extends
 	 * 
 	 * @param director 親となるディレクタ
 	 */
-	public DefaultNotNullConstraintModelSerializationHandler(SerializationDirector director) {
+	public DefaultDataSetModelSerializationHandler(SerializationDirector director) {
 		super(director);
 	}
 	
 	@Override
-	public DefaultNotNullConstraintModel handleDeserialization(DeserializationContext ctx)
-			throws SerializationException {
+	public DefaultDataSetModel handleDeserialization(DeserializationContext ctx) throws SerializationException {
 		Validate.notNull(ctx);
 		try {
 			Validate.isTrue(ctx.peek().getCurrEvent() == SMEvent.START_ELEMENT);
-			Validate.isTrue(ctx.peek().isQName(CoreQName.NOT_NULL));
+			Validate.isTrue(ctx.peek().isQName(CoreQName.DATASET));
 			
 			JiemamyCursor cursor = ctx.peek();
 			
 			String idString = cursor.getAttrValue(CoreQName.ID);
 			UUID id = ctx.getContext().toUUID(idString);
-			DefaultNotNullConstraintModel notNull = new DefaultNotNullConstraintModel(id);
+			DefaultDataSetModel tableModel = new DefaultDataSetModel(id);
 			
 			JiemamyCursor childCursor = cursor.childElementCursor();
 			ctx.push(childCursor);
@@ -81,21 +81,18 @@ public final class DefaultNotNullConstraintModelSerializationHandler extends
 				childCursor.advance();
 				if (childCursor.getCurrEvent() == SMEvent.START_ELEMENT) {
 					if (childCursor.isQName(CoreQName.NAME)) {
-						notNull.setName(childCursor.collectDescendantText(false));
-					} else if (childCursor.isQName(CoreQName.LOGICAL_NAME)) {
-						notNull.setLogicalName(childCursor.collectDescendantText(false));
-					} else if (childCursor.isQName(CoreQName.DESCRIPTION)) {
-						notNull.setDescription(childCursor.collectDescendantText(false));
-					} else if (childCursor.isQName(CoreQName.DEFERRABILITY)) {
-						String text = childCursor.collectDescendantText(false);
-						notNull.setDeferrability(DefaultDeferrabilityModel.valueOf(text));
-					} else if (childCursor.isQName(CoreQName.COLUMN_REF)) {
-						JiemamyCursor descendantCursor = childCursor.childElementCursor().advance();
-						if (descendantCursor.getCurrEvent() != null) {
-							ctx.push(descendantCursor);
-							EntityRef<? extends ColumnModel> ref = getDirector().direct(ctx);
-							assert ref != null;
-							notNull.setColumn(ref);
+						tableModel.setName(childCursor.collectDescendantText(false));
+					} else if (childCursor.isQName(CoreQName.TABLE_RECORDS)) {
+						JiemamyCursor tableRecordsCursor = childCursor.childElementCursor();
+						while (tableRecordsCursor.getNext() != null) {
+							ctx.push(tableRecordsCursor);
+							// FIXME
+//							ColumnModel columnModel = getDirector().direct(ctx);
+//							if (columnModel != null) {
+//								tableModel.store(columnModel);
+//							} else {
+//								logger.warn("null columnModel");
+//							}
 							ctx.pop();
 						}
 					} else {
@@ -107,35 +104,43 @@ public final class DefaultNotNullConstraintModelSerializationHandler extends
 			} while (childCursor.getCurrEvent() != null);
 			ctx.pop();
 			
-			return notNull;
+			return tableModel;
 		} catch (XMLStreamException e) {
 			throw new SerializationException(e);
 		}
 	}
 	
 	@Override
-	public void handleSerialization(DefaultNotNullConstraintModel model, SerializationContext sctx)
-			throws SerializationException {
+	public void handleSerialization(DefaultDataSetModel model, SerializationContext sctx) throws SerializationException {
 		JiemamyOutputContainer parent = sctx.peek();
 		try {
-			JiemamyOutputElement element = parent.addElement(CoreQName.NOT_NULL);
+			JiemamyOutputElement element = parent.addElement(CoreQName.DATASET);
 			element.addAttribute(CoreQName.ID, model.getId());
 			element.addAttribute(CoreQName.CLASS, model.getClass());
 			
 			element.addElementAndCharacters(CoreQName.NAME, model.getName());
-			element.addElementAndCharacters(CoreQName.LOGICAL_NAME, model.getLogicalName());
-			element.addElementAndCharacters(CoreQName.DESCRIPTION, model.getDescription());
-			if (model.getDeferrability() != null) {
-				getDirector().direct(model.getDeferrability(), sctx);
-			}
 			
-			JiemamyOutputElement colRefElement = element.addElement(CoreQName.COLUMN_REF);
-			EntityRef<? extends ColumnModel> colRef = model.getColumnRef();
-			if (colRef != null) {
-				colRefElement.addAttribute(CoreQName.REF, colRef.getReferentId());
-			} else {
-				logger.warn("NotNullConstraint target is null.");
+			JiemamyOutputElement tableRecordsElement = element.addElement(CoreQName.TABLE_RECORDS);
+			sctx.push(tableRecordsElement);
+			
+			JiemamyContext context = sctx.getContext();
+			
+			for (Entry<EntityRef<? extends TableModel>, List<RecordModel>> entry : model.getRecords().entrySet()) {
+				EntityRef<? extends TableModel> tableRef = entry.getKey();
+				JiemamyOutputElement tableRecordElement = tableRecordsElement.addElement(CoreQName.TABLE_RECORD);
+				tableRecordElement.addAttribute(CoreQName.REF, tableRef.getReferentId());
+				if (JiemamyContext.isDebug()) {
+					tableRecordElement.addComment(" TableName: " + context.resolve(tableRef).getName() + " ");
+				}
+				sctx.push(tableRecordElement);
+				sctx.setCurrentTableRef(tableRef);
+				for (RecordModel recordModel : entry.getValue()) {
+					getDirector().direct(recordModel, sctx);
+				}
+				sctx.setCurrentTableRef(null);
+				sctx.pop();
 			}
+			sctx.pop();
 		} catch (XMLStreamException e) {
 			throw new SerializationException(e);
 		}

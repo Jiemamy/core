@@ -19,9 +19,12 @@
 package org.jiemamy.model.dataset;
 
 import static org.hamcrest.Matchers.is;
+import static org.jiemamy.utils.RandomUtil.bool;
+import static org.jiemamy.utils.RandomUtil.strNullable;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 
+import java.util.List;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
@@ -38,6 +41,24 @@ import org.jiemamy.model.column.ColumnModel;
  * @author daisuke
  */
 public class DefaultRecordModelTest {
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param columns 
+	 * @return
+	 */
+	public static DefaultRecordModel random(List<ColumnModel> columns) {
+		Map<EntityRef<? extends ColumnModel>, String> values = Maps.newHashMap();
+		
+		for (ColumnModel columnModel : columns) {
+			if (bool()) {
+				values.put(columnModel.toReference(), strNullable());
+			}
+		}
+		
+		return new DefaultRecordModel(values);
+	}
 	
 	/**
 	 * mapがしっかりcloneされてるかチェック。

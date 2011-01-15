@@ -270,7 +270,7 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	public NotNullConstraintModel getNotNullConstraintFor(EntityRef<? extends ColumnModel> reference) {
 		Validate.notNull(reference);
 		for (NotNullConstraintModel nn : getConstraints(NotNullConstraintModel.class)) {
-			if (nn.getColumn().equals(reference)) {
+			if (nn.getColumnRef().equals(reference)) {
 				return nn;
 			}
 		}
@@ -300,7 +300,7 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	public boolean isNotNullColumn(EntityRef<? extends ColumnModel> ref) {
 		Collection<NotNullConstraintModel> nns = getConstraints(NotNullConstraintModel.class);
 		for (NotNullConstraintModel nn : nns) {
-			if (nn.getColumn().equals(ref)) {
+			if (nn.getColumnRef().equals(ref)) {
 				return true;
 			}
 		}

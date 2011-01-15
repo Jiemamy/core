@@ -128,7 +128,9 @@ public class JiemamyOutputContainer {
 	}
 	
 	public void addCharacters(String text) throws XMLStreamException {
-		container.addCharacters(text);
+		if (text != null) {
+			container.addCharacters(text);
+		}
 	}
 	
 	/**
@@ -139,7 +141,9 @@ public class JiemamyOutputContainer {
 	 * @see org.codehaus.staxmate.out.SMOutputContainer#addComment(java.lang.String)
 	 */
 	public void addComment(String text) throws XMLStreamException {
-		container.addComment(text);
+		if (StringUtils.isEmpty(text) == false) {
+			container.addComment(text);
+		}
 	}
 	
 	public JiemamyOutputElement addElement(JiemamyQName jQName) throws XMLStreamException {

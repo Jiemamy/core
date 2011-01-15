@@ -20,14 +20,22 @@ package org.jiemamy.model.datatype;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
+import static org.jiemamy.utils.RandomUtil.bool;
 import static org.jiemamy.utils.RandomUtil.enume;
+import static org.jiemamy.utils.RandomUtil.integer;
 import static org.jiemamy.utils.RandomUtil.str;
+import static org.jiemamy.utils.RandomUtil.strNotEmpty;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import org.jiemamy.model.column.ColumnParameterKey;
+import org.jiemamy.model.parameter.BooleanConverter;
+import org.jiemamy.model.parameter.IntegerConverter;
 import org.jiemamy.model.parameter.ParameterMap;
+import org.jiemamy.model.parameter.StringConverter;
+import org.jiemamy.utils.RandomUtil;
 
 /**
  * {@link DefaultTypeVariant}のテストクラス。
@@ -47,7 +55,18 @@ public class DefaultTypeVariantTest {
 		String typeName = str();
 		ParameterMap params = new ParameterMap();
 		
-		// TODO paramも適当に追加する処理
+		// 適当にパラメータを追加する
+		int integer = integer(5);
+		for (int i = 0; i < integer; i++) {
+			int p = RandomUtil.integer(2);
+			if (p == 0) {
+				params.put(new ColumnParameterKey<Boolean>(new BooleanConverter(), strNotEmpty()), bool());
+			} else if (p == 1) {
+				params.put(new ColumnParameterKey<Integer>(new IntegerConverter(), strNotEmpty()), integer(100));
+			} else {
+				params.put(new ColumnParameterKey<String>(new StringConverter(), strNotEmpty()), str());
+			}
+		}
 		
 		return new DefaultTypeVariant(new DefaultTypeReference(category, typeName), params);
 	}

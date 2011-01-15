@@ -21,6 +21,8 @@ package org.jiemamy.serializer.stax2;
 import org.codehaus.staxmate.out.SMOutputDocument;
 
 import org.jiemamy.JiemamyContext;
+import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.model.table.TableModel;
 import org.jiemamy.utils.collection.ArrayEssentialStack;
 import org.jiemamy.utils.collection.EssentialStack;
 
@@ -37,6 +39,8 @@ public class SerializationContext {
 			new ArrayEssentialStack<JiemamyOutputContainer>();
 	
 	private final JiemamyContext context;
+	
+	private EntityRef<? extends TableModel> currentTableRef;
 	
 
 	/**
@@ -55,6 +59,15 @@ public class SerializationContext {
 	 */
 	public JiemamyContext getContext() {
 		return context;
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @return
+	 */
+	public EntityRef<? extends TableModel> getCurrentTableRef() {
+		return currentTableRef;
 	}
 	
 	/**
@@ -82,5 +95,13 @@ public class SerializationContext {
 	 */
 	public void push(JiemamyOutputContainer container) {
 		containerStack.push(container);
+	}
+	
+	/**
+	 * somethingを設定する。 TODO for daisuke
+	 * @param currentTableRef the currentTableRef to set
+	 */
+	public void setCurrentTableRef(EntityRef<? extends TableModel> currentTableRef) {
+		this.currentTableRef = currentTableRef;
 	}
 }

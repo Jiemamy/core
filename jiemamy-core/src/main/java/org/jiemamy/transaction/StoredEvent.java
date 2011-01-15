@@ -60,4 +60,9 @@ public class StoredEvent<T extends Entity> extends EventObject {
 		return before;
 	}
 	
+	@Override
+	public String toString() {
+		return getClass().getName() + "[source=" + getSource().getClass() + "]";
+	}
+	
 }

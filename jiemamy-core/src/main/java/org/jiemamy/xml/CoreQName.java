@@ -171,7 +171,16 @@ public enum CoreQName implements JiemamyQName {
 	DATASET(CoreNamespace.NS_CORE, "dataSet"),
 
 	/***/
+	TABLE_RECORDS(CoreNamespace.NS_CORE, "tableRecords"),
+
+	/***/
+	TABLE_RECORD(CoreNamespace.NS_CORE, "tableRecord"),
+
+	/***/
 	RECORD(CoreNamespace.NS_CORE, "record"),
+
+	/***/
+	RECORDS(CoreNamespace.NS_CORE, "records"),
 
 	// --------
 	

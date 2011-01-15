@@ -36,6 +36,10 @@ import org.jiemamy.model.constraint.DefaultNotNullConstraintModel;
 import org.jiemamy.model.constraint.DefaultNotNullConstraintModelSerializationHandler;
 import org.jiemamy.model.constraint.DefaultPrimaryKeyConstraintModel;
 import org.jiemamy.model.constraint.DefaultPrimaryKeyConstraintModelSerializationHandler;
+import org.jiemamy.model.dataset.DefaultDataSetModel;
+import org.jiemamy.model.dataset.DefaultDataSetModelSerializationHandler;
+import org.jiemamy.model.dataset.DefaultRecordModel;
+import org.jiemamy.model.dataset.DefaultRecordModelSerializationHandler;
 import org.jiemamy.model.datatype.DefaultTypeVariant;
 import org.jiemamy.model.datatype.DefaultTypeVariantSerializationHandler;
 import org.jiemamy.model.table.DefaultTableModel;
@@ -82,6 +86,9 @@ public class SerializationDirector {
 		addHandler(DefaultPrimaryKeyConstraintModel.class, CoreQName.PRIMARY_KEY,
 				new DefaultPrimaryKeyConstraintModelSerializationHandler(this));
 		addHandler(DefaultTypeVariant.class, CoreQName.DATA_TYPE, new DefaultTypeVariantSerializationHandler(this));
+		
+		addHandler(DefaultDataSetModel.class, CoreQName.DATASET, new DefaultDataSetModelSerializationHandler(this));
+		addHandler(DefaultRecordModel.class, CoreQName.RECORD, new DefaultRecordModelSerializationHandler(this));
 		// TODO ... 色々まだ追加するものがあるはず
 		
 		for (JiemamyFacet jiemamyFacet : context.getFacets()) {

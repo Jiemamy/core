@@ -18,7 +18,10 @@
  */
 package org.jiemamy.model.dataset;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.google.common.collect.Maps;
 
@@ -26,9 +29,11 @@ import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
+import org.jiemamy.JiemamyContext;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.utils.MutationMonitor;
 import org.jiemamy.model.column.ColumnModel;
+import org.jiemamy.model.table.TableModel;
 
 /**
  * レコード（INSERT文1つ分）モデル。
@@ -45,11 +50,13 @@ public final class DefaultRecordModel implements RecordModel {
 	 * インスタンスを生成する。
 	 * 
 	 * @param values カラムに対応するデータ
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @throws IllegalArgumentException 引数に{@code null}をキーに含む{@link Map}を与えた場合
 	 */
 	public DefaultRecordModel(Map<EntityRef<? extends ColumnModel>, String> values) {
 		Validate.notNull(values);
 		Validate.noNullElements(values.keySet());
-		Validate.noNullElements(values.values());
+		/* Validate.noNullElements(values.values()); */// valuesにはnullを含むことがある 
 		this.values = Maps.newHashMap(values);
 	}
 	
@@ -78,9 +85,39 @@ public final class DefaultRecordModel implements RecordModel {
 		return values.hashCode();
 	}
 	
+	public Iterable<Entry<EntityRef<? extends ColumnModel>, String>> toIterable(JiemamyContext context,
+			EntityRef<? extends TableModel> tableRef) {
+		Validate.notNull(context);
+		Validate.notNull(tableRef);
+		final TableModel tableModel = context.resolve(tableRef);
+		Map<EntityRef<? extends ColumnModel>, String> sortedMap =
+				Maps.newTreeMap(new Comparator<EntityRef<? extends ColumnModel>>() {
+					
+					public int compare(EntityRef<? extends ColumnModel> o1, EntityRef<? extends ColumnModel> o2) {
+						int i1 = -1;
+						int i2 = -1;
+						List<ColumnModel> columns = tableModel.getColumns();
+						for (ColumnModel columnModel : columns) {
+							if (o1.isReferenceOf(columnModel)) {
+								i1 = columns.indexOf(columnModel);
+							}
+							if (o2.isReferenceOf(columnModel)) {
+								i2 = columns.indexOf(columnModel);
+							}
+						}
+						if (i1 == -1 && i2 == -1) {
+							return o1.getReferentId().compareTo(o2.getReferentId());
+						}
+						
+						return i1 - i2;
+					}
+				});
+		sortedMap.putAll(values);
+		return sortedMap.entrySet();
+	}
+	
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
-	
 }

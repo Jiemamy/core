@@ -21,6 +21,7 @@ package org.jiemamy.utils;
 import java.util.Random;
 
 import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang.text.StrBuilder;
 
 /**
  * 乱数を使って適当なデータを生成するためのテスト用ユーティリティクラス。
@@ -31,6 +32,22 @@ import org.apache.commons.lang.RandomStringUtils;
 public final class RandomUtil {
 	
 	static final Random R = new Random();
+	
+	static final String[] META = {
+		"foo",
+		"bar",
+		"baz",
+		"qux",
+		"quux",
+		"corge",
+		"grault",
+		"garply",
+		"waldo",
+		"fred",
+		"plugh",
+		"xyzzy",
+		"thud"
+	};
 	
 
 	public static boolean bool() {
@@ -55,6 +72,18 @@ public final class RandomUtil {
 	 */
 	public static int integer(int limit) {
 		return Math.abs(R.nextInt()) % limit;
+	}
+	
+	public static String meta() {
+		return meta(1);
+	}
+	
+	public static String meta(int size) {
+		StrBuilder sb = new StrBuilder();
+		for (int i = 0; i < size; i++) {
+			sb.append(META[R.nextInt(META.length)]);
+		}
+		return sb.toString();
 	}
 	
 	/**

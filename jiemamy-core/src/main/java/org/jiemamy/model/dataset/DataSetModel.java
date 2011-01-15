@@ -34,6 +34,8 @@ import org.jiemamy.model.table.TableModel;
  */
 public interface DataSetModel extends CoreElement, OrderedEntity {
 	
+	DataSetModel clone();
+	
 	/**
 	 * データセット名を取得する。
 	 * 
@@ -53,5 +55,4 @@ public interface DataSetModel extends CoreElement, OrderedEntity {
 	Map<EntityRef<? extends TableModel>, List<RecordModel>> getRecords();
 	
 	EntityRef<? extends DataSetModel> toReference();
-	
 }

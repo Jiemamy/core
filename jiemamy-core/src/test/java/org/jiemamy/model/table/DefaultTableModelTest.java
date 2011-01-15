@@ -22,6 +22,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasItems;
 import static org.jiemamy.utils.RandomUtil.bool;
 import static org.jiemamy.utils.RandomUtil.integer;
+import static org.jiemamy.utils.RandomUtil.meta;
 import static org.jiemamy.utils.RandomUtil.str;
 import static org.jiemamy.utils.RandomUtil.strNotEmpty;
 import static org.junit.Assert.assertThat;
@@ -38,13 +39,22 @@ import org.jiemamy.JiemamyContext;
 import org.jiemamy.model.DatabaseObjectModel;
 import org.jiemamy.model.column.Column;
 import org.jiemamy.model.column.ColumnModel;
+import org.jiemamy.model.column.ColumnParameterKey;
 import org.jiemamy.model.column.DefaultColumnModel;
 import org.jiemamy.model.column.DefaultColumnModelTest;
+import org.jiemamy.model.constraint.DefaultCheckConstraintModelTest;
 import org.jiemamy.model.constraint.DefaultForeignKeyConstraintModel;
+import org.jiemamy.model.constraint.DefaultNotNullConstraintModelTest;
 import org.jiemamy.model.constraint.DefaultPrimaryKeyConstraintModel;
 import org.jiemamy.model.constraint.DefaultPrimaryKeyConstraintModelTest;
+import org.jiemamy.model.constraint.DefaultUniqueKeyConstraintModel;
+import org.jiemamy.model.constraint.DefaultUniqueKeyConstraintModelTest;
 import org.jiemamy.model.constraint.ForeignKeyConstraintModel;
 import org.jiemamy.model.constraint.KeyConstraintModel;
+import org.jiemamy.model.parameter.BooleanConverter;
+import org.jiemamy.model.parameter.IntegerConverter;
+import org.jiemamy.model.parameter.StringConverter;
+import org.jiemamy.utils.RandomUtil;
 import org.jiemamy.utils.UUIDUtil;
 
 /**
@@ -63,15 +73,17 @@ public class DefaultTableModelTest {
 	 */
 	public static DefaultTableModel random() {
 		DefaultTableModel model = new DefaultTableModel(UUID.randomUUID());
-		model.setName(strNotEmpty());
+		model.setName(meta(3));
 		model.setLogicalName(str());
 		model.setDescription(str());
 		
-		final int count = integer(5) + 1;
+		// columnをランダムで追加
+		int count = integer(5) + 1;
 		for (int i = 0; i < count; i++) {
 			model.store(DefaultColumnModelTest.random());
 		}
 		
+		// PKをランダム追加
 		if (bool() && model.getColumns().size() > 0) {
 			DefaultPrimaryKeyConstraintModel pk = DefaultPrimaryKeyConstraintModelTest.random(model);
 			if (pk.getKeyColumns().size() > 0) {
@@ -79,7 +91,41 @@ public class DefaultTableModelTest {
 			}
 		}
 		
-		// TODO その他制約も追加したり追加しなかったりしてみるべし。
+		// UKをランダム追加
+		if (bool() && model.getColumns().size() > 0) {
+			DefaultUniqueKeyConstraintModel uk = DefaultUniqueKeyConstraintModelTest.random(model);
+			if (uk.getKeyColumns().size() > 0) {
+				model.store(uk);
+			}
+		}
+		
+		// CCをランダム追加
+		count = integer(5) + 1;
+		for (int i = 0; i < count; i++) {
+			model.store(DefaultCheckConstraintModelTest.random());
+		}
+		
+		// NNをランダム追加
+		for (ColumnModel columnModel : model.getColumns()) {
+			if (bool()) {
+				model.store(DefaultNotNullConstraintModelTest.random(columnModel));
+			}
+		}
+		
+		// TODO FKをランダム追加
+		
+		// 適当にパラメータを追加する
+		int integer = integer(5);
+		for (int i = 0; i < integer; i++) {
+			int p = RandomUtil.integer(2);
+			if (p == 0) {
+				model.putParam(new ColumnParameterKey<Boolean>(new BooleanConverter(), strNotEmpty()), bool());
+			} else if (p == 1) {
+				model.putParam(new ColumnParameterKey<Integer>(new IntegerConverter(), strNotEmpty()), integer(100));
+			} else {
+				model.putParam(new ColumnParameterKey<String>(new StringConverter(), strNotEmpty()), str());
+			}
+		}
 		
 		return model;
 	}

@@ -1,6 +1,6 @@
 /*
  * Copyright 2007-2011 Jiemamy Project and the Others.
- * Created on 2009/01/20
+ * Created on 2011/01/15
  *
  * This file is part of Jiemamy.
  *
@@ -18,25 +18,35 @@
  */
 package org.jiemamy.model.constraint;
 
-import org.jiemamy.dddbase.EntityRef;
+import static org.jiemamy.utils.RandomUtil.enumeNullable;
+import static org.jiemamy.utils.RandomUtil.strNullable;
+
+import java.util.UUID;
+
 import org.jiemamy.model.column.ColumnModel;
 
 /**
- * NOT NULL制約を表すモデルインターフェイス。
+ * TODO for daisuke
  * 
- * @since 0.2
+ * @version $Id$
  * @author daisuke
  */
-public interface NotNullConstraintModel extends ValueConstraintModel {
-	
-	NotNullConstraintModel clone();
+public class DefaultNotNullConstraintModelTest {
 	
 	/**
-	* 対象カラムを取得する。
-	* 
-	* @return 対象カラム
-	*/
-	EntityRef<? extends ColumnModel> getColumnRef();
+	 * TODO for daisuke
+	 * 
+	 * @param columnModel
+	 * @return
+	 */
+	public static DefaultNotNullConstraintModel random(ColumnModel columnModel) {
+		DefaultNotNullConstraintModel nn = new DefaultNotNullConstraintModel(UUID.randomUUID());
+		nn.setName(strNullable());
+		nn.setLogicalName(strNullable());
+		nn.setDeferrability(enumeNullable(DefaultDeferrabilityModel.class));
+		nn.setDescription(strNullable());
+		nn.setColumn(columnModel.toReference());
+		return nn;
+	}
 	
-	EntityRef<? extends NotNullConstraintModel> toReference();
 }
