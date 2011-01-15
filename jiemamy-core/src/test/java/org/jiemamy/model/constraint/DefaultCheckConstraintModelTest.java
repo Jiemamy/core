@@ -41,9 +41,9 @@ import org.junit.Test;
 public class DefaultCheckConstraintModelTest {
 	
 	/**
-	 * TODO for daisuke
+	 * 適当な {@link DefaultCheckConstraintModel} のインスタンスを作る。
 	 * 
-	 * @return
+	 * @return {@link DefaultCheckConstraintModel}
 	 */
 	public static DefaultCheckConstraintModel random() {
 		DefaultCheckConstraintModel model = new DefaultCheckConstraintModel(UUID.randomUUID());

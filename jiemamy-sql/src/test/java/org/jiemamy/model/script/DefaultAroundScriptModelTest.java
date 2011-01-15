@@ -36,6 +36,12 @@ import org.jiemamy.model.table.TableModel;
  */
 public class DefaultAroundScriptModelTest {
 	
+	/**
+	 * 適当な {@link DefaultAroundScriptModel} のインスタンスを作る。
+	 * 
+	 * @param table 対象となるテーブル
+	 * @return {@link DefaultAroundScriptModel}
+	 */
 	public static DefaultAroundScriptModel random(TableModel table) {
 		DefaultAroundScriptModel model = new DefaultAroundScriptModel(UUID.randomUUID());
 		model.setCoreModelRef(table.toReference());

@@ -77,6 +77,7 @@ public class JiemamyContextTest {
 	/**
 	 * 適当な {@link JiemamyContext} のインスタンスを作る。
 	 * 
+	 * @param providers contextに組み込む {@link JiemamyFacet}のプロバイダ
 	 * @return {@link JiemamyContext}
 	 */
 	public static JiemamyContext random(FacetProvider... providers) {

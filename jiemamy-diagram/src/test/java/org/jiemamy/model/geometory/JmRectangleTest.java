@@ -31,9 +31,9 @@ import org.jiemamy.utils.RandomUtil;
 public class JmRectangleTest {
 	
 	/**
-	 * TODO for daisuke
+	 * 適当な {@link JmRectangle} のインスタンスを作る。
 	 * 
-	 * @return
+	 * @return {@link JmRectangle}
 	 */
 	public static JmRectangle random() {
 		int x = RandomUtil.integer(100);

@@ -40,10 +40,10 @@ import org.jiemamy.model.table.TableModel;
 public class DefaultPrimaryKeyConstraintModelTest {
 	
 	/**
-	 * TODO for daisuke
+	 * 適当な {@link DefaultPrimaryKeyConstraintModel} のインスタンスを作る。
 	 * 
-	 * @param columns
-	 * @return
+	 * @param table 対象テーブル
+	 * @return {@link DefaultPrimaryKeyConstraintModel}
 	 */
 	public static DefaultPrimaryKeyConstraintModel random(TableModel table) {
 		DefaultPrimaryKeyConstraintModel model = new DefaultPrimaryKeyConstraintModel(UUID.randomUUID());

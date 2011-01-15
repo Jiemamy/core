@@ -22,9 +22,9 @@ import java.util.UUID;
 
 import org.junit.Test;
 
+import org.jiemamy.model.dataset.DefaultDataSetModel;
 import org.jiemamy.model.geometory.JmColorTest;
 import org.jiemamy.model.geometory.JmRectangleTest;
-import org.jiemamy.model.table.TableModel;
 
 /**
  * TODO for daisuke
@@ -35,14 +35,13 @@ import org.jiemamy.model.table.TableModel;
 public class DefaultDatabaseObjectNodeModelTest {
 	
 	/**
-	 * TODO for daisuke
+	 * 適当な {@link DefaultDatabaseObjectNodeModel} のインスタンスを作る。
 	 * 
-	 * @param next
-	 * @return
+	 * @param dom 対応する {@link DatabaseObjectModel}
+	 * @return {@link DefaultDataSetModel}
 	 */
-	public static DefaultDatabaseObjectNodeModel random(TableModel table) {
-		DefaultDatabaseObjectNodeModel model =
-				new DefaultDatabaseObjectNodeModel(UUID.randomUUID(), table.toReference());
+	public static DefaultDatabaseObjectNodeModel random(DatabaseObjectModel dom) {
+		DefaultDatabaseObjectNodeModel model = new DefaultDatabaseObjectNodeModel(UUID.randomUUID(), dom.toReference());
 		model.setBoundary(JmRectangleTest.random());
 		model.setColor(JmColorTest.random());
 		return model;

@@ -40,10 +40,10 @@ import org.jiemamy.model.table.TableModel;
 public class DefaultUniqueKeyConstraintModelTest {
 	
 	/**
-	 * TODO for daisuke
+	 * 適当な {@link DefaultUniqueKeyConstraintModel} のインスタンスを作る。
 	 * 
-	 * @param model
-	 * @return
+	 * @param table 対象テーブル
+	 * @return {@link DefaultUniqueKeyConstraintModel}
 	 */
 	public static DefaultUniqueKeyConstraintModel random(TableModel table) {
 		DefaultUniqueKeyConstraintModel model = new DefaultUniqueKeyConstraintModel(UUID.randomUUID());

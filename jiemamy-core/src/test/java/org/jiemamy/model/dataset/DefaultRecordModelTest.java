@@ -43,10 +43,10 @@ import org.jiemamy.model.column.ColumnModel;
 public class DefaultRecordModelTest {
 	
 	/**
-	 * TODO for daisuke
+	 * 適当な {@link DefaultRecordModel} のインスタンスを作る。
 	 * 
-	 * @param columns 
-	 * @return
+	 * @param columns 対象カラムのリスト
+	 * @return {@link DefaultRecordModel}
 	 */
 	public static DefaultRecordModel random(List<ColumnModel> columns) {
 		Map<EntityRef<? extends ColumnModel>, String> values = Maps.newHashMap();

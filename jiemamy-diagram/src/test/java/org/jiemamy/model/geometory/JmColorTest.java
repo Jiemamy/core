@@ -33,9 +33,9 @@ import org.jiemamy.utils.RandomUtil;
 public class JmColorTest {
 	
 	/**
-	 * TODO for daisuke
+	 * 適当な {@link JmColor} のインスタンスを作る。
 	 * 
-	 * @return
+	 * @return {@link JmColor}
 	 */
 	public static JmColor random() {
 		int r = RandomUtil.integer(255);

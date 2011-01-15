@@ -36,10 +36,10 @@ import org.jiemamy.model.column.ColumnModel;
 public class DefaultNotNullConstraintModelTest {
 	
 	/**
-	 * TODO for daisuke
+	 * 適当な {@link DefaultNotNullConstraintModel} のインスタンスを作る。
 	 * 
-	 * @param columnModel
-	 * @return
+	 * @param columnModel 対象カラム
+	 * @return {@link DefaultNotNullConstraintModel}
 	 */
 	public static DefaultNotNullConstraintModel random(ColumnModel columnModel) {
 		DefaultNotNullConstraintModel nn = new DefaultNotNullConstraintModel(UUID.randomUUID());

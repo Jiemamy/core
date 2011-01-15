@@ -22,14 +22,15 @@ import static org.jiemamy.utils.RandomUtil.bool;
 import static org.jiemamy.utils.RandomUtil.integer;
 import static org.jiemamy.utils.RandomUtil.strNullable;
 
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 import com.google.common.collect.Lists;
 
 import org.junit.Test;
 
+import org.jiemamy.JiemamyContext;
 import org.jiemamy.model.table.TableModel;
 
 /**
@@ -41,12 +42,12 @@ import org.jiemamy.model.table.TableModel;
 public class DefaultDataSetModelTest {
 	
 	/**
-	 * TODO for daisuke
-	 * @param tables 
+	 * 適当な {@link JiemamyContext} のインスタンスを作る。
 	 * 
-	 * @return
+	 * @param tables データセット作製対象のテーブルの集合
+	 * @return {@link DefaultDataSetModel}
 	 */
-	public static DefaultDataSetModel random(Set<TableModel> tables) {
+	public static DefaultDataSetModel random(Collection<TableModel> tables) {
 		DefaultDataSetModel model = new DefaultDataSetModel(UUID.randomUUID());
 		model.setName(strNullable());
 		for (TableModel tableModel : tables) {
