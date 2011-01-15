@@ -23,6 +23,8 @@ import static org.jiemamy.utils.RandomUtil.strNullable;
 
 import java.util.UUID;
 
+import org.junit.Test;
+
 import org.jiemamy.model.column.ColumnModel;
 
 /**
@@ -47,6 +49,16 @@ public class DefaultNotNullConstraintModelTest {
 		nn.setDescription(strNullable());
 		nn.setColumn(columnModel.toReference());
 		return nn;
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void testname() throws Exception {
+		
 	}
 	
 }

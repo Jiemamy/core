@@ -26,6 +26,8 @@ import static org.jiemamy.utils.RandomUtil.strNullable;
 import java.util.List;
 import java.util.UUID;
 
+import org.junit.Test;
+
 import org.jiemamy.model.column.ColumnModel;
 import org.jiemamy.model.table.TableModel;
 
@@ -56,6 +58,16 @@ public class DefaultUniqueKeyConstraintModelTest {
 			}
 		}
 		return model;
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void testname() throws Exception {
+		
 	}
 	
 }
