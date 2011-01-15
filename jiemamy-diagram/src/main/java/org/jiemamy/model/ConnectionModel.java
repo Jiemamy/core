@@ -68,7 +68,7 @@ public interface ConnectionModel extends Entity {
 	 * 接続元ノードを取得する。
 	 * 
 	 * @return 接続元ノード
-	 * @throws ModelConsistenceException モデルの不整合により、接続元ノードが不明な場合
+	 * @throws ModelConsistencyException モデルの不整合により、接続元ノードが不明な場合
 	 * @since 0.2
 	 */
 	EntityRef<NodeModel> getSource();
@@ -77,7 +77,7 @@ public interface ConnectionModel extends Entity {
 	 * 接続先ノードを取得する。 
 	 * 
 	 * @return 接続先ノード
-	 * @throws ModelConsistenceException モデルの不整合により、接続先ノードが不明な場合
+	 * @throws ModelConsistencyException モデルの不整合により、接続先ノードが不明な場合
 	 * @since 0.2
 	 */
 	EntityRef<NodeModel> getTarget();

@@ -165,8 +165,8 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	/**
 	 * テーブルからカラムを削除する。
 	 * 
-	 * @param ref カラム参照
-	 * @throws EntityNotFoundException 指定した参照が表すカラムがこのテーブルに存在しない場合
+	 * @param ref カラムへの参照
+	 * @throws EntityNotFoundException このテーブルが指定したカラムを管理していない場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public void delete(EntityRef<? extends ColumnModel> ref) {
@@ -178,7 +178,8 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	/**
 	 * テーブルから制約を削除する。
 	 * 
-	 * @param ref 制約
+	 * @param ref 制約への参照
+	 * @throws EntityNotFoundException このテーブルが指定した制約を管理していない場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public void deleteConstraint(EntityRef<? extends ConstraintModel> ref) {

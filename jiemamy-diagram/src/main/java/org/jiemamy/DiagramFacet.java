@@ -91,8 +91,13 @@ public class DiagramFacet implements JiemamyFacet {
 		this.context = context;
 	}
 	
-	public void delete(EntityRef<? extends DiagramModel> ref) {
-		DiagramModel deleted = diagrams.delete(ref);
+	/**
+	 * {@link DiagramModel}を削除する。
+	 * 
+	 * @param reference 削除する{@link DiagramModel}への参照
+	 */
+	public void delete(EntityRef<? extends DiagramModel> reference) {
+		DiagramModel deleted = diagrams.delete(reference);
 		context.getEventBroker().fireEvent(new StoredEvent<DiagramModel>(diagrams, deleted, null));
 	}
 	

@@ -22,8 +22,8 @@ import static org.jiemamy.utils.RandomUtil.enume;
 import static org.jiemamy.utils.RandomUtil.integer;
 import static org.jiemamy.utils.RandomUtil.strNullable;
 
+import java.util.Collection;
 import java.util.Iterator;
-import java.util.Set;
 import java.util.UUID;
 
 import org.junit.Test;
@@ -39,20 +39,20 @@ import org.jiemamy.model.table.TableModel;
 public class DefaultDiagramModelTest {
 	
 	/**
-	 * TODO for daisuke
-	 * @param set 
+	 * 適当な {@link DefaultDiagramModel} のインスタンスを作る。
 	 * 
-	 * @return
+	 * @param tables 表示候補の {@link TableModel} の集合
+	 * @return {@link DefaultDiagramModel}
 	 */
-	public static DiagramModel random(Set<TableModel> set) {
+	public static DefaultDiagramModel random(Collection<TableModel> tables) {
 		DefaultDiagramModel model = new DefaultDiagramModel(UUID.randomUUID());
 		model.setLevel(enume(Level.class));
 		model.setMode(enume(Mode.class));
 		model.setName(strNullable());
 		
-		if (set.size() > 1) {
-			int count = integer(set.size() - 1) + 1;
-			Iterator<TableModel> itr = set.iterator();
+		if (tables.size() > 1) {
+			int count = integer(tables.size() - 1) + 1;
+			Iterator<TableModel> itr = tables.iterator();
 			for (int i = 0; i < count; i++) {
 				model.store(DefaultDatabaseObjectNodeModelTest.random(itr.next()));
 			}

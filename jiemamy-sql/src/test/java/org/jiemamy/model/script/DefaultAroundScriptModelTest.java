@@ -19,7 +19,6 @@
 package org.jiemamy.model.script;
 
 import static org.jiemamy.utils.RandomUtil.bool;
-import static org.jiemamy.utils.RandomUtil.enume;
 import static org.jiemamy.utils.RandomUtil.strNotEmpty;
 
 import java.util.UUID;
@@ -49,13 +48,8 @@ public class DefaultAroundScriptModelTest {
 			model.setScript(Position.BEGIN, strNotEmpty());
 		}
 		if (bool()) {
-			model.setScript(Position.END, strNotEmpty());
+			model.setScript(Position.END, strNotEmpty(), strNotEmpty());
 		}
-		
-		if (bool()) {
-			model.setScriptEngineClassName(enume(Position.class), strNotEmpty());
-		}
-		
 		return model;
 	}
 	

@@ -31,6 +31,7 @@ import org.slf4j.LoggerFactory;
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.DatabaseObjectModel;
+import org.jiemamy.script.ScriptString;
 import org.jiemamy.serializer.SerializationException;
 import org.jiemamy.serializer.stax2.DeserializationContext;
 import org.jiemamy.serializer.stax2.JiemamyCursor;
@@ -91,8 +92,7 @@ public final class DefaultAroundScriptModelSerializationHandler extends Serializ
 						Position position = childCursor.getAttrEnumValue(SqlQName.POSITION, Position.class);
 						String engine = childCursor.getAttrValue(SqlQName.ENGINE);
 						String script = childCursor.collectDescendantText(true);
-						scriptModel.setScript(position, script);
-						scriptModel.setScriptEngineClassName(position, engine);
+						scriptModel.setScript(position, script, engine);
 					} else {
 						logger.warn("UNKNOWN ELEMENT: {}", childCursor.getQName().toString());
 					}
@@ -120,11 +120,12 @@ public final class DefaultAroundScriptModelSerializationHandler extends Serializ
 			
 			aroundScriptElement.addElement(SqlQName.CORE).addAttribute(CoreQName.REF,
 					model.getCoreModelRef().getReferentId());
-			for (Entry<Position, String> e : model.getScripts().entrySet()) {
+			for (Entry<Position, ScriptString> e : model.getScriptStrings().entrySet()) {
+				ScriptString value = e.getValue();
 				JiemamyOutputElement scriptElement = aroundScriptElement.addElement(SqlQName.SCRIPT);
 				scriptElement.addAttribute(SqlQName.POSITION, e.getKey());
-				scriptElement.addAttribute(SqlQName.ENGINE, model.getScriptEngineClassName(e.getKey()));
-				scriptElement.addCharacters(e.getValue());
+				scriptElement.addAttribute(SqlQName.ENGINE, value.getScriptEngineClassName());
+				scriptElement.addCharacters(value.getScript());
 			}
 			
 			sctx.pop();

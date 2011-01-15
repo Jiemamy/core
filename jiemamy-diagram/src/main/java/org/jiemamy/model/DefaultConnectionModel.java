@@ -54,7 +54,7 @@ public final class DefaultConnectionModel extends AbstractEntity implements Conn
 	 * インスタンスを生成する。
 	 * 
 	 * @param id ENTITY ID
-	 * @param coreModelRef 
+	 * @param coreModelRef CORE側の実体となる外部キーへの参照
 	 */
 	public DefaultConnectionModel(UUID id, EntityRef<? extends ForeignKeyConstraintModel> coreModelRef) {
 		super(id);

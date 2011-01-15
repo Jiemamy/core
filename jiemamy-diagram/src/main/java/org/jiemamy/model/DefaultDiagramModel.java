@@ -64,8 +64,14 @@ public final class DefaultDiagramModel extends AbstractEntity implements Diagram
 		return clone;
 	}
 	
-	public void delete(EntityRef<? extends NodeModel> ref) {
-		nodes.delete(ref);
+	/**
+	 * {@link NodeModel}を削除する。
+	 * 
+	 * @param reference 削除する{@link NodeModel}への参照
+	 * @throws EntityNotFoundException このダイアグラムが指定したノードを管理していない場合
+	 */
+	public void delete(EntityRef<? extends NodeModel> reference) {
+		nodes.delete(reference);
 	}
 	
 	public int getIndex() {
@@ -106,10 +112,36 @@ public final class DefaultDiagramModel extends AbstractEntity implements Diagram
 		return getNodes();
 	}
 	
-	public <T2 extends Entity>T2 resolve(EntityRef<T2> ref) {
+	/**
+	 * エンティティ参照から、{@link Entity}を引き当てる。
+	 * 
+	 * <p>リポジトリは、この実体のクローンを返す。従って、取得した {@link Entity}に対して
+	 * ミューテーションを起こしても、ストアした実体には影響を及ぼさない。</p>
+	 * 
+	 * <p>検索対象は子エンティティも含む。</p>
+	 * 
+	 * @param <T> エンティティの型
+	 * @param ref エンティティ参照
+	 * @return {@link Entity}
+	 * @throws EntityNotFoundException 参照で示すエンティティが見つからなかった場合
+	 */
+	public <T extends Entity>T resolve(EntityRef<T> ref) {
 		return nodes.resolve(ref);
 	}
 	
+	/**
+	 * 指定したIDを持つ{@link Entity}を引き当てる。
+	 * 
+	 * <p>リポジトリは、この実体のクローンを返す。従って、取得した {@link Entity}に対して
+	 * ミューテーションを起こしても、ストアした実体には影響を及ぼさない。</p>
+	 * 
+	 * <p>検索対象は子エンティティも含む。</p>
+	 * 
+	 * @param id ENTITY ID
+	 * @return 見つかった{@link Entity}
+	 * @throws EntityNotFoundException 参照で示すエンティティが見つからなかった場合
+	 * @since 1.0.0
+	 */
 	public Entity resolve(UUID id) {
 		return nodes.resolve(id);
 	}
@@ -145,8 +177,13 @@ public final class DefaultDiagramModel extends AbstractEntity implements Diagram
 		this.name = name;
 	}
 	
-	public void store(NodeModel entity) {
-		nodes.store(entity);
+	/**
+	 * {@link NodeModel}を保存する。
+	 * 
+	 * @param nodeModel {@link NodeModel}
+	 */
+	public void store(NodeModel nodeModel) {
+		nodes.store(nodeModel);
 	}
 	
 	public EntityRef<DefaultDiagramModel> toReference() {

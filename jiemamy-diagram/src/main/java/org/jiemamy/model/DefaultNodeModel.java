@@ -60,6 +60,11 @@ public abstract class DefaultNodeModel extends AbstractEntity implements NodeMod
 		return clone;
 	}
 	
+	/**
+	 * {@link ConnectionModel}を削除する。
+	 * 
+	 * @param reference 削除する{@link ConnectionModel}への参照
+	 */
 	public void delete(EntityRef<? extends ConnectionModel> reference) {
 		sourceConnections.delete(reference);
 	}

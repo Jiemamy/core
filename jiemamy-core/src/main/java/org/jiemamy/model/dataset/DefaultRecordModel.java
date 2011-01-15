@@ -91,27 +91,7 @@ public final class DefaultRecordModel implements RecordModel {
 		Validate.notNull(tableRef);
 		final TableModel tableModel = context.resolve(tableRef);
 		Map<EntityRef<? extends ColumnModel>, String> sortedMap =
-				Maps.newTreeMap(new Comparator<EntityRef<? extends ColumnModel>>() {
-					
-					public int compare(EntityRef<? extends ColumnModel> o1, EntityRef<? extends ColumnModel> o2) {
-						int i1 = -1;
-						int i2 = -1;
-						List<ColumnModel> columns = tableModel.getColumns();
-						for (ColumnModel columnModel : columns) {
-							if (o1.isReferenceOf(columnModel)) {
-								i1 = columns.indexOf(columnModel);
-							}
-							if (o2.isReferenceOf(columnModel)) {
-								i2 = columns.indexOf(columnModel);
-							}
-						}
-						if (i1 == -1 && i2 == -1) {
-							return o1.getReferentId().compareTo(o2.getReferentId());
-						}
-						
-						return i1 - i2;
-					}
-				});
+				Maps.newTreeMap(new ColumnOrderComparator(tableModel));
 		sortedMap.putAll(values);
 		return sortedMap.entrySet();
 	}
@@ -119,5 +99,40 @@ public final class DefaultRecordModel implements RecordModel {
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+	}
+	
+
+	private static class ColumnOrderComparator implements Comparator<EntityRef<? extends ColumnModel>> {
+		
+		private final TableModel tableModel;
+		
+
+		/**
+		 * インスタンスを生成する。
+		 * 
+		 * @param tableModel
+		 */
+		private ColumnOrderComparator(TableModel tableModel) {
+			this.tableModel = tableModel;
+		}
+		
+		public int compare(EntityRef<? extends ColumnModel> o1, EntityRef<? extends ColumnModel> o2) {
+			int i1 = -1;
+			int i2 = -1;
+			List<ColumnModel> columns = tableModel.getColumns();
+			for (ColumnModel columnModel : columns) {
+				if (o1.isReferenceOf(columnModel)) {
+					i1 = columns.indexOf(columnModel);
+				}
+				if (o2.isReferenceOf(columnModel)) {
+					i2 = columns.indexOf(columnModel);
+				}
+			}
+			if (i1 == -1 && i2 == -1) {
+				return o1.getReferentId().compareTo(o2.getReferentId());
+			}
+			
+			return i1 - i2;
+		}
 	}
 }

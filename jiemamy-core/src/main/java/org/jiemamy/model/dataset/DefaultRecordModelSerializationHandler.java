@@ -85,12 +85,6 @@ public final class DefaultRecordModelSerializationHandler extends SerializationH
 //						UUID coreId = UUIDUtil.valueOfOrRandom(coreIdString);
 //						EntityRef<? extends DatabaseObjectModel> core = DefaultEntityRef.of(coreId);
 //						scriptModel.setCoreModelRef(core);
-//					} else if (childCursor.isQName(CoreQName.SCRIPT)) {
-//						Position position = childCursor.getAttrEnumValue(CoreQName.POSITION, Position.class);
-//						String engine = childCursor.getAttrValue(CoreQName.ENGINE);
-//						String script = childCursor.collectDescendantText(true);
-//						scriptModel.setScript(position, script);
-//						scriptModel.setScriptEngineClassName(position, engine);
 //					} else {
 //						logger.warn("UNKNOWN ELEMENT: {}", childCursor.getQName().toString());
 //					}

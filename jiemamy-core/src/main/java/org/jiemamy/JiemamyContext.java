@@ -79,29 +79,6 @@ public/*final*/class JiemamyContext {
 	
 
 	/**
-	 * {@link JiemamySerializer}を取得する。
-	 * 
-	 * @return {@link JiemamySerializer}
-	 */
-	public static JiemamySerializer findSerializer() {
-		// THINK シリアライザの差し替えできるように
-		try {
-			return getServiceLocator().getService(JiemamySerializer.class, JiemamyStaxSerializer.class.getName());
-		} catch (ClassNotFoundException e) {
-			throw new JiemamyError("", e);
-		}
-	}
-	
-	/**
-	 * {@link ServiceLocator}を取得する。
-	 * 
-	 * @return {@link ServiceLocator}
-	 */
-	public static ServiceLocator getServiceLocator() {
-		return new DefaultServiceLocator(); // TODO 差し替えできるように
-	}
-	
-	/**
 	 * Jiemamyのバージョンを返す。
 	 * 
 	 * @return Jiemamyのバージョン
@@ -169,6 +146,7 @@ public/*final*/class JiemamyContext {
 	 * {@link DatabaseObjectModel}を削除する。
 	 * 
 	 * @param reference 削除する{@link DatabaseObjectModel}への参照
+	 * @throws EntityNotFoundException このコンテキストが指定したデータベースオブジェクトを管理していない場合
 	 */
 	public void deleteDatabaseObject(EntityRef<? extends DatabaseObjectModel> reference) {
 		DatabaseObjectModel deleted = doms.delete(reference);
@@ -179,6 +157,7 @@ public/*final*/class JiemamyContext {
 	 * {@link DataSetModel}を削除する。
 	 * 
 	 * @param reference 削除する{@link DataSetModel}への参照
+	 * @throws EntityNotFoundException このコンテキストが指定したデータセットを管理していない場合
 	 */
 	public void deleteDataSet(EntityRef<? extends DataSetModel> reference) {
 		DataSetModel deleted = dsms.delete(reference);
@@ -193,6 +172,20 @@ public/*final*/class JiemamyContext {
 	 */
 	public Dialect findDialect() throws ClassNotFoundException {
 		return getServiceLocator().getService(Dialect.class, dialectClassName);
+	}
+	
+	/**
+	 * {@link JiemamySerializer}を取得する。
+	 * 
+	 * @return {@link JiemamySerializer}
+	 */
+	public JiemamySerializer findSerializer() {
+		// THINK シリアライザの差し替えできるように
+		try {
+			return getServiceLocator().getService(JiemamySerializer.class, JiemamyStaxSerializer.class.getName());
+		} catch (ClassNotFoundException e) {
+			throw new JiemamyError("", e);
+		}
 	}
 	
 	/**
@@ -397,6 +390,15 @@ public/*final*/class JiemamyContext {
 	}
 	
 	/**
+	 * {@link ServiceLocator}を取得する。
+	 * 
+	 * @return {@link ServiceLocator}
+	 */
+	public ServiceLocator getServiceLocator() {
+		return new DefaultServiceLocator(); // TODO 差し替えできるように
+	}
+	
+	/**
 	 * このコンテキストが管理する {@link TableModel} の中から、指定したテーブル名を持つものを返す。
 	 * 
 	 * @param name テーブル名
@@ -458,11 +460,16 @@ public/*final*/class JiemamyContext {
 	}
 	
 	/**
-	 * エンティティ参照から、実体を引き当てる。
+	 * エンティティ参照から、{@link Entity}を引き当てる。
+	 * 
+	 * <p>リポジトリは、この実体のクローンを返す。従って、取得した {@link Entity}に対して
+	 * ミューテーションを起こしても、ストアした実体には影響を及ぼさない。</p>
+	 * 
+	 * <p>検索対象は子エンティティも含む。</p>
 	 * 
 	 * @param <T> エンティティの型
 	 * @param ref エンティティ参照
-	 * @return 実体
+	 * @return {@link Entity}
 	 * @throws EntityNotFoundException 参照で示すエンティティが見つからなかった場合
 	 */
 	public <T extends Entity>T resolve(EntityRef<T> ref) {
@@ -470,7 +477,7 @@ public/*final*/class JiemamyContext {
 	}
 	
 	/**
-	 * コンテキストが管理する {@link Entity} の中から、指定したIDを持つ実体（{@link Entity}）を探して返す。
+	 * 指定したIDを持つ{@link Entity}を引き当てる。
 	 * 
 	 * <p>リポジトリは、この実体のクローンを返す。従って、取得した {@link Entity}に対して
 	 * ミューテーションを起こしても、ストアした実体には影響を及ぼさない。</p>
@@ -479,8 +486,7 @@ public/*final*/class JiemamyContext {
 	 * 
 	 * @param id ENTITY ID
 	 * @return 見つかった{@link Entity}
-	 * @throws EntityNotFoundException このコンテキストが指定した実体を管理していない場合
-	 * @since 1.0.0
+	 * @throws EntityNotFoundException 参照で示すエンティティが見つからなかった場合
 	 */
 	public Entity resolve(UUID id) {
 		return doms.resolve(id);

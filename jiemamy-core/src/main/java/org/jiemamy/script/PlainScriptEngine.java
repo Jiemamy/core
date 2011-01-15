@@ -16,26 +16,19 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.model.script;
+package org.jiemamy.script;
 
-import org.jiemamy.model.DatabaseObjectModel;
+import java.util.Map;
 
 /**
- * スクリプトの処理エンジンインターフェイス。
+ * スクリプトの内容をそのまま出力するプレーン文字列スクリプトエンジン。
  * 
- * @since 0.3
  * @author daisuke
  */
-public interface ScriptEngine {
+public class PlainScriptEngine implements ScriptEngine {
 	
-	/**
-	 * 周辺スクリプトを実行し、結果を得る。
-	 * 
-	 * @param target 周辺スクリプト挿入対象モデル
-	 * @param script 実行するスクリプト
-	 * @return スクリプト実行結果
-	 * @since 0.3
-	 */
-	String process(DatabaseObjectModel target, String script);
+	public String process(Map<String, Object> env, String script) {
+		return script;
+	}
 	
 }

@@ -33,9 +33,9 @@ import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityNotFoundException;
 import org.jiemamy.model.script.AroundScriptModel;
 import org.jiemamy.model.script.DefaultAroundScriptModel;
-import org.jiemamy.model.script.PlainScriptEngine;
 import org.jiemamy.model.script.Position;
 import org.jiemamy.model.table.DefaultTableModel;
+import org.jiemamy.script.PlainScriptEngine;
 import org.jiemamy.utils.UUIDUtil;
 
 /**
@@ -88,8 +88,7 @@ public class SqlFacetTest {
 		context.store(table2);
 		
 		DefaultAroundScriptModel asm = new DefaultAroundScriptModel(UUIDUtil.valueOfOrRandom("b"));
-		asm.setScriptEngineClass(Position.BEGIN, PlainScriptEngine.class);
-		asm.setScript(Position.BEGIN, "-- BEGIN");
+		asm.setScript(Position.BEGIN, "-- BEGIN", PlainScriptEngine.class);
 		asm.setCoreModelRef(table.toReference());
 		facet.store(asm);
 		

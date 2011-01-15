@@ -19,10 +19,10 @@
 package org.jiemamy.model.script;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.ServiceLocator;
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.DatabaseObjectModel;
+import org.jiemamy.script.ScriptEngine;
 
 /**
  * 開始/終了スクリプトモデル。
@@ -42,6 +42,8 @@ public interface AroundScriptModel extends Entity {
 	 * @since 0.3
 	 */
 	String getScript(Position position);
+	
+	ScriptEngine getScriptEngine(JiemamyContext context, Position position) throws ClassNotFoundException;
 	
 	/**
 	 * スクリプトエンジンのクラス名を取得する。
@@ -64,20 +66,6 @@ public interface AroundScriptModel extends Entity {
 	 * @since 0.3
 	 */
 	String process(JiemamyContext context, Position position, DatabaseObjectModel target) throws ClassNotFoundException;
-	
-	/**
-	 * スクリプトを実行し、結果を得る。
-	 * 
-	 * @param serviceLocator サービスロケータ
-	 * @param position スクリプト挿入位置
-	 * @param target 周辺スクリプト挿入対象モデル
-	 * @return スクリプト実行結果
-	 * @throws ClassNotFoundException スクリプトエンジンのクラスが解決できない場合
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 * @since 0.3
-	 */
-	String process(ServiceLocator serviceLocator, Position position, DatabaseObjectModel target)
-			throws ClassNotFoundException;
 	
 	EntityRef<? extends AroundScriptModel> toReference();
 }
