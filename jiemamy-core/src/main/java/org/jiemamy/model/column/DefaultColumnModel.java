@@ -1,5 +1,5 @@
 /*
- * Copyright 2007-2010 Jiemamy Project and the Others.
+ * Copyright 2007-2011 Jiemamy Project and the Others.
  * Created on 2008/06/09
  *
  * This file is part of Jiemamy.
@@ -146,6 +146,7 @@ public final class DefaultColumnModel extends AbstractEntity implements ColumnMo
 	
 	/**
 	 * 説明文を設定する。
+	 * 
 	 * @param description 説明文
 	 */
 	public void setDescription(String description) {
@@ -158,6 +159,7 @@ public final class DefaultColumnModel extends AbstractEntity implements ColumnMo
 	
 	/**
 	 * 論理名を設定する。
+	 * 
 	 * @param logicalName 論理名
 	 */
 	public void setLogicalName(String logicalName) {

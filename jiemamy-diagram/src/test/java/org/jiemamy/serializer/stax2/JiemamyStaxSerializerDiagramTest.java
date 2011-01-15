@@ -1,7 +1,7 @@
 package org.jiemamy.serializer.stax2;
 
 /*
- * Copyright 2007-2010 Jiemamy Project and the Others.
+ * Copyright 2007-2011 Jiemamy Project and the Others.
  * Created on 2010/12/15
  *
  * This file is part of Jiemamy.
