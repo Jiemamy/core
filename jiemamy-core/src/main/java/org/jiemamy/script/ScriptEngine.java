@@ -32,8 +32,9 @@ public interface ScriptEngine {
 	 * 周辺スクリプトを実行し、結果を得る。
 	 * 
 	 * @param env スクリプト実行環境
-	 * @param script 実行するスクリプト
-	 * @return スクリプト実行結果
+	 * @param script 評価するスクリプト
+	 * @return スクリプト評価結果
+	 * @throws IllegalArgumentException 引数{@code script}に{@code null}を与えた場合
 	 * @since 0.3
 	 */
 	String process(Map<String, Object> env, String script);
