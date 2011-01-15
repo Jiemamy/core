@@ -18,6 +18,7 @@
  */
 package org.jiemamy.serializer.stax2;
 
+import org.apache.commons.lang.Validate;
 import org.codehaus.staxmate.out.SMOutputDocument;
 
 import org.jiemamy.JiemamyContext;
@@ -46,25 +47,29 @@ public class SerializationContext {
 	/**
 	 * インスタンスを生成する。
 	 * 
+	 * @param context コンテキスト
 	 * @param document XMLドキュメント
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	SerializationContext(JiemamyContext context, SMOutputDocument document) {
+		Validate.notNull(document);
+		Validate.notNull(document);
 		this.context = context;
 		push(new JiemamyDocument(document));
 	}
 	
 	/**
-	 * somethingを取得する。 TODO for daisuke
-	 * @return the context
+	 * コンテキストを取得する。
+	 * @return {@link JiemamyContext}
 	 */
 	public JiemamyContext getContext() {
 		return context;
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * 現在処理中のテーブルに対する参照を取得する。
 	 * 
-	 * @return
+	 * @return 現在処理中のテーブルに対する参照
 	 */
 	public EntityRef<? extends TableModel> getCurrentTableRef() {
 		return currentTableRef;
@@ -98,8 +103,9 @@ public class SerializationContext {
 	}
 	
 	/**
-	 * somethingを設定する。 TODO for daisuke
-	 * @param currentTableRef the currentTableRef to set
+	 * 現在処理中のテーブルに対する参照を設定する。
+	 * 
+	 * @param currentTableRef 現在処理中のテーブルに対する参照
 	 */
 	public void setCurrentTableRef(EntityRef<? extends TableModel> currentTableRef) {
 		this.currentTableRef = currentTableRef;

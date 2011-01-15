@@ -20,17 +20,18 @@ package org.jiemamy.model;
 
 import java.util.Collection;
 
+import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.geometory.JmColor;
 import org.jiemamy.model.geometory.JmRectangle;
 
 /**
- * ノードのビジュアル情報インターフェイス。
+ * ダイアグラム上のノードを表すインターフェイス。
  * 
- * @since 0.2
+ * @since 0.3
  * @author daisuke
  */
-public interface NodeModel extends DiagramElement {
+public interface NodeModel extends Entity {
 	
 	NodeModel clone();
 	

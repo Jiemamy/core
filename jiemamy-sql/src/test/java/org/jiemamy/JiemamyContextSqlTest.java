@@ -32,7 +32,7 @@ import org.jiemamy.model.script.DefaultAroundScriptModelTest;
 import org.jiemamy.model.table.TableModel;
 
 /**
- * TODO for daisuke
+ * {@link JiemamyContext}のテスト：Sql版。
  * 
  * @version $Id$
  * @author daisuke

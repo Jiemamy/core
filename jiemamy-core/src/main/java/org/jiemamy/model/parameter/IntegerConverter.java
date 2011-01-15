@@ -28,6 +28,9 @@ import org.apache.commons.lang.Validate;
  */
 public class IntegerConverter implements Converter<Integer> {
 	
+	IntegerConverter() {
+	}
+	
 	public String toString(Integer obj) {
 		Validate.notNull(obj);
 		return obj.toString();

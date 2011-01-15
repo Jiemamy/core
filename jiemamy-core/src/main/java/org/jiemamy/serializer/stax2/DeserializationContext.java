@@ -64,8 +64,9 @@ public class DeserializationContext {
 	}
 	
 	/**
-	 * somethingを取得する。 TODO for daisuke
-	 * @return the context
+	 * {@link JiemamyContext}を取得する。
+	 * 
+	 * @return {@link JiemamyContext}
 	 */
 	public JiemamyContext getContext() {
 		assert context != null;
@@ -75,7 +76,7 @@ public class DeserializationContext {
 	/**
 	 * カーソルを取得する。
 	 * 
-	 * @return カーソル
+	 * @return {@link JiemamyCursor}
 	 */
 	public JiemamyCursor peek() {
 		return stack.peek();

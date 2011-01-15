@@ -44,7 +44,7 @@ import org.jiemamy.serializer.stax2.SerializationContext;
 import org.jiemamy.serializer.stax2.SerializationDirector;
 
 /**
- * TODO for daisuke
+ * {@link DefaultViewModelSerializationHandler}のテストクラス。
  * 
  * @version $Id$
  * @author daisuke

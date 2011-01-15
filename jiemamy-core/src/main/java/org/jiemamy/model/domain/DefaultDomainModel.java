@@ -101,8 +101,7 @@ public final class DefaultDomainModel extends DefaultDatabaseObjectModel impleme
 	}
 	
 	public <T>T getParam(TypeParameterKey<T> key) {
-		// TODO Auto-generated method stub
-		return null;
+		return params.get(key);
 	}
 	
 	public boolean isNotNull() {

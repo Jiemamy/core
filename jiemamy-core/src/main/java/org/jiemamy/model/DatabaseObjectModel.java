@@ -21,6 +21,7 @@ package org.jiemamy.model;
 import java.util.Set;
 
 import org.jiemamy.JiemamyContext;
+import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.parameter.ParameterKey;
 import org.jiemamy.model.parameter.ParameterMap;
@@ -31,7 +32,7 @@ import org.jiemamy.model.parameter.ParameterMap;
  * @since 0.3
  * @author daisuke
  */
-public interface DatabaseObjectModel extends CoreElement {
+public interface DatabaseObjectModel extends Entity {
 	
 	DatabaseObjectModel clone();
 	

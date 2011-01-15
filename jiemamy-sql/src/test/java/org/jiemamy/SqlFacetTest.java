@@ -39,7 +39,7 @@ import org.jiemamy.model.table.DefaultTableModel;
 import org.jiemamy.utils.UUIDUtil;
 
 /**
- * TODO for daisuke
+ * {@link SqlFacet}のテストクラス。
  * 
  * @version $Id$
  * @author daisuke
@@ -73,7 +73,7 @@ public class SqlFacetTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * テーブルにASを定義したら、getAroundScriptForで取得できる。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */

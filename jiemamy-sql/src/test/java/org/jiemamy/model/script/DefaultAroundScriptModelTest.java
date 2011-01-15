@@ -29,7 +29,7 @@ import org.junit.Test;
 import org.jiemamy.model.table.TableModel;
 
 /**
- * TODO for daisuke
+ * {@link DefaultAroundScriptModel}のテストクラス。
  * 
  * @version $Id$
  * @author daisuke

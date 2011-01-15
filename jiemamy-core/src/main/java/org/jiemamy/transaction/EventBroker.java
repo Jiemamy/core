@@ -66,13 +66,12 @@ public interface EventBroker {
 	void removeListener(StoredEventListener listener);
 	
 	/**
-	 * リスナに対する通知が必要かどうかを判断するための戦略を設定する。
-	 * THINK setDefaultStrategy() という名称の方が良くないかな？
+	 * リスナに対する通知が必要かどうかを判断するためのデフォルト戦略を設定する。
 	 * 
 	 * @param strategy デフォルトで適用される{@link DispatchStrategy}の実装インスタンス
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 0.2
 	 */
-	void setStrategy(DispatchStrategy strategy);
+	void setDefaultStrategy(DispatchStrategy strategy);
 	
 }

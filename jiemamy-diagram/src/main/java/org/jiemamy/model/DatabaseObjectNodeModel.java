@@ -21,8 +21,9 @@ package org.jiemamy.model;
 import org.jiemamy.dddbase.EntityRef;
 
 /**
- * TODO for daisuke
+ * {@link DatabaseObjectModel}に対応する、ダイアグラム上のノードを表すインターフェイス。
  * 
+ * @since 0.3
  * @version $Id$
  * @author daisuke
  */

@@ -25,7 +25,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * TODO for daisuke
+ * {@link IntegerConverter}のテストクラス。
  * 
  * @version $Id$
  * @author daisuke

@@ -48,10 +48,10 @@ public final class DefaultPrimaryKeyConstraintModel extends AbstractKeyConstrain
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * インスタンスを生成する。
 	 * 
-	 * @param refs
-	 * @return
+	 * @param refs キーカラムへの参照
+	 * @return {@link DefaultPrimaryKeyConstraintModel}
 	 */
 	public static DefaultPrimaryKeyConstraintModel of(EntityRef<? extends ColumnModel>... refs) {
 		DefaultPrimaryKeyConstraintModel model = new DefaultPrimaryKeyConstraintModel(UUID.randomUUID());
@@ -62,10 +62,10 @@ public final class DefaultPrimaryKeyConstraintModel extends AbstractKeyConstrain
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * インスタンスを生成する。
 	 * 
-	 * @param pk
-	 * @return
+	 * @param columnRefs キーカラムへの参照のリスト
+	 * @return {@link DefaultPrimaryKeyConstraintModel}
 	 */
 	public static DefaultPrimaryKeyConstraintModel of(List<EntityRef<? extends ColumnModel>> columnRefs) {
 		DefaultPrimaryKeyConstraintModel model = new DefaultPrimaryKeyConstraintModel(UUID.randomUUID());

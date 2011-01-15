@@ -91,10 +91,9 @@ public interface Dialect {
 	 * <p>必ず要素数が{@code 1}以上のリストを返さなければならない。</p>
 	 * 
 	 * @return データ型名のリスト
-	 * @since 0.2
-	 * TODO rename getAllTypeReferences
+	 * @since 0.3
 	 */
-	List<TypeReference> getAllDataTypes();
+	List<TypeReference> getAllTypeReferences();
 	
 	/**
 	 * JDBC接続URLの雛形文字列を取得する。

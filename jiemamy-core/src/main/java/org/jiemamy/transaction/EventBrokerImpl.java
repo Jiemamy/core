@@ -105,7 +105,7 @@ public class EventBrokerImpl implements EventBroker {
 		logger.info(LogMarker.LIFECYCLE, "CommandListener is unregistered: " + listener.toString());
 	}
 	
-	public void setStrategy(DispatchStrategy strategy) {
+	public void setDefaultStrategy(DispatchStrategy strategy) {
 		Validate.notNull(strategy);
 		this.strategy = strategy;
 	}

@@ -21,12 +21,15 @@ package org.jiemamy.model.parameter;
 import org.apache.commons.lang.Validate;
 
 /**
- * TODO for daisuke
+ * {@link String}と{@link String}を相互変換するコンバータ。
  * 
  * @version $Id$
  * @author daisuke
  */
 public class StringConverter implements Converter<String> {
+	
+	StringConverter() {
+	}
 	
 	public String toString(String obj) {
 		Validate.notNull(obj);

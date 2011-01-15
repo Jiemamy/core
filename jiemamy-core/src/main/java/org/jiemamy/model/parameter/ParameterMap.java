@@ -57,11 +57,11 @@ public final class ParameterMap implements Iterable<Map.Entry<String, String>>, 
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * キーに対応する値を取得する。
 	 * 
-	 * @param <T>
-	 * @param key
-	 * @return
+	 * @param <T> 値の型
+	 * @param key キー
+	 * @return 値
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public <T>T get(ParameterKey<T> key) {
@@ -78,6 +78,15 @@ public final class ParameterMap implements Iterable<Map.Entry<String, String>>, 
 		return map.entrySet().iterator();
 	}
 	
+	/**
+	 * キーに対応する値を設定する。
+	 * 
+	 * @param <T> 値の型
+	 * @param key キー
+	 * @param value 値
+	 * @return 古い値。無かった場合は{@code null}
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
 	public <T>T put(ParameterKey<T> key, T value) {
 		Validate.notNull(key);
 		Validate.notNull(value);
@@ -91,10 +100,26 @@ public final class ParameterMap implements Iterable<Map.Entry<String, String>>, 
 		}
 	}
 	
+	/**
+	 * キーに文字列に対応する値文字列を設定する。
+	 * 
+	 * @param key キー文字列
+	 * @param value 値文字列
+	 * @return 古い値文字列。無かった場合は{@code null}
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
 	public String put(String key, String value) {
 		return map.put(key, value);
 	}
 	
+	/**
+	 * キーに対応する値を削除する。
+	 * 
+	 * @param <T> 値の型
+	 * @param key キー
+	 * @return 削除された値
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
 	public <T>T remove(ParameterKey<T> key) {
 		Validate.notNull(key);
 		Converter<T> converter = key.getConverter();
@@ -102,6 +127,11 @@ public final class ParameterMap implements Iterable<Map.Entry<String, String>>, 
 		return converter.valueOf(string);
 	}
 	
+	/**
+	 * パラメータ数を返す。
+	 * 
+	 * @return パラメータ数
+	 */
 	public int size() {
 		return map.size();
 	}

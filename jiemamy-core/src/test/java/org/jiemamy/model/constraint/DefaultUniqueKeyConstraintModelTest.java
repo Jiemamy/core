@@ -32,7 +32,7 @@ import org.jiemamy.model.column.ColumnModel;
 import org.jiemamy.model.table.TableModel;
 
 /**
- * TODO for daisuke
+ * {@link DefaultUniqueKeyConstraintModel}のテストクラス。
  * 
  * @version $Id$
  * @author daisuke

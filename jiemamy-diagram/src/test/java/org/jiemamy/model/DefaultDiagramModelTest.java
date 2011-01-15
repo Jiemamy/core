@@ -31,7 +31,7 @@ import org.junit.Test;
 import org.jiemamy.model.table.TableModel;
 
 /**
- * TODO for daisuke
+ * {@link DefaultDiagramModel}のテストクラス。
  * 
  * @version $Id$
  * @author daisuke

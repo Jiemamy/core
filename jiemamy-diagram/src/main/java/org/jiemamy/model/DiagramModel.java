@@ -24,11 +24,11 @@ import org.jiemamy.dddbase.OrderedEntity;
 /**
  * 一枚のER図を表すモデルインターフェイス。
  * 
- * @since TODO for daisuke
+ * @since 0.3
  * @version $Id$
  * @author daisuke
  */
-public interface DiagramModel extends DiagramElement, OrderedEntity {
+public interface DiagramModel extends OrderedEntity {
 	
 	DiagramModel clone();
 	

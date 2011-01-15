@@ -27,7 +27,7 @@ import org.jiemamy.model.geometory.JmColorTest;
 import org.jiemamy.model.geometory.JmRectangleTest;
 
 /**
- * TODO for daisuke
+ * {@link DefaultDatabaseObjectNodeModel}のテストクラス。
  * 
  * @version $Id$
  * @author daisuke

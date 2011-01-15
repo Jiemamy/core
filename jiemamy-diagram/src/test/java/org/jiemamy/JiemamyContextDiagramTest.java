@@ -28,7 +28,7 @@ import org.junit.Test;
 import org.jiemamy.model.DefaultDiagramModelTest;
 
 /**
- * TODO for daisuke
+ * {@link JiemamyContext}のテスト：Diagram版。
  * 
  * @version $Id$
  * @author daisuke

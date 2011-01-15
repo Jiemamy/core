@@ -52,7 +52,7 @@ public class SampleDialect extends AbstractDialect {
 		allDataTypes.add(new DefaultTypeReference(DataTypeCategory.VARCHAR));
 	}
 	
-	public List<TypeReference> getAllDataTypes() {
+	public List<TypeReference> getAllTypeReferences() {
 		return allDataTypes;
 	}
 	

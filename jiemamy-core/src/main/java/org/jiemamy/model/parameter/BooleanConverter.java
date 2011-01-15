@@ -21,12 +21,15 @@ package org.jiemamy.model.parameter;
 import org.apache.commons.lang.Validate;
 
 /**
- * TODO for daisuke
+ * {@link Boolean}と{@link String}を相互変換するコンバータ。
  * 
  * @version $Id$
  * @author daisuke
  */
 public class BooleanConverter implements Converter<Boolean> {
+	
+	BooleanConverter() {
+	}
 	
 	public String toString(Boolean obj) {
 		Validate.notNull(obj);

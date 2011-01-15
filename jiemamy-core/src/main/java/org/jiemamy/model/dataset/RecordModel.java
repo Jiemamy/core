@@ -78,7 +78,7 @@ public interface RecordModel extends ValueObject {
 	Map<EntityRef<? extends ColumnModel>, String> getValues();
 	
 	/**
-	 * TODO for daisuke
+	 * 1レコード分の各カラムとそのカラムに対する値のセットを、テーブルに定義したカラム順に取得するための {@link Iterable} インスタンスを取得する。
 	 * 
 	 * @param context コンテキスト
 	 * @param tableRef テーブル参照

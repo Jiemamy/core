@@ -21,7 +21,7 @@ package org.jiemamy.model.datatype;
 import org.apache.commons.lang.Validate;
 
 /**
- * TODO for daisuke
+ * {@link TypeReference}のデフォルト実装クラス。
  * 
  * @version $Id$
  * @author daisuke
@@ -36,7 +36,7 @@ public final class DefaultTypeReference implements TypeReference {
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param category
+	 * @param category 型カテゴリ
 	 * @throws NullPointerException 引数に{@code null}を与えた場合
 	 */
 	public DefaultTypeReference(DataTypeCategory category) {

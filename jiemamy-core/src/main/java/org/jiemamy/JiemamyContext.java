@@ -551,10 +551,11 @@ public/*final*/class JiemamyContext {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * このcontext用の {@link UUIDProvider} を利用して、文字列を {@link UUID} に変換する。
 	 * 
-	 * @param idString
-	 * @return
+	 * @param name 文字列
+	 * @return {@link UUID}
+	 * @see UUIDProvider
 	 */
 	public UUID toUUID(String name) {
 		return uuidProvider.valueOfOrRandom(name);

@@ -97,10 +97,12 @@ public class DiagramFacet implements JiemamyFacet {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * このファセットのダイアグラムのうち、{@code name}で示した名前を持つダイアグラムを返す。
 	 * 
 	 * @param name ダイアグラム名
-	 * @return
+	 * @return ダイアグラム
+	 * @throws DiagramNotFoundException カラムが見つからなかった場合
+	 * @throws TooManyDiagramsFoundException
 	 */
 	public DiagramModel getDiagram(final String name) {
 		Collection<DiagramModel> c = Collections2.filter(diagrams.getEntitiesAsList(), new Predicate<DiagramModel>() {
@@ -119,6 +121,11 @@ public class DiagramFacet implements JiemamyFacet {
 		}
 	}
 	
+	/**
+	 * このファセットが持つダイアグラムの {@link List} を返す。
+	 * 
+	 * @return このファセットが持つダイアグラムの {@link List}
+	 */
 	public List<? extends DiagramModel> getDiagrams() {
 		return diagrams.getEntitiesAsList();
 	}
@@ -146,14 +153,25 @@ public class DiagramFacet implements JiemamyFacet {
 	 * 
 	 * @param <T> エンティティの型
 	 * @param ref エンティティ参照
-	 * @return 実体
+	 * @return {@link Entity}
 	 * @throws EntityNotFoundException 参照で示すエンティティが見つからなかった場合
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public <T extends Entity>T resolve(EntityRef<T> ref) {
+		Validate.notNull(ref);
 		return diagrams.resolve(ref);
 	}
 	
+	/**
+	 * エンティティIDから、実体を引き当てる。
+	 * 
+	 * @param id ENTITY ID
+	 * @return {@link Entity}
+	 * @throws EntityNotFoundException 参照で示すエンティティが見つからなかった場合
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
 	public Entity resolve(UUID id) {
+		Validate.notNull(id);
 		return diagrams.resolve(id);
 	}
 	
@@ -161,8 +179,10 @@ public class DiagramFacet implements JiemamyFacet {
 	 * {@link DiagramModel}を保存する。
 	 * 
 	 * @param diagram ダイアグラム
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public void store(DiagramModel diagram) {
+		Validate.notNull(diagram);
 		DiagramModel old = null;
 		try {
 			old = resolve(diagram.toReference());

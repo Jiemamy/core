@@ -23,7 +23,6 @@ import java.util.Map;
 
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.OrderedEntity;
-import org.jiemamy.model.CoreElement;
 import org.jiemamy.model.table.TableModel;
 
 /**
@@ -32,7 +31,7 @@ import org.jiemamy.model.table.TableModel;
  * @since 0.2
  * @author daisuke
  */
-public interface DataSetModel extends CoreElement, OrderedEntity {
+public interface DataSetModel extends OrderedEntity {
 	
 	DataSetModel clone();
 	

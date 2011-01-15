@@ -31,10 +31,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.jiemamy.model.column.ColumnParameterKey;
-import org.jiemamy.model.parameter.BooleanConverter;
-import org.jiemamy.model.parameter.IntegerConverter;
+import org.jiemamy.model.parameter.Converters;
 import org.jiemamy.model.parameter.ParameterMap;
-import org.jiemamy.model.parameter.StringConverter;
 import org.jiemamy.utils.RandomUtil;
 
 /**
@@ -60,11 +58,11 @@ public class DefaultTypeVariantTest {
 		for (int i = 0; i < integer; i++) {
 			int p = RandomUtil.integer(2);
 			if (p == 0) {
-				params.put(new ColumnParameterKey<Boolean>(new BooleanConverter(), strNotEmpty()), bool());
+				params.put(new ColumnParameterKey<Boolean>(Converters.BOOLEAN, strNotEmpty()), bool());
 			} else if (p == 1) {
-				params.put(new ColumnParameterKey<Integer>(new IntegerConverter(), strNotEmpty()), integer(100));
+				params.put(new ColumnParameterKey<Integer>(Converters.INTEGER, strNotEmpty()), integer(100));
 			} else {
-				params.put(new ColumnParameterKey<String>(new StringConverter(), strNotEmpty()), str());
+				params.put(new ColumnParameterKey<String>(Converters.STRING, strNotEmpty()), str());
 			}
 		}
 		

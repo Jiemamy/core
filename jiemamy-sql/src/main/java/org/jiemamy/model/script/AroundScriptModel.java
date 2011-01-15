@@ -20,9 +20,9 @@ package org.jiemamy.model.script;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.ServiceLocator;
+import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.DatabaseObjectModel;
-import org.jiemamy.model.SqlElement;
 
 /**
  * 開始/終了スクリプトモデル。
@@ -30,7 +30,7 @@ import org.jiemamy.model.SqlElement;
  * @since 0.3
  * @author daisuke
  */
-public interface AroundScriptModel extends SqlElement {
+public interface AroundScriptModel extends Entity {
 	
 	EntityRef<? extends DatabaseObjectModel> getCoreModelRef();
 	

@@ -21,7 +21,7 @@ package org.jiemamy;
 import org.jiemamy.dddbase.EntityNotFoundException;
 
 /**
- * TODO for daisuke
+ * 指定した条件のテーブルが見つからなかった場合にスローされる例外。
  * 
  * @version $Id$
  * @author daisuke

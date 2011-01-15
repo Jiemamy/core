@@ -69,9 +69,9 @@ public interface TableModel extends DatabaseObjectModel {
 	ColumnModel getColumn(String name);
 	
 	/**
-	 * このテーブルのカラムの {@link List} を返す。
+	 * このテーブルが持つカラムの {@link List} を返す。
 	 * 
-	 * @return このテーブルのカラムの {@link List}
+	 * @return このテーブルが持つカラムの {@link List}
 	 */
 	List<ColumnModel> getColumns();
 	

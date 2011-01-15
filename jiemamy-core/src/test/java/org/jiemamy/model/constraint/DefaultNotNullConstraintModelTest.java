@@ -28,7 +28,7 @@ import org.junit.Test;
 import org.jiemamy.model.column.ColumnModel;
 
 /**
- * TODO for daisuke
+ * {@link DefaultNotNullConstraintModel}のテストクラス。
  * 
  * @version $Id$
  * @author daisuke

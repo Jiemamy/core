@@ -42,9 +42,7 @@ import org.jiemamy.model.datatype.DataTypeCategory;
 import org.jiemamy.model.datatype.DefaultTypeVariant;
 import org.jiemamy.model.datatype.DefaultTypeVariantTest;
 import org.jiemamy.model.datatype.TypeVariant;
-import org.jiemamy.model.parameter.BooleanConverter;
-import org.jiemamy.model.parameter.IntegerConverter;
-import org.jiemamy.model.parameter.StringConverter;
+import org.jiemamy.model.parameter.Converters;
 import org.jiemamy.utils.RandomUtil;
 import org.jiemamy.utils.UUIDUtil;
 
@@ -74,11 +72,11 @@ public class DefaultColumnModelTest {
 		for (int i = 0; i < integer; i++) {
 			int p = RandomUtil.integer(2);
 			if (p == 0) {
-				model.putParam(new ColumnParameterKey<Boolean>(new BooleanConverter(), strNotEmpty()), bool());
+				model.putParam(new ColumnParameterKey<Boolean>(Converters.BOOLEAN, strNotEmpty()), bool());
 			} else if (p == 1) {
-				model.putParam(new ColumnParameterKey<Integer>(new IntegerConverter(), strNotEmpty()), integer(100));
+				model.putParam(new ColumnParameterKey<Integer>(Converters.INTEGER, strNotEmpty()), integer(100));
 			} else {
-				model.putParam(new ColumnParameterKey<String>(new StringConverter(), strNotEmpty()), str());
+				model.putParam(new ColumnParameterKey<String>(Converters.STRING, strNotEmpty()), str());
 			}
 		}
 		

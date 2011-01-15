@@ -18,12 +18,15 @@
  */
 package org.jiemamy.model.geometory;
 
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
+
 import org.junit.Test;
 
 import org.jiemamy.utils.RandomUtil;
 
 /**
- * TODO for daisuke
+ * {@link JmRectangle}のテストクラス。
  * 
  * @version $Id$
  * @author daisuke
@@ -42,12 +45,66 @@ public class JmRectangleTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * インスタンス生成テスト。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void testname() throws Exception {
-		
+	public void test01_instance() throws Exception {
+		JmRectangle rectangle = new JmRectangle(100, 101);
+		assertThat(rectangle.x, is(100));
+		assertThat(rectangle.y, is(101));
+		assertThat(rectangle.width, is(JmRectangle.DEFAULT));
+		assertThat(rectangle.height, is(JmRectangle.DEFAULT));
+	}
+	
+	/**
+	 * インスタンス生成テスト。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test02_instance() throws Exception {
+		JmRectangle rectangle = new JmRectangle(100, 101, 50, 51);
+		assertThat(rectangle.x, is(100));
+		assertThat(rectangle.y, is(101));
+		assertThat(rectangle.width, is(50));
+		assertThat(rectangle.height, is(51));
+	}
+	
+	/**
+	 * 幅に負数を与えると例外。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@SuppressWarnings("unused")
+	@Test(expected = IllegalArgumentException.class)
+	public void test03_幅に負数を与えると例外() throws Exception {
+		new JmRectangle(100, 101, -50, 51);
+	}
+	
+	/**
+	 * 高さに負数を与えると例外。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@SuppressWarnings("unused")
+	@Test(expected = IllegalArgumentException.class)
+	public void test04_高さに負数を与えると例外() throws Exception {
+		new JmRectangle(100, 101, 50, -51);
+	}
+	
+	/**
+	 * 幅と高さは10以下を指定すると10になる。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test04_幅と高さは10以下を指定すると10になる() throws Exception {
+		JmRectangle rectangle = new JmRectangle(100, 101, 3, 8);
+		assertThat(rectangle.x, is(100));
+		assertThat(rectangle.y, is(101));
+		assertThat(rectangle.width, is(10));
+		assertThat(rectangle.height, is(10));
 	}
 }
