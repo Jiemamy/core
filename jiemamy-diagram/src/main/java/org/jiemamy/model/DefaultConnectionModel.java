@@ -43,9 +43,9 @@ public final class DefaultConnectionModel extends AbstractEntity implements Conn
 	
 	private JmColor color;
 	
-	private EntityRef<NodeModel> source;
+	private EntityRef<? extends NodeModel> source;
 	
-	private EntityRef<NodeModel> target;
+	private EntityRef<? extends NodeModel> target;
 	
 	private final EntityRef<? extends ForeignKeyConstraintModel> coreModelRef;
 	
@@ -84,11 +84,11 @@ public final class DefaultConnectionModel extends AbstractEntity implements Conn
 		return coreModelRef;
 	}
 	
-	public EntityRef<NodeModel> getSource() {
+	public EntityRef<? extends NodeModel> getSource() {
 		return source;
 	}
 	
-	public EntityRef<NodeModel> getTarget() {
+	public EntityRef<? extends NodeModel> getTarget() {
 		return target;
 	}
 	
@@ -105,11 +105,11 @@ public final class DefaultConnectionModel extends AbstractEntity implements Conn
 		this.color = color;
 	}
 	
-	public void setSource(EntityRef<NodeModel> source) {
+	public void setSource(EntityRef<? extends NodeModel> source) {
 		this.source = source;
 	}
 	
-	public void setTarget(EntityRef<NodeModel> target) {
+	public void setTarget(EntityRef<? extends NodeModel> target) {
 		this.target = target;
 	}
 	
