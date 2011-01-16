@@ -142,7 +142,7 @@ public final class DefaultAroundScriptModel extends AbstractEntity implements Ar
 		scripts.put(position, new ScriptString(script, scriptEngineClassName));
 	}
 	
-	public EntityRef<DefaultAroundScriptModel> toReference() {
+	public EntityRef<? extends DefaultAroundScriptModel> toReference() {
 		return new DefaultEntityRef<DefaultAroundScriptModel>(this);
 	}
 	

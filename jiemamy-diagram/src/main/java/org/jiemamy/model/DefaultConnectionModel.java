@@ -113,7 +113,7 @@ public final class DefaultConnectionModel extends AbstractEntity implements Conn
 		this.target = target;
 	}
 	
-	public EntityRef<ConnectionModel> toReference() {
-		return new DefaultEntityRef<ConnectionModel>(this);
+	public EntityRef<? extends DefaultConnectionModel> toReference() {
+		return new DefaultEntityRef<DefaultConnectionModel>(this);
 	}
 }

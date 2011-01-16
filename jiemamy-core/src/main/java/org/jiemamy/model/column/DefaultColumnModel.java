@@ -174,7 +174,7 @@ public final class DefaultColumnModel extends AbstractEntity implements ColumnMo
 		this.name = name;
 	}
 	
-	public EntityRef<DefaultColumnModel> toReference() {
+	public EntityRef<? extends DefaultColumnModel> toReference() {
 		return new DefaultEntityRef<DefaultColumnModel>(this);
 	}
 	

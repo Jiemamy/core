@@ -89,8 +89,8 @@ public final class DefaultIndexModel extends DefaultDatabaseObjectModel implemen
 		this.unique = unique;
 	}
 	
-	public EntityRef<IndexModel> toReference() {
-		return new DefaultEntityRef<IndexModel>(this);
+	public EntityRef<? extends DefaultIndexModel> toReference() {
+		return new DefaultEntityRef<DefaultIndexModel>(this);
 	}
 	
 	@Override

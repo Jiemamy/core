@@ -385,7 +385,7 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 		constraints.store(constraint);
 	}
 	
-	public EntityRef<DefaultTableModel> toReference() {
+	public EntityRef<? extends DefaultTableModel> toReference() {
 		return new DefaultEntityRef<DefaultTableModel>(this);
 	}
 	

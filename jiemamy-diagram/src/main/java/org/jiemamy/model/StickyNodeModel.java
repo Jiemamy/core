@@ -72,7 +72,7 @@ public class StickyNodeModel extends DefaultNodeModel {
 	}
 	
 	@Override
-	public EntityRef<StickyNodeModel> toReference() {
+	public EntityRef<? extends StickyNodeModel> toReference() {
 		return new DefaultEntityRef<StickyNodeModel>(this);
 	}
 }

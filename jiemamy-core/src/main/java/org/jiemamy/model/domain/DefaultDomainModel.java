@@ -150,7 +150,7 @@ public final class DefaultDomainModel extends DefaultDatabaseObjectModel impleme
 		this.notNull = notNull;
 	}
 	
-	public EntityRef<DefaultDomainModel> toReference() {
+	public EntityRef<? extends DefaultDomainModel> toReference() {
 		return new DefaultEntityRef<DefaultDomainModel>(this);
 	}
 	
