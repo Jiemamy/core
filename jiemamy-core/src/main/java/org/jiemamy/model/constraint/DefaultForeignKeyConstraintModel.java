@@ -25,12 +25,14 @@ import java.util.UUID;
 
 import com.google.common.collect.Lists;
 
+import org.jiemamy.TableNotFoundException;
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.utils.CloneUtil;
 import org.jiemamy.dddbase.utils.MutationMonitor;
 import org.jiemamy.model.column.ColumnModel;
+import org.jiemamy.model.table.TableModel;
 
 /**
  * {@link ForeignKeyConstraintModel}のデフォルト実装クラス。
@@ -73,6 +75,16 @@ public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstrain
 	private MatchType matchType;
 	
 
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param id ENTITY ID
+	 * @throws IllegalArgumentException 引数{@code id}に{@code null}を与えた場合
+	 */
+	public DefaultForeignKeyConstraintModel(UUID id) {
+		super(id);
+	}
+	
 //	/**
 //	 * インスタンスを生成する。
 //	 * 
@@ -143,16 +155,6 @@ public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstrain
 //		this.referenceColumns = Lists.newArrayList(referenceColumns);
 //	}
 	
-	/**
-	 * インスタンスを生成する。
-	 * 
-	 * @param id ENTITY ID
-	 * @throws IllegalArgumentException 引数{@code id}に{@code null}を与えた場合
-	 */
-	public DefaultForeignKeyConstraintModel(UUID id) {
-		super(id);
-	}
-	
 	public void addReferencing(EntityRef<? extends ColumnModel> key, EntityRef<? extends ColumnModel> ref) {
 		addKeyColumn(key);
 		referenceColumns.add(ref);
@@ -163,6 +165,15 @@ public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstrain
 		DefaultForeignKeyConstraintModel clone = (DefaultForeignKeyConstraintModel) super.clone();
 		clone.referenceColumns = CloneUtil.cloneValueArrayList(referenceColumns);
 		return clone;
+	}
+	
+	public TableModel findDeclaringTable(Collection<TableModel> tables) {
+		for (TableModel tableModel : tables) {
+			if (tableModel.getConstraints().contains(this)) {
+				return tableModel;
+			}
+		}
+		throw new TableNotFoundException("contains " + this + " in " + tables);
 	}
 	
 	public MatchType getMatchType() {
