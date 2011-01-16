@@ -16,15 +16,11 @@
  */
 package org.jiemamy.model;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.UUID;
 
 import org.jiemamy.dddbase.AbstractEntity;
 import org.jiemamy.dddbase.DefaultEntityRef;
-import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityRef;
-import org.jiemamy.dddbase.OnMemoryRepository;
 import org.jiemamy.model.geometory.JmColor;
 import org.jiemamy.model.geometory.JmRectangle;
 
@@ -41,8 +37,6 @@ public abstract class DefaultNodeModel extends AbstractEntity implements NodeMod
 	
 	private JmColor color;
 	
-	OnMemoryRepository<ConnectionModel> sourceConnections = new OnMemoryRepository<ConnectionModel>();
-	
 
 	/**
 	 * インスタンスを生成する。
@@ -56,17 +50,7 @@ public abstract class DefaultNodeModel extends AbstractEntity implements NodeMod
 	@Override
 	public DefaultNodeModel clone() {
 		DefaultNodeModel clone = (DefaultNodeModel) super.clone();
-		clone.sourceConnections = sourceConnections.clone();
 		return clone;
-	}
-	
-	/**
-	 * {@link ConnectionModel}を削除する。
-	 * 
-	 * @param reference 削除する{@link ConnectionModel}への参照
-	 */
-	public void delete(EntityRef<? extends ConnectionModel> reference) {
-		sourceConnections.delete(reference);
 	}
 	
 	public JmRectangle getBoundary() {
@@ -75,19 +59,6 @@ public abstract class DefaultNodeModel extends AbstractEntity implements NodeMod
 	
 	public JmColor getColor() {
 		return color;
-	}
-	
-	public Collection<? extends ConnectionModel> getSourceConnections() {
-		return sourceConnections.getEntitiesAsSet();
-	}
-	
-	@Override
-	public Collection<? extends Entity> getSubEntities() {
-		return getSourceConnections();
-	}
-	
-	public Collection<? extends ConnectionModel> getTargetConnections() {
-		return Collections.emptyList(); // FIXME ロジックで算出しなければならない
 	}
 	
 	/**
@@ -106,15 +77,6 @@ public abstract class DefaultNodeModel extends AbstractEntity implements NodeMod
 	 */
 	public void setColor(JmColor color) {
 		this.color = color;
-	}
-	
-	/**
-	 * 
-	 * 
-	 * @param connection source connection
-	 */
-	public void store(ConnectionModel connection) {
-		sourceConnections.store(connection);
 	}
 	
 	public EntityRef<? extends DefaultNodeModel> toReference() {

@@ -137,6 +137,16 @@ public final class DefaultDiagramModelSerializationHandler extends Serialization
 				getDirector().direct(nodeModel, sctx);
 			}
 			sctx.pop(); // -- end of nodes
+			
+			JiemamyOutputElement connectionsElement = diagramElement.addElement(DiagramQName.CONNECTIONS);
+			sctx.push(connectionsElement);
+			List<? extends ConnectionModel> connections = Lists.newArrayList(model.getConnections());
+			Collections.sort(connections, new EntityComparator());
+			for (ConnectionModel connectionModel : connections) {
+				getDirector().direct(connectionModel, sctx);
+			}
+			sctx.pop(); // -- end of nodes
+			
 			sctx.pop(); // -- end of diagram
 		} catch (XMLStreamException e) {
 			throw new SerializationException(e);

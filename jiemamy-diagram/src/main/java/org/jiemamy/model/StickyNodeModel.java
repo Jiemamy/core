@@ -18,8 +18,6 @@
  */
 package org.jiemamy.model;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.UUID;
 
 import org.jiemamy.dddbase.DefaultEntityRef;
@@ -59,18 +57,6 @@ public class StickyNodeModel extends DefaultNodeModel {
 	 */
 	public String getContents() {
 		return contents;
-	}
-	
-	@Override
-	public List<? extends ConnectionModel> getSourceConnections() {
-		// 現状で、Stickyはコネクションを持たない
-		return Collections.emptyList();
-	}
-	
-	@Override
-	public List<? extends ConnectionModel> getTargetConnections() {
-		// 現状で、Stickyはコネクションを持たない
-		return Collections.emptyList();
 	}
 	
 	/**

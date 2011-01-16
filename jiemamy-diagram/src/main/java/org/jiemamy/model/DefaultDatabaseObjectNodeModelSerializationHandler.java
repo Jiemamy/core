@@ -128,9 +128,6 @@ public final class DefaultDatabaseObjectNodeModelSerializationHandler extends
 			if (model.getColor() != null) {
 				getDirector().direct(model.getColor(), sctx);
 			}
-			for (ConnectionModel connectionModel : model.getSourceConnections()) {
-				getDirector().direct(connectionModel, sctx);
-			}
 			sctx.pop();
 		} catch (XMLStreamException e) {
 			throw new SerializationException(e);

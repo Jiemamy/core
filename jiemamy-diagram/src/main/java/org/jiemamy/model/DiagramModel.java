@@ -20,6 +20,7 @@ import java.util.Collection;
 
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.OrderedEntity;
+import org.jiemamy.model.constraint.ForeignKeyConstraintModel;
 
 /**
  * 一枚のER図を表すモデルインターフェイス。
@@ -32,7 +33,20 @@ public interface DiagramModel extends OrderedEntity {
 	
 	DiagramModel clone();
 	
-//	DatabaseObjectModel getDatabaseObjectFor(EntityRef<? extends NodeModel> ref);
+	/**
+	 * このダイアグラムにおける、指定した {@link ForeignKeyConstraintModel} の写像となる {@link ConnectionModel} を取得する。
+	 * 
+	 * @param ref {@link ForeignKeyConstraintModel}の参照
+	 * @return 写像となる {@link ConnectionModel}
+	 */
+	ConnectionModel getConnectionFor(EntityRef<? extends ForeignKeyConstraintModel> ref);
+	
+	/**
+	 * このダイアグラムが持つ{@link ConnectionModel}の集合を取得する。
+	 * 
+	 * @return {@link NodeModel}の集合
+	 */
+	Collection<? extends ConnectionModel> getConnections();
 	
 	/**
 	 * 表示レベルを取得する。
@@ -71,6 +85,26 @@ public interface DiagramModel extends OrderedEntity {
 	 * @return {@link NodeModel}の集合
 	 */
 	Collection<? extends NodeModel> getNodes();
+	
+	/**
+	 * このモデルを接続元とするコネクションの集合を取得する。
+	 * 
+	 * <p>返される{@link Collection}は他に影響を及ぼさない独立したインスタンスである。</p>
+	 * 
+	 * @return コネクションの集合
+	 * @since 0.2
+	 */
+	Collection<? extends ConnectionModel> getSourceConnectionsFor(EntityRef<? extends NodeModel> ref);
+	
+	/**
+	 * このモデルを接続先とするコネクションの集合を取得する。
+	 * 
+	 * <p>返される{@link Collection}は他に影響を及ぼさない独立したインスタンスである。</p>
+	 * 
+	 * @return コネクションの集合
+	 * @since 0.2
+	 */
+	Collection<? extends ConnectionModel> getTargetConnections(EntityRef<? extends NodeModel> ref);
 	
 	EntityRef<? extends DiagramModel> toReference();
 }

@@ -18,8 +18,6 @@
  */
 package org.jiemamy.model;
 
-import java.util.Collection;
-
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.geometory.JmColor;
@@ -50,26 +48,6 @@ public interface NodeModel extends Entity {
 	 * @since 0.2
 	 */
 	JmColor getColor();
-	
-	/**
-	 * このモデルを接続元とするコネクションの集合を取得する。
-	 * 
-	 * <p>返される{@link Collection}は他に影響を及ぼさない独立したインスタンスである。</p>
-	 * 
-	 * @return コネクションの集合
-	 * @since 0.2
-	 */
-	Collection<? extends ConnectionModel> getSourceConnections();
-	
-	/**
-	 * このモデルを接続先とするコネクションの集合を取得する。
-	 * 
-	 * <p>返される{@link Collection}は他に影響を及ぼさない独立したインスタンスである。</p>
-	 * 
-	 * @return コネクションの集合
-	 * @since 0.2
-	 */
-	Collection<? extends ConnectionModel> getTargetConnections();
 	
 	EntityRef<? extends NodeModel> toReference();
 }
