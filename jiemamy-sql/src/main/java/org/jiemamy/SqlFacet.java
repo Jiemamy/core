@@ -25,6 +25,7 @@ import org.apache.commons.lang.Validate;
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityNotFoundException;
 import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.OnMemoryEntityResolver;
 import org.jiemamy.dddbase.OnMemoryRepository;
 import org.jiemamy.dialect.Dialect;
 import org.jiemamy.dialect.EmitConfig;
@@ -117,6 +118,10 @@ public class SqlFacet implements JiemamyFacet {
 	
 	public JiemamyNamespace[] getNamespaces() {
 		return SqlNamespace.values();
+	}
+	
+	public OnMemoryEntityResolver<?> getResolver() {
+		return scripts;
 	}
 	
 	public void prepareSerializationHandlers(SerializationDirector director) {

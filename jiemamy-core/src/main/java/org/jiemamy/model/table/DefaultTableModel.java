@@ -41,6 +41,7 @@ import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityNotFoundException;
 import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.OnMemoryCompositeEntityResolver;
 import org.jiemamy.dddbase.OnMemoryRepository;
 import org.jiemamy.dddbase.OrderedOnMemoryRepository;
 import org.jiemamy.dddbase.utils.MutationMonitor;
@@ -355,12 +356,38 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 		super.removeParam(key);
 	}
 	
+	/**
+	 * エンティティ参照から、{@link Entity}を引き当てる。
+	 * 
+	 * <p>リポジトリは、この実体のクローンを返す。従って、取得した {@link Entity}に対して
+	 * ミューテーションを起こしても、ストアした実体には影響を及ぼさない。</p>
+	 * 
+	 * <p>検索対象は子エンティティも含む。</p>
+	 * 
+	 * @param <T> エンティティの型
+	 * @param reference エンティティ参照
+	 * @return {@link Entity}
+	 * @throws EntityNotFoundException 参照で示すエンティティが見つからなかった場合
+	 */
 	public <T extends Entity>T resolve(EntityRef<T> reference) {
-		return columns.resolve(reference);
+		return new OnMemoryCompositeEntityResolver(columns, constraints).resolve(reference);
 	}
 	
+	/**
+	 * 指定したIDを持つ{@link Entity}を引き当てる。
+	 * 
+	 * <p>リポジトリは、この実体のクローンを返す。従って、取得した {@link Entity}に対して
+	 * ミューテーションを起こしても、ストアした実体には影響を及ぼさない。</p>
+	 * 
+	 * <p>検索対象は子エンティティも含む。</p>
+	 * 
+	 * @param id ENTITY ID
+	 * @return 見つかった{@link Entity}
+	 * @throws EntityNotFoundException 参照で示すエンティティが見つからなかった場合
+	 * @since 1.0.0
+	 */
 	public Entity resolve(UUID id) {
-		return columns.resolve(id);
+		return new OnMemoryCompositeEntityResolver(columns, constraints).resolve(id);
 	}
 	
 	/**

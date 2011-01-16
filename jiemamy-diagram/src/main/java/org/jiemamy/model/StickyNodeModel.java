@@ -29,7 +29,7 @@ import org.jiemamy.dddbase.EntityRef;
  * @since 0.2
  * @author daisuke
  */
-public class StickyNodeModel extends DefaultNodeModel {
+public final class StickyNodeModel extends DefaultNodeModel {
 	
 	/** 内容文 */
 	private String contents;

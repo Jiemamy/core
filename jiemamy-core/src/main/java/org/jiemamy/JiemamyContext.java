@@ -39,6 +39,8 @@ import org.slf4j.LoggerFactory;
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityNotFoundException;
 import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.OnMemoryCompositeEntityResolver;
+import org.jiemamy.dddbase.OnMemoryEntityResolver;
 import org.jiemamy.dddbase.OnMemoryRepository;
 import org.jiemamy.dddbase.OrderedOnMemoryRepository;
 import org.jiemamy.dddbase.utils.MutationMonitor;
@@ -468,12 +470,12 @@ public/*final*/class JiemamyContext {
 	 * <p>検索対象は子エンティティも含む。</p>
 	 * 
 	 * @param <T> エンティティの型
-	 * @param ref エンティティ参照
+	 * @param reference エンティティ参照
 	 * @return {@link Entity}
 	 * @throws EntityNotFoundException 参照で示すエンティティが見つからなかった場合
 	 */
-	public <T extends Entity>T resolve(EntityRef<T> ref) {
-		return doms.resolve(ref);
+	public <T extends Entity>T resolve(EntityRef<T> reference) {
+		return getCompositeResolver().resolve(reference);
 	}
 	
 	/**
@@ -489,7 +491,7 @@ public/*final*/class JiemamyContext {
 	 * @throws EntityNotFoundException 参照で示すエンティティが見つからなかった場合
 	 */
 	public Entity resolve(UUID id) {
-		return doms.resolve(id);
+		return getCompositeResolver().resolve(id);
 	}
 	
 	/**
@@ -565,6 +567,16 @@ public/*final*/class JiemamyContext {
 	 */
 	public UUID toUUID(String name) {
 		return uuidProvider.valueOfOrRandom(name);
+	}
+	
+	private OnMemoryCompositeEntityResolver getCompositeResolver() {
+		Collection<OnMemoryEntityResolver<?>> c = Lists.newArrayList();
+		c.add(doms);
+		c.add(dsms);
+		for (JiemamyFacet facet : facets.values()) {
+			c.add(facet.getResolver());
+		}
+		return new OnMemoryCompositeEntityResolver(c.toArray(new OnMemoryEntityResolver[0]));
 	}
 	
 }

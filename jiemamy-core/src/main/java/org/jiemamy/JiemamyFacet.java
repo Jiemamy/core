@@ -18,6 +18,7 @@
  */
 package org.jiemamy;
 
+import org.jiemamy.dddbase.OnMemoryEntityResolver;
 import org.jiemamy.serializer.stax2.SerializationDirector;
 import org.jiemamy.serializer.stax2.SerializationHandler;
 import org.jiemamy.xml.JiemamyNamespace;
@@ -38,6 +39,8 @@ public interface JiemamyFacet {
 	 * @return 利用する全ての名前空間
 	 */
 	JiemamyNamespace[] getNamespaces();
+	
+	OnMemoryEntityResolver<?> getResolver();
 	
 	/**
 	 * {@link SerializationDirector}に対して各種 {@link SerializationHandler} を設定する。

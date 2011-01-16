@@ -138,7 +138,7 @@
     <dependency>
       <groupId>org.jiemamy</groupId>
       <artifactId>dddbase</artifactId>
-      <version>[1.1.0, 1.2.0)</version>
+      <version>1.1.4</version>
     </dependency>
   </dependencies>
   <repositories>

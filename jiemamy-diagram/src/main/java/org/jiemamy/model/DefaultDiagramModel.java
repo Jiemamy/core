@@ -29,6 +29,7 @@ import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityNotFoundException;
 import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.OnMemoryCompositeEntityResolver;
 import org.jiemamy.dddbase.OnMemoryRepository;
 import org.jiemamy.model.constraint.ForeignKeyConstraintModel;
 
@@ -175,12 +176,12 @@ public final class DefaultDiagramModel extends AbstractEntity implements Diagram
 	 * <p>検索対象は子エンティティも含む。</p>
 	 * 
 	 * @param <T> エンティティの型
-	 * @param ref エンティティ参照
+	 * @param reference エンティティ参照
 	 * @return {@link Entity}
 	 * @throws EntityNotFoundException 参照で示すエンティティが見つからなかった場合
 	 */
-	public <T extends Entity>T resolve(EntityRef<T> ref) {
-		return nodes.resolve(ref);
+	public <T extends Entity>T resolve(EntityRef<T> reference) {
+		return new OnMemoryCompositeEntityResolver(nodes, connections).resolve(reference);
 	}
 	
 	/**
@@ -197,7 +198,7 @@ public final class DefaultDiagramModel extends AbstractEntity implements Diagram
 	 * @since 1.0.0
 	 */
 	public Entity resolve(UUID id) {
-		return nodes.resolve(id);
+		return new OnMemoryCompositeEntityResolver(nodes, connections).resolve(id);
 	}
 	
 	public void setIndex(int index) {

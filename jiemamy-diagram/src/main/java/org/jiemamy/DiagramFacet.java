@@ -31,6 +31,7 @@ import org.apache.commons.lang.Validate;
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityNotFoundException;
 import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.OnMemoryEntityResolver;
 import org.jiemamy.dddbase.OrderedOnMemoryRepository;
 import org.jiemamy.model.DefaultConnectionModel;
 import org.jiemamy.model.DefaultConnectionModelSerializationHandler;
@@ -137,6 +138,10 @@ public class DiagramFacet implements JiemamyFacet {
 	
 	public JiemamyNamespace[] getNamespaces() {
 		return DiagramNamespace.values();
+	}
+	
+	public OnMemoryEntityResolver<?> getResolver() {
+		return diagrams;
 	}
 	
 	public void prepareSerializationHandlers(SerializationDirector director) {
