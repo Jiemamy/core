@@ -54,8 +54,8 @@ public final class ScriptString {
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param script
-	 * @param scriptEngineClassName
+	 * @param script スクリプト文字列
+	 * @param scriptEngineClass {@link ScriptEngine}の実装クラス
 	 */
 	public ScriptString(String script, Class<? extends ScriptEngine> scriptEngineClass) {
 		this(script, scriptEngineClass.getName());
@@ -64,8 +64,8 @@ public final class ScriptString {
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param script
-	 * @param scriptEngineClassName
+	 * @param script スクリプト文字列
+	 * @param scriptEngineClassName {@link ScriptEngine}の実装クラス名
 	 */
 	public ScriptString(String script, String scriptEngineClassName) {
 		Validate.notNull(script);
@@ -103,10 +103,20 @@ public final class ScriptString {
 		return true;
 	}
 	
+	/**
+	 * スクリプト文字列を取得する。
+	 * 
+	 * @return スクリプト文字列
+	 */
 	public String getScript() {
 		return script;
 	}
 	
+	/**
+	 * {@link ScriptEngine}の実装クラス名を取得する。
+	 * 
+	 * @return {@link ScriptEngine}の実装クラス名
+	 */
 	public String getScriptEngineClassName() {
 		return scriptEngineClassName;
 	}

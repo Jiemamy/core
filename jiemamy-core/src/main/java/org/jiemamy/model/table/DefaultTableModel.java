@@ -369,6 +369,7 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	 * @return {@link Entity}
 	 * @throws EntityNotFoundException 参照で示すエンティティが見つからなかった場合
 	 */
+	@Deprecated
 	public <T extends Entity>T resolve(EntityRef<T> reference) {
 		return new OnMemoryCompositeEntityResolver(columns, constraints).resolve(reference);
 	}
@@ -386,6 +387,7 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	 * @throws EntityNotFoundException 参照で示すエンティティが見つからなかった場合
 	 * @since 1.0.0
 	 */
+	@Deprecated
 	public Entity resolve(UUID id) {
 		return new OnMemoryCompositeEntityResolver(columns, constraints).resolve(id);
 	}

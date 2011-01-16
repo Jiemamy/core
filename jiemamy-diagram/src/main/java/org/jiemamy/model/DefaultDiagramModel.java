@@ -68,6 +68,7 @@ public final class DefaultDiagramModel extends AbstractEntity implements Diagram
 	public DefaultDiagramModel clone() {
 		DefaultDiagramModel clone = (DefaultDiagramModel) super.clone();
 		clone.nodes = nodes.clone();
+		clone.connections = connections.clone();
 		return clone;
 	}
 	
@@ -180,6 +181,7 @@ public final class DefaultDiagramModel extends AbstractEntity implements Diagram
 	 * @return {@link Entity}
 	 * @throws EntityNotFoundException 参照で示すエンティティが見つからなかった場合
 	 */
+	@Deprecated
 	public <T extends Entity>T resolve(EntityRef<T> reference) {
 		return new OnMemoryCompositeEntityResolver(nodes, connections).resolve(reference);
 	}
@@ -197,6 +199,7 @@ public final class DefaultDiagramModel extends AbstractEntity implements Diagram
 	 * @throws EntityNotFoundException 参照で示すエンティティが見つからなかった場合
 	 * @since 1.0.0
 	 */
+	@Deprecated
 	public Entity resolve(UUID id) {
 		return new OnMemoryCompositeEntityResolver(nodes, connections).resolve(id);
 	}

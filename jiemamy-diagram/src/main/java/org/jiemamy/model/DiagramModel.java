@@ -87,22 +87,28 @@ public interface DiagramModel extends OrderedEntity {
 	Collection<? extends NodeModel> getNodes();
 	
 	/**
-	 * このモデルを接続元とするコネクションの集合を取得する。
+	 * 指定したノードを接続元（起点）とするコネクションの集合を取得する。
 	 * 
 	 * <p>返される{@link Collection}は他に影響を及ぼさない独立したインスタンスである。</p>
 	 * 
+	 * @param ref ノード参照
 	 * @return コネクションの集合
-	 * @since 0.2
+	 * @throws IllegalArgumentException 指定したノードが、このダイアグラムに属していない場合
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @since 0.3
 	 */
 	Collection<? extends ConnectionModel> getSourceConnectionsFor(EntityRef<? extends NodeModel> ref);
 	
 	/**
-	 * このモデルを接続先とするコネクションの集合を取得する。
+	 * 指定したノードを接続先（終点）とするコネクションの集合を取得する。
 	 * 
 	 * <p>返される{@link Collection}は他に影響を及ぼさない独立したインスタンスである。</p>
 	 * 
+	 * @param ref ノード参照
 	 * @return コネクションの集合
-	 * @since 0.2
+	 * @throws IllegalArgumentException 指定したノードが、このダイアグラムに属していない場合
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @since 0.3
 	 */
 	Collection<? extends ConnectionModel> getTargetConnections(EntityRef<? extends NodeModel> ref);
 	

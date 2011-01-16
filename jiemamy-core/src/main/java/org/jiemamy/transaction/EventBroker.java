@@ -33,7 +33,7 @@ public interface EventBroker {
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 0.2
 	 */
-	void addListener(StoredEventListener listener);
+	void addListener(StoredEventListener<?> listener);
 	
 	/**
 	 * 指定されたリスナを、通知の判断を行う戦略と共に登録する。
@@ -43,7 +43,7 @@ public interface EventBroker {
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 0.2
 	 */
-	void addListener(StoredEventListener listener, DispatchStrategy strategy);
+	void addListener(StoredEventListener<?> listener, DispatchStrategy strategy);
 	
 	/**
 	 * EDITコマンドをイベントとして登録されたリスナに通知する。
@@ -63,7 +63,7 @@ public interface EventBroker {
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 0.2
 	 */
-	void removeListener(StoredEventListener listener);
+	void removeListener(StoredEventListener<?> listener);
 	
 	/**
 	 * リスナに対する通知が必要かどうかを判断するためのデフォルト戦略を設定する。

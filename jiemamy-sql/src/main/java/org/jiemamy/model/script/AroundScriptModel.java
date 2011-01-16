@@ -32,6 +32,12 @@ import org.jiemamy.script.ScriptEngine;
  */
 public interface AroundScriptModel extends Entity {
 	
+	/**
+	 * コアモデルへの参照を取得する。
+	 * 
+	 * @return コアモデルへの参照。コアが無い場合は{@code null}
+	 * @since 0.3
+	 */
 	EntityRef<? extends DatabaseObjectModel> getCoreModelRef();
 	
 	/**

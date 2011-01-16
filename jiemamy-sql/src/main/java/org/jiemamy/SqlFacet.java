@@ -77,7 +77,7 @@ public class SqlFacet implements JiemamyFacet {
 		this.context = context;
 	}
 	
-	public void delete(EntityRef<? extends AroundScriptModel> ref) {
+	public void deleteScript(EntityRef<? extends AroundScriptModel> ref) {
 		AroundScriptModel deleted = scripts.delete(ref);
 		context.getEventBroker().fireEvent(new StoredEvent<AroundScriptModel>(scripts, deleted, null));
 	}
@@ -132,10 +132,29 @@ public class SqlFacet implements JiemamyFacet {
 		// CHECKSTYLE:ON FORMAT-ON
 	}
 	
+	/**
+	 * エンティティ参照から、実体を引き当てる。
+	 * 
+	 * @param <T> エンティティの型
+	 * @param ref エンティティ参照
+	 * @return {@link Entity}
+	 * @throws EntityNotFoundException 参照で示すエンティティが見つからなかった場合
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	@Deprecated
 	public <T extends Entity>T resolve(EntityRef<T> ref) {
 		return scripts.resolve(ref);
 	}
 	
+	/**
+	 * エンティティIDから、実体を引き当てる。
+	 * 
+	 * @param id ENTITY ID
+	 * @return {@link Entity}
+	 * @throws EntityNotFoundException 参照で示すエンティティが見つからなかった場合
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	@Deprecated
 	public Entity resolve(UUID id) {
 		return scripts.resolve(id);
 	}

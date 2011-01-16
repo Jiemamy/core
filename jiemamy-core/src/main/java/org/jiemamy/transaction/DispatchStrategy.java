@@ -34,6 +34,6 @@ public interface DispatchStrategy {
 	 * @return dispatchが必要な場合は{@code true}、そうでない場合は{@code false}
 	 * @since 0.2
 	 */
-	boolean needToDispatch(StoredEventListener listener, StoredEvent<?> command);
+	boolean needToDispatch(StoredEventListener<?> listener, StoredEvent<?> command);
 	
 }

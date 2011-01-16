@@ -107,8 +107,8 @@ public class DiagramFacet implements JiemamyFacet {
 	 * 
 	 * @param name ダイアグラム名
 	 * @return ダイアグラム
-	 * @throws DiagramNotFoundException カラムが見つからなかった場合
-	 * @throws TooManyDiagramsFoundException
+	 * @throws DiagramNotFoundException ダイアグラムが見つからなかった場合
+	 * @throws TooManyDiagramsFoundException 同名のダイアグラムが複数見つかった場合
 	 */
 	public DiagramModel getDiagram(final String name) {
 		Collection<DiagramModel> c = Collections2.filter(diagrams.getEntitiesAsList(), new Predicate<DiagramModel>() {
@@ -167,6 +167,7 @@ public class DiagramFacet implements JiemamyFacet {
 	 * @throws EntityNotFoundException 参照で示すエンティティが見つからなかった場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
+	@Deprecated
 	public <T extends Entity>T resolve(EntityRef<T> ref) {
 		Validate.notNull(ref);
 		return diagrams.resolve(ref);
@@ -180,6 +181,7 @@ public class DiagramFacet implements JiemamyFacet {
 	 * @throws EntityNotFoundException 参照で示すエンティティが見つからなかった場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
+	@Deprecated
 	public Entity resolve(UUID id) {
 		Validate.notNull(id);
 		return diagrams.resolve(id);
@@ -195,7 +197,7 @@ public class DiagramFacet implements JiemamyFacet {
 		Validate.notNull(diagram);
 		DiagramModel old = null;
 		try {
-			old = resolve(diagram.toReference());
+			old = diagrams.resolve(diagram.toReference());
 		} catch (EntityNotFoundException e) {
 			// ignore
 		}

@@ -105,18 +105,20 @@ public class SqlFacetTest {
 		}
 		
 		// SqlFacet#resolve(EntityRef) で取り出せる
+		@SuppressWarnings("deprecation")
 		DefaultAroundScriptModel asm3 = facet.resolve(asm.toReference());
 		assertThat(asm3, is(equalTo((AroundScriptModel) asm)));
 		assertThat(asm3, is(not(sameInstance((AroundScriptModel) asm))));
 		assertThat(asm3, is(not(sameInstance(asm2))));
 		
 		// SqlFacet#resolve(UUID) で取り出せる
+		@SuppressWarnings("deprecation")
 		Entity asm4 = facet.resolve(asm.getId());
 		assertThat(asm4, is(equalTo((Entity) asm)));
 		assertThat(asm4, is(not(sameInstance((Entity) asm))));
 		
 		assertThat(facet.getAroundScripts().size(), is(1));
-		facet.delete(asm.toReference());
+		facet.deleteScript(asm.toReference());
 		assertThat(facet.getAroundScripts().size(), is(0));
 	}
 }

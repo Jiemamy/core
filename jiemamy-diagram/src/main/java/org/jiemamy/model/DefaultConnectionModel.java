@@ -61,6 +61,15 @@ public final class DefaultConnectionModel extends AbstractEntity implements Conn
 		this.coreModelRef = coreModelRef;
 	}
 	
+	/**
+	 * ベンドポイントのリストを取得する。
+	 * 
+	 * <p>このメソッドはフィールドとして保持する可変オブジェクトを直接返すことによって、
+	 * 内部表現を暴露していることに注意すること。</p>
+	 * 
+	 * @return ベンドポイントのリスト
+	 * @see #getBendpoints()
+	 */
 	public List<JmPoint> breachEncapsulationOfBendpoints() {
 		return bendpoints;
 	}
@@ -105,10 +114,20 @@ public final class DefaultConnectionModel extends AbstractEntity implements Conn
 		this.color = color;
 	}
 	
+	/**
+	 * 接続元ノードを設定する。
+	 * 
+	 * @param source 接続元ノード
+	 */
 	public void setSource(EntityRef<? extends NodeModel> source) {
 		this.source = source;
 	}
 	
+	/**
+	 * 接続先ノードを設定する。
+	 * 
+	 * @param target 接続先ノード
+	 */
 	public void setTarget(EntityRef<? extends NodeModel> target) {
 		this.target = target;
 	}

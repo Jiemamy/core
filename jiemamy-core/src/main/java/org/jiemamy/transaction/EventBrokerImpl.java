@@ -42,20 +42,20 @@ public class EventBrokerImpl implements EventBroker {
 	
 	private static Logger logger = LoggerFactory.getLogger(EventBrokerImpl.class);
 	
-	private List<StoredEventListener> listeners = Lists.newArrayList();
+	private List<StoredEventListener<?>> listeners = Lists.newArrayList();
 	
 	private DispatchStrategy strategy = new DefaultDispatchStrategy();
 	
-	private Map<StoredEventListener, DispatchStrategy> strategies = Maps.newHashMap();
+	private Map<StoredEventListener<?>, DispatchStrategy> strategies = Maps.newHashMap();
 	
 
-	public void addListener(StoredEventListener listener) {
+	public void addListener(StoredEventListener<?> listener) {
 		Validate.notNull(listener);
 		listeners.add(listener);
 		logger.info(LogMarker.LIFECYCLE, "CommandListener is registered: " + listener.toString());
 	}
 	
-	public void addListener(StoredEventListener listener, DispatchStrategy strategy) {
+	public void addListener(StoredEventListener<?> listener, DispatchStrategy strategy) {
 		Validate.notNull(listener);
 		Validate.notNull(strategy);
 		listeners.add(listener);
@@ -68,7 +68,7 @@ public class EventBrokerImpl implements EventBroker {
 		Validate.notNull(command);
 		logger.info(LogMarker.LIFECYCLE, "EventBroker is kicked enter: " + command.toString());
 		// java.util.ConcurrentModificationExceptionへの対策。
-		List<StoredEventListener> listenersSnapthot = Lists.newArrayList(listeners);
+		List<StoredEventListener<?>> listenersSnapthot = Lists.newArrayList(listeners);
 		for (StoredEventListener listener : listenersSnapthot) {
 			boolean needToDispatch = false;
 			if (strategies.containsKey(listener)) {
@@ -92,11 +92,11 @@ public class EventBrokerImpl implements EventBroker {
 	 * 
 	 * @return the listeners
 	 */
-	public List<StoredEventListener> getListeners() {
+	public List<StoredEventListener<?>> getListeners() {
 		return Lists.newArrayList(listeners);
 	}
 	
-	public void removeListener(StoredEventListener listener) {
+	public void removeListener(StoredEventListener<?> listener) {
 		Validate.notNull(listener);
 		listeners.remove(listener);
 		if (strategies.containsKey(listener)) {
@@ -113,7 +113,7 @@ public class EventBrokerImpl implements EventBroker {
 
 	static class DefaultDispatchStrategy implements DispatchStrategy {
 		
-		public boolean needToDispatch(StoredEventListener listener, StoredEvent command) {
+		public boolean needToDispatch(StoredEventListener<?> listener, StoredEvent<?> command) {
 			return true;
 		}
 	}
