@@ -37,6 +37,22 @@ public enum DefaultDeferrabilityModel implements DeferrabilityModel {
 	/** 遅延評価可能であり、基本的に遅延評価であることを表す。 */
 	DEFERRABLE_DEFERRED(true, InitiallyCheckTime.DEFERRED);
 	
+	public static DefaultDeferrabilityModel valueOf(boolean deferrable, InitiallyCheckTime initiallyCheckTime) {
+		if (deferrable) {
+			if (initiallyCheckTime == null) {
+				return DEFERRABLE;
+			} else if (initiallyCheckTime == InitiallyCheckTime.IMMEDIATE) {
+				return DEFERRABLE_IMMEDIATE;
+			} else if (initiallyCheckTime == InitiallyCheckTime.DEFERRED) {
+				return DEFERRABLE_DEFERRED;
+			}
+		} else {
+			return INDEFERRABLE;
+		}
+		throw new IllegalArgumentException();
+	}
+	
+
 	/**
 	 * 遅延評価可能性
 	 * 
