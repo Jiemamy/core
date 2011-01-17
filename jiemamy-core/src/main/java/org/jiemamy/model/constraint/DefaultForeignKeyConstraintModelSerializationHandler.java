@@ -30,6 +30,8 @@ import org.slf4j.LoggerFactory;
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.column.ColumnModel;
+import org.jiemamy.model.constraint.ForeignKeyConstraintModel.MatchType;
+import org.jiemamy.model.constraint.ForeignKeyConstraintModel.ReferentialAction;
 import org.jiemamy.model.table.DefaultTableModel;
 import org.jiemamy.serializer.SerializationException;
 import org.jiemamy.serializer.stax2.DeserializationContext;
@@ -91,6 +93,15 @@ public final class DefaultForeignKeyConstraintModelSerializationHandler extends
 					} else if (childCursor.isQName(CoreQName.DEFERRABILITY)) {
 						String text = childCursor.collectDescendantText(false);
 						fkModel.setDeferrability(DefaultDeferrabilityModel.valueOf(text));
+					} else if (childCursor.isQName(CoreQName.MATCH_TYPE)) {
+						String text = childCursor.collectDescendantText(false);
+						fkModel.setMatchType(MatchType.valueOf(text));
+					} else if (childCursor.isQName(CoreQName.ON_DELETE)) {
+						String text = childCursor.collectDescendantText(false);
+						fkModel.setOnDelete(ReferentialAction.valueOf(text));
+					} else if (childCursor.isQName(CoreQName.ON_UPDATE)) {
+						String text = childCursor.collectDescendantText(false);
+						fkModel.setOnDelete(ReferentialAction.valueOf(text));
 					} else if (childCursor.isQName(CoreQName.KEY_COLUMNS)) {
 						JiemamyCursor keyColumnsCursor = childCursor.childElementCursor();
 						while (keyColumnsCursor.getNext() != null) {
@@ -139,6 +150,9 @@ public final class DefaultForeignKeyConstraintModelSerializationHandler extends
 			if (model.getDeferrability() != null) {
 				getDirector().direct(model.getDeferrability(), sctx);
 			}
+			element.addElementAndCharacters(CoreQName.MATCH_TYPE, model.getMatchType());
+			element.addElementAndCharacters(CoreQName.ON_DELETE, model.getOnDelete());
+			element.addElementAndCharacters(CoreQName.ON_UPDATE, model.getOnUpdate());
 			
 			JiemamyOutputElement keyColumnsElement = element.addElement(CoreQName.KEY_COLUMNS);
 			for (EntityRef<? extends ColumnModel> entityRef : model.getKeyColumns()) {
