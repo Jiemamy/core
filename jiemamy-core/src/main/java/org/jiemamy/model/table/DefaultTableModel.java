@@ -62,34 +62,7 @@ import org.jiemamy.transaction.StoredEvent;
  */
 public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implements TableModel {
 	
-	/**
-	 * {@code tables}の中から、このカラムが所属するテーブルを取得する。
-	 * 
-	 * @param tables 対象{@link TableModel}
-	 * @param columnModel 対象カラム
-	 * @return この属性が所属するテーブル. どのテーブルにも所属していない場合は{@code null}
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 */
-	static TableModel findDeclaringTable(Collection<TableModel> tables, final ColumnModel columnModel) {
-		Validate.noNullElements(tables);
-		Validate.notNull(columnModel);
-		Collection<TableModel> c = Collections2.filter(tables, new Predicate<TableModel>() {
-			
-			public boolean apply(TableModel tableModel) {
-				return tableModel.getColumns().contains(columnModel);
-			}
-		});
-		
-		try {
-			return Iterables.getOnlyElement(c);
-		} catch (NoSuchElementException e) {
-			throw new TableNotFoundException("column=" + columnModel);
-		} catch (IllegalArgumentException e) {
-			throw new TooManyTablesFoundException(c);
-		}
-	}
-	
-	static DatabaseObjectModel findReferencedDatabaseObject(Collection<DatabaseObjectModel> databaseObjects,
+	public static DatabaseObjectModel findReferencedDatabaseObject(Collection<DatabaseObjectModel> databaseObjects,
 			ForeignKeyConstraintModel foreignKey) {
 		Validate.noNullElements(databaseObjects);
 		Validate.notNull(foreignKey);
@@ -116,7 +89,7 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	 * @return 指定した外部キーが参照するキー. 該当するキーが存在しなかった場合、{@code null}
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	static KeyConstraintModel findReferencedKeyConstraint(Collection<DatabaseObjectModel> databaseObjects,
+	public static KeyConstraintModel findReferencedKeyConstraint(Collection<DatabaseObjectModel> databaseObjects,
 			ForeignKeyConstraintModel foreignKey) {
 		Validate.noNullElements(databaseObjects);
 		Validate.notNull(foreignKey);
@@ -136,6 +109,33 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 			}
 		}
 		return null;
+	}
+	
+	/**
+	 * {@code tables}の中から、このカラムが所属するテーブルを取得する。
+	 * 
+	 * @param tables 対象{@link TableModel}
+	 * @param columnModel 対象カラム
+	 * @return この属性が所属するテーブル. どのテーブルにも所属していない場合は{@code null}
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	static TableModel findDeclaringTable(Collection<TableModel> tables, final ColumnModel columnModel) {
+		Validate.noNullElements(tables);
+		Validate.notNull(columnModel);
+		Collection<TableModel> c = Collections2.filter(tables, new Predicate<TableModel>() {
+			
+			public boolean apply(TableModel tableModel) {
+				return tableModel.getColumns().contains(columnModel);
+			}
+		});
+		
+		try {
+			return Iterables.getOnlyElement(c);
+		} catch (NoSuchElementException e) {
+			throw new TableNotFoundException("column=" + columnModel);
+		} catch (IllegalArgumentException e) {
+			throw new TooManyTablesFoundException(c);
+		}
 	}
 	
 

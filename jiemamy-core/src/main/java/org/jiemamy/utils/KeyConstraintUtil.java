@@ -41,14 +41,16 @@ public final class KeyConstraintUtil {
 	/**
 	 * キーカラム名のカンマ区切りの文字列に変換する。
 	 * 
-	 * @param keyModel 変換対象キー
+	 * @param context コンテキスト
+	 * @param keyConstraintModel 変換対象キー
 	 * @return キーカラム名のカンマ区切りの文字列
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public static String toStringKeyColumns(JiemamyContext context, KeyConstraintModel keyModel) {
-		Validate.notNull(keyModel);
+	public static String toStringKeyColumns(JiemamyContext context, KeyConstraintModel keyConstraintModel) {
+		Validate.notNull(context);
+		Validate.notNull(keyConstraintModel);
 		
-		List<EntityRef<? extends ColumnModel>> keyColumns = keyModel.getKeyColumns();
+		List<EntityRef<? extends ColumnModel>> keyColumns = keyConstraintModel.getKeyColumns();
 		List<String> columnNames = Lists.newArrayListWithCapacity(keyColumns.size());
 		for (EntityRef<? extends ColumnModel> columnRef : keyColumns) {
 			columnNames.add(context.resolve(columnRef).getName());
