@@ -98,6 +98,6 @@ public abstract class AbstractConstraintModel extends AbstractEntity implements 
 	
 	@Override
 	public String toString() {
-		return "Constraint " + getName();
+		return super.toString() + "[" + getName() + "]";
 	}
 }

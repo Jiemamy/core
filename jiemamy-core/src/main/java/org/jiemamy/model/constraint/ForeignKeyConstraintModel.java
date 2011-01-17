@@ -20,6 +20,7 @@ package org.jiemamy.model.constraint;
 
 import java.util.List;
 
+import org.jiemamy.JiemamyContext;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.column.ColumnModel;
 
@@ -66,6 +67,14 @@ public interface ForeignKeyConstraintModel extends KeyConstraintModel {
 	 * @since 0.2
 	 */
 	List<EntityRef<? extends ColumnModel>> getReferenceColumns();
+	
+	/**
+	 * この外部キーが自己参照外部キーであるかどうかを調べる。
+	 * 
+	 * @param context コンテキスト
+	 * @return 自己参照外部キーである場合は{@code true}、そうでない場合は{@code false}
+	 */
+	boolean isSelfReference(JiemamyContext context);
 	
 	EntityRef<? extends ForeignKeyConstraintModel> toReference();
 	

@@ -31,8 +31,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import org.apache.commons.lang.Validate;
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.TableNotFoundException;
@@ -426,16 +424,5 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	
 	public EntityRef<? extends DefaultTableModel> toReference() {
 		return new DefaultEntityRef<DefaultTableModel>(this);
-	}
-	
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		if (JiemamyContext.isDebug()) {
-			sb.append(ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE));
-		} else {
-			sb.append("Table ").append(getName());
-		}
-		return sb.toString();
 	}
 }

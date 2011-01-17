@@ -77,4 +77,11 @@ public abstract class AbstractKeyConstraintModel extends AbstractConstraintModel
 	public EntityRef<? extends AbstractKeyConstraintModel> toReference() {
 		return new DefaultEntityRef<AbstractKeyConstraintModel>(this);
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder(super.toString());
+		sb.insert(sb.length() - 1, "," + keyColumns);
+		return sb.toString();
+	}
 }

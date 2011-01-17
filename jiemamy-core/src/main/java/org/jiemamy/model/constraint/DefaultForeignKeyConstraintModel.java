@@ -27,6 +27,7 @@ import com.google.common.collect.Lists;
 
 import org.apache.commons.lang.Validate;
 
+import org.jiemamy.JiemamyContext;
 import org.jiemamy.TableNotFoundException;
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
@@ -98,7 +99,7 @@ public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstrain
 		Validate.notNull(key);
 		Validate.notNull(ref);
 		addKeyColumn(key);
-		referenceColumns.add(ref);
+		addReferenceColumn(ref);
 	}
 	
 	@Override
@@ -133,6 +134,11 @@ public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstrain
 		return MutationMonitor.monitor(Lists.newArrayList(referenceColumns));
 	}
 	
+	public boolean isSelfReference(JiemamyContext context) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
 	public void setMatchType(MatchType matchType) {
 		this.matchType = matchType;
 	}
@@ -152,6 +158,8 @@ public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstrain
 	
 	@Override
 	public String toString() {
-		return "FK[" + getKeyColumns() + " -> " + getReferenceColumns() + "]";
+		StringBuilder sb = new StringBuilder(super.toString());
+		sb.insert(sb.length() - 1, "->" + referenceColumns);
+		return sb.toString();
 	}
 }

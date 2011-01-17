@@ -92,6 +92,8 @@ public final class DefaultCheckConstraintModel extends AbstractConstraintModel i
 	
 	@Override
 	public String toString() {
-		return "CC[" + expression + "]";
+		StringBuilder sb = new StringBuilder(super.toString());
+		sb.insert(sb.length() - 1, "," + expression);
+		return sb.toString();
 	}
 }

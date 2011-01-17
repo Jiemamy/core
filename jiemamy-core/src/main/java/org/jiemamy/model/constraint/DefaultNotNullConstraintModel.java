@@ -48,6 +48,7 @@ public final class DefaultNotNullConstraintModel extends AbstractConstraintModel
 	}
 	
 
+	/** 対象カラム参照 */
 	private EntityRef<? extends ColumnModel> column;
 	
 
@@ -71,7 +72,14 @@ public final class DefaultNotNullConstraintModel extends AbstractConstraintModel
 		return column;
 	}
 	
+	/**
+	 * 対象カラム参照を設定する。
+	 * 
+	 * @param column 対象カラム参照
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
 	public void setColumn(EntityRef<? extends ColumnModel> column) {
+		Validate.notNull(column);
 		this.column = column;
 	}
 	
@@ -82,6 +90,8 @@ public final class DefaultNotNullConstraintModel extends AbstractConstraintModel
 	
 	@Override
 	public String toString() {
-		return "NN[" + column + "]";
+		StringBuilder sb = new StringBuilder(super.toString());
+		sb.insert(sb.length() - 1, "," + column);
+		return sb.toString();
 	}
 }

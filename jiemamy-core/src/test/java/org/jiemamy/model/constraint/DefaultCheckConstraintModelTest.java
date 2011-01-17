@@ -18,7 +18,6 @@
  */
 package org.jiemamy.model.constraint;
 
-import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
@@ -70,7 +69,6 @@ public class DefaultCheckConstraintModelTest {
 		assertThat(model1.getLogicalName(), is(nullValue()));
 		assertThat(model1.getDescription(), is(nullValue()));
 		assertThat(model1.getDeferrability(), is(nullValue()));
-		assertThat(model1, hasToString(is("CC[exp1]")));
 		
 		DefaultCheckConstraintModel model2 = DefaultCheckConstraintModel.of("exp2", "name");
 		assertThat(model2, is(notNullValue()));
@@ -79,6 +77,5 @@ public class DefaultCheckConstraintModelTest {
 		assertThat(model2.getLogicalName(), is(nullValue()));
 		assertThat(model2.getDescription(), is(nullValue()));
 		assertThat(model2.getDeferrability(), is(nullValue()));
-		assertThat(model2, hasToString(is("CC[exp2]")));
 	}
 }

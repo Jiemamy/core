@@ -153,6 +153,7 @@ public abstract class DefaultDatabaseObjectModel extends AbstractEntity implemen
 	}
 	
 	@Override
-	public abstract String toString();
-	
+	public String toString() {
+		return super.toString() + "[" + name + "]";
+	}
 }

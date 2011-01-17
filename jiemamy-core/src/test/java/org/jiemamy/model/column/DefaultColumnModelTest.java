@@ -150,18 +150,6 @@ public class DefaultColumnModelTest {
 	}
 	
 	/**
-	 * {@link DefaultColumnModel#toString()}のテスト。
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
-	@Test
-	public void test03_toString() throws Exception {
-		assertThat(column.toString(), is("Column[null]"));
-		column.setName("name1");
-		assertThat(column.toString(), is("Column[name1]"));
-	}
-	
-	/**
 	 * {@link DefaultColumnModel#clone()}のテスト。
 	 * 
 	 * @throws Exception 例外が発生した場合

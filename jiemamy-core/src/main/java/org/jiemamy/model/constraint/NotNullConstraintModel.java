@@ -32,9 +32,9 @@ public interface NotNullConstraintModel extends ValueConstraintModel {
 	NotNullConstraintModel clone();
 	
 	/**
-	* 対象カラムを取得する。
+	* 対象カラム参照を取得する。
 	* 
-	* @return 対象カラム
+	* @return 対象カラム参照. 未設定の場合{@code null}
 	*/
 	EntityRef<? extends ColumnModel> getColumnRef();
 	
