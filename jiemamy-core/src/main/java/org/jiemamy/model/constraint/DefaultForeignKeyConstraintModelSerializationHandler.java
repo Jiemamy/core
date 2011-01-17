@@ -69,7 +69,7 @@ public final class DefaultForeignKeyConstraintModelSerializationHandler extends
 		Validate.notNull(ctx);
 		try {
 			Validate.isTrue(ctx.peek().getCurrEvent() == SMEvent.START_ELEMENT);
-			Validate.isTrue(ctx.peek().isQName(CoreQName.PRIMARY_KEY));
+			Validate.isTrue(ctx.peek().isQName(CoreQName.FOREIGN_KEY));
 			
 			JiemamyCursor cursor = ctx.peek();
 			
