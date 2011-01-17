@@ -75,4 +75,11 @@ public final class StickyNodeModel extends DefaultNodeModel {
 	public EntityRef<? extends StickyNodeModel> toReference() {
 		return new DefaultEntityRef<StickyNodeModel>(this);
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder(super.toString());
+		sb.insert(sb.length() - 1, "," + contents);
+		return sb.toString();
+	}
 }

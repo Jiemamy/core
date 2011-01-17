@@ -82,4 +82,9 @@ public abstract class DefaultNodeModel extends AbstractEntity implements NodeMod
 	public EntityRef<? extends DefaultNodeModel> toReference() {
 		return new DefaultEntityRef<DefaultNodeModel>(this);
 	}
+	
+	@Override
+	public String toString() {
+		return super.toString() + "[" + boundary + "," + color + "]";
+	}
 }

@@ -62,4 +62,11 @@ public final class DefaultDatabaseObjectNodeModel extends DefaultNodeModel imple
 	public EntityRef<? extends DefaultDatabaseObjectNodeModel> toReference() {
 		return new DefaultEntityRef<DefaultDatabaseObjectNodeModel>(this);
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder(super.toString());
+		sb.insert(sb.length() - 1, "," + coreModelRef);
+		return sb.toString();
+	}
 }
