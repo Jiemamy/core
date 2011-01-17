@@ -67,7 +67,9 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	 * 
 	 * @param tables 対象{@link TableModel}
 	 * @param columnModel 対象カラム
-	 * @return この属性が所属するテーブル. どのテーブルにも所属していない場合は{@code null}
+	 * @return この属性が所属するテーブル
+	 * @throws TableNotFoundException
+	 * @throws TooManyTablesFoundException
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public static TableModel findDeclaringTable(Collection<? extends TableModel> tables, final ColumnModel columnModel) {
@@ -83,7 +85,37 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 		try {
 			return Iterables.getOnlyElement(c);
 		} catch (NoSuchElementException e) {
-			throw new TableNotFoundException("column=" + columnModel);
+			throw new TableNotFoundException("contains " + columnModel);
+		} catch (IllegalArgumentException e) {
+			throw new TooManyTablesFoundException(c);
+		}
+	}
+	
+	/**
+	 * {@code tables}の中から、この制約が所属するテーブルを取得する。
+	 * 
+	 * @param tables 対象{@link TableModel}
+	 * @param constraintModel 対象制約
+	 * @return この制約が所属するテーブル
+	 * @throws TableNotFoundException
+	 * @throws TooManyTablesFoundException
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public static TableModel findDeclaringTable(Collection<? extends TableModel> tables,
+			final ConstraintModel constraintModel) {
+		Validate.noNullElements(tables);
+		Validate.notNull(constraintModel);
+		Collection<? extends TableModel> c = Collections2.filter(tables, new Predicate<TableModel>() {
+			
+			public boolean apply(TableModel tableModel) {
+				return tableModel.getConstraints().contains(constraintModel);
+			}
+		});
+		
+		try {
+			return Iterables.getOnlyElement(c);
+		} catch (NoSuchElementException e) {
+			throw new TableNotFoundException("contains " + constraintModel);
 		} catch (IllegalArgumentException e) {
 			throw new TooManyTablesFoundException(c);
 		}
@@ -114,6 +146,7 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	 * @param databaseObjects 対象{@link DatabaseObjectModel}
 	 * @param foreignKey 対象外部キー
 	 * @return 指定した外部キーが参照するキー. 該当するキーが存在しなかった場合、{@code null}
+	 * @throws ModelConsistencyException
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public static KeyConstraintModel findReferencedKeyConstraint(

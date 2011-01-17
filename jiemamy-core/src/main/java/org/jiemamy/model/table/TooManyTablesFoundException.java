@@ -22,6 +22,7 @@ import java.util.Collection;
 
 import com.google.common.collect.Lists;
 
+import org.jiemamy.dddbase.utils.CloneUtil;
 import org.jiemamy.model.ModelConsistencyException;
 
 /**
@@ -43,7 +44,7 @@ public class TooManyTablesFoundException extends ModelConsistencyException {
 	 */
 	public TooManyTablesFoundException(Collection<? extends TableModel> tables) {
 		super(String.valueOf(tables.size()) + " tables");
-		this.tables = tables;
+		this.tables = CloneUtil.cloneEntityArrayList(tables);
 	}
 	
 	/**
