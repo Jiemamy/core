@@ -33,7 +33,7 @@ import org.jiemamy.model.ModelConsistencyException;
 @SuppressWarnings("serial")
 public class TooManyTablesFoundException extends ModelConsistencyException {
 	
-	private final Collection<TableModel> tables;
+	private final Collection<? extends TableModel> tables;
 	
 
 	/**
@@ -41,7 +41,7 @@ public class TooManyTablesFoundException extends ModelConsistencyException {
 	 * 
 	 * @param tables 見つかった複数のテーブルの集合
 	 */
-	public TooManyTablesFoundException(Collection<TableModel> tables) {
+	public TooManyTablesFoundException(Collection<? extends TableModel> tables) {
 		super(String.valueOf(tables.size()) + " tables");
 		this.tables = tables;
 	}
@@ -51,7 +51,7 @@ public class TooManyTablesFoundException extends ModelConsistencyException {
 	 * 
 	 * @return 見つかったカラムの集合
 	 */
-	public Collection<TableModel> getTables() {
+	public Collection<? extends TableModel> getTables() {
 		return Lists.newArrayList(tables);
 	}
 	
