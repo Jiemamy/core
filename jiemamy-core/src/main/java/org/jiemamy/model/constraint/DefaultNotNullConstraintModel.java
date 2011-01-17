@@ -31,7 +31,7 @@ import org.jiemamy.model.column.ColumnModel;
  * 
  * @author daisuke
  */
-public final class DefaultNotNullConstraintModel extends AbstractConstraintModel implements NotNullConstraintModel {
+public final class DefaultNotNullConstraintModel extends AbstractValueConstraintModel implements NotNullConstraintModel {
 	
 	/**
 	 * インスタンスを生成する。

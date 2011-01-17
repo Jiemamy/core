@@ -32,7 +32,7 @@ import org.jiemamy.model.column.ColumnModel;
  * 
  * @author daisuke
  */
-public final class DefaultPrimaryKeyConstraintModel extends AbstractKeyConstraintModel implements
+public final class DefaultPrimaryKeyConstraintModel extends AbstractLocalKeyConstraintModel implements
 		PrimaryKeyConstraintModel {
 	
 	/**
