@@ -70,6 +70,13 @@ public final class DefaultTypeVariant implements TypeVariant {
 		this(new DefaultTypeReference(category, typeName), params);
 	}
 	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param typeReference 型参照
+	 * @param params 型パラメータ
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
 	public DefaultTypeVariant(TypeReference typeReference, ParameterMap params) {
 		Validate.notNull(typeReference);
 		Validate.notNull(params);

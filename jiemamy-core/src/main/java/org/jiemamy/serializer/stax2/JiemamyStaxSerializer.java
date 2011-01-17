@@ -26,6 +26,7 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.Validate;
 import org.codehaus.staxmate.SMInputFactory;
 import org.codehaus.staxmate.SMOutputFactory;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
@@ -45,6 +46,8 @@ import org.jiemamy.serializer.SerializationException;
 public class JiemamyStaxSerializer implements JiemamySerializer {
 	
 	public JiemamyContext deserialize(InputStream in, FacetProvider... facetProviders) throws SerializationException {
+		Validate.notNull(in);
+		Validate.noNullElements(facetProviders);
 		JiemamyContext context = new JiemamyContext(facetProviders);
 		
 		SMHierarchicCursor cursor = null;
@@ -70,6 +73,8 @@ public class JiemamyStaxSerializer implements JiemamySerializer {
 	}
 	
 	public void serialize(JiemamyContext context, OutputStream out) throws SerializationException {
+		Validate.notNull(context);
+		Validate.notNull(out);
 		SMOutputDocument doc = null;
 		SMOutputFactory outFactory = new SMOutputFactory(XMLOutputFactory.newInstance());
 		try {

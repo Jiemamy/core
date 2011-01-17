@@ -97,8 +97,10 @@ public class SerializationContext {
 	 * コンテナスタックに要素を追加する。
 	 * 
 	 * @param container コンテナ
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public void push(JiemamyOutputContainer container) {
+		Validate.notNull(container);
 		containerStack.push(container);
 	}
 	

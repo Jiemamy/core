@@ -56,6 +56,7 @@ public interface TableModel extends DatabaseObjectModel {
 	 * @param reference カラム参照
 	 * @return カラム
 	 * @throws ColumnNotFoundException カラムが見つからなかった場合
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	ColumnModel getColumn(EntityRef<? extends ColumnModel> reference);
 	
@@ -89,6 +90,7 @@ public interface TableModel extends DatabaseObjectModel {
 	 * @param <T> 属性の型
 	 * @param clazz 属性の型
 	 * @return 属性のリスト
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 0.2
 	 */
 	<T extends ConstraintModel>Collection<T> getConstraints(Class<T> clazz);
@@ -112,6 +114,7 @@ public interface TableModel extends DatabaseObjectModel {
 	 * 
 	 * @param reference カラム参照
 	 * @return NOT NULL制約。無い場合は{@code null}
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	NotNullConstraintModel getNotNullConstraintFor(EntityRef<? extends ColumnModel> reference);
 	

@@ -86,6 +86,7 @@ public interface ConnectionModel extends Entity {
 	 * 自分同士を繋ぐコネクションであるかどうかを調べる。
 	 * 
 	 * @return 自己コネクションである場合は{@code true}、そうでない場合は{@code false}
+	 * @throws IllegalStateException sourceまたはtargetが{@code null}の場合
 	 * @since 0.2
 	 */
 	boolean isSelfConnection();

@@ -37,8 +37,10 @@ public final class DefaultIndexColumnModel implements IndexColumnModel {
 	 * 
 	 * @param column インデックス対象カラム
 	 * @return インデックスカラム
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public static DefaultIndexColumnModel of(ColumnModel column) {
+		Validate.notNull(column);
 		return new DefaultIndexColumnModel(column.toReference());
 	}
 	
@@ -48,8 +50,10 @@ public final class DefaultIndexColumnModel implements IndexColumnModel {
 	 * @param column インデックス対象カラム
 	 * @param sortOrder カラムソート方式
 	 * @return インデックスカラム
+	 * @throws IllegalArgumentException 引数{@code column}に{@code null}を与えた場合
 	 */
 	public static DefaultIndexColumnModel of(ColumnModel column, SortOrder sortOrder) {
+		Validate.notNull(sortOrder);
 		return new DefaultIndexColumnModel(column.toReference(), sortOrder);
 	}
 	

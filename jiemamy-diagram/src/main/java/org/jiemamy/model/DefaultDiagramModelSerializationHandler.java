@@ -58,6 +58,7 @@ public final class DefaultDiagramModelSerializationHandler extends Serialization
 	 * インスタンスを生成する。
 	 * 
 	 * @param director 親となるディレクタ
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public DefaultDiagramModelSerializationHandler(SerializationDirector director) {
 		super(director);
@@ -118,6 +119,8 @@ public final class DefaultDiagramModelSerializationHandler extends Serialization
 	
 	@Override
 	public void handleSerialization(DefaultDiagramModel model, SerializationContext sctx) throws SerializationException {
+		Validate.notNull(model);
+		Validate.notNull(sctx);
 		JiemamyOutputContainer parent = sctx.peek();
 		try {
 			JiemamyOutputElement diagramElement = parent.addElement(DiagramQName.DIAGRAM);

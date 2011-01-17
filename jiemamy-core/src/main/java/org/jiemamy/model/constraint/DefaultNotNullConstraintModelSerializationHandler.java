@@ -56,6 +56,7 @@ public final class DefaultNotNullConstraintModelSerializationHandler extends
 	 * インスタンスを生成する。
 	 * 
 	 * @param director 親となるディレクタ
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public DefaultNotNullConstraintModelSerializationHandler(SerializationDirector director) {
 		super(director);
@@ -116,6 +117,8 @@ public final class DefaultNotNullConstraintModelSerializationHandler extends
 	@Override
 	public void handleSerialization(DefaultNotNullConstraintModel model, SerializationContext sctx)
 			throws SerializationException {
+		Validate.notNull(model);
+		Validate.notNull(sctx);
 		JiemamyOutputContainer parent = sctx.peek();
 		try {
 			JiemamyOutputElement element = parent.addElement(CoreQName.NOT_NULL);

@@ -59,6 +59,7 @@ public final class DefaultAroundScriptModelSerializationHandler extends Serializ
 	 * インスタンスを生成する。
 	 * 
 	 * @param director 親となるディレクタ
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public DefaultAroundScriptModelSerializationHandler(SerializationDirector director) {
 		super(director);
@@ -111,6 +112,8 @@ public final class DefaultAroundScriptModelSerializationHandler extends Serializ
 	@Override
 	public void handleSerialization(DefaultAroundScriptModel model, SerializationContext sctx)
 			throws SerializationException {
+		Validate.notNull(model);
+		Validate.notNull(sctx);
 		JiemamyOutputContainer parent = sctx.peek();
 		try {
 			JiemamyOutputElement aroundScriptElement = parent.addElement(SqlQName.AROUND_SCRIPT);

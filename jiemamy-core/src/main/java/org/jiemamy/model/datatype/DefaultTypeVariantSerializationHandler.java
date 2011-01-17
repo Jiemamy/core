@@ -110,6 +110,8 @@ public final class DefaultTypeVariantSerializationHandler extends SerializationH
 	
 	@Override
 	public void handleSerialization(DefaultTypeVariant model, SerializationContext sctx) throws SerializationException {
+		Validate.notNull(model);
+		Validate.notNull(sctx);
 		JiemamyOutputContainer parent = sctx.peek();
 		try {
 			JiemamyOutputElement element = parent.addElement(CoreQName.DATA_TYPE);

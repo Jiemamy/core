@@ -20,6 +20,8 @@ package org.jiemamy.model;
 
 import javax.xml.stream.XMLStreamException;
 
+import org.apache.commons.lang.Validate;
+
 import org.jiemamy.model.geometory.JmPoint;
 import org.jiemamy.serializer.SerializationException;
 import org.jiemamy.serializer.stax2.DeserializationContext;
@@ -43,13 +45,24 @@ public final class DefaultConnectionModelSerializationHandler extends Serializat
 	 * インスタンスを生成する。
 	 * 
 	 * @param director 親となるディレクタ
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public DefaultConnectionModelSerializationHandler(SerializationDirector director) {
 		super(director);
 	}
 	
 	@Override
-	public void handleSerialization(DefaultConnectionModel model, SerializationContext sctx) throws SerializationException {
+	public DefaultConnectionModel handleDeserialization(DeserializationContext ctx) throws SerializationException {
+		Validate.notNull(ctx);
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public void handleSerialization(DefaultConnectionModel model, SerializationContext sctx)
+			throws SerializationException {
+		Validate.notNull(model);
+		Validate.notNull(sctx);
 		JiemamyOutputContainer parent = sctx.peek();
 		try {
 			JiemamyOutputElement connElement = parent.addElement(DiagramQName.CONNECTION);
@@ -73,11 +86,5 @@ public final class DefaultConnectionModelSerializationHandler extends Serializat
 		} catch (XMLStreamException e) {
 			throw new SerializationException(e);
 		}
-	}
-	
-	@Override
-	public DefaultConnectionModel handleDeserialization(DeserializationContext ctx) throws SerializationException {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

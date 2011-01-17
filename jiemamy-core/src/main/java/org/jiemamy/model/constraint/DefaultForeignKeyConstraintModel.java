@@ -25,9 +25,10 @@ import java.util.UUID;
 
 import com.google.common.collect.Lists;
 
+import org.apache.commons.lang.Validate;
+
 import org.jiemamy.TableNotFoundException;
 import org.jiemamy.dddbase.DefaultEntityRef;
-import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.utils.CloneUtil;
 import org.jiemamy.dddbase.utils.MutationMonitor;
@@ -52,12 +53,15 @@ public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstrain
 	 * @throws IllegalArgumentException 引数{@code keyColumns}と{@code referenceColumns}のサイズが一致していない場合
 	 */
 	public static ForeignKeyConstraintModel of(ColumnModel keyColumn, ColumnModel referenceColumn) {
+		Validate.notNull(keyColumn);
+		Validate.notNull(referenceColumn);
 		DefaultForeignKeyConstraintModel fk = new DefaultForeignKeyConstraintModel(UUID.randomUUID());
 		fk.addReferencing(keyColumn.toReference(), referenceColumn.toReference());
 		return fk;
 	}
 	
 	private static List<EntityRef<? extends ColumnModel>> toRefList(ColumnModel column) {
+		Validate.notNull(column);
 		return Collections.<EntityRef<? extends ColumnModel>> singletonList(column.toReference());
 	}
 	
@@ -85,77 +89,14 @@ public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstrain
 		super(id);
 	}
 	
-//	/**
-//	 * インスタンスを生成する。
-//	 * 
-//	 * @param keyColumn キー制約を構成するカラム
-//	 * @param referenceColumn 制約を受けるカラム
-//	 * @throws IllegalArgumentException 引数{@code keyColumns}と{@code referenceColumns}のサイズが一致していない場合
-//	 */
-//	public DefaultForeignKeyConstraintModel(ColumnModel keyColumn, ColumnModel referenceColumn) {
-//		this(UUID.randomUUID(), null, null, null, toRefList(keyColumn), null, toRefList(referenceColumn), null, null,
-//				null);
-//	}
-//	
-//	/**
-//	 * インスタンスを生成する。
-//	 * 
-//	 * @param name 物理名
-//	 * @param keyColumn キー制約を構成するカラム
-//	 * @param referenceColumn 制約を受けるカラム
-//	 * @throws IllegalArgumentException 引数{@code keyColumns}と{@code referenceColumns}のサイズが一致していない場合
-//	 */
-//	public DefaultForeignKeyConstraintModel(String name, ColumnModel keyColumn, ColumnModel referenceColumn) {
-//		this(UUID.randomUUID(), name, null, null, toRefList(keyColumn), null, toRefList(referenceColumn), null, null,
-//				null);
-//	}
-//	
-//	/**
-//	 * インスタンスを生成する。
-//	 * 
-//	 * @param id ENTITY ID
-//	 * @param name 物理名
-//	 * @param keyColumn キー制約を構成するカラム
-//	 * @param referenceColumn 制約を受けるカラム
-//	 * @throws IllegalArgumentException 引数{@code keyColumns}と{@code referenceColumns}のサイズが一致していない場合
-//	 */
-//	public DefaultForeignKeyConstraintModel(UUID id, String name, ColumnModel keyColumn, ColumnModel referenceColumn) {
-//		this(id, name, null, null, toRefList(keyColumn), null, toRefList(referenceColumn), null, null, null);
-//	}
-//	
-//	/**
-//	 * インスタンスを生成する。
-//	 * 
-//	 * @param id ENTITY ID
-//	 * @param name 物理名
-//	 * @param logicalName 論理名
-//	 * @param description 説明
-//	 * @param keyColumns キー制約を構成するカラムのリスト
-//	 * @param deferrability 遅延評価可能性モデル
-//	 * @param referenceColumns 制約を受けるカラムのリスト
-//	 * @param onDelete 削除時アクション
-//	 * @param onUpdate 更新時アクション
-//	 * @param matchType マッチ型
-//	 * @throws IllegalArgumentException 引数{@code keyColumns}と{@code referenceColumns}のサイズが一致していない場合
-//	 */
-//	// CHECKSTYLE:OFF
-//	public DefaultForeignKeyConstraintModel(UUID id, String name, String logicalName, String description,
-//			List<EntityRef<? extends ColumnModel>> keyColumns, DeferrabilityModel deferrability,
-//			List<EntityRef<? extends ColumnModel>> referenceColumns, ReferentialAction onDelete,
-//			ReferentialAction onUpdate, MatchType matchType) {
-//		// CHECKSTYLE:ON
-//		super(name, description, description, keyColumns, deferrability);
-//		Validate.notNull(id);
-//		Validate.isTrue(keyColumns.size() == referenceColumns.size());
-//		
-//		this.id = id;
-//		this.matchType = matchType;
-//		this.onDelete = onDelete;
-//		this.onUpdate = onUpdate;
-//		this.referenceColumns = Lists.newArrayList(referenceColumns);
-//	}
+	public void addReferenceColumn(EntityRef<? extends ColumnModel> refColumn) {
+		Validate.notNull(refColumn);
+		referenceColumns.add(refColumn);
+	}
 	
 	public void addReferencing(EntityRef<? extends ColumnModel> key, EntityRef<? extends ColumnModel> ref) {
+		Validate.notNull(key);
+		Validate.notNull(ref);
 		addKeyColumn(key);
 		referenceColumns.add(ref);
 	}
@@ -190,11 +131,6 @@ public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstrain
 	
 	public List<EntityRef<? extends ColumnModel>> getReferenceColumns() {
 		return MutationMonitor.monitor(Lists.newArrayList(referenceColumns));
-	}
-	
-	@Override
-	public Collection<? extends Entity> getSubEntities() {
-		return Collections.emptyList();
 	}
 	
 	public void setMatchType(MatchType matchType) {

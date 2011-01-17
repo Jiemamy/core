@@ -59,6 +59,7 @@ public final class DefaultDatabaseObjectNodeModelSerializationHandler extends
 	 * インスタンスを生成する。
 	 * 
 	 * @param director 親となるディレクタ
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public DefaultDatabaseObjectNodeModelSerializationHandler(SerializationDirector director) {
 		super(director);
@@ -114,6 +115,8 @@ public final class DefaultDatabaseObjectNodeModelSerializationHandler extends
 	@Override
 	public void handleSerialization(DefaultDatabaseObjectNodeModel model, SerializationContext sctx)
 			throws SerializationException {
+		Validate.notNull(model);
+		Validate.notNull(sctx);
 		JiemamyOutputContainer parent = sctx.peek();
 		try {
 			JiemamyOutputElement nodeElement = parent.addElement(DiagramQName.NODE);

@@ -68,6 +68,7 @@ public class JiemamyTransaction<T extends Entity> implements StoredEventListener
 	}
 	
 	public void commandExecuted(StoredEvent<T> command) {
+		Validate.notNull(command);
 		undoStack.push(command);
 	}
 	

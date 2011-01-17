@@ -50,6 +50,7 @@ public final class DiagramFacetSerializationHandler extends SerializationHandler
 	 * インスタンスを生成する。
 	 * 
 	 * @param director 親となるディレクタ
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public DiagramFacetSerializationHandler(SerializationDirector director) {
 		super(director);
@@ -87,6 +88,8 @@ public final class DiagramFacetSerializationHandler extends SerializationHandler
 	
 	@Override
 	public void handleSerialization(DiagramFacet model, SerializationContext sctx) throws SerializationException {
+		Validate.notNull(model);
+		Validate.notNull(sctx);
 		JiemamyOutputContainer parent = sctx.peek();
 		try {
 			sctx.push(parent.addElement(DiagramQName.DIAGRAMS));

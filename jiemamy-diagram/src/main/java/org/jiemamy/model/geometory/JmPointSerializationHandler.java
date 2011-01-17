@@ -44,6 +44,7 @@ public final class JmPointSerializationHandler extends SerializationHandler<JmPo
 	 * インスタンスを生成する。
 	 * 
 	 * @param director 親となるディレクタ
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public JmPointSerializationHandler(SerializationDirector director) {
 		super(director);
@@ -53,7 +54,7 @@ public final class JmPointSerializationHandler extends SerializationHandler<JmPo
 	public JmPoint handleDeserialization(DeserializationContext ctx) throws SerializationException {
 		Validate.notNull(ctx);
 		try {
-			Validate.isTrue(ctx.peek().isQName(DiagramQName.BOUNDARY));
+			Validate.isTrue(ctx.peek().isQName(DiagramQName.BENDPOINT));
 			JiemamyCursor cursor = ctx.peek();
 			
 			int x = cursor.getAttrIntValue(DiagramQName.X);
@@ -66,9 +67,11 @@ public final class JmPointSerializationHandler extends SerializationHandler<JmPo
 	
 	@Override
 	public void handleSerialization(JmPoint model, SerializationContext sctx) throws SerializationException {
+		Validate.notNull(model);
+		Validate.notNull(sctx);
 		JiemamyOutputContainer parent = sctx.peek();
 		try {
-			JiemamyOutputElement boundaryElement = parent.addElement(DiagramQName.BOUNDARY);
+			JiemamyOutputElement boundaryElement = parent.addElement(DiagramQName.BENDPOINT);
 			boundaryElement.addAttribute(DiagramQName.X, model.x);
 			boundaryElement.addAttribute(DiagramQName.Y, model.y);
 		} catch (XMLStreamException e) {

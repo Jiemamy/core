@@ -30,6 +30,7 @@ import org.jiemamy.ServiceLocator;
 import org.jiemamy.dddbase.AbstractEntity;
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.utils.CloneUtil;
 import org.jiemamy.dddbase.utils.MutationMonitor;
 import org.jiemamy.model.DatabaseObjectModel;
 import org.jiemamy.script.ScriptEngine;
@@ -59,7 +60,7 @@ public final class DefaultAroundScriptModel extends AbstractEntity implements Ar
 	@Override
 	public DefaultAroundScriptModel clone() {
 		DefaultAroundScriptModel clone = (DefaultAroundScriptModel) super.clone();
-		clone.scripts = Maps.newHashMap(scripts);
+		clone.scripts = CloneUtil.cloneValueHashMap(scripts);
 		return clone;
 	}
 	
@@ -68,15 +69,19 @@ public final class DefaultAroundScriptModel extends AbstractEntity implements Ar
 	}
 	
 	public String getScript(Position position) {
+		Validate.notNull(position);
 		return scripts.get(position).getScript();
 	}
 	
 	public ScriptEngine getScriptEngine(JiemamyContext context, Position position) throws ClassNotFoundException {
+		Validate.notNull(context);
+		Validate.notNull(position);
 		ServiceLocator sl = context.getServiceLocator();
 		return sl.getService(ScriptEngine.class, getScriptEngineClassName(position));
 	}
 	
 	public String getScriptEngineClassName(Position position) {
+		Validate.notNull(position);
 		return scripts.get(position).getScriptEngineClassName();
 	}
 	
@@ -106,6 +111,13 @@ public final class DefaultAroundScriptModel extends AbstractEntity implements Ar
 		this.coreModelRef = coreModelRef;
 	}
 	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param position スクリプト挿入位置
+	 * @param script スクリプト
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
 	public void setScript(Position position, String script) {
 		Validate.notNull(position);
 		Validate.notNull(script);

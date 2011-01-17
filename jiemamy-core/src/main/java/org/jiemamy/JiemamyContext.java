@@ -136,8 +136,10 @@ public/*final*/class JiemamyContext {
 	 * インスタンスを生成する。
 	 * 
 	 * @param facetProviders このコンテキストで利用するファセットの{@link FacetProvider}
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public JiemamyContext(FacetProvider... facetProviders) {
+		Validate.noNullElements(facetProviders);
 		for (FacetProvider facetProvider : facetProviders) {
 			facets.put(facetProvider.getFacetType(), facetProvider.getFacet(this));
 		}
@@ -525,15 +527,12 @@ public/*final*/class JiemamyContext {
 	 * {@link DatabaseObjectModel}を保存する。
 	 * 
 	 * @param dom {@link DatabaseObjectModel}
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public void store(DatabaseObjectModel dom) {
-		DatabaseObjectModel old = null;
-		try {
-			old = doms.resolve(dom.toReference());
-		} catch (EntityNotFoundException e) {
-			// ignore
-		}
-		doms.store(dom);
+		Validate.notNull(dom);
+//		Validate.notNull(dom.getName());
+		DatabaseObjectModel old = doms.store(dom);
 		eventBroker.fireEvent(new StoredEvent<DatabaseObjectModel>(doms, old, dom));
 	}
 	
@@ -541,15 +540,11 @@ public/*final*/class JiemamyContext {
 	 * {@link DataSetModel}を保存する。
 	 * 
 	 * @param dsm {@link DataSetModel}
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public void store(DataSetModel dsm) {
-		DataSetModel old = null;
-		try {
-			old = dsms.resolve(dsm.toReference());
-		} catch (EntityNotFoundException e) {
-			// ignore
-		}
-		dsms.store(dsm);
+		Validate.notNull(dsm);
+		DataSetModel old = dsms.store(dsm);
 		eventBroker.fireEvent(new StoredEvent<DataSetModel>(dsms, old, dsm));
 	}
 	
@@ -576,7 +571,7 @@ public/*final*/class JiemamyContext {
 		for (JiemamyFacet facet : facets.values()) {
 			c.add(facet.getResolver());
 		}
-		return new OnMemoryCompositeEntityResolver(c.toArray(new OnMemoryEntityResolver[0]));
+		return new OnMemoryCompositeEntityResolver(c.toArray(new OnMemoryEntityResolver[c.size()]));
 	}
 	
 }

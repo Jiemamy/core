@@ -127,6 +127,8 @@ public final class JiemamyContextSerializationHandler extends SerializationHandl
 	
 	@Override
 	public void handleSerialization(JiemamyContext model, SerializationContext sctx) throws SerializationException {
+		Validate.notNull(model);
+		Validate.notNull(sctx);
 		JiemamyOutputContainer parent = sctx.peek();
 		try {
 			JiemamyOutputElement element = parent.addElement(CoreQName.JIEMAMY);
@@ -163,5 +165,4 @@ public final class JiemamyContextSerializationHandler extends SerializationHandl
 			throw new SerializationException(e);
 		}
 	}
-	
 }

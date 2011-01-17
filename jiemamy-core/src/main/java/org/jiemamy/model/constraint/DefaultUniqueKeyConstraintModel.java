@@ -20,6 +20,8 @@ package org.jiemamy.model.constraint;
 
 import java.util.UUID;
 
+import org.apache.commons.lang.Validate;
+
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.column.ColumnModel;
@@ -37,8 +39,10 @@ public final class DefaultUniqueKeyConstraintModel extends AbstractKeyConstraint
 	 * 
 	 * @param columns 対象カラム
 	 * @return {@link DefaultUniqueKeyConstraintModel}
+	 * @throws IllegalArgumentException 引数に{@code null}または{@code null}要素を含むコレクションを与えた場合
 	 */
 	public static DefaultUniqueKeyConstraintModel of(ColumnModel... columns) {
+		Validate.noNullElements(columns);
 		DefaultUniqueKeyConstraintModel model = new DefaultUniqueKeyConstraintModel(UUID.randomUUID());
 		for (ColumnModel columnModel : columns) {
 			model.addKeyColumn(columnModel.toReference());

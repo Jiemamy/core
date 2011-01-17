@@ -57,6 +57,7 @@ public final class DefaultPrimaryKeyConstraintModelSerializationHandler extends
 	 * インスタンスを生成する。
 	 * 
 	 * @param director 親となるディレクタ
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public DefaultPrimaryKeyConstraintModelSerializationHandler(SerializationDirector director) {
 		super(director);
@@ -90,10 +91,10 @@ public final class DefaultPrimaryKeyConstraintModelSerializationHandler extends
 					} else if (childCursor.isQName(CoreQName.DEFERRABILITY)) {
 						String text = childCursor.collectDescendantText(false);
 						pkModel.setDeferrability(DefaultDeferrabilityModel.valueOf(text));
-					} else if (childCursor.isQName(CoreQName.COLUMN_REFS)) {
-						JiemamyCursor columnRefsCursor = childCursor.childElementCursor();
-						while (columnRefsCursor.getNext() != null) {
-							String idStr = columnRefsCursor.getAttrValue(CoreQName.REF);
+					} else if (childCursor.isQName(CoreQName.KEY_COLUMNS)) {
+						JiemamyCursor keyColumnsCursor = childCursor.childElementCursor();
+						while (keyColumnsCursor.getNext() != null) {
+							String idStr = keyColumnsCursor.getAttrValue(CoreQName.REF);
 							UUID refid = ctx.getContext().toUUID(idStr);
 							EntityRef<ColumnModel> ref = DefaultEntityRef.of(refid);
 							pkModel.addKeyColumn(ref);
@@ -116,6 +117,8 @@ public final class DefaultPrimaryKeyConstraintModelSerializationHandler extends
 	@Override
 	public void handleSerialization(DefaultPrimaryKeyConstraintModel model, SerializationContext sctx)
 			throws SerializationException {
+		Validate.notNull(model);
+		Validate.notNull(sctx);
 		JiemamyOutputContainer parent = sctx.peek();
 		try {
 			JiemamyOutputElement element = parent.addElement(CoreQName.PRIMARY_KEY);
@@ -129,10 +132,10 @@ public final class DefaultPrimaryKeyConstraintModelSerializationHandler extends
 				getDirector().direct(model.getDeferrability(), sctx);
 			}
 			
-			JiemamyOutputElement refsElement = element.addElement(CoreQName.COLUMN_REFS);
-			
+			JiemamyOutputElement keyColumnsElement = element.addElement(CoreQName.KEY_COLUMNS);
 			for (EntityRef<? extends ColumnModel> entityRef : model.getKeyColumns()) {
-				refsElement.addElement(CoreQName.COLUMN_REF).addAttribute(CoreQName.REF, entityRef.getReferentId());
+				keyColumnsElement.addElement(CoreQName.COLUMN_REF).addAttribute(CoreQName.REF,
+						entityRef.getReferentId());
 			}
 			
 		} catch (XMLStreamException e) {

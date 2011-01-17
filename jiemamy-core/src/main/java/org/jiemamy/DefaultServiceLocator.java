@@ -22,6 +22,8 @@ import java.util.Iterator;
 
 import javax.imageio.spi.ServiceRegistry;
 
+import org.apache.commons.lang.Validate;
+
 /**
  * デフォルトの {@link ServiceLocator} 実装クラス。
  * 
@@ -34,9 +36,8 @@ import javax.imageio.spi.ServiceRegistry;
 public class DefaultServiceLocator implements ServiceLocator {
 	
 	public <T>T getService(Class<T> clazz, String fqcn) throws ClassNotFoundException {
-		if (fqcn == null) {
-			throw new ClassNotFoundException(null);
-		}
+		Validate.notNull(clazz);
+		Validate.notNull(fqcn);
 		
 		Iterator<T> providers = ServiceRegistry.lookupProviders(clazz);
 		while (providers.hasNext()) {

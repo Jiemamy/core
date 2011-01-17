@@ -59,6 +59,7 @@ public final class DefaultRecordModelSerializationHandler extends SerializationH
 	 * インスタンスを生成する。
 	 * 
 	 * @param director 親となるディレクタ
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public DefaultRecordModelSerializationHandler(SerializationDirector director) {
 		super(director);
@@ -103,6 +104,8 @@ public final class DefaultRecordModelSerializationHandler extends SerializationH
 	
 	@Override
 	public void handleSerialization(DefaultRecordModel model, SerializationContext sctx) throws SerializationException {
+		Validate.notNull(model);
+		Validate.notNull(sctx);
 		JiemamyOutputContainer parent = sctx.peek();
 		try {
 			JiemamyOutputElement recordsElement = parent.addElement(CoreQName.RECORDS);

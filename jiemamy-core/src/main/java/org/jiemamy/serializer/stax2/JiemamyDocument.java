@@ -32,6 +32,7 @@ public class JiemamyDocument extends JiemamyOutputContainer {
 	 * インスタンスを生成する。
 	 * 
 	 * @param document
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public JiemamyDocument(SMOutputDocument document) {
 		super(document);

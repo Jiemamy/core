@@ -18,6 +18,7 @@
  */
 package org.jiemamy.serializer.stax2;
 
+import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,6 +37,7 @@ public class DummyHandler extends SerializationHandler<Object> {
 	 * インスタンスを生成する。
 	 * 
 	 * @param director 親となるディレクタ
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public DummyHandler(SerializationDirector director) {
 		super(director);
@@ -43,12 +45,15 @@ public class DummyHandler extends SerializationHandler<Object> {
 	
 	@Override
 	public Object handleDeserialization(DeserializationContext ctx) {
+		Validate.notNull(ctx);
 		logger.error("DUMMY WORKER IS CALLED.");
 		return null;
 	}
 	
 	@Override
 	public void handleSerialization(Object model, SerializationContext sctx) {
+		Validate.notNull(model);
+		Validate.notNull(sctx);
 		logger.error("DUMMY WORKER IS CALLED.");
 	}
 }

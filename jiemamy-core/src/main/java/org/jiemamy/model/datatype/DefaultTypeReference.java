@@ -48,6 +48,7 @@ public final class DefaultTypeReference implements TypeReference {
 	 * 
 	 * @param category
 	 * @param typeName
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public DefaultTypeReference(DataTypeCategory category, String typeName) {
 		Validate.notNull(category);

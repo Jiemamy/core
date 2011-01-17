@@ -16,9 +16,8 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.model.view;
+package org.jiemamy.model.constraint;
 
-import java.util.Map.Entry;
 import java.util.UUID;
 
 import javax.xml.stream.XMLStreamException;
@@ -28,7 +27,10 @@ import org.codehaus.staxmate.in.SMEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.jiemamy.model.parameter.ParameterMap;
+import org.jiemamy.dddbase.DefaultEntityRef;
+import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.model.column.ColumnModel;
+import org.jiemamy.model.table.DefaultTableModel;
 import org.jiemamy.serializer.SerializationException;
 import org.jiemamy.serializer.stax2.DeserializationContext;
 import org.jiemamy.serializer.stax2.JiemamyCursor;
@@ -40,14 +42,15 @@ import org.jiemamy.serializer.stax2.SerializationHandler;
 import org.jiemamy.xml.CoreQName;
 
 /**
- * {@link DefaultViewModel}をシリアライズ/デシリアライズするハンドラ。
+ * {@link DefaultTableModel}をシリアライズ/デシリアライズするハンドラ。
  * 
  * @version $Id$
  * @author daisuke
  */
-public final class DefaultViewModelSerializationHandler extends SerializationHandler<DefaultViewModel> {
+public final class DefaultForeignKeyConstraintModelSerializationHandler extends
+		SerializationHandler<DefaultForeignKeyConstraintModel> {
 	
-	private static Logger logger = LoggerFactory.getLogger(DefaultViewModelSerializationHandler.class);
+	private static Logger logger = LoggerFactory.getLogger(DefaultForeignKeyConstraintModelSerializationHandler.class);
 	
 
 	/**
@@ -56,22 +59,23 @@ public final class DefaultViewModelSerializationHandler extends SerializationHan
 	 * @param director 親となるディレクタ
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public DefaultViewModelSerializationHandler(SerializationDirector director) {
+	public DefaultForeignKeyConstraintModelSerializationHandler(SerializationDirector director) {
 		super(director);
 	}
 	
 	@Override
-	public DefaultViewModel handleDeserialization(DeserializationContext ctx) throws SerializationException {
+	public DefaultForeignKeyConstraintModel handleDeserialization(DeserializationContext ctx)
+			throws SerializationException {
 		Validate.notNull(ctx);
 		try {
 			Validate.isTrue(ctx.peek().getCurrEvent() == SMEvent.START_ELEMENT);
-			Validate.isTrue(ctx.peek().isQName(CoreQName.VIEW));
+			Validate.isTrue(ctx.peek().isQName(CoreQName.PRIMARY_KEY));
 			
 			JiemamyCursor cursor = ctx.peek();
 			
 			String idString = cursor.getAttrValue(CoreQName.ID);
 			UUID id = ctx.getContext().toUUID(idString);
-			DefaultViewModel viewModel = new DefaultViewModel(id);
+			DefaultForeignKeyConstraintModel fkModel = new DefaultForeignKeyConstraintModel(id);
 			
 			JiemamyCursor childCursor = cursor.childElementCursor();
 			ctx.push(childCursor);
@@ -79,13 +83,30 @@ public final class DefaultViewModelSerializationHandler extends SerializationHan
 				childCursor.advance();
 				if (childCursor.getCurrEvent() == SMEvent.START_ELEMENT) {
 					if (childCursor.isQName(CoreQName.NAME)) {
-						viewModel.setName(childCursor.collectDescendantText(false));
+						fkModel.setName(childCursor.collectDescendantText(false));
 					} else if (childCursor.isQName(CoreQName.LOGICAL_NAME)) {
-						viewModel.setLogicalName(childCursor.collectDescendantText(false));
+						fkModel.setLogicalName(childCursor.collectDescendantText(false));
 					} else if (childCursor.isQName(CoreQName.DESCRIPTION)) {
-						viewModel.setDescription(childCursor.collectDescendantText(false));
-					} else if (childCursor.isQName(CoreQName.DEFINITION)) {
-						viewModel.setDefinition(childCursor.collectDescendantText(false));
+						fkModel.setDescription(childCursor.collectDescendantText(false));
+					} else if (childCursor.isQName(CoreQName.DEFERRABILITY)) {
+						String text = childCursor.collectDescendantText(false);
+						fkModel.setDeferrability(DefaultDeferrabilityModel.valueOf(text));
+					} else if (childCursor.isQName(CoreQName.KEY_COLUMNS)) {
+						JiemamyCursor keyColumnsCursor = childCursor.childElementCursor();
+						while (keyColumnsCursor.getNext() != null) {
+							String idStr = keyColumnsCursor.getAttrValue(CoreQName.REF);
+							UUID refid = ctx.getContext().toUUID(idStr);
+							EntityRef<ColumnModel> ref = DefaultEntityRef.of(refid);
+							fkModel.addKeyColumn(ref);
+						}
+					} else if (childCursor.isQName(CoreQName.REF_COLUMNS)) {
+						JiemamyCursor refColumnsCursor = childCursor.childElementCursor();
+						while (refColumnsCursor.getNext() != null) {
+							String idStr = refColumnsCursor.getAttrValue(CoreQName.REF);
+							UUID refid = ctx.getContext().toUUID(idStr);
+							EntityRef<ColumnModel> ref = DefaultEntityRef.of(refid);
+							fkModel.addReferenceColumn(ref);
+						}
 					} else {
 						logger.warn("UNKNOWN ELEMENT: {}", childCursor.getQName().toString());
 					}
@@ -95,35 +116,40 @@ public final class DefaultViewModelSerializationHandler extends SerializationHan
 			} while (childCursor.getCurrEvent() != null);
 			ctx.pop();
 			
-			return viewModel;
+			return fkModel;
 		} catch (XMLStreamException e) {
 			throw new SerializationException(e);
 		}
 	}
 	
 	@Override
-	public void handleSerialization(DefaultViewModel model, SerializationContext sctx) throws SerializationException {
+	public void handleSerialization(DefaultForeignKeyConstraintModel model, SerializationContext sctx)
+			throws SerializationException {
 		Validate.notNull(model);
 		Validate.notNull(sctx);
 		JiemamyOutputContainer parent = sctx.peek();
 		try {
-			JiemamyOutputElement element = parent.addElement(CoreQName.VIEW);
+			JiemamyOutputElement element = parent.addElement(CoreQName.FOREIGN_KEY);
 			element.addAttribute(CoreQName.ID, model.getId());
 			element.addAttribute(CoreQName.CLASS, model.getClass());
 			
 			element.addElementAndCharacters(CoreQName.NAME, model.getName());
 			element.addElementAndCharacters(CoreQName.LOGICAL_NAME, model.getLogicalName());
 			element.addElementAndCharacters(CoreQName.DESCRIPTION, model.getDescription());
-			element.addElementAndCharacters(CoreQName.DEFINITION, model.getDefinition());
+			if (model.getDeferrability() != null) {
+				getDirector().direct(model.getDeferrability(), sctx);
+			}
 			
-			ParameterMap params = model.getParams();
-			if (params.size() > 0) {
-				JiemamyOutputElement paramesElement = element.addElement(CoreQName.PARAMETERS);
-				for (Entry<String, String> entry : params) {
-					JiemamyOutputElement paramElement = paramesElement.addElement(CoreQName.PARAMETER);
-					paramElement.addAttribute(CoreQName.PARAMETER_KEY, entry.getKey());
-					paramElement.addCharacters(entry.getValue());
-				}
+			JiemamyOutputElement keyColumnsElement = element.addElement(CoreQName.KEY_COLUMNS);
+			for (EntityRef<? extends ColumnModel> entityRef : model.getKeyColumns()) {
+				keyColumnsElement.addElement(CoreQName.COLUMN_REF).addAttribute(CoreQName.REF,
+						entityRef.getReferentId());
+			}
+			
+			JiemamyOutputElement refColumnsElement = element.addElement(CoreQName.REF_COLUMNS);
+			for (EntityRef<? extends ColumnModel> entityRef : model.getReferenceColumns()) {
+				refColumnsElement.addElement(CoreQName.COLUMN_REF).addAttribute(CoreQName.REF,
+						entityRef.getReferentId());
 			}
 		} catch (XMLStreamException e) {
 			throw new SerializationException(e);

@@ -51,8 +51,9 @@ public class TypeParameterKey<T> extends ParameterKey<T> {
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param converter
-	 * @param keyString
+	 * @param converter コンバータ
+	 * @param keyString キー文字列
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public TypeParameterKey(Converter<T> converter, String keyString) {
 		super(converter, keyString);

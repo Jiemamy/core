@@ -23,6 +23,8 @@ import java.util.UUID;
 
 import com.google.common.collect.Lists;
 
+import org.apache.commons.lang.Validate;
+
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.utils.CloneUtil;
@@ -51,6 +53,7 @@ public abstract class AbstractKeyConstraintModel extends AbstractConstraintModel
 	}
 	
 	public void addKeyColumn(EntityRef<? extends ColumnModel> keyColumn) {
+		Validate.notNull(keyColumn);
 		keyColumns.add(keyColumn);
 	}
 	
@@ -66,6 +69,7 @@ public abstract class AbstractKeyConstraintModel extends AbstractConstraintModel
 	}
 	
 	public void removeKeyColumn(EntityRef<? extends ColumnModel> keyColumn) {
+		Validate.notNull(keyColumn);
 		keyColumns.remove(keyColumn);
 	}
 	

@@ -44,6 +44,7 @@ public final class JmColorSerializationHandler extends SerializationHandler<JmCo
 	 * インスタンスを生成する。
 	 * 
 	 * @param director 親となるディレクタ
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public JmColorSerializationHandler(SerializationDirector director) {
 		super(director);
@@ -67,6 +68,8 @@ public final class JmColorSerializationHandler extends SerializationHandler<JmCo
 	
 	@Override
 	public void handleSerialization(JmColor model, SerializationContext sctx) throws SerializationException {
+		Validate.notNull(model);
+		Validate.notNull(sctx);
 		JiemamyOutputContainer parent = sctx.peek();
 		
 		try {

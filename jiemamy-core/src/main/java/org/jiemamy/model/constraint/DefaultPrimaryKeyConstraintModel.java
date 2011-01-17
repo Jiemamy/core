@@ -21,6 +21,8 @@ package org.jiemamy.model.constraint;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.commons.lang.Validate;
+
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.column.ColumnModel;
@@ -38,8 +40,10 @@ public final class DefaultPrimaryKeyConstraintModel extends AbstractKeyConstrain
 	 * 
 	 * @param columns キーカラム
 	 * @return {@link DefaultPrimaryKeyConstraintModel}
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public static DefaultPrimaryKeyConstraintModel of(ColumnModel... columns) {
+		Validate.noNullElements(columns);
 		DefaultPrimaryKeyConstraintModel model = new DefaultPrimaryKeyConstraintModel(UUID.randomUUID());
 		for (ColumnModel columnModel : columns) {
 			model.addKeyColumn(columnModel.toReference());
@@ -52,8 +56,10 @@ public final class DefaultPrimaryKeyConstraintModel extends AbstractKeyConstrain
 	 * 
 	 * @param refs キーカラムへの参照
 	 * @return {@link DefaultPrimaryKeyConstraintModel}
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public static DefaultPrimaryKeyConstraintModel of(EntityRef<? extends ColumnModel>... refs) {
+		Validate.noNullElements(refs);
 		DefaultPrimaryKeyConstraintModel model = new DefaultPrimaryKeyConstraintModel(UUID.randomUUID());
 		for (EntityRef<? extends ColumnModel> ref : refs) {
 			model.addKeyColumn(ref);
@@ -66,8 +72,10 @@ public final class DefaultPrimaryKeyConstraintModel extends AbstractKeyConstrain
 	 * 
 	 * @param columnRefs キーカラムへの参照のリスト
 	 * @return {@link DefaultPrimaryKeyConstraintModel}
+	 * @throws IllegalArgumentException 引数に{@code null}または{@code null}要素を含むコレクションを与えた場合
 	 */
 	public static DefaultPrimaryKeyConstraintModel of(List<EntityRef<? extends ColumnModel>> columnRefs) {
+		Validate.noNullElements(columnRefs);
 		DefaultPrimaryKeyConstraintModel model = new DefaultPrimaryKeyConstraintModel(UUID.randomUUID());
 		for (EntityRef<? extends ColumnModel> ref : columnRefs) {
 			model.addKeyColumn(ref);
@@ -81,6 +89,7 @@ public final class DefaultPrimaryKeyConstraintModel extends AbstractKeyConstrain
 	 * @param name 物理名
 	 * @param columns キーカラム
 	 * @return {@link DefaultPrimaryKeyConstraintModel}
+	 * @throws IllegalArgumentException 引数{@code columns}に{@code null}を与えた場合
 	 */
 	public static DefaultPrimaryKeyConstraintModel of(String name, ColumnModel... columns) {
 		DefaultPrimaryKeyConstraintModel model = of(columns);

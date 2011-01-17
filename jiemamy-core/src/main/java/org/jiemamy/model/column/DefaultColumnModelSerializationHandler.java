@@ -55,6 +55,7 @@ public final class DefaultColumnModelSerializationHandler extends SerializationH
 	 * インスタンスを生成する。
 	 * 
 	 * @param director 親となるディレクタ
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public DefaultColumnModelSerializationHandler(SerializationDirector director) {
 		super(director);
@@ -117,6 +118,8 @@ public final class DefaultColumnModelSerializationHandler extends SerializationH
 	
 	@Override
 	public void handleSerialization(DefaultColumnModel model, SerializationContext sctx) throws SerializationException {
+		Validate.notNull(model);
+		Validate.notNull(sctx);
 		JiemamyOutputContainer parent = sctx.peek();
 		try {
 			JiemamyOutputElement element = parent.addElement(CoreQName.COLUMN);

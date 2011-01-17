@@ -25,7 +25,6 @@ import java.util.Set;
 import java.util.UUID;
 
 import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -74,6 +73,8 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	static TableModel findDeclaringTable(Collection<TableModel> tables, final ColumnModel columnModel) {
+		Validate.noNullElements(tables);
+		Validate.notNull(columnModel);
 		Collection<TableModel> c = Collections2.filter(tables, new Predicate<TableModel>() {
 			
 			public boolean apply(TableModel tableModel) {
@@ -92,6 +93,8 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	
 	static DatabaseObjectModel findReferencedDatabaseObject(Collection<DatabaseObjectModel> databaseObjects,
 			ForeignKeyConstraintModel foreignKey) {
+		Validate.noNullElements(databaseObjects);
+		Validate.notNull(foreignKey);
 		if (foreignKey.getReferenceColumns().size() == 0) {
 			throw new ModelConsistencyException();
 		}
@@ -117,6 +120,8 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	 */
 	static KeyConstraintModel findReferencedKeyConstraint(Collection<DatabaseObjectModel> databaseObjects,
 			ForeignKeyConstraintModel foreignKey) {
+		Validate.noNullElements(databaseObjects);
+		Validate.notNull(foreignKey);
 		if (foreignKey.getReferenceColumns().size() == 0) {
 			throw new ModelConsistencyException();
 		}
@@ -184,10 +189,12 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public void deleteConstraint(EntityRef<? extends ConstraintModel> ref) {
+		Validate.notNull(ref);
 		constraints.delete(ref);
 	}
 	
 	public KeyConstraintModel findReferencedKeyConstraint(ForeignKeyConstraintModel foreignKey) {
+		Validate.notNull(foreignKey);
 		for (KeyConstraintModel keyConstraint : getKeyConstraintModels()) {
 			// サイズ不一致であれば、そもそもこのキーを参照したものではない
 			if (keyConstraint.getKeyColumns().size() != foreignKey.getReferenceColumns().size()) {
@@ -203,6 +210,7 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	
 	@Override
 	public Set<DatabaseObjectModel> findSuperDatabaseObjectsNonRecursive(Set<DatabaseObjectModel> databaseObjects) {
+		Validate.notNull(databaseObjects);
 		Set<DatabaseObjectModel> results = Sets.newHashSet();
 		for (ForeignKeyConstraintModel foreignKey : getForeignKeyConstraintModels()) {
 			results.add(findReferencedDatabaseObject(databaseObjects, foreignKey));
@@ -211,6 +219,7 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	}
 	
 	public ColumnModel getColumn(EntityRef<? extends ColumnModel> reference) {
+		Validate.notNull(reference);
 		return resolve(reference);
 	}
 	
@@ -243,6 +252,7 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	
 	@SuppressWarnings("unchecked")
 	public <T extends ConstraintModel>Set<T> getConstraints(Class<T> clazz) {
+		Validate.notNull(clazz);
 		Set<T> result = Sets.newHashSet();
 		for (ConstraintModel constraint : getConstraints()) {
 			if (clazz.isInstance(constraint)) {
@@ -284,11 +294,10 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	}
 	
 	public PrimaryKeyConstraintModel getPrimaryKey() {
-		Collection<ConstraintModel> pks =
-				Collections2.filter(constraints.getEntitiesAsSet(),
-						Predicates.instanceOf(PrimaryKeyConstraintModel.class));
+		Iterable<PrimaryKeyConstraintModel> pks =
+				Iterables.filter(constraints.getEntitiesAsSet(), PrimaryKeyConstraintModel.class);
 		try {
-			return (PrimaryKeyConstraintModel) Iterables.getOnlyElement(pks);
+			return Iterables.getOnlyElement(pks);
 		} catch (NoSuchElementException e) {
 			return null;
 		}
@@ -400,6 +409,7 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	 */
 	public void store(ColumnModel column) {
 		Validate.notNull(column);
+//		Validate.notNull(column.getName());
 		columns.store(column);
 		eventBroker.fireEvent(new StoredEvent<ColumnModel>(columns, null, column));
 	}

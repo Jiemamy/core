@@ -57,6 +57,12 @@ public final class DefaultIndexModel extends DefaultDatabaseObjectModel implemen
 		super(id);
 	}
 	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param indexColumn
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
 	public void addIndexColumn(IndexColumnModel indexColumn) {
 		indexColumns.add(indexColumn);
 	}

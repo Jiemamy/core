@@ -32,6 +32,8 @@ import org.jiemamy.JiemamyContextSerializationHandler;
 import org.jiemamy.JiemamyFacet;
 import org.jiemamy.model.column.DefaultColumnModel;
 import org.jiemamy.model.column.DefaultColumnModelSerializationHandler;
+import org.jiemamy.model.constraint.DefaultForeignKeyConstraintModel;
+import org.jiemamy.model.constraint.DefaultForeignKeyConstraintModelSerializationHandler;
 import org.jiemamy.model.constraint.DefaultNotNullConstraintModel;
 import org.jiemamy.model.constraint.DefaultNotNullConstraintModelSerializationHandler;
 import org.jiemamy.model.constraint.DefaultPrimaryKeyConstraintModel;
@@ -81,15 +83,17 @@ public class SerializationDirector {
 		addHandler(DefaultViewModel.class, CoreQName.VIEW, new DefaultViewModelSerializationHandler(this));
 		addHandler(DefaultTableModel.class, CoreQName.TABLE, new DefaultTableModelSerializationHandler(this));
 		addHandler(DefaultColumnModel.class, CoreQName.COLUMN, new DefaultColumnModelSerializationHandler(this));
+		addHandler(DefaultTypeVariant.class, CoreQName.DATA_TYPE, new DefaultTypeVariantSerializationHandler(this));
 		addHandler(DefaultNotNullConstraintModel.class, CoreQName.NOT_NULL,
 				new DefaultNotNullConstraintModelSerializationHandler(this));
 		addHandler(DefaultPrimaryKeyConstraintModel.class, CoreQName.PRIMARY_KEY,
 				new DefaultPrimaryKeyConstraintModelSerializationHandler(this));
-		addHandler(DefaultTypeVariant.class, CoreQName.DATA_TYPE, new DefaultTypeVariantSerializationHandler(this));
+		addHandler(DefaultForeignKeyConstraintModel.class, CoreQName.FOREIGN_KEY,
+				new DefaultForeignKeyConstraintModelSerializationHandler(this));
+		// TODO ... 色々まだ追加するものがあるはず
 		
 		addHandler(DefaultDataSetModel.class, CoreQName.DATASET, new DefaultDataSetModelSerializationHandler(this));
 		addHandler(DefaultRecordModel.class, CoreQName.RECORD, new DefaultRecordModelSerializationHandler(this));
-		// TODO ... 色々まだ追加するものがあるはず
 		
 		for (JiemamyFacet jiemamyFacet : context.getFacets()) {
 			jiemamyFacet.prepareSerializationHandlers(this);

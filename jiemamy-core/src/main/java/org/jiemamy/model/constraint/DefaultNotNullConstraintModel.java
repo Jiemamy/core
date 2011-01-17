@@ -20,12 +20,14 @@ package org.jiemamy.model.constraint;
 
 import java.util.UUID;
 
+import org.apache.commons.lang.Validate;
+
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.column.ColumnModel;
 
 /**
- * NOT NULL制約モデル。
+ * {@link NotNullConstraintModel}のデフォルト実装クラス。
  * 
  * @author daisuke
  */
@@ -36,8 +38,10 @@ public final class DefaultNotNullConstraintModel extends AbstractConstraintModel
 	 * 
 	 * @param column 対象カラム
 	 * @return {@link DefaultNotNullConstraintModel}
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public static DefaultNotNullConstraintModel of(ColumnModel column) {
+		Validate.notNull(column);
 		DefaultNotNullConstraintModel model = new DefaultNotNullConstraintModel(UUID.randomUUID());
 		model.setColumn(column.toReference());
 		return model;

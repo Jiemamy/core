@@ -25,6 +25,7 @@ import java.util.UUID;
 
 import com.google.common.collect.Maps;
 
+import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
@@ -92,7 +93,14 @@ public final class DefaultDataSetModel extends AbstractEntity implements DataSet
 		return name;
 	}
 	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param ref
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
 	public synchronized void getRecord(EntityRef<? extends TableModel> ref) {
+		Validate.notNull(ref);
 		records.get(ref);
 	}
 	
@@ -105,11 +113,26 @@ public final class DefaultDataSetModel extends AbstractEntity implements DataSet
 		return MutationMonitor.monitor(Maps.newHashMap(records));
 	}
 	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param ref
+	 * @param record
+	 * @throws IllegalArgumentException 引数{@code ref}に{@code null}を与えた場合
+	 */
 	public synchronized void putRecord(EntityRef<? extends TableModel> ref, List<RecordModel> record) {
+		Validate.notNull(ref);
 		records.put(ref, record);
 	}
 	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param ref
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
 	public synchronized void removeRecord(EntityRef<? extends TableModel> ref) {
+		Validate.notNull(ref);
 		records.remove(ref);
 	}
 	

@@ -23,6 +23,7 @@ import java.util.UUID;
 
 import com.google.common.collect.Lists;
 
+import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
@@ -49,6 +50,7 @@ public final class DefaultDomainModel extends DefaultDatabaseObjectModel impleme
 	/** ドメインとして定義された型記述子 */
 	private TypeVariant dataType;
 	
+	// TODO to Repository
 	private Collection<CheckConstraintModel> checkConstraints = Lists.newArrayList();
 	
 	private boolean notNull;
@@ -70,9 +72,11 @@ public final class DefaultDomainModel extends DefaultDatabaseObjectModel impleme
 	 * チェック制約を設定する
 	 * 
 	 * @param checkConstraint チェック制約
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 0.3
 	 */
 	public void addCheckConstraint(CheckConstraintModel checkConstraint) {
+		Validate.notNull(checkConstraint);
 		checkConstraints.add(checkConstraint);
 	}
 	

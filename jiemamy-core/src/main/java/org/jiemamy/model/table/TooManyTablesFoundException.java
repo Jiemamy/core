@@ -42,7 +42,7 @@ public class TooManyTablesFoundException extends ModelConsistencyException {
 	 * @param tables 見つかった複数のテーブルの集合
 	 */
 	public TooManyTablesFoundException(Collection<TableModel> tables) {
-		super(String.valueOf(tables.size()));
+		super(String.valueOf(tables.size()) + " tables");
 		this.tables = tables;
 	}
 	

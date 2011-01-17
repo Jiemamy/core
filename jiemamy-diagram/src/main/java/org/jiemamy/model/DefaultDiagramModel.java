@@ -89,6 +89,7 @@ public final class DefaultDiagramModel extends AbstractEntity implements Diagram
 	 * @throws EntityNotFoundException このダイアグラムが指定したノードを管理していない場合
 	 */
 	public void deleteNode(EntityRef<? extends NodeModel> reference) {
+		// TODO 関連するノードの削除
 		nodes.delete(reference);
 	}
 	
@@ -212,8 +213,10 @@ public final class DefaultDiagramModel extends AbstractEntity implements Diagram
 	 * 表示レベルを設定する。
 	 * 
 	 * @param level 表示レベル
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public void setLevel(Level level) {
+		Validate.notNull(level);
 		this.level = level;
 	}
 	
@@ -221,8 +224,10 @@ public final class DefaultDiagramModel extends AbstractEntity implements Diagram
 	 * 表示モードを設定する。
 	 * 
 	 * @param mode 表示モード
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public void setMode(Mode mode) {
+		Validate.notNull(mode);
 		this.mode = mode;
 	}
 	
@@ -239,8 +244,15 @@ public final class DefaultDiagramModel extends AbstractEntity implements Diagram
 	 * {@link ConnectionModel}を保存する。
 	 * 
 	 * @param connectionModel {@link ConnectionModel}
+	 * @throws ModelConsistencyException ダイアグラムがコネクションのsourceとtargetを保持していない場合
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public void store(ConnectionModel connectionModel) {
+		Validate.notNull(connectionModel);
+		if (nodes.contains(connectionModel.getSource()) == false
+				|| nodes.contains(connectionModel.getTarget()) == false) {
+			throw new ModelConsistencyException();
+		}
 		connections.store(connectionModel);
 	}
 	
@@ -248,8 +260,10 @@ public final class DefaultDiagramModel extends AbstractEntity implements Diagram
 	 * {@link NodeModel}を保存する。
 	 * 
 	 * @param nodeModel {@link NodeModel}
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public void store(NodeModel nodeModel) {
+		Validate.notNull(nodeModel);
 		nodes.store(nodeModel);
 	}
 	

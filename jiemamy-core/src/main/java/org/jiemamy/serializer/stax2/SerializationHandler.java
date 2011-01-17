@@ -51,6 +51,7 @@ public abstract class SerializationHandler<T> {
 	 * @param dctx デシリアライズコンテキスト
 	 * @return デシリアライズの結果モデル
 	 * @throws SerializationException デシリアライズに失敗した場合
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public abstract T handleDeserialization(DeserializationContext dctx) throws SerializationException;
 	
@@ -60,6 +61,7 @@ public abstract class SerializationHandler<T> {
 	 * @param model シリアライズ対象モデル
 	 * @param sctx シリアライズコンテキスト
 	 * @throws SerializationException デシリアライズに失敗した場合
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public abstract void handleSerialization(T model, SerializationContext sctx) throws SerializationException;
 	

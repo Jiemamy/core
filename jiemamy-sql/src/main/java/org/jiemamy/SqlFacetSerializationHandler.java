@@ -56,6 +56,7 @@ public final class SqlFacetSerializationHandler extends SerializationHandler<Sql
 	 * インスタンスを生成する。
 	 * 
 	 * @param director 親となるディレクタ
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public SqlFacetSerializationHandler(SerializationDirector director) {
 		super(director);
@@ -93,6 +94,8 @@ public final class SqlFacetSerializationHandler extends SerializationHandler<Sql
 	
 	@Override
 	public void handleSerialization(SqlFacet model, SerializationContext sctx) throws SerializationException {
+		Validate.notNull(model);
+		Validate.notNull(sctx);
 		JiemamyOutputContainer parent = sctx.peek();
 		try {
 			sctx.push(parent.addElement(SqlQName.SQLS));

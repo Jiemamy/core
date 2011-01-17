@@ -44,6 +44,7 @@ public final class JmRectangleSerializationHandler extends SerializationHandler<
 	 * インスタンスを生成する。
 	 * 
 	 * @param director 親となるディレクタ
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public JmRectangleSerializationHandler(SerializationDirector director) {
 		super(director);
@@ -68,6 +69,8 @@ public final class JmRectangleSerializationHandler extends SerializationHandler<
 	
 	@Override
 	public void handleSerialization(JmRectangle model, SerializationContext sctx) throws SerializationException {
+		Validate.notNull(model);
+		Validate.notNull(sctx);
 		JiemamyOutputContainer parent = sctx.peek();
 		try {
 			JiemamyOutputElement boundaryElement = parent.addElement(DiagramQName.BOUNDARY);

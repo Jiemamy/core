@@ -21,6 +21,8 @@ import java.util.UUID;
 
 import com.google.common.collect.Lists;
 
+import org.apache.commons.lang.Validate;
+
 import org.jiemamy.dddbase.AbstractEntity;
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
@@ -58,6 +60,7 @@ public final class DefaultConnectionModel extends AbstractEntity implements Conn
 	 */
 	public DefaultConnectionModel(UUID id, EntityRef<? extends ForeignKeyConstraintModel> coreModelRef) {
 		super(id);
+		Validate.notNull(coreModelRef);
 		this.coreModelRef = coreModelRef;
 	}
 	
@@ -102,6 +105,9 @@ public final class DefaultConnectionModel extends AbstractEntity implements Conn
 	}
 	
 	public boolean isSelfConnection() {
+		if (getSource() == null || getTarget() == null) {
+			throw new IllegalStateException();
+		}
 		return getSource().equals(getTarget());
 	}
 	
@@ -118,8 +124,10 @@ public final class DefaultConnectionModel extends AbstractEntity implements Conn
 	 * 接続元ノードを設定する。
 	 * 
 	 * @param source 接続元ノード
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public void setSource(EntityRef<? extends NodeModel> source) {
+		Validate.notNull(source);
 		this.source = source;
 	}
 	
@@ -127,8 +135,10 @@ public final class DefaultConnectionModel extends AbstractEntity implements Conn
 	 * 接続先ノードを設定する。
 	 * 
 	 * @param target 接続先ノード
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public void setTarget(EntityRef<? extends NodeModel> target) {
+		Validate.notNull(target);
 		this.target = target;
 	}
 	

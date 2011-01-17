@@ -92,9 +92,6 @@ public enum CoreQName implements JiemamyQName {
 	/***/
 	CHECK(CoreNamespace.NS_CORE, "check"),
 
-	/***/
-	REFERENCE_COLUMNS(CoreNamespace.NS_CORE, "referenceColumns"),
-
 	// --------
 	
 	/***/
@@ -182,7 +179,10 @@ public enum CoreQName implements JiemamyQName {
 	// --------
 	
 	/***/
-	COLUMN_REFS(CoreNamespace.NS_CORE, "columnRefs"),
+	KEY_COLUMNS(CoreNamespace.NS_CORE, "keyColumns"),
+
+	/***/
+	REF_COLUMNS(CoreNamespace.NS_CORE, "referenceColumns"),
 
 	/***/
 	COLUMN_REF(CoreNamespace.NS_CORE, "columnRef"),

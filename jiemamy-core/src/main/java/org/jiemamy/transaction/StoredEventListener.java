@@ -34,6 +34,7 @@ public interface StoredEventListener<T extends Entity> {
 	 * <p>監視対象に変更があった場合に{@link EventBroker}によってcallbackされる。</p>
 	 * 
 	 * @param command 実行されたコマンド
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 0.3
 	 */
 	void commandExecuted(StoredEvent<T> command);

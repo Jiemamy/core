@@ -18,6 +18,8 @@ package org.jiemamy.model;
 
 import java.util.UUID;
 
+import org.apache.commons.lang.Validate;
+
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
 
@@ -38,9 +40,11 @@ public final class DefaultDatabaseObjectNodeModel extends DefaultNodeModel imple
 	 * 
 	 * @param id ENTITY ID
 	 * @param coreModelRef コアモデルへの参照
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public DefaultDatabaseObjectNodeModel(UUID id, EntityRef<? extends DatabaseObjectModel> coreModelRef) {
 		super(id);
+		Validate.notNull(coreModelRef);
 		this.coreModelRef = coreModelRef;
 	}
 	

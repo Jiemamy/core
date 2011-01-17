@@ -44,6 +44,7 @@ public class JiemamyOutputElement extends JiemamyOutputContainer {
 	 * インスタンスを生成する。
 	 * 
 	 * @param element
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public JiemamyOutputElement(SMOutputElement element) {
 		super(element);

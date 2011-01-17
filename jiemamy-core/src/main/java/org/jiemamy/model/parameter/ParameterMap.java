@@ -28,6 +28,7 @@ import com.google.common.collect.Maps;
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.JiemamyError;
+import org.jiemamy.dddbase.utils.CloneUtil;
 
 /**
  * 不確定（存在するかどうか分からない・項目をcoreは知らず、dialectが知っているもの）なモデル情報
@@ -45,11 +46,10 @@ public final class ParameterMap implements Iterable<Map.Entry<String, String>>, 
 	
 
 	@Override
-	@SuppressWarnings("unchecked")
 	public ParameterMap clone() {
 		try {
 			ParameterMap clone = (ParameterMap) super.clone();
-			clone.map = (HashMap<String, String>) map.clone();
+			clone.map = CloneUtil.cloneValueHashMap(map);
 			return clone;
 		} catch (CloneNotSupportedException e) {
 			throw new JiemamyError("clone must to be supported.", e);

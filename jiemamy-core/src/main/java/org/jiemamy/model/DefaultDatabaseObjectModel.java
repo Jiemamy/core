@@ -23,6 +23,8 @@ import java.util.UUID;
 
 import com.google.common.collect.Sets;
 
+import org.apache.commons.lang.Validate;
+
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.dddbase.AbstractEntity;
 import org.jiemamy.model.parameter.ParameterKey;
@@ -73,6 +75,7 @@ public abstract class DefaultDatabaseObjectModel extends AbstractEntity implemen
 	}
 	
 	public Set<DatabaseObjectModel> findSuperDatabaseObjectsNonRecursive(Set<DatabaseObjectModel> databaseObjects) {
+		Validate.notNull(databaseObjects);
 		return null; // TODO 未実装
 	}
 	

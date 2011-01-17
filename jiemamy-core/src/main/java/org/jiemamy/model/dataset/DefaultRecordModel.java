@@ -111,9 +111,10 @@ public final class DefaultRecordModel implements RecordModel {
 		/**
 		 * インスタンスを生成する。
 		 * 
-		 * @param tableModel
+		 * @param tableModel 基準となるテーブル 
 		 */
 		private ColumnOrderComparator(TableModel tableModel) {
+			Validate.notNull(tableModel);
 			this.tableModel = tableModel;
 		}
 		

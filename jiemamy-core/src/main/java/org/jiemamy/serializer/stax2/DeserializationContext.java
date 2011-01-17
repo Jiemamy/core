@@ -87,10 +87,12 @@ public class DeserializationContext {
 	}
 	
 	public void push(JiemamyCursor cursor) {
+		Validate.notNull(cursor);
 		stack.push(cursor);
 	}
 	
 	public void push(SMHierarchicCursor cursor) {
+		Validate.notNull(cursor);
 		push(new JiemamyCursor(cursor));
 	}
 }
