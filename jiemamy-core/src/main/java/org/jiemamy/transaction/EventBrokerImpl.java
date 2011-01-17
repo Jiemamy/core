@@ -66,7 +66,7 @@ public class EventBrokerImpl implements EventBroker {
 	
 	public void fireEvent(StoredEvent<?> command) {
 		Validate.notNull(command);
-		logger.info(LogMarker.LIFECYCLE, "EventBroker is kicked enter: " + command.toString());
+		logger.trace(LogMarker.LIFECYCLE, "EventBroker is kicked enter: " + command.toString());
 		// java.util.ConcurrentModificationExceptionへの対策。
 		List<StoredEventListener<?>> listenersSnapthot = Lists.newArrayList(listeners);
 		for (StoredEventListener listener : listenersSnapthot) {
@@ -81,7 +81,7 @@ public class EventBrokerImpl implements EventBroker {
 				logger.debug(LogMarker.LIFECYCLE, "Listener is kicked: " + listener.toString());
 			}
 		}
-		logger.info(LogMarker.LIFECYCLE, "EventBroker is kicked exit: " + command.toString());
+		logger.trace(LogMarker.LIFECYCLE, "EventBroker is kicked exit: " + command.toString());
 	}
 	
 	/**
