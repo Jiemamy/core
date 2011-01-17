@@ -102,6 +102,18 @@ public final class DefaultDiagramModelSerializationHandler extends Serialization
 							}
 							ctx.pop();
 						}
+					} else if (childCursor.isQName(DiagramQName.CONNECTIONS)) {
+						JiemamyCursor connectionsCursor = childCursor.childElementCursor();
+						while (connectionsCursor.getNext() != null) {
+							ctx.push(connectionsCursor);
+							ConnectionModel connectionModel = getDirector().direct(ctx);
+							if (connectionModel != null) {
+								diagramModel.store(connectionModel);
+							} else {
+								logger.warn("null connectionModel");
+							}
+							ctx.pop();
+						}
 					} else {
 						logger.warn("UNKNOWN ELEMENT: {}", childCursor.getQName().toString());
 					}
