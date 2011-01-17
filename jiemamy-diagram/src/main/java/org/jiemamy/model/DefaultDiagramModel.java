@@ -17,6 +17,7 @@
 package org.jiemamy.model;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 import com.google.common.collect.Iterables;
@@ -32,6 +33,8 @@ import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.OnMemoryCompositeEntityResolver;
 import org.jiemamy.dddbase.OnMemoryRepository;
 import org.jiemamy.model.constraint.ForeignKeyConstraintModel;
+import org.jiemamy.model.geometory.JmPoint;
+import org.jiemamy.model.geometory.JmRectangle;
 
 /**
  * {@link DiagramModel}のデフォルト実装クラス。
@@ -243,6 +246,9 @@ public final class DefaultDiagramModel extends AbstractEntity implements Diagram
 	/**
 	 * {@link ConnectionModel}を保存する。
 	 * 
+	 * <p>{@link ConnectionModel}が自己結合コネクションであった場合は、
+	 * 自動敵にbendpointを2つ作製する。</p>
+	 * 
 	 * @param connectionModel {@link ConnectionModel}
 	 * @throws ModelConsistencyException ダイアグラムがコネクションのsourceとtargetを保持していない場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
@@ -252,6 +258,13 @@ public final class DefaultDiagramModel extends AbstractEntity implements Diagram
 		if (nodes.contains(connectionModel.getSource()) == false
 				|| nodes.contains(connectionModel.getTarget()) == false) {
 			throw new ModelConsistencyException();
+		}
+		if (connectionModel.isSelfConnection() && connectionModel instanceof DefaultConnectionModel) {
+			DefaultConnectionModel defaultConnectionModel = (DefaultConnectionModel) connectionModel;
+			JmRectangle boundary = nodes.resolve(connectionModel.getSource()).getBoundary();
+			List<JmPoint> points = defaultConnectionModel.breachEncapsulationOfBendpoints();
+			points.add(new JmPoint(boundary.x - 50, boundary.y - 25));
+			points.add(new JmPoint(boundary.x - 25, boundary.y - 50));
 		}
 		connections.store(connectionModel);
 	}
