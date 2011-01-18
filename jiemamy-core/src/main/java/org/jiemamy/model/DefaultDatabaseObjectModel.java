@@ -46,7 +46,8 @@ public abstract class DefaultDatabaseObjectModel extends AbstractEntity implemen
 	/** 説明文 */
 	private String description;
 	
-	private ParameterMap params = new ParameterMap();
+	/** パラメータの一覧 */
+	protected ParameterMap params = new ParameterMap();
 	
 
 	/**

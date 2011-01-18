@@ -21,7 +21,7 @@ package org.jiemamy.model.dataset;
 import static org.hamcrest.Matchers.is;
 import static org.jiemamy.utils.RandomUtil.bool;
 import static org.jiemamy.utils.RandomUtil.meta;
-import static org.jiemamy.utils.RandomUtil.strNullable;
+import static org.jiemamy.utils.RandomUtil.str;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 
@@ -55,8 +55,7 @@ public class DefaultRecordModelTest {
 		
 		for (ColumnModel columnModel : columns) {
 			if (bool()) {
-				
-				values.put(columnModel.toReference(), new ScriptString(strNullable(), meta()));
+				values.put(columnModel.toReference(), new ScriptString(str(), meta()));
 			}
 		}
 		

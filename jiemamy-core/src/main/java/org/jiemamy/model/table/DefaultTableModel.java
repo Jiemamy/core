@@ -51,6 +51,7 @@ import org.jiemamy.model.constraint.ForeignKeyConstraintModel;
 import org.jiemamy.model.constraint.KeyConstraintModel;
 import org.jiemamy.model.constraint.NotNullConstraintModel;
 import org.jiemamy.model.constraint.PrimaryKeyConstraintModel;
+import org.jiemamy.model.parameter.ParameterMap;
 import org.jiemamy.transaction.EventBroker;
 import org.jiemamy.transaction.EventBrokerImpl;
 import org.jiemamy.transaction.StoredEvent;
@@ -458,5 +459,17 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	
 	public EntityRef<? extends DefaultTableModel> toReference() {
 		return new DefaultEntityRef<DefaultTableModel>(this);
+	}
+	
+	/**
+	 * {@link ParameterMap} を取得する。
+	 * 
+	 * <p>このメソッドは内部で保持している {@link ParameterMap} オブジェクトの参照を返すことにより
+	 * 内部表現を暴露していることに注意すること。</p>
+	 * 
+	 * @return {@link ParameterMap}の内部参照
+	 */
+	ParameterMap breachEncapsulationOfParams() {
+		return params;
 	}
 }

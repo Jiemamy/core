@@ -18,10 +18,16 @@
  */
 package org.jiemamy.model.table;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.xml.stream.XMLStreamException;
+
+import com.google.common.collect.Lists;
 
 import org.apache.commons.lang.Validate;
 import org.codehaus.staxmate.in.SMEvent;
@@ -110,6 +116,17 @@ public final class DefaultTableModelSerializationHandler extends SerializationHa
 							}
 							ctx.pop();
 						}
+					} else if (childCursor.isQName(CoreQName.PARAMETERS)) {
+						JiemamyCursor parameterCursor = childCursor.childElementCursor();
+						ParameterMap params = tableModel.breachEncapsulationOfParams();
+						while (parameterCursor.getNext() != null) {
+							if (parameterCursor.isQName(CoreQName.PARAMETER) == false) {
+								logger.warn("unexpected: " + parameterCursor.getQName());
+								continue;
+							}
+							params.put(parameterCursor.getAttrValue(CoreQName.PARAMETER_KEY),
+									parameterCursor.collectDescendantText(false));
+						}
 					} else {
 						logger.warn("UNKNOWN ELEMENT: {}", childCursor.getQName().toString());
 					}
@@ -146,7 +163,24 @@ public final class DefaultTableModelSerializationHandler extends SerializationHa
 			sctx.pop();
 			
 			sctx.push(element.addElement(CoreQName.CONSTRAINTS));
-			for (ConstraintModel constraint : model.getConstraints()) {
+			
+			Set<? extends ConstraintModel> constraints = model.getConstraints();
+			ArrayList<ConstraintModel> constraintList = Lists.newArrayList(constraints.iterator());
+			Collections.sort(constraintList, new Comparator<ConstraintModel>() {
+				
+				public int compare(ConstraintModel cm1, ConstraintModel cm2) {
+					int compareName = cm1.getClass().getSimpleName().compareTo(cm2.getClass().getSimpleName());
+					if (compareName != 0) {
+						return compareName;
+					}
+					return cm1.getId().compareTo(cm2.getId());
+				}
+				
+			});
+//			for (ConstraintModel constraint : model.getConstraints()) {
+//				getDirector().direct(constraint, sctx);
+//			}
+			for (ConstraintModel constraint : constraintList) {
 				getDirector().direct(constraint, sctx);
 			}
 			sctx.pop();
@@ -154,7 +188,15 @@ public final class DefaultTableModelSerializationHandler extends SerializationHa
 			ParameterMap params = model.getParams();
 			if (params.size() > 0) {
 				JiemamyOutputElement paramesElement = element.addElement(CoreQName.PARAMETERS);
-				for (Entry<String, String> entry : params) {
+				ArrayList<Entry<String, String>> paramList = Lists.newArrayList(params);
+				Collections.sort(paramList, new Comparator<Entry<String, String>>() {
+					
+					public int compare(Entry<String, String> e1, Entry<String, String> e2) {
+						return e1.getKey().compareTo(e2.getKey());
+					}
+					
+				});
+				for (Entry<String, String> entry : paramList) {
 					JiemamyOutputElement paramElement = paramesElement.addElement(CoreQName.PARAMETER);
 					paramElement.addAttribute(CoreQName.PARAMETER_KEY, entry.getKey());
 					paramElement.addCharacters(entry.getValue());

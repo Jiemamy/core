@@ -18,10 +18,15 @@
  */
 package org.jiemamy.model.column;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Map.Entry;
 import java.util.UUID;
 
 import javax.xml.stream.XMLStreamException;
+
+import com.google.common.collect.Lists;
 
 import org.apache.commons.lang.Validate;
 import org.codehaus.staxmate.in.SMEvent;
@@ -98,6 +103,10 @@ public final class DefaultColumnModelSerializationHandler extends SerializationH
 						JiemamyCursor parameterCursor = childCursor.childElementCursor();
 						ParameterMap params = columnModel.breachEncapsulationOfParams();
 						while (parameterCursor.getNext() != null) {
+							if (parameterCursor.isQName(CoreQName.PARAMETER) == false) {
+								logger.warn("unexpected: " + parameterCursor.getQName());
+								continue;
+							}
 							params.put(parameterCursor.getAttrValue(CoreQName.PARAMETER_KEY),
 									parameterCursor.collectDescendantText(false));
 						}
@@ -140,7 +149,15 @@ public final class DefaultColumnModelSerializationHandler extends SerializationH
 			ParameterMap params = model.getParams();
 			if (params.size() > 0) {
 				JiemamyOutputElement paramesElement = element.addElement(CoreQName.PARAMETERS);
-				for (Entry<String, String> entry : params) {
+				ArrayList<Entry<String, String>> paramList = Lists.newArrayList(params);
+				Collections.sort(paramList, new Comparator<Entry<String, String>>() {
+					
+					public int compare(Entry<String, String> e1, Entry<String, String> e2) {
+						return e1.getKey().compareTo(e2.getKey());
+					}
+					
+				});
+				for (Entry<String, String> entry : paramList) {
 					JiemamyOutputElement paramElement = paramesElement.addElement(CoreQName.PARAMETER);
 					paramElement.addAttribute(CoreQName.PARAMETER_KEY, entry.getKey());
 					paramElement.addCharacters(entry.getValue());

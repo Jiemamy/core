@@ -27,6 +27,7 @@ import org.codehaus.staxmate.in.SMEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.column.ColumnModel;
 import org.jiemamy.model.table.DefaultTableModel;
@@ -91,14 +92,11 @@ public final class DefaultNotNullConstraintModelSerializationHandler extends
 						String text = childCursor.collectDescendantText(false);
 						notNull.setDeferrability(DefaultDeferrabilityModel.valueOf(text));
 					} else if (childCursor.isQName(CoreQName.COLUMN_REF)) {
-						JiemamyCursor descendantCursor = childCursor.childElementCursor().advance();
-						if (descendantCursor.getCurrEvent() != null) {
-							ctx.push(descendantCursor);
-							EntityRef<? extends ColumnModel> ref = getDirector().direct(ctx);
-							assert ref != null;
-							notNull.setColumn(ref);
-							ctx.pop();
-						}
+						String strReferentId = childCursor.getAttrValue(CoreQName.REF);
+						assert strReferentId != null;
+						UUID referentId = ctx.getContext().toUUID(strReferentId);
+						EntityRef<ColumnModel> ref = DefaultEntityRef.of(referentId);
+						notNull.setColumn(ref);
 					} else {
 						logger.warn("UNKNOWN ELEMENT: {}", childCursor.getQName().toString());
 					}

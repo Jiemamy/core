@@ -20,6 +20,7 @@ package org.jiemamy.model.dataset;
 
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.UUID;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -31,6 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.jiemamy.JiemamyContext;
+import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.column.ColumnModel;
 import org.jiemamy.script.ScriptString;
@@ -70,7 +72,7 @@ public final class DefaultRecordModelSerializationHandler extends SerializationH
 		Validate.notNull(ctx);
 		try {
 			Validate.isTrue(ctx.peek().getCurrEvent() == SMEvent.START_ELEMENT);
-			Validate.isTrue(ctx.peek().isQName(CoreQName.RECORD));
+			Validate.isTrue(ctx.peek().isQName(CoreQName.RECORDS));
 			
 			JiemamyCursor cursor = ctx.peek();
 			
@@ -81,15 +83,18 @@ public final class DefaultRecordModelSerializationHandler extends SerializationH
 			do {
 				childCursor.advance();
 				if (childCursor.getCurrEvent() == SMEvent.START_ELEMENT) {
-					// TODO yamkazu
-//					if (childCursor.isQName(CoreQName.CORE)) {
-//						String coreIdString = childCursor.getAttrValue(CoreQName.REF);
-//						UUID coreId = UUIDUtil.valueOfOrRandom(coreIdString);
-//						EntityRef<? extends DatabaseObjectModel> core = DefaultEntityRef.of(coreId);
-//						scriptModel.setCoreModelRef(core);
-//					} else {
-//						logger.warn("UNKNOWN ELEMENT: {}", childCursor.getQName().toString());
-//					}
+					if (childCursor.isQName(CoreQName.RECORD)) {
+						String strRef = childCursor.getAttrValue(CoreQName.REF);
+						assert strRef != null;
+						UUID refId = ctx.getContext().toUUID(strRef);
+						EntityRef<? extends ColumnModel> columnRef = DefaultEntityRef.of(refId);
+						String engine = childCursor.getAttrValue(CoreQName.ENGINE);
+						String value = childCursor.collectDescendantText(false);
+						values.put(columnRef, new ScriptString(value, engine));
+					} else {
+						logger.warn("UNKNOWN ELEMENT: {}", childCursor.getQName().toString());
+					}
+					
 				} else if (childCursor.getCurrEvent() != null) {
 					logger.warn("UNKNOWN EVENT: {}", childCursor.getCurrEvent());
 				}

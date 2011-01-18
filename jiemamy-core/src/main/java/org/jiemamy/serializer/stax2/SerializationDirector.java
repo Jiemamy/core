@@ -93,7 +93,8 @@ public class SerializationDirector {
 		// TODO ... 色々まだ追加するものがあるはず
 		
 		addHandler(DefaultDataSetModel.class, CoreQName.DATASET, new DefaultDataSetModelSerializationHandler(this));
-		addHandler(DefaultRecordModel.class, CoreQName.RECORD, new DefaultRecordModelSerializationHandler(this));
+//		addHandler(DefaultRecordModel.class, CoreQName.RECORD, new DefaultRecordModelSerializationHandler(this));
+		addHandler(DefaultRecordModel.class, CoreQName.RECORDS, new DefaultRecordModelSerializationHandler(this));
 		
 		for (JiemamyFacet jiemamyFacet : context.getFacets()) {
 			jiemamyFacet.prepareSerializationHandlers(this);

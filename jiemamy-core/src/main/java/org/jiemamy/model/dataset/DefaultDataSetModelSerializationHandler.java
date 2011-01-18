@@ -24,12 +24,15 @@ import java.util.UUID;
 
 import javax.xml.stream.XMLStreamException;
 
+import com.google.common.collect.Lists;
+
 import org.apache.commons.lang.Validate;
 import org.codehaus.staxmate.in.SMEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.jiemamy.JiemamyContext;
+import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.table.TableModel;
 import org.jiemamy.serializer.SerializationException;
@@ -74,7 +77,7 @@ public final class DefaultDataSetModelSerializationHandler extends Serialization
 			
 			String idString = cursor.getAttrValue(CoreQName.ID);
 			UUID id = ctx.getContext().toUUID(idString);
-			DefaultDataSetModel tableModel = new DefaultDataSetModel(id);
+			DefaultDataSetModel dataSetModel = new DefaultDataSetModel(id);
 			
 			JiemamyCursor childCursor = cursor.childElementCursor();
 			ctx.push(childCursor);
@@ -82,19 +85,37 @@ public final class DefaultDataSetModelSerializationHandler extends Serialization
 				childCursor.advance();
 				if (childCursor.getCurrEvent() == SMEvent.START_ELEMENT) {
 					if (childCursor.isQName(CoreQName.NAME)) {
-						tableModel.setName(childCursor.collectDescendantText(false));
+						dataSetModel.setName(childCursor.collectDescendantText(false));
 					} else if (childCursor.isQName(CoreQName.TABLE_RECORDS)) {
 						JiemamyCursor tableRecordsCursor = childCursor.childElementCursor();
 						while (tableRecordsCursor.getNext() != null) {
-							ctx.push(tableRecordsCursor);
-							// FIXME
-//							ColumnModel columnModel = getDirector().direct(ctx);
-//							if (columnModel != null) {
-//								tableModel.store(columnModel);
-//							} else {
-//								logger.warn("null columnModel");
-//							}
-							ctx.pop();
+							if (tableRecordsCursor.isQName(CoreQName.TABLE_RECORD) == false) {
+								logger.warn("unexpected: " + tableRecordsCursor.getQName());
+								continue;
+							}
+							
+							String strRef = tableRecordsCursor.getAttrValue(CoreQName.REF);
+							assert strRef != null;
+							UUID refId = ctx.getContext().toUUID(strRef);
+							EntityRef<TableModel> tableRef = DefaultEntityRef.of(refId);
+							
+							JiemamyCursor recordsCursor = tableRecordsCursor.childElementCursor();
+							List<RecordModel> records = Lists.newArrayList();
+							while (recordsCursor.getNext() != null) {
+								if (recordsCursor.isQName(CoreQName.RECORDS) == false) {
+									logger.warn("unexpected: " + recordsCursor.getQName());
+									continue;
+								}
+								ctx.push(recordsCursor);
+								RecordModel recordModel = getDirector().direct(ctx);
+								if (recordModel != null) {
+									records.add(recordModel);
+								} else {
+									logger.warn("null recodeModel");
+								}
+								ctx.pop();
+							}
+							dataSetModel.putRecord(tableRef, records);
 						}
 					} else {
 						logger.warn("UNKNOWN ELEMENT: {}", childCursor.getQName().toString());
@@ -105,7 +126,7 @@ public final class DefaultDataSetModelSerializationHandler extends Serialization
 			} while (childCursor.getCurrEvent() != null);
 			ctx.pop();
 			
-			return tableModel;
+			return dataSetModel;
 		} catch (XMLStreamException e) {
 			throw new SerializationException(e);
 		}
