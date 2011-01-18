@@ -103,6 +103,12 @@ public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstrain
 	}
 	
 	@Override
+	public void clearKeyColumns() {
+		super.clearKeyColumns();
+		referenceColumns.clear();
+	}
+	
+	@Override
 	public DefaultForeignKeyConstraintModel clone() {
 		DefaultForeignKeyConstraintModel clone = (DefaultForeignKeyConstraintModel) super.clone();
 		clone.referenceColumns = CloneUtil.cloneValueArrayList(referenceColumns);

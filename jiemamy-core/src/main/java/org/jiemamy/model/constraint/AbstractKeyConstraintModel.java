@@ -57,6 +57,10 @@ public abstract class AbstractKeyConstraintModel extends AbstractConstraintModel
 		keyColumns.add(keyColumn);
 	}
 	
+	public void clearKeyColumns() {
+		keyColumns.clear();
+	}
+	
 	@Override
 	public AbstractKeyConstraintModel clone() {
 		AbstractKeyConstraintModel clone = (AbstractKeyConstraintModel) super.clone();
