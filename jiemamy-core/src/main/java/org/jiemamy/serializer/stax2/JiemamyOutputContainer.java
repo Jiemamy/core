@@ -179,7 +179,10 @@ public class JiemamyOutputContainer {
 	}
 	
 	public JiemamyOutputElement addElementAndCharacters(JiemamyQName jQName, Enum<?> e) throws XMLStreamException {
-		return addElementAndCharacters(jQName, e.name());
+		if (e != null) {
+			return addElementAndCharacters(jQName, e.name());
+		}
+		return null;
 	}
 	
 	public JiemamyOutputElement addElementAndCharacters(JiemamyQName jQName, String text) throws XMLStreamException {

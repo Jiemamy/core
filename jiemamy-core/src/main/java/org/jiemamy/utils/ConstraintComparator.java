@@ -72,7 +72,7 @@ public class ConstraintComparator implements Comparator<ConstraintModel> {
 				return index;
 			}
 		}
-		return -1;
+		return ArrayUtils.INDEX_NOT_FOUND;
 	}
 	
 	public int compare(ConstraintModel o1, ConstraintModel o2) {
@@ -85,9 +85,11 @@ public class ConstraintComparator implements Comparator<ConstraintModel> {
 			return 1;
 		}
 		
-		if (o1 instanceof LocalKeyConstraintModel && o2 instanceof LocalKeyConstraintModel) {
-			LocalKeyConstraintModel u1 = (LocalKeyConstraintModel) o1;
-			LocalKeyConstraintModel u2 = (LocalKeyConstraintModel) o2;
+		if (o1 instanceof PrimaryKeyConstraintModel && o2 instanceof PrimaryKeyConstraintModel) {
+			return 0;
+		} else if (o1 instanceof UniqueKeyConstraintModel && o2 instanceof UniqueKeyConstraintModel) {
+			UniqueKeyConstraintModel u1 = (UniqueKeyConstraintModel) o1;
+			UniqueKeyConstraintModel u2 = (UniqueKeyConstraintModel) o2;
 			
 			List<EntityRef<? extends ColumnModel>> kc1 = u1.getKeyColumns();
 			List<EntityRef<? extends ColumnModel>> kc2 = u2.getKeyColumns();
@@ -95,15 +97,13 @@ public class ConstraintComparator implements Comparator<ConstraintModel> {
 			Collections.sort(kc2, EntityRefComparator.INSTANCE);
 			if (kc1.equals(kc2)) {
 				return 0;
-			} else if (o1 instanceof PrimaryKeyConstraintModel && o2 instanceof PrimaryKeyConstraintModel) {
-				return 0;
 			} else {
 				int i1 = getOrder(getAncestorIntefaces(o1.getClass()));
 				int i2 = getOrder(getAncestorIntefaces(o2.getClass()));
 				if (i1 != i2) {
 					return i1 - i2;
 				} else {
-					return 1; // FIXME 対称性がない
+					return o1.getId().compareTo(o2.getId());
 				}
 			}
 		}
@@ -129,7 +129,7 @@ public class ConstraintComparator implements Comparator<ConstraintModel> {
 					&& f1.getReferenceColumns().equals(f2.getReferenceColumns())) {
 				return 0;
 			} else {
-				return 1; // FIXME 対称性がない
+				return o1.getId().compareTo(o2.getId());
 			}
 		} else if (o1 instanceof NotNullConstraintModel && o2 instanceof NotNullConstraintModel) {
 			NotNullConstraintModel n1 = (NotNullConstraintModel) o1;
