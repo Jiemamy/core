@@ -45,6 +45,7 @@ import org.jiemamy.serializer.stax2.JiemamyOutputElement;
 import org.jiemamy.serializer.stax2.SerializationContext;
 import org.jiemamy.serializer.stax2.SerializationDirector;
 import org.jiemamy.serializer.stax2.SerializationHandler;
+import org.jiemamy.utils.ConstraintComparator;
 import org.jiemamy.xml.CoreQName;
 
 /**
@@ -163,23 +164,9 @@ public final class DefaultTableModelSerializationHandler extends SerializationHa
 			sctx.pop();
 			
 			sctx.push(element.addElement(CoreQName.CONSTRAINTS));
-			
 			Set<? extends ConstraintModel> constraints = model.getConstraints();
 			ArrayList<ConstraintModel> constraintList = Lists.newArrayList(constraints.iterator());
-			Collections.sort(constraintList, new Comparator<ConstraintModel>() {
-				
-				public int compare(ConstraintModel cm1, ConstraintModel cm2) {
-					int compareName = cm1.getClass().getSimpleName().compareTo(cm2.getClass().getSimpleName());
-					if (compareName != 0) {
-						return compareName;
-					}
-					return cm1.getId().compareTo(cm2.getId());
-				}
-				
-			});
-//			for (ConstraintModel constraint : model.getConstraints()) {
-//				getDirector().direct(constraint, sctx);
-//			}
+			Collections.sort(constraintList, new ConstraintComparator());
 			for (ConstraintModel constraint : constraintList) {
 				getDirector().direct(constraint, sctx);
 			}
