@@ -19,7 +19,6 @@
 package org.jiemamy.utils;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -28,17 +27,12 @@ import com.google.common.collect.Lists;
 
 import org.apache.commons.lang.ArrayUtils;
 
-import org.jiemamy.dddbase.EntityRef;
-import org.jiemamy.model.column.ColumnModel;
 import org.jiemamy.model.constraint.CheckConstraintModel;
 import org.jiemamy.model.constraint.ConstraintModel;
 import org.jiemamy.model.constraint.ForeignKeyConstraintModel;
-import org.jiemamy.model.constraint.KeyConstraintModel;
-import org.jiemamy.model.constraint.LocalKeyConstraintModel;
 import org.jiemamy.model.constraint.NotNullConstraintModel;
 import org.jiemamy.model.constraint.PrimaryKeyConstraintModel;
 import org.jiemamy.model.constraint.UniqueKeyConstraintModel;
-import org.jiemamy.model.constraint.ValueConstraintModel;
 
 /**
  * 属性の出力順を整列させるコンパレータ。
@@ -55,12 +49,12 @@ public class ConstraintComparator implements Comparator<ConstraintModel> {
 		List<Class<? extends ConstraintModel>> order = Lists.newArrayList();
 		order.add(PrimaryKeyConstraintModel.class);
 		order.add(UniqueKeyConstraintModel.class);
-		order.add(LocalKeyConstraintModel.class);
+//		order.add(LocalKeyConstraintModel.class);
 		order.add(ForeignKeyConstraintModel.class);
-		order.add(KeyConstraintModel.class);
+//		order.add(KeyConstraintModel.class);
 		order.add(NotNullConstraintModel.class);
 		order.add(CheckConstraintModel.class);
-		order.add(ValueConstraintModel.class);
+//		order.add(ValueConstraintModel.class);
 		ORDER = ImmutableList.copyOf(order);
 	}
 	
@@ -85,62 +79,24 @@ public class ConstraintComparator implements Comparator<ConstraintModel> {
 			return 1;
 		}
 		
-		if (o1 instanceof PrimaryKeyConstraintModel && o2 instanceof PrimaryKeyConstraintModel) {
-			return 0;
-		} else if (o1 instanceof UniqueKeyConstraintModel && o2 instanceof UniqueKeyConstraintModel) {
-			UniqueKeyConstraintModel u1 = (UniqueKeyConstraintModel) o1;
-			UniqueKeyConstraintModel u2 = (UniqueKeyConstraintModel) o2;
-			
-			List<EntityRef<? extends ColumnModel>> kc1 = u1.getKeyColumns();
-			List<EntityRef<? extends ColumnModel>> kc2 = u2.getKeyColumns();
-			Collections.sort(kc1, EntityRefComparator.INSTANCE);
-			Collections.sort(kc2, EntityRefComparator.INSTANCE);
-			if (kc1.equals(kc2)) {
-				return 0;
-			} else {
-				int i1 = getOrder(getAncestorIntefaces(o1.getClass()));
-				int i2 = getOrder(getAncestorIntefaces(o2.getClass()));
-				if (i1 != i2) {
-					return i1 - i2;
-				} else {
-					return o1.getId().compareTo(o2.getId());
-				}
-			}
-		}
-		
 		int i1 = getOrder(getAncestorIntefaces(o1.getClass()));
 		int i2 = getOrder(getAncestorIntefaces(o2.getClass()));
 		if (i1 != -1 && i2 != -1) {
 			if (i1 != i2) {
 				return i1 - i2;
 			}
-		} else if (i1 == -1) {
+		} else if (i1 == -1 && i2 != -1) {
 			return 1;
-		} else if (i2 == -1) {
+		} else if (i1 != -1 && i2 == -1) {
 			return -1;
-		} else {
-			return o1.getClass().getName().compareTo(o2.getClass().getName());
 		}
 		
-		if (o1 instanceof ForeignKeyConstraintModel) {
-			ForeignKeyConstraintModel f1 = (ForeignKeyConstraintModel) o1;
-			ForeignKeyConstraintModel f2 = (ForeignKeyConstraintModel) o2;
-			if (f1.getKeyColumns().equals(f2.getKeyColumns())
-					&& f1.getReferenceColumns().equals(f2.getReferenceColumns())) {
-				return 0;
-			} else {
-				return o1.getId().compareTo(o2.getId());
-			}
-		} else if (o1 instanceof NotNullConstraintModel && o2 instanceof NotNullConstraintModel) {
-			NotNullConstraintModel n1 = (NotNullConstraintModel) o1;
-			NotNullConstraintModel n2 = (NotNullConstraintModel) o2;
-			return EntityRefComparator.INSTANCE.compare(n1.getColumnRef(), n2.getColumnRef());
-		} else if (o1 instanceof CheckConstraintModel && o2 instanceof CheckConstraintModel) {
-			CheckConstraintModel c1 = (CheckConstraintModel) o1;
-			CheckConstraintModel c2 = (CheckConstraintModel) o2;
-			return c1.getExpression().compareTo(c2.getExpression());
+		int compareName = o1.getClass().getName().compareTo(o2.getClass().getName());
+		if (compareName != 0) {
+			return compareName;
 		}
-		throw new IllegalArgumentException();
+		
+		return o1.getId().compareTo(o2.getId());
 	}
 	
 	private Class<?>[] getAncestorIntefaces(Class<?> clazz) {
