@@ -18,6 +18,7 @@
  */
 package org.jiemamy.dialect;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.jiemamy.model.datatype.TypeReference;
@@ -84,7 +85,7 @@ public interface Dialect {
 //	 */
 //	@Deprecated
 //	BuiltinDataTypeMold findDataTypeMold(DataTypeCategory category, String typeName);
-//	
+	
 	/**
 	 * データ型名を全て取得する。
 	 * 
@@ -103,7 +104,7 @@ public interface Dialect {
 	 */
 	String getConnectionUriTemplate();
 	
-//	/**
+	//	/**
 //	 * モデリング用DataType・一般型・型名間のマッピング情報を取得する。
 //	 * 
 //	 * <p>{@code null}を返してはならない。</p>
@@ -120,6 +121,15 @@ public interface Dialect {
 	 * @since 0.2
 	 */
 	String getName();
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param reference
+	 * @return
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	Collection<TypeParameterSpec> getTypeParameterSpecs(TypeReference reference);
 	
 	/**
 	 * モデルのバリデータを取得する。
@@ -156,12 +166,10 @@ public interface Dialect {
 //	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 //	 * @since 0.2
 //	 */
-//	RootModel parseStatements(List<SqlStatement> statements);
+//	JiemamyContext parseStatements(List<SqlStatement> statements);
 	
 	/**
 	 * SQL方言IDを返す。
-	 * 
-	 * <p>{@code null}を返してはならない。</p>
 	 * 
 	 * @return SQL方言ID
 	 * @since 0.2

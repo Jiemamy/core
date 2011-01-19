@@ -18,12 +18,19 @@
  */
 package org.jiemamy.dialect;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
+import org.apache.commons.lang.Validate;
+
+import org.jiemamy.dialect.TypeParameterSpec.Necessity;
 import org.jiemamy.model.datatype.DataTypeCategory;
 import org.jiemamy.model.datatype.DefaultTypeReference;
+import org.jiemamy.model.datatype.TypeParameterKey;
 import org.jiemamy.model.datatype.TypeReference;
 import org.jiemamy.validator.CompositeValidator;
 import org.jiemamy.validator.Validator;
@@ -38,7 +45,7 @@ import org.jiemamy.validator.Validator;
 @Deprecated
 public class SampleDialect extends AbstractDialect {
 	
-	private List<TypeReference> allDataTypes = Lists.newArrayList();
+	private Map<TypeReference, TypeParameterSpec[]> allDataTypes = Maps.newLinkedHashMap();
 	
 	private Validator validator = new CompositeValidator();
 	
@@ -48,12 +55,29 @@ public class SampleDialect extends AbstractDialect {
 	 */
 	public SampleDialect() {
 		super("jdbc:dummy:foobar");
-		allDataTypes.add(new DefaultTypeReference(DataTypeCategory.INTEGER));
-		allDataTypes.add(new DefaultTypeReference(DataTypeCategory.VARCHAR));
+		allDataTypes.put(new DefaultTypeReference(DataTypeCategory.INTEGER), new TypeParameterSpec[] {
+			TypeParameterSpec.of(TypeParameterKey.SERIAL, Necessity.OPTIONAL),
+		});
+		allDataTypes.put(new DefaultTypeReference(DataTypeCategory.DECIMAL), new TypeParameterSpec[] {
+			TypeParameterSpec.of(TypeParameterKey.PRECISION, Necessity.REQUIRED),
+			TypeParameterSpec.of(TypeParameterKey.SCALE, Necessity.REQUIRED)
+		});
+		allDataTypes.put(new DefaultTypeReference(DataTypeCategory.BOOLEAN), new TypeParameterSpec[0]);
+		allDataTypes.put(new DefaultTypeReference(DataTypeCategory.VARCHAR), new TypeParameterSpec[] {
+			TypeParameterSpec.of(TypeParameterKey.SIZE, Necessity.REQUIRED)
+		});
+		allDataTypes.put(new DefaultTypeReference(DataTypeCategory.TIMESTAMP), new TypeParameterSpec[] {
+			TypeParameterSpec.of(TypeParameterKey.WITH_TIMEZONE, Necessity.OPTIONAL)
+		});
 	}
 	
 	public List<TypeReference> getAllTypeReferences() {
-		return allDataTypes;
+		return Lists.newArrayList(allDataTypes.keySet());
+	}
+	
+	public Collection<TypeParameterSpec> getTypeParameterSpecs(TypeReference reference) {
+		Validate.notNull(reference);
+		return Lists.newArrayList(allDataTypes.get(reference));
 	}
 	
 	public Validator getValidator() {
