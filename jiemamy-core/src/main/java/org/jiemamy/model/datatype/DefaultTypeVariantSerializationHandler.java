@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map.Entry;
+import java.util.UUID;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -75,7 +76,7 @@ public final class DefaultTypeVariantSerializationHandler extends SerializationH
 			
 			DataTypeCategory category = DataTypeCategory.INTEGER;
 			String typeName = "INTEGER";
-			ParameterMap params = new ParameterMap();
+			DefaultTypeVariant typeVariant = new DefaultTypeVariant(UUID.randomUUID());
 			
 			JiemamyCursor childCursor = cursor.childElementCursor();
 			ctx.push(childCursor);
@@ -94,7 +95,7 @@ public final class DefaultTypeVariantSerializationHandler extends SerializationH
 								logger.warn("unexpected: " + parameterCursor.getQName());
 								continue;
 							}
-							params.put(parameterCursor.getAttrValue(CoreQName.PARAMETER_KEY),
+							typeVariant.putParam(parameterCursor.getAttrValue(CoreQName.PARAMETER_KEY),
 									parameterCursor.collectDescendantText(false));
 						}
 					} else {
@@ -106,8 +107,8 @@ public final class DefaultTypeVariantSerializationHandler extends SerializationH
 			} while (childCursor.getCurrEvent() != null);
 			ctx.pop();
 			
-			DefaultTypeReference typeReference = new DefaultTypeReference(category, typeName);
-			return new DefaultTypeVariant(typeReference, params);
+			typeVariant.setTypeReference(new DefaultTypeReference(category, typeName));
+			return typeVariant;
 		} catch (XMLStreamException e) {
 			throw new SerializationException(e);
 		}

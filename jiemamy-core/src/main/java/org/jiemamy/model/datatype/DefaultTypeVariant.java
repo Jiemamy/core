@@ -18,8 +18,11 @@
  */
 package org.jiemamy.model.datatype;
 
-import org.apache.commons.lang.Validate;
+import java.util.UUID;
 
+import org.jiemamy.dddbase.AbstractEntity;
+import org.jiemamy.dddbase.DefaultEntityRef;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.parameter.ParameterMap;
 
 /**
@@ -28,7 +31,7 @@ import org.jiemamy.model.parameter.ParameterMap;
  * @version $Id$
  * @author daisuke
  */
-public final class DefaultTypeVariant implements TypeVariant {
+public final class DefaultTypeVariant extends AbstractEntity implements TypeVariant {
 	
 	/**
 	 * インスタンスを生成する。
@@ -37,51 +40,32 @@ public final class DefaultTypeVariant implements TypeVariant {
 	 * @return 型記述子
 	 */
 	public static DefaultTypeVariant of(DataTypeCategory category) {
-		return new DefaultTypeVariant(category, category.name(), new ParameterMap());
-	}
-	
-	/**
-	 * インスタンスを生成する。
-	 * 
-	 * @param category 型カテゴリ
-	 * @param params 型パラメータ
-	 * @return 型記述子
-	 */
-	public static DefaultTypeVariant of(DataTypeCategory category, ParameterMap params) {
-		return new DefaultTypeVariant(category, category.name(), params);
-		
+		DefaultTypeVariant type = new DefaultTypeVariant(UUID.randomUUID());
+		type.setTypeReference(new DefaultTypeReference(category));
+		return type;
 	}
 	
 
-	private ParameterMap params;
+	private ParameterMap params = new ParameterMap();
 	
 	private TypeReference typeReference;
 	
 
 	/**
 	 * インスタンスを生成する。
+	 * @param id 
 	 * 
-	 * @param category 型カテゴリ
-	 * @param typeName 型名
-	 * @param params 型パラメータ
-	 */
-	@Deprecated
-	public DefaultTypeVariant(DataTypeCategory category, String typeName, ParameterMap params) {
-		this(new DefaultTypeReference(category, typeName), params);
-	}
-	
-	/**
-	 * インスタンスを生成する。
-	 * 
-	 * @param typeReference 型参照
-	 * @param params 型パラメータ
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public DefaultTypeVariant(TypeReference typeReference, ParameterMap params) {
-		Validate.notNull(typeReference);
-		Validate.notNull(params);
-		this.typeReference = typeReference;
-		this.params = params.clone();
+	public DefaultTypeVariant(UUID id) {
+		super(id);
+	}
+	
+	@Override
+	public DefaultTypeVariant clone() {
+		DefaultTypeVariant clone = (DefaultTypeVariant) super.clone();
+		clone.params = params.clone();
+		return clone;
 	}
 	
 	@Deprecated
@@ -106,4 +90,37 @@ public final class DefaultTypeVariant implements TypeVariant {
 		return typeReference;
 	}
 	
+	public void putParam(String key, String value) {
+		params.put(key, value);
+	}
+	
+	/**
+	 * パラメータを追加する。
+	 * 
+	 * @param key キー
+	 * @param value 値
+	 * @param <T> 値の型
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public <T>void putParam(TypeParameterKey<T> key, T value) {
+		params.put(key, value);
+	}
+	
+	/**
+	 * パラメータを削除する。
+	 * 
+	 * @param key キー
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public void removeParam(TypeParameterKey<?> key) {
+		params.remove(key);
+	}
+	
+	public void setTypeReference(TypeReference typeReference) {
+		this.typeReference = typeReference;
+	}
+	
+	public EntityRef<? extends DefaultTypeVariant> toReference() {
+		return new DefaultEntityRef<DefaultTypeVariant>(this);
+	}
 }

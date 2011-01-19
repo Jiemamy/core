@@ -18,7 +18,7 @@
  */
 package org.jiemamy.model.datatype;
 
-import org.jiemamy.dddbase.ValueObject;
+import org.jiemamy.dddbase.Entity;
 import org.jiemamy.model.parameter.ParameterMap;
 
 /**
@@ -26,7 +26,7 @@ import org.jiemamy.model.parameter.ParameterMap;
  * 
  * @author daisuke
  */
-public interface TypeVariant extends ValueObject {
+public interface TypeVariant extends Entity {
 	
 	/**
 	 * 型カテゴリを取得する。

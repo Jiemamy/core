@@ -27,12 +27,12 @@ import static org.jiemamy.utils.RandomUtil.str;
 import static org.jiemamy.utils.RandomUtil.strNotEmpty;
 import static org.junit.Assert.assertThat;
 
+import java.util.UUID;
+
 import org.junit.Before;
 import org.junit.Test;
 
-import org.jiemamy.model.column.ColumnParameterKey;
 import org.jiemamy.model.parameter.Converters;
-import org.jiemamy.model.parameter.ParameterMap;
 import org.jiemamy.utils.RandomUtil;
 
 /**
@@ -49,24 +49,23 @@ public class DefaultTypeVariantTest {
 	 * @return {@link DefaultTypeVariant}
 	 */
 	public static DefaultTypeVariant random() {
-		DataTypeCategory category = enume(DataTypeCategory.class);
-		String typeName = str();
-		ParameterMap params = new ParameterMap();
+		DefaultTypeVariant typeVariant = new DefaultTypeVariant(UUID.randomUUID());
+		typeVariant.setTypeReference(new DefaultTypeReference(enume(DataTypeCategory.class), str()));
 		
 		// 適当にパラメータを追加する
 		int integer = integer(5);
 		for (int i = 0; i < integer; i++) {
 			int p = RandomUtil.integer(2);
 			if (p == 0) {
-				params.put(new ColumnParameterKey<Boolean>(Converters.BOOLEAN, strNotEmpty()), bool());
+				typeVariant.putParam(new TypeParameterKey<Boolean>(Converters.BOOLEAN, strNotEmpty()), bool());
 			} else if (p == 1) {
-				params.put(new ColumnParameterKey<Integer>(Converters.INTEGER, strNotEmpty()), integer(100));
+				typeVariant.putParam(new TypeParameterKey<Integer>(Converters.INTEGER, strNotEmpty()), integer(100));
 			} else {
-				params.put(new ColumnParameterKey<String>(Converters.STRING, strNotEmpty()), str());
+				typeVariant.putParam(new TypeParameterKey<String>(Converters.STRING, strNotEmpty()), str());
 			}
 		}
 		
-		return new DefaultTypeVariant(new DefaultTypeReference(category, typeName), params);
+		return typeVariant;
 	}
 	
 
@@ -80,9 +79,9 @@ public class DefaultTypeVariantTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		ParameterMap params = new ParameterMap();
-		params.put(TypeParameterKey.SIZE, 10);
-		typeVariant = new DefaultTypeVariant(new DefaultTypeReference(DataTypeCategory.VARCHAR, "VARCHAR"), params);
+		typeVariant = new DefaultTypeVariant(UUID.randomUUID());
+		typeVariant.putParam(TypeParameterKey.SIZE, 10);
+		typeVariant.setTypeReference(new DefaultTypeReference(DataTypeCategory.VARCHAR, "VARCHAR"));
 	}
 	
 	/**
