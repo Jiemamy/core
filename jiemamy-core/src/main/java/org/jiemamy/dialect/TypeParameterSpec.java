@@ -90,6 +90,11 @@ public class TypeParameterSpec {
 		return result;
 	}
 	
+	@Override
+	public String toString() {
+		return key.getKeyString() + " is " + necessity;
+	}
+	
 
 	public enum Necessity {
 		

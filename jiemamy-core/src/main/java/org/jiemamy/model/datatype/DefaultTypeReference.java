@@ -95,4 +95,9 @@ public final class DefaultTypeReference implements TypeReference {
 		return result;
 	}
 	
+	@Override
+	public String toString() {
+		return typeName;
+	}
+	
 }
