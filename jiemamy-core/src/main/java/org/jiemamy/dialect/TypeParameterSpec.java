@@ -65,6 +65,22 @@ public class TypeParameterSpec {
 		return necessity == other.necessity;
 	}
 	
+	/**
+	 * somethingを取得する。 TODO for daisuke
+	 * @return the key
+	 */
+	public TypeParameterKey<?> getKey() {
+		return key;
+	}
+	
+	/**
+	 * somethingを取得する。 TODO for daisuke
+	 * @return the necessity
+	 */
+	public Necessity getNecessity() {
+		return necessity;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
