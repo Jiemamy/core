@@ -69,6 +69,31 @@ public final class DefaultTypeVariant implements TypeVariant {
 		}
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		DefaultTypeVariant other = (DefaultTypeVariant) obj;
+		if (!params.equals(other.params)) {
+			return false;
+		}
+		if (typeReference == null) {
+			if (other.typeReference != null) {
+				return false;
+			}
+		} else if (!typeReference.equals(other.typeReference)) {
+			return false;
+		}
+		return true;
+	}
+	
 	public <T>T getParam(TypeParameterKey<T> key) {
 		return params.get(key);
 	}
@@ -79,6 +104,15 @@ public final class DefaultTypeVariant implements TypeVariant {
 	
 	public TypeReference getTypeReference() {
 		return typeReference;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + params.hashCode();
+		result = prime * result + ((typeReference == null) ? 0 : typeReference.hashCode());
+		return result;
 	}
 	
 	public void putParam(String key, String value) {

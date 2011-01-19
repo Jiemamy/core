@@ -65,10 +65,6 @@ public final class DefaultColumnModel extends AbstractEntity implements ColumnMo
 		super(id);
 	}
 	
-	public TypeVariant breachEncapsulationOfDataType() {
-		return dataType;
-	}
-	
 	@Override
 	public DefaultColumnModel clone() {
 		DefaultColumnModel clone = (DefaultColumnModel) super.clone();
@@ -77,6 +73,9 @@ public final class DefaultColumnModel extends AbstractEntity implements ColumnMo
 	}
 	
 	public TypeVariant getDataType() {
+		if (dataType == null) {
+			return null;
+		}
 		return dataType.clone();
 	}
 	
@@ -137,7 +136,11 @@ public final class DefaultColumnModel extends AbstractEntity implements ColumnMo
 	 * @since 0.3
 	 */
 	public void setDataType(TypeVariant dataType) {
-		this.dataType = dataType.clone();
+		if (dataType == null) {
+			this.dataType = null;
+		} else {
+			this.dataType = dataType.clone();
+		}
 	}
 	
 	/**

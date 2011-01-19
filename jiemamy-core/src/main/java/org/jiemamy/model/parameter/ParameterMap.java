@@ -56,6 +56,21 @@ public final class ParameterMap implements Iterable<Map.Entry<String, String>>, 
 		}
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		ParameterMap other = (ParameterMap) obj;
+		return map.equals(other.map);
+	}
+	
 	/**
 	 * キーに対応する値を取得する。
 	 * 
@@ -72,6 +87,11 @@ public final class ParameterMap implements Iterable<Map.Entry<String, String>>, 
 		Converter<T> converter = key.getConverter();
 		String string = map.get(key.getKeyString());
 		return converter.valueOf(string);
+	}
+	
+	@Override
+	public int hashCode() {
+		return map.hashCode();
 	}
 	
 	public Iterator<Entry<String, String>> iterator() {
