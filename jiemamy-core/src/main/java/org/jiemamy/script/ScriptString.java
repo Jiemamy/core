@@ -66,6 +66,7 @@ public final class ScriptString {
 	 * 
 	 * @param script スクリプト文字列
 	 * @param scriptEngineClassName {@link ScriptEngine}の実装クラス名
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public ScriptString(String script, String scriptEngineClassName) {
 		Validate.notNull(script);

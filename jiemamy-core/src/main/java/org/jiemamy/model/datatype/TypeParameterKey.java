@@ -58,5 +58,4 @@ public class TypeParameterKey<T> extends ParameterKey<T> {
 	public TypeParameterKey(Converter<T> converter, String keyString) {
 		super(converter, keyString);
 	}
-	
 }
