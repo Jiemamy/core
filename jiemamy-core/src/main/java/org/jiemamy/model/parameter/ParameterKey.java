@@ -89,4 +89,8 @@ public class ParameterKey<T> implements ValueObject {
 		return keyString.hashCode();
 	}
 	
+	@Override
+	public String toString() {
+		return "ParameterKey[" + keyString + "]";
+	}
 }
