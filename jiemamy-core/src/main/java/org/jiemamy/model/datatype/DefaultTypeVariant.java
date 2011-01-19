@@ -144,4 +144,9 @@ public final class DefaultTypeVariant implements TypeVariant {
 	public void setTypeReference(TypeReference typeReference) {
 		this.typeReference = typeReference;
 	}
+	
+	@Override
+	public String toString() {
+		return typeReference.toString() + params.toString();
+	}
 }
