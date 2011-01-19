@@ -75,6 +75,8 @@ public/*final*/class JiemamyContext {
 	
 	private static boolean debug = getVersion().isSnapshot();
 	
+	private static ServiceLocator serviceLocator = new DefaultServiceLocator();
+	
 	static {
 		MutationMonitor.setDebug(debug);
 	}
@@ -96,6 +98,17 @@ public/*final*/class JiemamyContext {
 	 */
 	public static boolean isDebug() {
 		return debug;
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param serviceLocator
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public static void setServiceLocator(ServiceLocator serviceLocator) {
+		Validate.notNull(serviceLocator);
+		JiemamyContext.serviceLocator = serviceLocator;
 	}
 	
 	/**
@@ -399,7 +412,7 @@ public/*final*/class JiemamyContext {
 	 * @return {@link ServiceLocator}
 	 */
 	public ServiceLocator getServiceLocator() {
-		return new DefaultServiceLocator(); // TODO 差し替えできるように
+		return serviceLocator;
 	}
 	
 	/**
