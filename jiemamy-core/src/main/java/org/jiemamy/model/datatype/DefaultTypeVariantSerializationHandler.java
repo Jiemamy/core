@@ -21,12 +21,13 @@ package org.jiemamy.model.datatype;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Map;
 import java.util.Map.Entry;
-import java.util.UUID;
 
 import javax.xml.stream.XMLStreamException;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import org.apache.commons.lang.Validate;
 import org.codehaus.staxmate.in.SMEvent;
@@ -76,7 +77,7 @@ public final class DefaultTypeVariantSerializationHandler extends SerializationH
 			
 			DataTypeCategory category = DataTypeCategory.INTEGER;
 			String typeName = "INTEGER";
-			DefaultTypeVariant typeVariant = new DefaultTypeVariant(UUID.randomUUID());
+			Map<String, String> params = Maps.newHashMap();
 			
 			JiemamyCursor childCursor = cursor.childElementCursor();
 			ctx.push(childCursor);
@@ -95,7 +96,7 @@ public final class DefaultTypeVariantSerializationHandler extends SerializationH
 								logger.warn("unexpected: " + parameterCursor.getQName());
 								continue;
 							}
-							typeVariant.putParam(parameterCursor.getAttrValue(CoreQName.PARAMETER_KEY),
+							params.put(parameterCursor.getAttrValue(CoreQName.PARAMETER_KEY),
 									parameterCursor.collectDescendantText(false));
 						}
 					} else {
@@ -107,7 +108,10 @@ public final class DefaultTypeVariantSerializationHandler extends SerializationH
 			} while (childCursor.getCurrEvent() != null);
 			ctx.pop();
 			
-			typeVariant.setTypeReference(new DefaultTypeReference(category, typeName));
+			DefaultTypeVariant typeVariant = new DefaultTypeVariant(new DefaultTypeReference(category, typeName));
+			for (Map.Entry<String, String> entry : params.entrySet()) {
+				typeVariant.putParam(entry.getKey(), entry.getValue());
+			}
 			return typeVariant;
 		} catch (XMLStreamException e) {
 			throw new SerializationException(e);

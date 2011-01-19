@@ -27,8 +27,6 @@ import static org.jiemamy.utils.RandomUtil.str;
 import static org.jiemamy.utils.RandomUtil.strNotEmpty;
 import static org.junit.Assert.assertThat;
 
-import java.util.UUID;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -49,8 +47,8 @@ public class DefaultTypeVariantTest {
 	 * @return {@link DefaultTypeVariant}
 	 */
 	public static DefaultTypeVariant random() {
-		DefaultTypeVariant typeVariant = new DefaultTypeVariant(UUID.randomUUID());
-		typeVariant.setTypeReference(new DefaultTypeReference(enume(DataTypeCategory.class), str()));
+		DefaultTypeVariant typeVariant =
+				new DefaultTypeVariant(new DefaultTypeReference(enume(DataTypeCategory.class), str()));
 		
 		// 適当にパラメータを追加する
 		int integer = integer(5);
@@ -79,9 +77,8 @@ public class DefaultTypeVariantTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		typeVariant = new DefaultTypeVariant(UUID.randomUUID());
+		typeVariant = new DefaultTypeVariant(new DefaultTypeReference(DataTypeCategory.VARCHAR, "VARCHAR"));
 		typeVariant.putParam(TypeParameterKey.SIZE, 10);
-		typeVariant.setTypeReference(new DefaultTypeReference(DataTypeCategory.VARCHAR, "VARCHAR"));
 	}
 	
 	/**

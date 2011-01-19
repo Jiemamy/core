@@ -18,20 +18,19 @@
  */
 package org.jiemamy.model.datatype;
 
-import java.util.UUID;
+import org.apache.commons.lang.Validate;
 
-import org.jiemamy.dddbase.AbstractEntity;
-import org.jiemamy.dddbase.DefaultEntityRef;
-import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.parameter.ParameterMap;
 
 /**
  * 型記述子のデフォルト実装クラス。
  * 
+ * <p>VALUE OBJECTであるが<b>可変オブジェクト</p>であることに注意。</p>
+ * 
  * @version $Id$
  * @author daisuke
  */
-public final class DefaultTypeVariant extends AbstractEntity implements TypeVariant {
+public final class DefaultTypeVariant implements TypeVariant {
 	
 	/**
 	 * インスタンスを生成する。
@@ -40,9 +39,7 @@ public final class DefaultTypeVariant extends AbstractEntity implements TypeVari
 	 * @return 型記述子
 	 */
 	public static DefaultTypeVariant of(DataTypeCategory category) {
-		DefaultTypeVariant type = new DefaultTypeVariant(UUID.randomUUID());
-		type.setTypeReference(new DefaultTypeReference(category));
-		return type;
+		return new DefaultTypeVariant(new DefaultTypeReference(category));
 	}
 	
 
@@ -53,24 +50,23 @@ public final class DefaultTypeVariant extends AbstractEntity implements TypeVari
 
 	/**
 	 * インスタンスを生成する。
-	 * @param id 
 	 * 
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @param typeReference
 	 */
-	public DefaultTypeVariant(UUID id) {
-		super(id);
+	public DefaultTypeVariant(TypeReference typeReference) {
+		Validate.notNull(typeReference);
+		this.typeReference = typeReference;
 	}
 	
 	@Override
 	public DefaultTypeVariant clone() {
-		DefaultTypeVariant clone = (DefaultTypeVariant) super.clone();
-		clone.params = params.clone();
-		return clone;
-	}
-	
-	@Deprecated
-	public DataTypeCategory getCategory() {
-		return typeReference.getCategory();
+		try {
+			DefaultTypeVariant clone = (DefaultTypeVariant) super.clone();
+			clone.params = params.clone();
+			return clone;
+		} catch (CloneNotSupportedException e) {
+			throw new Error("clone not supported", e);
+		}
 	}
 	
 	public <T>T getParam(TypeParameterKey<T> key) {
@@ -79,11 +75,6 @@ public final class DefaultTypeVariant extends AbstractEntity implements TypeVari
 	
 	public ParameterMap getParams() {
 		return params.clone();
-	}
-	
-	@Deprecated
-	public String getTypeName() {
-		return typeReference.getTypeName();
 	}
 	
 	public TypeReference getTypeReference() {
@@ -118,9 +109,5 @@ public final class DefaultTypeVariant extends AbstractEntity implements TypeVari
 	
 	public void setTypeReference(TypeReference typeReference) {
 		this.typeReference = typeReference;
-	}
-	
-	public EntityRef<? extends DefaultTypeVariant> toReference() {
-		return new DefaultEntityRef<DefaultTypeVariant>(this);
 	}
 }

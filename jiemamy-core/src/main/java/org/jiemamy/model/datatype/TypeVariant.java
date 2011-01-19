@@ -18,7 +18,6 @@
  */
 package org.jiemamy.model.datatype;
 
-import org.jiemamy.dddbase.Entity;
 import org.jiemamy.model.parameter.ParameterMap;
 
 /**
@@ -26,15 +25,9 @@ import org.jiemamy.model.parameter.ParameterMap;
  * 
  * @author daisuke
  */
-public interface TypeVariant extends Entity {
+public interface TypeVariant extends Cloneable {
 	
-	/**
-	 * 型カテゴリを取得する。
-	 * 
-	 * @return 型カテゴリ
-	 */
-	@Deprecated
-	DataTypeCategory getCategory();
+	TypeVariant clone();
 	
 	/**
 	 * キーに対応するパラメータの値を取得する。
@@ -52,14 +45,6 @@ public interface TypeVariant extends Entity {
 	 * @return カラムが持つ全パラメータ
 	 */
 	ParameterMap getParams();
-	
-	/**
-	 * 型名の文字列を取得する。
-	 * 
-	 * @return 型名の文字列
-	 */
-	@Deprecated
-	String getTypeName();
 	
 	TypeReference getTypeReference();
 }
