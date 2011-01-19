@@ -58,12 +58,8 @@ public class JiemamyTransaction<T extends Entity> implements StoredEventListener
 	/** イベントブローカ */
 	protected EventBroker eventBroker;
 	
-	private final JiemamyContext context;
-	
 
 	public JiemamyTransaction(JiemamyContext context) {
-		Validate.notNull(context);
-		this.context = context;
 		context.getEventBroker().addListener(this);
 	}
 	

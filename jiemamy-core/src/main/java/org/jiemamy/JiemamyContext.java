@@ -101,9 +101,9 @@ public/*final*/class JiemamyContext {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * 利用する{@link ServiceLocator}を指定する。
 	 * 
-	 * @param serviceLocator
+	 * @param serviceLocator 利用する{@link ServiceLocator}
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public static void setServiceLocator(ServiceLocator serviceLocator) {

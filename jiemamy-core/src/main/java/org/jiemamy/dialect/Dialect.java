@@ -123,10 +123,13 @@ public interface Dialect {
 	String getName();
 	
 	/**
-	 * TODO for daisuke
+	 * 指定した{@link TypeReference}に対する {@link TypeParameterSpec}の集合を取得する。
 	 * 
-	 * @param reference
-	 * @return
+	 * <p>例えば、VARCHARに対して、どんなパラメータ仕様がありますか？ → SIZE が REQUIRED です<br/>
+	 * のような感じ。</p>
+	 * 
+	 * @param reference {@link TypeReference}
+	 * @return {@link TypeReference}に対する {@link TypeParameterSpec}の集合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	Collection<TypeParameterSpec> getTypeParameterSpecs(TypeReference reference);

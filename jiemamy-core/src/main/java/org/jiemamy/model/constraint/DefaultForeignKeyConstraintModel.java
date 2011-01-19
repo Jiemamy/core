@@ -19,7 +19,6 @@
 package org.jiemamy.model.constraint;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -59,11 +58,6 @@ public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstrain
 		DefaultForeignKeyConstraintModel fk = new DefaultForeignKeyConstraintModel(UUID.randomUUID());
 		fk.addReferencing(keyColumn.toReference(), referenceColumn.toReference());
 		return fk;
-	}
-	
-	private static List<EntityRef<? extends ColumnModel>> toRefList(ColumnModel column) {
-		Validate.notNull(column);
-		return Collections.<EntityRef<? extends ColumnModel>> singletonList(column.toReference());
 	}
 	
 

@@ -47,7 +47,7 @@ public class JiemamyOutputContainer {
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param container
+	 * @param container DOCME
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public JiemamyOutputContainer(SMOutputContainer container) {
@@ -56,22 +56,22 @@ public class JiemamyOutputContainer {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
-	 * @return
-	 * @throws XMLStreamException
+	 * @return DOCME
+	 * @throws XMLStreamException DOCME
 	 * @see org.codehaus.staxmate.out.SMOutputContainer#_canOutputNewChild()
 	 */
-	public boolean _canOutputNewChild() throws XMLStreamException {
+	public boolean _canOutputNewChild() throws XMLStreamException { // CHECKSTYLE IGNORE THIS LINE
 		return container._canOutputNewChild();
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
-	 * @param buffered
-	 * @return
-	 * @throws XMLStreamException
+	 * @param buffered DOCME
+	 * @return DOCME
+	 * @throws XMLStreamException DOCME
 	 * @see org.codehaus.staxmate.out.SMOutputContainer#addAndReleaseBuffered(org.codehaus.staxmate.out.SMBufferable)
 	 */
 	public SMBufferable addAndReleaseBuffered(SMBufferable buffered) throws XMLStreamException {
@@ -79,11 +79,11 @@ public class JiemamyOutputContainer {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
-	 * @param buffered
-	 * @return
-	 * @throws XMLStreamException
+	 * @param buffered DOCME
+	 * @return DOCME
+	 * @throws XMLStreamException DOCME
 	 * @see org.codehaus.staxmate.out.SMOutputContainer#addBuffered(org.codehaus.staxmate.out.SMBufferable)
 	 */
 	public SMBufferable addBuffered(SMBufferable buffered) throws XMLStreamException {
@@ -91,12 +91,12 @@ public class JiemamyOutputContainer {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
-	 * @param buf
-	 * @param offset
-	 * @param len
-	 * @throws XMLStreamException
+	 * @param buf DOCME
+	 * @param offset DOCME
+	 * @param len DOCME
+	 * @throws XMLStreamException DOCME
 	 * @see org.codehaus.staxmate.out.SMOutputContainer#addCData(char[], int, int)
 	 */
 	public void addCData(char[] buf, int offset, int len) throws XMLStreamException {
@@ -104,10 +104,10 @@ public class JiemamyOutputContainer {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
-	 * @param text
-	 * @throws XMLStreamException
+	 * @param text DOCME
+	 * @throws XMLStreamException DOCME
 	 * @see org.codehaus.staxmate.out.SMOutputContainer#addCData(java.lang.String)
 	 */
 	public void addCData(String text) throws XMLStreamException {
@@ -115,18 +115,24 @@ public class JiemamyOutputContainer {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
-	 * @param buf
-	 * @param offset
-	 * @param len
-	 * @throws XMLStreamException
+	 * @param buf DOCME
+	 * @param offset DOCME
+	 * @param len DOCME
+	 * @throws XMLStreamException DOCME
 	 * @see org.codehaus.staxmate.out.SMOutputContainer#addCharacters(char[], int, int)
 	 */
 	public void addCharacters(char[] buf, int offset, int len) throws XMLStreamException {
 		container.addCharacters(buf, offset, len);
 	}
 	
+	/**
+	 * DOCME for daisuke
+	 * 
+	 * @param text DOCME
+	 * @throws XMLStreamException DOCME
+	 */
 	public void addCharacters(String text) throws XMLStreamException {
 		if (text != null) {
 			container.addCharacters(text);
@@ -134,10 +140,10 @@ public class JiemamyOutputContainer {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
-	 * @param text
-	 * @throws XMLStreamException
+	 * @param text DOCME
+	 * @throws XMLStreamException DOCME
 	 * @see org.codehaus.staxmate.out.SMOutputContainer#addComment(java.lang.String)
 	 */
 	public void addComment(String text) throws XMLStreamException {
@@ -146,6 +152,13 @@ public class JiemamyOutputContainer {
 		}
 	}
 	
+	/**
+	 * DOCME for daisuke
+	 * 
+	 * @param jQName DOCME
+	 * @return DOCME
+	 * @throws XMLStreamException DOCME
+	 */
 	public JiemamyOutputElement addElement(JiemamyQName jQName) throws XMLStreamException {
 		QName qName = jQName.getQName();
 		SMNamespace ns = container.getNamespace(qName.getNamespaceURI(), qName.getPrefix());
@@ -154,12 +167,12 @@ public class JiemamyOutputContainer {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
-	 * @param ns
-	 * @param localName
-	 * @return
-	 * @throws XMLStreamException
+	 * @param ns DOCME
+	 * @param localName DOCME
+	 * @return DOCME
+	 * @throws XMLStreamException DOCME
 	 * @see org.codehaus.staxmate.out.SMOutputContainer#addElement(org.codehaus.staxmate.out.SMNamespace, java.lang.String)
 	 */
 	public JiemamyOutputElement addElement(SMNamespace ns, String localName) throws XMLStreamException {
@@ -167,17 +180,25 @@ public class JiemamyOutputContainer {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
-	 * @param localName
-	 * @return
-	 * @throws XMLStreamException
+	 * @param localName DOCME
+	 * @return DOCME
+	 * @throws XMLStreamException DOCME
 	 * @see org.codehaus.staxmate.out.SMOutputContainer#addElement(java.lang.String)
 	 */
 	public JiemamyOutputElement addElement(String localName) throws XMLStreamException {
 		return new JiemamyOutputElement(container.addElement(localName));
 	}
 	
+	/**
+	 * DOCME for daisuke
+	 * 
+	 * @param jQName DOCME
+	 * @param e DOCME
+	 * @return DOCME
+	 * @throws XMLStreamException DOCME
+	 */
 	public JiemamyOutputElement addElementAndCharacters(JiemamyQName jQName, Enum<?> e) throws XMLStreamException {
 		if (e != null) {
 			return addElementAndCharacters(jQName, e.name());
@@ -185,6 +206,14 @@ public class JiemamyOutputContainer {
 		return null;
 	}
 	
+	/**
+	 * DOCME for daisuke
+	 * 
+	 * @param jQName DOCME
+	 * @param text DOCME
+	 * @return DOCME
+	 * @throws XMLStreamException DOCME
+	 */
 	public JiemamyOutputElement addElementAndCharacters(JiemamyQName jQName, String text) throws XMLStreamException {
 		if (text == null) {
 			return null;
@@ -197,14 +226,15 @@ public class JiemamyOutputContainer {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
-	 * @param ns
-	 * @param localName
-	 * @param text
-	 * @return
-	 * @throws XMLStreamException
-	 * @see org.codehaus.staxmate.out.SMOutputContainer#addElementWithCharacters(org.codehaus.staxmate.out.SMNamespace, java.lang.String, java.lang.String)
+	 * @param ns DOCME
+	 * @param localName DOCME
+	 * @param text DOCME
+	 * @return DOCME
+	 * @throws XMLStreamException DOCME
+	 * @see org.codehaus.staxmate.out.SMOutputContainer#
+	 * addElementWithCharacters(org.codehaus.staxmate.out.SMNamespace, java.lang.String, java.lang.String)
 	 */
 	public JiemamyOutputElement addElementWithCharacters(SMNamespace ns, String localName, String text)
 			throws XMLStreamException {
@@ -212,10 +242,10 @@ public class JiemamyOutputContainer {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
-	 * @param name
-	 * @throws XMLStreamException
+	 * @param name DOCME
+	 * @throws XMLStreamException DOCME
 	 * @see org.codehaus.staxmate.out.SMOutputContainer#addEntityRef(java.lang.String)
 	 */
 	public void addEntityRef(String name) throws XMLStreamException {
@@ -223,11 +253,11 @@ public class JiemamyOutputContainer {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
-	 * @param target
-	 * @param data
-	 * @throws XMLStreamException
+	 * @param target DOCME
+	 * @param data DOCME
+	 * @throws XMLStreamException DOCME
 	 * @see org.codehaus.staxmate.out.SMOutputContainer#addProcessingInstruction(java.lang.String, java.lang.String)
 	 */
 	public void addProcessingInstruction(String target, String data) throws XMLStreamException {
@@ -235,10 +265,10 @@ public class JiemamyOutputContainer {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
-	 * @param value
-	 * @throws XMLStreamException
+	 * @param value DOCME
+	 * @throws XMLStreamException DOCME
 	 * @see org.codehaus.staxmate.out.SMOutputContainer#addValue(boolean)
 	 */
 	public void addValue(boolean value) throws XMLStreamException {
@@ -246,10 +276,10 @@ public class JiemamyOutputContainer {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
-	 * @param value
-	 * @throws XMLStreamException
+	 * @param value DOCME
+	 * @throws XMLStreamException DOCME
 	 * @see org.codehaus.staxmate.out.SMOutputContainer#addValue(double)
 	 */
 	public void addValue(double value) throws XMLStreamException {
@@ -257,10 +287,10 @@ public class JiemamyOutputContainer {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
-	 * @param value
-	 * @throws XMLStreamException
+	 * @param value DOCME
+	 * @throws XMLStreamException DOCME
 	 * @see org.codehaus.staxmate.out.SMOutputContainer#addValue(int)
 	 */
 	public void addValue(int value) throws XMLStreamException {
@@ -268,10 +298,10 @@ public class JiemamyOutputContainer {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
-	 * @param value
-	 * @throws XMLStreamException
+	 * @param value DOCME
+	 * @throws XMLStreamException DOCME
 	 * @see org.codehaus.staxmate.out.SMOutputContainer#addValue(long)
 	 */
 	public void addValue(long value) throws XMLStreamException {
@@ -279,21 +309,22 @@ public class JiemamyOutputContainer {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
-	 * @param ns
-	 * @param localName
-	 * @return
-	 * @see org.codehaus.staxmate.out.SMOutputContainer#createBufferedElement(org.codehaus.staxmate.out.SMNamespace, java.lang.String)
+	 * @param ns DOCME
+	 * @param localName DOCME
+	 * @return DOCME
+	 * @see org.codehaus.staxmate.out.SMOutputContainer#
+	 * createBufferedElement(org.codehaus.staxmate.out.SMNamespace, java.lang.String)
 	 */
 	public SMBufferedElement createBufferedElement(SMNamespace ns, String localName) {
 		return container.createBufferedElement(ns, localName);
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
-	 * @return
+	 * @return DOCME
 	 * @see org.codehaus.staxmate.out.SMOutputContainer#createBufferedFragment()
 	 */
 	public SMBufferedFragment createBufferedFragment() {
@@ -301,9 +332,9 @@ public class JiemamyOutputContainer {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
-	 * @return
+	 * @return DOCME
 	 * @see org.codehaus.staxmate.out.SMOutputContainer#getContext()
 	 */
 	public final SMOutputContext getContext() {
@@ -311,10 +342,10 @@ public class JiemamyOutputContainer {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
-	 * @param uri
-	 * @return
+	 * @param uri DOCME
+	 * @return DOCME
 	 * @see org.codehaus.staxmate.out.SMOutputContainer#getNamespace(java.lang.String)
 	 */
 	public final SMNamespace getNamespace(String uri) {
@@ -322,11 +353,11 @@ public class JiemamyOutputContainer {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
-	 * @param uri
-	 * @param prefPrefix
-	 * @return
+	 * @param uri DOCME
+	 * @param prefPrefix DOCME
+	 * @return DOCME
 	 * @see org.codehaus.staxmate.out.SMOutputContainer#getNamespace(java.lang.String, java.lang.String)
 	 */
 	public final SMNamespace getNamespace(String uri, String prefPrefix) {
@@ -334,9 +365,9 @@ public class JiemamyOutputContainer {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
-	 * @return
+	 * @return DOCME
 	 * @see org.codehaus.staxmate.out.SMOutputContainer#getParent()
 	 */
 	public final JiemamyOutputContainer getParent() {
@@ -344,9 +375,9 @@ public class JiemamyOutputContainer {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
-	 * @return
+	 * @return DOCME
 	 * @see org.codehaus.staxmate.out.SMOutputContainer#getPath()
 	 */
 	public final String getPath() {
@@ -354,9 +385,9 @@ public class JiemamyOutputContainer {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
-	 * @param sb
+	 * @param sb DOCME
 	 * @see org.codehaus.staxmate.out.SMOutputContainer#getPath(java.lang.StringBuilder)
 	 */
 	public void getPath(StringBuilder sb) {
@@ -364,11 +395,11 @@ public class JiemamyOutputContainer {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
-	 * @param indentStr
-	 * @param startOffset
-	 * @param step
+	 * @param indentStr DOCME
+	 * @param startOffset DOCME
+	 * @param step DOCME
 	 * @see org.codehaus.staxmate.out.SMOutputContainer#setIndentation(java.lang.String, int, int)
 	 */
 	public void setIndentation(String indentStr, int startOffset, int step) {
@@ -376,9 +407,9 @@ public class JiemamyOutputContainer {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
-	 * @return
+	 * @return DOCME
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

@@ -35,6 +35,7 @@ public final class ScriptString {
 	
 	private static final String DEFAULT_ENGINE = PlainScriptEngine.class.getName();
 	
+	/** スクリプト文字列 */
 	private final String script;
 	
 	private final String scriptEngineClassName;
@@ -45,7 +46,7 @@ public final class ScriptString {
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param script
+	 * @param script スクリプト文字列
 	 */
 	public ScriptString(String script) {
 		this(script, DEFAULT_ENGINE);

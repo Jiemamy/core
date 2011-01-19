@@ -43,7 +43,7 @@ public class JiemamyOutputElement extends JiemamyOutputContainer {
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param element
+	 * @param element DOCME
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public JiemamyOutputElement(SMOutputElement element) {
@@ -52,23 +52,23 @@ public class JiemamyOutputElement extends JiemamyOutputContainer {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
-	 * @return
-	 * @throws XMLStreamException
+	 * @return DOCME
+	 * @throws XMLStreamException DOCME
 	 * @see org.codehaus.staxmate.out.SMOutputElement#_canOutputNewChild()
 	 */
 	@Override
-	public boolean _canOutputNewChild() throws XMLStreamException {
+	public boolean _canOutputNewChild() throws XMLStreamException { // CHECKSTYLE IGNORE THIS LINE
 		return element._canOutputNewChild();
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
-	 * @param buffered
-	 * @return
-	 * @throws XMLStreamException
+	 * @param buffered DOCME
+	 * @return DOCME
+	 * @throws XMLStreamException DOCME
 	 * @see org.codehaus.staxmate.out.SMOutputContainer#addAndReleaseBuffered(org.codehaus.staxmate.out.SMBufferable)
 	 */
 	@Override
@@ -76,16 +76,37 @@ public class JiemamyOutputElement extends JiemamyOutputContainer {
 		return element.addAndReleaseBuffered(buffered);
 	}
 	
+	/**
+	 * DOCME for daisuke
+	 * 
+	 * @param jQName DOCME
+	 * @param clazz DOCME
+	 * @throws XMLStreamException DOCME
+	 */
 	public void addAttribute(JiemamyQName jQName, Class<?> clazz) throws XMLStreamException {
 		Validate.notNull(clazz);
 		addAttribute(jQName, clazz.getName());
 	}
 	
+	/**
+	 * DOCME for daisuke
+	 * 
+	 * @param jQName DOCME
+	 * @param obj DOCME
+	 * @throws XMLStreamException DOCME
+	 */
 	public void addAttribute(JiemamyQName jQName, Object obj) throws XMLStreamException {
 		Validate.notNull(obj);
 		addAttribute(jQName, obj.toString());
 	}
 	
+	/**
+	 * DOCME for daisuke
+	 * 
+	 * @param jQName DOCME
+	 * @param value DOCME
+	 * @throws XMLStreamException DOCME
+	 */
 	public void addAttribute(JiemamyQName jQName, String value) throws XMLStreamException {
 		QName qName = jQName.getQName();
 		SMNamespace ns = element.getNamespace(qName.getNamespaceURI(), qName.getPrefix());
@@ -93,25 +114,26 @@ public class JiemamyOutputElement extends JiemamyOutputContainer {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
-	 * @param ns
-	 * @param localName
-	 * @param value
-	 * @throws XMLStreamException
-	 * @see org.codehaus.staxmate.out.SMOutputElement#addAttribute(org.codehaus.staxmate.out.SMNamespace, java.lang.String, boolean)
+	 * @param ns DOCME
+	 * @param localName DOCME
+	 * @param value DOCME
+	 * @throws XMLStreamException DOCME
+	 * @see org.codehaus.staxmate.out.SMOutputElement#
+	 * addAttribute(org.codehaus.staxmate.out.SMNamespace, java.lang.String, boolean)
 	 */
 	public void addAttribute(SMNamespace ns, String localName, boolean value) throws XMLStreamException {
 		element.addAttribute(ns, localName, value);
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
-	 * @param ns
-	 * @param localName
-	 * @param value
-	 * @throws XMLStreamException
+	 * @param ns DOCME
+	 * @param localName DOCME
+	 * @param value DOCME
+	 * @throws XMLStreamException DOCME
 	 * @see org.codehaus.staxmate.out.SMOutputElement#addAttribute(org.codehaus.staxmate.out.SMNamespace, java.lang.String, int)
 	 */
 	public void addAttribute(SMNamespace ns, String localName, int value) throws XMLStreamException {
@@ -119,37 +141,39 @@ public class JiemamyOutputElement extends JiemamyOutputContainer {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
-	 * @param ns
-	 * @param localName
-	 * @param value
-	 * @throws XMLStreamException
-	 * @see org.codehaus.staxmate.out.SMOutputElement#addAttribute(org.codehaus.staxmate.out.SMNamespace, java.lang.String, long)
+	 * @param ns DOCME
+	 * @param localName DOCME
+	 * @param value DOCME
+	 * @throws XMLStreamException DOCME
+	 * @see org.codehaus.staxmate.out.SMOutputElement#
+	 * addAttribute(org.codehaus.staxmate.out.SMNamespace, java.lang.String, long)
 	 */
 	public void addAttribute(SMNamespace ns, String localName, long value) throws XMLStreamException {
 		element.addAttribute(ns, localName, value);
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
-	 * @param ns
-	 * @param localName
-	 * @param value
-	 * @throws XMLStreamException
-	 * @see org.codehaus.staxmate.out.SMOutputElement#addAttribute(org.codehaus.staxmate.out.SMNamespace, java.lang.String, java.lang.String)
+	 * @param ns DOCME
+	 * @param localName DOCME
+	 * @param value DOCME
+	 * @throws XMLStreamException DOCME
+	 * @see org.codehaus.staxmate.out.SMOutputElement#
+	 * addAttribute(org.codehaus.staxmate.out.SMNamespace, java.lang.String, java.lang.String)
 	 */
 	public void addAttribute(SMNamespace ns, String localName, String value) throws XMLStreamException {
 		element.addAttribute(ns, localName, value);
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
-	 * @param localName
-	 * @param value
-	 * @throws XMLStreamException
+	 * @param localName DOCME
+	 * @param value DOCME
+	 * @throws XMLStreamException DOCME
 	 * @see org.codehaus.staxmate.out.SMOutputElement#addAttribute(java.lang.String, java.lang.String)
 	 */
 	public final void addAttribute(String localName, String value) throws XMLStreamException {
@@ -157,9 +181,9 @@ public class JiemamyOutputElement extends JiemamyOutputContainer {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
-	 * @return
+	 * @return DOCME
 	 * @see org.codehaus.staxmate.out.SMOutputElement#getLocalName()
 	 */
 	public String getLocalName() {
@@ -167,9 +191,9 @@ public class JiemamyOutputElement extends JiemamyOutputContainer {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
-	 * @return
+	 * @return DOCME
 	 * @see org.codehaus.staxmate.out.SMOutputElement#getNamespace()
 	 */
 	public SMNamespace getNamespace() {
@@ -177,11 +201,11 @@ public class JiemamyOutputElement extends JiemamyOutputContainer {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
-	 * @param parent
-	 * @param blocked
-	 * @throws XMLStreamException
+	 * @param parent DOCME
+	 * @param blocked DOCME
+	 * @throws XMLStreamException DOCME
 	 * @see org.codehaus.staxmate.out.SMOutputElement#linkParent(org.codehaus.staxmate.out.SMOutputContainer, boolean)
 	 */
 	public void linkParent(SMOutputContainer parent, boolean blocked) throws XMLStreamException {
@@ -189,10 +213,10 @@ public class JiemamyOutputElement extends JiemamyOutputContainer {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
-	 * @param ns
-	 * @throws XMLStreamException
+	 * @param ns DOCME
+	 * @throws XMLStreamException DOCME
 	 * @see org.codehaus.staxmate.out.SMOutputElement#predeclareNamespace(org.codehaus.staxmate.out.SMNamespace)
 	 */
 	public void predeclareNamespace(SMNamespace ns) throws XMLStreamException {

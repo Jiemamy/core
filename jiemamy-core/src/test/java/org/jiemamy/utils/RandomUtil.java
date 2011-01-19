@@ -50,15 +50,34 @@ public final class RandomUtil {
 	};
 	
 
+	/**
+	 * 乱数を用いて {@link Boolean} を生成する。
+	 * 
+	 * @return {@link Boolean}
+	 */
 	public static boolean bool() {
 		return R.nextBoolean();
 	}
 	
+	/**
+	 * 乱数を用いて {@link Enum} を生成する。
+	 * 
+	 * @param <T> enumの型
+	 * @param clazz enum
+	 * @return {@link Enum}
+	 */
 	public static <T extends Enum<T>>T enume(Class<T> clazz) {
 		T[] enumConstants = clazz.getEnumConstants();
 		return enumConstants[R.nextInt(enumConstants.length)];
 	}
 	
+	/**
+	 * 乱数を用いて {@code null}を含む {@link Enum} を生成する。
+	 * 
+	 * @param <T> enumの型
+	 * @param clazz enum
+	 * @return {@link Enum}
+	 */
 	public static <T extends Enum<T>>T enumeNullable(Class<T> clazz) {
 		T[] enumConstants = clazz.getEnumConstants();
 		return R.nextBoolean() ? null : enumConstants[R.nextInt(enumConstants.length)];

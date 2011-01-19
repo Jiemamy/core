@@ -123,7 +123,7 @@ public class JiemamyCursor {
 	 * concept of child cursors, it will throw
 	 * {@link UnsupportedOperationException}
 	 * 
-	 * @return 
+	 * @return child cursor
 	 * @throws IllegalStateException If cursor can not be created due
 	 *   to the state cursor is in.
 	 * @throws UnsupportedOperationException If cursor does not allow
@@ -148,7 +148,7 @@ public class JiemamyCursor {
 	 *
 	 * @param f Filter child cursor is to use for filtering out
 	 *    'unwanted' nodes; may be null if no filtering is to be done
-	 * @return 
+	 * @return filtered child cursor
 	 * @throws IllegalStateException If cursor can not be created due
 	 *   to the state cursor is in.
 	 * @throws UnsupportedOperationException If cursor does not allow
@@ -166,7 +166,7 @@ public class JiemamyCursor {
 	 * Convenience method; equivalent to 
 	 *<code>childCursor(SMFilterFactory.getElementOnlyFilter());</code>
 	 * 
-	 * @return
+	 * @return element only filtered child cursor
 	 * @throws XMLStreamException if either the underlying parser has
 	 *   problems (possibly including event type not being of textual
 	 *   type, see Stax 1.0 specs for details)
@@ -182,8 +182,8 @@ public class JiemamyCursor {
 	 * Will only return START_ELEMENT and END_ELEMENT events, whose element
 	 * name matches given qname.
 	 * 
-	 * @param elemName
-	 * @return
+	 * @param elemName element name
+	 * @return element name filtered child cursor
 	 * @throws XMLStreamException if either the underlying parser has
 	 *   problems (possibly including event type not being of textual
 	 *   type, see Stax 1.0 specs for details)
@@ -200,8 +200,8 @@ public class JiemamyCursor {
 	 * local name matches given local name, and that does not belong to
 	 * a namespace.
 	 * 
-	 * @param elemLocalName
-	 * @return
+	 * @param elemLocalName element local name
+	 * @return element local name filtered child cursor
 	 * @throws XMLStreamException if either the underlying parser has
 	 *   problems (possibly including event type not being of textual
 	 *   type, see Stax 1.0 specs for details)
@@ -215,7 +215,7 @@ public class JiemamyCursor {
 	 * Convenience method; equivalent to 
 	 *<code>childCursor(SMFilterFactory.getMixedFilter());</code>
 	 * 
-	 * @return
+	 * @return mixed filtered child cursor
 	 * @throws XMLStreamException if either the underlying parser has
 	 *   problems (possibly including event type not being of textual
 	 *   type, see Stax 1.0 specs for details)
@@ -234,7 +234,7 @@ public class JiemamyCursor {
 	 * results from indentation, but its detection requires DTD/schema-aware
 	 * processing</p>
 	 * 
-	 * @return
+	 * @return text
 	 * @throws XMLStreamException if either the underlying parser has
 	 *   problems (possibly including event type not being of textual
 	 *   type, see Stax 1.0 specs for details)
@@ -255,7 +255,7 @@ public class JiemamyCursor {
 	 * @param includeIgnorable Whether text for events of type SPACE should
 	 *   be ignored in the results or not. If false, SPACE events will be
 	 *   skipped; if true, white space will be included in results.
-	 * @return
+	 * @return text
 	 */
 	public String collectDescendantText(boolean includeIgnorable) {
 		try {
@@ -274,7 +274,7 @@ public class JiemamyCursor {
 	 * where this cursor was last valid)
 	 * 
 	 * @param msg message
-	 * @return
+	 * @return exception
 	 * @see org.codehaus.staxmate.in.SMInputCursor#constructStreamException(java.lang.String)
 	 */
 	public XMLStreamException constructStreamException(String msg) {
@@ -289,6 +289,7 @@ public class JiemamyCursor {
 	 * it will throw {@link IllegalStateException}; if it does not support
 	 * concept of descendant cursors, it will throw
 	 * {@link UnsupportedOperationException}
+	 * @return descendant cursor
 	 *
 	 * @throws IllegalStateException If cursor can not be created due
 	 *   to the state cursor is in (or for some cursors, if they never
@@ -317,7 +318,7 @@ public class JiemamyCursor {
 	 *
 	 * @param f Filter child cursor is to use for filtering out
 	 *    'unwanted' nodes; may be null if no filtering is to be done
-	 * @return 
+	 * @return filtered descendant cursor
 	 * @throws XMLStreamException if either the underlying parser has
 	 *   problems (possibly including event type not being of textual
 	 *   type, see Stax 1.0 specs for details)
@@ -336,7 +337,7 @@ public class JiemamyCursor {
 	 * Convenience method; equivalent to 
 	 *<code>descendantCursor(SMFilterFactory.getElementOnlyFilter());</code>
 	 * 
-	 * @return
+	 * @return element only filtered descendant cursor
 	 * @throws XMLStreamException if either the underlying parser has
 	 *   problems (possibly including event type not being of textual
 	 *   type, see Stax 1.0 specs for details)
@@ -352,8 +353,8 @@ public class JiemamyCursor {
 	 * Will only return START_ELEMENT and END_ELEMENT events, whose element
 	 * name matches given qname.
 	 * 
-	 * @param elemName
-	 * @return
+	 * @param elemName element name
+	 * @return element name filtered descendant cursor
 	 * @throws XMLStreamException if either the underlying parser has
 	 *   problems (possibly including event type not being of textual
 	 *   type, see Stax 1.0 specs for details)
@@ -370,8 +371,8 @@ public class JiemamyCursor {
 	 * local name matches given local name, and that do not belong to a
 	 * namespace
 	 * 
-	 * @param elemLocalName
-	 * @return
+	 * @param elemLocalName element local name
+	 * @return element local name filtered descendant cursor 
 	 * @throws XMLStreamException if either the underlying parser has
 	 *   problems (possibly including event type not being of textual
 	 *   type, see Stax 1.0 specs for details)
@@ -385,7 +386,7 @@ public class JiemamyCursor {
 	 * Convenience method; equivalent to 
 	 *<code>descendantCursor(SMFilterFactory.getMixedFilter());</code>
 	 * 
-	 * @return
+	 * @return mixed filtered descendant cursor
 	 * @throws XMLStreamException if either the underlying parser has
 	 *   problems (possibly including event type not being of textual
 	 *   type, see Stax 1.0 specs for details)
@@ -400,9 +401,9 @@ public class JiemamyCursor {
 	 * and which will return index of specified attribute, if it
 	 * exists for this element. If not, -1 is returned to denote "not found".
 	 * 
-	 * @param uri 
-	 * @param localName 
-	 * @return 
+	 * @param uri uri string
+	 * @param localName local name
+	 * @return index
 	 * @throws XMLStreamException if either the underlying parser has
 	 *   problems (cursor not valid or not pointing to START_ELEMENT)
 	 * @see org.codehaus.staxmate.in.SMInputCursor#findAttrIndex(java.lang.String, java.lang.String)
@@ -418,7 +419,7 @@ public class JiemamyCursor {
 	 * is accessible via Stax2 Typed Access API).
 	 *
 	 * @param index Index of attribute to access
-	 * @return 
+	 * @return value
 	 * @throws XMLStreamException If specified attribute can not be
 	 *   accessed (due to cursor state), or if attribute value
 	 *   is not a valid textual representation of boolean
@@ -438,7 +439,7 @@ public class JiemamyCursor {
 	 * @param index Index of attribute to access
 	 * @param defValue Value to return if attribute value exists but
 	 *   is not a valid boolean value
-	 * @return 
+	 * @return value
 	 * @throws XMLStreamException If specified attribute can not be
 	 *   accessed (due to cursor state), or if attribute value
 	 *   is not a valid textual representation of boolean.
@@ -457,7 +458,7 @@ public class JiemamyCursor {
 	 * possible implied default values (when DTD support is enabled
 	 * by the underlying stream reader).
 	 * 
-	 * @return 
+	 * @return count
 	 * @throws XMLStreamException if either the underlying parser has
 	 *   problems (cursor not valid or not pointing to START_ELEMENT)
 	 * @see org.codehaus.staxmate.in.SMInputCursor#getAttrCount()
@@ -473,7 +474,7 @@ public class JiemamyCursor {
 	 * is accessible via Stax2 Typed Access API).
 	 *
 	 * @param index Index of attribute to access
-	 * @return 
+	 * @return value
 	 * @throws XMLStreamException If specified attribute can not be
 	 *   accessed (due to cursor state), or if attribute value
 	 *   is not a valid textual representation of double.
@@ -494,7 +495,7 @@ public class JiemamyCursor {
 	 * @param index Index of attribute to access
 	 * @param defValue Value to return if attribute value exists but
 	 *   is not a valid double value
-	 * @return 
+	 * @return value
 	 * @throws XMLStreamException If specified attribute can not be
 	 *   accessed (due to cursor state), or if attribute value
 	 *   is not a valid textual representation of double.
@@ -513,10 +514,10 @@ public class JiemamyCursor {
 	 * is not equal to name() of one of Enum values, will throw
 	 * a {@link TypedXMLStreamException} to indicate the problem.
 	 * 
-	 * @param <T> 
+	 * @param <T> type of enum
 	 * @param index Index of attribute to access
-	 * @param enumType 
-	 * @return 
+	 * @param enumType enum
+	 * @return value
 	 * @throws XMLStreamException If specified attribute can not be
 	 *   accessed (due to cursor state), or if attribute value
 	 *   is not a valid textual representation of double.
@@ -540,7 +541,7 @@ public class JiemamyCursor {
 	 * is accessible via Stax2 Typed Access API).
 	 *
 	 * @param index Index of attribute to access
-	 * @return
+	 * @return value
 	 * @throws XMLStreamException If specified attribute can not be
 	 *   accessed (due to cursor state), or if attribute value
 	 *   is not a valid textual representation of integer.
@@ -561,7 +562,7 @@ public class JiemamyCursor {
 	 * @param index Index of attribute to access
 	 * @param defValue Value to return if attribute value exists but
 	 *   is not a valid integer value
-	 * @return 
+	 * @return value
 	 * @throws XMLStreamException If specified attribute can not be
 	 *   accessed (due to cursor state), or if attribute value
 	 *   is not a valid textual representation of integer.
@@ -574,10 +575,10 @@ public class JiemamyCursor {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
-	 * @param jQName
-	 * @return
+	 * @param jQName Jiemamy QName
+	 * @return value
 	 * @throws XMLStreamException if either the underlying parser has
 	 *   problems (cursor not valid or not pointing to START_ELEMENT)
 	 * @throws XMLStreamException If specified attribute can not be
@@ -597,7 +598,7 @@ public class JiemamyCursor {
 	 * {@link IllegalArgumentException} will be thrown.
 	 * 
 	 * @param index Index of the attribute
-	 * @return 
+	 * @return local name
 	 * @throws XMLStreamException if either the underlying parser has
 	 *   problems (cursor not valid or not pointing to START_ELEMENT),
 	 *   or if invalid attribute 
@@ -617,7 +618,7 @@ public class JiemamyCursor {
 	 * is accessible via Stax2 Typed Access API).
 	 *
 	 * @param index Index of attribute to access
-	 *
+	 * @return value
 	 * @throws XMLStreamException If specified attribute can not be
 	 *   accessed (due to cursor state), or if attribute value
 	 *   is not a valid textual representation of long.
@@ -638,7 +639,7 @@ public class JiemamyCursor {
 	 * @param index Index of attribute to access
 	 * @param defValue Value to return if attribute value exists but
 	 *   is not a valid long value
-	 * @return 
+	 * @return value
 	 * @throws XMLStreamException If specified attribute can not be
 	 *   accessed (due to cursor state), or if attribute value
 	 *   is not a valid textual representation of long.
@@ -658,7 +659,7 @@ public class JiemamyCursor {
 	 * {@link IllegalArgumentException} will be thrown.
 	 * 
 	 * @param index Index of the attribute
-	 * @return 
+	 * @return attribute name
 	 * @throws XMLStreamException if either the underlying parser has
 	 *   problems (cursor not valid or not pointing to START_ELEMENT),
 	 *   or if invalid attribute 
@@ -680,7 +681,7 @@ public class JiemamyCursor {
 	 * {@link IllegalArgumentException} will be thrown.
 	 * 
 	 * @param index Index of the attribute
-	 * @return 
+	 * @return attribute namespace URI
 	 * @throws XMLStreamException if either the underlying parser has
 	 *   problems (cursor not valid or not pointing to START_ELEMENT),
 	 *   or if invalid attribute 
@@ -703,7 +704,7 @@ public class JiemamyCursor {
 	 * {@link IllegalArgumentException} will be thrown.
 	 * 
 	 * @param index Index of the attribute
-	 * @return 
+	 * @return attribute prefix
 	 * @throws XMLStreamException if either the underlying parser has
 	 *   problems (cursor not valid or not pointing to START_ELEMENT),
 	 *   or if invalid attribute 
@@ -725,7 +726,7 @@ public class JiemamyCursor {
 	 * {@link IllegalArgumentException} will be thrown.
 	 * 
 	 * @param index Index of the attribute
-	 * @return 
+	 * @return value
 	 * @throws XMLStreamException if either the underlying parser has
 	 *   problems (cursor not valid or not pointing to START_ELEMENT),
 	 *   or if invalid attribute 
@@ -739,10 +740,10 @@ public class JiemamyCursor {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
-	 * @param jQName
-	 * @return
+	 * @param jQName Jiemamy QName
+	 * @return value
 	 * @throws XMLStreamException if either the underlying parser has
 	 *   problems (cursor not valid or not pointing to START_ELEMENT),
 	 *   or if invalid attribute
@@ -762,8 +763,8 @@ public class JiemamyCursor {
 	 * calling {@link #getAttrValue(String,String)} with
 	 * 'null' for 'namespace URI' argument
 	 * 
-	 * @param localName
-	 * @return
+	 * @param localName local name
+	 * @return value
 	 * @throws XMLStreamException if either the underlying parser has
 	 *   problems (possibly including event type not being of textual
 	 *   type, see Stax 1.0 specs for details)
@@ -784,7 +785,7 @@ public class JiemamyCursor {
 	 * @param localName Local name of the attribute to access (in
 	 *   namespace-aware mode: in non-namespace-aware mode, needs to
 	 *   be the full name)
-	 * @return 
+	 * @return  value
 	 * @throws XMLStreamException if either the underlying parser has
 	 *   problems (cursor not valid or not pointing to START_ELEMENT),
 	 *   or if invalid attribute 
@@ -813,7 +814,7 @@ public class JiemamyCursor {
 	 * one of event types defined in {@link XMLStreamConstants}
 	 * (like {@link XMLStreamConstants#START_ELEMENT}).
 	 * 
-	 * @return
+	 * @return event code
 	 * @see org.codehaus.staxmate.in.SMInputCursor#getCurrEventCode()
 	 */
 	public int getCurrEventCode() {
@@ -861,7 +862,7 @@ public class JiemamyCursor {
 	 * comments and processing instructions are allowed and ignored
 	 * if encountered).
 	 *
-	 * @return 
+	 * @return value
 	 * @throws XMLStreamException if content is not accessible or
 	 *    convertible to required return type
 	 * @see org.codehaus.staxmate.in.SMInputCursor#getElemBooleanValue()
@@ -874,8 +875,8 @@ public class JiemamyCursor {
 	 * Similar to {@link #getElemBooleanValue()}, but instead of failing
 	 * on invalid value, returns given default value.
 	 * 
-	 * @param defValue
-	 * @return
+	 * @param defValue default value
+	 * @return value
 	 * @throws XMLStreamException if either the underlying parser has
 	 *   problems (possibly including event type not being of textual
 	 *   type, see Stax 1.0 specs for details)
@@ -897,7 +898,7 @@ public class JiemamyCursor {
 	 * comments and processing instructions are allowed and ignored
 	 * if encountered).
 	 *
-	 * @return 
+	 * @return value
 	 * @throws XMLStreamException if content is not accessible or
 	 *    convertible to required return type
 	 * @see org.codehaus.staxmate.in.SMInputCursor#getElemDoubleValue()
@@ -910,8 +911,8 @@ public class JiemamyCursor {
 	 * Similar to {@link #getElemDoubleValue()}, but instead of failing
 	 * on invalid value, returns given default value.
 	 * 
-	 * @param defValue
-	 * @return
+	 * @param defValue default value
+	 * @return value
 	 * @throws XMLStreamException if either the underlying parser has
 	 *   problems (possibly including event type not being of textual
 	 *   type, see Stax 1.0 specs for details)
@@ -937,9 +938,9 @@ public class JiemamyCursor {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
-	 * @return
+	 * @return DOCME
 	 * @see org.codehaus.staxmate.in.SMInputCursor#getElementInfoFactory()
 	 */
 	public final ElementInfoFactory getElementInfoFactory() {
@@ -947,9 +948,9 @@ public class JiemamyCursor {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
-	 * @return
+	 * @return DOCME
 	 * @see org.codehaus.staxmate.in.SMInputCursor#getElementTracking()
 	 */
 	public final Tracking getElementTracking() {
@@ -969,9 +970,9 @@ public class JiemamyCursor {
 	 * if encountered).
 	 * </p>
 	 * 
-	 * @param enumType 
-	 * @param <T> 
-	 * @return 
+	 * @param enumType enum
+	 * @param <T> type of enum
+	 * @return value
 	 * @throws XMLStreamException if content is not accessible or
 	 *    convertible to required return type
 	 * @throws TypedXMLStreamException if element value is non-empty
@@ -994,7 +995,7 @@ public class JiemamyCursor {
 	 * comments and processing instructions are allowed and ignored
 	 * if encountered).
 	 *
-	 * @return 
+	 * @return value
 	 * @throws XMLStreamException if content is not accessible or
 	 *    convertible to required return type
 	 * @see org.codehaus.staxmate.in.SMInputCursor#getElemIntValue()
@@ -1008,7 +1009,7 @@ public class JiemamyCursor {
 	 * on invalid value, returns given default value.
 	 * 
 	 * @param defValue default value
-	 * @return
+	 * @returnvalue
 	 * @throws XMLStreamException if either the underlying parser has
 	 *   problems (possibly including event type not being of textual
 	 *   type, see Stax 1.0 specs for details)
@@ -1030,7 +1031,7 @@ public class JiemamyCursor {
 	 * comments and processing instructions are allowed and ignored
 	 * if encountered).
 	 *
-	 * @return 
+	 * @return value
 	 * @throws XMLStreamException if content is not accessible or
 	 *    convertible to required return type
 	 * @see org.codehaus.staxmate.in.SMInputCursor#getElemLongValue()
@@ -1043,8 +1044,8 @@ public class JiemamyCursor {
 	 * Similar to {@link #getElemLongValue()}, but instead of failing
 	 * on invalid value, returns given default value.
 	 * 
-	 * @param defValue
-	 * @return
+	 * @param defValue default value
+	 * @return value
 	 * @throws XMLStreamException if either the underlying parser has
 	 *   problems (possibly including event type not being of textual
 	 *   type, see Stax 1.0 specs for details)
@@ -1070,7 +1071,7 @@ public class JiemamyCursor {
 	 * if available, and can thus be more efficient.
 	 * </p>
 	 * 
-	 * @return 
+	 * @return value
 	 * @throws XMLStreamException if content is not accessible; may also
 	 *  be thrown if child elements are encountered.
 	 * @see org.codehaus.staxmate.in.SMInputCursor#getElemStringValue()
@@ -1191,7 +1192,7 @@ public class JiemamyCursor {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
 	 * @return Information about the tracked element the parent cursor
 	 *    had, if parent cursor existed and was tracking element
@@ -1217,7 +1218,7 @@ public class JiemamyCursor {
 	 * of logical location, in addition to physical input location.
 	 * </p>
 	 * 
-	 * @return 
+	 * @return path desc
 	 * @see org.codehaus.staxmate.in.SMInputCursor#getPathDesc()
 	 */
 	public String getPathDesc() {
@@ -1243,7 +1244,7 @@ public class JiemamyCursor {
 	 * have full name but has local name); or if no name available, throws
 	 * stream exception.
 	 * 
-	 * @return
+	 * @return prefixed name
 	 * @throws XMLStreamException if either the underlying parser has
 	 *   problems (possibly including event type not being of textual
 	 *   type, see Stax 1.0 specs for details)
@@ -1254,9 +1255,9 @@ public class JiemamyCursor {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
-	 * @return
+	 * @return QName
 	 * @throws XMLStreamException if either the underlying parser has
 	 *   problems (possibly including event type not being of textual
 	 *   type, see Stax 1.0 specs for details)
@@ -1318,7 +1319,7 @@ public class JiemamyCursor {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
 	 * @return Information about last "tracked" element; element we have
 	 *    last iterated over when tracking has been enabled.
@@ -1351,7 +1352,7 @@ public class JiemamyCursor {
 	 *
 	 * @param jQName Name to compare name of current event (if any)
 	 *   against.
-	 * @return
+	 * @return true if contains
 	 * @throws XMLStreamException if either the underlying parser has
 	 *   problems (possibly including event type not being of textual
 	 *   type, see Stax 1.0 specs for details)
@@ -1382,10 +1383,10 @@ public class JiemamyCursor {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DOCME for daisuke
 	 * 
-	 * @param jQName
-	 * @return
+	 * @param jQName Jiemamy QName
+	 * @return true if current QName
 	 * @throws XMLStreamException if either the underlying parser has
 	 *   problems (possibly including event type not being of textual
 	 *   type, see Stax 1.0 specs for details)
