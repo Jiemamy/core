@@ -278,6 +278,18 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 		return columns.getEntitiesAsList();
 	}
 	
+	@SuppressWarnings("unchecked")
+	public <T extends ColumnModel>List<T> getColumns(Class<T> clazz) {
+		Validate.notNull(clazz);
+		List<T> result = Lists.newArrayList();
+		for (ColumnModel column : getColumns()) {
+			if (clazz.isInstance(column)) {
+				result.add((T) column);
+			}
+		}
+		return MutationMonitor.monitor(result);
+	}
+	
 	public Set<? extends ConstraintModel> getConstraints() {
 		return constraints.getEntitiesAsSet();
 	}

@@ -76,6 +76,8 @@ public interface TableModel extends DatabaseObjectModel {
 	 */
 	List<ColumnModel> getColumns();
 	
+	<T extends ColumnModel>List<T> getColumns(Class<T> clazz);
+	
 	/**
 	 * 属性のリストを取得する。
 	 * 
