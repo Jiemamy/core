@@ -62,7 +62,7 @@ public class MockDialect implements Dialect {
 	}
 	
 	public String getName() {
-		return this.getClass().getName();
+		return "Mock Dialect (for test only. DO NOT USE.)";
 	}
 	
 	public Collection<TypeParameterSpec> getTypeParameterSpecs(TypeReference reference) {
