@@ -22,6 +22,9 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.jiemamy.model.constraint.DeferrabilityModel.InitiallyCheckTime;
 import org.jiemamy.model.constraint.ForeignKeyConstraintModel.MatchType;
 import org.jiemamy.model.constraint.ForeignKeyConstraintModel.ReferentialAction;
@@ -38,6 +41,9 @@ import org.jiemamy.model.view.ViewModel;
  */
 public final class DefaultTokenResolver implements TokenResolver {
 	
+	private static Logger logger = LoggerFactory.getLogger(DefaultTokenResolver.class);
+	
+
 	public List<Token> resolve(Object value) {
 		List<Token> tokens = Lists.newArrayListWithCapacity(2);
 		if (value instanceof InitiallyCheckTime) {
@@ -88,6 +94,8 @@ public final class DefaultTokenResolver implements TokenResolver {
 			tokens.add(Keyword.TABLE);
 		} else if (value instanceof ViewModel) {
 			tokens.add(Keyword.VIEW);
+		} else {
+			logger.warn("unknown object: " + value.getClass());
 		}
 		return tokens;
 	}

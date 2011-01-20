@@ -35,57 +35,6 @@ import org.jiemamy.validator.Validator;
  */
 public interface Dialect {
 	
-//	/**
-//	 * 指定したデータ型に適合する、最も適したモールドを取得する。
-//	 * 
-//	 * @param dataType データ型
-//	 * @return モールド
-//	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-//	 * @since 0.2
-//	 * @deprecated use {@link #getMoldManager()} and {@link MoldManager#findDataTypeMold(BuiltinDataType)}
-//	 */
-//	@Deprecated
-//	BuiltinDataTypeMold findDataTypeMold(BuiltinDataType dataType);
-//	
-//	/**
-//	 * 指定したカテゴリに最も適したモールドを取得する。
-//	 * 
-//	 * <p>typeNameには、{@code category.name()}を用いる。</p>
-//	 * 
-//	 * <p>{@code null}を返してはならない。</p>
-//	 * 
-//	 * @param category 型カテゴリ
-//	 * @return モールド
-//	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-//	 * @see #findDataTypeMold(DataTypeCategory, String)
-//	 * @since 0.2
-//	 * @deprecated use {@link #getMoldManager()} and {@link MoldManager#findDataTypeMold(DataTypeCategory)}
-//	 */
-//	@Deprecated
-//	BuiltinDataTypeMold findDataTypeMold(DataTypeCategory category);
-//	
-//	/**
-//	 * 指定したカテゴリ、型名に最も適したモールドを取得する。
-//	 * 
-//	 * <p><ol>
-//	 *   <li>カテゴリと型名が完全一致するモールドがあれば、それを返す。</li>
-//	 *   <li>見つからなければ、次に、型名が完全一致するモールドがあれば、それを返す。</li>
-//	 *   <li>さらに見つからなければ、カテゴリが一致する中で、先に定義されているモールドを返す。</li>
-//	 *   <li>与えられたカテゴリに該当する型がひとつもマッピングされていない場合は、 {@link BuiltinDataTypeMold#UNKNOWN}を返す。</li>
-//	 * </ol></p>
-//	 * 
-//	 * <p>{@code null}を返してはならない。</p>
-//	 * 
-//	 * @param category 型カテゴリ
-//	 * @param typeName 型名
-//	 * @return モールド
-//	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-//	 * @since 0.2
-//	 * @deprecated use {@link #getMoldManager()} and {@link MoldManager#findDataTypeMold(DataTypeCategory, String)}
-//	 */
-//	@Deprecated
-//	BuiltinDataTypeMold findDataTypeMold(DataTypeCategory category, String typeName);
-	
 	/**
 	 * データ型名を全て取得する。
 	 * 
@@ -104,10 +53,8 @@ public interface Dialect {
 	 */
 	String getConnectionUriTemplate();
 	
-	//	/**
+//	/**
 //	 * モデリング用DataType・一般型・型名間のマッピング情報を取得する。
-//	 * 
-//	 * <p>{@code null}を返してはならない。</p>
 //	 * 
 //	 * @return マッピング情報
 //	 * @since 0.2
@@ -136,8 +83,6 @@ public interface Dialect {
 	
 	/**
 	 * モデルのバリデータを取得する。
-	 * 
-	 * <p>{@code null}を返してはならない。</p>
 	 * 
 	 * @return モデルのバリデータ
 	 * @since 0.2

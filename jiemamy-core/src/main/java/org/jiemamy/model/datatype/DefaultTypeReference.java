@@ -32,6 +32,8 @@ public final class DefaultTypeReference implements TypeReference {
 	
 	private DataTypeCategory category;
 	
+	private final String[] aliasTypeNames;
+	
 
 	/**
 	 * インスタンスを生成する。
@@ -50,11 +52,12 @@ public final class DefaultTypeReference implements TypeReference {
 	 * @param typeName
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public DefaultTypeReference(DataTypeCategory category, String typeName) {
+	public DefaultTypeReference(DataTypeCategory category, String typeName, String... aliasTypeNames) {
 		Validate.notNull(category);
 		Validate.notNull(typeName);
 		this.category = category;
 		this.typeName = typeName;
+		this.aliasTypeNames = aliasTypeNames;
 	}
 	
 	@Override

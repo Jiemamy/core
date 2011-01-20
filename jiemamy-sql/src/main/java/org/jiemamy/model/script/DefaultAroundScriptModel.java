@@ -89,8 +89,7 @@ public final class DefaultAroundScriptModel extends AbstractEntity implements Ar
 		return MutationMonitor.monitor(Maps.newHashMap(scripts));
 	}
 	
-	public String process(JiemamyContext context, Position position, DatabaseObjectModel target)
-			throws ClassNotFoundException {
+	public String process(JiemamyContext context, Position position, Object target) throws ClassNotFoundException {
 		Validate.notNull(context);
 		Validate.notNull(position);
 		Validate.notNull(target);

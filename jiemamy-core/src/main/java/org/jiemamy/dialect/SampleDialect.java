@@ -75,11 +75,16 @@ public class SampleDialect extends AbstractDialect {
 		return Lists.newArrayList(allDataTypes.keySet());
 	}
 	
+	public String getName() {
+		return "Sample Dialect";
+	}
+	
 	public Collection<TypeParameterSpec> getTypeParameterSpecs(TypeReference reference) {
 		Validate.notNull(reference);
 		return Lists.newArrayList(allDataTypes.get(reference));
 	}
 	
+	@Override
 	public Validator getValidator() {
 		return validator;
 	}

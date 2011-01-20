@@ -82,7 +82,7 @@ public interface AroundScriptModel extends Entity {
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 0.3
 	 */
-	String process(JiemamyContext context, Position position, DatabaseObjectModel target) throws ClassNotFoundException;
+	String process(JiemamyContext context, Position position, Object target) throws ClassNotFoundException;
 	
 	EntityRef<? extends AroundScriptModel> toReference();
 }

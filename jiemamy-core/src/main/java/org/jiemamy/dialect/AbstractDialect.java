@@ -20,6 +20,9 @@ package org.jiemamy.dialect;
 
 import org.apache.commons.lang.Validate;
 
+import org.jiemamy.validator.AllValidator;
+import org.jiemamy.validator.Validator;
+
 /**
  * SQL方言の抽象実装クラス。
  * 
@@ -45,7 +48,7 @@ public abstract class AbstractDialect implements Dialect {
 		return connectionUriTemplate;
 	}
 	
-	public String getName() {
-		return this.getClass().getName();
+	public Validator getValidator() {
+		return new AllValidator();
 	}
 }
