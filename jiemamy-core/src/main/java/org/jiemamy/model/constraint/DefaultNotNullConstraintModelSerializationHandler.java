@@ -89,8 +89,10 @@ public final class DefaultNotNullConstraintModelSerializationHandler extends
 					} else if (childCursor.isQName(CoreQName.DESCRIPTION)) {
 						notNull.setDescription(childCursor.collectDescendantText(false));
 					} else if (childCursor.isQName(CoreQName.DEFERRABILITY)) {
-						String text = childCursor.collectDescendantText(false);
-						notNull.setDeferrability(DefaultDeferrabilityModel.valueOf(text));
+//						String text = childCursor.collectDescendantText(false);
+//						notNull.setDeferrability(DefaultDeferrabilityModel.valueOf(text));
+						DefaultDeferrabilityModel deferrabilityModel = getDirector().direct(ctx);
+						notNull.setDeferrability(deferrabilityModel);
 					} else if (childCursor.isQName(CoreQName.COLUMN_REF)) {
 						String strReferentId = childCursor.getAttrValue(CoreQName.REF);
 						assert strReferentId != null;
@@ -126,9 +128,11 @@ public final class DefaultNotNullConstraintModelSerializationHandler extends
 			element.addElementAndCharacters(CoreQName.NAME, model.getName());
 			element.addElementAndCharacters(CoreQName.LOGICAL_NAME, model.getLogicalName());
 			element.addElementAndCharacters(CoreQName.DESCRIPTION, model.getDescription());
+			sctx.push(element);
 			if (model.getDeferrability() != null) {
 				getDirector().direct(model.getDeferrability(), sctx);
 			}
+			sctx.pop();
 			
 			JiemamyOutputElement colRefElement = element.addElement(CoreQName.COLUMN_REF);
 			EntityRef<? extends ColumnModel> colRef = model.getColumnRef();

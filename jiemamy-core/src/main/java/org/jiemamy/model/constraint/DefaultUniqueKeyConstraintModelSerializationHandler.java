@@ -88,8 +88,10 @@ public final class DefaultUniqueKeyConstraintModelSerializationHandler extends
 					} else if (childCursor.isQName(CoreQName.DESCRIPTION)) {
 						uniqueModel.setDescription(childCursor.collectDescendantText(false));
 					} else if (childCursor.isQName(CoreQName.DEFERRABILITY)) {
-						String text = childCursor.collectDescendantText(false);
-						uniqueModel.setDeferrability(DefaultDeferrabilityModel.valueOf(text));
+//						String text = childCursor.collectDescendantText(false);
+//						uniqueModel.setDeferrability(DefaultDeferrabilityModel.valueOf(text));
+						DefaultDeferrabilityModel deferrabilityModel = getDirector().direct(ctx);
+						uniqueModel.setDeferrability(deferrabilityModel);
 					} else if (childCursor.isQName(CoreQName.KEY_COLUMNS)) {
 						JiemamyCursor keyColumnsCursor = childCursor.childElementCursor();
 						while (keyColumnsCursor.getNext() != null) {
@@ -127,9 +129,11 @@ public final class DefaultUniqueKeyConstraintModelSerializationHandler extends
 			element.addElementAndCharacters(CoreQName.NAME, model.getName());
 			element.addElementAndCharacters(CoreQName.LOGICAL_NAME, model.getLogicalName());
 			element.addElementAndCharacters(CoreQName.DESCRIPTION, model.getDescription());
+			sctx.push(element);
 			if (model.getDeferrability() != null) {
 				getDirector().direct(model.getDeferrability(), sctx);
 			}
+			sctx.pop();
 			
 			JiemamyOutputElement keyColumnsElement = element.addElement(CoreQName.KEY_COLUMNS);
 			for (EntityRef<? extends ColumnModel> entityRef : model.getKeyColumns()) {

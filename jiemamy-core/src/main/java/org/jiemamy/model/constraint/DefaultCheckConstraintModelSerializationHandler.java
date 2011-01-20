@@ -45,7 +45,7 @@ import org.jiemamy.xml.CoreQName;
  */
 public class DefaultCheckConstraintModelSerializationHandler extends SerializationHandler<DefaultCheckConstraintModel> {
 	
-	private static Logger logger = LoggerFactory.getLogger(DefaultNotNullConstraintModelSerializationHandler.class);
+	private static Logger logger = LoggerFactory.getLogger(DefaultCheckConstraintModelSerializationHandler.class);
 	
 
 	/**
@@ -83,8 +83,10 @@ public class DefaultCheckConstraintModelSerializationHandler extends Serializati
 					} else if (childCursor.isQName(CoreQName.DESCRIPTION)) {
 						check.setDescription(childCursor.collectDescendantText(false));
 					} else if (childCursor.isQName(CoreQName.DEFERRABILITY)) {
-						String text = childCursor.collectDescendantText(false);
-						check.setDeferrability(DefaultDeferrabilityModel.valueOf(text));
+//						String text = childCursor.collectDescendantText(false);
+//						check.setDeferrability(DefaultDeferrabilityModel.valueOf(text));
+						DefaultDeferrabilityModel deferrabilityModel = getDirector().direct(ctx);
+						check.setDeferrability(deferrabilityModel);
 					} else if (childCursor.isQName(CoreQName.EXPRESSION)) {
 						check.setExpression(childCursor.collectDescendantText(false));
 					} else {
@@ -116,9 +118,11 @@ public class DefaultCheckConstraintModelSerializationHandler extends Serializati
 			element.addElementAndCharacters(CoreQName.NAME, model.getName());
 			element.addElementAndCharacters(CoreQName.LOGICAL_NAME, model.getLogicalName());
 			element.addElementAndCharacters(CoreQName.DESCRIPTION, model.getDescription());
+			sctx.push(element);
 			if (model.getDeferrability() != null) {
 				getDirector().direct(model.getDeferrability(), sctx);
 			}
+			sctx.pop();
 			element.addElementAndCharacters(CoreQName.EXPRESSION, model.getExpression());
 		} catch (XMLStreamException e) {
 			throw new SerializationException(e);

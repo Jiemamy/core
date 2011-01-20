@@ -36,6 +36,8 @@ import org.jiemamy.model.column.DefaultColumnModel;
 import org.jiemamy.model.column.DefaultColumnModelSerializationHandler;
 import org.jiemamy.model.constraint.DefaultCheckConstraintModel;
 import org.jiemamy.model.constraint.DefaultCheckConstraintModelSerializationHandler;
+import org.jiemamy.model.constraint.DefaultDeferrabilityModel;
+import org.jiemamy.model.constraint.DefaultDeferrabilityModelSerializationHandler;
 import org.jiemamy.model.constraint.DefaultForeignKeyConstraintModel;
 import org.jiemamy.model.constraint.DefaultForeignKeyConstraintModelSerializationHandler;
 import org.jiemamy.model.constraint.DefaultNotNullConstraintModel;
@@ -102,6 +104,8 @@ public class SerializationDirector {
 				new DefaultUniqueKeyConstraintModelSerializationHandler(this));
 		addHandler(DefaultCheckConstraintModel.class, CoreQName.CHECK,
 				new DefaultCheckConstraintModelSerializationHandler(this));
+		addHandler(DefaultDeferrabilityModel.class, CoreQName.DEFERRABILITY,
+				new DefaultDeferrabilityModelSerializationHandler(this));
 		// TODO ... 色々まだ追加するものがあるはず
 		
 		addHandler(DefaultDataSetModel.class, CoreQName.DATASET, new DefaultDataSetModelSerializationHandler(this));

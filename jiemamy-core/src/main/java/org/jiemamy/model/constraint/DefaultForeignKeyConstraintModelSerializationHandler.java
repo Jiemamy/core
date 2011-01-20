@@ -91,8 +91,10 @@ public final class DefaultForeignKeyConstraintModelSerializationHandler extends
 					} else if (childCursor.isQName(CoreQName.DESCRIPTION)) {
 						fkModel.setDescription(childCursor.collectDescendantText(false));
 					} else if (childCursor.isQName(CoreQName.DEFERRABILITY)) {
-						String text = childCursor.collectDescendantText(false);
-						fkModel.setDeferrability(DefaultDeferrabilityModel.valueOf(text));
+//						String text = childCursor.collectDescendantText(false);
+//						fkModel.setDeferrability(DefaultDeferrabilityModel.valueOf(text));
+						DefaultDeferrabilityModel deferrabilityModel = getDirector().direct(ctx);
+						fkModel.setDeferrability(deferrabilityModel);
 					} else if (childCursor.isQName(CoreQName.MATCH_TYPE)) {
 						String text = childCursor.collectDescendantText(false);
 						fkModel.setMatchType(MatchType.valueOf(text));
@@ -147,9 +149,11 @@ public final class DefaultForeignKeyConstraintModelSerializationHandler extends
 			element.addElementAndCharacters(CoreQName.NAME, model.getName());
 			element.addElementAndCharacters(CoreQName.LOGICAL_NAME, model.getLogicalName());
 			element.addElementAndCharacters(CoreQName.DESCRIPTION, model.getDescription());
+			sctx.push(element);
 			if (model.getDeferrability() != null) {
 				getDirector().direct(model.getDeferrability(), sctx);
 			}
+			sctx.pop();
 			element.addElementAndCharacters(CoreQName.MATCH_TYPE, model.getMatchType());
 			element.addElementAndCharacters(CoreQName.ON_DELETE, model.getOnDelete());
 			element.addElementAndCharacters(CoreQName.ON_UPDATE, model.getOnUpdate());
