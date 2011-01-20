@@ -40,10 +40,8 @@ import org.jiemamy.validator.Validator;
  * 
  * @version $Id$
  * @author daisuke
- * @deprecated テスト用のサンプルなので使わないこと
  */
-@Deprecated
-public class SampleDialect extends AbstractDialect {
+public final class GenericDialect extends AbstractDialect {
 	
 	private Map<TypeReference, TypeParameterSpec[]> allDataTypes = Maps.newLinkedHashMap();
 	
@@ -53,8 +51,8 @@ public class SampleDialect extends AbstractDialect {
 	/**
 	 * インスタンスを生成する。
 	 */
-	public SampleDialect() {
-		super("jdbc:dummy:foobar");
+	public GenericDialect() {
+		super("jdbc:");
 		allDataTypes.put(new DefaultTypeReference(DataTypeCategory.INTEGER), new TypeParameterSpec[] {
 			TypeParameterSpec.of(TypeParameterKey.SERIAL, Necessity.OPTIONAL),
 		});
@@ -76,7 +74,7 @@ public class SampleDialect extends AbstractDialect {
 	}
 	
 	public String getName() {
-		return "Sample Dialect";
+		return "Generic Dialect";
 	}
 	
 	public Collection<TypeParameterSpec> getTypeParameterSpecs(TypeReference reference) {
