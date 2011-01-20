@@ -26,6 +26,8 @@ import javax.xml.stream.XMLStreamException;
 import com.google.common.collect.Maps;
 
 import org.apache.commons.lang.Validate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.JiemamyContextSerializationHandler;
@@ -59,6 +61,8 @@ import org.jiemamy.xml.JiemamyQName;
  * @author daisuke
  */
 public class SerializationDirector {
+	
+	private static Logger logger = LoggerFactory.getLogger(SerializationDirector.class);
 	
 	final Map<String, SerializationHandler<?>> handlersS = Maps.newHashMap();
 	
@@ -132,6 +136,7 @@ public class SerializationDirector {
 			
 			// FIXME ケツ持ち処理start
 			if (handler == null) {
+				logger.error("can not found deserialization hander : " + qName);
 				handler = (SerializationHandler<T>) dummy;
 			}
 			// ケツ持ち処理end
@@ -149,6 +154,7 @@ public class SerializationDirector {
 		
 		// FIXME ケツ持ち処理start
 		if (handler == null) {
+			logger.error("can not found serialization handler : " + target.getClass().getName());
 			handler = (SerializationHandler<T>) dummy;
 		}
 		// ケツ持ち処理end
