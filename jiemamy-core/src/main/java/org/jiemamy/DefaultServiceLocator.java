@@ -37,7 +37,9 @@ public class DefaultServiceLocator implements ServiceLocator {
 	
 	public <T>T getService(Class<T> clazz, String fqcn) throws ClassNotFoundException {
 		Validate.notNull(clazz);
-		Validate.notNull(fqcn);
+		if (fqcn == null) {
+			throw new ClassNotFoundException("fqcn is null");
+		}
 		
 		Iterator<T> providers = ServiceRegistry.lookupProviders(clazz);
 		while (providers.hasNext()) {

@@ -33,8 +33,7 @@ public interface ServiceLocator {
 	 * @param clazz サービスクラスのインターフェイス
 	 * @param fqcn サービスクラスの完全修飾名
 	 * @return サービスインスタンス
-	 * @throws ClassNotFoundException サービスクラスが見つからない場合
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @throws ClassNotFoundException サービスクラスが見つからない場合または引数に{@code null}を与えた場合
 	 * @since 0.3
 	 */
 	<T>T getService(Class<T> clazz, String fqcn) throws ClassNotFoundException;
