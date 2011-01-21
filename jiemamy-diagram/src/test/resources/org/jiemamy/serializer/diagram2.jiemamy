@@ -152,7 +152,7 @@
             <columnRef ref="adfd440d-74f2-4042-bf9d-2f56e185a4cb"/>
           </keyColumns>
         </primaryKey>
-        <foreignKey id="668b2e95-4bf5-4fd9-b195-5f4590d5c565" class="org.jiemamy.model.constraint.DefaultForeignKeyConstraintModel">
+        <foreignKey id="d03b71e3-cb88-4f8e-a31b-774780a2d811" class="org.jiemamy.model.constraint.DefaultForeignKeyConstraintModel">
           <keyColumns>
             <columnRef ref="9f1b7134-24af-45c6-ae6b-5a0db1209f2b"/>
           </keyColumns>
@@ -170,7 +170,6 @@
     </table>
   </dbobjects>
   <dataSets/>
-  <sql:sqls xmlns:sql="http://jiemamy.org/xml/ns/sql"/>
   <diagram:diagrams xmlns:diagram="http://jiemamy.org/xml/ns/diagram">
     <diagram:diagram id="4026c70b-53f2-4ada-aebf-99a2b7d3a467" class="org.jiemamy.model.DefaultDiagramModel">
       <name>default</name>
@@ -187,11 +186,18 @@
         </diagram:node>
       </diagram:nodes>
       <diagram:connections>
-        <diagram:connection id="f89aaeac-88a5-4c38-bba7-584ef550ff20" class="org.jiemamy.model.DefaultConnectionModel">
-          <diagram:core ref="668b2e95-4bf5-4fd9-b195-5f4590d5c565"/>
-          <diagram:bendpoints/>
+        <diagram:connection id="345125d6-1160-4c5d-a20d-654d6f37e4eb" class="org.jiemamy.model.DefaultConnectionModel">
+          <diagram:core ref="d03b71e3-cb88-4f8e-a31b-774780a2d811"/>
+          <diagram:source ref="e68577a0-7ce9-4fb1-8411-af5b0dda5a52"/>
+          <diagram:target ref="52b1a1e8-737d-4df2-bc67-22aa8b74f562"/>
+          <diagram:bendpoints>
+            <diagram:bendpoint x="300" y="105"/>
+            <diagram:bendpoint x="306" y="197"/>
+            <diagram:bendpoint x="251" y="76"/>
+          </diagram:bendpoints>
         </diagram:connection>
       </diagram:connections>
     </diagram:diagram>
   </diagram:diagrams>
+  <sql:sqls xmlns:sql="http://jiemamy.org/xml/ns/sql"/>
 </jiemamy>

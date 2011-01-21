@@ -49,6 +49,7 @@ import org.slf4j.LoggerFactory;
 import org.jiemamy.DiagramFacet;
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.JiemamyContextDiagramTest;
+import org.jiemamy.model.ConnectionModel;
 import org.jiemamy.model.DatabaseObjectNodeModel;
 import org.jiemamy.model.DefaultDatabaseObjectNodeModel;
 import org.jiemamy.model.DefaultDiagramModel;
@@ -155,13 +156,14 @@ public class JiemamyStaxSerializerDiagramTest {
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	@Ignore("connectionのdeserializeができていない")
+	@Ignore("bendpointのdeserializeが未実装")
 	public void test12_デシリアライズ結果を確認() throws Exception {
 		UUID diagramId = UUID.fromString("4026c70b-53f2-4ada-aebf-99a2b7d3a467");
 		UUID deptTableId = UUID.fromString("733dc4cf-c845-4d7a-bb96-c96e2fb1bf06");
 		UUID empTableId = UUID.fromString("1199b4f1-66cc-4e80-9d86-a00139439caf");
 		UUID deptNodeId = UUID.fromString("e68577a0-7ce9-4fb1-8411-af5b0dda5a52");
 		UUID empNodeId = UUID.fromString("52b1a1e8-737d-4df2-bc67-22aa8b74f562");
+		UUID connectionId = UUID.fromString("345125d6-1160-4c5d-a20d-654d6f37e4eb");
 		
 		String xml = getXml("diagram2.jiemamy");
 		ByteArrayInputStream bais = new ByteArrayInputStream(xml.getBytes(CharEncoding.UTF_8));
@@ -189,8 +191,11 @@ public class JiemamyStaxSerializerDiagramTest {
 				fail();
 			}
 		}
-		// TODO yamkazu
 		assertThat(diagramModel.getConnections().size(), is(1));
+		ConnectionModel connectionModel = Iterables.get(diagramModel.getConnections(), 0);
+		assertThat(connectionModel.getId(), is(connectionId));
+		// TODO yamkazu
+		assertThat(connectionModel.getBendpoints().size(), is(3));
 	}
 	
 	/**

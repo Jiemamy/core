@@ -18,18 +18,29 @@
  */
 package org.jiemamy.model;
 
+import java.util.UUID;
+
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.commons.lang.Validate;
+import org.codehaus.staxmate.in.SMEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import org.jiemamy.dddbase.DefaultEntityRef;
+import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.model.constraint.ForeignKeyConstraintModel;
+import org.jiemamy.model.geometory.JmColor;
 import org.jiemamy.model.geometory.JmPoint;
 import org.jiemamy.serializer.SerializationException;
 import org.jiemamy.serializer.stax2.DeserializationContext;
+import org.jiemamy.serializer.stax2.JiemamyCursor;
 import org.jiemamy.serializer.stax2.JiemamyOutputContainer;
 import org.jiemamy.serializer.stax2.JiemamyOutputElement;
 import org.jiemamy.serializer.stax2.SerializationContext;
 import org.jiemamy.serializer.stax2.SerializationDirector;
 import org.jiemamy.serializer.stax2.SerializationHandler;
+import org.jiemamy.utils.UUIDUtil;
 import org.jiemamy.xml.CoreQName;
 import org.jiemamy.xml.DiagramQName;
 
@@ -41,6 +52,9 @@ import org.jiemamy.xml.DiagramQName;
  */
 public final class DefaultConnectionModelSerializationHandler extends SerializationHandler<DefaultConnectionModel> {
 	
+	private static Logger logger = LoggerFactory.getLogger(DefaultConnectionModelSerializationHandler.class);
+	
+
 	/**
 	 * インスタンスを生成する。
 	 * 
@@ -54,8 +68,54 @@ public final class DefaultConnectionModelSerializationHandler extends Serializat
 	@Override
 	public DefaultConnectionModel handleDeserialization(DeserializationContext ctx) throws SerializationException {
 		Validate.notNull(ctx);
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			Validate.isTrue(ctx.peek().getCurrEvent() == SMEvent.START_ELEMENT);
+			Validate.isTrue(ctx.peek().isQName(DiagramQName.CONNECTION));
+			
+			JiemamyCursor cursor = ctx.peek();
+			
+			String idString = cursor.getAttrValue(CoreQName.ID);
+			UUID id = ctx.getContext().toUUID(idString);
+			DefaultConnectionModel connectionModel = null;
+			
+			JiemamyCursor childCursor = cursor.childElementCursor();
+			ctx.push(childCursor);
+			do {
+				childCursor.advance();
+				if (childCursor.getCurrEvent() == SMEvent.START_ELEMENT) {
+					if (childCursor.isQName(DiagramQName.CORE)) {
+						String coreIdString = childCursor.getAttrValue(CoreQName.REF);
+						UUID coreId = UUIDUtil.valueOfOrRandom(coreIdString);
+						EntityRef<? extends ForeignKeyConstraintModel> core = DefaultEntityRef.of(coreId);
+						connectionModel = new DefaultConnectionModel(id, core);
+					} else if (childCursor.isQName(DiagramQName.SOURCE)) {
+						String sourceIdString = childCursor.getAttrValue(CoreQName.REF);
+						UUID sourceId = UUIDUtil.valueOfOrRandom(sourceIdString);
+						EntityRef<? extends NodeModel> source = DefaultEntityRef.of(sourceId);
+						connectionModel.setSource(source);
+					} else if (childCursor.isQName(DiagramQName.TARGET)) {
+						String targetIdString = childCursor.getAttrValue(CoreQName.REF);
+						UUID targetId = UUIDUtil.valueOfOrRandom(targetIdString);
+						EntityRef<? extends NodeModel> target = DefaultEntityRef.of(targetId);
+						connectionModel.setTarget(target);
+					} else if (childCursor.isQName(DiagramQName.BENDPOINTS)) {
+						// TODO add bendpoints
+					} else if (childCursor.isQName(DiagramQName.COLOR)) {
+						JmColor color = getDirector().direct(ctx);
+						connectionModel.setColor(color);
+					} else {
+						logger.warn("UNKNOWN ELEMENT: {}", childCursor.getQName().toString());
+					}
+				} else if (childCursor.getCurrEvent() != null) {
+					logger.warn("UNKNOWN EVENT: {}", childCursor.getCurrEvent());
+				}
+			} while (childCursor.getCurrEvent() != null);
+			ctx.pop();
+			
+			return connectionModel;
+		} catch (XMLStreamException e) {
+			throw new SerializationException(e);
+		}
 	}
 	
 	@Override
@@ -72,6 +132,9 @@ public final class DefaultConnectionModelSerializationHandler extends Serializat
 			
 			connElement.addElement(DiagramQName.CORE).addAttribute(CoreQName.REF,
 					model.getCoreModelRef().getReferentId());
+			
+			connElement.addElement(DiagramQName.SOURCE).addAttribute(CoreQName.REF, model.getSource().getReferentId());
+			connElement.addElement(DiagramQName.TARGET).addAttribute(CoreQName.REF, model.getTarget().getReferentId());
 			
 			if (model.getColor() != null) {
 				getDirector().direct(model.getColor(), sctx);

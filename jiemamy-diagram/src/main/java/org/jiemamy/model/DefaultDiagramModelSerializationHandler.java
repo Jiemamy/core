@@ -106,7 +106,7 @@ public final class DefaultDiagramModelSerializationHandler extends Serialization
 						JiemamyCursor connectionsCursor = childCursor.childElementCursor();
 						while (connectionsCursor.getNext() != null) {
 							ctx.push(connectionsCursor);
-							ConnectionModel connectionModel = getDirector().direct(ctx);
+							DefaultConnectionModel connectionModel = getDirector().direct(ctx);
 							if (connectionModel != null) {
 								diagramModel.store(connectionModel);
 							} else {
