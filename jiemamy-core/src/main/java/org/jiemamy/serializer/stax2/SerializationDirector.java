@@ -106,10 +106,8 @@ public class SerializationDirector {
 				new DefaultCheckConstraintModelSerializationHandler(this));
 		addHandler(DefaultDeferrabilityModel.class, CoreQName.DEFERRABILITY,
 				new DefaultDeferrabilityModelSerializationHandler(this));
-		// TODO ... 色々まだ追加するものがあるはず
 		
 		addHandler(DefaultDataSetModel.class, CoreQName.DATASET, new DefaultDataSetModelSerializationHandler(this));
-//		addHandler(DefaultRecordModel.class, CoreQName.RECORD, new DefaultRecordModelSerializationHandler(this));
 		addHandler(DefaultRecordModel.class, CoreQName.RECORDS, new DefaultRecordModelSerializationHandler(this));
 		
 		for (JiemamyFacet jiemamyFacet : context.getFacets()) {
