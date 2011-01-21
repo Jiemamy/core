@@ -89,10 +89,13 @@ public final class DefaultDiagramModel extends AbstractEntity implements Diagram
 	 * {@link NodeModel}を削除する。
 	 * 
 	 * @param reference 削除する{@link NodeModel}への参照
+	 * @throws ModelConsistencyException ノードに関連付くコネクションがある場合
 	 * @throws EntityNotFoundException このダイアグラムが指定したノードを管理していない場合
 	 */
 	public void deleteNode(EntityRef<? extends NodeModel> reference) {
-		// TODO 関連するノードの削除
+		if (getSourceConnectionsFor(reference).size() > 0 || getTargetConnections(reference).size() > 0) {
+			throw new ModelConsistencyException();
+		}
 		nodes.delete(reference);
 	}
 	
