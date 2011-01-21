@@ -26,6 +26,7 @@ import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.MessageFormat;
@@ -33,6 +34,7 @@ import java.util.UUID;
 
 import com.google.common.collect.Iterables;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.CharEncoding;
 import org.custommonkey.xmlunit.DetailedDiff;
@@ -191,8 +193,8 @@ public class JiemamyStaxSerializerTest {
 		
 		String expected = getXml("core4.jiemamy");
 		
-		logger.info("actual  ={}", actual.replaceAll("[\n\r]", ""));
-		logger.info("expected={}", expected.replaceAll("[\n\r]", ""));
+//		logger.info("actual  ={}", actual.replaceAll("[\n\r]", ""));
+//		logger.info("expected={}", expected.replaceAll("[\n\r]", ""));
 		
 		DetailedDiff diff = new DetailedDiff(new Diff(actual, expected));
 		assertThat(diff.getAllDifferences().toString(), diff.similar(), is(true));
@@ -364,15 +366,17 @@ public class JiemamyStaxSerializerTest {
 	 */
 	@Test
 	public void test99_適当なモデルを一杯作ってみて_それぞれのシリアライズやデシリアライズが異常終了しないことを確認() throws Exception {
+		File dir = new File("target/test99");
+		FileUtils.deleteDirectory(dir);
 		for (int i = 0; i < 100; i++) {
-//			File file1 = new File("target/file1.txt");
-//			if (file1.exists()) {
-//				file1.delete();
-//			}
-//			File file2 = new File("target/file2.txt");
-//			if (file2.exists()) {
-//				file2.delete();
-//			}
+			File file1 = new File(dir, String.format("file%03d-1.txt", i));
+			if (file1.exists()) {
+				file1.delete();
+			}
+			File file2 = new File(dir, String.format("file%03d-2.txt", i));
+			if (file2.exists()) {
+				file2.delete();
+			}
 			
 			// 適当なモデルを生成
 			JiemamyContext original = JiemamyContextTest.random();
@@ -381,10 +385,8 @@ public class JiemamyStaxSerializerTest {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			serializer.serialize(original, baos);
 			String first = baos.toString(CharEncoding.UTF_8);
-			logger.info("1 = {}", first);
-//			FileWriter writer1 = new FileWriter(file1);
-//			writer1.write(first);
-//			writer1.close();
+//			logger.info("1 = {}", first);
+			FileUtils.write(file1, first);
 			
 			// そのXMLをデシリアライズしてみる
 			ByteArrayInputStream bais = new ByteArrayInputStream(first.getBytes());
@@ -395,10 +397,8 @@ public class JiemamyStaxSerializerTest {
 			ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
 			serializer.serialize(deserialized, baos2);
 			String second = baos2.toString(CharEncoding.UTF_8);
-			logger.info("2 = {}", second);
-//			FileWriter writer2 = new FileWriter(file2);
-//			writer2.write(second);
-//			writer2.close();
+//			logger.info("2 = {}", second);
+			FileUtils.write(file2, second);
 			
 			// 何度やってもXMLは全く同じモノになるハズだ
 			DetailedDiff diff = new DetailedDiff(new Diff(first, second));
