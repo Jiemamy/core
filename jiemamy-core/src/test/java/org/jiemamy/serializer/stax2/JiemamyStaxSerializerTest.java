@@ -369,6 +369,7 @@ public class JiemamyStaxSerializerTest {
 		File dir = new File("target/test99");
 		FileUtils.deleteDirectory(dir);
 		for (int i = 0; i < 100; i++) {
+			logger.info("test99 - " + i);
 			File file1 = new File(dir, String.format("file%03d-1.txt", i));
 			if (file1.exists()) {
 				file1.delete();

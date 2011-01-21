@@ -23,6 +23,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -52,12 +53,13 @@ import org.jiemamy.model.DatabaseObjectNodeModel;
 import org.jiemamy.model.DefaultDatabaseObjectNodeModel;
 import org.jiemamy.model.DefaultDiagramModel;
 import org.jiemamy.model.DiagramModel;
+import org.jiemamy.model.NodeModel;
 import org.jiemamy.model.geometory.JmRectangle;
 import org.jiemamy.model.table.DefaultTableModel;
 import org.jiemamy.model.table.TableModel;
 
 /**
- * {@link JiemamyStaxSerializer}のテスト：Diagram版。
+ * {@link JiemamyStaxSerializer}のテスト：jiemamy-diagram版。
  * 
  * @version $Id$
  * @author daisuke
@@ -148,16 +150,60 @@ public class JiemamyStaxSerializerDiagramTest {
 	}
 	
 	/**
+	 * デシリアライズ結果を確認。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	@Ignore("connectionのdeserializeができていない")
+	public void test12_デシリアライズ結果を確認() throws Exception {
+		UUID diagramId = UUID.fromString("4026c70b-53f2-4ada-aebf-99a2b7d3a467");
+		UUID deptTableId = UUID.fromString("733dc4cf-c845-4d7a-bb96-c96e2fb1bf06");
+		UUID empTableId = UUID.fromString("1199b4f1-66cc-4e80-9d86-a00139439caf");
+		UUID deptNodeId = UUID.fromString("e68577a0-7ce9-4fb1-8411-af5b0dda5a52");
+		UUID empNodeId = UUID.fromString("52b1a1e8-737d-4df2-bc67-22aa8b74f562");
+		
+		String xml = getXml("diagram2.jiemamy");
+		ByteArrayInputStream bais = new ByteArrayInputStream(xml.getBytes(CharEncoding.UTF_8));
+		JiemamyContext deserialized = serializer.deserialize(bais, DiagramFacet.PROVIDER);
+		
+		assertThat(deserialized, is(notNullValue()));
+		assertThat(deserialized.getTables().size(), is(2));
+		assertThat(deserialized.getDataSets().size(), is(0));
+//		TableModel tableModel = Iterables.get(deserialized.getTables(), 0);
+//		assertThat(tableModel.getId(), is(tableId));
+		
+		DiagramFacet facet = deserialized.getFacet(DiagramFacet.class);
+		assertThat(facet.getDiagrams().size(), is(1));
+		DiagramModel diagramModel = facet.getDiagrams().get(0);
+		assertThat(diagramModel.getId(), is(diagramId));
+		assertThat(diagramModel.getNodes().size(), is(2));
+		for (NodeModel nodeModel : diagramModel.getNodes()) {
+			if (nodeModel.getId().equals(deptNodeId)) {
+				DatabaseObjectNodeModel odnm = (DatabaseObjectNodeModel) nodeModel; // node for DEPT
+				assertThat(odnm.getCoreModelRef().getReferentId(), is(deptTableId));
+			} else if (nodeModel.getId().equals(empNodeId)) {
+				DatabaseObjectNodeModel odnm = (DatabaseObjectNodeModel) nodeModel; // node for EMP
+				assertThat(odnm.getCoreModelRef().getReferentId(), is(empTableId));
+			} else {
+				fail();
+			}
+		}
+		// TODO yamkazu
+		assertThat(diagramModel.getConnections().size(), is(1));
+	}
+	
+	/**
 	 * 適当なモデルを一杯作ってみて、それぞれのシリアライズやデシリアライズが異常終了しないことを確認。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	@Ignore("実装が不完全なので通らない - マダマダァ！")
 	public void test99_適当なモデルを一杯作ってみて_それぞれのシリアライズやデシリアライズが異常終了しないことを確認() throws Exception {
 		File dir = new File("target/test99");
 		FileUtils.deleteDirectory(dir);
 		for (int i = 0; i < 100; i++) {
+			logger.info("test99 - " + i);
 			File file1 = new File(dir, String.format("file%03d-1.txt", i));
 			if (file1.exists()) {
 				file1.delete();

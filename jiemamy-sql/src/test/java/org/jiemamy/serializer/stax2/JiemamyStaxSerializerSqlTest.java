@@ -53,16 +53,16 @@ import org.jiemamy.model.table.DefaultTableModel;
 import org.jiemamy.model.table.TableModel;
 
 /**
- * {@link JiemamyStaxSerializer}のテスト：Diagram版。
+ * {@link JiemamyStaxSerializer}のテスト：jiemamy-sql版。
  * 
  * @version $Id$
  * @author daisuke
  */
-public class JiemamyStaxSerializerDiagramTest {
+public class JiemamyStaxSerializerSqlTest {
 	
 	private JiemamyStaxSerializer serializer;
 	
-	private static Logger logger = LoggerFactory.getLogger(JiemamyStaxSerializerDiagramTest.class);
+	private static Logger logger = LoggerFactory.getLogger(JiemamyStaxSerializerSqlTest.class);
 	
 
 	/**
@@ -141,11 +141,11 @@ public class JiemamyStaxSerializerDiagramTest {
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	@Ignore("実装が不完全なので通らない - マダマダァ！")
 	public void test99_適当なモデルを一杯作ってみて_それぞれのシリアライズやデシリアライズが異常終了しないことを確認() throws Exception {
 		File dir = new File("target/test99");
 		FileUtils.deleteDirectory(dir);
 		for (int i = 0; i < 100; i++) {
+			logger.info("test99 - " + i);
 			File file1 = new File(dir, String.format("file%03d-1.txt", i));
 			if (file1.exists()) {
 				file1.delete();
