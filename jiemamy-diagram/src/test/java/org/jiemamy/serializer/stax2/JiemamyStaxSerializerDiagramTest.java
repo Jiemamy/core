@@ -28,6 +28,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.MessageFormat;
 import java.util.UUID;
 
 import com.google.common.collect.Iterables;
@@ -173,13 +174,15 @@ public class JiemamyStaxSerializerDiagramTest {
 			String second = baos2.toString(CharEncoding.UTF_8);
 			logger.info("2 = {}", second);
 			
-			// (1)と(2)をログに出してみる（比較用の1行ログ）
-			logger.info("1 = {}", first.replaceAll("[\r\n]", ""));
-			logger.info("2 = {}", second.replaceAll("[\r\n]", ""));
-			
 			// 何度やってもXMLは全く同じモノになるハズだ
 			DetailedDiff diff = new DetailedDiff(new Diff(first, second));
-			assertThat(diff.getAllDifferences().toString(), diff.similar(), is(true));
+			// FORMAT-OFF
+			String failLog = MessageFormat.format("\n1 = {0}\n2 = {1}\ndiff = {2}",
+					first.replaceAll("[\r\n]", ""),
+					second.replaceAll("[\r\n]", ""),
+					diff.getAllDifferences().toString());
+			// FORMAT-ON
+			assertThat(failLog, diff.similar(), is(true));
 		}
 	}
 	
