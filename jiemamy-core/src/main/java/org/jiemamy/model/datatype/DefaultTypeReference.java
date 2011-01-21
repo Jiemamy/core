@@ -50,6 +50,11 @@ public final class DefaultTypeReference implements TypeReference {
 		public boolean matches(String typeName) {
 			return false;
 		}
+		
+		@Override
+		public String toString() {
+			return "UNKNOWN";
+		}
 	};
 	
 	private String typeName;
@@ -133,6 +138,6 @@ public final class DefaultTypeReference implements TypeReference {
 	
 	@Override
 	public String toString() {
-		return typeName;
+		return typeName + "(" + category + ")";
 	}
 }

@@ -20,6 +20,7 @@ package org.jiemamy.dialect;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import com.google.common.base.Function;
@@ -78,12 +79,15 @@ public abstract class AbstractDialect implements Dialect {
 	
 	public Collection<TypeParameterSpec> getTypeParameterSpecs(TypeReference reference) {
 		TypeReference normalized = normalize(reference);
+		if (normalized.getCategory() == DataTypeCategory.UNKNOWN) {
+			return Collections.emptyList();
+		}
 		for (Entry typeEntry : typeEntries) {
 			if (typeEntry.descriptor.equals(normalized)) {
 				return Lists.newArrayList(typeEntry.typeParameterSpecs);
 			}
 		}
-		throw new Error();
+		throw new Error(reference.toString());
 	}
 	
 	public Validator getValidator() {
@@ -101,7 +105,8 @@ public abstract class AbstractDialect implements Dialect {
 	
 	public final TypeReference normalize(TypeReference in) {
 		TypeReference result = normalize0(in);
-		assert getAllTypeReferences().contains(result);
+		assert result.getCategory() == DataTypeCategory.UNKNOWN || getAllTypeReferences().contains(result) : result
+			.toString();
 		return result;
 	}
 	
