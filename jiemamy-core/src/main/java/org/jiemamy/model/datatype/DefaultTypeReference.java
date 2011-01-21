@@ -18,6 +18,11 @@
  */
 package org.jiemamy.model.datatype;
 
+import java.util.Collection;
+import java.util.Collections;
+
+import com.google.common.collect.Lists;
+
 import org.apache.commons.lang.Validate;
 
 /**
@@ -27,6 +32,25 @@ import org.apache.commons.lang.Validate;
  * @author daisuke
  */
 public final class DefaultTypeReference implements TypeReference {
+	
+	public static final TypeReference UNKNOWN = new TypeReference() {
+		
+		public Collection<String> getAliasTypeNames() {
+			return Collections.emptyList();
+		}
+		
+		public DataTypeCategory getCategory() {
+			return DataTypeCategory.UNKNOWN;
+		}
+		
+		public String getTypeName() {
+			return "UNKNOWN";
+		}
+		
+		public boolean matches(String typeName) {
+			return false;
+		}
+	};
 	
 	private String typeName;
 	
@@ -55,6 +79,7 @@ public final class DefaultTypeReference implements TypeReference {
 	public DefaultTypeReference(DataTypeCategory category, String typeName, String... aliasTypeNames) {
 		Validate.notNull(category);
 		Validate.notNull(typeName);
+		Validate.noNullElements(aliasTypeNames);
 		this.category = category;
 		this.typeName = typeName;
 		this.aliasTypeNames = aliasTypeNames;
@@ -81,6 +106,10 @@ public final class DefaultTypeReference implements TypeReference {
 		return true;
 	}
 	
+	public Collection<String> getAliasTypeNames() {
+		return Lists.newArrayList(aliasTypeNames);
+	}
+	
 	public DataTypeCategory getCategory() {
 		return category;
 	}
@@ -98,9 +127,12 @@ public final class DefaultTypeReference implements TypeReference {
 		return result;
 	}
 	
+	public boolean matches(String typeName) {
+		return this.typeName.equals(typeName) || getAliasTypeNames().contains(typeName);
+	}
+	
 	@Override
 	public String toString() {
 		return typeName;
 	}
-	
 }

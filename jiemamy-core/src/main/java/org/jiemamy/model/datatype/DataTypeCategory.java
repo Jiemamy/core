@@ -82,7 +82,10 @@ public enum DataTypeCategory {
 	INTERVAL(Types.OTHER, LiteralType.INTERVAL),
 
 	/** その他型 */
-	OTHER(Types.OTHER, LiteralType.CHARACTER);
+	OTHER(Types.OTHER, LiteralType.CHARACTER),
+
+	/***/
+	UNKNOWN(Types.OTHER, LiteralType.NULL);
 	
 	/**
 	 * {@link Types}の値から、カテゴリを取得する。

@@ -18,6 +18,8 @@
  */
 package org.jiemamy.model.datatype;
 
+import java.util.Collection;
+
 import org.jiemamy.dddbase.ValueObject;
 
 /**
@@ -27,6 +29,8 @@ import org.jiemamy.dddbase.ValueObject;
  * @author daisuke
  */
 public interface TypeReference extends ValueObject {
+	
+	Collection<String> getAliasTypeNames();
 	
 	/**
 	 * 型カテゴリを取得する。
@@ -41,4 +45,12 @@ public interface TypeReference extends ValueObject {
 	 * @return 型名の文字列
 	 */
 	String getTypeName();
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param typeName
+	 * @return
+	 */
+	boolean matches(String typeName);
 }

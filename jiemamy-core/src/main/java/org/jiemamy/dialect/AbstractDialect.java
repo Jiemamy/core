@@ -18,8 +18,19 @@
  */
 package org.jiemamy.dialect;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import com.google.common.base.Function;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+
 import org.apache.commons.lang.Validate;
 
+import org.jiemamy.model.datatype.DataTypeCategory;
+import org.jiemamy.model.datatype.DefaultTypeReference;
+import org.jiemamy.model.datatype.TypeReference;
 import org.jiemamy.validator.AllValidator;
 import org.jiemamy.validator.Validator;
 
@@ -33,22 +44,132 @@ public abstract class AbstractDialect implements Dialect {
 	
 	private final String connectionUriTemplate;
 	
+	protected final List<Entry> typeEntries;
+	
 
 	/**
 	 * インスタンスを生成する。
 	 * 
 	 * @param connectionUriTemplate
 	 */
-	public AbstractDialect(String connectionUriTemplate) {
+	public AbstractDialect(String connectionUriTemplate, List<Entry> typeEntries) {
 		Validate.notNull(connectionUriTemplate);
+		Validate.noNullElements(typeEntries);
 		this.connectionUriTemplate = connectionUriTemplate;
+		this.typeEntries = ImmutableList.copyOf(typeEntries);
+	}
+	
+	public List<TypeReference> getAllTypeReferences() {
+		return Lists.transform(typeEntries, new Function<Entry, TypeReference>() {
+			
+			public TypeReference apply(Entry from) {
+				return from.descriptor;
+			}
+		});
 	}
 	
 	public String getConnectionUriTemplate() {
 		return connectionUriTemplate;
 	}
 	
+	public List<Entry> getTypeEntries() {
+		return Lists.newArrayList(typeEntries);
+	}
+	
+	public Collection<TypeParameterSpec> getTypeParameterSpecs(TypeReference reference) {
+		TypeReference normalized = normalize(reference);
+		for (Entry typeEntry : typeEntries) {
+			if (typeEntry.descriptor.equals(normalized)) {
+				return Lists.newArrayList(typeEntry.typeParameterSpecs);
+			}
+		}
+		throw new Error();
+	}
+	
 	public Validator getValidator() {
 		return new AllValidator();
+	}
+	
+	public final TypeReference normalize(String typeName) {
+		for (Entry typeEntry : typeEntries) {
+			if (typeEntry.descriptor.matches(typeName)) {
+				return typeEntry.descriptor;
+			}
+		}
+		return DefaultTypeReference.UNKNOWN;
+	}
+	
+	public final TypeReference normalize(TypeReference in) {
+		TypeReference result = normalize0(in);
+		assert getAllTypeReferences().contains(result);
+		return result;
+	}
+	
+	public String toString(TypeReference typeReference) {
+		return normalize(typeReference).getTypeName();
+	}
+	
+	protected TypeReference normalize0(TypeReference in) {
+		for (Entry typeEntry : typeEntries) {
+			if (typeEntry.getDescriptor().equals(in)) {
+				return in;
+			}
+		}
+		if (in.getCategory() != DataTypeCategory.UNKNOWN) {
+			for (Entry typeEntry : typeEntries) {
+				if (typeEntry.getDescriptor().getCategory().equals(in.getCategory())) {
+					return typeEntry.getDescriptor();
+				}
+			}
+		}
+		return DefaultTypeReference.UNKNOWN;
+	}
+	
+
+	public static class Entry {
+		
+		private final TypeReference descriptor;
+		
+		private final Collection<TypeParameterSpec> typeParameterSpecs;
+		
+
+		/**
+		 * インスタンスを生成する。
+		 * 
+		 * @param descriptor
+		 */
+		public Entry(TypeReference descriptor) {
+			this(descriptor, new ArrayList<TypeParameterSpec>());
+		}
+		
+		/**
+		 * インスタンスを生成する。
+		 * 
+		 * @param descriptor
+		 * @param typeParameterSpecs
+		 */
+		public Entry(TypeReference descriptor, Collection<TypeParameterSpec> typeParameterSpecs) {
+			Validate.notNull(descriptor);
+			Validate.notNull(typeParameterSpecs);
+			this.descriptor = descriptor;
+			this.typeParameterSpecs = Lists.newArrayList(typeParameterSpecs);
+		}
+		
+		/**
+		 * somethingを取得する。 TODO for daisuke
+		 * @return the descriptor
+		 */
+		public TypeReference getDescriptor() {
+			return descriptor;
+		}
+		
+		/**
+		 * somethingを取得する。 TODO for daisuke
+		 * @return the typeParameterSpecs
+		 */
+		public Collection<TypeParameterSpec> getTypeParameterSpecs() {
+			return typeParameterSpecs;
+		}
+		
 	}
 }

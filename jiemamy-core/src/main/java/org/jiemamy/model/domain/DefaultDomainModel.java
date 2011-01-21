@@ -19,6 +19,7 @@
 package org.jiemamy.model.domain;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.UUID;
 
 import com.google.common.collect.Lists;
@@ -176,6 +177,10 @@ public final class DefaultDomainModel extends DefaultDatabaseObjectModel impleme
 			super(DefaultDomainModel.this);
 		}
 		
+		public Collection<String> getAliasTypeNames() {
+			return Collections.emptyList();
+		}
+		
 		public DataTypeCategory getCategory() {
 			return dataType.getTypeReference().getCategory();
 		}
@@ -194,6 +199,10 @@ public final class DefaultDomainModel extends DefaultDatabaseObjectModel impleme
 		
 		public TypeReference getTypeReference() {
 			return dataType.getTypeReference();
+		}
+		
+		public boolean matches(String typeName) {
+			return false;
 		}
 	}
 }

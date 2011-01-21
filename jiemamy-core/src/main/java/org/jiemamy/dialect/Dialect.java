@@ -53,7 +53,7 @@ public interface Dialect {
 	 */
 	String getConnectionUriTemplate();
 	
-//	/**
+	//	/**
 //	 * モデリング用DataType・一般型・型名間のマッピング情報を取得する。
 //	 * 
 //	 * @return マッピング情報
@@ -70,15 +70,15 @@ public interface Dialect {
 	String getName();
 	
 	/**
-	 * 指定した{@link TypeReference}に対する {@link TypeParameterSpec}の集合を取得する。
-	 * 
-	 * <p>例えば、VARCHARに対して、どんなパラメータ仕様がありますか？ → SIZE が REQUIRED です<br/>
-	 * のような感じ。</p>
-	 * 
-	 * @param reference {@link TypeReference}
-	 * @return {@link TypeReference}に対する {@link TypeParameterSpec}の集合
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 */
+		 * 指定した{@link TypeReference}に対する {@link TypeParameterSpec}の集合を取得する。
+		 * 
+		 * <p>例えば、VARCHARに対して、どんなパラメータ仕様がありますか？ → SIZE が REQUIRED です<br/>
+		 * のような感じ。</p>
+		 * 
+		 * @param reference {@link TypeReference}
+		 * @return {@link TypeReference}に対する {@link TypeParameterSpec}の集合
+		 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+		 */
 	Collection<TypeParameterSpec> getTypeParameterSpecs(TypeReference reference);
 	
 	/**
@@ -89,6 +89,17 @@ public interface Dialect {
 	 */
 	Validator getValidator();
 	
+	TypeReference normalize(TypeReference in);
+	
+	/**
+	 * SQL方言IDを返す。
+	 * 
+	 * @return SQL方言ID
+	 * @since 0.2
+	 */
+	String toString();
+	
+	String toString(TypeReference typeReference);
 //	/**
 //	 * エンティティ情報から{@link EntityModel}を生成する。
 //	 * 
@@ -115,12 +126,4 @@ public interface Dialect {
 //	 * @since 0.2
 //	 */
 //	JiemamyContext parseStatements(List<SqlStatement> statements);
-	
-	/**
-	 * SQL方言IDを返す。
-	 * 
-	 * @return SQL方言ID
-	 * @since 0.2
-	 */
-	String toString();
 }

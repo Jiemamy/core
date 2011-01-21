@@ -18,21 +18,16 @@
  */
 package org.jiemamy.dialect;
 
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-
-import org.apache.commons.lang.Validate;
 
 import org.jiemamy.dialect.TypeParameterSpec.Necessity;
 import org.jiemamy.model.datatype.DataTypeCategory;
 import org.jiemamy.model.datatype.DefaultTypeReference;
 import org.jiemamy.model.datatype.TypeParameterKey;
-import org.jiemamy.model.datatype.TypeReference;
-import org.jiemamy.validator.CompositeValidator;
+import org.jiemamy.validator.AllValidator;
 import org.jiemamy.validator.Validator;
 
 /**
@@ -43,43 +38,39 @@ import org.jiemamy.validator.Validator;
  */
 public final class GenericDialect extends AbstractDialect {
 	
-	private Map<TypeReference, TypeParameterSpec[]> allDataTypes = Maps.newLinkedHashMap();
+	private static List<Entry> typeEntries = Lists.newArrayList();
 	
-	private Validator validator = new CompositeValidator();
+	static {
+		// FORMAT-OFF
+		typeEntries.add(new Entry(new DefaultTypeReference(DataTypeCategory.INTEGER), Arrays.asList(
+				TypeParameterSpec.of(TypeParameterKey.SERIAL, Necessity.OPTIONAL)
+		)));
+		typeEntries.add(new Entry(new DefaultTypeReference(DataTypeCategory.DECIMAL), Arrays.asList(
+				TypeParameterSpec.of(TypeParameterKey.PRECISION, Necessity.REQUIRED),
+				TypeParameterSpec.of(TypeParameterKey.SCALE, Necessity.REQUIRED)
+		)));
+		typeEntries.add(new Entry(new DefaultTypeReference(DataTypeCategory.BOOLEAN)));
+		typeEntries.add(new Entry(new DefaultTypeReference(DataTypeCategory.VARCHAR), Arrays.asList(
+				TypeParameterSpec.of(TypeParameterKey.SIZE, Necessity.OPTIONAL)
+		)));
+		typeEntries.add(new Entry(new DefaultTypeReference(DataTypeCategory.TIMESTAMP), Arrays.asList(
+				TypeParameterSpec.of(TypeParameterKey.WITH_TIMEZONE, Necessity.OPTIONAL)
+		)));
+		// FORMAT-ON
+	}
+	
+	private Validator validator = new AllValidator();
 	
 
 	/**
 	 * インスタンスを生成する。
 	 */
 	public GenericDialect() {
-		super("jdbc:");
-		allDataTypes.put(new DefaultTypeReference(DataTypeCategory.INTEGER), new TypeParameterSpec[] {
-			TypeParameterSpec.of(TypeParameterKey.SERIAL, Necessity.OPTIONAL),
-		});
-		allDataTypes.put(new DefaultTypeReference(DataTypeCategory.DECIMAL), new TypeParameterSpec[] {
-			TypeParameterSpec.of(TypeParameterKey.PRECISION, Necessity.REQUIRED),
-			TypeParameterSpec.of(TypeParameterKey.SCALE, Necessity.REQUIRED)
-		});
-		allDataTypes.put(new DefaultTypeReference(DataTypeCategory.BOOLEAN), new TypeParameterSpec[0]);
-		allDataTypes.put(new DefaultTypeReference(DataTypeCategory.VARCHAR), new TypeParameterSpec[] {
-			TypeParameterSpec.of(TypeParameterKey.SIZE, Necessity.REQUIRED)
-		});
-		allDataTypes.put(new DefaultTypeReference(DataTypeCategory.TIMESTAMP), new TypeParameterSpec[] {
-			TypeParameterSpec.of(TypeParameterKey.WITH_TIMEZONE, Necessity.OPTIONAL)
-		});
-	}
-	
-	public List<TypeReference> getAllTypeReferences() {
-		return Lists.newArrayList(allDataTypes.keySet());
+		super("jdbc:", typeEntries);
 	}
 	
 	public String getName() {
 		return "Generic Dialect";
-	}
-	
-	public Collection<TypeParameterSpec> getTypeParameterSpecs(TypeReference reference) {
-		Validate.notNull(reference);
-		return Lists.newArrayList(allDataTypes.get(reference));
 	}
 	
 	@Override
