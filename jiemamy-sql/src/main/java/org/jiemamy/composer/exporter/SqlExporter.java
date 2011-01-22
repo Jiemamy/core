@@ -33,10 +33,10 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.SqlFacet;
+import org.jiemamy.composer.AbstractExporter;
 import org.jiemamy.composer.ExportException;
-import org.jiemamy.composer.Exporter;
 import org.jiemamy.dialect.Dialect;
+import org.jiemamy.dialect.SqlEmitter;
 import org.jiemamy.model.sql.SqlStatement;
 
 /**
@@ -46,7 +46,7 @@ import org.jiemamy.model.sql.SqlStatement;
  * 
  * @author daisuke
  */
-public class SqlExporter implements Exporter<SqlExportConfig> {
+public class SqlExporter extends AbstractExporter<SqlExportConfig> {
 	
 	/** ConfigKey: オーバーライトするかどうか (Boolean) */
 	public static final String OVERWRITE = "overwrite";
@@ -78,8 +78,8 @@ public class SqlExporter implements Exporter<SqlExportConfig> {
 		Writer writer = null;
 		try {
 			Dialect dialect = context.findDialect();
-			SqlFacet facet = context.getFacet(SqlFacet.class);
-			List<SqlStatement> statements = facet.emitStatements(dialect, config);
+			SqlEmitter emitter = dialect.getSqlEmitter();
+			List<SqlStatement> statements = emitter.emit(context, config);
 			
 			File outputFile = config.getOutputFile();
 			if (outputFile.exists()) {
@@ -125,4 +125,8 @@ public class SqlExporter implements Exporter<SqlExportConfig> {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 	
+	@Override
+	protected SqlExportConfig newDefaultConfigInstance() {
+		return new DefaultSqlExportConfig();
+	}
 }

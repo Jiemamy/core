@@ -37,7 +37,7 @@ public interface DiagramModel extends OrderedEntity {
 	 * このダイアグラムにおける、指定した {@link ForeignKeyConstraintModel} の写像となる {@link ConnectionModel} を取得する。
 	 * 
 	 * @param ref {@link ForeignKeyConstraintModel}の参照
-	 * @return 写像となる {@link ConnectionModel}
+	 * @return 写像となる {@link ConnectionModel}、存在しない場合は{@code null} 
 	 */
 	ConnectionModel getConnectionFor(EntityRef<? extends ForeignKeyConstraintModel> ref);
 	
@@ -75,7 +75,7 @@ public interface DiagramModel extends OrderedEntity {
 	 * このダイアグラムにおける、指定した {@link DatabaseObjectModel} の写像となる {@link NodeModel} を取得する。
 	 * 
 	 * @param ref {@link DatabaseObjectModel}の参照
-	 * @return 写像となる {@link NodeModel}
+	 * @return 写像となる {@link NodeModel}、存在しない場合は{@code null} 
 	 */
 	NodeModel getNodeFor(EntityRef<? extends DatabaseObjectModel> ref);
 	

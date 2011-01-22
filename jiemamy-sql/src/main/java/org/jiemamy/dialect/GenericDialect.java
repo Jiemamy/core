@@ -73,6 +73,10 @@ public final class GenericDialect extends AbstractDialect {
 		return "Generic Dialect";
 	}
 	
+	public SqlEmitter getSqlEmitter() {
+		return new DefaultSqlEmitter();
+	}
+	
 	@Override
 	public Validator getValidator() {
 		return validator;

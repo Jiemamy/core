@@ -18,6 +18,8 @@
  */
 package org.jiemamy.composer;
 
+import java.util.Map;
+
 import org.jiemamy.JiemamyContext;
 
 /**
@@ -32,12 +34,26 @@ public interface Importer<T extends ImportConfig> {
 	/**
 	 * Importerの名称を取得する。
 	 * 
-	 * <p>{@code null}を返してはならない。</p>
-	 * 
 	 * @return Importerの名称
 	 * @since 0.2
 	 */
 	String getName();
+	
+	/**
+	 * 外部リソースからモデルにデータをインポートする。
+	 * 
+	 * <p>通常は {@link #importModel(JiemamyContext, ImportConfig)}を利用すべきだが、
+	 * {@link Importer}の実装が不明な抽象度でimport処理を起動するために設けたメソッドである。</p>
+	 * 
+	 * @param context インポート対象コンテキスト
+	 * @param configMap インポートのコンテキスト情報
+	 * @return インポートが正常に完了した場合は{@code true}、設定等により入力が行われなかった場合は{@code false}
+	 * @throws ImportException インポートに失敗した時
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @throws IllegalArgumentException 必須config情報が{@code null}の場合
+	 * @since 0.2
+	 */
+	boolean importModel(JiemamyContext context, Map<String, Object> configMap) throws ImportException;
 	
 	/**
 	 * 外部リソースからモデルにデータをインポートする。

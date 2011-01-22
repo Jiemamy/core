@@ -32,6 +32,8 @@ import org.jiemamy.script.ScriptEngine;
  */
 public interface AroundScriptModel extends Entity {
 	
+	AroundScriptModel clone();
+	
 	/**
 	 * コアモデルへの参照を取得する。
 	 * 

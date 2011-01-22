@@ -19,14 +19,17 @@
 package org.jiemamy.dialect;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import org.jiemamy.JiemamyContext;
 import org.jiemamy.dialect.TypeParameterSpec.Necessity;
 import org.jiemamy.model.datatype.DataTypeCategory;
 import org.jiemamy.model.datatype.DefaultTypeReference;
 import org.jiemamy.model.datatype.TypeParameterKey;
+import org.jiemamy.model.sql.SqlStatement;
 import org.jiemamy.validator.AllValidator;
 import org.jiemamy.validator.Validator;
 
@@ -72,6 +75,15 @@ public class MockDialect extends AbstractDialect {
 	
 	public String getName() {
 		return "Mock Dialect (for test only. DO NOT USE.)";
+	}
+	
+	public SqlEmitter getSqlEmitter() {
+		return new SqlEmitter() {
+			
+			public List<SqlStatement> emit(JiemamyContext context, EmitConfig config) {
+				return Collections.emptyList();
+			}
+		};
 	}
 	
 	@Override

@@ -117,7 +117,8 @@ public final class DefaultDiagramModel extends AbstractEntity implements Diagram
 				return connectionModel;
 			}
 		}
-		throw new EntityNotFoundException("ref=" + ref);
+		return null;
+//		throw new EntityNotFoundException("ref=" + ref);
 	}
 	
 	public Collection<? extends ConnectionModel> getConnections() {
@@ -150,7 +151,8 @@ public final class DefaultDiagramModel extends AbstractEntity implements Diagram
 				}
 			}
 		}
-		throw new EntityNotFoundException("ref=" + ref);
+		return null;
+//		throw new EntityNotFoundException("ref=" + ref);
 	}
 	
 	public Collection<? extends NodeModel> getNodes() {

@@ -18,6 +18,8 @@
  */
 package org.jiemamy.composer;
 
+import java.util.Map;
+
 import org.jiemamy.JiemamyContext;
 
 /**
@@ -34,20 +36,37 @@ public interface Exporter<T extends ExportConfig> {
 	 * 
 	 * <p>ファイル出力であれば、ファイルに保存する所までの責務を負う。</p>
 	 * 
+	 * <p>通常は {@link #exportModel(JiemamyContext, ExportConfig)}を利用すべきだが、
+	 * {@link Exporter}の実装が不明な抽象度でexport処理を起動するために設けたメソッドである。</p>
+	 * 
+	 * @param context エクスポート対象コンテキスト
+	 * @param configMap エクスポートの設定情報
+	 * @return エクスポートが正常に完了した場合は{@code true}、設定等により出力が行われなかった場合は{@code false}
+	 * @throws ExportException エクスポートに失敗した時
+	 * @throws ClassCastException {@code configMap}の値が想定外である場合
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @throws IllegalArgumentException 必須config情報に対して{@code null}を返した場合
+	 * @since 0.2
+	 */
+	boolean exportModel(JiemamyContext context, Map<String, Object> configMap) throws ExportException;
+	
+	/**
+	 * モデルを外部リソースにエクスポートする。
+	 * 
+	 * <p>ファイル出力であれば、ファイルに保存する所までの責務を負う。</p>
+	 * 
 	 * @param context エクスポート対象コンテキスト
 	 * @param config エクスポートの設定情報
 	 * @return エクスポートが正常に完了した場合は{@code true}、設定等により出力が行われなかった場合は{@code false}
 	 * @throws ExportException エクスポートに失敗した時
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 * @throws IllegalArgumentException 必須config情報が{@code null}の場合
+	 * @throws IllegalArgumentException 必須config情報に対して{@code null}を返した場合
 	 * @since 0.2
 	 */
 	boolean exportModel(JiemamyContext context, T config) throws ExportException;
 	
 	/**
 	 * Exporterの名称を取得する。
-	 * 
-	 * <p>{@code null}を返してはならない。</p>
 	 * 
 	 * @return Exporterの名称
 	 * @since 0.2

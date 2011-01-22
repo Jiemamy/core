@@ -36,8 +36,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 import org.jiemamy.JiemamyContext;
+import org.jiemamy.composer.AbstractImporter;
 import org.jiemamy.composer.ImportException;
-import org.jiemamy.composer.Importer;
 import org.jiemamy.dialect.Dialect;
 import org.jiemamy.model.DatabaseObjectModel;
 import org.jiemamy.model.constraint.ForeignKeyConstraintModel;
@@ -49,7 +49,7 @@ import org.jiemamy.utils.sql.DriverUtil;
  * 
  * @author daisuke
  */
-public class DatabaseImporter implements Importer<DatabaseImportConfig> {
+public class DatabaseImporter extends AbstractImporter<DatabaseImportConfig> {
 	
 	/** ConfigKey: SQL方言 (Dialect) */
 	public static final String DIALECT = "dialect";
@@ -58,7 +58,7 @@ public class DatabaseImporter implements Importer<DatabaseImportConfig> {
 	public static final String DATABASE_NAME = "databaseName";
 	
 	/** ConfigKey: ドライバJARファイルのURL (URL[]) */
-	public static final String DRIVER_JAR_PATH = "driverJarPaths";
+	public static final String DRIVER_JAR_PATHS = "driverJarPaths";
 	
 	/** ConfigKey: ドライバの完全修飾クラス名 (String) */
 	public static final String DRIVER_CLASS_NAME = "driverClassName";
@@ -150,6 +150,11 @@ public class DatabaseImporter implements Importer<DatabaseImportConfig> {
 	 */
 	protected Collection<? extends ForeignKeyConstraintModel> getImportedForeignKeys() {
 		return importedForeignKeys.values();
+	}
+	
+	@Override
+	protected DatabaseImportConfig newDefaultConfigInstance() {
+		return new DefaultDatabaseImportConfig();
 	}
 	
 }

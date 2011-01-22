@@ -19,6 +19,7 @@
 package org.jiemamy;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.Validate;
@@ -67,7 +68,9 @@ public final class EntityDependencyCalculator {
 		Validate.notNull(entityModel);
 		Validate.notNull(context);
 		
-		for (DatabaseObjectModel dependent : context.findSuperDatabaseObjectsNonRecursive(entityModel)) {
+		Collection<DatabaseObjectModel> superDatabaseObjectsNonRecursive =
+				context.findSuperDatabaseObjectsNonRecursive(entityModel);
+		for (DatabaseObjectModel dependent : superDatabaseObjectsNonRecursive) {
 			if (dependent.equals(entityModel) == false) {
 				addDependsdentsToResult(dependent, context);
 				addToResult(dependent);

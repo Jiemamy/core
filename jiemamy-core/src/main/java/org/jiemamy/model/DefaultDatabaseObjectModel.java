@@ -18,6 +18,7 @@
  */
 package org.jiemamy.model;
 
+import java.util.Collections;
 import java.util.Set;
 import java.util.UUID;
 
@@ -77,7 +78,7 @@ public abstract class DefaultDatabaseObjectModel extends AbstractEntity implemen
 	
 	public Set<DatabaseObjectModel> findSuperDatabaseObjectsNonRecursive(Set<DatabaseObjectModel> databaseObjects) {
 		Validate.notNull(databaseObjects);
-		return null; // TODO 未実装
+		return Collections.emptySet(); // TODO 未実装
 	}
 	
 	public String getDescription() {

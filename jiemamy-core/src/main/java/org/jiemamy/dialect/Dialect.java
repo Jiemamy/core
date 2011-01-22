@@ -70,6 +70,13 @@ public interface Dialect {
 	String getName();
 	
 	/**
+	 * TODO for daisuke
+	 * 
+	 * @return
+	 */
+	SqlEmitter getSqlEmitter();
+	
+	/**
 		 * 指定した{@link TypeReference}に対する {@link TypeParameterSpec}の集合を取得する。
 		 * 
 		 * <p>例えば、VARCHARに対して、どんなパラメータ仕様がありますか？ → SIZE が REQUIRED です<br/>

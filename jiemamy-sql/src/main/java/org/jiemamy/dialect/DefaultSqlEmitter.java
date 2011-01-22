@@ -381,7 +381,7 @@ public class DefaultSqlEmitter implements SqlEmitter {
 	
 	private void emitScript(JiemamyContext context, Position position, List<SqlStatement> result) {
 		SqlFacet facet = context.getFacet(SqlFacet.class);
-		AroundScriptModel aroundScript = facet.getAroundScriptFor(null);
+		AroundScriptModel aroundScript = facet.getUniversalAroundScript();
 		
 		if (aroundScript == null) {
 			return;
@@ -504,17 +504,17 @@ public class DefaultSqlEmitter implements SqlEmitter {
 		/**
 		 * 属性モデルから出力戦略を取得する。
 		 * 
-		 * @param attribute 出力対象の属性モデル
+		 * @param constraint 出力対象の属性モデル
 		 * @return 出力戦略
 		 */
-		public static AttributeEmitStrategy fromAttribute(ConstraintModel attribute) {
-			for (AttributeEmitStrategy s : values()) {
-				if (s.clazz == attribute.getClass()) {
-					return s;
+		public static AttributeEmitStrategy fromAttribute(ConstraintModel constraint) {
+			for (AttributeEmitStrategy strategy : values()) {
+				if (strategy.clazz == constraint.getClass()) {
+					return strategy;
 				}
-				for (Class<?> c : attribute.getClass().getInterfaces()) {
-					if (s.clazz == c) {
-						return s;
+				for (Class<?> c : constraint.getClass().getInterfaces()) {
+					if (strategy.clazz == c) {
+						return strategy;
 					}
 				}
 			}
@@ -576,33 +576,34 @@ public class DefaultSqlEmitter implements SqlEmitter {
 			
 			@Override
 			public SqlStatement emit(JiemamyContext context, DatabaseObjectModel entityModel,
-					DefaultSqlEmitter defaultSqlEmitter, TokenResolver tokenResolver) {
+					DefaultSqlEmitter sqlEmitter, TokenResolver tokenResolver) {
 				TableModel tableModel = (TableModel) entityModel;
 				List<Token> tokens = Lists.newArrayList();
 				tokens.add(Keyword.CREATE);
 				tokens.add(Keyword.TABLE);
 				tokens.add(Identifier.of(tableModel.getName()));
 				tokens.add(Separator.LEFT_PAREN);
-				for (ColumnModel attributeModel : tableModel.getColumns()) {
+				for (ColumnModel columnModel : tableModel.getColumns()) {
 //					if (attributeModel.hasAdapter(Disablable.class)
 //							&& Boolean.TRUE.equals(attributeModel.getAdapter(Disablable.class).isDisabled())) {
 //						continue;
 //					}
-					List<Token> attributes =
-							defaultSqlEmitter.emitColumn(context, tableModel, attributeModel, tokenResolver);
-					tokens.addAll(attributes);
+					List<Token> columnTokens = sqlEmitter.emitColumn(context, tableModel, columnModel, tokenResolver);
+					tokens.addAll(columnTokens);
 					tokens.add(Separator.COMMA);
 				}
 				
-				for (ConstraintModel attributeModel : tableModel.getConstraints()) {
+				for (ConstraintModel constraintModel : tableModel.getConstraints()) {
 //					if (attributeModel.hasAdapter(Disablable.class)
 //							&& Boolean.TRUE.equals(attributeModel.getAdapter(Disablable.class).isDisabled())) {
 //						continue;
 //					}
-					AttributeEmitStrategy strategy = AttributeEmitStrategy.fromAttribute(attributeModel);
-					List<Token> attributes = strategy.emit(context, attributeModel, tokenResolver);
-					tokens.addAll(attributes);
-					tokens.add(Separator.COMMA);
+					AttributeEmitStrategy strategy = AttributeEmitStrategy.fromAttribute(constraintModel);
+					if (strategy != null) {
+						List<Token> constraintTokens = strategy.emit(context, constraintModel, tokenResolver);
+						tokens.addAll(constraintTokens);
+						tokens.add(Separator.COMMA);
+					}
 				}
 				
 				if (tableModel.getColumns().isEmpty() == false && tableModel.getConstraints().isEmpty() == false) {
@@ -666,13 +667,13 @@ public class DefaultSqlEmitter implements SqlEmitter {
 		/**
 		 * エンティティモデルからToken列を出力する。
 		 * 
-		 * @param entityModel エンティティモデル
-		 * @param defaultSqlEmitter 
+		 * @param domo エンティティモデル
+		 * @param sqlEmitter 
 		 * @param tokenResolver トークンリゾルバ
 		 * @return トークンシーケンス
 		 */
-		public abstract SqlStatement emit(JiemamyContext context, DatabaseObjectModel entityModel,
-				DefaultSqlEmitter defaultSqlEmitter, TokenResolver tokenResolver);
+		public abstract SqlStatement emit(JiemamyContext context, DatabaseObjectModel domo,
+				DefaultSqlEmitter sqlEmitter, TokenResolver tokenResolver);
 		
 	}
 }

@@ -17,7 +17,6 @@
 package org.jiemamy;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
 
 import org.apache.commons.lang.Validate;
@@ -29,13 +28,10 @@ import org.jiemamy.dddbase.EntityNotFoundException;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.OnMemoryEntityResolver;
 import org.jiemamy.dddbase.OnMemoryRepository;
-import org.jiemamy.dialect.Dialect;
-import org.jiemamy.dialect.EmitConfig;
 import org.jiemamy.model.DatabaseObjectModel;
 import org.jiemamy.model.script.AroundScriptModel;
 import org.jiemamy.model.script.DefaultAroundScriptModel;
 import org.jiemamy.model.script.DefaultAroundScriptModelSerializationHandler;
-import org.jiemamy.model.sql.SqlStatement;
 import org.jiemamy.serializer.stax2.SerializationDirector;
 import org.jiemamy.transaction.StoredEvent;
 import org.jiemamy.xml.JiemamyNamespace;
@@ -51,6 +47,8 @@ import org.jiemamy.xml.SqlQName;
  */
 public class SqlFacet implements JiemamyFacet {
 	
+	private static Logger logger = LoggerFactory.getLogger(SqlFacet.class);
+	
 	/** プロバイダ */
 	public static final FacetProvider PROVIDER = new FacetProvider() {
 		
@@ -64,11 +62,11 @@ public class SqlFacet implements JiemamyFacet {
 		
 	};
 	
-	private OnMemoryRepository<AroundScriptModel> scripts = new OnMemoryRepository<AroundScriptModel>();
-	
 	private final JiemamyContext context;
 	
-	private static Logger logger = LoggerFactory.getLogger(SqlFacet.class);
+	private OnMemoryRepository<AroundScriptModel> scripts = new OnMemoryRepository<AroundScriptModel>();
+	
+	private AroundScriptModel universalAroundScript;
 	
 
 	/**
@@ -88,20 +86,11 @@ public class SqlFacet implements JiemamyFacet {
 	}
 	
 	/**
-	 * {@link JiemamyContext}からSQL文のリストを生成する。
+	 * このSQLにおける、指定した {@link DatabaseObjectModel} の写像となる {@link AroundScriptModel} を取得する。
 	 * 
-	 * @param dialect SQL方言 
-	 * @param config 設定オブジェクト
-	 * @return SQL文のリスト
-	 * @throws UnsupportedOperationException SQL文の出力をサポートしていない場合
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 * @since 0.2
+	 * @param ref {@link DatabaseObjectModel}の参照
+	 * @return 写像となる {@link AroundScriptModel}、存在しない場合は{@code null}
 	 */
-	public List<SqlStatement> emitStatements(Dialect dialect, EmitConfig config) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 	public AroundScriptModel getAroundScriptFor(EntityRef<? extends DatabaseObjectModel> ref) {
 		Validate.notNull(ref);
 		for (AroundScriptModel aroundScriptModel : scripts.getEntitiesAsSet()) {
@@ -109,7 +98,8 @@ public class SqlFacet implements JiemamyFacet {
 				return aroundScriptModel;
 			}
 		}
-		throw new EntityNotFoundException("ref=" + ref);
+		return null;
+//		throw new EntityNotFoundException("ref=" + ref);
 	}
 	
 	/**
@@ -127,6 +117,13 @@ public class SqlFacet implements JiemamyFacet {
 	
 	public OnMemoryEntityResolver<?> getResolver() {
 		return scripts;
+	}
+	
+	public AroundScriptModel getUniversalAroundScript() {
+		if (universalAroundScript == null) {
+			return null;
+		}
+		return universalAroundScript.clone();
 	}
 	
 	public void prepareSerializationHandlers(SerializationDirector director) {
@@ -162,6 +159,14 @@ public class SqlFacet implements JiemamyFacet {
 	@Deprecated
 	public Entity resolve(UUID id) {
 		return scripts.resolve(id);
+	}
+	
+	public void setUniversalAroundScript(AroundScriptModel universalAroundScript) {
+		if (universalAroundScript == null) {
+			this.universalAroundScript = null;
+		} else {
+			this.universalAroundScript = universalAroundScript.clone();
+		}
 	}
 	
 	/**
