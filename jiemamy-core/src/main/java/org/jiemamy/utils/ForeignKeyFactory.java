@@ -66,6 +66,8 @@ public final class ForeignKeyFactory {
 			throw new IllegalArgumentException("no local keys in " + referenceTable);
 		}
 		
+		fk.clearKeyColumns();
+		
 		int index = 0;
 		for (EntityRef<? extends ColumnModel> referenceColumnRef : key.getKeyColumns()) {
 			ColumnModel referenceColumn = context.resolve(referenceColumnRef);
