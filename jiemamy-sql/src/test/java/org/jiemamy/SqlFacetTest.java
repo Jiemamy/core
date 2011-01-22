@@ -21,16 +21,15 @@ package org.jiemamy;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import org.jiemamy.dddbase.Entity;
-import org.jiemamy.dddbase.EntityNotFoundException;
 import org.jiemamy.model.script.AroundScriptModel;
 import org.jiemamy.model.script.DefaultAroundScriptModel;
 import org.jiemamy.model.script.Position;
@@ -97,12 +96,7 @@ public class SqlFacetTest {
 		assertThat(asm2, is(equalTo((AroundScriptModel) asm)));
 		assertThat(asm2, is(not(sameInstance((AroundScriptModel) asm))));
 		
-		try {
-			facet.getAroundScriptFor(table2.toReference());
-			fail();
-		} catch (EntityNotFoundException e) {
-			// success
-		}
+		assertThat(facet.getAroundScriptFor(table2.toReference()), is(nullValue()));
 		
 		// SqlFacet#resolve(EntityRef) で取り出せる
 		@SuppressWarnings("deprecation")

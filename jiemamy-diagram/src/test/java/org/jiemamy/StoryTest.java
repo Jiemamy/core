@@ -17,14 +17,13 @@
 package org.jiemamy;
 
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.jiemamy.dddbase.EntityNotFoundException;
 import org.jiemamy.model.DefaultDatabaseObjectNodeModel;
 import org.jiemamy.model.DefaultDiagramModel;
 import org.jiemamy.model.NodeModel;
@@ -91,12 +90,7 @@ public class StoryTest {
 		assertThat(diagramFacet.getDiagrams().size(), is(1));
 		assertThat(diagramFacet.getDiagram("diagram-1").getNodeFor(table.toReference()), is((NodeModel) node));
 		
-		try {
-			diagram2.getNodeFor(table.toReference());
-			fail();
-		} catch (EntityNotFoundException e) {
-			// success
-		}
+		assertThat(diagram2.getNodeFor(table.toReference()), is(nullValue()));
 		
 		node2.setBoundary(new JmRectangle(10, 10));
 		diagram2.setName("diagram-2");
