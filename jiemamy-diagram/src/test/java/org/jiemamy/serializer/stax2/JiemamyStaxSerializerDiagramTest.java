@@ -41,7 +41,6 @@ import org.apache.commons.lang.CharEncoding;
 import org.custommonkey.xmlunit.DetailedDiff;
 import org.custommonkey.xmlunit.Diff;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -156,7 +155,6 @@ public class JiemamyStaxSerializerDiagramTest {
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	@Ignore("bendpointのdeserializeが未実装")
 	public void test12_デシリアライズ結果を確認() throws Exception {
 		UUID diagramId = UUID.fromString("4026c70b-53f2-4ada-aebf-99a2b7d3a467");
 		UUID deptTableId = UUID.fromString("733dc4cf-c845-4d7a-bb96-c96e2fb1bf06");
@@ -194,7 +192,6 @@ public class JiemamyStaxSerializerDiagramTest {
 		assertThat(diagramModel.getConnections().size(), is(1));
 		ConnectionModel connectionModel = Iterables.get(diagramModel.getConnections(), 0);
 		assertThat(connectionModel.getId(), is(connectionId));
-		// TODO yamkazu
 		assertThat(connectionModel.getBendpoints().size(), is(3));
 	}
 	

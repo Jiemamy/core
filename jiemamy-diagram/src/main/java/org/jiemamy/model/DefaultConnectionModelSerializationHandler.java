@@ -18,6 +18,7 @@
  */
 package org.jiemamy.model;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.xml.stream.XMLStreamException;
@@ -99,7 +100,18 @@ public final class DefaultConnectionModelSerializationHandler extends Serializat
 						EntityRef<? extends NodeModel> target = DefaultEntityRef.of(targetId);
 						connectionModel.setTarget(target);
 					} else if (childCursor.isQName(DiagramQName.BENDPOINTS)) {
-						// TODO add bendpoints
+						JiemamyCursor bendpointCursor = childCursor.childElementCursor();
+						List<JmPoint> points = connectionModel.breachEncapsulationOfBendpoints();
+						while (bendpointCursor.getNext() != null) {
+							ctx.push(bendpointCursor);
+							JmPoint point = getDirector().direct(ctx);
+							if (point != null) {
+								points.add(point);
+							} else {
+								logger.warn("null columnModel");
+							}
+							ctx.pop();
+						}
 					} else if (childCursor.isQName(DiagramQName.COLOR)) {
 						JmColor color = getDirector().direct(ctx);
 						connectionModel.setColor(color);
