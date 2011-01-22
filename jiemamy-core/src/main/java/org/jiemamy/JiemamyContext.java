@@ -167,6 +167,7 @@ public/*final*/class JiemamyContext {
 	 */
 	public void deleteDatabaseObject(EntityRef<? extends DatabaseObjectModel> reference) {
 		DatabaseObjectModel deleted = doms.delete(reference);
+		logger.info("database object deleted: " + deleted);
 		eventBroker.fireEvent(new StoredEvent<DatabaseObjectModel>(doms, deleted, null));
 	}
 	
@@ -178,6 +179,7 @@ public/*final*/class JiemamyContext {
 	 */
 	public void deleteDataSet(EntityRef<? extends DataSetModel> reference) {
 		DataSetModel deleted = dsms.delete(reference);
+		logger.info("dataset deleted: " + deleted);
 		eventBroker.fireEvent(new StoredEvent<DataSetModel>(dsms, deleted, null));
 	}
 	
@@ -546,6 +548,12 @@ public/*final*/class JiemamyContext {
 		Validate.notNull(dom);
 //		Validate.notNull(dom.getName());
 		DatabaseObjectModel old = doms.store(dom);
+		if (old == null) {
+			logger.info("database object stored: " + dom);
+		} else {
+			logger.info("database object updated: (old) " + old);
+			logger.info("                         (new) " + dom);
+		}
 		eventBroker.fireEvent(new StoredEvent<DatabaseObjectModel>(doms, old, dom));
 	}
 	
@@ -558,6 +566,12 @@ public/*final*/class JiemamyContext {
 	public void store(DataSetModel dsm) {
 		Validate.notNull(dsm);
 		DataSetModel old = dsms.store(dsm);
+		if (old == null) {
+			logger.info("dataset stored: " + dsm);
+		} else {
+			logger.info("dataset updated: (old) " + old);
+			logger.info("                 (new) " + dsm);
+		}
 		eventBroker.fireEvent(new StoredEvent<DataSetModel>(dsms, old, dsm));
 	}
 	

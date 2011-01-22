@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.UUID;
 
 import org.apache.commons.lang.Validate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityNotFoundException;
@@ -66,6 +68,8 @@ public class SqlFacet implements JiemamyFacet {
 	
 	private final JiemamyContext context;
 	
+	private static Logger logger = LoggerFactory.getLogger(SqlFacet.class);
+	
 
 	/**
 	 * インスタンスを生成する。
@@ -79,6 +83,7 @@ public class SqlFacet implements JiemamyFacet {
 	
 	public void deleteScript(EntityRef<? extends AroundScriptModel> ref) {
 		AroundScriptModel deleted = scripts.delete(ref);
+		logger.info("script deleted: " + deleted);
 		context.getEventBroker().fireEvent(new StoredEvent<AroundScriptModel>(scripts, deleted, null));
 	}
 	
@@ -167,13 +172,14 @@ public class SqlFacet implements JiemamyFacet {
 	 */
 	public void store(AroundScriptModel script) {
 		Validate.notNull(script);
-		AroundScriptModel old = null;
-		try {
-			old = resolve(script.toReference());
-		} catch (EntityNotFoundException e) {
-			// ignore
+		AroundScriptModel old = scripts.store(script);
+		
+		if (old == null) {
+			logger.info("script stored: " + script);
+		} else {
+			logger.info("script updated: (old) " + old);
+			logger.info("                (new) " + script);
 		}
-		scripts.store(script);
 		context.getEventBroker().fireEvent(new StoredEvent<AroundScriptModel>(scripts, old, script));
 	}
 }

@@ -31,6 +31,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import org.apache.commons.lang.Validate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.TableNotFoundException;
@@ -63,6 +65,9 @@ import org.jiemamy.transaction.StoredEvent;
  */
 public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implements TableModel {
 	
+	private static Logger logger = LoggerFactory.getLogger(DefaultTableModel.class);
+	
+
 	/**
 	 * {@code tables}の中から、このカラムが所属するテーブルを取得する。
 	 * 
@@ -200,16 +205,22 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 		return clone;
 	}
 	
+	public <T extends Entity>boolean contains(EntityRef<T> ref) {
+		return new OnMemoryCompositeEntityResolver(columns, constraints).contains(ref);
+	}
+	
 	/**
 	 * テーブルからカラムを削除する。
 	 * 
 	 * @param ref カラムへの参照
 	 * @throws EntityNotFoundException このテーブルが指定したカラムを管理していない場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * TODO rename to deleteColumn
 	 */
 	public void delete(EntityRef<? extends ColumnModel> ref) {
 		Validate.notNull(ref);
 		ColumnModel deleted = columns.delete(ref);
+		logger.info("column deleted: " + deleted);
 		eventBroker.fireEvent(new StoredEvent<ColumnModel>(columns, deleted, null));
 	}
 	
@@ -222,7 +233,9 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	 */
 	public void deleteConstraint(EntityRef<? extends ConstraintModel> ref) {
 		Validate.notNull(ref);
-		constraints.delete(ref);
+		ConstraintModel deleted = constraints.delete(ref);
+		logger.info("constraint deleted: " + deleted);
+		eventBroker.fireEvent(new StoredEvent<ConstraintModel>(constraints, deleted, null));
 	}
 	
 	public KeyConstraintModel findReferencedKeyConstraint(ForeignKeyConstraintModel foreignKey) {
@@ -455,8 +468,14 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	public void store(ColumnModel column) {
 		Validate.notNull(column);
 //		Validate.notNull(column.getName());
-		columns.store(column);
-		eventBroker.fireEvent(new StoredEvent<ColumnModel>(columns, null, column));
+		ColumnModel old = columns.store(column);
+		if (old == null) {
+			logger.info("column stored: " + column);
+		} else {
+			logger.info("column updated: (old)" + old);
+			logger.info("                (new)" + column);
+		}
+		eventBroker.fireEvent(new StoredEvent<ColumnModel>(columns, old, column));
 	}
 	
 	/**
@@ -466,7 +485,14 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public void store(ConstraintModel constraint) {
-		constraints.store(constraint);
+		Validate.notNull(constraint);
+		ConstraintModel old = constraints.store(constraint);
+		if (old == null) {
+			logger.info("constraint stored: " + constraint);
+		} else {
+			logger.info("constraint updated: (old)" + old);
+			logger.info("                    (new)" + constraint);
+		}
 	}
 	
 	public EntityRef<? extends DefaultTableModel> toReference() {

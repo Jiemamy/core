@@ -24,6 +24,8 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
 import org.apache.commons.lang.Validate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.jiemamy.dddbase.AbstractEntity;
 import org.jiemamy.dddbase.DefaultEntityRef;
@@ -44,6 +46,8 @@ import org.jiemamy.model.geometory.JmRectangle;
  * @author daisuke
  */
 public final class DefaultDiagramModel extends AbstractEntity implements DiagramModel {
+	
+	private static Logger logger = LoggerFactory.getLogger(DefaultDiagramModel.class);
 	
 	private String name;
 	
@@ -75,6 +79,11 @@ public final class DefaultDiagramModel extends AbstractEntity implements Diagram
 		return clone;
 	}
 	
+	public <T extends Entity>boolean contains(EntityRef<T> ref) {
+		Validate.notNull(ref);
+		return new OnMemoryCompositeEntityResolver(nodes, connections).contains(ref);
+	}
+	
 	/**
 	 * {@link ConnectionModel}を削除する。
 	 * 
@@ -82,7 +91,8 @@ public final class DefaultDiagramModel extends AbstractEntity implements Diagram
 	 * @throws EntityNotFoundException このダイアグラムが指定したノードを管理していない場合
 	 */
 	public void deleteConnection(EntityRef<? extends ConnectionModel> reference) {
-		connections.delete(reference);
+		ConnectionModel deleted = connections.delete(reference);
+		logger.info("connection deleted: " + deleted);
 	}
 	
 	/**
@@ -96,7 +106,8 @@ public final class DefaultDiagramModel extends AbstractEntity implements Diagram
 		if (getSourceConnectionsFor(reference).size() > 0 || getTargetConnections(reference).size() > 0) {
 			throw new ModelConsistencyException();
 		}
-		nodes.delete(reference);
+		NodeModel deleted = nodes.delete(reference);
+		logger.info("node deleted: " + deleted);
 	}
 	
 	public ConnectionModel getConnectionFor(EntityRef<? extends ForeignKeyConstraintModel> ref) {
@@ -269,7 +280,13 @@ public final class DefaultDiagramModel extends AbstractEntity implements Diagram
 			points.add(new JmPoint(boundary.x - 50, boundary.y - 25));
 			points.add(new JmPoint(boundary.x - 25, boundary.y - 50));
 		}
-		connections.store(connectionModel);
+		ConnectionModel old = connections.store(connectionModel);
+		if (old == null) {
+			logger.info("connection stored: " + connectionModel);
+		} else {
+			logger.info("connection updated: (old)" + old);
+			logger.info("                    (new)" + connectionModel);
+		}
 	}
 	
 	/**
@@ -280,7 +297,13 @@ public final class DefaultDiagramModel extends AbstractEntity implements Diagram
 	 */
 	public void store(NodeModel nodeModel) {
 		Validate.notNull(nodeModel);
-		nodes.store(nodeModel);
+		NodeModel old = nodes.store(nodeModel);
+		if (old == null) {
+			logger.info("node stored: " + nodeModel);
+		} else {
+			logger.info("node updated: (old)" + old);
+			logger.info("              (new)" + nodeModel);
+		}
 	}
 	
 	public EntityRef<? extends DefaultDiagramModel> toReference() {
