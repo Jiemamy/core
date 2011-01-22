@@ -20,10 +20,6 @@ package org.jiemamy.model.view;
 
 import java.util.UUID;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
-
-import org.jiemamy.JiemamyContext;
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.DefaultDatabaseObjectModel;
@@ -94,16 +90,5 @@ public final class DefaultViewModel extends DefaultDatabaseObjectModel implement
 	
 	public EntityRef<? extends DefaultViewModel> toReference() {
 		return new DefaultEntityRef<DefaultViewModel>(this);
-	}
-	
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		if (JiemamyContext.isDebug()) {
-			sb.append(ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE));
-		} else {
-			sb.append("View ").append(getName());
-		}
-		return sb.toString();
 	}
 }
