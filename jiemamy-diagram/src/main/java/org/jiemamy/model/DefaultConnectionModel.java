@@ -145,4 +145,9 @@ public final class DefaultConnectionModel extends AbstractEntity implements Conn
 	public EntityRef<? extends DefaultConnectionModel> toReference() {
 		return new DefaultEntityRef<DefaultConnectionModel>(this);
 	}
+	
+	@Override
+	public String toString() {
+		return super.toString() + "{core=" + coreModelRef + "}";
+	}
 }
