@@ -43,6 +43,11 @@ public final class ForeignKeyFactory {
 	
 	public static DefaultForeignKeyConstraintModel create(JiemamyContext context, TableModel declaringTable,
 			TableModel referenceTable) {
+		return setup(new DefaultForeignKeyConstraintModel(UUID.randomUUID()), context, declaringTable, referenceTable);
+	}
+	
+	public static DefaultForeignKeyConstraintModel setup(DefaultForeignKeyConstraintModel fk, JiemamyContext context,
+			TableModel declaringTable, TableModel referenceTable) {
 		Validate.notNull(context);
 		Validate.notNull(declaringTable);
 		Validate.notNull(referenceTable);
@@ -62,7 +67,6 @@ public final class ForeignKeyFactory {
 		}
 		
 		int index = 0;
-		DefaultForeignKeyConstraintModel fk = new DefaultForeignKeyConstraintModel(UUID.randomUUID());
 		for (EntityRef<? extends ColumnModel> referenceColumnRef : key.getKeyColumns()) {
 			ColumnModel referenceColumn = context.resolve(referenceColumnRef);
 			
