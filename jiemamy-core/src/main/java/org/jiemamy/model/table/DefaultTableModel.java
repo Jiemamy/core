@@ -487,12 +487,18 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	public void store(ConstraintModel constraint) {
 		Validate.notNull(constraint);
 		ConstraintModel old = constraints.store(constraint);
+		eventBroker.fireEvent(new StoredEvent<ConstraintModel>(constraints, old, constraint));
 		if (old == null) {
 			logger.info("constraint stored: " + constraint);
 		} else {
 			logger.info("constraint updated: (old)" + old);
 			logger.info("                    (new)" + constraint);
 		}
+	}
+	
+	public void swapColumn(int index1, int index2) {
+		columns.swap(index1, index2);
+		eventBroker.fireEvent(new StoredEvent<ColumnModel>(columns, null, null));
 	}
 	
 	public EntityRef<? extends DefaultTableModel> toReference() {
