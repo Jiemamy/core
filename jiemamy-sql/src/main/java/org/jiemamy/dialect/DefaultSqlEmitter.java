@@ -74,6 +74,7 @@ public class DefaultSqlEmitter implements SqlEmitter {
 	public List<SqlStatement> emit(JiemamyContext context, EmitConfig config) {
 		Validate.notNull(context);
 		Validate.notNull(config);
+		Validate.isTrue(context.hasFacet(SqlFacet.class));
 		List<SqlStatement> result = Lists.newArrayList();
 		
 		// THINK RootBeginScript と CreateSchemaStatement、どっちが先？

@@ -21,6 +21,7 @@ package org.jiemamy.dialect;
 import java.util.List;
 
 import org.jiemamy.JiemamyContext;
+import org.jiemamy.JiemamyFacet;
 import org.jiemamy.model.sql.SqlStatement;
 
 /**
@@ -36,6 +37,7 @@ public interface SqlEmitter {
 	 * @param context 対象{@link JiemamyContext}
 	 * @param config 設定 
 	 * @return SQLのリスト
+	 * @throws IllegalArgumentException 引数{@code context}が必要な{@link JiemamyFacet}を備えていない場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	List<SqlStatement> emit(JiemamyContext context, EmitConfig config);
