@@ -92,12 +92,13 @@ public abstract class AbstractConstraintModel extends AbstractEntity implements 
 		this.name = name;
 	}
 	
+	@Override
 	public EntityRef<? extends AbstractConstraintModel> toReference() {
 		return new DefaultEntityRef<AbstractConstraintModel>(this);
 	}
 	
 	@Override
 	public String toString() {
-		return super.toString() + "[" + getName() + "]";
+		return super.toString() + "{name=" + name + "}";
 	}
 }

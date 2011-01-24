@@ -25,10 +25,7 @@ import java.util.UUID;
 import com.google.common.collect.Lists;
 
 import org.apache.commons.lang.Validate;
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
 
-import org.jiemamy.JiemamyContext;
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.utils.CloneUtil;
@@ -155,19 +152,9 @@ public final class DefaultDomainModel extends DefaultDatabaseObjectModel impleme
 		this.notNull = notNull;
 	}
 	
+	@Override
 	public EntityRef<? extends DefaultDomainModel> toReference() {
 		return new DefaultEntityRef<DefaultDomainModel>(this);
-	}
-	
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		if (JiemamyContext.isDebug()) {
-			sb.append(ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE));
-		} else {
-			sb.append("Domain ").append(getName());
-		}
-		return sb.toString();
 	}
 	
 

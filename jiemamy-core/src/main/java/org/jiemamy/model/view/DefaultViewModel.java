@@ -88,6 +88,7 @@ public final class DefaultViewModel extends DefaultDatabaseObjectModel implement
 		this.definition = definition;
 	}
 	
+	@Override
 	public EntityRef<? extends DefaultViewModel> toReference() {
 		return new DefaultEntityRef<DefaultViewModel>(this);
 	}

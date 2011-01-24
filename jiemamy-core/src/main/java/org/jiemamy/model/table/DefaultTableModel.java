@@ -501,6 +501,7 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 		eventBroker.fireEvent(new StoredEvent<ColumnModel>(columns, null, null));
 	}
 	
+	@Override
 	public EntityRef<? extends DefaultTableModel> toReference() {
 		return new DefaultEntityRef<DefaultTableModel>(this);
 	}

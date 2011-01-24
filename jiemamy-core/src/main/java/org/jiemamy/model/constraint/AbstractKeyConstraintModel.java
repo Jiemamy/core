@@ -85,7 +85,7 @@ public abstract class AbstractKeyConstraintModel extends AbstractConstraintModel
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder(super.toString());
-		sb.insert(sb.length() - 1, "," + keyColumns);
+		sb.insert(sb.length() - 1, ", key=" + keyColumns);
 		return sb.toString();
 	}
 }

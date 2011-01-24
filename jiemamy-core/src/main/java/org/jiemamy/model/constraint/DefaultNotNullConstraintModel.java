@@ -91,7 +91,7 @@ public final class DefaultNotNullConstraintModel extends AbstractValueConstraint
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder(super.toString());
-		sb.insert(sb.length() - 1, "," + column);
+		sb.insert(sb.length() - 1, ", target=" + column);
 		return sb.toString();
 	}
 }

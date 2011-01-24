@@ -23,10 +23,6 @@ import java.util.UUID;
 
 import com.google.common.collect.Lists;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
-
-import org.jiemamy.JiemamyContext;
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.utils.CloneUtil;
@@ -95,19 +91,8 @@ public final class DefaultIndexModel extends DefaultDatabaseObjectModel implemen
 		this.unique = unique;
 	}
 	
+	@Override
 	public EntityRef<? extends DefaultIndexModel> toReference() {
 		return new DefaultEntityRef<DefaultIndexModel>(this);
 	}
-	
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		if (JiemamyContext.isDebug()) {
-			sb.append(ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE));
-		} else {
-			sb.append("Index ").append(getName());
-		}
-		return sb.toString();
-	}
-	
 }

@@ -93,7 +93,7 @@ public final class DefaultCheckConstraintModel extends AbstractValueConstraintMo
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder(super.toString());
-		sb.insert(sb.length() - 1, "," + expression);
+		sb.insert(sb.length() - 1, ", exp=" + expression);
 		return sb.toString();
 	}
 }

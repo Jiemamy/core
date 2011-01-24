@@ -20,8 +20,6 @@ package org.jiemamy.model.column;
 
 import java.util.UUID;
 
-import org.apache.commons.lang.ClassUtils;
-
 import org.jiemamy.dddbase.AbstractEntity;
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
@@ -183,14 +181,14 @@ public final class DefaultColumnModel extends AbstractEntity implements ColumnMo
 		this.name = name;
 	}
 	
+	@Override
 	public EntityRef<? extends DefaultColumnModel> toReference() {
 		return new DefaultEntityRef<DefaultColumnModel>(this);
 	}
 	
 	@Override
 	public String toString() {
-		return ClassUtils.getShortCanonicalName(getClass()) + "@" + getId() + "/" + Integer.toHexString(hashCode())
-				+ "[" + name + "]";
+		return super.toString() + "{name=" + name + ", type=" + dataType + "}";
 	}
 	
 	/**
