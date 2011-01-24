@@ -99,9 +99,9 @@ public final class DefaultDataSetModel extends AbstractEntity implements DataSet
 	 * @param ref
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public synchronized void getRecord(EntityRef<? extends TableModel> ref) {
+	public synchronized List<RecordModel> getRecord(EntityRef<? extends TableModel> ref) {
 		Validate.notNull(ref);
-		records.get(ref);
+		return records.get(ref);
 	}
 	
 	/**
@@ -149,6 +149,7 @@ public final class DefaultDataSetModel extends AbstractEntity implements DataSet
 		this.name = name;
 	}
 	
+	@Override
 	public EntityRef<? extends DefaultDataSetModel> toReference() {
 		return new DefaultEntityRef<DefaultDataSetModel>(this);
 	}
