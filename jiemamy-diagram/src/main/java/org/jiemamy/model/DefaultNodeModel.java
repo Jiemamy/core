@@ -85,6 +85,6 @@ public abstract class DefaultNodeModel extends AbstractEntity implements NodeMod
 	
 	@Override
 	public String toString() {
-		return super.toString() + "[" + boundary + "," + color + "]";
+		return super.toString() + "{" + boundary + ", " + color + "}";
 	}
 }

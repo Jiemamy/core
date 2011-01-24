@@ -148,6 +148,6 @@ public final class DefaultConnectionModel extends AbstractEntity implements Conn
 	
 	@Override
 	public String toString() {
-		return super.toString() + "{core=" + coreModelRef + "}";
+		return super.toString() + "{bendpoints=" + bendpoints + ", core=" + coreModelRef + "}";
 	}
 }

@@ -127,7 +127,7 @@ public final class JmRectangle implements Serializable {
 	
 	@Override
 	public String toString() {
-		return "Rect(" + x + ", " + y + ":" + width + ", " + height + ")";
+		return "Rect(" + x + ", " + y + ": " + width + ", " + height + ")";
 	}
 	
 	/**
