@@ -28,6 +28,8 @@ import org.apache.commons.lang.Validate;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.dddbase.AbstractEntity;
+import org.jiemamy.dddbase.DefaultEntityRef;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.parameter.ParameterKey;
 import org.jiemamy.model.parameter.ParameterMap;
 
@@ -152,6 +154,11 @@ public abstract class DefaultDatabaseObjectModel extends AbstractEntity implemen
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	@Override
+	public EntityRef<? extends DefaultDatabaseObjectModel> toReference() {
+		return new DefaultEntityRef<DefaultDatabaseObjectModel>(this);
 	}
 	
 	@Override
