@@ -79,6 +79,7 @@ public abstract class DefaultNodeModel extends AbstractEntity implements NodeMod
 		this.color = color;
 	}
 	
+	@Override
 	public EntityRef<? extends DefaultNodeModel> toReference() {
 		return new DefaultEntityRef<DefaultNodeModel>(this);
 	}

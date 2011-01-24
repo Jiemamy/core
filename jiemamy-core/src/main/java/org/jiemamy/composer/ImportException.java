@@ -18,7 +18,6 @@
  */
 package org.jiemamy.composer;
 
-
 /**
  * {@link Importer}実行時に問題が発生した場合にスローされる例外。
  * 

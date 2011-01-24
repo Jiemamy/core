@@ -18,7 +18,6 @@
  */
 package org.jiemamy.serializer;
 
-
 /**
  * シリアライズ・デシリアライズに失敗した時にスローされる。
  * 

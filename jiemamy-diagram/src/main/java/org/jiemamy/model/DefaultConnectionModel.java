@@ -142,6 +142,7 @@ public final class DefaultConnectionModel extends AbstractEntity implements Conn
 		this.target = target;
 	}
 	
+	@Override
 	public EntityRef<? extends DefaultConnectionModel> toReference() {
 		return new DefaultEntityRef<DefaultConnectionModel>(this);
 	}
