@@ -68,9 +68,26 @@ import org.jiemamy.model.view.ViewModel;
  */
 public class DefaultSqlEmitter implements SqlEmitter {
 	
-	private TokenResolver tokenResolver = new DefaultTokenResolver();
+	private final TokenResolver tokenResolver;
 	
 
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 */
+	public DefaultSqlEmitter() {
+		this(new DefaultTokenResolver());
+	}
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param tokenResolver
+	 */
+	public DefaultSqlEmitter(TokenResolver tokenResolver) {
+		this.tokenResolver = tokenResolver;
+	}
+	
 	public List<SqlStatement> emit(JiemamyContext context, EmitConfig config) {
 		Validate.notNull(context);
 		Validate.notNull(config);
@@ -159,7 +176,7 @@ public class DefaultSqlEmitter implements SqlEmitter {
 			TokenResolver tokenResolver) {
 		List<Token> tokens = Lists.newArrayList();
 		tokens.add(Identifier.of(columnModel.getName()));
-		tokens.add(Identifier.of(columnModel.getDataType().getTypeReference().getTypeName()));
+		tokens.addAll(tokenResolver.resolve(columnModel.getDataType()));
 		
 		if (StringUtils.isEmpty(columnModel.getDefaultValue()) == false) {
 			DataTypeCategory category = columnModel.getDataType().getTypeReference().getCategory();
@@ -236,13 +253,14 @@ public class DefaultSqlEmitter implements SqlEmitter {
 	/**
 	 * DDLを出力する。
 	 * 
-	 * @param entityModel 対象エンティティ
+	 * @param dom 対象エンティティ
 	 * @return DDL
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	protected SqlStatement emitCreateStatement(JiemamyContext context, DatabaseObjectModel entityModel) {
-		Validate.notNull(entityModel);
-		return EntityEmitStrategy.fromEntity(entityModel).emit(context, entityModel, this, tokenResolver);
+	protected SqlStatement emitCreateStatement(JiemamyContext context, DatabaseObjectModel dom) {
+		Validate.notNull(dom);
+		EntityEmitStrategy strategy = EntityEmitStrategy.fromEntity(dom);
+		return strategy.emit(context, dom, this, tokenResolver);
 	}
 	
 	/**
@@ -576,9 +594,9 @@ public class DefaultSqlEmitter implements SqlEmitter {
 		TABLE(TableModel.class) {
 			
 			@Override
-			public SqlStatement emit(JiemamyContext context, DatabaseObjectModel entityModel,
-					DefaultSqlEmitter sqlEmitter, TokenResolver tokenResolver) {
-				TableModel tableModel = (TableModel) entityModel;
+			public SqlStatement emit(JiemamyContext context, DatabaseObjectModel dom, DefaultSqlEmitter sqlEmitter,
+					TokenResolver tokenResolver) {
+				TableModel tableModel = (TableModel) dom;
 				List<Token> tokens = Lists.newArrayList();
 				tokens.add(Keyword.CREATE);
 				tokens.add(Keyword.TABLE);
@@ -607,7 +625,7 @@ public class DefaultSqlEmitter implements SqlEmitter {
 					}
 				}
 				
-				if (tableModel.getColumns().isEmpty() == false && tableModel.getConstraints().isEmpty() == false) {
+				if (tableModel.getColumns().isEmpty() == false || tableModel.getConstraints().isEmpty() == false) {
 					tokens.remove(tokens.size() - 1);
 				}
 				tokens.add(Separator.RIGHT_PAREN);

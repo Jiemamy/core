@@ -28,8 +28,15 @@ import org.slf4j.LoggerFactory;
 import org.jiemamy.model.constraint.DeferrabilityModel.InitiallyCheckTime;
 import org.jiemamy.model.constraint.ForeignKeyConstraintModel.MatchType;
 import org.jiemamy.model.constraint.ForeignKeyConstraintModel.ReferentialAction;
+import org.jiemamy.model.datatype.TypeParameterKey;
+import org.jiemamy.model.datatype.TypeReference;
+import org.jiemamy.model.datatype.TypeVariant;
 import org.jiemamy.model.index.IndexColumnModel.SortOrder;
+import org.jiemamy.model.index.IndexModel;
+import org.jiemamy.model.sql.Identifier;
 import org.jiemamy.model.sql.Keyword;
+import org.jiemamy.model.sql.Literal;
+import org.jiemamy.model.sql.Separator;
 import org.jiemamy.model.sql.Token;
 import org.jiemamy.model.table.TableModel;
 import org.jiemamy.model.view.ViewModel;
@@ -94,10 +101,48 @@ public final class DefaultTokenResolver implements TokenResolver {
 			tokens.add(Keyword.TABLE);
 		} else if (value instanceof ViewModel) {
 			tokens.add(Keyword.VIEW);
+		} else if (value instanceof IndexModel) {
+			tokens.add(Keyword.INDEX);
+		} else if (value instanceof TypeVariant) {
+			tokens.addAll(resolveType((TypeVariant) value));
 		} else {
 			logger.warn("unknown object: " + value.getClass());
 		}
 		return tokens;
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param type
+	 * @return
+	 */
+	protected List<Token> resolveType(TypeVariant type) {
+		List<Token> result = Lists.newArrayList();
+		TypeReference typeReference = type.getTypeReference();
+		result.add(Identifier.of(typeReference.getTypeName()));
+		if (type.getParam(TypeParameterKey.SIZE) != null) {
+			result.add(Separator.LEFT_PAREN);
+			result.add(Literal.of(type.getParam(TypeParameterKey.SIZE)));
+			result.add(Separator.RIGHT_PAREN);
+		} else if (type.getParam(TypeParameterKey.PRECISION) != null) {
+			result.add(Separator.LEFT_PAREN);
+			result.add(Literal.of(type.getParam(TypeParameterKey.PRECISION)));
+			if (type.getParam(TypeParameterKey.SCALE) != null) {
+				result.add(Separator.COMMA);
+				result.add(Literal.of(type.getParam(TypeParameterKey.SCALE)));
+			}
+			result.add(Separator.RIGHT_PAREN);
+		} else if (type.getParam(TypeParameterKey.WITH_TIMEZONE) != null) {
+			if (type.getParam(TypeParameterKey.WITH_TIMEZONE)) {
+				result.add(Keyword.WITH);
+			} else {
+				result.add(Keyword.WITHOUT);
+			}
+			result.add(Keyword.TIMEZONE);
+		}
+		
+		return result;
 	}
 	
 }
