@@ -262,7 +262,7 @@ public final class DefaultDiagramModel extends AbstractEntity implements Diagram
 	/**
 	 * {@link ConnectionModel}を保存する。
 	 * 
-	 * <p>{@link ConnectionModel}が自己結合コネクションであった場合は、
+	 * <p>{@link ConnectionModel}が自己結合コネクションであり、bendpointが1つも無い場合は、
 	 * 自動敵にbendpointを2つ作製する。</p>
 	 * 
 	 * @param connectionModel {@link ConnectionModel}
@@ -275,12 +275,13 @@ public final class DefaultDiagramModel extends AbstractEntity implements Diagram
 				|| nodes.contains(connectionModel.getTarget()) == false) {
 			throw new ModelConsistencyException();
 		}
-		if (connectionModel.isSelfConnection() && connectionModel instanceof DefaultConnectionModel) {
+		if (connectionModel.isSelfConnection() && connectionModel.getBendpoints().isEmpty()
+				&& connectionModel instanceof DefaultConnectionModel) {
 			DefaultConnectionModel defaultConnectionModel = (DefaultConnectionModel) connectionModel;
 			JmRectangle boundary = nodes.resolve(connectionModel.getSource()).getBoundary();
 			List<JmPoint> points = defaultConnectionModel.breachEncapsulationOfBendpoints();
-			points.add(new JmPoint(boundary.x - 50, boundary.y - 25));
-			points.add(new JmPoint(boundary.x - 25, boundary.y - 50));
+			points.add(new JmPoint(boundary.x - 50, boundary.y - 0));
+			points.add(new JmPoint(boundary.x - 0, boundary.y - 50));
 		}
 		ConnectionModel old = connections.store(connectionModel);
 		if (old == null) {
