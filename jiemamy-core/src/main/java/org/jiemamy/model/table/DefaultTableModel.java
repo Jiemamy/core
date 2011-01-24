@@ -213,29 +213,33 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	 * テーブルからカラムを削除する。
 	 * 
 	 * @param ref カラムへの参照
+	 * @return 削除したモデル
 	 * @throws EntityNotFoundException このテーブルが指定したカラムを管理していない場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * TODO rename to deleteColumn
 	 */
-	public void delete(EntityRef<? extends ColumnModel> ref) {
+	public ColumnModel delete(EntityRef<? extends ColumnModel> ref) {
 		Validate.notNull(ref);
 		ColumnModel deleted = columns.delete(ref);
 		logger.info("column deleted: " + deleted);
 		eventBroker.fireEvent(new StoredEvent<ColumnModel>(columns, deleted, null));
+		return deleted;
 	}
 	
 	/**
 	 * テーブルから制約を削除する。
 	 * 
 	 * @param ref 制約への参照
+	 * @return 削除したモデル
 	 * @throws EntityNotFoundException このテーブルが指定した制約を管理していない場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public void deleteConstraint(EntityRef<? extends ConstraintModel> ref) {
+	public ConstraintModel deleteConstraint(EntityRef<? extends ConstraintModel> ref) {
 		Validate.notNull(ref);
 		ConstraintModel deleted = constraints.delete(ref);
 		logger.info("constraint deleted: " + deleted);
 		eventBroker.fireEvent(new StoredEvent<ConstraintModel>(constraints, deleted, null));
+		return deleted;
 	}
 	
 	public KeyConstraintModel findReferencedKeyConstraint(ForeignKeyConstraintModel foreignKey) {

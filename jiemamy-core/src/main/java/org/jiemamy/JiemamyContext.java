@@ -163,24 +163,28 @@ public/*final*/class JiemamyContext {
 	 * {@link DatabaseObjectModel}を削除する。
 	 * 
 	 * @param reference 削除する{@link DatabaseObjectModel}への参照
+	 * @return 削除したモデル
 	 * @throws EntityNotFoundException このコンテキストが指定したデータベースオブジェクトを管理していない場合
 	 */
-	public void deleteDatabaseObject(EntityRef<? extends DatabaseObjectModel> reference) {
+	public DatabaseObjectModel deleteDatabaseObject(EntityRef<? extends DatabaseObjectModel> reference) {
 		DatabaseObjectModel deleted = doms.delete(reference);
 		logger.info("database object deleted: " + deleted);
 		eventBroker.fireEvent(new StoredEvent<DatabaseObjectModel>(doms, deleted, null));
+		return deleted;
 	}
 	
 	/**
 	 * {@link DataSetModel}を削除する。
 	 * 
 	 * @param reference 削除する{@link DataSetModel}への参照
+	 * @return 削除したモデル
 	 * @throws EntityNotFoundException このコンテキストが指定したデータセットを管理していない場合
 	 */
-	public void deleteDataSet(EntityRef<? extends DataSetModel> reference) {
+	public DataSetModel deleteDataSet(EntityRef<? extends DataSetModel> reference) {
 		DataSetModel deleted = dsms.delete(reference);
 		logger.info("dataset deleted: " + deleted);
 		eventBroker.fireEvent(new StoredEvent<DataSetModel>(dsms, deleted, null));
+		return deleted;
 	}
 	
 	/**
