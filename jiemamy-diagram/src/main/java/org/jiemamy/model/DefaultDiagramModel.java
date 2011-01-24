@@ -88,26 +88,30 @@ public final class DefaultDiagramModel extends AbstractEntity implements Diagram
 	 * {@link ConnectionModel}を削除する。
 	 * 
 	 * @param reference 削除する{@link ConnectionModel}への参照
+	 * @return 削除したモデル
 	 * @throws EntityNotFoundException このダイアグラムが指定したノードを管理していない場合
 	 */
-	public void deleteConnection(EntityRef<? extends ConnectionModel> reference) {
+	public ConnectionModel deleteConnection(EntityRef<? extends ConnectionModel> reference) {
 		ConnectionModel deleted = connections.delete(reference);
 		logger.info("connection deleted: " + deleted);
+		return deleted;
 	}
 	
 	/**
 	 * {@link NodeModel}を削除する。
 	 * 
 	 * @param reference 削除する{@link NodeModel}への参照
+	 * @return 削除したモデル
 	 * @throws ModelConsistencyException ノードに関連付くコネクションがある場合
 	 * @throws EntityNotFoundException このダイアグラムが指定したノードを管理していない場合
 	 */
-	public void deleteNode(EntityRef<? extends NodeModel> reference) {
+	public NodeModel deleteNode(EntityRef<? extends NodeModel> reference) {
 		if (getSourceConnectionsFor(reference).size() > 0 || getTargetConnections(reference).size() > 0) {
 			throw new ModelConsistencyException();
 		}
 		NodeModel deleted = nodes.delete(reference);
 		logger.info("node deleted: " + deleted);
+		return deleted;
 	}
 	
 	public ConnectionModel getConnectionFor(EntityRef<? extends ForeignKeyConstraintModel> ref) {
@@ -309,6 +313,7 @@ public final class DefaultDiagramModel extends AbstractEntity implements Diagram
 		}
 	}
 	
+	@Override
 	public EntityRef<? extends DefaultDiagramModel> toReference() {
 		return new DefaultEntityRef<DefaultDiagramModel>(this);
 	}

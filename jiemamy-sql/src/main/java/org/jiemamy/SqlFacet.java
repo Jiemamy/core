@@ -79,10 +79,17 @@ public class SqlFacet implements JiemamyFacet {
 		this.context = context;
 	}
 	
-	public void deleteScript(EntityRef<? extends AroundScriptModel> ref) {
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param ref
+	 * @return 削除したモデル
+	 */
+	public AroundScriptModel deleteScript(EntityRef<? extends AroundScriptModel> ref) {
 		AroundScriptModel deleted = scripts.delete(ref);
 		logger.info("script deleted: " + deleted);
 		context.getEventBroker().fireEvent(new StoredEvent<AroundScriptModel>(scripts, deleted, null));
+		return deleted;
 	}
 	
 	/**

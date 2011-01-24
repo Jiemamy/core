@@ -100,15 +100,17 @@ public class DiagramFacet implements JiemamyFacet {
 	 * {@link DiagramModel}を削除する。
 	 * 
 	 * @param reference 削除する{@link DiagramModel}への参照
+	 * @return 削除したモデル
 	 * @throws EntityNotFoundException 参照で示すエンティティが見つからなかった場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * TODO rename to deleteDiagram
 	 */
-	public void delete(EntityRef<? extends DiagramModel> reference) {
+	public DiagramModel delete(EntityRef<? extends DiagramModel> reference) {
 		Validate.notNull(reference);
 		DiagramModel deleted = diagrams.delete(reference);
 		logger.info("diagram deleted: " + deleted);
 		context.getEventBroker().fireEvent(new StoredEvent<DiagramModel>(diagrams, deleted, null));
+		return deleted;
 	}
 	
 	/**
