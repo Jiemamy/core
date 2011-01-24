@@ -22,6 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.jiemamy.JiemamyContext;
+import org.jiemamy.dddbase.EntityNotFoundException;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.validator.AbstractProblem;
 
@@ -43,10 +44,11 @@ public class ReferenceValidator extends AbstractTraversalValidator<Void> {
 	void check(Object element, String pos) {
 		if (element instanceof EntityRef<?>) {
 			EntityRef<?> elementReference = (EntityRef<?>) element;
-			if (context.resolve(elementReference) == null) {
+			try {
+				context.resolve(elementReference);
+			} catch (EntityNotFoundException e) {
 				logger.error("reference(" + pos + ") resolve error");
 				result.add(new ReferenceProblem(elementReference, pos));
-				
 			}
 		}
 	}
