@@ -92,7 +92,7 @@ public class SqlExporter extends AbstractExporter<SqlExportConfig> {
 			}
 			
 			File parentDir = outputFile.getParentFile();
-			if (parentDir.exists() == false) {
+			if (parentDir != null && parentDir.exists() == false) {
 				boolean mkdirResult = parentDir.mkdir();
 				if (mkdirResult == false) {
 					throw new ExportException("Cannot create directory: " + parentDir.getAbsolutePath());
