@@ -18,6 +18,7 @@
  */
 package org.jiemamy.dialect;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -60,6 +61,7 @@ import org.jiemamy.model.sql.Token;
 import org.jiemamy.model.table.DefaultTableModel;
 import org.jiemamy.model.table.TableModel;
 import org.jiemamy.model.view.ViewModel;
+import org.jiemamy.utils.ConstraintComparator;
 
 /**
  * {@link SqlEmitter}の標準実装クラス。
@@ -259,7 +261,7 @@ public class DefaultSqlEmitter implements SqlEmitter {
 	 */
 	protected SqlStatement emitCreateStatement(JiemamyContext context, DatabaseObjectModel dom) {
 		Validate.notNull(dom);
-		EntityEmitStrategy strategy = EntityEmitStrategy.fromEntity(dom);
+		DatabaseObjectEmitStrategy strategy = DatabaseObjectEmitStrategy.fromEntity(dom);
 		return strategy.emit(context, dom, this, tokenResolver);
 	}
 	
@@ -424,7 +426,7 @@ public class DefaultSqlEmitter implements SqlEmitter {
 	 * 
 	 * @author daisuke
 	 */
-	protected enum AttributeEmitStrategy {
+	protected enum ConstraintEmitStrategy {
 		
 		/** 主キーの出力戦略 */
 		PK(PrimaryKeyConstraintModel.class) {
@@ -526,8 +528,8 @@ public class DefaultSqlEmitter implements SqlEmitter {
 		 * @param constraint 出力対象の属性モデル
 		 * @return 出力戦略
 		 */
-		public static AttributeEmitStrategy fromAttribute(ConstraintModel constraint) {
-			for (AttributeEmitStrategy strategy : values()) {
+		public static ConstraintEmitStrategy fromAttribute(ConstraintModel constraint) {
+			for (ConstraintEmitStrategy strategy : values()) {
 				if (strategy.clazz == constraint.getClass()) {
 					return strategy;
 				}
@@ -566,7 +568,7 @@ public class DefaultSqlEmitter implements SqlEmitter {
 		private final Class<? extends ConstraintModel> clazz;
 		
 
-		AttributeEmitStrategy(Class<? extends ConstraintModel> clazz) {
+		ConstraintEmitStrategy(Class<? extends ConstraintModel> clazz) {
 			this.clazz = clazz;
 		}
 		
@@ -588,7 +590,7 @@ public class DefaultSqlEmitter implements SqlEmitter {
 	 * 
 	 * @author daisuke
 	 */
-	protected enum EntityEmitStrategy {
+	protected enum DatabaseObjectEmitStrategy {
 		
 		/** テーブルの出力戦略 */
 		TABLE(TableModel.class) {
@@ -612,12 +614,14 @@ public class DefaultSqlEmitter implements SqlEmitter {
 					tokens.add(Separator.COMMA);
 				}
 				
-				for (ConstraintModel constraintModel : tableModel.getConstraints()) {
+				List<ConstraintModel> list = Lists.newArrayList(tableModel.getConstraints());
+				Collections.sort(list, new ConstraintComparator());
+				for (ConstraintModel constraintModel : list) {
 //					if (attributeModel.hasAdapter(Disablable.class)
 //							&& Boolean.TRUE.equals(attributeModel.getAdapter(Disablable.class).isDisabled())) {
 //						continue;
 //					}
-					AttributeEmitStrategy strategy = AttributeEmitStrategy.fromAttribute(constraintModel);
+					ConstraintEmitStrategy strategy = ConstraintEmitStrategy.fromAttribute(constraintModel);
 					if (strategy != null) {
 						List<Token> constraintTokens = strategy.emit(context, constraintModel, tokenResolver);
 						tokens.addAll(constraintTokens);
@@ -660,9 +664,9 @@ public class DefaultSqlEmitter implements SqlEmitter {
 		 * @return 出力戦略
 		 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 		 */
-		public static EntityEmitStrategy fromEntity(DatabaseObjectModel entityModel) {
+		public static DatabaseObjectEmitStrategy fromEntity(DatabaseObjectModel entityModel) {
 			Validate.notNull(entityModel);
-			for (EntityEmitStrategy s : values()) {
+			for (DatabaseObjectEmitStrategy s : values()) {
 				if (s.clazz == entityModel.getClass()) {
 					return s;
 				}
@@ -679,7 +683,7 @@ public class DefaultSqlEmitter implements SqlEmitter {
 		private final Class<? extends DatabaseObjectModel> clazz;
 		
 
-		EntityEmitStrategy(Class<? extends DatabaseObjectModel> clazz) {
+		DatabaseObjectEmitStrategy(Class<? extends DatabaseObjectModel> clazz) {
 			this.clazz = clazz;
 		}
 		

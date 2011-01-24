@@ -32,6 +32,10 @@ import org.jiemamy.JiemamyContext;
 import org.jiemamy.SqlFacet;
 import org.jiemamy.composer.exporter.DefaultSqlExportConfig;
 import org.jiemamy.model.column.Column;
+import org.jiemamy.model.column.DefaultColumnModel;
+import org.jiemamy.model.constraint.DefaultNotNullConstraintModel;
+import org.jiemamy.model.constraint.DefaultPrimaryKeyConstraintModel;
+import org.jiemamy.model.constraint.ForeignKey;
 import org.jiemamy.model.datatype.DataTypeCategory;
 import org.jiemamy.model.datatype.DefaultTypeReference;
 import org.jiemamy.model.datatype.DefaultTypeVariant;
@@ -51,7 +55,7 @@ public class DefaultSqlEmitterTest {
 	
 	private static Logger logger = LoggerFactory.getLogger(DefaultSqlEmitterTest.class);
 	
-	private static final TypeReference INTEGER = new DefaultTypeReference(DataTypeCategory.INTEGER, "INTEGER", "int4");
+	private static final TypeReference INTEGER = new DefaultTypeReference(DataTypeCategory.INTEGER);
 	
 	private static final TypeReference VARCHAR = new DefaultTypeReference(DataTypeCategory.VARCHAR);
 	
@@ -102,9 +106,9 @@ public class DefaultSqlEmitterTest {
 		
 		// FORMAT-OFF
 		DefaultTableModel table = new Table("T_FOO")
-				.with(new Column("ID").whoseTypeIs(new DefaultTypeVariant(INTEGER)).build())
-				.with(new Column("NAME").whoseTypeIs(varchar32).build())
 				.with(new Column("HOGE").whoseTypeIs(new DefaultTypeVariant(INTEGER)).build())
+				.with(new Column("FUGA").whoseTypeIs(varchar32).build())
+				.with(new Column("PIYO").whoseTypeIs(new DefaultTypeVariant(INTEGER)).build())
 				.build();
 		// FORMAT-ON
 		context.store(table);
@@ -115,7 +119,64 @@ public class DefaultSqlEmitterTest {
 		}
 		assertThat(statements.size(), is(2));
 		assertThat(statements.get(0).toString(), is("DROP TABLE T_FOO;"));
-		assertThat(statements.get(1).toString(), is("CREATE TABLE T_FOO(ID INTEGER, NAME VARCHAR(32), HOGE INTEGER);"));
+		assertThat(statements.get(1).toString(),
+				is("CREATE TABLE T_FOO(HOGE INTEGER, FUGA VARCHAR(32), PIYO INTEGER);"));
 	}
 	
+	/**
+	 * 制約付きテーブルを2つemitして確認。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test03_制約付きテーブルを2つemitして確認() throws Exception {
+		DefaultTypeVariant varchar32 = new DefaultTypeVariant(VARCHAR);
+		varchar32.putParam(TypeParameterKey.SIZE, 32);
+		DefaultTypeVariant varchar16 = new DefaultTypeVariant(VARCHAR);
+		varchar16.putParam(TypeParameterKey.SIZE, 16);
+		
+		// FORMAT-OFF
+		DefaultColumnModel deptId = new Column("ID").whoseTypeIs(new DefaultTypeVariant(INTEGER)).build();
+		DefaultColumnModel deptName = new Column("NAME").whoseTypeIs(varchar32).build();
+		DefaultTableModel dept = new Table("DEPT")
+				.with(deptId)
+				.with(deptName)
+				.with(new Column("LOC").whoseTypeIs(varchar16).build())
+				.with(DefaultPrimaryKeyConstraintModel.of(deptId))
+				.with(DefaultNotNullConstraintModel.of(deptName))
+				.build();
+		
+		DefaultColumnModel empId = new Column("ID").whoseTypeIs(new DefaultTypeVariant(INTEGER)).build();
+		DefaultColumnModel empName = new Column("NAME").whoseTypeIs(varchar32).build();
+		DefaultColumnModel empDeptId = new Column("DEPT_ID").whoseTypeIs(new DefaultTypeVariant(INTEGER)).build();
+		DefaultTableModel emp = new Table("EMP")
+				.with(empId)
+				.with(empName)
+				.with(empDeptId)
+				.with(DefaultPrimaryKeyConstraintModel.of(empId))
+				.with(DefaultNotNullConstraintModel.of(empName))
+				.with(new ForeignKey().referencing(empDeptId, deptId).build())
+				.build();
+		// FORMAT-ON
+		context.store(dept);
+		context.store(emp);
+		
+		List<SqlStatement> statements = emitter.emit(context, config);
+		for (SqlStatement statement : statements) {
+			logger.info(statement.toString());
+		}
+		assertThat(statements.size(), is(4));
+		
+		// FORMAT-OFF
+		assertThat(statements.get(0).toString(), is("DROP TABLE EMP;"));
+		assertThat(statements.get(1).toString(), is("DROP TABLE DEPT;"));
+		assertThat(statements.get(2).toString(), is("CREATE TABLE DEPT"
+				+ "(ID INTEGER, NAME VARCHAR(32)NOT NULL, LOC VARCHAR(16), "
+				+ "PRIMARY KEY(ID));"));
+		assertThat(statements.get(3).toString(), is("CREATE TABLE EMP"
+				+ "(ID INTEGER, NAME VARCHAR(32)NOT NULL, DEPT_ID INTEGER, "
+				+ "PRIMARY KEY(ID), "
+				+ "FOREIGN KEY(DEPT_ID)REFERENCES DEPT(ID));"));
+		// FORMAT-ON
+	}
 }
