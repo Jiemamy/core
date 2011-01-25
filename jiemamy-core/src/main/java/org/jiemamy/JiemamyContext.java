@@ -175,7 +175,7 @@ public/*final*/class JiemamyContext implements EntityResolver {
 	public DatabaseObjectModel deleteDatabaseObject(EntityRef<? extends DatabaseObjectModel> reference) {
 		DatabaseObjectModel deleted = doms.delete(reference);
 		logger.info("database object deleted: " + deleted);
-		eventBroker.fireEvent(new StoredEvent<DatabaseObjectModel>(doms, deleted, null));
+		eventBroker.fireEvent(new StoredEvent(doms, deleted, null));
 		return deleted;
 	}
 	
@@ -189,7 +189,7 @@ public/*final*/class JiemamyContext implements EntityResolver {
 	public DataSetModel deleteDataSet(EntityRef<? extends DataSetModel> reference) {
 		DataSetModel deleted = dsms.delete(reference);
 		logger.info("dataset deleted: " + deleted);
-		eventBroker.fireEvent(new StoredEvent<DataSetModel>(dsms, deleted, null));
+		eventBroker.fireEvent(new StoredEvent(dsms, deleted, null));
 		return deleted;
 	}
 	
@@ -445,8 +445,8 @@ public/*final*/class JiemamyContext implements EntityResolver {
 	 * @return 新しいファサード
 	 * @since 0.2
 	 */
-	public JiemamyTransaction<DatabaseObjectModel> getTransaction() {
-		return new JiemamyTransaction<DatabaseObjectModel>(this);
+	public JiemamyTransaction getTransaction() {
+		return new JiemamyTransaction(this);
 	}
 	
 	/**
@@ -529,7 +529,7 @@ public/*final*/class JiemamyContext implements EntityResolver {
 			logger.info(LogMarker.LIFECYCLE, "database object updated: (old) " + old);
 			logger.info(LogMarker.LIFECYCLE, "                         (new) " + dom);
 		}
-		eventBroker.fireEvent(new StoredEvent<DatabaseObjectModel>(doms, old, dom));
+		eventBroker.fireEvent(new StoredEvent(doms, old, dom));
 	}
 	
 	/**
@@ -547,7 +547,7 @@ public/*final*/class JiemamyContext implements EntityResolver {
 			logger.info(LogMarker.LIFECYCLE, "dataset updated: (old) " + old);
 			logger.info(LogMarker.LIFECYCLE, "                 (new) " + dsm);
 		}
-		eventBroker.fireEvent(new StoredEvent<DataSetModel>(dsms, old, dsm));
+		eventBroker.fireEvent(new StoredEvent(dsms, old, dsm));
 	}
 	
 	@Override

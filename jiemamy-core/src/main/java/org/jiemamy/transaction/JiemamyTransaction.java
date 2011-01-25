@@ -47,25 +47,30 @@ import org.jiemamy.utils.collection.EssentialStacks;
  * @since 0.3
  * @author daisuke
  */
-public class JiemamyTransaction<T extends Entity> implements StoredEventListener<T> {
+public class JiemamyTransaction implements StoredEventListener {
 	
 	/** このファサードが発行したセーブポイントの集合 */
-	private Collection<SavePoint<T>> publishedSavePoints = Lists.newArrayList();
+	private Collection<SavePoint> publishedSavePoints = Lists.newArrayList();
 	
 	/** UNDOスタック */
-	protected EssentialStack<StoredEvent<T>> undoStack = new ArrayEssentialStack<StoredEvent<T>>();
+	protected EssentialStack<StoredEvent<?>> undoStack = new ArrayEssentialStack<StoredEvent<?>>();
 	
 	/** イベントブローカ */
 	protected EventBroker eventBroker;
 	
 
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param context {@link JiemamyContext}
+	 */
 	public JiemamyTransaction(JiemamyContext context) {
 		context.getEventBroker().addListener(this);
 	}
 	
-	public void commandExecuted(StoredEvent<T> command) {
-		Validate.notNull(command);
-		undoStack.push(command);
+	public void commandExecuted(StoredEvent<?> event) {
+		Validate.notNull(event);
+		undoStack.push(event);
 	}
 	
 	/**
@@ -76,24 +81,24 @@ public class JiemamyTransaction<T extends Entity> implements StoredEventListener
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 0.2
 	 */
-	public void rollback(SavePoint<T> savePoint) {
+	public <T extends Entity>void rollback(SavePoint savePoint) {
 		Validate.notNull(savePoint);
 		if (publishedSavePoints.contains(savePoint) == false) {
 			throw new IllegalArgumentException();
 		}
 		
 		// this.undoStack(現状スタック)が ABCPQR, savePointStack(セーブ時スタック)が ABCXYZ だったとすると…
-		EssentialStack<StoredEvent<T>> savePointStack = savePoint.getUndoStackSnapshot();
+		EssentialStack<StoredEvent<?>> savePointStack = savePoint.getUndoStackSnapshot();
 		
 		// intersect = ABC (先頭共通部分の抽出)
-		EssentialStack<StoredEvent<T>> intersect = EssentialStacks.intersection(undoStack, savePointStack);
+		EssentialStack<StoredEvent<?>> intersect = EssentialStacks.intersection(undoStack, savePointStack);
 		
 		// undoStackMinus = PQR (引き算)
-		EssentialStack<StoredEvent<T>> undoStackMinus = EssentialStacks.minus(undoStack, intersect);
+		EssentialStack<StoredEvent<?>> undoStackMinus = EssentialStacks.minus(undoStack, intersect);
 		
 		// RQPの順番（pop順）でundoコマンドを実行し、現状を ABC 状態まで退行させる。
 		while (undoStackMinus.isEmpty() == false) {
-			StoredEvent<T> command = undoStackMinus.pop();
+			StoredEvent<T> command = (StoredEvent<T>) undoStackMinus.pop();
 			Repository<T> source = command.getSource();
 			T before = command.getBefore();
 			T after = command.getAfter();
@@ -109,10 +114,11 @@ public class JiemamyTransaction<T extends Entity> implements StoredEventListener
 		}
 		
 		// savePointStackMinus = XYZ (引き算)
-		EssentialStack<StoredEvent<T>> savePointStackMinus = EssentialStacks.minus(savePointStack, intersect);
+		EssentialStack<StoredEvent<?>> savePointStackMinus = EssentialStacks.minus(savePointStack, intersect);
 		
 		// XYZの順番（foreach順）でredoコマンド（スタックから得られたコマンドの逆コマンド）を実行し、savePoint状態を再現する。
-		for (StoredEvent<T> negateCommand : savePointStackMinus) {
+		for (StoredEvent<?> command : savePointStackMinus) {
+			StoredEvent<T> negateCommand = (StoredEvent<T>) command;
 			Repository<T> source = negateCommand.getSource();
 			T after = negateCommand.getAfter();
 			T before = negateCommand.getBefore();
@@ -137,9 +143,9 @@ public class JiemamyTransaction<T extends Entity> implements StoredEventListener
 	 * @return セーブポイント
 	 * @since 0.2
 	 */
-	public SavePoint<T> save() {
-		EssentialStack<StoredEvent<T>> undoCopy = new ArrayEssentialStack<StoredEvent<T>>(undoStack);
-		SavePoint<T> sp = new SavePoint<T>(undoCopy);
+	public SavePoint save() {
+		EssentialStack<StoredEvent<?>> undoCopy = new ArrayEssentialStack<StoredEvent<?>>(undoStack);
+		SavePoint sp = new SavePoint(undoCopy);
 		publishedSavePoints.add(sp);
 		return sp;
 	}

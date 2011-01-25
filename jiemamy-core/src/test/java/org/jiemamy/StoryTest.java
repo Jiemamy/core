@@ -29,7 +29,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.jiemamy.dddbase.EntityRef;
-import org.jiemamy.model.DatabaseObjectModel;
 import org.jiemamy.model.column.Column;
 import org.jiemamy.model.column.ColumnModel;
 import org.jiemamy.model.column.DefaultColumnModel;
@@ -74,9 +73,9 @@ public class StoryTest {
 	@Test
 	public void story1() throws Exception {
 		
-		JiemamyTransaction<DatabaseObjectModel> transaction = ctx1.getTransaction();
+		JiemamyTransaction transaction = ctx1.getTransaction();
 		
-		SavePoint<DatabaseObjectModel> save1 = transaction.save();
+		SavePoint save1 = transaction.save();
 		// FORMAT-OFF
 		ColumnModel pk;
 		TableModel dept = new Table("T_DEPT").with(
@@ -90,7 +89,7 @@ public class StoryTest {
 		
 		assertThat(ctx1.getDatabaseObjects().size(), is(1));
 		
-		SavePoint<DatabaseObjectModel> save2 = transaction.save();
+		SavePoint save2 = transaction.save();
 		transaction.rollback(save1);
 		
 		assertThat(ctx1.getDatabaseObjects().size(), is(0));

@@ -43,6 +43,7 @@ public class StoredEvent<T extends Entity> extends EventObject {
 	/**
 	 * インスタンスを生成する。
 	 * 
+	 * @param <T> 
 	 * @param source
 	 * @param before 
 	 * @param after 

@@ -18,15 +18,13 @@
  */
 package org.jiemamy.transaction;
 
-import org.jiemamy.dddbase.Entity;
-
 /**
  * EDITコマンドが実行されたイベントの通知を受け取るリスナ。
  * 
  * @since 0.3
  * @author shin1ogawa
  */
-public interface StoredEventListener<T extends Entity> {
+public interface StoredEventListener {
 	
 	/**
 	 * コマンドが実行されたことを通知するcallbackメソッド。
@@ -37,6 +35,6 @@ public interface StoredEventListener<T extends Entity> {
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 0.3
 	 */
-	void commandExecuted(StoredEvent<T> command);
+	void commandExecuted(StoredEvent<?> command);
 	
 }
