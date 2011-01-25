@@ -58,6 +58,7 @@ import org.jiemamy.transaction.EventBroker;
 import org.jiemamy.transaction.EventBrokerImpl;
 import org.jiemamy.transaction.JiemamyTransaction;
 import org.jiemamy.transaction.StoredEvent;
+import org.jiemamy.utils.LogMarker;
 import org.jiemamy.utils.UUIDProvider;
 import org.jiemamy.utils.reflect.ClassUtil;
 import org.jiemamy.xml.CoreNamespace;
@@ -523,10 +524,10 @@ public/*final*/class JiemamyContext implements EntityResolver {
 //		Validate.notNull(dom.getName());
 		DatabaseObjectModel old = doms.store(dom);
 		if (old == null) {
-			logger.info("database object stored: " + dom);
+			logger.info(LogMarker.LIFECYCLE, "database object stored: " + dom);
 		} else {
-			logger.info("database object updated: (old) " + old);
-			logger.info("                         (new) " + dom);
+			logger.info(LogMarker.LIFECYCLE, "database object updated: (old) " + old);
+			logger.info(LogMarker.LIFECYCLE, "                         (new) " + dom);
 		}
 		eventBroker.fireEvent(new StoredEvent<DatabaseObjectModel>(doms, old, dom));
 	}
@@ -541,10 +542,10 @@ public/*final*/class JiemamyContext implements EntityResolver {
 		Validate.notNull(dsm);
 		DataSetModel old = dsms.store(dsm);
 		if (old == null) {
-			logger.info("dataset stored: " + dsm);
+			logger.info(LogMarker.LIFECYCLE, "dataset stored: " + dsm);
 		} else {
-			logger.info("dataset updated: (old) " + old);
-			logger.info("                 (new) " + dsm);
+			logger.info(LogMarker.LIFECYCLE, "dataset updated: (old) " + old);
+			logger.info(LogMarker.LIFECYCLE, "                 (new) " + dsm);
 		}
 		eventBroker.fireEvent(new StoredEvent<DataSetModel>(dsms, old, dsm));
 	}

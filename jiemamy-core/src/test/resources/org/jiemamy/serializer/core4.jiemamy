@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <jiemamy xmlns="http://jiemamy.org/xml/ns/core" version="0.3.0-SNAPSHOT">
+  <metadata class="org.jiemamy.DefaultContextMetadata"/>
   <dbobjects>
     <table id="cbe160fd-e229-4ede-ae01-3a0ea44ae5d6" class="org.jiemamy.model.table.DefaultTableModel">
       <name>FOO</name>

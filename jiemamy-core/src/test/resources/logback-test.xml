@@ -1,11 +1,16 @@
 <configuration>
   <appender name="STDOUT"
-    class="ch.qos.logback.core.ConsoleAppender">
-   <Target>System.out</Target>
+      class="ch.qos.logback.core.ConsoleAppender">
+    <Target>System.out</Target>
     <layout class="ch.qos.logback.classic.PatternLayout">
       <Pattern>%d{HH:mm:ss.SSS z,JST} [%thread] %-5level %logger{36} - %msg%n</Pattern>
     </layout>
   </appender>
+
+  <turboFilter class="ch.qos.logback.classic.turbo.MarkerFilter">
+    <Marker>org.jiemamy.lifecycle</Marker>
+    <OnMatch>DENY</OnMatch>
+  </turboFilter>
 
   <root>
     <level value="WARN" />
@@ -14,9 +19,5 @@
 
   <logger name="org.jiemamy">
     <level value="INFO" />
-  </logger>
-
-  <logger name="org.jiemamy.utils.enhancer">
-    <level value="WARN" />
   </logger>
 </configuration>

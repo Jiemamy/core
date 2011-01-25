@@ -1,6 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <jiemamy xmlns="http://jiemamy.org/xml/ns/core" version="0.3.0-SNAPSHOT">
-  <dialect>org.jiemamy.dialect.GenericDialect</dialect>
+  <metadata class="org.jiemamy.DefaultContextMetadata">
+    <dialect>org.jiemamy.dialect.GenericDialect</dialect>
+  </metadata>
   <dbobjects>
     <table id="1199b4f1-66cc-4e80-9d86-a00139439caf" class="org.jiemamy.model.table.DefaultTableModel">
       <name>DEPT</name>

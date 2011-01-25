@@ -89,6 +89,8 @@ public class JiemamyStaxSerializerTest {
 		String actual = baos.toString(CharEncoding.UTF_8);
 		
 		String expected = getXml("core1.jiemamy");
+		System.out.println(actual);
+		System.out.println(expected);
 		
 		DetailedDiff diff = new DetailedDiff(new Diff(actual, expected));
 		assertThat(diff.getAllDifferences().toString(), diff.similar(), is(true));
@@ -249,7 +251,7 @@ public class JiemamyStaxSerializerTest {
 		JiemamyContext deserialized = serializer.deserialize(bais);
 		
 		assertThat(deserialized, is(notNullValue()));
-		assertThat(deserialized.getMetadata(), is(nullValue()));
+		assertThat(deserialized.getMetadata(), is(notNullValue()));
 	}
 	
 	/**

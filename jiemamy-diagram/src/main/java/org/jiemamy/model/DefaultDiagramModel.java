@@ -37,6 +37,7 @@ import org.jiemamy.dddbase.OnMemoryRepository;
 import org.jiemamy.model.constraint.ForeignKeyConstraintModel;
 import org.jiemamy.model.geometory.JmPoint;
 import org.jiemamy.model.geometory.JmRectangle;
+import org.jiemamy.utils.LogMarker;
 
 /**
  * {@link DiagramModel}のデフォルト実装クラス。
@@ -293,10 +294,10 @@ public final class DefaultDiagramModel extends AbstractEntity implements Diagram
 		}
 		ConnectionModel old = connections.store(connectionModel);
 		if (old == null) {
-			logger.info("connection stored: " + connectionModel);
+			logger.info(LogMarker.LIFECYCLE, "connection stored: " + connectionModel);
 		} else {
-			logger.info("connection updated: (old)" + old);
-			logger.info("                    (new)" + connectionModel);
+			logger.info(LogMarker.LIFECYCLE, "connection updated: (old)" + old);
+			logger.info(LogMarker.LIFECYCLE, "                    (new)" + connectionModel);
 		}
 	}
 	
@@ -310,10 +311,10 @@ public final class DefaultDiagramModel extends AbstractEntity implements Diagram
 		Validate.notNull(nodeModel);
 		NodeModel old = nodes.store(nodeModel);
 		if (old == null) {
-			logger.info("node stored: " + nodeModel);
+			logger.info(LogMarker.LIFECYCLE, "node stored: " + nodeModel);
 		} else {
-			logger.info("node updated: (old)" + old);
-			logger.info("              (new)" + nodeModel);
+			logger.info(LogMarker.LIFECYCLE, "node updated: (old)" + old);
+			logger.info(LogMarker.LIFECYCLE, "              (new)" + nodeModel);
 		}
 	}
 	

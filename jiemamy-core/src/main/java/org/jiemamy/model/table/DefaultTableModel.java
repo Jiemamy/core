@@ -57,6 +57,7 @@ import org.jiemamy.model.parameter.ParameterMap;
 import org.jiemamy.transaction.EventBroker;
 import org.jiemamy.transaction.EventBrokerImpl;
 import org.jiemamy.transaction.StoredEvent;
+import org.jiemamy.utils.LogMarker;
 
 /**
  * テーブルモデル。
@@ -478,10 +479,10 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 //		Validate.notNull(column.getName());
 		ColumnModel old = columns.store(column);
 		if (old == null) {
-			logger.info("column stored: " + column);
+			logger.info(LogMarker.LIFECYCLE, "column stored: " + column);
 		} else {
-			logger.info("column updated: (old)" + old);
-			logger.info("                (new)" + column);
+			logger.info(LogMarker.LIFECYCLE, "column updated: (old)" + old);
+			logger.info(LogMarker.LIFECYCLE, "                (new)" + column);
 		}
 		eventBroker.fireEvent(new StoredEvent<ColumnModel>(columns, old, column));
 	}
@@ -497,10 +498,10 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 		ConstraintModel old = constraints.store(constraint);
 		eventBroker.fireEvent(new StoredEvent<ConstraintModel>(constraints, old, constraint));
 		if (old == null) {
-			logger.info("constraint stored: " + constraint);
+			logger.info(LogMarker.LIFECYCLE, "constraint stored: " + constraint);
 		} else {
-			logger.info("constraint updated: (old)" + old);
-			logger.info("                    (new)" + constraint);
+			logger.info(LogMarker.LIFECYCLE, "constraint updated: (old)" + old);
+			logger.info(LogMarker.LIFECYCLE, "                    (new)" + constraint);
 		}
 	}
 	
