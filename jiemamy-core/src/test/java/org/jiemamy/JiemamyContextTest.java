@@ -82,9 +82,12 @@ public class JiemamyContextTest {
 	 */
 	public static JiemamyContext random(FacetProvider... providers) {
 		JiemamyContext context = new JiemamyContext(providers);
-		context.setDescription(strNullable());
-		context.setDialectClassName(strNullable());
-		context.setSchemaName(strNullable());
+		
+		DefaultContextMetadata meta = new DefaultContextMetadata();
+		meta.setDescription(strNullable());
+		meta.setDialectClassName(strNullable());
+		meta.setSchemaName(strNullable());
+		context.setMetadata(meta);
 		
 		// tablemodelの生成
 		int size = integer(5) + 1;
@@ -623,7 +626,9 @@ public class JiemamyContextTest {
 	 */
 	@Test
 	public void test21() throws Exception {
-		ctx1.setDialectClassName(MockDialect.class.getName());
+		DefaultContextMetadata meta = new DefaultContextMetadata();
+		meta.setDialectClassName(MockDialect.class.getName());
+		ctx1.setMetadata(meta);
 		assertThat(ctx1.findDialect(), is(instanceOf(MockDialect.class)));
 	}
 	

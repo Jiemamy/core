@@ -39,6 +39,7 @@ import org.slf4j.LoggerFactory;
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityNotFoundException;
 import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.EntityResolver;
 import org.jiemamy.dddbase.OnMemoryCompositeEntityResolver;
 import org.jiemamy.dddbase.OnMemoryEntityResolver;
 import org.jiemamy.dddbase.OnMemoryRepository;
@@ -69,7 +70,7 @@ import org.jiemamy.xml.JiemamyNamespaceContext;
  * @version $Id$
  * @author daisuke
  */
-public/*final*/class JiemamyContext {
+public/*final*/class JiemamyContext implements EntityResolver {
 	
 	private static Logger logger = LoggerFactory.getLogger(JiemamyContext.class);
 	
@@ -127,11 +128,7 @@ public/*final*/class JiemamyContext {
 	
 	private OrderedOnMemoryRepository<DataSetModel> dsms = new OrderedOnMemoryRepository<DataSetModel>();
 	
-	private String dialectClassName;
-	
-	private String description;
-	
-	private String schemaName;
+	private ContextMetadata metadata = new DefaultContextMetadata();
 	
 	private final UUIDProvider uuidProvider = new UUIDProvider();
 	
@@ -157,6 +154,14 @@ public/*final*/class JiemamyContext {
 			facets.put(facetProvider.getFacetType(), facetProvider.getFacet(this));
 		}
 		logger.debug("new context created (debug={})", isDebug());
+	}
+	
+	public boolean contains(EntityRef<?> ref) {
+		return contains(ref.getReferentId());
+	}
+	
+	public boolean contains(UUID id) {
+		return getCompositeResolver().contains(id);
 	}
 	
 	/**
@@ -192,9 +197,13 @@ public/*final*/class JiemamyContext {
 	 * 
 	 * @return SQL方言
 	 * @throws ClassNotFoundException SQL方言が見つからなかった場合
+	 * @throws IllegalStateException metadataまたはSQL方言が{@code null}の場合
 	 */
 	public Dialect findDialect() throws ClassNotFoundException {
-		return getServiceLocator().getService(Dialect.class, dialectClassName);
+		if (metadata == null || metadata.getDialectClassName() == null) {
+			throw new IllegalStateException();
+		}
+		return getServiceLocator().getService(Dialect.class, metadata.getDialectClassName());
 	}
 	
 	/**
@@ -307,24 +316,6 @@ public/*final*/class JiemamyContext {
 	}
 	
 	/**
-	 * 説明文を取得する。
-	 * 
-	 * @return 説明文
-	 */
-	public String getDescription() {
-		return description;
-	}
-	
-	/**
-	 * SQL方言IDを取得する。
-	 * 
-	 * @return SQL方言ID
-	 */
-	public String getDialectClassName() {
-		return dialectClassName;
-	}
-	
-	/**
 	 * このコンテキストが管理する全ての {@link DomainModel} を取得する。
 	 * 
 	 * <p>Note: Convenience method; equivalent to
@@ -380,6 +371,13 @@ public/*final*/class JiemamyContext {
 		return getDatabaseObjects(IndexModel.class);
 	}
 	
+	public ContextMetadata getMetadata() {
+		if (metadata == null) {
+			return null;
+		}
+		return metadata.clone();
+	}
+	
 	/**
 	 * このコンテキストが利用する {@link Namespace} を表現する {@link NamespaceContext} を取得する。
 	 * 
@@ -401,15 +399,6 @@ public/*final*/class JiemamyContext {
 			namespaces.addAll(Arrays.asList(facet.getNamespaces()));
 		}
 		return namespaces.toArray(new JiemamyNamespace[namespaces.size()]);
-	}
-	
-	/**
-	 * スキーマ名を取得する。
-	 * 
-	 * @return スキーマ名
-	 */
-	public String getSchemaName() {
-		return schemaName;
 	}
 	
 	/**
@@ -515,31 +504,12 @@ public/*final*/class JiemamyContext {
 		return getCompositeResolver().resolve(id);
 	}
 	
-	/**
-	 * 説明文を設定する。
-	 * 
-	 * @param description 説明文 
-	 */
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	
-	/**
-	 * SQL方言IDを設定する。
-	 * 
-	 * @param dialectClassName SQL方言ID
-	 */
-	public void setDialectClassName(String dialectClassName) {
-		this.dialectClassName = dialectClassName;
-	}
-	
-	/**
-	 * スキーマ名を設定する。
-	 * 
-	 * @param schemaName スキーマ名
-	 */
-	public void setSchemaName(String schemaName) {
-		this.schemaName = schemaName;
+	public void setMetadata(ContextMetadata metadata) {
+		if (metadata == null) {
+			this.metadata = null;
+		} else {
+			this.metadata = metadata.clone();
+		}
 	}
 	
 	/**
@@ -604,5 +574,4 @@ public/*final*/class JiemamyContext {
 		}
 		return new OnMemoryCompositeEntityResolver(c.toArray(new OnMemoryEntityResolver[c.size()]));
 	}
-	
 }

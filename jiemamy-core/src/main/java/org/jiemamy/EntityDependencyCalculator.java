@@ -33,6 +33,8 @@ import org.jiemamy.model.DatabaseObjectModel;
  */
 public final class EntityDependencyCalculator {
 	
+	// TODO refactor: フィールドを使わずにステートレスに実装を
+	
 	/** 並べ替えの結果 */
 	private static List<DatabaseObjectModel> results;
 	

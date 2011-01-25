@@ -29,6 +29,8 @@ import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.jiemamy.DefaultContextMetadata;
+import org.jiemamy.DefaultContextMetadataSerializationHandler;
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.JiemamyContextSerializationHandler;
 import org.jiemamy.JiemamyFacet;
@@ -90,6 +92,7 @@ public class SerializationDirector {
 		dummy = new DummyHandler(this); // FIXME これがケツ持ちをしてる
 		
 		addHandler(JiemamyContext.class, CoreQName.JIEMAMY, new JiemamyContextSerializationHandler(this));
+		addHandler(DefaultContextMetadata.class, CoreQName.META, new DefaultContextMetadataSerializationHandler(this));
 		addHandler(DefaultViewModel.class, CoreQName.VIEW, new DefaultViewModelSerializationHandler(this));
 		addHandler(DefaultTableModel.class, CoreQName.TABLE, new DefaultTableModelSerializationHandler(this));
 		addHandler(DefaultColumnModel.class, CoreQName.COLUMN, new DefaultColumnModelSerializationHandler(this));

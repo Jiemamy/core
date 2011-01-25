@@ -80,13 +80,14 @@ public class DatabaseCleaner {
 			connection = connect(config, props, paths, className);
 			SqlExecutor sqlExecuter = getExecutor(connection);
 			
-			if (StringUtils.isEmpty(context.getSchemaName()) == false) {
-				sqlExecuter.execute(String.format("DROP SCHEMA \"%s\";", context.getSchemaName()));
+			ContextMetadata metadata = context.getMetadata();
+			if (metadata != null && StringUtils.isEmpty(metadata.getSchemaName()) == false) {
+				sqlExecuter.execute(String.format("DROP SCHEMA \"%s\";", metadata.getSchemaName()));
 			}
 			
-			for (DatabaseObjectModel entityModel : sortedDomList) {
-				String type = entityModel instanceof TableModel ? "TABLE" : "VIEW";
-				sqlExecuter.execute(String.format("DROP %s %s;", type, entityModel.getName()));
+			for (DatabaseObjectModel dom : sortedDomList) {
+				String type = dom instanceof TableModel ? "TABLE" : "VIEW";
+				sqlExecuter.execute(String.format("DROP %s %s;", type, dom.getName()));
 			}
 		} catch (DriverNotFoundException e) {
 			throw new ImportException(e);

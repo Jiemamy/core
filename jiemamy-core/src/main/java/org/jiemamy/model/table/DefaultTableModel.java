@@ -205,8 +205,12 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 		return clone;
 	}
 	
-	public <T extends Entity>boolean contains(EntityRef<T> ref) {
-		return new OnMemoryCompositeEntityResolver(columns, constraints).contains(ref);
+	public boolean contains(EntityRef<?> ref) {
+		return contains(ref.getReferentId());
+	}
+	
+	public boolean contains(UUID id) {
+		return new OnMemoryCompositeEntityResolver(columns, constraints).contains(id);
 	}
 	
 	/**

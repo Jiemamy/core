@@ -214,6 +214,9 @@ public enum CoreQName implements JiemamyQName {
 	CLASS(CoreNamespace.NONE, "class"),
 
 	/***/
+	META(CoreNamespace.NS_CORE, "metadata"),
+
+	/***/
 	NOT_NULL(CoreNamespace.NS_CORE, "notNull");
 	
 	/** XML仕様における完全修飾名 */

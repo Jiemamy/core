@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.EntityResolver;
 import org.jiemamy.model.DatabaseObjectModel;
 import org.jiemamy.model.column.ColumnModel;
 import org.jiemamy.model.constraint.ConstraintModel;
@@ -37,7 +38,7 @@ import org.jiemamy.model.parameter.ParameterMap;
  * 
  * @author daisuke
  */
-public interface TableModel extends DatabaseObjectModel {
+public interface TableModel extends DatabaseObjectModel, EntityResolver {
 	
 	TableModel clone();
 	

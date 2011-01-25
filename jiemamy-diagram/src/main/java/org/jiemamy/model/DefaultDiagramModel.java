@@ -79,9 +79,13 @@ public final class DefaultDiagramModel extends AbstractEntity implements Diagram
 		return clone;
 	}
 	
-	public <T extends Entity>boolean contains(EntityRef<T> ref) {
+	public boolean contains(EntityRef<?> ref) {
 		Validate.notNull(ref);
-		return new OnMemoryCompositeEntityResolver(nodes, connections).contains(ref);
+		return contains(ref.getReferentId());
+	}
+	
+	public boolean contains(UUID id) {
+		return new OnMemoryCompositeEntityResolver(nodes, connections).contains(id);
 	}
 	
 	/**

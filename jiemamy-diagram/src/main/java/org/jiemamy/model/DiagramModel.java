@@ -19,6 +19,7 @@ package org.jiemamy.model;
 import java.util.Collection;
 
 import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.EntityResolver;
 import org.jiemamy.dddbase.OrderedEntity;
 import org.jiemamy.model.constraint.ForeignKeyConstraintModel;
 
@@ -29,7 +30,7 @@ import org.jiemamy.model.constraint.ForeignKeyConstraintModel;
  * @version $Id$
  * @author daisuke
  */
-public interface DiagramModel extends OrderedEntity {
+public interface DiagramModel extends OrderedEntity, EntityResolver {
 	
 	DiagramModel clone();
 	

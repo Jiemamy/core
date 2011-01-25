@@ -44,6 +44,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.jiemamy.DefaultContextMetadata;
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.JiemamyContextTest;
 import org.jiemamy.model.column.ColumnModel;
@@ -81,17 +82,11 @@ public class JiemamyStaxSerializerTest {
 	 */
 	@Test
 	public void test01_簡単なJiemamyContextのシリアライズ結果を確認() throws Exception {
-		JiemamyContext ctx = new JiemamyContext();
-		ctx.setSchemaName("schema-name");
-		ctx.setDescription("");
+		JiemamyContext context = new JiemamyContext();
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		serializer.serialize(ctx, baos);
+		serializer.serialize(context, baos);
 		String actual = baos.toString(CharEncoding.UTF_8);
-		
-		// DialectClassNameはnullなので出力されない
-		// schemaNameが設定通りに出力される
-		// descriptionは空文字なので空要素として出力される
 		
 		String expected = getXml("core1.jiemamy");
 		
@@ -106,16 +101,19 @@ public class JiemamyStaxSerializerTest {
 	 */
 	@Test
 	public void test02_Tableを1つ含むJiemamyContextのシリアライズ結果を確認() throws Exception {
-		JiemamyContext ctx = new JiemamyContext();
-		ctx.setSchemaName("schema-name");
-		ctx.setDescription("");
+		JiemamyContext context = new JiemamyContext();
 		
-		UUID id = UUID.fromString("d23695f8-76dd-4f8c-b5a2-1e02087ba44d");
-		DefaultTableModel t = new DefaultTableModel(id);
-		ctx.store(t);
+		DefaultContextMetadata meta = new DefaultContextMetadata();
+		meta.setSchemaName("schema-name");
+		meta.setDescription("");
+		context.setMetadata(meta);
+		
+		UUID tid = UUID.fromString("d23695f8-76dd-4f8c-b5a2-1e02087ba44d");
+		DefaultTableModel t = new DefaultTableModel(tid);
+		context.store(t);
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		serializer.serialize(ctx, baos);
+		serializer.serialize(context, baos);
 		String actual = baos.toString(CharEncoding.UTF_8);
 		
 		// DialectClassNameはnullなので出力されない
@@ -135,10 +133,12 @@ public class JiemamyStaxSerializerTest {
 	 */
 	@Test
 	public void test03_Columnを1つ含むTableを1つ含むJiemamyContextのシリアライズ結果を確認() throws Exception {
-		JiemamyContext ctx = new JiemamyContext();
-		ctx.setDialectClassName(null); // null → 要素欠損
-		ctx.setSchemaName("schema-name");
-		ctx.setDescription(""); // 空文字列 → 空要素
+		JiemamyContext context = new JiemamyContext();
+		DefaultContextMetadata meta = new DefaultContextMetadata();
+		meta.setDialectClassName(null); // null → 要素欠損
+		meta.setSchemaName("schema-name");
+		meta.setDescription(""); // 空文字列 → 空要素
+		context.setMetadata(meta);
 		
 		UUID tid = UUID.fromString("d23695f8-76dd-4f8c-b5a2-1e02087ba44d");
 		DefaultTableModel t = new DefaultTableModel(tid);
@@ -150,10 +150,10 @@ public class JiemamyStaxSerializerTest {
 		c.setLogicalName("baz");
 		c.setDescription("");
 		t.store(c);
-		ctx.store(t);
+		context.store(t);
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		serializer.serialize(ctx, baos);
+		serializer.serialize(context, baos);
 		String actual = baos.toString(CharEncoding.UTF_8);
 		
 		// DialectClassNameはnullなので出力されない
@@ -249,10 +249,7 @@ public class JiemamyStaxSerializerTest {
 		JiemamyContext deserialized = serializer.deserialize(bais);
 		
 		assertThat(deserialized, is(notNullValue()));
-		
-		assertThat(deserialized.getDialectClassName(), is(nullValue())); // 要素欠損 → null
-		assertThat(deserialized.getSchemaName(), is("schema-name"));
-		assertThat(deserialized.getDescription(), is("")); // 空要素 → 空文字列
+		assertThat(deserialized.getMetadata(), is(nullValue()));
 	}
 	
 	/**
@@ -267,10 +264,11 @@ public class JiemamyStaxSerializerTest {
 		JiemamyContext deserialized = serializer.deserialize(bais);
 		
 		assertThat(deserialized, is(notNullValue()));
+		assertThat(deserialized.getMetadata(), is(notNullValue()));
 		
-		assertThat(deserialized.getDialectClassName(), is(nullValue())); // 要素欠損 → null
-		assertThat(deserialized.getSchemaName(), is("schema-name"));
-		assertThat(deserialized.getDescription(), is("")); // 空要素 → 空文字列
+		assertThat(deserialized.getMetadata().getDialectClassName(), is(nullValue())); // 要素欠損 → null
+		assertThat(deserialized.getMetadata().getSchemaName(), is("schema-name"));
+		assertThat(deserialized.getMetadata().getDescription(), is("")); // 空要素 → 空文字列
 		assertThat(deserialized.getTables().size(), is(1));
 		TableModel tableModel = Iterables.get(deserialized.getTables(), 0);
 		

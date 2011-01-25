@@ -79,12 +79,13 @@ public final class JiemamyContextSerializationHandler extends SerializationHandl
 			do {
 				childCursor.advance();
 				if (childCursor.getCurrEvent() == SMEvent.START_ELEMENT) {
-					if (childCursor.isQName(CoreQName.DIALECT)) {
-						context.setDialectClassName(childCursor.collectDescendantText(false));
-					} else if (childCursor.isQName(CoreQName.SCHEMA_NAME)) {
-						context.setSchemaName(childCursor.collectDescendantText(false));
-					} else if (childCursor.isQName(CoreQName.DESCRIPTION)) {
-						context.setDescription(childCursor.collectDescendantText(false));
+					if (childCursor.isQName(CoreQName.META)) {
+						ContextMetadata meta = getDirector().direct(ctx);
+						if (meta != null) {
+							context.setMetadata(meta);
+						} else {
+							logger.warn("null meta");
+						}
 					} else if (childCursor.isQName(CoreQName.DBOBJECTS)) {
 						JiemamyCursor databaseObjectsCursor = childCursor.childElementCursor();
 						while (databaseObjectsCursor.getNext() != null) {
@@ -136,9 +137,10 @@ public final class JiemamyContextSerializationHandler extends SerializationHandl
 			
 			element.addAttribute(CoreQName.VERSION, JiemamyContext.getVersion().toString());
 			
-			element.addElementAndCharacters(CoreQName.DIALECT, model.getDialectClassName());
-			element.addElementAndCharacters(CoreQName.SCHEMA_NAME, model.getSchemaName());
-			element.addElementAndCharacters(CoreQName.DESCRIPTION, model.getDescription());
+			ContextMetadata meta = model.getMetadata();
+			if (meta != null) {
+				getDirector().direct(meta, sctx);
+			}
 			
 			List<DatabaseObjectModel> list = Lists.newArrayList(model.getDatabaseObjects());
 			Collections.sort(list, new DBOComparator());

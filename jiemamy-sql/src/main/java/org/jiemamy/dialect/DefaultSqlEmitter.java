@@ -28,6 +28,7 @@ import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 
+import org.jiemamy.ContextMetadata;
 import org.jiemamy.EntityDependencyCalculator;
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.SqlFacet;
@@ -105,12 +106,14 @@ public class DefaultSqlEmitter implements SqlEmitter {
 		
 		emitScript(context, Position.BEGIN, result);
 		
-		if (StringUtils.isEmpty(context.getSchemaName()) == false && config.emitCreateSchemaStatement()) {
+		ContextMetadata metadata = context.getMetadata();
+		if (metadata != null && StringUtils.isEmpty(metadata.getSchemaName()) == false
+				&& config.emitCreateSchemaStatement()) {
 			if (config.emitDropStatements()) {
-				result.add(emitDropSchemaStatement(context.getSchemaName()));
+				result.add(emitDropSchemaStatement(metadata.getSchemaName()));
 			}
 			
-			result.add(emitCreateSchemaStatement(context.getSchemaName()));
+			result.add(emitCreateSchemaStatement(metadata.getSchemaName()));
 		}
 		
 		if (config.emitDropStatements()) {

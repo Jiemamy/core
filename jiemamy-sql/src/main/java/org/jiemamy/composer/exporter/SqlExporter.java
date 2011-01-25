@@ -107,7 +107,7 @@ public class SqlExporter extends AbstractExporter<SqlExportConfig> {
 		} catch (IOException e) {
 			throw new ExportException(e);
 		} catch (ClassNotFoundException e) {
-			throw new ExportException("Dialect not found: " + context.getDialectClassName(), e);
+			throw new ExportException("Dialect not found.", e);
 		} catch (UnsupportedOperationException e) {
 			throw new ExportException("This dialect does not support export SQL.", e);
 		} finally {
