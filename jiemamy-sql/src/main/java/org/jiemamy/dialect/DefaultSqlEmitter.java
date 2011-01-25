@@ -34,6 +34,7 @@ import org.jiemamy.SqlFacet;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.DatabaseObjectModel;
 import org.jiemamy.model.column.ColumnModel;
+import org.jiemamy.model.column.ColumnParameterKey;
 import org.jiemamy.model.constraint.CheckConstraintModel;
 import org.jiemamy.model.constraint.ConstraintModel;
 import org.jiemamy.model.constraint.DeferrabilityModel;
@@ -49,6 +50,7 @@ import org.jiemamy.model.datatype.TypeVariant;
 import org.jiemamy.model.index.IndexColumnModel;
 import org.jiemamy.model.index.IndexColumnModel.SortOrder;
 import org.jiemamy.model.index.IndexModel;
+import org.jiemamy.model.parameter.ParameterKey;
 import org.jiemamy.model.script.AroundScriptModel;
 import org.jiemamy.model.script.Position;
 import org.jiemamy.model.sql.DefaultSqlStatement;
@@ -61,6 +63,7 @@ import org.jiemamy.model.sql.Token;
 import org.jiemamy.model.table.DefaultTableModel;
 import org.jiemamy.model.table.TableModel;
 import org.jiemamy.model.view.ViewModel;
+import org.jiemamy.script.ScriptString;
 import org.jiemamy.utils.ConstraintComparator;
 
 /**
@@ -84,9 +87,11 @@ public class DefaultSqlEmitter implements SqlEmitter {
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param tokenResolver
+	 * @param tokenResolver {@link TokenResolver}
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public DefaultSqlEmitter(TokenResolver tokenResolver) {
+		Validate.notNull(tokenResolver);
 		this.tokenResolver = tokenResolver;
 	}
 	
@@ -118,10 +123,10 @@ public class DefaultSqlEmitter implements SqlEmitter {
 		}
 		
 		for (DatabaseObjectModel dom : EntityDependencyCalculator.getSortedEntityList(context)) {
-//			if (entityModel.hasAdapter(Disablable.class)
-//					&& Boolean.TRUE.equals(entityModel.getAdapter(Disablable.class).isDisabled())) {
-//				continue;
-//			}
+			Boolean disabled = dom.getParam(ParameterKey.DISABLED);
+			if (disabled != null && disabled) {
+				continue;
+			}
 			
 			emitScript(context, dom, Position.BEGIN, result);
 			
@@ -150,13 +155,13 @@ public class DefaultSqlEmitter implements SqlEmitter {
 			DataSetModel dataSetModel = context.getDataSets().get(dataSetIndex);
 			
 			result.add(new DefaultSqlStatement(Keyword.of("BEGIN"), Separator.SEMICOLON));
-			for (DatabaseObjectModel entityModel : EntityDependencyCalculator.getSortedEntityList(context)) {
-//				if (entityModel.hasAdapter(Disablable.class)
-//						&& Boolean.TRUE.equals(entityModel.getAdapter(Disablable.class).isDisabled())) {
-//					continue;
-//				}
-				if (entityModel instanceof TableModel) {
-					TableModel tableModel = (TableModel) entityModel;
+			for (DatabaseObjectModel dom : EntityDependencyCalculator.getSortedEntityList(context)) {
+				Boolean disabled = dom.getParam(ParameterKey.DISABLED);
+				if (disabled != null && disabled) {
+					continue;
+				}
+				if (dom instanceof TableModel) {
+					TableModel tableModel = (TableModel) dom;
 					List<RecordModel> records = dataSetModel.getRecords().get(tableModel.toReference());
 					if (records != null) {
 						for (RecordModel recordModel : records) {
@@ -174,6 +179,15 @@ public class DefaultSqlEmitter implements SqlEmitter {
 		return result;
 	}
 	
+	/**
+	 * カラム定義を出力する。
+	 * 
+	 * @param context コンテキスト
+	 * @param tableModel テーブル
+	 * @param columnModel カラム
+	 * @param tokenResolver {@link TokenResolver}
+	 * @return トークンシーケンス
+	 */
 	protected List<Token> emitColumn(JiemamyContext context, TableModel tableModel, ColumnModel columnModel,
 			TokenResolver tokenResolver) {
 		List<Token> tokens = Lists.newArrayList();
@@ -202,6 +216,7 @@ public class DefaultSqlEmitter implements SqlEmitter {
 	/**
 	 * CREATE INDEX文を出力する。
 	 * 
+	 * @param context コンテキスト
 	 * @param tableModel インデックスをつけるテーブル
 	 * @param indexModel 対象インデックス
 	 * @return CREATE INDEX文
@@ -255,6 +270,7 @@ public class DefaultSqlEmitter implements SqlEmitter {
 	/**
 	 * DDLを出力する。
 	 * 
+	 * @param context コンテキスト
 	 * @param dom 対象エンティティ
 	 * @return DDL
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
@@ -313,6 +329,7 @@ public class DefaultSqlEmitter implements SqlEmitter {
 	/**
 	 * インデックスカラムの定義句を出力する。
 	 * 
+	 * @param context コンテキスト
 	 * @param indexColumnModel 対象インデックスカラム
 	 * @return トークンシーケンス
 	 */
@@ -329,6 +346,7 @@ public class DefaultSqlEmitter implements SqlEmitter {
 	/**
 	 * INSERT文を出力する。
 	 * 
+	 * @param context コンテキスト
 	 * @param tableModel 対象テーブル
 	 * @param recordModel 対象レコード
 	 * @return INSERT文
@@ -355,15 +373,14 @@ public class DefaultSqlEmitter implements SqlEmitter {
 			
 			TypeVariant dataType = columnModel.getDataType();
 			
-			String string = "";
+			String valueExpression = "";
 			try {
-				string =
-						recordModel.getValues().get(columnModel.toReference())
-							.process(context, new HashMap<String, Object>());
+				ScriptString ss = recordModel.getValues().get(columnModel.toReference());
+				valueExpression = ss.process(context, new HashMap<String, Object>());
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
-			dataList.add(Literal.of(string, dataType.getTypeReference().getCategory().getLiteralType()));
+			dataList.add(Literal.of(valueExpression, dataType.getTypeReference().getCategory().getLiteralType()));
 			dataList.add(Separator.COMMA);
 		}
 		columnList.remove(columnList.size() - 1);
@@ -578,6 +595,7 @@ public class DefaultSqlEmitter implements SqlEmitter {
 		 * @param attributeModel 属性モデル
 		 * @param tokenResolver トークンリゾルバ
 		 * @param <T> 出力する属性モデルの型
+		 * @param context コンテキスト
 		 * @return トークンシーケンス
 		 */
 		public abstract <T extends ConstraintModel>List<Token> emit(JiemamyContext context, T attributeModel,
@@ -598,6 +616,7 @@ public class DefaultSqlEmitter implements SqlEmitter {
 			@Override
 			public SqlStatement emit(JiemamyContext context, DatabaseObjectModel dom, DefaultSqlEmitter sqlEmitter,
 					TokenResolver tokenResolver) {
+				assert dom instanceof TableModel;
 				TableModel tableModel = (TableModel) dom;
 				List<Token> tokens = Lists.newArrayList();
 				tokens.add(Keyword.CREATE);
@@ -605,10 +624,10 @@ public class DefaultSqlEmitter implements SqlEmitter {
 				tokens.add(Identifier.of(tableModel.getName()));
 				tokens.add(Separator.LEFT_PAREN);
 				for (ColumnModel columnModel : tableModel.getColumns()) {
-//					if (attributeModel.hasAdapter(Disablable.class)
-//							&& Boolean.TRUE.equals(attributeModel.getAdapter(Disablable.class).isDisabled())) {
-//						continue;
-//					}
+					Boolean disabled = columnModel.getParam(ColumnParameterKey.DISABLED);
+					if (disabled != null && disabled) {
+						continue;
+					}
 					List<Token> columnTokens = sqlEmitter.emitColumn(context, tableModel, columnModel, tokenResolver);
 					tokens.addAll(columnTokens);
 					tokens.add(Separator.COMMA);
@@ -617,8 +636,8 @@ public class DefaultSqlEmitter implements SqlEmitter {
 				List<ConstraintModel> list = Lists.newArrayList(tableModel.getConstraints());
 				Collections.sort(list, new ConstraintComparator());
 				for (ConstraintModel constraintModel : list) {
-//					if (attributeModel.hasAdapter(Disablable.class)
-//							&& Boolean.TRUE.equals(attributeModel.getAdapter(Disablable.class).isDisabled())) {
+//					Boolean disabled = constraintModel.getParam(ConstraintParameterKey.DISABLED);
+//					if (disabled != null && disabled) {
 //						continue;
 //					}
 					ConstraintEmitStrategy strategy = ConstraintEmitStrategy.fromAttribute(constraintModel);
@@ -643,9 +662,10 @@ public class DefaultSqlEmitter implements SqlEmitter {
 		VIEW(ViewModel.class) {
 			
 			@Override
-			public SqlStatement emit(JiemamyContext context, DatabaseObjectModel entityModel,
+			public SqlStatement emit(JiemamyContext context, DatabaseObjectModel dom,
 					DefaultSqlEmitter defaultSqlEmitter, TokenResolver tokenResolver) {
-				ViewModel viewModel = (ViewModel) entityModel;
+				assert dom instanceof ViewModel;
+				ViewModel viewModel = (ViewModel) dom;
 				List<Token> tokens = Lists.newArrayList();
 				tokens.add(Keyword.CREATE);
 				tokens.add(Keyword.VIEW);
@@ -690,12 +710,13 @@ public class DefaultSqlEmitter implements SqlEmitter {
 		/**
 		 * エンティティモデルからToken列を出力する。
 		 * 
-		 * @param domo エンティティモデル
-		 * @param sqlEmitter 
+		 * @param context コンテキスト
+		 * @param dom {@link DatabaseObjectModel}
+		 * @param sqlEmitter 利用している{@link SqlEmitter}のインスタンス
 		 * @param tokenResolver トークンリゾルバ
 		 * @return トークンシーケンス
 		 */
-		public abstract SqlStatement emit(JiemamyContext context, DatabaseObjectModel domo,
+		public abstract SqlStatement emit(JiemamyContext context, DatabaseObjectModel dom,
 				DefaultSqlEmitter sqlEmitter, TokenResolver tokenResolver);
 		
 	}

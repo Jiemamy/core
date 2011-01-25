@@ -31,6 +31,9 @@ import org.jiemamy.dddbase.ValueObject;
  */
 public class ParameterKey<T> implements ValueObject {
 	
+	/** 無効フラグ用のキー */
+	public static final ParameterKey<Boolean> DISABLED = new ParameterKey<Boolean>(Converters.BOOLEAN, "disabled");
+	
 	/** 値の文字列変換に用いるコンバータ */
 	private final Converter<T> converter;
 	
