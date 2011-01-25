@@ -49,9 +49,9 @@ public final class EntityDependencyCalculator {
 		
 		results = new ArrayList<DatabaseObjectModel>(context.getDatabaseObjects().size());
 		
-		for (DatabaseObjectModel entityModel : context.getDatabaseObjects()) {
-			addDependsdentsToResult(entityModel, context);
-			addToResult(entityModel);
+		for (DatabaseObjectModel dom : context.getDatabaseObjects()) {
+			addDependsdentsToResult(dom, context);
+			addToResult(dom);
 		}
 		
 		return results;
@@ -60,18 +60,18 @@ public final class EntityDependencyCalculator {
 	/**
 	 * 対象に依存するentityを結果に追加します。
 	 * 
-	 * @param entityModel 依存調査対象となるentity
+	 * @param dom 依存調査対象となるentity
 	 * @param context コンテキスト 
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	private static void addDependsdentsToResult(DatabaseObjectModel entityModel, JiemamyContext context) {
-		Validate.notNull(entityModel);
+	private static void addDependsdentsToResult(DatabaseObjectModel dom, JiemamyContext context) {
+		Validate.notNull(dom);
 		Validate.notNull(context);
 		
 		Collection<DatabaseObjectModel> superDatabaseObjectsNonRecursive =
-				context.findSuperDatabaseObjectsNonRecursive(entityModel);
+				context.findSuperDatabaseObjectsNonRecursive(dom);
 		for (DatabaseObjectModel dependent : superDatabaseObjectsNonRecursive) {
-			if (dependent.equals(entityModel) == false) {
+			if (dependent.equals(dom) == false) {
 				addDependsdentsToResult(dependent, context);
 				addToResult(dependent);
 			}
@@ -81,12 +81,12 @@ public final class EntityDependencyCalculator {
 	/**
 	 * entityを結果に追加します。 但し、既に結果に含まれていた場合は何もしない。
 	 * 
-	 * @param entityModel 追加するentity
+	 * @param dom 追加するentity
 	 */
-	private static void addToResult(DatabaseObjectModel entityModel) {
+	private static void addToResult(DatabaseObjectModel dom) {
 		assert results != null;
-		if (results.contains(entityModel) == false) {
-			results.add(entityModel);
+		if (results.contains(dom) == false) {
+			results.add(dom);
 		}
 	}
 	

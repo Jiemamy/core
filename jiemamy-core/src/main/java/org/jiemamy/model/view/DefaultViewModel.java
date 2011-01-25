@@ -18,11 +18,16 @@
  */
 package org.jiemamy.model.view;
 
+import java.util.Set;
 import java.util.UUID;
+
+import com.google.common.collect.Sets;
 
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.model.DatabaseObjectModel;
 import org.jiemamy.model.DefaultDatabaseObjectModel;
+import org.jiemamy.model.table.TableModel;
 
 /**
  * ビューモデル
@@ -48,6 +53,19 @@ public final class DefaultViewModel extends DefaultDatabaseObjectModel implement
 	@Override
 	public DefaultViewModel clone() {
 		return (DefaultViewModel) super.clone();
+	}
+	
+	@Override
+	public Set<DatabaseObjectModel> findSuperDatabaseObjectsNonRecursive(Set<DatabaseObjectModel> databaseObjects) {
+		// TODO definitionのパースによって、依存テーブルを出すべき
+		// 現状は全てのテーブルに依存することになっている。
+		Set<DatabaseObjectModel> result = Sets.newHashSet();
+		for (DatabaseObjectModel dom : databaseObjects) {
+			if (dom instanceof TableModel) {
+				result.add(dom);
+			}
+		}
+		return result;
 	}
 	
 	public String getDefinition() {
