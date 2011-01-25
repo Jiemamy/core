@@ -373,9 +373,6 @@ public/*final*/class JiemamyContext implements EntityResolver {
 	}
 	
 	public ContextMetadata getMetadata() {
-		if (metadata == null) {
-			return null;
-		}
 		return metadata.clone();
 	}
 	
@@ -505,12 +502,15 @@ public/*final*/class JiemamyContext implements EntityResolver {
 		return getCompositeResolver().resolve(id);
 	}
 	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param metadata
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
 	public void setMetadata(ContextMetadata metadata) {
-		if (metadata == null) {
-			this.metadata = null;
-		} else {
-			this.metadata = metadata.clone();
-		}
+		Validate.notNull(metadata);
+		this.metadata = metadata.clone();
 	}
 	
 	/**
