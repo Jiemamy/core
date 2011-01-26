@@ -21,12 +21,15 @@ package org.jiemamy.validator.impl;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
+import java.util.ArrayList;
+
 import org.apache.commons.lang.ArrayUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import org.jiemamy.dialect.ReservedWordsChecker;
+import org.jiemamy.validator.Problem;
 
 /**
  * {@link AbstractIdentifierValidator}のテストクラス。
@@ -66,17 +69,17 @@ public class AbstractIdentifierValidatorTest {
 	@Test
 	public void test_バリデータ動作テスト() throws Exception {
 		// 基本的な正規表現バリデート
-		assertThat(validator.isValid("ABC"), is(true));
-		assertThat(validator.isValid("012"), is(false));
-		assertThat(validator.isValid("ABC012"), is(true));
-		assertThat(validator.isValid("abc012"), is(false));
-		assertThat(validator.isValid(""), is(false));
-		assertThat(validator.isValid(null), is(true)); // nullは無条件に通過
+		assertThat(validator.collectProblem(null, "ABC", new ArrayList<Problem>(), true), is(0));
+		assertThat(validator.collectProblem(null, "012", new ArrayList<Problem>(), true), is(1));
+		assertThat(validator.collectProblem(null, "ABC012", new ArrayList<Problem>(), true), is(0));
+		assertThat(validator.collectProblem(null, "abc012", new ArrayList<Problem>(), true), is(1));
+		assertThat(validator.collectProblem(null, "", new ArrayList<Problem>(), false), is(1));
+		assertThat(validator.collectProblem(null, null, new ArrayList<Problem>(), false), is(1)); // nullは無条件に通過
 		
 		// 予約語バリデート
-		assertThat(validator.isValid("RESERVED1"), is(false));
-		assertThat(validator.isValid("RESERVED2"), is(false));
-		assertThat(validator.isValid("RESERVED3"), is(true));
+		assertThat(validator.collectProblem(null, "RESERVED1", new ArrayList<Problem>(), false), is(1));
+		assertThat(validator.collectProblem(null, "RESERVED2", new ArrayList<Problem>(), false), is(1));
+		assertThat(validator.collectProblem(null, "RESERVED3", new ArrayList<Problem>(), false), is(0));
 	}
 	
 

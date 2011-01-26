@@ -68,7 +68,7 @@ public class TableValidator extends AbstractValidator {
 		 * @param tableModel テーブル名が設定されていないテーブル
 		 */
 		public EmptyTableNameProblem(TableModel tableModel) {
-			super("E0170");
+			super(tableModel, "E0170");
 			setArguments(new Object[] {
 				tableModel.getId().toString()
 			});
@@ -83,7 +83,7 @@ public class TableValidator extends AbstractValidator {
 		 * @param tableModel カラムの存在しないテーブル
 		 */
 		public NoColumnProblem(TableModel tableModel) {
-			super("W0010");
+			super(tableModel, "W0010");
 			setArguments(new Object[] {
 				tableModel.getName()
 			});

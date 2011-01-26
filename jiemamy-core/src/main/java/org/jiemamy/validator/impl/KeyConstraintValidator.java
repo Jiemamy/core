@@ -78,7 +78,7 @@ public class KeyConstraintValidator extends AbstractValidator {
 		 */
 		public IllegalKeyColumnRefProblem(EntityRef<? extends ColumnModel> columnRef, KeyConstraintModel keyConstraint,
 				TableModel tableModel) {
-			super("E0130");
+			super(keyConstraint, "E0130");
 			setArguments(new Object[] {
 				tableModel.getName(),
 				tableModel.getId().toString(),
@@ -97,7 +97,7 @@ public class KeyConstraintValidator extends AbstractValidator {
 		 * @param keyConstraint キーカラムを1つも持たないキー制約
 		 */
 		public NoKeyColumnProblem(TableModel tableModel, KeyConstraintModel keyConstraint) {
-			super("E0140");
+			super(keyConstraint, "E0140");
 			setArguments(new Object[] {
 				StringUtils.isEmpty(tableModel.getName()) ? tableModel.getId().toString() : tableModel.getName(),
 				keyConstraint.getName(),

@@ -70,7 +70,7 @@ public class IdCollisionValidator extends AbstractTraversalValidator<UUID> {
 		 * @param current 現在位置を表す文字列
 		 */
 		public IdCollisionProblem(UUID id, String prev, String current) {
-			super("F0010");
+			super(null, "F0010");
 			setArguments(new Object[] {
 				id,
 				prev,

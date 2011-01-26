@@ -21,7 +21,9 @@ package org.jiemamy.model.table;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
+import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.EntityResolver;
 import org.jiemamy.model.DatabaseObjectModel;
@@ -164,6 +166,10 @@ public interface TableModel extends DatabaseObjectModel, EntityResolver {
 	 * @return このテーブルの主キーカラムを構成している場合は{@code true}、そうでない場合は{@code false}
 	 */
 	boolean isPrimaryKeyColumn(EntityRef<? extends ColumnModel> ref);
+	
+	<E extends Entity>E resolve(EntityRef<E> ref);
+	
+	Entity resolve(UUID id);
 	
 	EntityRef<? extends TableModel> toReference();
 	

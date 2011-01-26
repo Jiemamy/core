@@ -62,7 +62,7 @@ public class ReferenceValidator extends AbstractTraversalValidator<Void> {
 		 * @param elementReference 参照の切れた参照オブジェクト
 		 */
 		private ReferenceProblem(EntityRef<?> elementReference, String pos) {
-			super("F0040");
+			super(null, "F0040");
 			setArguments(new Object[] {
 				pos,
 				elementReference.getReferentId().toString()

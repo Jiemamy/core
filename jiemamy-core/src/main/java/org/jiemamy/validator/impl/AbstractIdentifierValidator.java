@@ -23,9 +23,11 @@ import java.util.regex.Pattern;
 
 import com.google.common.collect.Lists;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.JiemamyContext;
+import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dialect.ReservedWordsChecker;
 import org.jiemamy.model.DatabaseObjectModel;
 import org.jiemamy.model.column.ColumnModel;
@@ -41,8 +43,6 @@ import org.jiemamy.validator.Problem;
  * @author daisuke
  */
 public abstract class AbstractIdentifierValidator extends AbstractValidator {
-	
-	Collection<Problem> result = Lists.newArrayList();
 	
 	/** 識別子としての妥当性を判断する正規表現パターン */
 	private Pattern identifierPattern;
@@ -67,18 +67,18 @@ public abstract class AbstractIdentifierValidator extends AbstractValidator {
 	}
 	
 	public Collection<? extends Problem> validate(JiemamyContext context) {
-		result = Lists.newArrayList();
+		Collection<Problem> result = Lists.newArrayList();
 		
 		for (DatabaseObjectModel dbo : context.getDatabaseObjects()) {
-			isValid(dbo.getName());
+			collectProblem(dbo, dbo.getName(), result, false);
 			if (dbo instanceof TableModel) {
 				TableModel tableModel = (TableModel) dbo;
 				for (ColumnModel columnModel : tableModel.getColumns()) {
-					isValid(columnModel.getName());
+					collectProblem(columnModel, columnModel.getName(), result, false);
 				}
 				
 				for (ConstraintModel constraint : tableModel.getConstraints()) {
-					isValid(constraint.getName());
+					collectProblem(constraint, constraint.getName(), result, true);
 				}
 			}
 		}
@@ -86,23 +86,39 @@ public abstract class AbstractIdentifierValidator extends AbstractValidator {
 		return result;
 	}
 	
-	boolean isValid(String name) {
-		boolean valid = true;
-		if (name == null) {
-			return valid;
+	int collectProblem(Entity entity, String name, Collection<Problem> result, boolean emptyValid) {
+		int before = result.size();
+		if (StringUtils.isEmpty(name)) {
+			if (emptyValid) {
+				return 0;
+			} else {
+				result.add(new EmptyNameProblem(entity));
+				return 1;
+			}
 		}
+		
 		if (identifierPattern.matcher(name).matches() == false) {
-			result.add(new InvalidNameProblem(name, identifierPattern));
-			valid = false;
+			result.add(new InvalidNameProblem(entity, name, identifierPattern));
 		}
 		if (reservedWords.isReserved(name)) {
-			result.add(new ReservedWordProblem(name));
-			valid = false;
+			result.add(new ReservedWordProblem(entity, name));
 		}
-		return valid;
+		return result.size() - before;
 	}
 	
 
+	static class EmptyNameProblem extends AbstractProblem {
+		
+		/**
+		 * インスタンスを生成する。
+		 * 
+		 * @param target 
+		 */
+		public EmptyNameProblem(Entity target) {
+			super(target, "E0011");
+		}
+	}
+	
 	static class InvalidNameProblem extends AbstractProblem {
 		
 		/**
@@ -111,8 +127,8 @@ public abstract class AbstractIdentifierValidator extends AbstractValidator {
 		 * @param name 識別子名
 		 * @param pattern 識別子が満たすべき正規表現パターン
 		 */
-		public InvalidNameProblem(String name, Pattern pattern) {
-			super("E0010");
+		public InvalidNameProblem(Entity target, String name, Pattern pattern) {
+			super(target, "E0010");
 			setArguments(new Object[] {
 				name,
 				pattern.pattern()
@@ -127,8 +143,8 @@ public abstract class AbstractIdentifierValidator extends AbstractValidator {
 		 * 
 		 * @param name 識別子名
 		 */
-		public ReservedWordProblem(String name) {
-			super("E0020");
+		public ReservedWordProblem(Entity target, String name) {
+			super(target, "E0020");
 			setArguments(new Object[] {
 				name
 			});

@@ -99,7 +99,7 @@ public class CheckConstraintValidatorTest {
 		
 		Problem problem1 = result2.iterator().next();
 		assertThat(problem1, is(instanceOf(CheckConstraintValidator.EmptyExpressionProblem.class)));
-		assertThat(problem1.getMessage(Locale.JAPAN), is("テーブルfooの1番目のチェック制約に制約式がありません"));
+		assertThat(problem1.getMessage(Locale.JAPAN), is("テーブルfooの1番目のチェック制約に制約式がありません。"));
 		assertThat(problem1.getErrorCode(), is("E0031"));
 		
 		tableModel1.deleteConstraint(checkConstraint.toReference());
@@ -113,7 +113,7 @@ public class CheckConstraintValidatorTest {
 		
 		Problem problem2 = result3.iterator().next();
 		assertThat(problem2, is(instanceOf(CheckConstraintValidator.EmptyExpressionProblem.class)));
-		assertThat(problem2.getMessage(Locale.JAPAN), is("テーブルfooに設定されたチェック制約ccに制約式がありません"));
+		assertThat(problem2.getMessage(Locale.JAPAN), is("テーブルfooに設定されたチェック制約ccに制約式がありません。"));
 		assertThat(problem2.getErrorCode(), is("E0030"));
 		
 		tableModel1.deleteConstraint(checkConstraint.toReference());

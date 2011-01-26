@@ -42,6 +42,6 @@ public class AbstractProblemTest {
 	@Test
 	public void test01_リソースファイルにアクセスできる() throws Exception {
 		ResourceBundle bundle = ResourceBundle.getBundle(AbstractProblem.BUNDLE_NAME, Locale.JAPAN);
-		assertThat(bundle.getString("E0010"), is("識別子{0}は、正規表現{1}にマッチしません"));
+		assertThat(bundle.getString("T9999"), is("foo bar baz qux"));
 	}
 }

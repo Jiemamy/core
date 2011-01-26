@@ -33,6 +33,7 @@ import org.slf4j.LoggerFactory;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.dddbase.DefaultEntityRef;
+import org.jiemamy.dddbase.EntityNotFoundException;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.table.TableModel;
 import org.jiemamy.serializer.SerializationException;
@@ -154,7 +155,12 @@ public final class DefaultDataSetModelSerializationHandler extends Serialization
 				JiemamyOutputElement tableRecordElement = tableRecordsElement.addElement(CoreQName.TABLE_RECORD);
 				tableRecordElement.addAttribute(CoreQName.REF, tableRef.getReferentId());
 				if (JiemamyContext.isDebug()) {
-					tableRecordElement.addComment(" TableName: " + context.resolve(tableRef).getName() + " ");
+					try {
+						String name = context.resolve(tableRef).getName();
+						tableRecordElement.addComment(" TableName: " + name + " ");
+					} catch (EntityNotFoundException e) {
+						tableRecordElement.addComment(" !!! Table cannot resolved !!! ");
+					}
 				}
 				sctx.push(tableRecordElement);
 				sctx.setCurrentTableRef(tableRef);

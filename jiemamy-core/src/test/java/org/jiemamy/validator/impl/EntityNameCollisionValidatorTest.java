@@ -35,17 +35,17 @@ import org.jiemamy.utils.UUIDUtil;
 import org.jiemamy.validator.Problem;
 
 /**
- * {@link EntityNameCollisionValidator}のテストクラス。
+ * {@link DatabaseObjectNameCollisionValidator}のテストクラス。
  * 
  * @author daisuke
  */
 public class EntityNameCollisionValidatorTest {
 	
 	/** テスト対象のバリデータ */
-	private EntityNameCollisionValidator validator;
+	private DatabaseObjectNameCollisionValidator validator;
 	
 	/** テスト対象の問題 */
-	private EntityNameCollisionValidator.EntityNameCollisionProblem problem;
+	private DatabaseObjectNameCollisionValidator.DatabaseObjectNameCollisionProblem problem;
 	
 
 	/**
@@ -55,8 +55,8 @@ public class EntityNameCollisionValidatorTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		validator = new EntityNameCollisionValidator();
-		problem = new EntityNameCollisionValidator.EntityNameCollisionProblem("foobar", null);
+		validator = new DatabaseObjectNameCollisionValidator();
+		problem = new DatabaseObjectNameCollisionValidator.DatabaseObjectNameCollisionProblem("foobar", null);
 	}
 	
 	/**
@@ -93,8 +93,8 @@ public class EntityNameCollisionValidatorTest {
 		assertThat(result2.size(), is(1)); // 問題1つ
 		
 		Problem problem = result2.iterator().next();
-		assertThat(problem, is(instanceOf(EntityNameCollisionValidator.EntityNameCollisionProblem.class)));
-		assertThat(problem.getMessage(Locale.JAPAN), is("エンティティ名 \"foo\" が重複しています"));
+		assertThat(problem, is(instanceOf(DatabaseObjectNameCollisionValidator.DatabaseObjectNameCollisionProblem.class)));
+		assertThat(problem.getMessage(Locale.JAPAN), is("エンティティ名 \"foo\" が重複しています。"));
 		assertThat(problem.getErrorCode(), is("E0070"));
 		
 		DefaultTableModel tableModel3 = new DefaultTableModel(UUIDUtil.valueOfOrRandom("c"));
@@ -123,13 +123,13 @@ public class EntityNameCollisionValidatorTest {
 	 */
 	@Test
 	public void test02_各ロケールのエラーメッセージが適切に構築される() throws Exception {
-		assertThat(problem.getMessage(Locale.JAPAN), is("エンティティ名 \"foobar\" が重複しています"));
+		assertThat(problem.getMessage(Locale.JAPAN), is("エンティティ名 \"foobar\" が重複しています。"));
 		assertThat(problem.getMessage(Locale.ENGLISH), is("Duplicate entity name foobar"));
 		
 		Locale backup = Locale.getDefault();
 		try {
 			Locale.setDefault(Locale.JAPAN);
-			assertThat(problem.getMessage(new Locale("xx")), is("エンティティ名 \"foobar\" が重複しています"));
+			assertThat(problem.getMessage(new Locale("xx")), is("エンティティ名 \"foobar\" が重複しています。"));
 		} finally {
 			Locale.setDefault(backup);
 		}

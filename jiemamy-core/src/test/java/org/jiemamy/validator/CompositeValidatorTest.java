@@ -91,14 +91,14 @@ public class CompositeValidatorTest {
 	private static class MockProblem1 extends AbstractProblem {
 		
 		MockProblem1(String string) {
-			super("EMOCK1");
+			super(null, "EMOCK1");
 		}
 	}
 	
 	private static class MockProblem2 extends AbstractProblem {
 		
 		MockProblem2(String string) {
-			super("WMOCK2");
+			super(null, "WMOCK2");
 		}
 	}
 	

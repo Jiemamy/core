@@ -32,7 +32,7 @@ import org.jiemamy.validator.AbstractValidator;
 import org.jiemamy.validator.Problem;
 
 /**
- * エンティティ名が衝突しているかどうかを調べるバリデータ。
+ * DatabaseObject名が衝突しているかどうかを調べるバリデータ。
  * 
  * <ul>
  *   <li>{@link JiemamyContext} が保持する全てのエンティティ間で、名前の重複があってはならない。</li>
@@ -40,23 +40,23 @@ import org.jiemamy.validator.Problem;
  * 
  * @author daisuke
  */
-public class EntityNameCollisionValidator extends AbstractValidator {
+public class DatabaseObjectNameCollisionValidator extends AbstractValidator {
 	
-	public Collection<? extends Problem> validate(JiemamyContext rootModel) {
+	public Collection<? extends Problem> validate(JiemamyContext context) {
 		Collection<Problem> result = Lists.newArrayList();
 		Map<String, Collection<DatabaseObjectModel>> map = Maps.newHashMap();
 		
-		for (DatabaseObjectModel entityModel : rootModel.getDatabaseObjects()) {
-			String name = entityModel.getName();
+		for (DatabaseObjectModel dom : context.getDatabaseObjects()) {
+			String name = dom.getName();
 			if (map.containsKey(name) == false) {
 				map.put(name, new ArrayList<DatabaseObjectModel>());
 			}
-			map.get(name).add(entityModel);
+			map.get(name).add(dom);
 		}
 		
 		for (Map.Entry<String, Collection<DatabaseObjectModel>> e : map.entrySet()) {
 			if (e.getValue().size() != 1) {
-				result.add(new EntityNameCollisionProblem(e.getKey(), e.getValue()));
+				result.add(new DatabaseObjectNameCollisionProblem(e.getKey(), e.getValue()));
 			}
 		}
 		
@@ -65,11 +65,11 @@ public class EntityNameCollisionValidator extends AbstractValidator {
 	
 
 	/**
-	 * エンティティ名が衝突していることを示す{@link Problem}オブジェクト。
+	 * DatabaseObject名が衝突していることを示す{@link Problem}オブジェクト。
 	 * 
 	 * @author daisuke
 	 */
-	static class EntityNameCollisionProblem extends AbstractProblem {
+	static class DatabaseObjectNameCollisionProblem extends AbstractProblem {
 		
 		/**
 		 * インスタンスを生成する。
@@ -77,8 +77,8 @@ public class EntityNameCollisionValidator extends AbstractValidator {
 		 * @param entityName 衝突したエンティティ名
 		 * @param entities 衝突したエンティティの集合
 		 */
-		public EntityNameCollisionProblem(String entityName, Collection<DatabaseObjectModel> entities) {
-			super("E0070");
+		public DatabaseObjectNameCollisionProblem(String entityName, Collection<DatabaseObjectModel> entities) {
+			super(null, "E0070");
 			setArguments(new Object[] {
 				entityName
 			});

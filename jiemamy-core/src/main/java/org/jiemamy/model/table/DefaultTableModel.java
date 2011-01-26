@@ -168,10 +168,8 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 		for (DatabaseObjectModel databaseObject : databaseObjects) {
 			for (Entity entity : databaseObject.getSubEntities()) {
 				if (columnRef.isReferenceOf(entity)) {
-					if (databaseObject instanceof TableModel) {
-						TableModel tableModel = (TableModel) databaseObject;
-						return tableModel.findReferencedKeyConstraint(foreignKey);
-					}
+					TableModel tableModel = (TableModel) databaseObject;
+					return tableModel.findReferencedKeyConstraint(foreignKey);
 				}
 			}
 		}

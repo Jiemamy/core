@@ -18,18 +18,8 @@
  */
 package org.jiemamy.validator;
 
+import java.util.Arrays;
 import java.util.List;
-
-import org.jiemamy.validator.impl.CheckConstraintValidator;
-import org.jiemamy.validator.impl.ColumnValidator;
-import org.jiemamy.validator.impl.EntityNameCollisionValidator;
-import org.jiemamy.validator.impl.ForeignKeyValidator;
-import org.jiemamy.validator.impl.IdCollisionValidator;
-import org.jiemamy.validator.impl.IndexValidator;
-import org.jiemamy.validator.impl.KeyConstraintValidator;
-import org.jiemamy.validator.impl.PrimaryKeyValidator;
-import org.jiemamy.validator.impl.ReferenceValidator;
-import org.jiemamy.validator.impl.TableValidator;
 
 /**
  * 標準バリデータを全て動かすバリデータ。
@@ -43,16 +33,6 @@ public class AllValidator extends CompositeValidator {
 	 */
 	public AllValidator() {
 		List<Validator> validators = getValidators();
-		validators.add(new ColumnValidator());
-		validators.add(new EntityNameCollisionValidator());
-		validators.add(new ForeignKeyValidator());
-		validators.add(new IdCollisionValidator());
-		validators.add(new IndexValidator());
-		validators.add(new KeyConstraintValidator());
-		validators.add(new PrimaryKeyValidator());
-		validators.add(new ReferenceValidator());
-		validators.add(new TableValidator());
-		validators.add(new CheckConstraintValidator());
+		validators.addAll(Arrays.asList(Validators.values()));
 	}
-	
 }

@@ -50,7 +50,7 @@ public class CheckConstraintValidator extends AbstractValidator {
 			for (CheckConstraintModel checkConstraint : tableModel.getConstraints(CheckConstraintModel.class)) {
 				if (isValid(checkConstraint) == false) {
 					if (StringUtils.isEmpty(checkConstraint.getName())) {
-						result.add(new EmptyExpressionProblem(tableModel, index));
+						result.add(new EmptyExpressionProblem(tableModel, checkConstraint, index));
 					} else {
 						result.add(new EmptyExpressionProblem(tableModel, checkConstraint));
 					}
@@ -82,7 +82,7 @@ public class CheckConstraintValidator extends AbstractValidator {
 		 * @param checkConstraintModel 制約式未設定チェック制約
 		 */
 		public EmptyExpressionProblem(TableModel tableModel, CheckConstraintModel checkConstraintModel) {
-			super("E0030");
+			super(checkConstraintModel, "E0030");
 			setArguments(new Object[] {
 				tableModel.getName(),
 				checkConstraintModel.getName()
@@ -95,8 +95,8 @@ public class CheckConstraintValidator extends AbstractValidator {
 		 * @param tableModel 制約式未設定チェック制約が含まれるテーブル
 		 * @param index チェック制約のインデックス
 		 */
-		public EmptyExpressionProblem(TableModel tableModel, int index) {
-			super("E0031");
+		public EmptyExpressionProblem(TableModel tableModel, CheckConstraintModel checkConstraintModel, int index) {
+			super(checkConstraintModel, "E0031");
 			setArguments(new Object[] {
 				tableModel.getName(),
 				index + 1

@@ -51,7 +51,7 @@ public class ColumnValidator extends AbstractValidator {
 			int index = 0;
 			for (ColumnModel columnModel : tableModel.getColumns()) {
 				if (StringUtils.isEmpty(columnModel.getName())) {
-					result.add(new EmptyColumnNameProblem(tableModel, index));
+					result.add(new EmptyColumnNameProblem(tableModel, columnModel, index));
 				}
 				if (columnModel.getDataType() == null) {
 					result.add(new EmptyDataTypeProblem(tableModel, columnModel));
@@ -71,8 +71,8 @@ public class ColumnValidator extends AbstractValidator {
 		 * @param tableModel 無名カラムが含まれるテーブル
 		 * @param index カラムのインデックス
 		 */
-		public EmptyColumnNameProblem(TableModel tableModel, int index) {
-			super("E0040");
+		public EmptyColumnNameProblem(TableModel tableModel, ColumnModel columnModel, int index) {
+			super(columnModel, "E0040");
 			setArguments(new Object[] {
 				tableModel.getName(),
 				index
@@ -89,7 +89,7 @@ public class ColumnValidator extends AbstractValidator {
 		 * @param columnModel データ型無指定のカラム
 		 */
 		public EmptyDataTypeProblem(TableModel tableModel, ColumnModel columnModel) {
-			super("E0050");
+			super(columnModel, "E0050");
 			setArguments(new Object[] {
 				tableModel.getName(),
 				columnModel.getName()

@@ -80,7 +80,7 @@ public class IndexValidator extends AbstractValidator {
 		 * @param columnModel 複数設定されたカラム
 		 */
 		protected DuplicatedIndexColumnsProblem(IndexModel indexModel, ColumnModel columnModel) {
-			super("E0100");
+			super(indexModel, "E0100");
 			setArguments(new Object[] {
 				StringUtils.isEmpty(indexModel.getName()) ? indexModel.getId().toString() : indexModel.getName(),
 				columnModel.getName()
@@ -96,7 +96,7 @@ public class IndexValidator extends AbstractValidator {
 		 * @param indexModel インデックスカラムを1つも持たないインデックス
 		 */
 		public NoIndexColumnProblem(IndexModel indexModel) {
-			super("E0120");
+			super(indexModel, "E0120");
 			setArguments(new Object[] {
 				StringUtils.isEmpty(indexModel.getName()) ? indexModel.getId().toString() : indexModel.getName(),
 			});

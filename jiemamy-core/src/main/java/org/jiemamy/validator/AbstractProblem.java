@@ -21,11 +21,13 @@ package org.jiemamy.validator;
 import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import java.util.UUID;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.JiemamyContext;
+import org.jiemamy.dddbase.Entity;
 
 /**
  * {@link Problem}の骨格実装クラス。
@@ -42,6 +44,8 @@ public abstract class AbstractProblem implements Problem {
 	
 	private final String baseName;
 	
+	private final UUID targetId;
+	
 
 	/**
 	 * インスタンスを生成する。
@@ -49,8 +53,8 @@ public abstract class AbstractProblem implements Problem {
 	 * @param errorCode エラーコード
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public AbstractProblem(String errorCode) {
-		this(errorCode, BUNDLE_NAME);
+	public AbstractProblem(Entity target, String errorCode) {
+		this(target, errorCode, BUNDLE_NAME);
 	}
 	
 	/**
@@ -60,9 +64,10 @@ public abstract class AbstractProblem implements Problem {
 	 * @param baseName {@link ResourceBundle}のベース名
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	AbstractProblem(String errorCode, String baseName) {
+	AbstractProblem(Entity target, String errorCode, String baseName) {
 		Validate.notNull(errorCode);
 		Validate.notNull(baseName);
+		targetId = target == null ? null : target.getId();
 		this.errorCode = errorCode;
 		this.baseName = baseName;
 	}
@@ -87,6 +92,10 @@ public abstract class AbstractProblem implements Problem {
 	
 	public Severity getSeverity() {
 		return Severity.fromErrorCode(errorCode);
+	}
+	
+	public UUID getTargetId() {
+		return targetId;
 	}
 	
 	public void quickFix(JiemamyContext context) {

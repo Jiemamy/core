@@ -19,6 +19,7 @@
 package org.jiemamy.validator;
 
 import java.util.Locale;
+import java.util.UUID;
 
 import org.jiemamy.JiemamyContext;
 
@@ -41,8 +42,6 @@ public interface Problem {
 	/**
 	 * エラーコードを取得する。
 	 * 
-	 * <p>{@code null}を返してはならない。</p>
-	 * 
 	 * @return エラーコード
 	 * @since 0.2
 	 */
@@ -52,8 +51,6 @@ public interface Problem {
 	 * 指摘事項を説明するメッセージをデフォルトのロケールで取得する。
 	 * 
 	 * <p>デフォルトロケールにおけるメッセージがなかった場合は、 {@link Locale#US} におけるメッセージを返す。</p>
-	 * 
-	 * <p>{@code null}を返してはならない。</p>
 	 * 
 	 * @return 指摘事項を説明するメッセージ
 	 * @since 0.2
@@ -65,8 +62,6 @@ public interface Problem {
 	 * 
 	 * <p>指定ロケールにおけるメッセージがなかった場合は、デフォルトロケール, {@link Locale#US} におけるメッセージを返す。</p>
 	 * 
-	 * <p>{@code null}を返してはならない。</p>
-	 * 
 	 * @param locale ロケール
 	 * @return 指摘事項を説明するメッセージ
 	 * @since 0.2
@@ -76,12 +71,12 @@ public interface Problem {
 	/**
 	 * 問題の重要度を取得する。
 	 * 
-	 * <p>{@code null}を返してはならない。</p>
-	 * 
 	 * @return 問題の重要度
 	 * @since 0.2
 	 */
 	Severity getSeverity();
+	
+	UUID getTargetId();
 	
 	/**
 	 * クイックフィックスを施し、問題を自動修正する。

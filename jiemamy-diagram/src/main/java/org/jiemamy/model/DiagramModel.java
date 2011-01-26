@@ -17,7 +17,9 @@
 package org.jiemamy.model;
 
 import java.util.Collection;
+import java.util.UUID;
 
+import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.EntityResolver;
 import org.jiemamy.dddbase.OrderedEntity;
@@ -112,6 +114,10 @@ public interface DiagramModel extends OrderedEntity, EntityResolver {
 	 * @since 0.3
 	 */
 	Collection<? extends ConnectionModel> getTargetConnections(EntityRef<? extends NodeModel> ref);
+	
+	<E extends Entity>E resolve(EntityRef<E> ref);
+	
+	Entity resolve(UUID id);
 	
 	EntityRef<? extends DiagramModel> toReference();
 }

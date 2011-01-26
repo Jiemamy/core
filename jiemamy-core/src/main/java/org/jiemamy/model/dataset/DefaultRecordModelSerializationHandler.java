@@ -33,6 +33,7 @@ import org.slf4j.LoggerFactory;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.dddbase.DefaultEntityRef;
+import org.jiemamy.dddbase.EntityNotFoundException;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.column.ColumnModel;
 import org.jiemamy.script.ScriptString;
@@ -121,11 +122,16 @@ public final class DefaultRecordModelSerializationHandler extends SerializationH
 			
 			Iterable<Entry<EntityRef<? extends ColumnModel>, ScriptString>> values =
 					model.toIterable(sctx.getContext(), sctx.getCurrentTableRef());
-			for (Entry<EntityRef<? extends ColumnModel>, ScriptString> e : values) {
-				EntityRef<? extends ColumnModel> columnRef = e.getKey();
-				ScriptString value = e.getValue();
+			for (Entry<EntityRef<? extends ColumnModel>, ScriptString> entry : values) {
+				EntityRef<? extends ColumnModel> columnRef = entry.getKey();
+				ScriptString value = entry.getValue();
 				if (JiemamyContext.isDebug()) {
-					recordsElement.addComment(" ColumnName: " + context.resolve(columnRef).getName() + " ");
+					try {
+						String name = context.resolve(columnRef).getName();
+						recordsElement.addComment(" ColumnName: " + name + " ");
+					} catch (EntityNotFoundException e3) {
+						recordsElement.addComment(" !!! Column cannot resolved !!! ");
+					}
 				}
 				JiemamyOutputElement recordElement = recordsElement.addElement(CoreQName.RECORD);
 				recordElement.addAttribute(CoreQName.REF, columnRef.getReferentId());

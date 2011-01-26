@@ -23,9 +23,10 @@ import java.util.Collection;
 import com.google.common.collect.Lists;
 
 import org.jiemamy.JiemamyContext;
+import org.jiemamy.dddbase.EntityNotFoundException;
 import org.jiemamy.model.constraint.ForeignKeyConstraintModel;
 import org.jiemamy.model.constraint.KeyConstraintModel;
-import org.jiemamy.model.table.DefaultTableModel;
+import org.jiemamy.model.constraint.NotNullConstraintModel;
 import org.jiemamy.model.table.TableModel;
 import org.jiemamy.validator.AbstractProblem;
 import org.jiemamy.validator.AbstractValidator;
@@ -43,18 +44,20 @@ import org.jiemamy.validator.Problem;
  * 
  * @author daisuke
  */
-public class ForeignKeyValidator extends AbstractValidator {
+public class NotNullConstraintValidator extends AbstractValidator {
 	
 	public Collection<Problem> validate(JiemamyContext context) {
 		Collection<Problem> result = Lists.newArrayList();
 		for (TableModel tableModel : context.getTables()) {
-			for (ForeignKeyConstraintModel foreignKey : tableModel.getConstraints(ForeignKeyConstraintModel.class)) {
-				if (foreignKey.getKeyColumns().size() != foreignKey.getReferenceColumns().size()) {
-					result.add(new ReferenceMappingProblem(foreignKey));
+			for (NotNullConstraintModel nn : tableModel.getConstraints(NotNullConstraintModel.class)) {
+				if (nn.getColumnRef() == null) {
+					result.add(new NullTargetProblem(nn));
 				}
 				
-				if (DefaultTableModel.findReferencedKeyConstraint(context.getTables(), foreignKey) == null) {
-					result.add(new ReferenceKeyProblem(foreignKey));
+				try {
+					tableModel.resolve(nn.getColumnRef());
+				} catch (EntityNotFoundException e) {
+					result.add(new TargetNotFoundProblem(nn));
 				}
 			}
 		}
@@ -63,36 +66,32 @@ public class ForeignKeyValidator extends AbstractValidator {
 	}
 	
 
-	static class ReferenceKeyProblem extends AbstractProblem {
+	static class NullTargetProblem extends AbstractProblem {
 		
 		/**
 		 * インスタンスを生成する。
 		 * 
-		 * @param foreignKey 不正な外部キー
+		 * @param nn 不正な非NULL制約
 		 */
-		public ReferenceKeyProblem(ForeignKeyConstraintModel foreignKey) {
-			super(foreignKey, "E0080");
+		public NullTargetProblem(NotNullConstraintModel nn) {
+			super(nn, "E0180");
 			setArguments(new Object[] {
-				foreignKey.getName(),
-				foreignKey.getKeyColumns().size(),
-				foreignKey.getReferenceColumns().size()
+				nn.getName(),
 			});
 		}
 	}
 	
-	static class ReferenceMappingProblem extends AbstractProblem {
+	static class TargetNotFoundProblem extends AbstractProblem {
 		
 		/**
 		 * インスタンスを生成する。
 		 * 
-		 * @param foreignKey 不正な外部キー
+		 * @param nn 不正な非NULL制約
 		 */
-		public ReferenceMappingProblem(ForeignKeyConstraintModel foreignKey) {
-			super(foreignKey, "E0090");
+		public TargetNotFoundProblem(NotNullConstraintModel nn) {
+			super(nn, "F0020");
 			setArguments(new Object[] {
-				foreignKey.getName(),
-				foreignKey.getKeyColumns().size(),
-				foreignKey.getReferenceColumns().size()
+				nn.getName(),
 			});
 		}
 	}
