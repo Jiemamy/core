@@ -48,6 +48,7 @@ public class DummyHandler extends SerializationHandler<Object> {
 		Validate.notNull(ctx);
 		logger.error("DUMMY WORKER IS CALLED.");
 		return null;
+//		throw new RuntimeException();
 	}
 	
 	@Override
@@ -55,5 +56,6 @@ public class DummyHandler extends SerializationHandler<Object> {
 		Validate.notNull(model);
 		Validate.notNull(sctx);
 		logger.error("DUMMY WORKER IS CALLED.");
+//		throw new RuntimeException();
 	}
 }

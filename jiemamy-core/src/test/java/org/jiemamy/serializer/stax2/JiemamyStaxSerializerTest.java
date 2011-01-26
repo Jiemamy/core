@@ -368,7 +368,7 @@ public class JiemamyStaxSerializerTest {
 	public void test99_適当なモデルを一杯作ってみて_それぞれのシリアライズやデシリアライズが異常終了しないことを確認() throws Exception {
 		File dir = new File("target/test99");
 		FileUtils.deleteDirectory(dir);
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < 30; i++) {
 			logger.info("test99 - " + i);
 			File file1 = new File(dir, String.format("file%03d-1.txt", i));
 			if (file1.exists()) {
