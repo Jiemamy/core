@@ -72,9 +72,9 @@ public class SerializationDirector {
 	
 	private static Logger logger = LoggerFactory.getLogger(SerializationDirector.class);
 	
-	final Map<String, SerializationHandler<?>> handlersS = Maps.newHashMap();
+	final Map<String, SerializationHandler<?>> handlersWithFqcnKey = Maps.newHashMap();
 	
-	final Map<QName, SerializationHandler<?>> handlersD = Maps.newHashMap();
+	final Map<QName, SerializationHandler<?>> handlersWithQNameKey = Maps.newHashMap();
 	
 	@Deprecated
 	private final DummyHandler dummy;
@@ -122,8 +122,8 @@ public class SerializationDirector {
 		Validate.notNull(clazz);
 		Validate.notNull(jQName);
 		Validate.notNull(handler);
-		handlersS.put(clazz.getName(), handler);
-		handlersD.put(jQName.getQName(), handler);
+		handlersWithFqcnKey.put(clazz.getName(), handler);
+		handlersWithQNameKey.put(jQName.getQName(), handler);
 	}
 	
 	public <T>T direct(DeserializationContext ctx) throws SerializationException {
@@ -145,11 +145,17 @@ public class SerializationDirector {
 		
 		try {
 			QName qName = cursor.getQName();
-			SerializationHandler<T> handler = (SerializationHandler<T>) handlersD.get(qName);
+			
+			if (cursor.hasAttr(CoreQName.CLASS)) {
+				String className = cursor.getAttrValue(CoreQName.CLASS);
+				return findHandler(className);
+			}
+			
+			SerializationHandler<T> handler = (SerializationHandler<T>) handlersWithQNameKey.get(qName);
 			
 			// FIXME ケツ持ち処理start
 			if (handler == null) {
-				logger.error("can not found deserialization hander : " + qName);
+				logger.error("can not found deserialization handler : " + qName);
 				handler = (SerializationHandler<T>) dummy;
 			}
 			// ケツ持ち処理end
@@ -161,17 +167,23 @@ public class SerializationDirector {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private <T>SerializationHandler<T> findHandler(T target) {
-		Validate.notNull(target);
-		SerializationHandler<T> handler = (SerializationHandler<T>) handlersS.get(target.getClass().getName());
+	private <T>SerializationHandler<T> findHandler(String targetName) {
+		Validate.notNull(targetName);
+		SerializationHandler<T> handler = (SerializationHandler<T>) handlersWithFqcnKey.get(targetName);
 		
 		// FIXME ケツ持ち処理start
 		if (handler == null) {
-			logger.error("can not found serialization handler : " + target.getClass().getName());
+			logger.error("can not found serialization handler : " + targetName);
 			handler = (SerializationHandler<T>) dummy;
 		}
 		// ケツ持ち処理end
 		
 		return handler;
 	}
+	
+	private <T>SerializationHandler<T> findHandler(T target) {
+		Validate.notNull(target);
+		return findHandler(target.getClass().getName());
+	}
+	
 }

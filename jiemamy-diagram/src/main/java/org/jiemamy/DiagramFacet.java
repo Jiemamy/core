@@ -43,6 +43,8 @@ import org.jiemamy.model.DefaultDiagramModel;
 import org.jiemamy.model.DefaultDiagramModelSerializationHandler;
 import org.jiemamy.model.DiagramModel;
 import org.jiemamy.model.DiagramNotFoundException;
+import org.jiemamy.model.StickyNodeModel;
+import org.jiemamy.model.StickyNodeModelSerializationHandler;
 import org.jiemamy.model.TooManyDiagramsFoundException;
 import org.jiemamy.model.geometory.JmColor;
 import org.jiemamy.model.geometory.JmColorSerializationHandler;
@@ -161,6 +163,7 @@ public class DiagramFacet implements JiemamyFacet {
 		director.addHandler(DiagramFacet.class, DiagramQName.DIAGRAMS, new DiagramFacetSerializationHandler(director));
 		director.addHandler(DefaultDiagramModel.class, DiagramQName.DIAGRAM, new DefaultDiagramModelSerializationHandler(director));
 		director.addHandler(DefaultDatabaseObjectNodeModel.class, DiagramQName.NODE, new DefaultDatabaseObjectNodeModelSerializationHandler(director));
+		director.addHandler(StickyNodeModel.class, DiagramQName.NODE, new StickyNodeModelSerializationHandler(director));
 		director.addHandler(DefaultConnectionModel.class, DiagramQName.CONNECTION, new DefaultConnectionModelSerializationHandler(director));
 		// TODO sticky handler
 		director.addHandler(JmColor.class, DiagramQName.COLOR, new JmColorSerializationHandler(director));

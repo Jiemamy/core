@@ -1330,6 +1330,20 @@ public class JiemamyCursor {
 	}
 	
 	/**
+	 * DOCME for yamkazu
+	 * 
+	 * @param jQName Jiemamy QName
+	 * @return if cursor has attr {@code ture}
+	 * @throws XMLStreamException if either the underlying parser has
+	 *   problems (cursor not valid or not pointing to START_ELEMENT),
+	 *   or if invalid attribute
+	 * @throws IllegalArgumentException if attribute was not found 
+	 */
+	public boolean hasAttr(JiemamyQName jQName) throws XMLStreamException {
+		return -1 != cursor.findAttrIndex(jQName.getQName().getNamespaceURI(), jQName.getQName().getLocalPart());
+	}
+	
+	/**
 	 * Method for verifying whether current named event (one for which
 	 * {@link #getLocalName} can be called)
 	 * has the specified local name or not.

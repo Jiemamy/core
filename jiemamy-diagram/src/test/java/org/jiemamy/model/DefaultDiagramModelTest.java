@@ -57,6 +57,10 @@ public class DefaultDiagramModelTest {
 				model.store(DefaultDatabaseObjectNodeModelTest.random(itr.next()));
 			}
 		}
+		int stickNodes = integer(5);
+		for (int i = 0; i < stickNodes; i++) {
+			model.store(StickyNodeModelTest.random());
+		}
 		return model;
 	}
 	
