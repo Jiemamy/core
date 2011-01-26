@@ -20,6 +20,7 @@ package org.jiemamy.model.sql;
 
 import java.util.List;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
 import org.apache.commons.lang.Validate;
@@ -32,23 +33,18 @@ import org.apache.commons.lang.Validate;
 public class DefaultSqlStatement implements SqlStatement {
 	
 	/** トークンのリスト */
-	private List<Token> tokens = Lists.newArrayList();
+	private final List<Token> tokens;
 	
 
 	/**
 	 * インスタンスを生成する。
-	 */
-	public DefaultSqlStatement() {
-		super();
-	}
-	
-	/**
-	 * インスタンスを生成する。
 	 * 
 	 * @param tokens トークンシーケンス
+	 * @throws IllegalArgumentException 引数に{@code null}または{@code null}要素を与えた場合
 	 */
 	public DefaultSqlStatement(List<Token> tokens) {
-		this.tokens.addAll(tokens);
+		Validate.noNullElements(tokens);
+		this.tokens = ImmutableList.copyOf(tokens);
 	}
 	
 	/**
@@ -56,37 +52,17 @@ public class DefaultSqlStatement implements SqlStatement {
 	 * 
 	 * @param token トークン
 	 * @param tokenArray トークン
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public DefaultSqlStatement(Token token, Token... tokenArray) {
+		Validate.notNull(token);
+		Validate.noNullElements(tokenArray);
+		List<Token> tokens = Lists.newArrayList();
 		tokens.add(token);
-		for (Token token2 : tokenArray) {
-			tokens.add(token2);
+		for (Token tokenRest : tokenArray) {
+			tokens.add(tokenRest);
 		}
-	}
-	
-	/**
-	 * ステートメントを構成するトークンシーケンスを取得する。
-	 * 
-	 * <p>このメソッドは、インスタンスの持つフィールドをそのまま返す。返される{@link List}を直接操作することで、
-	 * このオブジェクトのフィールドとして保持される{@link List}を変更することができる。</p>
-	 * 
-	 * @return トークンシーケンス
-	 * @see #toTokens()
-	 */
-	public List<Token> getTokens() {
-		return tokens;
-	}
-	
-	/**
-	 * トークンを挿入する。
-	 * 
-	 * @param index 挿入位置インデックス
-	 * @param tokens 挿入するトークンシーケンス
-	 */
-	public void insert(int index, List<Token> tokens) {
-		for (Token token : tokens) {
-			this.tokens.add(index++, token);
-		}
+		this.tokens = ImmutableList.copyOf(tokens);
 	}
 	
 	@Override

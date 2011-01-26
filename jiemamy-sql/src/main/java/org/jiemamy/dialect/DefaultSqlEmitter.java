@@ -91,7 +91,7 @@ public class DefaultSqlEmitter implements SqlEmitter {
 	 * @param tokenResolver {@link TokenResolver}
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public DefaultSqlEmitter(TokenResolver tokenResolver) {
+	protected DefaultSqlEmitter(TokenResolver tokenResolver) {
 		Validate.notNull(tokenResolver);
 		this.tokenResolver = tokenResolver;
 	}
@@ -287,14 +287,14 @@ public class DefaultSqlEmitter implements SqlEmitter {
 	/**
 	 * エンティティのDROP文を出力する。
 	 * 
-	 * @param entityModel 対象エンティティ
+	 * @param dom 対象エンティティ
 	 * @return DROP文
 	 */
-	protected SqlStatement emitDropEntityStatement(DatabaseObjectModel entityModel) {
+	protected SqlStatement emitDropEntityStatement(DatabaseObjectModel dom) {
 		List<Token> tokens = Lists.newArrayList();
 		tokens.add(Keyword.DROP);
-		tokens.addAll(tokenResolver.resolve(entityModel));
-		tokens.add(Identifier.of(entityModel.getName()));
+		tokens.addAll(tokenResolver.resolve(dom));
+		tokens.add(Identifier.of(dom.getName()));
 		tokens.add(Separator.SEMICOLON);
 		return new DefaultSqlStatement(tokens);
 	}

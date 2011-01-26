@@ -33,7 +33,6 @@ import org.jiemamy.model.datatype.TypeReference;
 import org.jiemamy.model.datatype.TypeVariant;
 import org.jiemamy.model.index.IndexColumnModel.SortOrder;
 import org.jiemamy.model.index.IndexModel;
-import org.jiemamy.model.sql.Identifier;
 import org.jiemamy.model.sql.Keyword;
 import org.jiemamy.model.sql.Literal;
 import org.jiemamy.model.sql.Separator;
@@ -46,7 +45,7 @@ import org.jiemamy.model.view.ViewModel;
  * 
  * @author daisuke
  */
-public final class DefaultTokenResolver implements TokenResolver {
+public class DefaultTokenResolver implements TokenResolver {
 	
 	private static Logger logger = LoggerFactory.getLogger(DefaultTokenResolver.class);
 	
@@ -120,7 +119,7 @@ public final class DefaultTokenResolver implements TokenResolver {
 	protected List<Token> resolveType(TypeVariant type) {
 		List<Token> result = Lists.newArrayList();
 		TypeReference typeReference = type.getTypeReference();
-		result.add(Identifier.of(typeReference.getTypeName()));
+		result.add(Keyword.of(typeReference.getTypeName()));
 		if (type.getParam(TypeParameterKey.SIZE) != null) {
 			result.add(Separator.LEFT_PAREN);
 			result.add(Literal.of(type.getParam(TypeParameterKey.SIZE)));
