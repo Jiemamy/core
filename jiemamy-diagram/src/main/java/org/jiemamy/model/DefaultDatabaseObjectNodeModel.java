@@ -66,7 +66,7 @@ public final class DefaultDatabaseObjectNodeModel extends DefaultNodeModel imple
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder(super.toString());
-		sb.insert(sb.length() - 1, "," + coreModelRef);
+		sb.insert(sb.length() - 1, ", " + coreModelRef);
 		return sb.toString();
 	}
 }
