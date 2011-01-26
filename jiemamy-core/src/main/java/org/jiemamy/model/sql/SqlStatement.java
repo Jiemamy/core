@@ -20,6 +20,8 @@ package org.jiemamy.model.sql;
 
 import java.util.List;
 
+import org.jiemamy.dddbase.ValueObject;
+
 /**
  * SQL文をあらわすインターフェイス。
  * 
@@ -28,7 +30,7 @@ import java.util.List;
  * @since 0.2
  * @author daisuke
  */
-public interface SqlStatement {
+public interface SqlStatement extends ValueObject {
 	
 	/**
 	 * SQL文に変換する。
