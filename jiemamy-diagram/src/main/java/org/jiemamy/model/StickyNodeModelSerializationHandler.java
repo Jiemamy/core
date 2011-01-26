@@ -37,7 +37,6 @@ import org.jiemamy.serializer.stax2.JiemamyOutputElement;
 import org.jiemamy.serializer.stax2.SerializationContext;
 import org.jiemamy.serializer.stax2.SerializationDirector;
 import org.jiemamy.serializer.stax2.SerializationHandler;
-import org.jiemamy.utils.JmStringUtil;
 import org.jiemamy.xml.CoreQName;
 import org.jiemamy.xml.DiagramQName;
 
@@ -82,7 +81,7 @@ public final class StickyNodeModelSerializationHandler extends SerializationHand
 			do {
 				childCursor.advance();
 				if (childCursor.getCurrEvent() == SMEvent.START_ELEMENT) {
-					if (childCursor.isQName(DiagramQName.CONNECTIONS)) {
+					if (childCursor.isQName(DiagramQName.CONTENTS)) {
 						contents = childCursor.collectDescendantText(false);
 					} else if (childCursor.isQName(DiagramQName.BOUNDARY)) {
 						boundary = getDirector().direct(ctx);
@@ -117,8 +116,8 @@ public final class StickyNodeModelSerializationHandler extends SerializationHand
 			nodeElement.addAttribute(CoreQName.ID, model.getId());
 			nodeElement.addAttribute(CoreQName.CLASS, model.getClass());
 			
-			if (JmStringUtil.isNotEmpty(model.getContents())) {
-				nodeElement.addElementAndCharacters(CoreQName.CONSTRAINTS, model.getContents());
+			if (model.getContents() != null) {
+				nodeElement.addElementAndCharacters(DiagramQName.CONTENTS, model.getContents());
 			}
 			
 			sctx.push(nodeElement);

@@ -24,6 +24,7 @@ import org.junit.Test;
 
 import org.jiemamy.model.geometory.JmColorTest;
 import org.jiemamy.model.geometory.JmRectangleTest;
+import org.jiemamy.utils.RandomUtil;
 
 /**
  * TODO for yamkazu
@@ -42,6 +43,7 @@ public class StickyNodeModelTest {
 		StickyNodeModel model = new StickyNodeModel(UUID.randomUUID());
 		model.setBoundary(JmRectangleTest.random());
 		model.setColor(JmColorTest.random());
+		model.setContents(RandomUtil.str());
 		return model;
 	}
 	
