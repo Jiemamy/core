@@ -19,10 +19,11 @@
 package org.jiemamy.dialect;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -366,28 +367,43 @@ public class DefaultSqlEmitter implements SqlEmitter {
 		dataList.add(Separator.LEFT_PAREN);
 		
 		List<ColumnModel> columns = tableModel.getColumns();
+		int size = 0;
 		for (ColumnModel columnModel : columns) {
 			if (recordModel.getValues().containsKey(columnModel.toReference()) == false) {
 				continue;
 			}
 			
+			TypeVariant dataType = columnModel.getDataType();
+			
+			String value;
+			try {
+				ScriptString ss = recordModel.getValues().get(columnModel.toReference());
+				Map<String, Object> env = Maps.newHashMap();
+				// TODO env-objectを整備
+				value = ss.process(context, env);
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+				continue;
+			}
+			
+			Literal dataLiteral;
+			if (value == null) {
+				dataLiteral = Literal.NULL;
+			} else {
+				dataLiteral = Literal.of(value, dataType.getTypeReference().getCategory().getLiteralType());
+			}
+			
 			columnList.add(Identifier.of(columnModel.getName()));
 			columnList.add(Separator.COMMA);
 			
-			TypeVariant dataType = columnModel.getDataType();
-			
-			String valueExpression = "";
-			try {
-				ScriptString ss = recordModel.getValues().get(columnModel.toReference());
-				valueExpression = ss.process(context, new HashMap<String, Object>());
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			}
-			dataList.add(Literal.of(valueExpression, dataType.getTypeReference().getCategory().getLiteralType()));
+			dataList.add(dataLiteral);
 			dataList.add(Separator.COMMA);
+			size++;
 		}
-		columnList.remove(columnList.size() - 1);
-		dataList.remove(dataList.size() - 1);
+		if (size > 0) {
+			columnList.remove(columnList.size() - 1);
+			dataList.remove(dataList.size() - 1);
+		}
 		columnList.add(Separator.RIGHT_PAREN);
 		dataList.add(Separator.RIGHT_PAREN);
 		
