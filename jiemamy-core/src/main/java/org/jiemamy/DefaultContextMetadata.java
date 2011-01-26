@@ -18,7 +18,6 @@
  */
 package org.jiemamy;
 
-
 /**
  * {@link ContextMetadata}のデフォルト実装。
  * 
