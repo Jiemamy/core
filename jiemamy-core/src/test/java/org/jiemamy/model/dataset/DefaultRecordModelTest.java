@@ -20,7 +20,6 @@ package org.jiemamy.model.dataset;
 
 import static org.hamcrest.Matchers.is;
 import static org.jiemamy.utils.RandomUtil.bool;
-import static org.jiemamy.utils.RandomUtil.meta;
 import static org.jiemamy.utils.RandomUtil.str;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
@@ -34,6 +33,7 @@ import org.junit.Test;
 
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.column.ColumnModel;
+import org.jiemamy.script.PlainScriptEngine;
 import org.jiemamy.script.ScriptString;
 
 /**
@@ -55,7 +55,7 @@ public class DefaultRecordModelTest {
 		
 		for (ColumnModel columnModel : columns) {
 			if (bool()) {
-				values.put(columnModel.toReference(), new ScriptString(str(), meta()));
+				values.put(columnModel.toReference(), new ScriptString(str(), PlainScriptEngine.class));
 			}
 		}
 		

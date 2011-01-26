@@ -19,6 +19,7 @@
 package org.jiemamy.model.view;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.jiemamy.utils.RandomUtil.meta;
 import static org.jiemamy.utils.RandomUtil.str;
 import static org.jiemamy.utils.RandomUtil.strNotEmpty;
 import static org.junit.Assert.assertThat;
@@ -45,7 +46,7 @@ public class DefaultViewModelTest {
 		
 		model.setName(strNotEmpty());
 		model.setLogicalName(str());
-		model.setDefinition("SELECT * FROM " + str());
+		model.setDefinition("SELECT * FROM " + meta());
 		model.setDescription(str());
 		
 		return model;

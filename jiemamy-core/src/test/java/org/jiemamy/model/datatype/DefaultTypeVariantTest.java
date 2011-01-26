@@ -48,7 +48,7 @@ public class DefaultTypeVariantTest {
 	 */
 	public static DefaultTypeVariant random() {
 		DefaultTypeVariant typeVariant =
-				new DefaultTypeVariant(new DefaultTypeReference(enume(DataTypeCategory.class), str()));
+				new DefaultTypeVariant(new DefaultTypeReference(enume(DataTypeCategory.class)));
 		
 		// 適当にパラメータを追加する
 		int integer = integer(5);
