@@ -73,10 +73,9 @@ public final class DefaultAroundScriptModel extends AbstractEntity implements Ar
 		return scripts.get(position).getScript();
 	}
 	
-	public ScriptEngine getScriptEngine(JiemamyContext context, Position position) throws ClassNotFoundException {
-		Validate.notNull(context);
+	public ScriptEngine getScriptEngine(Position position) throws ClassNotFoundException {
 		Validate.notNull(position);
-		ServiceLocator sl = context.getServiceLocator();
+		ServiceLocator sl = JiemamyContext.getServiceLocator();
 		return sl.getService(ScriptEngine.class, getScriptEngineClassName(position));
 	}
 	
@@ -96,7 +95,8 @@ public final class DefaultAroundScriptModel extends AbstractEntity implements Ar
 		
 		Map<String, Object> env = Maps.newHashMap();
 		env.put("target", target);
-		return scripts.get(position).process(context, env);
+		// TODO env-objectを整備
+		return scripts.get(position).process(env);
 	}
 	
 	/**

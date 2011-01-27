@@ -22,6 +22,8 @@ import java.util.Collection;
 
 import com.google.common.collect.Lists;
 
+import org.apache.commons.lang.Validate;
+
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.dialect.Dialect;
 import org.jiemamy.dialect.TypeParameterSpec;
@@ -47,7 +49,7 @@ public class DataTypeValidator extends AbstractValidator {
 		try {
 			dialect = context.findDialect();
 		} catch (ClassNotFoundException e) {
-// ignore			
+			// ignore
 		}
 		
 		for (TableModel tableModel : context.getTables()) {
@@ -65,15 +67,18 @@ public class DataTypeValidator extends AbstractValidator {
 	 * チェック制約のexpressionに問題がないかどうか調べる。
 	 * 
 	 * @param dataType 検査対象のデータ型
-	 * @param dialect 
-	 * @param context リファレンスリゾルバ
-	 * @param columnModel 
-	 * @param tableModel 
-	 * @param collector 
-	 * @return 問題がない場合は{@code true}、そうでない場合は{@code false}
+	 * @param dialect {@link Dialect}
+	 * @param columnModel データ型が設定してあるカラム
+	 * @param tableModel そのカラムが属するテーブル
+	 * @param collector {@link Problem}があった場合に追加する {@link Collection}
+	 * @throws UnsupportedOperationException {@code collector}が {@link Collection#add(Object)}をサポートしない場合
+	 * @throws IllegalArgumentException 引数{@code dataType}または{@code collector}に{@code null}を与えた場合
 	 */
 	private void verify(TypeVariant dataType, Dialect dialect, TableModel tableModel, ColumnModel columnModel,
 			Collection<Problem> collector) {
+		Validate.notNull(dataType);
+		Validate.notNull(collector);
+		
 		// TODO いつかは構文解析
 //		BuiltinDataType builtinDataType = dataType.toBuiltinDataType(referenceResolver);
 //		return builtinDataType != null;

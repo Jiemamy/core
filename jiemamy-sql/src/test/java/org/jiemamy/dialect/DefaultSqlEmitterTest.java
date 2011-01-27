@@ -91,7 +91,7 @@ public class DefaultSqlEmitterTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		emitter = new DefaultSqlEmitter();
+		emitter = new DefaultSqlEmitter(new GenericDialect());
 		
 		config = new DefaultSqlExportConfig();
 		config.setDataSetIndex(-1);

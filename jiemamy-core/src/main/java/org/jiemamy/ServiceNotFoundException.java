@@ -1,6 +1,6 @@
 /*
  * Copyright 2007-2011 Jiemamy Project and the Others.
- * Created on 2011/01/11
+ * Created on 2011/01/27
  *
  * This file is part of Jiemamy.
  *
@@ -16,11 +16,7 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.model.datatype;
-
-import java.util.Collection;
-
-import org.jiemamy.dddbase.ValueObject;
+package org.jiemamy;
 
 /**
  * TODO for daisuke
@@ -28,34 +24,41 @@ import org.jiemamy.dddbase.ValueObject;
  * @version $Id$
  * @author daisuke
  */
-public interface TypeReference extends ValueObject {
+@SuppressWarnings("serial")
+public class ServiceNotFoundException extends RuntimeException {
 	
 	/**
-	 * エイリアス名の集合を取得する。
-	 * 
-	 * @return エイリアス名の集合
+	 * インスタンスを生成する。
 	 */
-	Collection<String> getAliasTypeNames();
+	public ServiceNotFoundException() {
+		super();
+	}
 	
 	/**
-	 * 型カテゴリを取得する。
+	 * インスタンスを生成する。
 	 * 
-	 * @return 型カテゴリ
+	 * @param message 例外メッセージ
 	 */
-	DataTypeCategory getCategory();
+	public ServiceNotFoundException(String message) {
+		super(message);
+	}
 	
 	/**
-	 * 型名の文字列を取得する。
+	 * インスタンスを生成する。
 	 * 
-	 * @return 型名の文字列
+	 * @param message 例外メッセージ
+	 * @param cause 起因例外
 	 */
-	String getTypeName();
+	public ServiceNotFoundException(String message, Throwable cause) {
+		super(message, cause);
+	}
 	
 	/**
-	 * TODO for daisuke
+	 * インスタンスを生成する。
 	 * 
-	 * @param typeName
-	 * @return TODO 場合は{@code true}、そうでない場合は{@code false}
+	 * @param cause 起因例外
 	 */
-	boolean matches(String typeName);
+	public ServiceNotFoundException(Throwable cause) {
+		super(cause);
+	}
 }

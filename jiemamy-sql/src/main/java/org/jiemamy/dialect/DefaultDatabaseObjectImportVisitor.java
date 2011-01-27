@@ -95,7 +95,20 @@ public class DefaultDatabaseObjectImportVisitor extends AbstractCollectionVisito
 	
 	private ParseMetadataConfig config;
 	
+	private final Dialect dialect;
+	
 
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param dialect {@link Dialect}
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public DefaultDatabaseObjectImportVisitor(Dialect dialect) {
+		Validate.notNull(dialect);
+		this.dialect = dialect;
+	}
+	
 	public void intialize(TypeSafeDatabaseMetaData meta, JiemamyContext context, ParseMetadataConfig config) {
 		Validate.notNull(meta);
 		Validate.notNull(context);
@@ -177,7 +190,6 @@ public class DefaultDatabaseObjectImportVisitor extends AbstractCollectionVisito
 		try {
 			columnsResult = meta.getColumns("", config.getSchema(), tableName, "%");
 			ForEachUtil.accept(columnsResult, new ColumnMetaVisitor(tableModel));
-			
 			keysResult = meta.getPrimaryKeys("", config.getSchema(), tableName);
 			ForEachUtil.accept(keysResult, new PrimaryKeyMetaVisitor(tableModel));
 		} finally {
@@ -218,12 +230,10 @@ public class DefaultDatabaseObjectImportVisitor extends AbstractCollectionVisito
 	}
 	
 
-	private static class ColumnMetaVisitor extends
+	private class ColumnMetaVisitor extends
 			AbstractTypeSafeResultSetVisitor<ColumnMeta, List<ColumnModel>, SQLException> {
 		
 		private final DefaultTableModel tableModel;
-		
-		Dialect dialect;
 		
 
 		/**

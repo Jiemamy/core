@@ -117,6 +117,5 @@ public class ForeignKey {
 			this.from = from;
 			this.to = to;
 		}
-		
 	}
 }

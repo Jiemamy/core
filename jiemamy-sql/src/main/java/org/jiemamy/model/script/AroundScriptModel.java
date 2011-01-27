@@ -53,15 +53,14 @@ public interface AroundScriptModel extends Entity {
 	String getScript(Position position);
 	
 	/**
-	 * TODO for daisuke
+	 * スクリプトエンジンを取得する。
 	 * 
-	 * @param context
-	 * @param position
-	 * @return
-	 * @throws ClassNotFoundException
+	 * @param position スクリプト挿入位置
+	 * @return {@link ScriptEngine}
+	 * @throws ClassNotFoundException エンジンが見つからなかった場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	ScriptEngine getScriptEngine(JiemamyContext context, Position position) throws ClassNotFoundException;
+	ScriptEngine getScriptEngine(Position position) throws ClassNotFoundException;
 	
 	/**
 	 * スクリプトエンジンのクラス名を取得する。

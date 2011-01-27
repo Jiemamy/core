@@ -70,7 +70,7 @@ public final class GenericDialect extends AbstractDialect {
 	}
 	
 	public DatabaseMetadataParser getDatabaseMetadataParser() {
-		return new DefaultDatabaseMetadataParser();
+		return new DefaultDatabaseMetadataParser(this);
 	}
 	
 	public String getName() {
@@ -78,7 +78,7 @@ public final class GenericDialect extends AbstractDialect {
 	}
 	
 	public SqlEmitter getSqlEmitter() {
-		return new DefaultSqlEmitter();
+		return new DefaultSqlEmitter(this);
 	}
 	
 	@Override

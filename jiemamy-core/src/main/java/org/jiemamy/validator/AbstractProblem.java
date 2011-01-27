@@ -60,6 +60,7 @@ public abstract class AbstractProblem implements Problem {
 	/**
 	 * インスタンスを生成する。
 	 * 
+	 * @param target 不正なエンティティ may be {@code null}
 	 * @param errorCode エラーコード
 	 * @param baseName {@link ResourceBundle}のベース名
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合

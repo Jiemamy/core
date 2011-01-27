@@ -69,6 +69,7 @@ public class ColumnValidator extends AbstractValidator {
 		 * インスタンスを生成する。
 		 * 
 		 * @param tableModel 無名カラムが含まれるテーブル
+		 * @param columnModel 不正なカラム
 		 * @param index カラムのインデックス
 		 */
 		public EmptyColumnNameProblem(TableModel tableModel, ColumnModel columnModel, int index) {

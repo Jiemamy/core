@@ -93,6 +93,7 @@ public class CheckConstraintValidator extends AbstractValidator {
 		 * インスタンスを生成する。
 		 * 
 		 * @param tableModel 制約式未設定チェック制約が含まれるテーブル
+		 * @param checkConstraintModel 不正なチェック制約
 		 * @param index チェック制約のインデックス
 		 */
 		public EmptyExpressionProblem(TableModel tableModel, CheckConstraintModel checkConstraintModel, int index) {

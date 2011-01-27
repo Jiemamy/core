@@ -124,6 +124,7 @@ public abstract class AbstractIdentifierValidator extends AbstractValidator {
 		/**
 		 * インスタンスを生成する。
 		 * 
+		 * @param target 不正な名前を持つエンティティ
 		 * @param name 識別子名
 		 * @param pattern 識別子が満たすべき正規表現パターン
 		 */
@@ -141,6 +142,7 @@ public abstract class AbstractIdentifierValidator extends AbstractValidator {
 		/**
 		 * インスタンスを生成する。
 		 * 
+		 * @param target 不正な名前を持つエンティティ
 		 * @param name 識別子名
 		 */
 		public ReservedWordProblem(Entity target, String name) {

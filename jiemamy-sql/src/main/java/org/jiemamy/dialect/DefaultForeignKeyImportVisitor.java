@@ -49,6 +49,14 @@ public class DefaultForeignKeyImportVisitor extends AbstractCollectionVisitor<Ke
 	private Map<String, DefaultForeignKeyConstraintModel> importedForeignKeys = Maps.newHashMap();
 	
 
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param dialect
+	 */
+	public DefaultForeignKeyImportVisitor(Dialect dialect) {
+	}
+	
 	public void initialize(JiemamyContext context) {
 		Validate.notNull(context);
 		this.context = context;

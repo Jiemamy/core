@@ -81,13 +81,16 @@ public class SqlFacet implements JiemamyFacet {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * {@link AroundScriptModel}を削除する。
 	 * 
-	 * @param ref
+	 * @param reference 削除する{@link AroundScriptModel}への参照
 	 * @return 削除したモデル
+	 * @throws EntityNotFoundException 参照で示すエンティティが見つからなかった場合
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * TODO rename to deleteDiagram
 	 */
-	public AroundScriptModel deleteScript(EntityRef<? extends AroundScriptModel> ref) {
-		AroundScriptModel deleted = scripts.delete(ref);
+	public AroundScriptModel deleteScript(EntityRef<? extends AroundScriptModel> reference) {
+		AroundScriptModel deleted = scripts.delete(reference);
 		logger.info("script deleted: " + deleted);
 		context.getEventBroker().fireEvent(new StoredEvent<AroundScriptModel>(scripts, deleted, null));
 		return deleted;

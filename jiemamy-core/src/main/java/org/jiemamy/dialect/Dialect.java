@@ -53,6 +53,11 @@ public interface Dialect {
 	 */
 	String getConnectionUriTemplate();
 	
+	/**
+	 * このDB用の{@link DatabaseMetadataParser}を返す。
+	 * 
+	 * @return {@link DatabaseMetadataParser}
+	 */
 	DatabaseMetadataParser getDatabaseMetadataParser();
 	
 	/**
@@ -64,9 +69,9 @@ public interface Dialect {
 	String getName();
 	
 	/**
-	 * TODO for daisuke
+	 * このDB用の{@link SqlEmitter}を返す。
 	 * 
-	 * @return
+	 * @return {@link SqlEmitter}
 	 */
 	SqlEmitter getSqlEmitter();
 	
@@ -89,6 +94,16 @@ public interface Dialect {
 	 * @since 0.2
 	 */
 	Validator getValidator();
+	
+//	/**
+//	 * TODO for daisuke
+//	 * 
+//	 * @param typeName
+//	 * @return
+//	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+//	 * TODO 名前が変
+//	 */
+//	TypeReference normalize(String typeName);
 	
 	/**
 	 * TODO for daisuke

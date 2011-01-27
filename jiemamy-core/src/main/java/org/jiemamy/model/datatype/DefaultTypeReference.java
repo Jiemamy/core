@@ -77,8 +77,9 @@ public final class DefaultTypeReference implements TypeReference {
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param category
-	 * @param typeName
+	 * @param category 型カテゴリ
+	 * @param typeName 型名の正式名
+	 * @param aliasTypeNames エイリアス名
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public DefaultTypeReference(DataTypeCategory category, String typeName, String... aliasTypeNames) {

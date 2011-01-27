@@ -135,33 +135,16 @@ public final class ScriptString {
 	/**
 	 * TODO for daisuke
 	 * 
-	 * @param context
 	 * @param env
 	 * @return 処理結果
-	 * @throws ClassNotFoundException
+	 * @throws ClassNotFoundException 
 	 */
-	public String process(JiemamyContext context, Map<String, Object> env) throws ClassNotFoundException {
-		setContext(context);
-		return process(env);
-	}
-	
-	/**
-	 * TODO for daisuke
-	 * 
-	 * @param env
-	 * @return 処理結果
-	 * @throws IllegalStateException 事前に {@link #setContext(JiemamyContext)} を実行していない場合
-	 */
-	public String process(Map<String, Object> env) {
+	public String process(Map<String, Object> env) throws ClassNotFoundException {
 		if (scriptEngine == null) {
-			throw new IllegalStateException();
+			ServiceLocator serviceLocator = JiemamyContext.getServiceLocator();
+			scriptEngine = serviceLocator.getService(ScriptEngine.class, scriptEngineClassName);
 		}
 		return scriptEngine.process(env, script);
-	}
-	
-	public void setContext(JiemamyContext context) throws ClassNotFoundException {
-		ServiceLocator serviceLocator = context.getServiceLocator();
-		scriptEngine = serviceLocator.getService(ScriptEngine.class, scriptEngineClassName);
 	}
 	
 	@Override

@@ -43,6 +43,7 @@ import org.jiemamy.validator.Validator;
  */
 public abstract class AbstractDialect implements Dialect {
 	
+	/** JDBC接続URLの雛形文字列 */
 	private final String connectionUriTemplate;
 	
 	private final List<Entry> typeEntries;
@@ -51,7 +52,7 @@ public abstract class AbstractDialect implements Dialect {
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param connectionUriTemplate
+	 * @param connectionUriTemplate JDBC接続URLの雛形文字列
 	 * @param typeEntries 
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
@@ -96,14 +97,14 @@ public abstract class AbstractDialect implements Dialect {
 		return new AllValidator();
 	}
 	
-	public final TypeReference normalize(String typeName) {
-		for (Entry typeEntry : typeEntries) {
-			if (typeEntry.descriptor.matches(typeName)) {
-				return typeEntry.descriptor;
-			}
-		}
-		return DefaultTypeReference.UNKNOWN;
-	}
+//	public final TypeReference normalize(String typeName) {
+//		for (Entry typeEntry : typeEntries) {
+//			if (typeEntry.descriptor.matches(typeName)) {
+//				return typeEntry.descriptor;
+//			}
+//		}
+//		return DefaultTypeReference.UNKNOWN;
+//	}
 	
 	public final TypeReference normalize(TypeReference in) {
 		TypeReference result = normalize0(in);
@@ -163,21 +164,12 @@ public abstract class AbstractDialect implements Dialect {
 			this.typeParameterSpecs = Lists.newArrayList(typeParameterSpecs);
 		}
 		
-		/**
-		 * somethingを取得する。 TODO for daisuke
-		 * @return the descriptor
-		 */
 		public TypeReference getDescriptor() {
 			return descriptor;
 		}
 		
-		/**
-		 * somethingを取得する。 TODO for daisuke
-		 * @return the typeParameterSpecs
-		 */
 		public Collection<TypeParameterSpec> getTypeParameterSpecs() {
 			return typeParameterSpecs;
 		}
-		
 	}
 }

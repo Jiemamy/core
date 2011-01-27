@@ -1009,7 +1009,7 @@ public class JiemamyCursor {
 	 * on invalid value, returns given default value.
 	 * 
 	 * @param defValue default value
-	 * @returnvalue
+	 * @return value
 	 * @throws XMLStreamException if either the underlying parser has
 	 *   problems (possibly including event type not being of textual
 	 *   type, see Stax 1.0 specs for details)
@@ -1348,7 +1348,7 @@ public class JiemamyCursor {
 	 * {@link #getLocalName} can be called)
 	 * has the specified local name or not.
 	 *
-	 * @param expName
+	 * @param expName name
 	 * @return True if the local name associated with the event is
 	 *   as expected
 	 * @throws XMLStreamException if either the underlying parser has
@@ -1383,8 +1383,8 @@ public class JiemamyCursor {
 	 * Both namespace URI and local name must match for the result
 	 * to be true.
 	 *
-	 * @param expNsURI
-	 * @param expLN
+	 * @param expNsURI namespace URI
+	 * @param expLN local name
 	 * @return True if the fully-qualified name associated with the event is
 	 *   as expected
 	 * @throws XMLStreamException if either the underlying parser has

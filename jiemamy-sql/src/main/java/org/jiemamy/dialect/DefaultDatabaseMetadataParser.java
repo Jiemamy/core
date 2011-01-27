@@ -44,13 +44,6 @@ public class DefaultDatabaseMetadataParser implements DatabaseMetadataParser {
 
 	/**
 	 * インスタンスを生成する。
-	 */
-	public DefaultDatabaseMetadataParser() {
-		this(new DefaultDatabaseObjectImportVisitor(), new DefaultForeignKeyImportVisitor());
-	}
-	
-	/**
-	 * インスタンスを生成する。
 	 * 
 	 * @param doImportVisitor
 	 * @param fkImportVisitor
@@ -62,6 +55,13 @@ public class DefaultDatabaseMetadataParser implements DatabaseMetadataParser {
 		Validate.notNull(fkImportVisitor);
 		this.doImportVisitor = doImportVisitor;
 		this.fkImportVisitor = fkImportVisitor;
+	}
+	
+	/**
+	 * インスタンスを生成する。
+	 */
+	public DefaultDatabaseMetadataParser(Dialect dialect) {
+		this(new DefaultDatabaseObjectImportVisitor(dialect), new DefaultForeignKeyImportVisitor(dialect));
 	}
 	
 	public void parseMetadata(JiemamyContext context, DatabaseMetaData meta, ParseMetadataConfig config)

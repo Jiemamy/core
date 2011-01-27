@@ -28,8 +28,9 @@ import org.jiemamy.JiemamyContext;
 import org.jiemamy.JiemamyError;
 
 /**
- * TODO for daisuke
+ * {@link Exporter}の骨格実装クラス。
  * 
+ * @param <T> 設定オブジェクトの型
  * @version $Id$
  * @author daisuke
  */
@@ -53,9 +54,9 @@ public abstract class AbstractExporter<T extends ExportConfig> implements Export
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * この{@link Exporter}用の{@link ExportConfig}のデフォルト実装インスタンスを生成し、返す。
 	 * 
-	 * @return
+	 * @return この{@link Exporter}用の{@link ExportConfig}のデフォルト実装インスタンス
 	 */
 	protected abstract T newDefaultConfigInstance();
 	

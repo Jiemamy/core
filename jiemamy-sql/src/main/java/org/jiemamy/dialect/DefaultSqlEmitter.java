@@ -81,18 +81,22 @@ public class DefaultSqlEmitter implements SqlEmitter {
 	/**
 	 * インスタンスを生成する。
 	 * 
+	 * @param dialect {@link Dialect}
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public DefaultSqlEmitter() {
-		this(new DefaultTokenResolver());
+	public DefaultSqlEmitter(Dialect dialect) {
+		this(dialect, new DefaultTokenResolver());
 	}
 	
 	/**
 	 * インスタンスを生成する。
 	 * 
+	 * @param dialect {@link Dialect}
 	 * @param tokenResolver {@link TokenResolver}
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	protected DefaultSqlEmitter(TokenResolver tokenResolver) {
+	protected DefaultSqlEmitter(Dialect dialect, TokenResolver tokenResolver) {
+		Validate.notNull(dialect);
 		Validate.notNull(tokenResolver);
 		this.tokenResolver = tokenResolver;
 	}
@@ -380,7 +384,7 @@ public class DefaultSqlEmitter implements SqlEmitter {
 				ScriptString ss = recordModel.getValues().get(columnModel.toReference());
 				Map<String, Object> env = Maps.newHashMap();
 				// TODO env-objectを整備
-				value = ss.process(context, env);
+				value = ss.process(env);
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 				continue;

@@ -41,28 +41,40 @@ public final class Validators {
 	
 	// CHECKSTYLE:OFF
 	
+	/** {@link CheckConstraintValidator} */
 	public static final Validator CheckConstraintValidator = new CheckConstraintValidator();
 	
+	/** {@link ColumnValidator} */
 	public static final Validator ColumnValidator = new ColumnValidator();
 	
+	/** {@link DatabaseObjectNameCollisionValidator} */
 	public static final Validator DatabaseObjectNameCollisionValidator = new DatabaseObjectNameCollisionValidator();
 	
+	/** {@link DataTypeValidator} */
 	public static final Validator DataTypeValidator = new DataTypeValidator();
 	
+	/** {@link ForeignKeyValidator} */
 	public static final Validator ForeignKeyValidator = new ForeignKeyValidator();
 	
+	/** {@link IdCollisionValidator} */
 	public static final Validator IdCollisionValidator = new IdCollisionValidator();
 	
+	/** {@link IndexValidator} */
 	public static final Validator IndexValidator = new IndexValidator();
 	
+	/** {@link KeyConstraintValidator} */
 	public static final Validator KeyConstraintValidator = new KeyConstraintValidator();
 	
+	/** {@link NotNullConstraintValidator} */
 	public static final Validator NotNullConstraintValidator = new NotNullConstraintValidator();
 	
+	/** {@link PrimaryKeyValidator} */
 	public static final Validator PrimaryKeyValidator = new PrimaryKeyValidator();
 	
+	/** {@link ReferenceValidator} */
 	public static final Validator ReferenceValidator = new ReferenceValidator();
 	
+	/** {@link TableValidator} */
 	public static final Validator TableValidator = new TableValidator();
 	
 	private static Validator[] values = new Validator[] {
@@ -83,6 +95,11 @@ public final class Validators {
 
 	// CHECKSTYLE:ON
 	
+	/**
+	 * 全ての標準針データを取得する。
+	 * 
+	 * @return 標準バリデータの配列
+	 */
 	public static Validator[] values() {
 		return values.clone();
 	}

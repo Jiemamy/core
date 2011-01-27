@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import org.apache.commons.lang.Validate;
@@ -94,9 +95,10 @@ public final class DefaultDataSetModel extends AbstractEntity implements DataSet
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * テーブルに対応するレコードのリストを取得する。
 	 * 
-	 * @param ref
+	 * @param ref テーブルの参照
+	 * @return  レコードのリスト、レコードが存在しない場合は{@code null}
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public synchronized List<RecordModel> getRecord(EntityRef<? extends TableModel> ref) {
@@ -114,21 +116,21 @@ public final class DefaultDataSetModel extends AbstractEntity implements DataSet
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * テーブルに対応するレコードのリストを設定する。
 	 * 
-	 * @param ref
-	 * @param record
+	 * @param ref テーブルの参照
+	 * @param record レコードのリスト
 	 * @throws IllegalArgumentException 引数{@code ref}に{@code null}を与えた場合
 	 */
 	public synchronized void putRecord(EntityRef<? extends TableModel> ref, List<RecordModel> record) {
 		Validate.notNull(ref);
-		records.put(ref, record);
+		records.put(ref, Lists.newArrayList(record));
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * テーブルに対応するレコードのリストを削除する。
 	 * 
-	 * @param ref
+	 * @param ref テーブルの参照
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public synchronized void removeRecord(EntityRef<? extends TableModel> ref) {

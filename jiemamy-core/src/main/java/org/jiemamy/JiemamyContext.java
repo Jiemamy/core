@@ -69,6 +69,7 @@ import org.jiemamy.xml.JiemamyNamespaceContext;
  * モデル操作の開始から終了までの、一連の操作文脈を表現するクラス。
  * 
  * @version $Id$
+ * @since 0.3
  * @author daisuke
  */
 public/*final*/class JiemamyContext implements EntityResolver {
@@ -79,11 +80,37 @@ public/*final*/class JiemamyContext implements EntityResolver {
 	
 	private static ServiceLocator serviceLocator = new DefaultServiceLocator();
 	
+	/** 利用する{@link JiemamySerializer}実装クラスのFQCN */
+	private static String serializerName = JiemamyStaxSerializer.class.getName();
+	
 	static {
 		MutationMonitor.setDebug(debug);
 	}
 	
 
+	/**
+	 * {@link JiemamySerializer}を取得する。
+	 * 
+	 * @return {@link JiemamySerializer}
+	 * @throws ServiceNotFoundException シリアライザが見つからなかった場合
+	 */
+	public static JiemamySerializer findSerializer() {
+		try {
+			return getServiceLocator().getService(JiemamySerializer.class, serializerName);
+		} catch (ClassNotFoundException e) {
+			throw new ServiceNotFoundException("", e);
+		}
+	}
+	
+	/**
+	 * {@link ServiceLocator}を取得する。
+	 * 
+	 * @return {@link ServiceLocator}
+	 */
+	public static ServiceLocator getServiceLocator() {
+		return serviceLocator;
+	}
+	
 	/**
 	 * Jiemamyのバージョンを返す。
 	 * 
@@ -100,6 +127,17 @@ public/*final*/class JiemamyContext implements EntityResolver {
 	 */
 	public static boolean isDebug() {
 		return debug;
+	}
+	
+	/**
+	 * 利用する{@link JiemamySerializer}実装クラスのFQCNを指定する。
+	 * 
+	 * @param serializerName 利用する{@link JiemamySerializer}実装クラスのFQCN
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public static void setSerializerName(String serializerName) {
+		Validate.notNull(serializerName);
+		JiemamyContext.serializerName = serializerName;
 	}
 	
 	/**
@@ -154,7 +192,7 @@ public/*final*/class JiemamyContext implements EntityResolver {
 		for (FacetProvider facetProvider : facetProviders) {
 			facets.put(facetProvider.getFacetType(), facetProvider.getFacet(this));
 		}
-		logger.debug("new context created (debug={})", isDebug());
+		logger.debug(LogMarker.LIFECYCLE, "new context created (debug={})", isDebug());
 	}
 	
 	public boolean contains(EntityRef<?> ref) {
@@ -174,8 +212,8 @@ public/*final*/class JiemamyContext implements EntityResolver {
 	 */
 	public DatabaseObjectModel deleteDatabaseObject(EntityRef<? extends DatabaseObjectModel> reference) {
 		DatabaseObjectModel deleted = doms.delete(reference);
-		logger.info("database object deleted: " + deleted);
-		eventBroker.fireEvent(new StoredEvent(doms, deleted, null));
+		logger.info(LogMarker.LIFECYCLE, "database object deleted: " + deleted);
+		eventBroker.fireEvent(new StoredEvent<DatabaseObjectModel>(doms, deleted, null));
 		return deleted;
 	}
 	
@@ -188,8 +226,8 @@ public/*final*/class JiemamyContext implements EntityResolver {
 	 */
 	public DataSetModel deleteDataSet(EntityRef<? extends DataSetModel> reference) {
 		DataSetModel deleted = dsms.delete(reference);
-		logger.info("dataset deleted: " + deleted);
-		eventBroker.fireEvent(new StoredEvent(dsms, deleted, null));
+		logger.info(LogMarker.LIFECYCLE, "dataset deleted: " + deleted);
+		eventBroker.fireEvent(new StoredEvent<DataSetModel>(dsms, deleted, null));
 		return deleted;
 	}
 	
@@ -205,20 +243,6 @@ public/*final*/class JiemamyContext implements EntityResolver {
 			throw new IllegalStateException();
 		}
 		return getServiceLocator().getService(Dialect.class, metadata.getDialectClassName());
-	}
-	
-	/**
-	 * {@link JiemamySerializer}を取得する。
-	 * 
-	 * @return {@link JiemamySerializer}
-	 */
-	public JiemamySerializer findSerializer() {
-		// THINK シリアライザの差し替えできるように
-		try {
-			return getServiceLocator().getService(JiemamySerializer.class, JiemamyStaxSerializer.class.getName());
-		} catch (ClassNotFoundException e) {
-			throw new JiemamyError("", e);
-		}
 	}
 	
 	/**
@@ -343,6 +367,7 @@ public/*final*/class JiemamyContext implements EntityResolver {
 	 * @param clazz ファセットの型
 	 * @param <T> ファセットの型
 	 * @return このコンテキストの {@link JiemamyFacet}
+	 * @throws IllegalStateException コンテキストが指定したFacetを持っていない場合
 	 */
 	public <T extends JiemamyFacet>T getFacet(Class<T> clazz) {
 		if (hasFacet(clazz) == false) {
@@ -372,6 +397,11 @@ public/*final*/class JiemamyContext implements EntityResolver {
 		return getDatabaseObjects(IndexModel.class);
 	}
 	
+	/**
+	 * このコンテキストのメタデータを取得する。
+	 * 
+	 * @return メタデータ
+	 */
 	public ContextMetadata getMetadata() {
 		return metadata.clone();
 	}
@@ -397,15 +427,6 @@ public/*final*/class JiemamyContext implements EntityResolver {
 			namespaces.addAll(Arrays.asList(facet.getNamespaces()));
 		}
 		return namespaces.toArray(new JiemamyNamespace[namespaces.size()]);
-	}
-	
-	/**
-	 * {@link ServiceLocator}を取得する。
-	 * 
-	 * @return {@link ServiceLocator}
-	 */
-	public ServiceLocator getServiceLocator() {
-		return serviceLocator;
 	}
 	
 	/**
@@ -442,6 +463,7 @@ public/*final*/class JiemamyContext implements EntityResolver {
 	 * @return 新しいファサード
 	 * @since 0.2
 	 */
+	@Experimental
 	public JiemamyTransaction getTransaction() {
 		return new JiemamyTransaction(this);
 	}
@@ -503,9 +525,9 @@ public/*final*/class JiemamyContext implements EntityResolver {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * このコンテキストのメタデータを設定する。
 	 * 
-	 * @param metadata
+	 * @param metadata メタデータ
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public void setMetadata(ContextMetadata metadata) {
@@ -547,7 +569,7 @@ public/*final*/class JiemamyContext implements EntityResolver {
 			logger.info(LogMarker.LIFECYCLE, "dataset updated: (old) " + old);
 			logger.info(LogMarker.LIFECYCLE, "                 (new) " + dsm);
 		}
-		eventBroker.fireEvent(new StoredEvent(dsms, old, dsm));
+		eventBroker.fireEvent(new StoredEvent<DataSetModel>(dsms, old, dsm));
 	}
 	
 	@Override
