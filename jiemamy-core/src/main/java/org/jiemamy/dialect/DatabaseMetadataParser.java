@@ -1,6 +1,6 @@
 /*
  * Copyright 2007-2011 Jiemamy Project and the Others.
- * Created on 2009/01/20
+ * Created on 2009/02/10
  *
  * This file is part of Jiemamy.
  *
@@ -16,28 +16,20 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.model.constraint;
+package org.jiemamy.dialect;
 
-import org.jiemamy.dddbase.EntityRef;
-import org.jiemamy.model.column.ColumnModel;
+import java.sql.DatabaseMetaData;
+import java.sql.SQLException;
+
+import org.jiemamy.JiemamyContext;
 
 /**
- * NOT NULL制約を表すモデルインターフェイス。
+ * {@link DatabaseMetaData}から TODO パーサインターフェイス。
  * 
- * @since 0.2
  * @author daisuke
  */
-public interface NotNullConstraintModel extends ValueConstraintModel {
+public interface DatabaseMetadataParser {
 	
-	NotNullConstraintModel clone();
+	void parseMetadata(JiemamyContext context, DatabaseMetaData meta, ParseMetadataConfig config) throws SQLException;
 	
-	/**
-	* 対象カラム参照を取得する。
-	* 
-	* @return 対象カラム参照. 未設定の場合{@code null}
-	* TODO rename to getColumn
-	*/
-	EntityRef<? extends ColumnModel> getColumnRef();
-	
-	EntityRef<? extends NotNullConstraintModel> toReference();
 }

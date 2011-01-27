@@ -69,6 +69,10 @@ public final class GenericDialect extends AbstractDialect {
 		super("jdbc:", typeEntries);
 	}
 	
+	public DatabaseMetadataParser getDatabaseMetadataParser() {
+		return new DefaultDatabaseMetadataParser();
+	}
+	
 	public String getName() {
 		return "Generic Dialect";
 	}

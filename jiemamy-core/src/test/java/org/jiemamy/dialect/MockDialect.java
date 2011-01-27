@@ -18,6 +18,7 @@
  */
 package org.jiemamy.dialect;
 
+import java.sql.DatabaseMetaData;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -73,6 +74,15 @@ public class MockDialect extends AbstractDialect {
 		super("jdbc:dummy:foobar", typeEntries);
 	}
 	
+	public DatabaseMetadataParser getDatabaseMetadataParser() {
+		return new DatabaseMetadataParser() {
+			
+			public void parseMetadata(JiemamyContext context, DatabaseMetaData meta, ParseMetadataConfig config) {
+				// do nothing
+			}
+		};
+	}
+	
 	public String getName() {
 		return "Mock Dialect (for test only. DO NOT USE.)";
 	}
@@ -81,6 +91,7 @@ public class MockDialect extends AbstractDialect {
 		return new SqlEmitter() {
 			
 			public List<SqlStatement> emit(JiemamyContext context, EmitConfig config) {
+				// do nothing
 				return Collections.emptyList();
 			}
 		};

@@ -53,14 +53,8 @@ public interface Dialect {
 	 */
 	String getConnectionUriTemplate();
 	
-	//	/**
-//	 * モデリング用DataType・一般型・型名間のマッピング情報を取得する。
-//	 * 
-//	 * @return マッピング情報
-//	 * @since 0.2
-//	 */
-//	DataTypeResolver getDataTypeResolver();
-//	
+	DatabaseMetadataParser getDatabaseMetadataParser();
+	
 	/**
 	 * SQL方言名を取得する。
 	 * 
@@ -77,15 +71,15 @@ public interface Dialect {
 	SqlEmitter getSqlEmitter();
 	
 	/**
-		 * 指定した{@link TypeReference}に対する {@link TypeParameterSpec}の集合を取得する。
-		 * 
-		 * <p>例えば、VARCHARに対して、どんなパラメータ仕様がありますか？ → SIZE が REQUIRED です<br/>
-		 * のような感じ。</p>
-		 * 
-		 * @param reference {@link TypeReference}
-		 * @return {@link TypeReference}に対する {@link TypeParameterSpec}の集合
-		 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-		 */
+	 * 指定した{@link TypeReference}に対する {@link TypeParameterSpec}の集合を取得する。
+	 * 
+	 * <p>例えば、VARCHARに対して、どんなパラメータ仕様がありますか？ → SIZE が REQUIRED です<br/>
+	 * のような感じ。</p>
+	 * 
+	 * @param reference {@link TypeReference}
+	 * @return {@link TypeReference}に対する {@link TypeParameterSpec}の集合
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
 	Collection<TypeParameterSpec> getTypeParameterSpecs(TypeReference reference);
 	
 	/**
@@ -96,6 +90,13 @@ public interface Dialect {
 	 */
 	Validator getValidator();
 	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param in
+	 * @return
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
 	TypeReference normalize(TypeReference in);
 	
 	/**
@@ -107,22 +108,7 @@ public interface Dialect {
 	String toString();
 	
 	String toString(TypeReference typeReference);
-//	/**
-//	 * エンティティ情報から{@link EntityModel}を生成する。
-//	 * 
-//	 * @param rootModel インポート先の{@link RootModel}
-//	 * @param meta DBメタデータ
-//	 * @param config インポート設定
-//	 * @param importedEntities インポートされたエンティティ情報を格納する{@link Map}
-//	 * @param importedForeignKeys インポートされた外部キー情報を格納する{@link Map}
-//	 * @throws SQLException SQLの実行に失敗した場合
-//	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-//	 * @throws UnsupportedOperationException DBからのインポートをサポートしていない場合
-//	 * @since 0.2
-//	 */
-//	void importMetadata(RootModel rootModel, DatabaseMetaData meta, ImportMetadataConfig config,
-//			Map<String, EntityModel> importedEntities, Map<String, ForeignKey> importedForeignKeys) throws SQLException;
-//	
+	
 //	/**
 //	 * SQL文のリストから、{@link JiemamyContext} を生成する。
 //	 * 

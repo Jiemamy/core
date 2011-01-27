@@ -24,11 +24,7 @@ import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.Driver;
 import java.sql.SQLException;
-import java.util.Collection;
-import java.util.Map;
 import java.util.Properties;
-
-import com.google.common.collect.Maps;
 
 import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.lang.Validate;
@@ -38,9 +34,8 @@ import org.apache.commons.lang.builder.ToStringStyle;
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.composer.AbstractImporter;
 import org.jiemamy.composer.ImportException;
+import org.jiemamy.dialect.DatabaseMetadataParser;
 import org.jiemamy.dialect.Dialect;
-import org.jiemamy.model.DatabaseObjectModel;
-import org.jiemamy.model.constraint.ForeignKeyConstraintModel;
 import org.jiemamy.utils.sql.DriverNotFoundException;
 import org.jiemamy.utils.sql.DriverUtil;
 
@@ -81,10 +76,6 @@ public class DatabaseImporter extends AbstractImporter<DatabaseImportConfig> {
 	/** ConfigKey: importするエンティティの種類 (String[]) */
 	public static final String ENTITY_TYPES = "entityTypes";
 	
-	private Map<String, DatabaseObjectModel> importedEntities = Maps.newHashMap();
-	
-	private Map<String, ForeignKeyConstraintModel> importedForeignKeys = Maps.newHashMap();
-	
 
 	public String getName() {
 		return "Database Importer";
@@ -95,22 +86,21 @@ public class DatabaseImporter extends AbstractImporter<DatabaseImportConfig> {
 		Validate.notNull(config);
 		Validate.notNull(config.getUri());
 		
+		Properties props = new Properties();
+		props.setProperty("user", config.getUsername());
+		props.setProperty("password", config.getPassword());
+		
 		Connection connection = null;
 		try {
-			Dialect dialect = config.getDialect();
-			
-			Properties props = new Properties();
-			props.setProperty("user", config.getUsername());
-			props.setProperty("password", config.getPassword());
-			
 			URL[] paths = config.getDriverJarPaths();
 			String className = config.getDriverClassName();
 			Driver driver = DriverUtil.getDriverInstance(paths, className);
 			connection = driver.connect(config.getUri(), props);
 			DatabaseMetaData meta = connection.getMetaData();
 			
-			// TODO コメントアウト外し
-//			dialect.importMetadata(context, meta, config, importedEntities, importedForeignKeys);
+			Dialect dialect = config.getDialect();
+			DatabaseMetadataParser parser = dialect.getDatabaseMetadataParser();
+			parser.parseMetadata(context, meta, config);
 		} catch (DriverNotFoundException e) {
 			throw new ImportException(e);
 		} catch (InstantiationException e) {
@@ -132,24 +122,6 @@ public class DatabaseImporter extends AbstractImporter<DatabaseImportConfig> {
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
-	}
-	
-	/**
-	 * インポートされたエンティティの集合を取得する。
-	 * 
-	 * @return インポートされたエンティティの集合. {@link #importModel(JiemamyContext, DatabaseImportConfig)}実行前は、空のコレクションを返す。
-	 */
-	protected Collection<? extends DatabaseObjectModel> getImportedEntities() {
-		return importedEntities.values();
-	}
-	
-	/**
-	 * インポートされた外部キーの集合を取得する。
-	 * 
-	 * @return インポートされた外部キーの集合. {@link #importModel(JiemamyContext, DatabaseImportConfig)}実行前は、空のコレクションを返す。
-	 */
-	protected Collection<? extends ForeignKeyConstraintModel> getImportedForeignKeys() {
-		return importedForeignKeys.values();
 	}
 	
 	@Override

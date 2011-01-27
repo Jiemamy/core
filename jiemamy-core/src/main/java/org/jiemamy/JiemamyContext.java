@@ -529,7 +529,7 @@ public/*final*/class JiemamyContext implements EntityResolver {
 			logger.info(LogMarker.LIFECYCLE, "database object updated: (old) " + old);
 			logger.info(LogMarker.LIFECYCLE, "                         (new) " + dom);
 		}
-		eventBroker.fireEvent(new StoredEvent(doms, old, dom));
+		eventBroker.fireEvent(new StoredEvent<DatabaseObjectModel>(doms, old, dom));
 	}
 	
 	/**

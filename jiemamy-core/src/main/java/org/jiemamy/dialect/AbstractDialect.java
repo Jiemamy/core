@@ -45,13 +45,15 @@ public abstract class AbstractDialect implements Dialect {
 	
 	private final String connectionUriTemplate;
 	
-	protected final List<Entry> typeEntries;
+	private final List<Entry> typeEntries;
 	
 
 	/**
 	 * インスタンスを生成する。
 	 * 
 	 * @param connectionUriTemplate
+	 * @param typeEntries 
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public AbstractDialect(String connectionUriTemplate, List<Entry> typeEntries) {
 		Validate.notNull(connectionUriTemplate);
@@ -152,6 +154,7 @@ public abstract class AbstractDialect implements Dialect {
 		 * 
 		 * @param descriptor
 		 * @param typeParameterSpecs
+		 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 		 */
 		public Entry(TypeReference descriptor, Collection<TypeParameterSpec> typeParameterSpecs) {
 			Validate.notNull(descriptor);

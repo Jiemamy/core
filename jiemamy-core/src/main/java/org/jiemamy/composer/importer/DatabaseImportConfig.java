@@ -21,7 +21,7 @@ package org.jiemamy.composer.importer;
 import org.jiemamy.DatabaseConnectionConfig;
 import org.jiemamy.composer.ImportConfig;
 import org.jiemamy.dialect.Dialect;
-import org.jiemamy.dialect.ImportMetadataConfig;
+import org.jiemamy.dialect.ParseMetadataConfig;
 import org.jiemamy.model.DatabaseObjectModel;
 
 /**
@@ -33,6 +33,6 @@ import org.jiemamy.model.DatabaseObjectModel;
  * 
  * @author daisuke
  */
-public interface DatabaseImportConfig extends ImportConfig, DatabaseConnectionConfig, ImportMetadataConfig {
+public interface DatabaseImportConfig extends ImportConfig, DatabaseConnectionConfig, ParseMetadataConfig {
 	
 }

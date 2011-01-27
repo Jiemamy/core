@@ -26,7 +26,7 @@ import org.jiemamy.model.DatabaseObjectModel;
  * @since 0.2
  * @author daisuke
  */
-public interface ImportMetadataConfig {
+public interface ParseMetadataConfig {
 	
 	/**
 	 * SQL方言を取得する。

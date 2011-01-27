@@ -18,6 +18,8 @@
  */
 package org.jiemamy.model.constraint;
 
+import org.jiemamy.utils.sql.metadata.KeyMeta.Deferrability;
+
 /**
  * 抽象遅延評価可能性モデル。
  * 
@@ -36,6 +38,18 @@ public enum DefaultDeferrabilityModel implements DeferrabilityModel {
 
 	/** 遅延評価可能であり、基本的に遅延評価であることを表す。 */
 	DEFERRABLE_DEFERRED(true, InitiallyCheckTime.DEFERRED);
+	
+	public static DefaultDeferrabilityModel fromDeferrability(Deferrability deferrability) {
+		if (deferrability == Deferrability.INITIALLY_DEFERRED) {
+			return DEFERRABLE_DEFERRED;
+		} else if (deferrability == Deferrability.INITIALLY_IMMEDIATE) {
+			return DEFERRABLE_IMMEDIATE;
+		} else if (deferrability == Deferrability.NOT_DEFERRABLE) {
+			return INDEFERRABLE;
+		} else {
+			return null;
+		}
+	}
 	
 	public static DefaultDeferrabilityModel valueOf(boolean deferrable, InitiallyCheckTime initiallyCheckTime) {
 		if (deferrable) {

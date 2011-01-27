@@ -34,6 +34,7 @@ import org.jiemamy.model.script.DefaultAroundScriptModel;
 import org.jiemamy.model.script.DefaultAroundScriptModelSerializationHandler;
 import org.jiemamy.serializer.stax2.SerializationDirector;
 import org.jiemamy.transaction.StoredEvent;
+import org.jiemamy.utils.LogMarker;
 import org.jiemamy.xml.JiemamyNamespace;
 import org.jiemamy.xml.SqlNamespace;
 import org.jiemamy.xml.SqlQName;
@@ -187,10 +188,10 @@ public class SqlFacet implements JiemamyFacet {
 		AroundScriptModel old = scripts.store(script);
 		
 		if (old == null) {
-			logger.info("script stored: " + script);
+			logger.info(LogMarker.LIFECYCLE, "script stored: " + script);
 		} else {
-			logger.info("script updated: (old) " + old);
-			logger.info("                (new) " + script);
+			logger.info(LogMarker.LIFECYCLE, "script updated: (old) " + old);
+			logger.info(LogMarker.LIFECYCLE, "                (new) " + script);
 		}
 		context.getEventBroker().fireEvent(new StoredEvent<AroundScriptModel>(scripts, old, script));
 	}

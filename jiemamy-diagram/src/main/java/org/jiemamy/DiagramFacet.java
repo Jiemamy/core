@@ -54,6 +54,7 @@ import org.jiemamy.model.geometory.JmRectangle;
 import org.jiemamy.model.geometory.JmRectangleSerializationHandler;
 import org.jiemamy.serializer.stax2.SerializationDirector;
 import org.jiemamy.transaction.StoredEvent;
+import org.jiemamy.utils.LogMarker;
 import org.jiemamy.xml.DiagramNamespace;
 import org.jiemamy.xml.DiagramQName;
 import org.jiemamy.xml.JiemamyNamespace;
@@ -211,10 +212,10 @@ public class DiagramFacet implements JiemamyFacet {
 		Validate.notNull(diagram);
 		DiagramModel old = diagrams.store(diagram);
 		if (old == null) {
-			logger.info("diagram stored: " + diagram);
+			logger.info(LogMarker.LIFECYCLE, "diagram stored: " + diagram);
 		} else {
-			logger.info("diagram updated: (old) " + old);
-			logger.info("                 (new) " + diagram);
+			logger.info(LogMarker.LIFECYCLE, "diagram updated: (old) " + old);
+			logger.info(LogMarker.LIFECYCLE, "                 (new) " + diagram);
 		}
 		context.getEventBroker().fireEvent(new StoredEvent<DiagramModel>(diagrams, old, diagram));
 	}
