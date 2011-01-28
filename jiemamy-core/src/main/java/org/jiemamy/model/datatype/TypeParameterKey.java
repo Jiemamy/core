@@ -44,6 +44,7 @@ public class TypeParameterKey<T> extends ParameterKey<T> {
 	/** シリアルパラメータ用のキー */
 	public static final TypeParameterKey<Boolean> SERIAL = new TypeParameterKey<Boolean>(Converters.BOOLEAN, "serial");
 	
+	/** タイムゾーンパラメータ用のキー */
 	public static final TypeParameterKey<Boolean> WITH_TIMEZONE = new TypeParameterKey<Boolean>(Converters.BOOLEAN,
 			"with_timezone");
 	
