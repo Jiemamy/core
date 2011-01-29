@@ -58,6 +58,7 @@ import org.jiemamy.transaction.EventBroker;
 import org.jiemamy.transaction.EventBrokerImpl;
 import org.jiemamy.transaction.StoredEvent;
 import org.jiemamy.utils.LogMarker;
+import org.jiemamy.utils.UUIDUtil;
 
 /**
  * テーブルモデル。
@@ -346,7 +347,12 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	public NotNullConstraintModel getNotNullConstraintFor(EntityRef<? extends ColumnModel> reference) {
 		Validate.notNull(reference);
 		for (NotNullConstraintModel nn : getConstraints(NotNullConstraintModel.class)) {
-			if (nn.getColumnRef().equals(reference)) {
+			EntityRef<? extends ColumnModel> columnRef = nn.getColumnRef();
+			if (columnRef == null) {
+				logger.warn("target column of NOT NULL is null: " + UUIDUtil.toShortString(nn.getId()));
+				continue;
+			}
+			if (columnRef.equals(reference)) {
 				return nn;
 			}
 		}

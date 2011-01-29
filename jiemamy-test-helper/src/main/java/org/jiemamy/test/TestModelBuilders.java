@@ -24,6 +24,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.CharEncoding;
 
 import org.jiemamy.JiemamyContext;
+import org.jiemamy.SqlFacet;
 
 /**
  * テスト用モデルの構築を行うビルダを供給するプロバイダ。
@@ -33,24 +34,24 @@ import org.jiemamy.JiemamyContext;
 public enum TestModelBuilders {
 	
 	/**  */
-	EMP_DEPT(new CoreTestModelBuilder(newJiemamy()), getXml("/sample.xml")),
+	EMP_DEPT(new CoreTestModelBuilder(newJiemamy()), getXml("/sample.jiemamy")),
 
 	/**  */
-	ORDER(new CoreTestModelBuilder2(newJiemamy()), getXml("/sample.xml"));
+	ORDER(new CoreTestModelBuilder2(newJiemamy()), getXml("/sample.jiemamy"));
 	
 	private static String getXml(String path) {
 		InputStream in = TestModelBuilders.class.getResourceAsStream(path);
-		String xml;
+		String xml = null;
 		try {
 			xml = IOUtils.toString(in, CharEncoding.UTF_8);
 		} catch (Exception e) {
-			throw new Error("リソースにアクセスできない", e);
+//			throw new Error("リソースにアクセスできない", e);
 		}
 		return xml;
 	}
 	
 	private static JiemamyContext newJiemamy() {
-		return new JiemamyContext();
+		return new JiemamyContext(SqlFacet.PROVIDER);
 	}
 	
 

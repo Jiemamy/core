@@ -35,7 +35,9 @@ import org.jiemamy.composer.ImportException;
 import org.jiemamy.composer.importer.DatabaseImportConfig;
 import org.jiemamy.composer.importer.DatabaseImporter;
 import org.jiemamy.model.DatabaseObjectModel;
+import org.jiemamy.model.index.IndexModel;
 import org.jiemamy.model.table.TableModel;
+import org.jiemamy.model.view.ViewModel;
 import org.jiemamy.utils.collection.ListUtil;
 import org.jiemamy.utils.sql.DriverNotFoundException;
 import org.jiemamy.utils.sql.DriverUtil;
@@ -86,8 +88,19 @@ public class DatabaseCleaner {
 			}
 			
 			for (DatabaseObjectModel dom : sortedDomList) {
-				String type = dom instanceof TableModel ? "TABLE" : "VIEW";
-				sqlExecuter.execute(String.format("DROP %s %s;", type, dom.getName()));
+				String type = null;
+				if (dom instanceof TableModel) {
+					type = "TABLE";
+				} else if (dom instanceof ViewModel) {
+					type = "VIEW";
+				} else if (dom instanceof IndexModel) {
+					type = "INDEX";
+				}
+				if (type != null) {
+					sqlExecuter.execute(String.format("DROP %s %s;", type, dom.getName()));
+				} else {
+					logger.warn("unsupported database object: " + dom.getClass().getName());
+				}
 			}
 		} catch (DriverNotFoundException e) {
 			throw new ImportException(e);

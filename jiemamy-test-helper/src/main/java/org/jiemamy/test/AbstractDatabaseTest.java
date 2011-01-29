@@ -25,6 +25,7 @@ import java.io.InputStream;
 import java.net.InetAddress;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.Properties;
 
 import org.apache.commons.dbutils.DbUtils;
@@ -48,6 +49,25 @@ public abstract class AbstractDatabaseTest {
 	private Properties props;
 	
 
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void abstest00_connection() throws Exception {
+		assumeThat(props, is(notNullValue()));
+		
+		Class.forName(getDriverClassName());
+		Connection connection = null;
+		try {
+			connection = DriverManager.getConnection(getConnectionUri(), getUsername(), getPassword());
+			assertThat(connection, is(notNullValue()));
+		} finally {
+			DbUtils.closeQuietly(connection);
+		}
+	}
+	
 	/**
 	 * テストを初期化する。
 	 * 
@@ -78,23 +98,10 @@ public abstract class AbstractDatabaseTest {
 		}
 	}
 	
-	/**
-	 * TODO for daisuke
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
-	@Test
-	public void testabs00_connection() throws Exception {
+	protected Connection getConnection() throws ClassNotFoundException, SQLException {
 		assumeThat(props, is(notNullValue()));
-		
 		Class.forName(getDriverClassName());
-		Connection connection = null;
-		try {
-			connection = DriverManager.getConnection(getConnectionUri(), getUsername(), getPassword());
-			assertThat(connection, is(notNullValue()));
-		} finally {
-			DbUtils.closeQuietly(connection);
-		}
+		return DriverManager.getConnection(getConnectionUri(), getUsername(), getPassword());
 	}
 	
 	protected String getConnectionUri() {

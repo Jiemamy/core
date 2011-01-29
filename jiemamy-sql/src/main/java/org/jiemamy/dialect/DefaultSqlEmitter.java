@@ -28,6 +28,8 @@ import com.google.common.collect.Maps;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.jiemamy.ContextMetadata;
 import org.jiemamy.EntityDependencyCalculator;
@@ -76,6 +78,8 @@ import org.jiemamy.utils.ConstraintComparator;
 public class DefaultSqlEmitter implements SqlEmitter {
 	
 	private final TokenResolver tokenResolver;
+	
+	private static Logger logger = LoggerFactory.getLogger(DefaultSqlEmitter.class);
 	
 
 	/**
@@ -286,6 +290,11 @@ public class DefaultSqlEmitter implements SqlEmitter {
 	protected SqlStatement emitCreateStatement(JiemamyContext context, DatabaseObjectModel dom) {
 		Validate.notNull(dom);
 		DatabaseObjectEmitStrategy strategy = DatabaseObjectEmitStrategy.fromEntity(dom);
+		if (strategy == null) {
+			// TODO くるしまぎれｗ
+			logger.warn("strategy for {} is not found.", dom.getClass().getName());
+			return new DefaultSqlStatement(Keyword.of("-- " + dom.toString()));
+		}
 		return strategy.emit(context, dom, this, tokenResolver);
 	}
 	

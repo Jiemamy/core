@@ -18,6 +18,7 @@
     <module>../jiemamy-core</module>
     <module>../jiemamy-diagram</module>
     <module>../jiemamy-sql</module>
+    <module>../jiemamy-test-helper</module>
   </modules>
   <repositories>
     <repository>

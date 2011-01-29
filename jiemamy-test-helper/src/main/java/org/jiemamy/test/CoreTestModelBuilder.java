@@ -233,6 +233,7 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		meta.setDialectClassName(dialectClassName);
 		meta.setDescription("Jiemamyテストモデル1");
 		meta.setSchemaName("FOO");
+		jiemamy.setMetadata(meta);
 		
 		createDomains();
 		createEntities();
