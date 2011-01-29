@@ -19,8 +19,10 @@ package org.jiemamy.test;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assume.assumeThat;
 
 import java.io.InputStream;
+import java.net.InetAddress;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.Properties;
@@ -29,6 +31,8 @@ import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * TODO for daisuke
@@ -38,6 +42,8 @@ import org.junit.Test;
  * @author daisuke
  */
 public abstract class AbstractDatabaseTest {
+	
+	private static Logger logger = LoggerFactory.getLogger(AbstractDatabaseTest.class);
 	
 	private Properties props;
 	
@@ -51,11 +57,20 @@ public abstract class AbstractDatabaseTest {
 	public void setUp() throws Exception {
 		InputStream in = null;
 		try {
-			in = AbstractDatabaseTest.class.getResourceAsStream(getPropertiesFilePath());
-			if (in == null) {
+			if (InetAddress.getLocalHost().getHostName().equals("griffon.jiemamy.org")) {
 				in = AbstractDatabaseTest.class.getResourceAsStream(getPropertiesFilePathForCI());
+				assertThat(in, is(notNullValue()));
+				logger.info("Database Integration Test for CI ... ready");
+			} else {
+				in = AbstractDatabaseTest.class.getResourceAsStream(getPropertiesFilePath());
+				if (in == null) {
+					logger.warn("Database Integration Test for LOCAL ... NOT READY");
+					logger.warn("  -- please deploy database.properties");
+					return;
+				} else {
+					logger.info("Database Integration Test for LOCAL ... ready");
+				}
 			}
-			assertThat(in, is(notNullValue()));
 			props = new Properties();
 			props.load(in);
 		} finally {
@@ -70,6 +85,8 @@ public abstract class AbstractDatabaseTest {
 	 */
 	@Test
 	public void testabs00_connection() throws Exception {
+		assumeThat(props, is(notNullValue()));
+		
 		Class.forName(getDriverClassName());
 		Connection connection = null;
 		try {
