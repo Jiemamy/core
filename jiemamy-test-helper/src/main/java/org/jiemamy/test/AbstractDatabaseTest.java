@@ -79,8 +79,7 @@ public abstract class AbstractDatabaseTest {
 		
 		InputStream in = null;
 		try {
-			ClassLoader cl = getDatabasePropertyClassLoader();
-			in = cl.getResourceAsStream(getPropertiesFilePath(hostName));
+			in = AbstractDatabaseTest.class.getResourceAsStream(getPropertiesFilePath(hostName));
 			if (in == null) {
 				if (hostName.equals("griffon.jiemamy.org")) {
 					throw new AssertionError();
@@ -106,10 +105,6 @@ public abstract class AbstractDatabaseTest {
 	protected String getConnectionUri() {
 		assumeThat(props, is(notNullValue()));
 		return props.getProperty("uri");
-	}
-	
-	protected ClassLoader getDatabasePropertyClassLoader() {
-		return getClass().getClassLoader();
 	}
 	
 	protected String getDriverClassName() {
