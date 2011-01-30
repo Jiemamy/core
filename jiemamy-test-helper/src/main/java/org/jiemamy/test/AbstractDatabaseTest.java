@@ -36,9 +36,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * TODO for daisuke
+ * 実データベースに接続して行うインテグレーションテスト用の抽象実装クラス。
  * 
- * @since TODO for daisuke
+ * @since 0.3
  * @version $Id$
  * @author daisuke
  */
@@ -75,24 +75,23 @@ public abstract class AbstractDatabaseTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
+		String hostName = InetAddress.getLocalHost().getHostName();
+		
 		InputStream in = null;
 		try {
-			if (InetAddress.getLocalHost().getHostName().equals("griffon.jiemamy.org")) {
-				in = AbstractDatabaseTest.class.getResourceAsStream(getPropertiesFilePathForCI());
-				assertThat(in, is(notNullValue()));
-				logger.info("Database Integration Test for CI ... ready");
-			} else {
-				in = AbstractDatabaseTest.class.getResourceAsStream(getPropertiesFilePath());
-				if (in == null) {
-					logger.warn("Database Integration Test for LOCAL ... NOT READY");
-					logger.warn("  -- please deploy database.properties");
-					return;
-				} else {
-					logger.info("Database Integration Test for LOCAL ... ready");
+			ClassLoader cl = getDatabasePropertyClassLoader();
+			in = cl.getResourceAsStream(getPropertiesFilePath(hostName));
+			if (in == null) {
+				if (hostName.equals("griffon.jiemamy.org")) {
+					throw new AssertionError();
 				}
+				logger.warn("Database Properties ... NOT READY");
+				logger.warn("  -- please deploy database properties file");
+			} else {
+				logger.info("Database Properties ... ready");
+				props = new Properties();
+				props.load(in);
 			}
-			props = new Properties();
-			props.load(in);
 		} finally {
 			IOUtils.closeQuietly(in);
 		}
@@ -107,6 +106,10 @@ public abstract class AbstractDatabaseTest {
 	protected String getConnectionUri() {
 		assumeThat(props, is(notNullValue()));
 		return props.getProperty("uri");
+	}
+	
+	protected ClassLoader getDatabasePropertyClassLoader() {
+		return getClass().getClassLoader();
 	}
 	
 	protected String getDriverClassName() {
@@ -124,9 +127,7 @@ public abstract class AbstractDatabaseTest {
 		return props.getProperty("password");
 	}
 	
-	protected abstract String getPropertiesFilePath();
-	
-	protected abstract String getPropertiesFilePathForCI();
+	protected abstract String getPropertiesFilePath(String hostName);
 	
 	protected String getUsername() {
 		assumeThat(props, is(notNullValue()));
