@@ -43,7 +43,7 @@ import org.jiemamy.validator.Problem;
 public class DatabaseObjectNameCollisionValidator extends AbstractValidator {
 	
 	public Collection<? extends Problem> validate(JiemamyContext context) {
-		Collection<Problem> result = Lists.newArrayList();
+		Collection<Problem> problems = Lists.newArrayList();
 		Map<String, Collection<DatabaseObjectModel>> map = Maps.newHashMap();
 		
 		for (DatabaseObjectModel dom : context.getDatabaseObjects()) {
@@ -56,11 +56,11 @@ public class DatabaseObjectNameCollisionValidator extends AbstractValidator {
 		
 		for (Map.Entry<String, Collection<DatabaseObjectModel>> e : map.entrySet()) {
 			if (e.getValue().size() != 1) {
-				result.add(new DatabaseObjectNameCollisionProblem(e.getKey(), e.getValue()));
+				problems.add(new DatabaseObjectNameCollisionProblem(e.getKey(), e.getValue()));
 			}
 		}
 		
-		return result;
+		return problems;
 	}
 	
 

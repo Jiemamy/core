@@ -41,9 +41,9 @@ import org.jiemamy.validator.Problem;
  */
 public class PrimaryKeyValidator extends AbstractValidator {
 	
-	public Collection<Problem> validate(JiemamyContext rootModel) {
+	public Collection<Problem> validate(JiemamyContext context) {
 		Collection<Problem> result = Lists.newArrayList();
-		Collection<TableModel> tableModels = rootModel.getTables();
+		Collection<TableModel> tableModels = context.getTables();
 		for (TableModel tableModel : tableModels) {
 			int size = tableModel.getConstraints(PrimaryKeyConstraintModel.class).size();
 			if (size == 0) {
@@ -64,7 +64,7 @@ public class PrimaryKeyValidator extends AbstractValidator {
 		 * @param tableModel 複数の主キーが設定されたテーブル
 		 */
 		public MultiplePrimaryKeyProblem(TableModel tableModel) {
-			super(tableModel, "E0150");
+			super(tableModel, "F0150");
 			setArguments(new Object[] {
 				tableModel.getName()
 			});

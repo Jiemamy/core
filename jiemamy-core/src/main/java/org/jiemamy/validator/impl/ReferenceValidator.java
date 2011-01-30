@@ -18,6 +18,11 @@
  */
 package org.jiemamy.validator.impl;
 
+import java.util.Collection;
+
+import com.google.common.collect.Lists;
+
+import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,6 +30,8 @@ import org.jiemamy.JiemamyContext;
 import org.jiemamy.dddbase.EntityNotFoundException;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.validator.AbstractProblem;
+import org.jiemamy.validator.AbstractValidator;
+import org.jiemamy.validator.Problem;
 
 /**
  * {@link EntityRef}が全て正常に解決できるかどうか調べるバリデータ。
@@ -35,21 +42,24 @@ import org.jiemamy.validator.AbstractProblem;
  * 
  * @author daisuke
  */
-public class ReferenceValidator extends AbstractTraversalValidator<Void> {
+public class ReferenceValidator extends AbstractValidator {
 	
 	private static Logger logger = LoggerFactory.getLogger(ReferenceValidator.class);
 	
 
-	@Override
-	void check(Object element, String pos) {
-		if (element instanceof EntityRef<?>) {
-			EntityRef<?> elementReference = (EntityRef<?>) element;
-			try {
-				context.resolve(elementReference);
-			} catch (EntityNotFoundException e) {
-				logger.error("reference(" + pos + ") resolve error");
-				result.add(new ReferenceProblem(elementReference, pos));
-			}
+	public Collection<? extends Problem> validate(JiemamyContext context) {
+		Validate.notNull(context);
+		Collection<Problem> problems = Lists.newArrayList();
+		// TODO
+		return problems;
+	}
+	
+	void check(JiemamyContext context, EntityRef<?> elementReference, String pos, Collection<Problem> problems) {
+		try {
+			context.resolve(elementReference);
+		} catch (EntityNotFoundException e) {
+			logger.error("reference(" + pos + ") resolve error");
+			problems.add(new ReferenceProblem(elementReference, pos));
 		}
 	}
 	

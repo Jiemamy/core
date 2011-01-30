@@ -17,6 +17,7 @@
 package org.jiemamy;
 
 import java.util.Collection;
+import java.util.Set;
 import java.util.UUID;
 
 import org.apache.commons.lang.Validate;
@@ -119,6 +120,10 @@ public class SqlFacet implements JiemamyFacet {
 	 * @return {@link AroundScriptModel}の集合
 	 */
 	public Collection<? extends AroundScriptModel> getAroundScripts() {
+		return scripts.getEntitiesAsSet();
+	}
+	
+	public Set<? extends Entity> getEntities() {
 		return scripts.getEntitiesAsSet();
 	}
 	

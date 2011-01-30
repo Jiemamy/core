@@ -27,6 +27,7 @@ import org.apache.commons.lang.StringUtils;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.model.column.ColumnModel;
+import org.jiemamy.model.constraint.ConstraintModel;
 import org.jiemamy.model.table.TableModel;
 import org.jiemamy.validator.AbstractProblem;
 import org.jiemamy.validator.AbstractValidator;
@@ -45,18 +46,21 @@ import org.jiemamy.validator.Problem;
 public class TableValidator extends AbstractValidator {
 	
 	public Collection<Problem> validate(JiemamyContext context) {
-		Collection<Problem> result = Lists.newArrayList();
-		Collection<TableModel> tableModels = context.getTables();
-		for (TableModel tableModel : tableModels) {
+		Collection<Problem> problems = Lists.newArrayList();
+		for (TableModel tableModel : context.getTables()) {
 			List<? extends ColumnModel> columns = tableModel.getColumns();
 			if (columns.size() == 0) {
-				result.add(new NoColumnProblem(tableModel));
+				problems.add(new NoColumnProblem(tableModel));
 			}
 			if (StringUtils.isEmpty(tableModel.getName())) {
-				result.add(new EmptyTableNameProblem(tableModel));
+				problems.add(new EmptyTableNameProblem(tableModel));
+			}
+			
+			for (ConstraintModel constraintModel : tableModel.getConstraints()) {
+				// TODO
 			}
 		}
-		return result;
+		return problems;
 	}
 	
 

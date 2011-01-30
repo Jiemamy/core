@@ -19,6 +19,7 @@ package org.jiemamy;
 import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 import java.util.UUID;
 
 import com.google.common.base.Predicate;
@@ -148,6 +149,10 @@ public class DiagramFacet implements JiemamyFacet {
 	 */
 	public List<? extends DiagramModel> getDiagrams() {
 		return diagrams.getEntitiesAsList();
+	}
+	
+	public Set<? extends Entity> getEntities() {
+		return diagrams.getEntitiesAsSet();
 	}
 	
 	public JiemamyNamespace[] getNamespaces() {

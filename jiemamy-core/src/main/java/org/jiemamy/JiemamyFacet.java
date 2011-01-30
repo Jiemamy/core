@@ -18,6 +18,9 @@
  */
 package org.jiemamy;
 
+import java.util.Set;
+
+import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.OnMemoryEntityResolver;
 import org.jiemamy.serializer.stax2.SerializationDirector;
 import org.jiemamy.serializer.stax2.SerializationHandler;
@@ -32,6 +35,13 @@ import org.jiemamy.xml.JiemamyNamespace;
  * @author daisuke
  */
 public interface JiemamyFacet {
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @return
+	 */
+	Set<? extends Entity> getEntities();
 	
 	/**
 	 * このファセットが利用する全ての名前空間を取得する。

@@ -30,6 +30,7 @@ import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.column.ColumnModel;
 import org.jiemamy.model.constraint.KeyConstraintModel;
 import org.jiemamy.model.table.TableModel;
+import org.jiemamy.utils.EntityToIdTransformer;
 import org.jiemamy.validator.AbstractProblem;
 import org.jiemamy.validator.AbstractValidator;
 import org.jiemamy.validator.Problem;
@@ -45,25 +46,22 @@ import org.jiemamy.validator.Problem;
  */
 public class KeyConstraintValidator extends AbstractValidator {
 	
-	public Collection<Problem> validate(JiemamyContext rootModel) {
-		Collection<Problem> result = Lists.newArrayList();
-		for (TableModel tableModel : rootModel.getTables()) {
-			Collection<UUID> columnIds = Lists.newArrayList();
-			for (ColumnModel columnModel : tableModel.getColumns()) {
-				columnIds.add(columnModel.getId());
-			}
+	public Collection<Problem> validate(JiemamyContext context) {
+		Collection<Problem> problems = Lists.newArrayList();
+		for (TableModel tableModel : context.getTables()) {
+			Collection<UUID> columnIds = Lists.transform(tableModel.getColumns(), new EntityToIdTransformer());
 			for (KeyConstraintModel keyConstraint : tableModel.getConstraints(KeyConstraintModel.class)) {
 				if (keyConstraint.getKeyColumns().size() < 1) {
-					result.add(new NoKeyColumnProblem(tableModel, keyConstraint));
+					problems.add(new NoKeyColumnProblem(tableModel, keyConstraint));
 				}
 				for (EntityRef<? extends ColumnModel> columnRef : keyConstraint.getKeyColumns()) {
 					if (columnIds.contains(columnRef.getReferentId()) == false) {
-						result.add(new IllegalKeyColumnRefProblem(columnRef, keyConstraint, tableModel));
+						problems.add(new IllegalKeyColumnRefProblem(columnRef, keyConstraint, tableModel));
 					}
 				}
 			}
 		}
-		return result;
+		return problems;
 	}
 	
 
@@ -78,7 +76,7 @@ public class KeyConstraintValidator extends AbstractValidator {
 		 */
 		public IllegalKeyColumnRefProblem(EntityRef<? extends ColumnModel> columnRef, KeyConstraintModel keyConstraint,
 				TableModel tableModel) {
-			super(keyConstraint, "E0130");
+			super(keyConstraint, "F0130");
 			setArguments(new Object[] {
 				tableModel.getName(),
 				tableModel.getId().toString(),
@@ -97,7 +95,7 @@ public class KeyConstraintValidator extends AbstractValidator {
 		 * @param keyConstraint キーカラムを1つも持たないキー制約
 		 */
 		public NoKeyColumnProblem(TableModel tableModel, KeyConstraintModel keyConstraint) {
-			super(keyConstraint, "E0140");
+			super(keyConstraint, "F0140");
 			setArguments(new Object[] {
 				StringUtils.isEmpty(tableModel.getName()) ? tableModel.getId().toString() : tableModel.getName(),
 				keyConstraint.getName(),

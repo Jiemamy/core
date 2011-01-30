@@ -43,22 +43,16 @@ import org.jiemamy.validator.Problem;
 public class CheckConstraintValidator extends AbstractValidator {
 	
 	public Collection<Problem> validate(JiemamyContext context) {
-		Collection<Problem> result = Lists.newArrayList();
+		Collection<Problem> problems = Lists.newArrayList();
 		Collection<TableModel> tableModels = context.getTables();
 		for (TableModel tableModel : tableModels) {
 			int index = 0;
 			for (CheckConstraintModel checkConstraint : tableModel.getConstraints(CheckConstraintModel.class)) {
-				if (isValid(checkConstraint) == false) {
-					if (StringUtils.isEmpty(checkConstraint.getName())) {
-						result.add(new EmptyExpressionProblem(tableModel, checkConstraint, index));
-					} else {
-						result.add(new EmptyExpressionProblem(tableModel, checkConstraint));
-					}
-				}
+				validateCheckConstraint(problems, tableModel, index, checkConstraint);
 				index++;
 			}
 		}
-		return result;
+		return problems;
 	}
 	
 	/**
@@ -70,6 +64,17 @@ public class CheckConstraintValidator extends AbstractValidator {
 	private boolean isValid(CheckConstraintModel checkConstraint) {
 		// TODO いつかは構文解析
 		return StringUtils.isEmpty(checkConstraint.getExpression()) == false;
+	}
+	
+	private void validateCheckConstraint(Collection<Problem> problems, TableModel tableModel, int index,
+			CheckConstraintModel checkConstraint) {
+		if (isValid(checkConstraint) == false) {
+			if (StringUtils.isEmpty(checkConstraint.getName())) {
+				problems.add(new EmptyExpressionProblem(tableModel, checkConstraint, index));
+			} else {
+				problems.add(new EmptyExpressionProblem(tableModel, checkConstraint));
+			}
+		}
 	}
 	
 

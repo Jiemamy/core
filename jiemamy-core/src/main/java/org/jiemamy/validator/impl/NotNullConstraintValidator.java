@@ -47,22 +47,22 @@ import org.jiemamy.validator.Problem;
 public class NotNullConstraintValidator extends AbstractValidator {
 	
 	public Collection<Problem> validate(JiemamyContext context) {
-		Collection<Problem> result = Lists.newArrayList();
+		Collection<Problem> problems = Lists.newArrayList();
 		for (TableModel tableModel : context.getTables()) {
 			for (NotNullConstraintModel nn : tableModel.getConstraints(NotNullConstraintModel.class)) {
 				if (nn.getColumnRef() == null) {
-					result.add(new NullTargetProblem(nn));
+					problems.add(new NullTargetProblem(tableModel, nn));
 				}
 				
 				try {
 					tableModel.resolve(nn.getColumnRef());
 				} catch (EntityNotFoundException e) {
-					result.add(new TargetNotFoundProblem(nn));
+					problems.add(new TargetNotFoundProblem(nn));
 				}
 			}
 		}
 		
-		return result;
+		return problems;
 	}
 	
 
@@ -71,11 +71,13 @@ public class NotNullConstraintValidator extends AbstractValidator {
 		/**
 		 * インスタンスを生成する。
 		 * 
+		 * @param tableModel テーブル
 		 * @param nn 不正な非NULL制約
 		 */
-		public NullTargetProblem(NotNullConstraintModel nn) {
-			super(nn, "E0180");
+		public NullTargetProblem(TableModel tableModel, NotNullConstraintModel nn) {
+			super(nn, "F0180");
 			setArguments(new Object[] {
+				tableModel.getName(),
 				nn.getName(),
 			});
 		}

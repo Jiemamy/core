@@ -46,20 +46,20 @@ import org.jiemamy.validator.Problem;
 public class ForeignKeyValidator extends AbstractValidator {
 	
 	public Collection<Problem> validate(JiemamyContext context) {
-		Collection<Problem> result = Lists.newArrayList();
+		Collection<Problem> problems = Lists.newArrayList();
 		for (TableModel tableModel : context.getTables()) {
-			for (ForeignKeyConstraintModel foreignKey : tableModel.getConstraints(ForeignKeyConstraintModel.class)) {
+			for (ForeignKeyConstraintModel foreignKey : tableModel.getForeignKeyConstraintModels()) {
 				if (foreignKey.getKeyColumns().size() != foreignKey.getReferenceColumns().size()) {
-					result.add(new ReferenceMappingProblem(foreignKey));
+					problems.add(new ReferenceMappingProblem(foreignKey));
 				}
 				
 				if (DefaultTableModel.findReferencedKeyConstraint(context.getTables(), foreignKey) == null) {
-					result.add(new ReferenceKeyProblem(foreignKey));
+					problems.add(new ReferenceKeyProblem(foreignKey));
 				}
 			}
 		}
 		
-		return result;
+		return problems;
 	}
 	
 
@@ -71,7 +71,7 @@ public class ForeignKeyValidator extends AbstractValidator {
 		 * @param foreignKey 不正な外部キー
 		 */
 		public ReferenceKeyProblem(ForeignKeyConstraintModel foreignKey) {
-			super(foreignKey, "E0080");
+			super(foreignKey, "F0080");
 			setArguments(new Object[] {
 				foreignKey.getName(),
 				foreignKey.getKeyColumns().size(),
@@ -88,7 +88,7 @@ public class ForeignKeyValidator extends AbstractValidator {
 		 * @param foreignKey 不正な外部キー
 		 */
 		public ReferenceMappingProblem(ForeignKeyConstraintModel foreignKey) {
-			super(foreignKey, "E0090");
+			super(foreignKey, "F0090");
 			setArguments(new Object[] {
 				foreignKey.getName(),
 				foreignKey.getKeyColumns().size(),
