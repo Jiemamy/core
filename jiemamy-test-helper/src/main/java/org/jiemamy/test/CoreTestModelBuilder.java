@@ -38,7 +38,6 @@ import org.jiemamy.model.constraint.DefaultForeignKeyConstraintModel;
 import org.jiemamy.model.constraint.DefaultNotNullConstraintModel;
 import org.jiemamy.model.constraint.DefaultPrimaryKeyConstraintModel;
 import org.jiemamy.model.constraint.ForeignKeyConstraintModel.ReferentialAction;
-import org.jiemamy.model.constraint.NotNullConstraintModel;
 import org.jiemamy.model.dataset.DefaultDataSetModel;
 import org.jiemamy.model.dataset.DefaultRecordModel;
 import org.jiemamy.model.dataset.RecordModel;
@@ -263,15 +262,15 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		
 		DefaultDataSetModel dataSetEn = new DefaultDataSetModel(uuid.get("b73100b5-2d70-4b48-a825-311eacb63b2f"));
 		dataSetEn.setName("データ群en");
-		dataSetEn.getRecords().put(tableDept.toReference(), createDataSetEnDept());
-		dataSetEn.getRecords().put(tableEmp.toReference(), createDataSetEnEmp());
+		dataSetEn.putRecord(tableDept.toReference(), createDataSetEnDept());
+		dataSetEn.putRecord(tableEmp.toReference(), createDataSetEnEmp());
 		jiemamy.store(dataSetEn);
 		
 		// データセットの生成・追加(2)
 		DefaultDataSetModel dataSetJa = new DefaultDataSetModel(uuid.get("91246ed4-1ef3-440e-bf12-40fa4439a71b"));
 		dataSetJa.setName("データ群ja");
-		dataSetJa.getRecords().put(tableDept.toReference(), createDataSetJaDept());
-		dataSetJa.getRecords().put(tableEmp.toReference(), createDataSetJaEmp());
+		dataSetJa.putRecord(tableDept.toReference(), createDataSetJaDept());
+		dataSetJa.putRecord(tableEmp.toReference(), createDataSetJaEmp());
 		jiemamy.store(dataSetJa);
 	}
 	
@@ -286,8 +285,6 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		domainId = new DefaultDomainModel(uuid.get("2eec0aa0-5122-4eb7-833d-9f5a43e7abe9"));
 		domainId.setName("ID");
 		domainId.setDataType(ModelUtil.createDataType(jiemamy, DataTypeCategory.INTEGER));
-		NotNullConstraintModel notNull =
-				new DefaultNotNullConstraintModel(uuid.get("af4845dc-7f3a-434d-b5ac-2f25b74d7e76"));
 		domainId.setNotNull(true);
 		DefaultCheckConstraintModel check =
 				new DefaultCheckConstraintModel(uuid.get("48b76d76-b288-480a-afa4-111247379f8d"));
@@ -328,8 +325,7 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		
 		fkEmpEmp = new DefaultForeignKeyConstraintModel(uuid.get("e43d3c43-33c8-4b02-aa42-83f2d868cfe6"));
 		fkEmpEmp.setName("emp_mgr_id_fkey");
-		fkEmpEmp.getKeyColumns().add(empMgrId.toReference());
-		fkEmpEmp.getReferenceColumns().add(empId.toReference());
+		fkEmpEmp.addReferencing(empMgrId.toReference(), empId.toReference());
 		fkEmpEmp.setOnDelete(ReferentialAction.SET_NULL);
 		DefaultDeferrabilityModel deferrability = DefaultDeferrabilityModel.DEFERRABLE_DEFERRED;
 		fkEmpEmp.setDeferrability(deferrability);
@@ -337,8 +333,7 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		
 		fkEmpDept = new DefaultForeignKeyConstraintModel(uuid.get("e7dd92b4-1d97-4be6-bab6-fa9fe26eb6ed"));
 		fkEmpDept.setName("emp_dept_id_fkey");
-		fkEmpDept.getKeyColumns().add(empDeptId.toReference());
-		fkEmpDept.getReferenceColumns().add(deptId.toReference());
+		fkEmpDept.addReferencing(empDeptId.toReference(), deptId.toReference());
 		tableEmp.store(fkEmpDept);
 	}
 	
@@ -678,6 +673,7 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		DefaultNotNullConstraintModel notNullEmpEmpNo =
 				new DefaultNotNullConstraintModel(uuid.get("05ee4c06-d8b5-4599-a7e9-1cda036ea2c7"));
 //		notNullEmpEmpNo.getAdapter(Disablable.class).setDisabled(true);
+		notNullEmpEmpNo.setColumn(empEmpNo.toReference());
 		tableEmp.store(notNullEmpEmpNo);
 		
 		empEmpName = new DefaultColumnModel(uuid.get("0e51b6df-43ab-408c-90ef-de13c6aab881"));
@@ -725,7 +721,7 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		
 		empPk = new DefaultPrimaryKeyConstraintModel(uuid.get("6145e6a0-9ff7-4033-999d-99d80392a48f"));
 		empPk.setName("emp_pkey");
-		empPk.getKeyColumns().add(empId.toReference());
+		empPk.addKeyColumn(empId.toReference());
 		tableEmp.store(empPk);
 		
 		Map<UUID, UUID> columnNotNullMap = Maps.newHashMap();
