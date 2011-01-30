@@ -105,30 +105,31 @@ public abstract class AbstractDatabaseTest {
 	}
 	
 	protected String getConnectionUri() {
+		assumeThat(props, is(notNullValue()));
 		return props.getProperty("uri");
 	}
 	
 	protected String getDriverClassName() {
+		assumeThat(props, is(notNullValue()));
 		return props.getProperty("driverClass");
 	}
 	
 	protected String getJarPath() {
+		assumeThat(props, is(notNullValue()));
 		return props.getProperty("driverJar");
 	}
 	
 	protected String getPassword() {
+		assumeThat(props, is(notNullValue()));
 		return props.getProperty("password");
 	}
 	
-	protected String getPropertiesFilePath() {
-		return "/database.properties";
-	}
+	protected abstract String getPropertiesFilePath();
 	
-	protected String getPropertiesFilePathForCI() {
-		return "/database_ci.properties";
-	}
+	protected abstract String getPropertiesFilePathForCI();
 	
 	protected String getUsername() {
+		assumeThat(props, is(notNullValue()));
 		return props.getProperty("user");
 	}
 }
