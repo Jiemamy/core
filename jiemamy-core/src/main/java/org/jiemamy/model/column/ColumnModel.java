@@ -20,7 +20,7 @@ package org.jiemamy.model.column;
 
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.OrderedEntity;
-import org.jiemamy.model.datatype.TypeVariant;
+import org.jiemamy.model.datatype.DataType;
 import org.jiemamy.model.parameter.ParameterMap;
 
 /**
@@ -41,7 +41,7 @@ public interface ColumnModel extends OrderedEntity {
 	 * @return 型記述子. 未設定の場合は{@code null}
 	 * @since 0.2
 	 */
-	TypeVariant getDataType();
+	DataType getDataType();
 	
 	/**
 	 * デフォルト値を取得する。

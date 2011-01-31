@@ -25,7 +25,7 @@ import org.jiemamy.model.DatabaseObjectModel;
 import org.jiemamy.model.constraint.CheckConstraintModel;
 import org.jiemamy.model.datatype.TypeParameterKey;
 import org.jiemamy.model.datatype.TypeReference;
-import org.jiemamy.model.datatype.TypeVariant;
+import org.jiemamy.model.datatype.DataType;
 import org.jiemamy.model.parameter.ParameterMap;
 
 /**
@@ -62,7 +62,7 @@ public interface DomainModel extends DatabaseObjectModel {
 	 * @return 型記述子. 未設定の場合は{@code null}
 	 * @since 0.3
 	 */
-	TypeVariant getDataType();
+	DataType getDataType();
 	
 	/**
 	 * キーに対応するパラメータの値を取得する。

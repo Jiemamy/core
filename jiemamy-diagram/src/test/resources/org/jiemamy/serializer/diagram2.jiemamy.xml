@@ -16,7 +16,7 @@
           <name>ID</name>
           <logicalName/>
           <description/>
-          <dataType class="org.jiemamy.model.datatype.DefaultTypeVariant">
+          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
             <typeCategory>INTEGER</typeCategory>
             <typeName>BIGINT</typeName>
           </dataType>
@@ -26,7 +26,7 @@
           <name>NAME</name>
           <logicalName/>
           <description/>
-          <dataType class="org.jiemamy.model.datatype.DefaultTypeVariant">
+          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
             <typeCategory>VARCHAR</typeCategory>
             <typeName>VARCHAR</typeName>
             <parameters>
@@ -39,7 +39,7 @@
           <name>LOC</name>
           <logicalName/>
           <description/>
-          <dataType class="org.jiemamy.model.datatype.DefaultTypeVariant">
+          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
             <typeCategory>VARCHAR</typeCategory>
             <typeName>VARCHAR</typeName>
             <parameters>
@@ -52,7 +52,7 @@
           <name>DELETED</name>
           <logicalName/>
           <description/>
-          <dataType class="org.jiemamy.model.datatype.DefaultTypeVariant">
+          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
             <typeCategory>TIMESTAMP</typeCategory>
             <typeName>TIMESTAMP</typeName>
           </dataType>
@@ -62,7 +62,7 @@
           <name>CREATED</name>
           <logicalName/>
           <description/>
-          <dataType class="org.jiemamy.model.datatype.DefaultTypeVariant">
+          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
             <typeCategory>TIMESTAMP</typeCategory>
             <typeName>TIMESTAMP</typeName>
             <parameters>
@@ -95,7 +95,7 @@
           <name>ID</name>
           <logicalName/>
           <description/>
-          <dataType class="org.jiemamy.model.datatype.DefaultTypeVariant">
+          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
             <typeCategory>INTEGER</typeCategory>
             <typeName>INTEGER</typeName>
           </dataType>
@@ -105,7 +105,7 @@
           <name>NAME</name>
           <logicalName/>
           <description/>
-          <dataType class="org.jiemamy.model.datatype.DefaultTypeVariant">
+          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
             <typeCategory>INTEGER</typeCategory>
             <typeName>INTEGER</typeName>
             <parameters>
@@ -118,7 +118,7 @@
           <name>DEPT_ID</name>
           <logicalName/>
           <description/>
-          <dataType class="org.jiemamy.model.datatype.DefaultTypeVariant">
+          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
             <typeCategory>INTEGER</typeCategory>
             <typeName>INTEGER</typeName>
           </dataType>
@@ -128,7 +128,7 @@
           <name>CREATED</name>
           <logicalName/>
           <description/>
-          <dataType class="org.jiemamy.model.datatype.DefaultTypeVariant">
+          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
             <typeCategory>TIMESTAMP</typeCategory>
             <typeName>TIMESTAMP</typeName>
             <parameters>
@@ -141,7 +141,7 @@
           <name>DELETED</name>
           <logicalName/>
           <description/>
-          <dataType class="org.jiemamy.model.datatype.DefaultTypeVariant">
+          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
             <typeCategory>TIMESTAMP</typeCategory>
             <typeName>TIMESTAMP</typeName>
             <parameters>

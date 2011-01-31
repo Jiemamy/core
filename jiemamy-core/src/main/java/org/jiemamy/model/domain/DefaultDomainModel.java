@@ -35,7 +35,7 @@ import org.jiemamy.model.constraint.CheckConstraintModel;
 import org.jiemamy.model.datatype.DataTypeCategory;
 import org.jiemamy.model.datatype.TypeParameterKey;
 import org.jiemamy.model.datatype.TypeReference;
-import org.jiemamy.model.datatype.TypeVariant;
+import org.jiemamy.model.datatype.DataType;
 import org.jiemamy.model.parameter.ParameterMap;
 
 /**
@@ -46,7 +46,7 @@ import org.jiemamy.model.parameter.ParameterMap;
 public final class DefaultDomainModel extends DefaultDatabaseObjectModel implements DomainModel {
 	
 	/** ドメインとして定義された型記述子 */
-	private TypeVariant dataType;
+	private DataType dataType;
 	
 	// TODO to Repository
 	private Collection<CheckConstraintModel> checkConstraints = Lists.newArrayList();
@@ -98,7 +98,7 @@ public final class DefaultDomainModel extends DefaultDatabaseObjectModel impleme
 		return MutationMonitor.monitor(Lists.newArrayList(checkConstraints));
 	}
 	
-	public TypeVariant getDataType() {
+	public DataType getDataType() {
 		return dataType;
 	}
 	
@@ -138,7 +138,7 @@ public final class DefaultDomainModel extends DefaultDatabaseObjectModel impleme
 	 * @param dataType 型記述子
 	 * @since 0.3
 	 */
-	public void setDataType(TypeVariant dataType) {
+	public void setDataType(DataType dataType) {
 		this.dataType = dataType;
 	}
 	

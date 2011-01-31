@@ -30,7 +30,7 @@ import org.jiemamy.dialect.TypeParameterSpec;
 import org.jiemamy.dialect.TypeParameterSpec.Necessity;
 import org.jiemamy.model.column.ColumnModel;
 import org.jiemamy.model.datatype.DefaultTypeReference;
-import org.jiemamy.model.datatype.TypeVariant;
+import org.jiemamy.model.datatype.DataType;
 import org.jiemamy.model.table.TableModel;
 import org.jiemamy.validator.AbstractProblem;
 import org.jiemamy.validator.AbstractValidator;
@@ -54,7 +54,7 @@ public class DataTypeValidator extends AbstractValidator {
 		
 		for (TableModel tableModel : context.getTables()) {
 			for (ColumnModel columnModel : tableModel.getColumns()) {
-				TypeVariant dataType = columnModel.getDataType();
+				DataType dataType = columnModel.getDataType();
 				if (dataType != null) {
 					verify(dataType, dialect, tableModel, columnModel, result);
 				}
@@ -74,7 +74,7 @@ public class DataTypeValidator extends AbstractValidator {
 	 * @throws UnsupportedOperationException {@code collector}が {@link Collection#add(Object)}をサポートしない場合
 	 * @throws IllegalArgumentException 引数{@code dataType}または{@code collector}に{@code null}を与えた場合
 	 */
-	private void verify(TypeVariant dataType, Dialect dialect, TableModel tableModel, ColumnModel columnModel,
+	private void verify(DataType dataType, Dialect dialect, TableModel tableModel, ColumnModel columnModel,
 			Collection<Problem> collector) {
 		Validate.notNull(dataType);
 		Validate.notNull(collector);

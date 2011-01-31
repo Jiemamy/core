@@ -39,9 +39,9 @@ import org.junit.Test;
 
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.datatype.DataTypeCategory;
-import org.jiemamy.model.datatype.DefaultTypeVariant;
+import org.jiemamy.model.datatype.DefaultDataType;
 import org.jiemamy.model.datatype.DefaultTypeVariantTest;
-import org.jiemamy.model.datatype.TypeVariant;
+import org.jiemamy.model.datatype.DataType;
 import org.jiemamy.model.parameter.Converters;
 import org.jiemamy.utils.RandomUtil;
 import org.jiemamy.utils.UUIDUtil;
@@ -114,7 +114,7 @@ public class DefaultColumnModelTest {
 	 */
 	@Test
 	public void test01_作ったインスタンスの挙動チェック() throws Exception {
-		TypeVariant type = DefaultTypeVariant.of(DataTypeCategory.INTEGER);
+		DataType type = DefaultDataType.of(DataTypeCategory.INTEGER);
 		
 		assertThat(column.getName(), is(nullValue()));
 		assertThat(column.getLogicalName(), is(nullValue()));

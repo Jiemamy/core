@@ -42,7 +42,7 @@ import org.jiemamy.model.dataset.DefaultDataSetModel;
 import org.jiemamy.model.dataset.DefaultRecordModel;
 import org.jiemamy.model.dataset.RecordModel;
 import org.jiemamy.model.datatype.DataTypeCategory;
-import org.jiemamy.model.datatype.DefaultTypeVariant;
+import org.jiemamy.model.datatype.DefaultDataType;
 import org.jiemamy.model.datatype.TypeParameterKey;
 import org.jiemamy.model.domain.DefaultDomainModel;
 import org.jiemamy.model.index.DefaultIndexModel;
@@ -296,7 +296,7 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		
 		domainName = new DefaultDomainModel(uuid.get("62f1e6ec-e6aa-4d52-a6c3-27dac086f2d7"));
 		domainName.setName("NAME");
-		DefaultTypeVariant dataType = ModelUtil.createDataType(jiemamy, DataTypeCategory.VARCHAR);
+		DefaultDataType dataType = ModelUtil.createDataType(jiemamy, DataTypeCategory.VARCHAR);
 		dataType.putParam(TypeParameterKey.SIZE, 32); // CHECKSTYLE IGNORE THIS LINE
 		domainName.setDataType(dataType);
 		domainName.setDescription("人名用の型です。");
@@ -600,7 +600,7 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		if (instruction.supressUseDomain) {
 			deptId.setDataType(ModelUtil.createDataType(jiemamy, DataTypeCategory.INTEGER));
 		} else {
-			deptId.setDataType(new DefaultTypeVariant(domainId.asType()));
+			deptId.setDataType(new DefaultDataType(domainId.asType()));
 		}
 		deptId.setLogicalName("部署ID");
 		tableDept.store(deptId);
@@ -618,7 +618,7 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		
 		deptDeptName = new DefaultColumnModel(uuid.get("1fcd63d3-974e-4d2e-a0d8-3b9c233104d9"));
 		deptDeptName.setName("DEPT_NAME");
-		DefaultTypeVariant deptDeptNameDataType = ModelUtil.createDataType(jiemamy, DataTypeCategory.VARCHAR);
+		DefaultDataType deptDeptNameDataType = ModelUtil.createDataType(jiemamy, DataTypeCategory.VARCHAR);
 		deptDeptNameDataType.putParam(TypeParameterKey.SIZE, 20);
 		deptDeptName.setDataType(deptDeptNameDataType);
 		deptDeptName.setLogicalName("部署名");
@@ -626,7 +626,7 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		
 		deptLoc = new DefaultColumnModel(uuid.get("7bf79e76-07b8-43b6-a993-b8ef374a31f5"));
 		deptLoc.setName("LOC");
-		DefaultTypeVariant deptLocDataType = ModelUtil.createDataType(jiemamy, DataTypeCategory.VARCHAR);
+		DefaultDataType deptLocDataType = ModelUtil.createDataType(jiemamy, DataTypeCategory.VARCHAR);
 		deptLocDataType.putParam(TypeParameterKey.SIZE, 20);
 		deptLoc.setDataType(deptLocDataType);
 		deptLoc.setLogicalName("ロケーション");
@@ -659,7 +659,7 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		if (instruction.supressUseDomain) {
 			empId.setDataType(ModelUtil.createDataType(jiemamy, DataTypeCategory.INTEGER));
 		} else {
-			empId.setDataType(new DefaultTypeVariant(domainId.asType()));
+			empId.setDataType(new DefaultDataType(domainId.asType()));
 		}
 		empId.setLogicalName("従業員ID");
 		tableEmp.store(empId);
@@ -679,11 +679,11 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		empEmpName = new DefaultColumnModel(uuid.get("0e51b6df-43ab-408c-90ef-de13c6aab881"));
 		empEmpName.setName("EMP_NAME");
 		if (instruction.supressUseDomain) {
-			DefaultTypeVariant dataType = ModelUtil.createDataType(jiemamy, DataTypeCategory.VARCHAR);
+			DefaultDataType dataType = ModelUtil.createDataType(jiemamy, DataTypeCategory.VARCHAR);
 			dataType.putParam(TypeParameterKey.SIZE, 32); // CHECKSTYLE IGNORE THIS LINE
 			empEmpName.setDataType(dataType);
 		} else {
-			empEmpName.setDataType(new DefaultTypeVariant(domainName.asType()));
+			empEmpName.setDataType(new DefaultDataType(domainName.asType()));
 		}
 		empEmpName.setLogicalName("従業員名");
 		empEmpName.setDefaultValue("no name");
@@ -702,7 +702,7 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		
 		empSal = new DefaultColumnModel(uuid.get("80786549-dc2c-4c1c-bcbd-9f6fdec911d2"));
 		empSal.setName("SAL");
-		DefaultTypeVariant dataType = ModelUtil.createDataType(jiemamy, DataTypeCategory.NUMERIC);
+		DefaultDataType dataType = ModelUtil.createDataType(jiemamy, DataTypeCategory.NUMERIC);
 		dataType.putParam(TypeParameterKey.PRECISION, 7);
 		dataType.putParam(TypeParameterKey.SCALE, 2);
 		empSal.setDataType(dataType);

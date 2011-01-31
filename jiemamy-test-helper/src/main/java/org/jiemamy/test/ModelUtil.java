@@ -30,7 +30,7 @@ import org.jiemamy.model.column.ColumnModel;
 import org.jiemamy.model.dataset.DefaultRecordModel;
 import org.jiemamy.model.datatype.DataTypeCategory;
 import org.jiemamy.model.datatype.DefaultTypeReference;
-import org.jiemamy.model.datatype.DefaultTypeVariant;
+import org.jiemamy.model.datatype.DefaultDataType;
 import org.jiemamy.model.datatype.TypeReference;
 import org.jiemamy.script.ScriptString;
 
@@ -50,7 +50,7 @@ final class ModelUtil {
 		return new RecordBuilder();
 	}
 	
-	static DefaultTypeVariant createDataType(JiemamyContext jiemamy, DataTypeCategory category) {
+	static DefaultDataType createDataType(JiemamyContext jiemamy, DataTypeCategory category) {
 		Dialect dialect;
 		try {
 			dialect = jiemamy.findDialect();
@@ -58,7 +58,7 @@ final class ModelUtil {
 			dialect = new GenericDialect();
 		}
 		TypeReference normalize = dialect.normalize(new DefaultTypeReference(category));
-		return new DefaultTypeVariant(normalize);
+		return new DefaultDataType(normalize);
 	}
 	
 	private ModelUtil() {

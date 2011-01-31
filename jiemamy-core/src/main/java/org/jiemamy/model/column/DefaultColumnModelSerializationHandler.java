@@ -33,7 +33,7 @@ import org.codehaus.staxmate.in.SMEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.jiemamy.model.datatype.TypeVariant;
+import org.jiemamy.model.datatype.DataType;
 import org.jiemamy.model.parameter.ParameterMap;
 import org.jiemamy.serializer.SerializationException;
 import org.jiemamy.serializer.stax2.DeserializationContext;
@@ -93,7 +93,7 @@ public final class DefaultColumnModelSerializationHandler extends SerializationH
 					} else if (childCursor.isQName(CoreQName.DEFAULT_VALUE)) {
 						columnModel.setDefaultValue(childCursor.collectDescendantText(false));
 					} else if (childCursor.isQName(CoreQName.DATA_TYPE)) {
-						TypeVariant type = getDirector().direct(ctx);
+						DataType type = getDirector().direct(ctx);
 						if (type != null) {
 							columnModel.setDataType(type);
 						} else {
@@ -140,7 +140,7 @@ public final class DefaultColumnModelSerializationHandler extends SerializationH
 			element.addElementAndCharacters(CoreQName.DESCRIPTION, model.getDescription());
 			
 			sctx.push(element);
-			TypeVariant dataType = model.getDataType();
+			DataType dataType = model.getDataType();
 			if (dataType != null) {
 				getDirector().direct(dataType, sctx);
 			}

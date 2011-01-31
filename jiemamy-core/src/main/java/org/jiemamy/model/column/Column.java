@@ -3,7 +3,7 @@ package org.jiemamy.model.column;
 import java.util.UUID;
 
 import org.jiemamy.dddbase.AbstractEntityFactory;
-import org.jiemamy.model.datatype.TypeVariant;
+import org.jiemamy.model.datatype.DataType;
 
 /**
  * {@link DefaultColumnModel}のファクトリクラス。
@@ -15,7 +15,7 @@ public class Column extends AbstractEntityFactory<DefaultColumnModel> {
 	
 	String name;
 	
-	TypeVariant type;
+	DataType type;
 	
 
 	/**
@@ -58,7 +58,7 @@ public class Column extends AbstractEntityFactory<DefaultColumnModel> {
 	 * @param type データ型
 	 * @return this
 	 */
-	public Column whoseTypeIs(TypeVariant type) {
+	public Column whoseTypeIs(DataType type) {
 		this.type = type;
 		return this;
 	}

@@ -30,7 +30,7 @@ import org.jiemamy.model.parameter.ParameterMap;
  * @version $Id$
  * @author daisuke
  */
-public final class DefaultTypeVariant implements TypeVariant {
+public final class DefaultDataType implements DataType {
 	
 	/**
 	 * インスタンスを生成する。
@@ -38,8 +38,8 @@ public final class DefaultTypeVariant implements TypeVariant {
 	 * @param category 型カテゴリ
 	 * @return 型記述子
 	 */
-	public static DefaultTypeVariant of(DataTypeCategory category) {
-		return new DefaultTypeVariant(new DefaultTypeReference(category));
+	public static DefaultDataType of(DataTypeCategory category) {
+		return new DefaultDataType(new DefaultTypeReference(category));
 	}
 	
 
@@ -53,15 +53,15 @@ public final class DefaultTypeVariant implements TypeVariant {
 	 * 
 	 * @param typeReference
 	 */
-	public DefaultTypeVariant(TypeReference typeReference) {
+	public DefaultDataType(TypeReference typeReference) {
 		Validate.notNull(typeReference);
 		this.typeReference = typeReference;
 	}
 	
 	@Override
-	public DefaultTypeVariant clone() {
+	public DefaultDataType clone() {
 		try {
-			DefaultTypeVariant clone = (DefaultTypeVariant) super.clone();
+			DefaultDataType clone = (DefaultDataType) super.clone();
 			clone.params = params.clone();
 			return clone;
 		} catch (CloneNotSupportedException e) {
@@ -80,7 +80,7 @@ public final class DefaultTypeVariant implements TypeVariant {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		DefaultTypeVariant other = (DefaultTypeVariant) obj;
+		DefaultDataType other = (DefaultDataType) obj;
 		if (!params.equals(other.params)) {
 			return false;
 		}

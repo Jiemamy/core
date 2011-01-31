@@ -25,9 +25,9 @@ import org.jiemamy.model.parameter.ParameterMap;
  * 
  * @author daisuke
  */
-public interface TypeVariant extends Cloneable {
+public interface DataType extends Cloneable {
 	
-	TypeVariant clone();
+	DataType clone();
 	
 	/**
 	 * キーに対応するパラメータの値を取得する。

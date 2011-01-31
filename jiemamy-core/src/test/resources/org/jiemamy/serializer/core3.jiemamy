@@ -12,7 +12,7 @@
           <name>bar</name>
           <logicalName>baz</logicalName>
           <description/>
-          <dataType class="org.jiemamy.model.datatype.DefaultTypeVariant">
+          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
             <typeCategory>INTEGER</typeCategory>
             <typeName>INTEGER</typeName>
           </dataType>

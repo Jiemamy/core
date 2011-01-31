@@ -47,12 +47,12 @@ import org.jiemamy.serializer.stax2.SerializationHandler;
 import org.jiemamy.xml.CoreQName;
 
 /**
- * {@link DefaultTypeVariant}をシリアライズ/デシリアライズするハンドラ。
+ * {@link DefaultDataType}をシリアライズ/デシリアライズするハンドラ。
  * 
  * @version $Id$
  * @author daisuke
  */
-public final class DefaultTypeVariantSerializationHandler extends SerializationHandler<DefaultTypeVariant> {
+public final class DefaultTypeVariantSerializationHandler extends SerializationHandler<DefaultDataType> {
 	
 	private static Logger logger = LoggerFactory.getLogger(DefaultTypeVariantSerializationHandler.class);
 	
@@ -68,7 +68,7 @@ public final class DefaultTypeVariantSerializationHandler extends SerializationH
 	}
 	
 	@Override
-	public DefaultTypeVariant handleDeserialization(DeserializationContext ctx) throws SerializationException {
+	public DefaultDataType handleDeserialization(DeserializationContext ctx) throws SerializationException {
 		Validate.notNull(ctx);
 		try {
 			Validate.isTrue(ctx.peek().getCurrEvent() == SMEvent.START_ELEMENT);
@@ -111,7 +111,7 @@ public final class DefaultTypeVariantSerializationHandler extends SerializationH
 			} while (childCursor.getCurrEvent() != null);
 			ctx.pop();
 			
-			DefaultTypeVariant typeVariant = new DefaultTypeVariant(new DefaultTypeReference(category, typeName));
+			DefaultDataType typeVariant = new DefaultDataType(new DefaultTypeReference(category, typeName));
 			for (Map.Entry<String, String> entry : params.entrySet()) {
 				typeVariant.putParam(entry.getKey(), entry.getValue());
 			}
@@ -122,7 +122,7 @@ public final class DefaultTypeVariantSerializationHandler extends SerializationH
 	}
 	
 	@Override
-	public void handleSerialization(DefaultTypeVariant model, SerializationContext sctx) throws SerializationException {
+	public void handleSerialization(DefaultDataType model, SerializationContext sctx) throws SerializationException {
 		Validate.notNull(model);
 		Validate.notNull(sctx);
 		JiemamyOutputContainer parent = sctx.peek();

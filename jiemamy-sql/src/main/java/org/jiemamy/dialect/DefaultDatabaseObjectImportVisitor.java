@@ -42,7 +42,7 @@ import org.jiemamy.model.constraint.DefaultNotNullConstraintModel;
 import org.jiemamy.model.constraint.DefaultPrimaryKeyConstraintModel;
 import org.jiemamy.model.datatype.DataTypeCategory;
 import org.jiemamy.model.datatype.DefaultTypeReference;
-import org.jiemamy.model.datatype.DefaultTypeVariant;
+import org.jiemamy.model.datatype.DefaultDataType;
 import org.jiemamy.model.datatype.TypeParameterKey;
 import org.jiemamy.model.table.DefaultTableModel;
 import org.jiemamy.model.table.TableModel;
@@ -256,7 +256,7 @@ public class DefaultDatabaseObjectImportVisitor extends AbstractCollectionVisito
 			
 			DataTypeCategory category = DataTypeCategory.fromSqlType(element.dataType);
 			DefaultTypeReference typeRef = new DefaultTypeReference(category, element.typeName);
-			DefaultTypeVariant dataType = new DefaultTypeVariant(typeRef);
+			DefaultDataType dataType = new DefaultDataType(typeRef);
 			Collection<TypeParameterSpec> typeParameterSpecs = dialect.getTypeParameterSpecs(typeRef);
 			for (TypeParameterSpec spec : typeParameterSpecs) {
 				if (spec.getKey().equals(TypeParameterKey.SIZE)) {

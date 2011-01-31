@@ -50,7 +50,7 @@ import org.jiemamy.model.dataset.DataSetModel;
 import org.jiemamy.model.dataset.RecordModel;
 import org.jiemamy.model.datatype.DataTypeCategory;
 import org.jiemamy.model.datatype.LiteralType;
-import org.jiemamy.model.datatype.TypeVariant;
+import org.jiemamy.model.datatype.DataType;
 import org.jiemamy.model.index.IndexColumnModel;
 import org.jiemamy.model.index.IndexColumnModel.SortOrder;
 import org.jiemamy.model.index.IndexModel;
@@ -386,7 +386,7 @@ public class DefaultSqlEmitter implements SqlEmitter {
 				continue;
 			}
 			
-			TypeVariant dataType = columnModel.getDataType();
+			DataType dataType = columnModel.getDataType();
 			
 			String value;
 			try {

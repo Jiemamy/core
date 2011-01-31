@@ -14,7 +14,7 @@
         <column id="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e" class="org.jiemamy.model.column.DefaultColumnModel">
           <name>ID</name>
           <logicalName>従業員ID</logicalName>
-          <dataType class="org.jiemamy.model.datatype.DefaultTypeVariant">
+          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
             <typeCategory>UNKNOWN</typeCategory>
             <typeName>UNKNOWN</typeName>
           </dataType>
@@ -22,7 +22,7 @@
         <column id="248a429b-2159-4ebd-a791-eee42a059374" class="org.jiemamy.model.column.DefaultColumnModel">
           <name>EMP_NO</name>
           <logicalName>従業員番号</logicalName>
-          <dataType class="org.jiemamy.model.datatype.DefaultTypeVariant">
+          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
             <typeCategory>INTEGER</typeCategory>
             <typeName>INTEGER</typeName>
           </dataType>
@@ -30,7 +30,7 @@
         <column id="0e51b6df-43ab-408c-90ef-de13c6aab881" class="org.jiemamy.model.column.DefaultColumnModel">
           <name>EMP_NAME</name>
           <logicalName>従業員名</logicalName>
-          <dataType class="org.jiemamy.model.datatype.DefaultTypeVariant">
+          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
             <typeCategory>UNKNOWN</typeCategory>
             <typeName>UNKNOWN</typeName>
           </dataType>
@@ -39,21 +39,21 @@
         <column id="3d21a85a-72de-41b3-99dd-f4cb94e58d84" class="org.jiemamy.model.column.DefaultColumnModel">
           <name>MGR_ID</name>
           <logicalName>上司ID</logicalName>
-          <dataType class="org.jiemamy.model.datatype.DefaultTypeVariant">
+          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
             <typeCategory>INTEGER</typeCategory>
             <typeName>INTEGER</typeName>
           </dataType>
         </column>
         <column id="f0b57eed-98ab-4c21-9855-218c592814dc" class="org.jiemamy.model.column.DefaultColumnModel">
           <name>HIREDATE</name>
-          <dataType class="org.jiemamy.model.datatype.DefaultTypeVariant">
+          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
             <typeCategory>DATE</typeCategory>
             <typeName>DATE</typeName>
           </dataType>
         </column>
         <column id="80786549-dc2c-4c1c-bcbd-9f6fdec911d2" class="org.jiemamy.model.column.DefaultColumnModel">
           <name>SAL</name>
-          <dataType class="org.jiemamy.model.datatype.DefaultTypeVariant">
+          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
             <typeCategory>NUMERIC</typeCategory>
             <typeName>NUMERIC</typeName>
             <parameters>
@@ -64,7 +64,7 @@
         </column>
         <column id="4ae69b7a-7a0e-422a-89dc-0f0cff77565b" class="org.jiemamy.model.column.DefaultColumnModel">
           <name>DEPT_ID</name>
-          <dataType class="org.jiemamy.model.datatype.DefaultTypeVariant">
+          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
             <typeCategory>INTEGER</typeCategory>
             <typeName>INTEGER</typeName>
           </dataType>
@@ -125,7 +125,7 @@
         <column id="c7ed225d-92a6-4cc2-90de-60531804464e" class="org.jiemamy.model.column.DefaultColumnModel">
           <name>ID</name>
           <logicalName>部署ID</logicalName>
-          <dataType class="org.jiemamy.model.datatype.DefaultTypeVariant">
+          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
             <typeCategory>UNKNOWN</typeCategory>
             <typeName>UNKNOWN</typeName>
           </dataType>
@@ -133,7 +133,7 @@
         <column id="2d951389-6bc7-49d7-8631-1d26fe17047e" class="org.jiemamy.model.column.DefaultColumnModel">
           <name>DEPT_NO</name>
           <logicalName>部署番号</logicalName>
-          <dataType class="org.jiemamy.model.datatype.DefaultTypeVariant">
+          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
             <typeCategory>INTEGER</typeCategory>
             <typeName>INTEGER</typeName>
           </dataType>
@@ -141,7 +141,7 @@
         <column id="1fcd63d3-974e-4d2e-a0d8-3b9c233104d9" class="org.jiemamy.model.column.DefaultColumnModel">
           <name>DEPT_NAME</name>
           <logicalName>部署名</logicalName>
-          <dataType class="org.jiemamy.model.datatype.DefaultTypeVariant">
+          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
             <typeCategory>VARCHAR</typeCategory>
             <typeName>VARCHAR</typeName>
             <parameters>
@@ -152,7 +152,7 @@
         <column id="7bf79e76-07b8-43b6-a993-b8ef374a31f5" class="org.jiemamy.model.column.DefaultColumnModel">
           <name>LOC</name>
           <logicalName>ロケーション</logicalName>
-          <dataType class="org.jiemamy.model.datatype.DefaultTypeVariant">
+          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
             <typeCategory>VARCHAR</typeCategory>
             <typeName>VARCHAR</typeName>
             <parameters>

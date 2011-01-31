@@ -23,7 +23,7 @@ import java.util.UUID;
 import org.jiemamy.dddbase.AbstractEntity;
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
-import org.jiemamy.model.datatype.TypeVariant;
+import org.jiemamy.model.datatype.DataType;
 import org.jiemamy.model.parameter.ParameterMap;
 
 /**
@@ -43,7 +43,7 @@ public final class DefaultColumnModel extends AbstractEntity implements ColumnMo
 	private String description;
 	
 	/** 型記述子 */
-	private TypeVariant dataType;
+	private DataType dataType;
 	
 	/** デフォルト値 */
 	private String defaultValue;
@@ -70,7 +70,7 @@ public final class DefaultColumnModel extends AbstractEntity implements ColumnMo
 		return clone;
 	}
 	
-	public TypeVariant getDataType() {
+	public DataType getDataType() {
 		if (dataType == null) {
 			return null;
 		}
@@ -133,7 +133,7 @@ public final class DefaultColumnModel extends AbstractEntity implements ColumnMo
 	 * @param dataType データタイプ
 	 * @since 0.3
 	 */
-	public void setDataType(TypeVariant dataType) {
+	public void setDataType(DataType dataType) {
 		if (dataType == null) {
 			this.dataType = null;
 		} else {

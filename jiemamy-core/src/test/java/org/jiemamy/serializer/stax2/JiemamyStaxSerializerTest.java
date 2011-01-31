@@ -50,7 +50,7 @@ import org.jiemamy.JiemamyContextTest;
 import org.jiemamy.model.column.ColumnModel;
 import org.jiemamy.model.column.DefaultColumnModel;
 import org.jiemamy.model.datatype.DataTypeCategory;
-import org.jiemamy.model.datatype.DefaultTypeVariant;
+import org.jiemamy.model.datatype.DefaultDataType;
 import org.jiemamy.model.table.DefaultTableModel;
 import org.jiemamy.model.table.TableModel;
 
@@ -154,7 +154,7 @@ public class JiemamyStaxSerializerTest {
 		c.setName("bar");
 		c.setLogicalName("baz");
 		c.setDescription("");
-		c.setDataType(DefaultTypeVariant.of(DataTypeCategory.INTEGER));
+		c.setDataType(DefaultDataType.of(DataTypeCategory.INTEGER));
 		t.store(c);
 		context.store(t);
 		
@@ -221,13 +221,13 @@ public class JiemamyStaxSerializerTest {
 		UUID cid1 = UUID.fromString("a4333846-1292-4b82-b68c-454762bf92a1");
 		DefaultColumnModel c1 = new DefaultColumnModel(cid1);
 		c1.setName("CCCC1");
-		c1.setDataType(DefaultTypeVariant.of(DataTypeCategory.INTEGER));
+		c1.setDataType(DefaultDataType.of(DataTypeCategory.INTEGER));
 		t.store(c1);
 		
 		UUID cid2 = UUID.fromString("7774052e-40ee-4796-b990-2411be64fb35");
 		DefaultColumnModel c2 = new DefaultColumnModel(cid2);
 		c2.setName("CCCC2");
-		c2.setDataType(DefaultTypeVariant.of(DataTypeCategory.INTEGER));
+		c2.setDataType(DefaultDataType.of(DataTypeCategory.INTEGER));
 		t.store(c2);
 		
 		ctx.store(t);

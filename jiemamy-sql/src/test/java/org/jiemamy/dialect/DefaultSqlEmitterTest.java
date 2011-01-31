@@ -52,7 +52,7 @@ import org.jiemamy.model.dataset.DefaultRecordModel;
 import org.jiemamy.model.dataset.RecordModel;
 import org.jiemamy.model.datatype.DataTypeCategory;
 import org.jiemamy.model.datatype.DefaultTypeReference;
-import org.jiemamy.model.datatype.DefaultTypeVariant;
+import org.jiemamy.model.datatype.DefaultDataType;
 import org.jiemamy.model.datatype.TypeParameterKey;
 import org.jiemamy.model.datatype.TypeReference;
 import org.jiemamy.model.sql.SqlStatement;
@@ -119,14 +119,14 @@ public class DefaultSqlEmitterTest {
 	 */
 	@Test
 	public void test02_単純なテーブルを1つemitして確認() throws Exception {
-		DefaultTypeVariant varchar32 = new DefaultTypeVariant(VARCHAR);
+		DefaultDataType varchar32 = new DefaultDataType(VARCHAR);
 		varchar32.putParam(TypeParameterKey.SIZE, 32);
 		
 		// FORMAT-OFF
 		DefaultTableModel table = new Table("T_FOO")
-				.with(new Column("HOGE").whoseTypeIs(new DefaultTypeVariant(INTEGER)).build())
+				.with(new Column("HOGE").whoseTypeIs(new DefaultDataType(INTEGER)).build())
 				.with(new Column("FUGA").whoseTypeIs(varchar32).build())
-				.with(new Column("PIYO").whoseTypeIs(new DefaultTypeVariant(TIMESTAMP)).build())
+				.with(new Column("PIYO").whoseTypeIs(new DefaultDataType(TIMESTAMP)).build())
 				.build();
 		// FORMAT-ON
 		context.store(table);
@@ -148,14 +148,14 @@ public class DefaultSqlEmitterTest {
 	 */
 	@Test
 	public void test03_単純なテーブルを1つemitして確認() throws Exception {
-		DefaultTypeVariant varchar32 = new DefaultTypeVariant(VARCHAR);
+		DefaultDataType varchar32 = new DefaultDataType(VARCHAR);
 		varchar32.putParam(TypeParameterKey.SIZE, 32);
 		
 		// FORMAT-OFF
 		DefaultTableModel table = new Table("T_FOO")
-				.with(new Column("HOGE").whoseTypeIs(new DefaultTypeVariant(INTEGER)).build())
+				.with(new Column("HOGE").whoseTypeIs(new DefaultDataType(INTEGER)).build())
 				.with(new Column("FUGA").whoseTypeIs(varchar32).build())
-				.with(new Column("PIYO").whoseTypeIs(new DefaultTypeVariant(TIMESTAMP)).build())
+				.with(new Column("PIYO").whoseTypeIs(new DefaultDataType(TIMESTAMP)).build())
 				.build();
 		// FORMAT-ON
 		context.store(table);
@@ -178,13 +178,13 @@ public class DefaultSqlEmitterTest {
 	 */
 	@Test
 	public void test04_制約付きテーブルを2つemitして確認() throws Exception {
-		DefaultTypeVariant varchar32 = new DefaultTypeVariant(VARCHAR);
+		DefaultDataType varchar32 = new DefaultDataType(VARCHAR);
 		varchar32.putParam(TypeParameterKey.SIZE, 32);
-		DefaultTypeVariant varchar16 = new DefaultTypeVariant(VARCHAR);
+		DefaultDataType varchar16 = new DefaultDataType(VARCHAR);
 		varchar16.putParam(TypeParameterKey.SIZE, 16);
 		
 		// FORMAT-OFF
-		DefaultColumnModel deptId = new Column("ID").whoseTypeIs(new DefaultTypeVariant(INTEGER)).build();
+		DefaultColumnModel deptId = new Column("ID").whoseTypeIs(new DefaultDataType(INTEGER)).build();
 		DefaultColumnModel deptName = new Column("NAME").whoseTypeIs(varchar32).build();
 		DefaultTableModel dept = new Table("DEPT")
 				.with(deptId)
@@ -194,10 +194,10 @@ public class DefaultSqlEmitterTest {
 				.with(DefaultNotNullConstraintModel.of(deptName))
 				.build();
 		
-		DefaultColumnModel empId = new Column("ID").whoseTypeIs(new DefaultTypeVariant(INTEGER)).build();
+		DefaultColumnModel empId = new Column("ID").whoseTypeIs(new DefaultDataType(INTEGER)).build();
 		DefaultColumnModel empName = new Column("NAME").whoseTypeIs(varchar32).build();
-		DefaultColumnModel empDeptId = new Column("DEPT_ID").whoseTypeIs(new DefaultTypeVariant(INTEGER)).build();
-		DefaultColumnModel empMgrId = new Column("MGR_ID").whoseTypeIs(new DefaultTypeVariant(INTEGER)).build();
+		DefaultColumnModel empDeptId = new Column("DEPT_ID").whoseTypeIs(new DefaultDataType(INTEGER)).build();
+		DefaultColumnModel empMgrId = new Column("MGR_ID").whoseTypeIs(new DefaultDataType(INTEGER)).build();
 		DefaultTableModel emp = new Table("EMP")
 				.with(empId)
 				.with(empName)
@@ -250,14 +250,14 @@ public class DefaultSqlEmitterTest {
 	 */
 	@Test
 	public void test05_テーブルとビューemitして確認() throws Exception {
-		DefaultTypeVariant varchar32 = new DefaultTypeVariant(VARCHAR);
+		DefaultDataType varchar32 = new DefaultDataType(VARCHAR);
 		varchar32.putParam(TypeParameterKey.SIZE, 32);
 		
 		// FORMAT-OFF
 		DefaultTableModel table = new Table("T_FOO")
-				.with(new Column("HOGE").whoseTypeIs(new DefaultTypeVariant(INTEGER)).build())
+				.with(new Column("HOGE").whoseTypeIs(new DefaultDataType(INTEGER)).build())
 				.with(new Column("FUGA").whoseTypeIs(varchar32).build())
-				.with(new Column("PIYO").whoseTypeIs(new DefaultTypeVariant(TIMESTAMP)).build())
+				.with(new Column("PIYO").whoseTypeIs(new DefaultDataType(TIMESTAMP)).build())
 				.build();
 		// FORMAT-ON
 		context.store(table);
@@ -287,13 +287,13 @@ public class DefaultSqlEmitterTest {
 	 */
 	@Test
 	public void test06_DataSetをemitして確認() throws Exception {
-		DefaultTypeVariant varchar32 = new DefaultTypeVariant(VARCHAR);
+		DefaultDataType varchar32 = new DefaultDataType(VARCHAR);
 		varchar32.putParam(TypeParameterKey.SIZE, 32);
 		
 		// FORMAT-OFF
-		ColumnModel colFoo = new Column("FOO").whoseTypeIs(new DefaultTypeVariant(INTEGER)).build();
+		ColumnModel colFoo = new Column("FOO").whoseTypeIs(new DefaultDataType(INTEGER)).build();
 		ColumnModel colBar = new Column("BAR").whoseTypeIs(varchar32).build();
-		ColumnModel colBaz = new Column("BAZ").whoseTypeIs(new DefaultTypeVariant(TIMESTAMP)).build();
+		ColumnModel colBaz = new Column("BAZ").whoseTypeIs(new DefaultDataType(TIMESTAMP)).build();
 		DefaultTableModel table = new Table("T_HOGE")
 				.with(colFoo)
 				.with(colBar)

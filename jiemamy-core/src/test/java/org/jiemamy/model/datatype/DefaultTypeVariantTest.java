@@ -34,7 +34,7 @@ import org.jiemamy.model.parameter.Converters;
 import org.jiemamy.utils.RandomUtil;
 
 /**
- * {@link DefaultTypeVariant}のテストクラス。
+ * {@link DefaultDataType}のテストクラス。
  * 
  * @version $Id$
  * @author daisuke
@@ -42,13 +42,13 @@ import org.jiemamy.utils.RandomUtil;
 public class DefaultTypeVariantTest {
 	
 	/**
-	 * 適当な {@link DefaultTypeVariant} のインスタンスを作る。
+	 * 適当な {@link DefaultDataType} のインスタンスを作る。
 	 * 
-	 * @return {@link DefaultTypeVariant}
+	 * @return {@link DefaultDataType}
 	 */
-	public static DefaultTypeVariant random() {
-		DefaultTypeVariant typeVariant =
-				new DefaultTypeVariant(new DefaultTypeReference(enume(DataTypeCategory.class)));
+	public static DefaultDataType random() {
+		DefaultDataType typeVariant =
+				new DefaultDataType(new DefaultTypeReference(enume(DataTypeCategory.class)));
 		
 		// 適当にパラメータを追加する
 		int integer = integer(5);
@@ -67,7 +67,7 @@ public class DefaultTypeVariantTest {
 	}
 	
 
-	private DefaultTypeVariant typeVariant;
+	private DefaultDataType typeVariant;
 	
 
 	/**
@@ -77,7 +77,7 @@ public class DefaultTypeVariantTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		typeVariant = new DefaultTypeVariant(new DefaultTypeReference(DataTypeCategory.VARCHAR, "VARCHAR"));
+		typeVariant = new DefaultDataType(new DefaultTypeReference(DataTypeCategory.VARCHAR, "VARCHAR"));
 		typeVariant.putParam(TypeParameterKey.SIZE, 10);
 	}
 	

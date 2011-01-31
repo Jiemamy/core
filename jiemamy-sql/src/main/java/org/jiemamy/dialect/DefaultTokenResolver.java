@@ -30,7 +30,7 @@ import org.jiemamy.model.constraint.ForeignKeyConstraintModel.MatchType;
 import org.jiemamy.model.constraint.ForeignKeyConstraintModel.ReferentialAction;
 import org.jiemamy.model.datatype.TypeParameterKey;
 import org.jiemamy.model.datatype.TypeReference;
-import org.jiemamy.model.datatype.TypeVariant;
+import org.jiemamy.model.datatype.DataType;
 import org.jiemamy.model.index.IndexColumnModel.SortOrder;
 import org.jiemamy.model.index.IndexModel;
 import org.jiemamy.model.sql.Keyword;
@@ -102,8 +102,8 @@ public class DefaultTokenResolver implements TokenResolver {
 			tokens.add(Keyword.VIEW);
 		} else if (value instanceof IndexModel) {
 			tokens.add(Keyword.INDEX);
-		} else if (value instanceof TypeVariant) {
-			tokens.addAll(resolveType((TypeVariant) value));
+		} else if (value instanceof DataType) {
+			tokens.addAll(resolveType((DataType) value));
 		} else {
 			logger.warn("unknown object: " + value.getClass());
 		}
@@ -116,7 +116,7 @@ public class DefaultTokenResolver implements TokenResolver {
 	 * @param type
 	 * @return
 	 */
-	protected List<Token> resolveType(TypeVariant type) {
+	protected List<Token> resolveType(DataType type) {
 		List<Token> result = Lists.newArrayList();
 		TypeReference typeReference = type.getTypeReference();
 		result.add(Keyword.of(typeReference.getTypeName()));

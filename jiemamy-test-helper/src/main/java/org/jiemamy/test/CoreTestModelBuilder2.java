@@ -36,7 +36,7 @@ import org.jiemamy.model.constraint.ForeignKeyConstraintModel.ReferentialAction;
 import org.jiemamy.model.dataset.DefaultDataSetModel;
 import org.jiemamy.model.dataset.RecordModel;
 import org.jiemamy.model.datatype.DataTypeCategory;
-import org.jiemamy.model.datatype.DefaultTypeVariant;
+import org.jiemamy.model.datatype.DefaultDataType;
 import org.jiemamy.model.datatype.TypeParameterKey;
 import org.jiemamy.model.domain.DefaultDomainModel;
 import org.jiemamy.model.table.DefaultTableModel;
@@ -328,7 +328,7 @@ public class CoreTestModelBuilder2 extends AbstractTestModelBuilder {
 		
 		nameDomain = new DefaultDomainModel(uuid.get("e2ebf8a7-90d8-48d4-9b5d-8d2e2601b193"));
 		nameDomain.setName("NAME");
-		DefaultTypeVariant dataType = ModelUtil.createDataType(jiemamy, DataTypeCategory.VARCHAR);
+		DefaultDataType dataType = ModelUtil.createDataType(jiemamy, DataTypeCategory.VARCHAR);
 		dataType.putParam(TypeParameterKey.SIZE, 32); // CHECKSTYLE IGNORE THIS LINE
 		nameDomain.setDataType(dataType);
 		nameDomain.setDescription("人名用の型です。");
@@ -658,7 +658,7 @@ public class CoreTestModelBuilder2 extends AbstractTestModelBuilder {
 		if (instruction.supressUseDomain) {
 			detailId.setDataType(ModelUtil.createDataType(jiemamy, DataTypeCategory.INTEGER));
 		} else {
-			detailId.setDataType(new DefaultTypeVariant(idDomain.asType()));
+			detailId.setDataType(new DefaultDataType(idDomain.asType()));
 		}
 		detailId.setLogicalName("ユーザID");
 		tableDetail.store(detailId);
@@ -703,14 +703,14 @@ public class CoreTestModelBuilder2 extends AbstractTestModelBuilder {
 		if (instruction.supressUseDomain) {
 			itemId.setDataType(ModelUtil.createDataType(jiemamy, DataTypeCategory.INTEGER));
 		} else {
-			itemId.setDataType(new DefaultTypeVariant(idDomain.asType()));
+			itemId.setDataType(new DefaultDataType(idDomain.asType()));
 		}
 		itemId.setLogicalName("商品ID");
 		tableItem.store(itemId);
 		
 		itemName = new DefaultColumnModel(uuid.get("5c9b38e1-2cc9-45f9-ad3f-20b02471cc40"));
 		itemName.setName("NAME");
-		DefaultTypeVariant itemNameDataType = ModelUtil.createDataType(jiemamy, DataTypeCategory.VARCHAR);
+		DefaultDataType itemNameDataType = ModelUtil.createDataType(jiemamy, DataTypeCategory.VARCHAR);
 		itemNameDataType.putParam(TypeParameterKey.SIZE, 20);
 		itemName.setDataType(itemNameDataType);
 		itemName.setLogicalName("商品名");
@@ -718,7 +718,7 @@ public class CoreTestModelBuilder2 extends AbstractTestModelBuilder {
 		
 		itemPrice = new DefaultColumnModel(uuid.get("7a0cabe3-d382-4e5d-845b-dadd1b637a5f"));
 		itemPrice.setName("PRICE");
-		DefaultTypeVariant itemPriceDataType = ModelUtil.createDataType(jiemamy, DataTypeCategory.VARCHAR);
+		DefaultDataType itemPriceDataType = ModelUtil.createDataType(jiemamy, DataTypeCategory.VARCHAR);
 		itemPriceDataType.putParam(TypeParameterKey.SIZE, 20);
 		itemPrice.setDataType(itemPriceDataType);
 		itemPrice.setLogicalName("価格");
@@ -746,7 +746,7 @@ public class CoreTestModelBuilder2 extends AbstractTestModelBuilder {
 		if (instruction.supressUseDomain) {
 			orderId.setDataType(ModelUtil.createDataType(jiemamy, DataTypeCategory.INTEGER));
 		} else {
-			orderId.setDataType(new DefaultTypeVariant(idDomain.asType()));
+			orderId.setDataType(new DefaultDataType(idDomain.asType()));
 		}
 		orderId.setLogicalName("注文ID");
 		tableOrder.store(orderId);
@@ -784,7 +784,7 @@ public class CoreTestModelBuilder2 extends AbstractTestModelBuilder {
 		if (instruction.supressUseDomain) {
 			userId.setDataType(ModelUtil.createDataType(jiemamy, DataTypeCategory.INTEGER));
 		} else {
-			userId.setDataType(new DefaultTypeVariant(idDomain.asType()));
+			userId.setDataType(new DefaultDataType(idDomain.asType()));
 		}
 		userId.setLogicalName("ユーザID");
 		tableUser.store(userId);
@@ -792,11 +792,11 @@ public class CoreTestModelBuilder2 extends AbstractTestModelBuilder {
 		userName = new DefaultColumnModel(uuid.get("dacc68d2-fe32-4f4b-8082-9d55232ba7da"));
 		userName.setName("NAME");
 		if (instruction.supressUseDomain) {
-			DefaultTypeVariant dataType = ModelUtil.createDataType(jiemamy, DataTypeCategory.VARCHAR);
+			DefaultDataType dataType = ModelUtil.createDataType(jiemamy, DataTypeCategory.VARCHAR);
 			dataType.putParam(TypeParameterKey.SIZE, 32); // CHECKSTYLE IGNORE THIS LINE
 			userName.setDataType(dataType);
 		} else {
-			userName.setDataType(new DefaultTypeVariant(nameDomain.asType()));
+			userName.setDataType(new DefaultDataType(nameDomain.asType()));
 		}
 		userName.setLogicalName("ユーザ名");
 		userName.setDefaultValue("no name");
