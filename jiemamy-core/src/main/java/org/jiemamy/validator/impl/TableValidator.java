@@ -27,7 +27,6 @@ import org.apache.commons.lang.StringUtils;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.model.column.ColumnModel;
-import org.jiemamy.model.constraint.ConstraintModel;
 import org.jiemamy.model.table.TableModel;
 import org.jiemamy.validator.AbstractProblem;
 import org.jiemamy.validator.AbstractValidator;
@@ -54,10 +53,6 @@ public class TableValidator extends AbstractValidator {
 			}
 			if (StringUtils.isEmpty(tableModel.getName())) {
 				problems.add(new EmptyTableNameProblem(tableModel));
-			}
-			
-			for (ConstraintModel constraintModel : tableModel.getConstraints()) {
-				// TODO
 			}
 		}
 		return problems;

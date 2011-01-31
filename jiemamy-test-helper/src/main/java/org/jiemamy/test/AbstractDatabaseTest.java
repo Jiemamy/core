@@ -18,22 +18,23 @@ package org.jiemamy.test;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assume.assumeThat;
 
 import java.io.InputStream;
 import java.net.InetAddress;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.io.IOUtils;
 import org.junit.Before;
-import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.jiemamy.composer.importer.DefaultDatabaseImportConfig;
+import org.jiemamy.dialect.Dialect;
 
 /**
  * 実データベースに接続して行うインテグレーションテスト用の抽象実装クラス。
@@ -49,25 +50,6 @@ public abstract class AbstractDatabaseTest {
 	private Properties props;
 	
 
-	/**
-	 * TODO for daisuke
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
-	@Test
-	public void abstest00_connection() throws Exception {
-		assumeThat(props, is(notNullValue()));
-		
-		Class.forName(getDriverClassName());
-		Connection connection = null;
-		try {
-			connection = DriverManager.getConnection(getConnectionUri(), getUsername(), getPassword());
-			assertThat(connection, is(notNullValue()));
-		} finally {
-			DbUtils.closeQuietly(connection);
-		}
-	}
-	
 	/**
 	 * テストを初期化する。
 	 * 
@@ -96,10 +78,17 @@ public abstract class AbstractDatabaseTest {
 		}
 	}
 	
-	protected Connection getConnection() throws ClassNotFoundException, SQLException {
+	protected Connection getConnection() throws ClassNotFoundException {
 		assumeThat(props, is(notNullValue()));
 		Class.forName(getDriverClassName());
-		return DriverManager.getConnection(getConnectionUri(), getUsername(), getPassword());
+		Connection connection = null;
+		try {
+			connection = DriverManager.getConnection(getConnectionUri(), getUsername(), getPassword());
+		} catch (SQLException e) {
+			// ignore
+		}
+		assumeThat(connection, is(notNullValue()));
+		return connection;
 	}
 	
 	protected String getConnectionUri() {
@@ -127,5 +116,16 @@ public abstract class AbstractDatabaseTest {
 	protected String getUsername() {
 		assumeThat(props, is(notNullValue()));
 		return props.getProperty("user");
+	}
+	
+	protected DefaultDatabaseImportConfig newDatabaseImportConfig(Dialect dialect, URL[] urls) {
+		DefaultDatabaseImportConfig config = new DefaultDatabaseImportConfig();
+		config.setDriverClassName(getDriverClassName());
+		config.setUsername(getUsername());
+		config.setPassword(getPassword());
+		config.setUri(getConnectionUri());
+		config.setDriverJarPaths(urls);
+		config.setDialect(dialect);
+		return config;
 	}
 }

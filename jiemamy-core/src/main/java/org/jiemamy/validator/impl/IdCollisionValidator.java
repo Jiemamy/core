@@ -94,7 +94,7 @@ public class IdCollisionValidator extends AbstractValidator {
 		/**
 		 * インスタンスを生成する。
 		 * 
-		 * @param id 衝突したID
+		 * @param entity 衝突したentity
 		 */
 		public IdCollisionProblem(Entity entity) {
 			super(null, "F0010");

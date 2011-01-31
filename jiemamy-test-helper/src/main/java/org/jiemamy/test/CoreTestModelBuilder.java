@@ -736,7 +736,7 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 			notNull.setColumn(columnModel.toReference());
 		}
 		
-		// FIXME
+		// FIXME index対応
 //		empNameIndex = new DefaultIndexModel(uuid.get("9abc9e01-4cdb-42fe-a495-93b56af35a1d"));
 //		empNameIndex.setName("IDX_EMP_NAME");
 //		DefaultIndexColumnModel indexColumnModel =
