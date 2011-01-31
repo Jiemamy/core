@@ -91,7 +91,7 @@ public class JiemamyStaxSerializer implements JiemamySerializer {
 		SMOutputFactory outFactory = new SMOutputFactory(XMLOutputFactory.newInstance());
 		try {
 			XMLStreamWriter2 writer = outFactory.createStax2Writer(out);
-			setValidators(writer, context.getFacets());
+//			setValidators(writer, context.getFacets());
 			
 			doc = SMOutputContext.createInstance(writer).createDocument();
 			doc.setIndentation("\n" + StringUtils.repeat("  ", 100), 1, 2); // CHECKSTYLE IGNORE THIS LINE
@@ -128,7 +128,6 @@ public class JiemamyStaxSerializer implements JiemamySerializer {
 				streamReader.validateAgainst(fvs);
 			}
 		}
-		
 	}
 	
 }
