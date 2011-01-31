@@ -89,8 +89,9 @@ public class JiemamyStaxSerializer implements JiemamySerializer {
 		Validate.notNull(out);
 		SMOutputDocument doc = null;
 		SMOutputFactory outFactory = new SMOutputFactory(XMLOutputFactory.newInstance());
+		XMLStreamWriter2 writer = null;
 		try {
-			XMLStreamWriter2 writer = outFactory.createStax2Writer(out);
+			writer = outFactory.createStax2Writer(out);
 			setValidators(writer, context.getFacets());
 			
 			doc = SMOutputContext.createInstance(writer).createDocument();
@@ -102,16 +103,24 @@ public class JiemamyStaxSerializer implements JiemamySerializer {
 		} catch (XMLStreamException e) {
 			throw new SerializationException(e);
 		} finally {
-			if (doc != null) {
+			if (writer != null) {
 				try {
-					doc.closeRootAndWriter();
+					writer.close();
 				} catch (XMLStreamException e) {
 					// ignore
+				}
+			}
+//			if (doc != null) {
+//				try {
+//					doc.closeRootAndWriter();
+//				} catch (XMLStreamException e) {
+//					// ignore
 //				} catch (IllegalStateException e) {
 //					e.printStackTrace();
 //					// ignore
-				}
-			}
+//					// THINK なんだこれ
+//				}
+//			}
 		}
 		
 	}
