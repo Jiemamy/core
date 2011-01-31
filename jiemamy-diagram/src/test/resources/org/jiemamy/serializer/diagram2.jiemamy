@@ -13,17 +13,16 @@
           <name>ID</name>
           <logicalName/>
           <description/>
-          <defaultValue/>
           <dataType class="org.jiemamy.model.datatype.DefaultTypeVariant">
             <typeCategory>INTEGER</typeCategory>
             <typeName>BIGINT</typeName>
           </dataType>
+          <defaultValue/>
         </column>
         <column id="4bb1a299-8784-4fc7-bbf6-a1dccb6c6acf" class="org.jiemamy.model.column.DefaultColumnModel">
           <name>NAME</name>
           <logicalName/>
           <description/>
-          <defaultValue/>
           <dataType class="org.jiemamy.model.datatype.DefaultTypeVariant">
             <typeCategory>VARCHAR</typeCategory>
             <typeName>VARCHAR</typeName>
@@ -31,12 +30,12 @@
               <parameter key="size">32</parameter>
             </parameters>
           </dataType>
+          <defaultValue/>
         </column>
         <column id="c47a58ed-ba78-4b29-92bc-9767981b7e10" class="org.jiemamy.model.column.DefaultColumnModel">
           <name>LOC</name>
           <logicalName/>
           <description/>
-          <defaultValue/>
           <dataType class="org.jiemamy.model.datatype.DefaultTypeVariant">
             <typeCategory>VARCHAR</typeCategory>
             <typeName>VARCHAR</typeName>
@@ -44,22 +43,22 @@
               <parameter key="size">16</parameter>
             </parameters>
           </dataType>
+          <defaultValue/>
         </column>
         <column id="a1f95004-025c-471b-a137-da51158142a4" class="org.jiemamy.model.column.DefaultColumnModel">
           <name>DELETED</name>
           <logicalName/>
           <description/>
-          <defaultValue/>
           <dataType class="org.jiemamy.model.datatype.DefaultTypeVariant">
             <typeCategory>TIMESTAMP</typeCategory>
             <typeName>TIMESTAMP</typeName>
           </dataType>
+          <defaultValue/>
         </column>
         <column id="f7e51922-7461-4c54-b581-dd6e1f339746" class="org.jiemamy.model.column.DefaultColumnModel">
           <name>CREATED</name>
           <logicalName/>
           <description/>
-          <defaultValue/>
           <dataType class="org.jiemamy.model.datatype.DefaultTypeVariant">
             <typeCategory>TIMESTAMP</typeCategory>
             <typeName>TIMESTAMP</typeName>
@@ -67,6 +66,7 @@
               <parameter key="with_timezone">false</parameter>
             </parameters>
           </dataType>
+          <defaultValue/>
         </column>
       </columns>
       <constraints>
@@ -92,17 +92,16 @@
           <name>ID</name>
           <logicalName/>
           <description/>
-          <defaultValue/>
           <dataType class="org.jiemamy.model.datatype.DefaultTypeVariant">
             <typeCategory>INTEGER</typeCategory>
             <typeName>INTEGER</typeName>
           </dataType>
+          <defaultValue/>
         </column>
         <column id="1d3b8fef-282a-405f-b758-920b8f748485" class="org.jiemamy.model.column.DefaultColumnModel">
           <name>NAME</name>
           <logicalName/>
           <description/>
-          <defaultValue/>
           <dataType class="org.jiemamy.model.datatype.DefaultTypeVariant">
             <typeCategory>INTEGER</typeCategory>
             <typeName>INTEGER</typeName>
@@ -110,22 +109,22 @@
               <parameter key="serial">false</parameter>
             </parameters>
           </dataType>
+          <defaultValue/>
         </column>
         <column id="9f1b7134-24af-45c6-ae6b-5a0db1209f2b" class="org.jiemamy.model.column.DefaultColumnModel">
           <name>DEPT_ID</name>
           <logicalName/>
           <description/>
-          <defaultValue/>
           <dataType class="org.jiemamy.model.datatype.DefaultTypeVariant">
             <typeCategory>INTEGER</typeCategory>
             <typeName>INTEGER</typeName>
           </dataType>
+          <defaultValue/>
         </column>
         <column id="e49dac38-796c-4d48-98f1-d6827f60b54d" class="org.jiemamy.model.column.DefaultColumnModel">
           <name>CREATED</name>
           <logicalName/>
           <description/>
-          <defaultValue/>
           <dataType class="org.jiemamy.model.datatype.DefaultTypeVariant">
             <typeCategory>TIMESTAMP</typeCategory>
             <typeName>TIMESTAMP</typeName>
@@ -133,12 +132,12 @@
               <parameter key="with_timezone">false</parameter>
             </parameters>
           </dataType>
+          <defaultValue/>
         </column>
         <column id="a82ab852-142b-44af-9326-2f3a5b4bada3" class="org.jiemamy.model.column.DefaultColumnModel">
           <name>DELETED</name>
           <logicalName/>
           <description/>
-          <defaultValue/>
           <dataType class="org.jiemamy.model.datatype.DefaultTypeVariant">
             <typeCategory>TIMESTAMP</typeCategory>
             <typeName>TIMESTAMP</typeName>
@@ -146,6 +145,7 @@
               <parameter key="with_timezone">false</parameter>
             </parameters>
           </dataType>
+          <defaultValue/>
         </column>
       </columns>
       <constraints>

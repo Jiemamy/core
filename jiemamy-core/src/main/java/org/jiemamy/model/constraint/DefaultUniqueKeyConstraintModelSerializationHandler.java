@@ -129,17 +129,18 @@ public final class DefaultUniqueKeyConstraintModelSerializationHandler extends
 			element.addElementAndCharacters(CoreQName.NAME, model.getName());
 			element.addElementAndCharacters(CoreQName.LOGICAL_NAME, model.getLogicalName());
 			element.addElementAndCharacters(CoreQName.DESCRIPTION, model.getDescription());
-			sctx.push(element);
-			if (model.getDeferrability() != null) {
-				getDirector().direct(model.getDeferrability(), sctx);
-			}
-			sctx.pop();
 			
 			JiemamyOutputElement keyColumnsElement = element.addElement(CoreQName.KEY_COLUMNS);
 			for (EntityRef<? extends ColumnModel> entityRef : model.getKeyColumns()) {
 				keyColumnsElement.addElement(CoreQName.COLUMN_REF).addAttribute(CoreQName.REF,
 						entityRef.getReferentId());
 			}
+			
+			sctx.push(element);
+			if (model.getDeferrability() != null) {
+				getDirector().direct(model.getDeferrability(), sctx);
+			}
+			sctx.pop();
 		} catch (XMLStreamException e) {
 			throw new SerializationException(e);
 		}

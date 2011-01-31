@@ -12,6 +12,10 @@
           <name>bar</name>
           <logicalName>baz</logicalName>
           <description/>
+          <dataType class="org.jiemamy.model.datatype.DefaultTypeVariant">
+            <typeCategory>INTEGER</typeCategory>
+            <typeName>INTEGER</typeName>
+          </dataType>
         </column>
       </columns>
       <constraints/>

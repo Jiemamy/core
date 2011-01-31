@@ -18,6 +18,7 @@
  */
 package org.jiemamy;
 
+
 /**
  * ファセットインスタンスを供給する責務を表すインターフェイス。
  * 
@@ -40,5 +41,4 @@ public interface FacetProvider {
 	 * @return ファセットの型
 	 */
 	Class<? extends JiemamyFacet> getFacetType();
-	
 }

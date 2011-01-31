@@ -1,29 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jiemamy xmlns="http://jiemamy.org/xml/ns/core"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    id="d5a96af3-b1e9-4285-a8ef-c491ce5ae308"
     version="0.3"
     xsi:schemaLocation="http://jiemamy.org/xml/ns/core ../../main/resources/jiemamy-core.xsd">
-  <dialect>org.jiemamy.dialect.mysql.MySqlDialect</dialect>
+  <metadata class="org.jiemamy.DefaultContextMetadata">
+    <dialect>org.jiemamy.dialect.mysql.MySqlDialect</dialect>
+  </metadata>
   <dbobjects>
     <table class="org.jiemamy.model.DefaultTableModel" id="9f522e56-809c-45fd-8416-39201014218b">
       <name>T_MAP</name>
-      <attributes>
+      <columns>
         <column class="org.jiemamy.model.DefaultColumnModel" id="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">
           <name>KEY</name>
-          <type/>
+          <dataType>
+            <typeCategory>INTEGER</typeCategory>
+            <typeName>INTEGER</typeName>
+          </dataType>
         </column>
         <column class="org.jiemamy.model.DefaultColumnModel" id="248a429b-2159-4ebd-a791-eee42a059374">
           <name>VALUE</name>
-          <type/>
+          <dataType>
+            <typeCategory>INTEGER</typeCategory>
+            <typeName>INTEGER</typeName>
+          </dataType>
         </column>
-        <primaryKey class="org.jiemamy.model.DefaultPrimaryKeyModel">
+      </columns>
+      <constraints>
+        <primaryKey class="org.jiemamy.model.DefaultPrimaryKeyModel" id="8334cd86-f8d6-44ff-b9be-f694bc0cdc8d">
           <name>emp_pkey</name>
-          <columnRefs>
+          <keyColumns>
             <columnRef ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e"/>
-          </columnRefs>
+          </keyColumns>
         </primaryKey>
-      </attributes>
+      </constraints>
     </table>
   </dbobjects>
   <dataSets/>

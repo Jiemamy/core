@@ -127,10 +127,11 @@ public final class DefaultDatabaseObjectNodeModelSerializationHandler extends
 			nodeElement.addElement(DiagramQName.CORE).addAttribute(CoreQName.REF,
 					model.getCoreModelRef().getReferentId());
 			
-			getDirector().direct(model.getBoundary(), sctx);
 			if (model.getColor() != null) {
 				getDirector().direct(model.getColor(), sctx);
 			}
+			
+			getDirector().direct(model.getBoundary(), sctx);
 			sctx.pop();
 		} catch (XMLStreamException e) {
 			throw new SerializationException(e);

@@ -6,6 +6,7 @@
   </metadata>
   <dbobjects>
     <table id="d23695f8-76dd-4f8c-b5a2-1e02087ba44d" class="org.jiemamy.model.table.DefaultTableModel">
+      <name>foo</name>
       <columns/>
       <constraints/>
     </table>

@@ -572,6 +572,11 @@ public/*final*/class JiemamyContext implements EntityResolver {
 		eventBroker.fireEvent(new StoredEvent<DataSetModel>(dsms, old, dsm));
 	}
 	
+	public void swapDataSet(int index1, int index2) {
+		dsms.swap(index1, index2);
+		eventBroker.fireEvent(new StoredEvent<DataSetModel>(dsms, null, null));
+	}
+	
 	@Override
 	public String toString() {
 		return ClassUtil.getShortClassName(getClass()) + "@" + Integer.toHexString(hashCode());

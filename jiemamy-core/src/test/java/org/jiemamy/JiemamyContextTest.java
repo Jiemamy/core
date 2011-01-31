@@ -23,6 +23,7 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.nullValue;
+import static org.jiemamy.utils.RandomUtil.bool;
 import static org.jiemamy.utils.RandomUtil.integer;
 import static org.jiemamy.utils.RandomUtil.strNullable;
 import static org.junit.Assert.assertThat;
@@ -85,7 +86,7 @@ public class JiemamyContextTest {
 		
 		DefaultContextMetadata meta = new DefaultContextMetadata();
 		meta.setDescription(strNullable());
-		meta.setDialectClassName(strNullable());
+		meta.setDialectClassName(bool() ? null : "org.jiemamy.dialect.GenericDialect");
 		meta.setSchemaName(strNullable());
 		context.setMetadata(meta);
 		

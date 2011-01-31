@@ -29,6 +29,7 @@ import javax.xml.stream.XMLStreamException;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.codehaus.staxmate.in.SMEvent;
 import org.slf4j.Logger;
@@ -75,8 +76,8 @@ public final class DefaultTypeVariantSerializationHandler extends SerializationH
 			
 			JiemamyCursor cursor = ctx.peek();
 			
-			DataTypeCategory category = DataTypeCategory.INTEGER;
-			String typeName = "INTEGER";
+			DataTypeCategory category = DataTypeCategory.UNKNOWN;
+			String typeName = "UNKNOWN";
 			Map<String, String> params = Maps.newHashMap();
 			
 			JiemamyCursor childCursor = cursor.childElementCursor();
@@ -86,7 +87,9 @@ public final class DefaultTypeVariantSerializationHandler extends SerializationH
 				if (childCursor.getCurrEvent() == SMEvent.START_ELEMENT) {
 					if (childCursor.isQName(CoreQName.TYPE_CATEGORY)) {
 						String text = childCursor.collectDescendantText(false);
-						category = DataTypeCategory.valueOf(text);
+						if (StringUtils.isEmpty(text) == false) {
+							category = DataTypeCategory.valueOf(text);
+						}
 					} else if (childCursor.isQName(CoreQName.TYPE_NAME)) {
 						typeName = childCursor.collectDescendantText(false);
 					} else if (childCursor.isQName(CoreQName.PARAMETERS)) {

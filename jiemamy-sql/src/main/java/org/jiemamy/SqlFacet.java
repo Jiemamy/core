@@ -16,6 +16,7 @@
  */
 package org.jiemamy;
 
+import java.net.URL;
 import java.util.Collection;
 import java.util.Set;
 import java.util.UUID;
@@ -133,6 +134,10 @@ public class SqlFacet implements JiemamyFacet {
 	
 	public OnMemoryEntityResolver<?> getResolver() {
 		return scripts;
+	}
+	
+	public URL getSchema() {
+		return SqlFacet.class.getResource("/jiemamy-sql.xsd");
 	}
 	
 	public AroundScriptModel getUniversalAroundScript() {

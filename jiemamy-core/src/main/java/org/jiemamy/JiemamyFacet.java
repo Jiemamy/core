@@ -18,6 +18,7 @@
  */
 package org.jiemamy;
 
+import java.net.URL;
 import java.util.Set;
 
 import org.jiemamy.dddbase.Entity;
@@ -51,6 +52,8 @@ public interface JiemamyFacet {
 	JiemamyNamespace[] getNamespaces();
 	
 	OnMemoryEntityResolver<?> getResolver();
+	
+	URL getSchema();
 	
 	/**
 	 * {@link SerializationDirector}に対して各種 {@link SerializationHandler} を設定する。

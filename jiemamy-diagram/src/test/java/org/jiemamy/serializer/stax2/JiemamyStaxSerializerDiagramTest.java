@@ -95,6 +95,7 @@ public class JiemamyStaxSerializerDiagramTest {
 		JiemamyContext context = new JiemamyContext(DiagramFacet.PROVIDER);
 		
 		DefaultTableModel table = new DefaultTableModel(tableId);
+		table.setName("foo");
 		context.store(table);
 		
 		DefaultDatabaseObjectNodeModel nnode = new DefaultDatabaseObjectNodeModel(nodeId, table.toReference());
@@ -135,6 +136,7 @@ public class JiemamyStaxSerializerDiagramTest {
 		assertThat(deserialized.getDataSets().size(), is(0));
 		TableModel tableModel = Iterables.get(deserialized.getTables(), 0);
 		assertThat(tableModel.getId(), is(tableId));
+		assertThat(tableModel.getName(), is("foo"));
 		
 		DiagramFacet facet = deserialized.getFacet(DiagramFacet.class);
 		assertThat(facet.getDiagrams().size(), is(1));

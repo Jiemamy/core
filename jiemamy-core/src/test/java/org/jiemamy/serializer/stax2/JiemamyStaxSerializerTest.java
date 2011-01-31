@@ -49,6 +49,8 @@ import org.jiemamy.JiemamyContext;
 import org.jiemamy.JiemamyContextTest;
 import org.jiemamy.model.column.ColumnModel;
 import org.jiemamy.model.column.DefaultColumnModel;
+import org.jiemamy.model.datatype.DataTypeCategory;
+import org.jiemamy.model.datatype.DefaultTypeVariant;
 import org.jiemamy.model.table.DefaultTableModel;
 import org.jiemamy.model.table.TableModel;
 
@@ -112,6 +114,7 @@ public class JiemamyStaxSerializerTest {
 		
 		UUID tid = UUID.fromString("d23695f8-76dd-4f8c-b5a2-1e02087ba44d");
 		DefaultTableModel t = new DefaultTableModel(tid);
+		t.setName("foo");
 		context.store(t);
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -151,6 +154,7 @@ public class JiemamyStaxSerializerTest {
 		c.setName("bar");
 		c.setLogicalName("baz");
 		c.setDescription("");
+		c.setDataType(DefaultTypeVariant.of(DataTypeCategory.INTEGER));
 		t.store(c);
 		context.store(t);
 		
@@ -163,11 +167,10 @@ public class JiemamyStaxSerializerTest {
 		// descriptionは空文字なので空要素として出力される
 		
 		String expected = getXml("core3.jiemamy");
-		DetailedDiff diff = new DetailedDiff(new Diff(actual, expected));
-		assertThat(diff.getAllDifferences().toString(), diff.similar(), is(true));
-		
 //		logger.info("actual  ={}", actual.replaceAll("[\n\r]", ""));
 //		logger.info("expected={}", expected.replaceAll("[\n\r]", ""));
+		DetailedDiff diff = new DetailedDiff(new Diff(actual, expected));
+		assertThat(diff.getAllDifferences().toString(), diff.similar(), is(true));
 	}
 	
 	/**
@@ -218,11 +221,13 @@ public class JiemamyStaxSerializerTest {
 		UUID cid1 = UUID.fromString("a4333846-1292-4b82-b68c-454762bf92a1");
 		DefaultColumnModel c1 = new DefaultColumnModel(cid1);
 		c1.setName("CCCC1");
+		c1.setDataType(DefaultTypeVariant.of(DataTypeCategory.INTEGER));
 		t.store(c1);
 		
 		UUID cid2 = UUID.fromString("7774052e-40ee-4796-b990-2411be64fb35");
 		DefaultColumnModel c2 = new DefaultColumnModel(cid2);
 		c2.setName("CCCC2");
+		c2.setDataType(DefaultTypeVariant.of(DataTypeCategory.INTEGER));
 		t.store(c2);
 		
 		ctx.store(t);
@@ -386,7 +391,7 @@ public class JiemamyStaxSerializerTest {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			serializer.serialize(original, baos);
 			String first = baos.toString(CharEncoding.UTF_8);
-//			logger.info("1 = {}", first);
+			logger.info("1 = {}", first);
 			FileUtils.write(file1, first);
 			
 			// そのXMLをデシリアライズしてみる

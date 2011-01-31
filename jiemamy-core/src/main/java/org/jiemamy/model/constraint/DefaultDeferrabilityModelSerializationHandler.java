@@ -20,6 +20,7 @@ package org.jiemamy.model.constraint;
 
 import javax.xml.stream.XMLStreamException;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.codehaus.staxmate.in.SMEvent;
 
@@ -60,7 +61,12 @@ public class DefaultDeferrabilityModelSerializationHandler extends Serialization
 			
 			JiemamyCursor cursor = ctx.peek();
 			
-			return DefaultDeferrabilityModel.valueOf(cursor.collectDescendantText(false));
+			String text = cursor.collectDescendantText(false);
+			if (StringUtils.isEmpty(text)) {
+				return null;
+			} else {
+				return DefaultDeferrabilityModel.valueOf(text);
+			}
 		} catch (XMLStreamException e) {
 			throw new SerializationException(e);
 		}

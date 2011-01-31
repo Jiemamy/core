@@ -122,11 +122,12 @@ public final class StickyNodeModelSerializationHandler extends SerializationHand
 			
 			sctx.push(nodeElement);
 			
-			getDirector().direct(model.getBoundary(), sctx);
-			
 			if (model.getColor() != null) {
 				getDirector().direct(model.getColor(), sctx);
 			}
+			
+			getDirector().direct(model.getBoundary(), sctx);
+			
 			sctx.pop();
 		} catch (XMLStreamException e) {
 			throw new SerializationException(e);

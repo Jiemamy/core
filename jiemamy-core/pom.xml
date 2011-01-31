@@ -131,6 +131,21 @@
       <version>2.0.1</version>
     </dependency>
     <dependency>
+      <groupId>msv</groupId>
+      <artifactId>msv</artifactId>
+      <version>20050913</version>
+    </dependency>
+    <dependency>
+      <groupId>activesoap</groupId>
+      <artifactId>relaxngDatatype</artifactId>
+      <version>1.5</version>
+    </dependency>
+    <dependency>
+      <groupId>activesoap</groupId>
+      <artifactId>xsdlib</artifactId>
+      <version>1.5</version>
+    </dependency>
+    <dependency>
       <groupId>net.sf.opencsv</groupId> 
       <artifactId>opencsv</artifactId> 
       <version>1.8</version>

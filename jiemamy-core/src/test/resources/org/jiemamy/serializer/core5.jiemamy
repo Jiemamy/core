@@ -7,9 +7,17 @@
       <columns>
         <column id="a4333846-1292-4b82-b68c-454762bf92a1" class="org.jiemamy.model.column.DefaultColumnModel">
           <name>CCCC1</name>
+          <dataType class="org.jiemamy.model.datatype.DefaultTypeVariant">
+            <typeCategory>INTEGER</typeCategory>
+            <typeName>INTEGER</typeName>
+          </dataType>
         </column>
         <column id="7774052e-40ee-4796-b990-2411be64fb35" class="org.jiemamy.model.column.DefaultColumnModel">
           <name>CCCC2</name>
+          <dataType class="org.jiemamy.model.datatype.DefaultTypeVariant">
+            <typeCategory>INTEGER</typeCategory>
+            <typeName>INTEGER</typeName>
+          </dataType>
         </column>
       </columns>
       <constraints/>

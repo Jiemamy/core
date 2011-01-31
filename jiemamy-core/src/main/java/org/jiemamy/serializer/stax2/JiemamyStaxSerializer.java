@@ -20,6 +20,8 @@ package org.jiemamy.serializer.stax2;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URL;
+import java.util.Set;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLOutputFactory;
@@ -27,13 +29,19 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
+import org.codehaus.stax2.XMLStreamWriter2;
+import org.codehaus.stax2.validation.Validatable;
+import org.codehaus.stax2.validation.XMLValidationSchema;
+import org.codehaus.stax2.validation.XMLValidationSchemaFactory;
 import org.codehaus.staxmate.SMInputFactory;
 import org.codehaus.staxmate.SMOutputFactory;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
+import org.codehaus.staxmate.out.SMOutputContext;
 import org.codehaus.staxmate.out.SMOutputDocument;
 
 import org.jiemamy.FacetProvider;
 import org.jiemamy.JiemamyContext;
+import org.jiemamy.JiemamyFacet;
 import org.jiemamy.serializer.JiemamySerializer;
 import org.jiemamy.serializer.SerializationException;
 
@@ -54,6 +62,10 @@ public class JiemamyStaxSerializer implements JiemamySerializer {
 		SMInputFactory inFactory = new SMInputFactory(XMLInputFactory.newInstance());
 		try {
 			cursor = inFactory.rootElementCursor(in);
+			
+			Validatable streamReader = cursor.getStreamReader();
+			setValidators(streamReader, context.getFacets());
+			
 			DeserializationContext ctx = new DeserializationContext(context, cursor);
 			SerializationDirector director = new SerializationDirector(context);
 			cursor.advance();
@@ -78,7 +90,10 @@ public class JiemamyStaxSerializer implements JiemamySerializer {
 		SMOutputDocument doc = null;
 		SMOutputFactory outFactory = new SMOutputFactory(XMLOutputFactory.newInstance());
 		try {
-			doc = outFactory.createOutputDocument(out);
+			XMLStreamWriter2 writer = outFactory.createStax2Writer(out);
+			setValidators(writer, context.getFacets());
+			
+			doc = SMOutputContext.createInstance(writer).createDocument();
 			doc.setIndentation("\n" + StringUtils.repeat("  ", 100), 1, 2); // CHECKSTYLE IGNORE THIS LINE
 			
 			SerializationContext ctx = new SerializationContext(context, doc);
@@ -93,6 +108,21 @@ public class JiemamyStaxSerializer implements JiemamySerializer {
 				} catch (XMLStreamException e) {
 					// ignore
 				}
+			}
+		}
+		
+	}
+	
+	private void setValidators(Validatable streamReader, Set<JiemamyFacet> facets) throws XMLStreamException {
+		XMLValidationSchemaFactory sf =
+				XMLValidationSchemaFactory.newInstance(XMLValidationSchema.SCHEMA_ID_W3C_SCHEMA);
+		XMLValidationSchema vs = sf.createSchema(JiemamyStaxSerializer.class.getResource("/jiemamy-core.xsd"));
+		streamReader.validateAgainst(vs);
+		for (JiemamyFacet facet : facets) {
+			URL schema = facet.getSchema();
+			if (schema != null) {
+				XMLValidationSchema fvs = sf.createSchema(schema);
+				streamReader.validateAgainst(fvs);
 			}
 		}
 		

@@ -149,14 +149,6 @@ public final class DefaultForeignKeyConstraintModelSerializationHandler extends
 			element.addElementAndCharacters(CoreQName.NAME, model.getName());
 			element.addElementAndCharacters(CoreQName.LOGICAL_NAME, model.getLogicalName());
 			element.addElementAndCharacters(CoreQName.DESCRIPTION, model.getDescription());
-			sctx.push(element);
-			if (model.getDeferrability() != null) {
-				getDirector().direct(model.getDeferrability(), sctx);
-			}
-			sctx.pop();
-			element.addElementAndCharacters(CoreQName.MATCH_TYPE, model.getMatchType());
-			element.addElementAndCharacters(CoreQName.ON_DELETE, model.getOnDelete());
-			element.addElementAndCharacters(CoreQName.ON_UPDATE, model.getOnUpdate());
 			
 			JiemamyOutputElement keyColumnsElement = element.addElement(CoreQName.KEY_COLUMNS);
 			for (EntityRef<? extends ColumnModel> entityRef : model.getKeyColumns()) {
@@ -169,6 +161,16 @@ public final class DefaultForeignKeyConstraintModelSerializationHandler extends
 				refColumnsElement.addElement(CoreQName.COLUMN_REF).addAttribute(CoreQName.REF,
 						entityRef.getReferentId());
 			}
+			
+			sctx.push(element);
+			if (model.getDeferrability() != null) {
+				getDirector().direct(model.getDeferrability(), sctx);
+			}
+			sctx.pop();
+			element.addElementAndCharacters(CoreQName.MATCH_TYPE, model.getMatchType());
+			element.addElementAndCharacters(CoreQName.ON_DELETE, model.getOnDelete());
+			element.addElementAndCharacters(CoreQName.ON_UPDATE, model.getOnUpdate());
+			
 		} catch (XMLStreamException e) {
 			throw new SerializationException(e);
 		}

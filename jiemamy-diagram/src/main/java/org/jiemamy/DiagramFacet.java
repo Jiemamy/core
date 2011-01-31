@@ -16,6 +16,7 @@
  */
 package org.jiemamy;
 
+import java.net.URL;
 import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -79,7 +80,6 @@ public class DiagramFacet implements JiemamyFacet {
 		public Class<? extends JiemamyFacet> getFacetType() {
 			return DiagramFacet.class;
 		}
-		
 	};
 	
 	private OrderedOnMemoryRepository<DiagramModel> diagrams = new OrderedOnMemoryRepository<DiagramModel>();
@@ -161,6 +161,10 @@ public class DiagramFacet implements JiemamyFacet {
 	
 	public OnMemoryEntityResolver<?> getResolver() {
 		return diagrams;
+	}
+	
+	public URL getSchema() {
+		return DiagramFacet.class.getResource("/jiemamy-diagram.xsd");
 	}
 	
 	public void prepareSerializationHandlers(SerializationDirector director) {

@@ -138,13 +138,14 @@ public final class DefaultColumnModelSerializationHandler extends SerializationH
 			element.addElementAndCharacters(CoreQName.NAME, model.getName());
 			element.addElementAndCharacters(CoreQName.LOGICAL_NAME, model.getLogicalName());
 			element.addElementAndCharacters(CoreQName.DESCRIPTION, model.getDescription());
-			element.addElementAndCharacters(CoreQName.DEFAULT_VALUE, model.getDefaultValue());
 			
 			sctx.push(element);
 			TypeVariant dataType = model.getDataType();
 			if (dataType != null) {
 				getDirector().direct(dataType, sctx);
 			}
+			
+			element.addElementAndCharacters(CoreQName.DEFAULT_VALUE, model.getDefaultValue());
 			
 			ParameterMap params = model.getParams();
 			if (params.size() > 0) {
