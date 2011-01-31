@@ -86,6 +86,9 @@ public final class ParameterMap implements Iterable<Map.Entry<String, String>>, 
 		}
 		Converter<T> converter = key.getConverter();
 		String string = map.get(key.getKeyString());
+		if (string == null) {
+			return null;
+		}
 		return converter.valueOf(string);
 	}
 	
@@ -116,6 +119,9 @@ public final class ParameterMap implements Iterable<Map.Entry<String, String>>, 
 			return null;
 		} else {
 			String old = map.put(key.getKeyString(), converter.toString(value));
+			if (old == null) {
+				return null;
+			}
 			return converter.valueOf(old);
 		}
 	}
@@ -144,6 +150,9 @@ public final class ParameterMap implements Iterable<Map.Entry<String, String>>, 
 		Validate.notNull(key);
 		Converter<T> converter = key.getConverter();
 		String string = map.remove(key.getKeyString());
+		if (string == null) {
+			return null;
+		}
 		return converter.valueOf(string);
 	}
 	
