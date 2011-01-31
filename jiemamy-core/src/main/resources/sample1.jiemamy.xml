@@ -2,7 +2,9 @@
 <jiemamy xmlns="http://jiemamy.org/xml/ns/core"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     version="0.3"
-    xsi:schemaLocation="http://jiemamy.org/xml/ns/core ../../main/resources/jiemamy-core.xsd">
+    xsi:schemaLocation="
+    http://jiemamy.org/xml/ns/core ../../main/resources/jiemamy-core.xsd
+    http://jiemamy.org/xml/ns/diagram ../../../../jiemamy-diagram/src/main/resources/jiemamy-diagram.xsd">
   <metadata class="org.jiemamy.DefaultContextMetadata">
     <dialect>org.jiemamy.dialect.mysql.MySqlDialect</dialect>
     <schemaName>FOO</schemaName>
@@ -242,101 +244,101 @@
       <tableRecords>
         <tableRecord ref="9f522e56-809c-45fd-8416-39201014218b">
           <records>
-            <record ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">1</record>
-            <record ref="248a429b-2159-4ebd-a791-eee42a059374">10</record>
-            <record ref="0e51b6df-43ab-408c-90ef-de13c6aab881">SMITH</record>
-            <record ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84">3</record>
-            <record ref="f0b57eed-98ab-4c21-9855-218c592814dc">2003-02-01</record>
-            <record ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">40</record>
-            <record ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">3</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">1</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="248a429b-2159-4ebd-a791-eee42a059374">10</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="0e51b6df-43ab-408c-90ef-de13c6aab881">SMITH</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84">3</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="f0b57eed-98ab-4c21-9855-218c592814dc">2003-02-01</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">40</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">3</record>
           </records>
           <records>
-            <record ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">2</record>
-            <record ref="248a429b-2159-4ebd-a791-eee42a059374">20</record>
-            <record ref="0e51b6df-43ab-408c-90ef-de13c6aab881">ALLEN</record>
-            <record ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84">3</record>
-            <record ref="f0b57eed-98ab-4c21-9855-218c592814dc">2000-03-04</record>
-            <record ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">50</record>
-            <record ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">4</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">2</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="248a429b-2159-4ebd-a791-eee42a059374">20</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="0e51b6df-43ab-408c-90ef-de13c6aab881">ALLEN</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84">3</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="f0b57eed-98ab-4c21-9855-218c592814dc">2000-03-04</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">50</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">4</record>
           </records>
           <records>
-            <record ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">3</record>
-            <record ref="248a429b-2159-4ebd-a791-eee42a059374">30</record>
-            <record ref="0e51b6df-43ab-408c-90ef-de13c6aab881">WARD</record>
-            <record ref="f0b57eed-98ab-4c21-9855-218c592814dc">1993-12-05</record>
-            <record ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">60</record>
-            <record ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">4</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">3</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="248a429b-2159-4ebd-a791-eee42a059374">30</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="0e51b6df-43ab-408c-90ef-de13c6aab881">WARD</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="f0b57eed-98ab-4c21-9855-218c592814dc">1993-12-05</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">60</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">4</record>
           </records>
           <records>
-            <record ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">4</record>
-            <record ref="248a429b-2159-4ebd-a791-eee42a059374">40</record>
-            <record ref="0e51b6df-43ab-408c-90ef-de13c6aab881">JONES</record>
-            <record ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84">2</record>
-            <record ref="f0b57eed-98ab-4c21-9855-218c592814dc">2007-04-01</record>
-            <record ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">36</record>
-            <record ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">2</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">4</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="248a429b-2159-4ebd-a791-eee42a059374">40</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="0e51b6df-43ab-408c-90ef-de13c6aab881">JONES</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84">2</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="f0b57eed-98ab-4c21-9855-218c592814dc">2007-04-01</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">36</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">2</record>
           </records>
           <records>
-            <record ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">5</record>
-            <record ref="248a429b-2159-4ebd-a791-eee42a059374">50</record>
-            <record ref="0e51b6df-43ab-408c-90ef-de13c6aab881">MARTIN</record>
-            <record ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84">1</record>
-            <record ref="f0b57eed-98ab-4c21-9855-218c592814dc">2002-05-30</record>
-            <record ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">30</record>
-            <record ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">3</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">5</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="248a429b-2159-4ebd-a791-eee42a059374">50</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="0e51b6df-43ab-408c-90ef-de13c6aab881">MARTIN</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84">1</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="f0b57eed-98ab-4c21-9855-218c592814dc">2002-05-30</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">30</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">3</record>
           </records>
           <records>
-            <record ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">6</record>
-            <record ref="248a429b-2159-4ebd-a791-eee42a059374">60</record>
-            <record ref="0e51b6df-43ab-408c-90ef-de13c6aab881">BLAKE</record>
-            <record ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84">3</record>
-            <record ref="f0b57eed-98ab-4c21-9855-218c592814dc">2007-04-01</record>
-            <record ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">25</record>
-            <record ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">2</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">6</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="248a429b-2159-4ebd-a791-eee42a059374">60</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="0e51b6df-43ab-408c-90ef-de13c6aab881">BLAKE</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84">3</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="f0b57eed-98ab-4c21-9855-218c592814dc">2007-04-01</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">25</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">2</record>
           </records>
           <records>
-            <record ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">7</record>
-            <record ref="248a429b-2159-4ebd-a791-eee42a059374">70</record>
-            <record ref="0e51b6df-43ab-408c-90ef-de13c6aab881">CLARK</record>
-            <record ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84">1</record>
-            <record ref="f0b57eed-98ab-4c21-9855-218c592814dc">2004-09-01</record>
-            <record ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">30</record>
-            <record ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">1</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">7</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="248a429b-2159-4ebd-a791-eee42a059374">70</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="0e51b6df-43ab-408c-90ef-de13c6aab881">CLARK</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84">1</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="f0b57eed-98ab-4c21-9855-218c592814dc">2004-09-01</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">30</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">1</record>
           </records>
           <records>
-            <record ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">8</record>
-            <record ref="248a429b-2159-4ebd-a791-eee42a059374">80</record>
-            <record ref="0e51b6df-43ab-408c-90ef-de13c6aab881">SCOTT</record>
-            <record ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84">4</record>
-            <record ref="f0b57eed-98ab-4c21-9855-218c592814dc">2008-03-01</record>
-            <record ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">25</record>
-            <record ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">2</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">8</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="248a429b-2159-4ebd-a791-eee42a059374">80</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="0e51b6df-43ab-408c-90ef-de13c6aab881">SCOTT</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84">4</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="f0b57eed-98ab-4c21-9855-218c592814dc">2008-03-01</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">25</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">2</record>
           </records>
         </tableRecord>
         <tableRecord ref="d7489ed6-0add-443d-95cf-234376eb0455">
           <records>
-            <record ref="c7ed225d-92a6-4cc2-90de-60531804464e">1</record>
-            <record ref="2d951389-6bc7-49d7-8631-1d26fe17047e">10</record>
-            <record ref="1fcd63d3-974e-4d2e-a0d8-3b9c233104d9">ACCOUNTING</record>
-            <record ref="7bf79e76-07b8-43b6-a993-b8ef374a31f5">NEW YORK</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="c7ed225d-92a6-4cc2-90de-60531804464e">1</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="2d951389-6bc7-49d7-8631-1d26fe17047e">10</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="1fcd63d3-974e-4d2e-a0d8-3b9c233104d9">ACCOUNTING</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="7bf79e76-07b8-43b6-a993-b8ef374a31f5">NEW YORK</record>
           </records>
           <records>
-            <record ref="c7ed225d-92a6-4cc2-90de-60531804464e">2</record>
-            <record ref="2d951389-6bc7-49d7-8631-1d26fe17047e">20</record>
-            <record ref="1fcd63d3-974e-4d2e-a0d8-3b9c233104d9">RESEARCH</record>
-            <record ref="7bf79e76-07b8-43b6-a993-b8ef374a31f5">DALLAS</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="c7ed225d-92a6-4cc2-90de-60531804464e">2</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="2d951389-6bc7-49d7-8631-1d26fe17047e">20</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="1fcd63d3-974e-4d2e-a0d8-3b9c233104d9">RESEARCH</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="7bf79e76-07b8-43b6-a993-b8ef374a31f5">DALLAS</record>
           </records>
           <records>
-            <record ref="c7ed225d-92a6-4cc2-90de-60531804464e">3</record>
-            <record ref="2d951389-6bc7-49d7-8631-1d26fe17047e">30</record>
-            <record ref="1fcd63d3-974e-4d2e-a0d8-3b9c233104d9">SALES</record>
-            <record ref="7bf79e76-07b8-43b6-a993-b8ef374a31f5">CHICAGO</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="c7ed225d-92a6-4cc2-90de-60531804464e">3</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="2d951389-6bc7-49d7-8631-1d26fe17047e">30</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="1fcd63d3-974e-4d2e-a0d8-3b9c233104d9">SALES</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="7bf79e76-07b8-43b6-a993-b8ef374a31f5">CHICAGO</record>
           </records>
           <records>
-            <record ref="c7ed225d-92a6-4cc2-90de-60531804464e">4</record>
-            <record ref="2d951389-6bc7-49d7-8631-1d26fe17047e">40</record>
-            <record ref="1fcd63d3-974e-4d2e-a0d8-3b9c233104d9">OPERATIONS</record>
-            <record ref="7bf79e76-07b8-43b6-a993-b8ef374a31f5">BOSTON</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="c7ed225d-92a6-4cc2-90de-60531804464e">4</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="2d951389-6bc7-49d7-8631-1d26fe17047e">40</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="1fcd63d3-974e-4d2e-a0d8-3b9c233104d9">OPERATIONS</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="7bf79e76-07b8-43b6-a993-b8ef374a31f5">BOSTON</record>
           </records>
         </tableRecord>
       </tableRecords>
@@ -346,105 +348,106 @@
       <tableRecords>
         <tableRecord ref="9f522e56-809c-45fd-8416-39201014218b">
           <records>
-            <record ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">1</record>
-            <record ref="248a429b-2159-4ebd-a791-eee42a059374">10</record>
-            <record ref="0e51b6df-43ab-408c-90ef-de13c6aab881">鈴木 茂</record>
-            <record ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84">3</record>
-            <record ref="f0b57eed-98ab-4c21-9855-218c592814dc">2003-02-01</record>
-            <record ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">40</record>
-            <record ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">3</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">1</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="248a429b-2159-4ebd-a791-eee42a059374">10</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="0e51b6df-43ab-408c-90ef-de13c6aab881">鈴木 茂</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84">3</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="f0b57eed-98ab-4c21-9855-218c592814dc">2003-02-01</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">40</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">3</record>
           </records>
           <records>
-            <record ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">2</record>
-            <record ref="248a429b-2159-4ebd-a791-eee42a059374">20</record>
-            <record ref="0e51b6df-43ab-408c-90ef-de13c6aab881">内海 透</record>
-            <record ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84">3</record>
-            <record ref="f0b57eed-98ab-4c21-9855-218c592814dc">2000-03-04</record>
-            <record ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">50</record>
-            <record ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">4</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">2</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="248a429b-2159-4ebd-a791-eee42a059374">20</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="0e51b6df-43ab-408c-90ef-de13c6aab881">内海 透</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84">3</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="f0b57eed-98ab-4c21-9855-218c592814dc">2000-03-04</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">50</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">4</record>
           </records>
           <records>
-            <record ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">3</record>
-            <record ref="248a429b-2159-4ebd-a791-eee42a059374">30</record>
-            <record ref="0e51b6df-43ab-408c-90ef-de13c6aab881">村瀬 武彦</record>
-            <record ref="f0b57eed-98ab-4c21-9855-218c592814dc">1993-12-05</record>
-            <record ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">60</record>
-            <record ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">4</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">3</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="248a429b-2159-4ebd-a791-eee42a059374">30</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="0e51b6df-43ab-408c-90ef-de13c6aab881">村瀬 武彦</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="f0b57eed-98ab-4c21-9855-218c592814dc">1993-12-05</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">60</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">4</record>
           </records>
           <records>
-            <record ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">4</record>
-            <record ref="248a429b-2159-4ebd-a791-eee42a059374">40</record>
-            <record ref="0e51b6df-43ab-408c-90ef-de13c6aab881">近藤 美樹</record>
-            <record ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84">2</record>
-            <record ref="f0b57eed-98ab-4c21-9855-218c592814dc">2007-04-01</record>
-            <record ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">36</record>
-            <record ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">2</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">4</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="248a429b-2159-4ebd-a791-eee42a059374">40</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="0e51b6df-43ab-408c-90ef-de13c6aab881">近藤 美樹</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84">2</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="f0b57eed-98ab-4c21-9855-218c592814dc">2007-04-01</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">36</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">2</record>
           </records>
           <records>
-            <record ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">5</record>
-            <record ref="248a429b-2159-4ebd-a791-eee42a059374">50</record>
-            <record ref="0e51b6df-43ab-408c-90ef-de13c6aab881">榊 美子</record>
-            <record ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84">1</record>
-            <record ref="f0b57eed-98ab-4c21-9855-218c592814dc">2002-05-30</record>
-            <record ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">30</record>
-            <record ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">3</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">5</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="248a429b-2159-4ebd-a791-eee42a059374">50</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="0e51b6df-43ab-408c-90ef-de13c6aab881">榊 美子</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84">1</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="f0b57eed-98ab-4c21-9855-218c592814dc">2002-05-30</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">30</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">3</record>
           </records>
           <records>
-            <record ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">6</record>
-            <record ref="248a429b-2159-4ebd-a791-eee42a059374">60</record>
-            <record ref="0e51b6df-43ab-408c-90ef-de13c6aab881">三浦 佑</record>
-            <record ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84">3</record>
-            <record ref="f0b57eed-98ab-4c21-9855-218c592814dc">2007-04-01</record>
-            <record ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">25</record>
-            <record ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">2</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">6</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="248a429b-2159-4ebd-a791-eee42a059374">60</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="0e51b6df-43ab-408c-90ef-de13c6aab881">三浦 佑</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84">3</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="f0b57eed-98ab-4c21-9855-218c592814dc">2007-04-01</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">25</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">2</record>
           </records>
           <records>
-            <record ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">7</record>
-            <record ref="248a429b-2159-4ebd-a791-eee42a059374">70</record>
-            <record ref="0e51b6df-43ab-408c-90ef-de13c6aab881">前島 孝幸</record>
-            <record ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84">1</record>
-            <record ref="f0b57eed-98ab-4c21-9855-218c592814dc">2004-09-01</record>
-            <record ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">30</record>
-            <record ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">1</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">7</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="248a429b-2159-4ebd-a791-eee42a059374">70</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="0e51b6df-43ab-408c-90ef-de13c6aab881">前島 孝幸</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84">1</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="f0b57eed-98ab-4c21-9855-218c592814dc">2004-09-01</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">30</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">1</record>
           </records>
           <records>
-            <record ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">8</record>
-            <record ref="248a429b-2159-4ebd-a791-eee42a059374">80</record>
-            <record ref="0e51b6df-43ab-408c-90ef-de13c6aab881">島崎 由比</record>
-            <record ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84">4</record>
-            <record ref="f0b57eed-98ab-4c21-9855-218c592814dc">2008-03-01</record>
-            <record ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">25</record>
-            <record ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">2</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">8</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="248a429b-2159-4ebd-a791-eee42a059374">80</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="0e51b6df-43ab-408c-90ef-de13c6aab881">島崎 由比</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84">4</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="f0b57eed-98ab-4c21-9855-218c592814dc">2008-03-01</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2">25</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b">2</record>
           </records>
         </tableRecord>
         <tableRecord ref="d7489ed6-0add-443d-95cf-234376eb0455">
           <records>
-            <record ref="c7ed225d-92a6-4cc2-90de-60531804464e">1</record>
-            <record ref="2d951389-6bc7-49d7-8631-1d26fe17047e">10</record>
-            <record ref="1fcd63d3-974e-4d2e-a0d8-3b9c233104d9">経理部</record>
-            <record ref="7bf79e76-07b8-43b6-a993-b8ef374a31f5">広島</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="c7ed225d-92a6-4cc2-90de-60531804464e">1</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="2d951389-6bc7-49d7-8631-1d26fe17047e">10</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="1fcd63d3-974e-4d2e-a0d8-3b9c233104d9">経理部</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="7bf79e76-07b8-43b6-a993-b8ef374a31f5">広島</record>
           </records>
           <records>
-            <record ref="c7ed225d-92a6-4cc2-90de-60531804464e">2</record>
-            <record ref="2d951389-6bc7-49d7-8631-1d26fe17047e">20</record>
-            <record ref="1fcd63d3-974e-4d2e-a0d8-3b9c233104d9">研究開発部</record>
-            <record ref="7bf79e76-07b8-43b6-a993-b8ef374a31f5">京都</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="c7ed225d-92a6-4cc2-90de-60531804464e">2</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="2d951389-6bc7-49d7-8631-1d26fe17047e">20</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="1fcd63d3-974e-4d2e-a0d8-3b9c233104d9">研究開発部</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="7bf79e76-07b8-43b6-a993-b8ef374a31f5">京都</record>
           </records>
           <records>
-            <record ref="c7ed225d-92a6-4cc2-90de-60531804464e">3</record>
-            <record ref="2d951389-6bc7-49d7-8631-1d26fe17047e">30</record>
-            <record ref="1fcd63d3-974e-4d2e-a0d8-3b9c233104d9">営業部</record>
-            <record ref="7bf79e76-07b8-43b6-a993-b8ef374a31f5">東京</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="c7ed225d-92a6-4cc2-90de-60531804464e">3</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="2d951389-6bc7-49d7-8631-1d26fe17047e">30</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="1fcd63d3-974e-4d2e-a0d8-3b9c233104d9">営業部</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="7bf79e76-07b8-43b6-a993-b8ef374a31f5">東京</record>
           </records>
           <records>
-            <record ref="c7ed225d-92a6-4cc2-90de-60531804464e">4</record>
-            <record ref="2d951389-6bc7-49d7-8631-1d26fe17047e">40</record>
-            <record ref="1fcd63d3-974e-4d2e-a0d8-3b9c233104d9">経営本部</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="c7ed225d-92a6-4cc2-90de-60531804464e">4</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="2d951389-6bc7-49d7-8631-1d26fe17047e">40</record>
+            <record engine="org.jiemamy.script.PlainScriptEngine" ref="1fcd63d3-974e-4d2e-a0d8-3b9c233104d9">経営本部</record>
           </records>
         </tableRecord>
       </tableRecords>
     </dataSet>
   </dataSets>
+  <!--
   <sql:sql xmlns:sql="http://jiemamy.org/xml/ns/sql">
     <element ref="d5a96af3-b1e9-4285-a8ef-c491ce5ae308">
       <beginScript engine="org.jiemamy.script.PlainScriptEngine">BEGIN;</beginScript>
@@ -460,6 +463,7 @@
       <disabled>true</disabled>
     </element>
   </sql:sql>
+  -->
   <diagram:diagrams xmlns:diagram="http://jiemamy.org/xml/ns/diagram">
     <diagram:diagram id="1deca0e8-6153-47ad-abe8-ac764f768d96">
       <diagram:name>全部表示する</diagram:name>
@@ -487,18 +491,18 @@
       </diagram:nodes>
       <diagram:connections>
         <diagram:connection id="366b547f-a2a6-42b2-a3a4-38745436c425">
-          <diagram:core ref="e43d3c43-33c8-4b02-aa42-83f2d868cfe6"/>
-          <diagram:source ref="e43d3c43-33c8-4b02-aa42-83f2d868cfe6"/>
-          <diagram:target ref="e43d3c43-33c8-4b02-aa42-83f2d868cfe6"/>
+          <diagram:core ref="b28fcdca-5c0e-4f1a-bfe9-2a843ed7ee94"/>
+          <diagram:source ref="aa7caa23-7958-4bd0-a356-8f09d4b74f08"/>
+          <diagram:target ref="aa7caa23-7958-4bd0-a356-8f09d4b74f08"/>
           <diagram:bendpoints>
             <diagram:bendpoint x="310" y="60"/>
             <diagram:bendpoint x="360" y="10"/>
           </diagram:bendpoints>
         </diagram:connection>
         <diagram:connection id="e5b3d709-2aea-4e26-a90c-b8f438d2da9d">
-          <diagram:core ref="e7dd92b4-1d97-4be6-bab6-fa9fe26eb6ed"/>
-          <diagram:source ref="e43d3c43-33c8-4b02-aa42-83f2d868cfe6"/>
-          <diagram:target ref="e43d3c43-33c8-4b02-aa42-83f2d868cfe6"/>
+          <diagram:core ref="d2103b8a-0b36-480a-a31e-edd6937e6420"/>
+          <diagram:source ref="aa7caa23-7958-4bd0-a356-8f09d4b74f08"/>
+          <diagram:target ref="eb6506ef-4a25-4296-b6d7-c08741f19d5a"/>
           <diagram:bendpoints/>
         </diagram:connection>
       </diagram:connections>
@@ -519,9 +523,9 @@
       </diagram:nodes>
       <diagram:connections>
         <diagram:connection id="b615f111-5143-4b12-bfdb-9a06806a9ace">
-          <diagram:core ref="e7dd92b4-1d97-4be6-bab6-fa9fe26eb6ed"/>
-          <diagram:source ref="e43d3c43-33c8-4b02-aa42-83f2d868cfe6"/>
-          <diagram:target ref="e43d3c43-33c8-4b02-aa42-83f2d868cfe6"/>
+          <diagram:core ref="d2103b8a-0b36-480a-a31e-edd6937e6420"/>
+          <diagram:source ref="d71ff015-101c-4669-8745-312d1da34efe"/>
+          <diagram:target ref="2df7718f-d71e-4dbf-8327-e0ad36f03d5d"/>
         </diagram:connection>
       </diagram:connections>
     </diagram:diagram>

@@ -36,6 +36,7 @@ import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityNotFoundException;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.column.ColumnModel;
+import org.jiemamy.script.PlainScriptEngine;
 import org.jiemamy.script.ScriptString;
 import org.jiemamy.serializer.SerializationException;
 import org.jiemamy.serializer.stax2.DeserializationContext;
@@ -89,7 +90,10 @@ public final class DefaultRecordModelSerializationHandler extends SerializationH
 						assert strRef != null;
 						UUID refId = ctx.getContext().toUUID(strRef);
 						EntityRef<? extends ColumnModel> columnRef = DefaultEntityRef.of(refId);
-						String engine = childCursor.getAttrValue(CoreQName.ENGINE);
+						String engine = PlainScriptEngine.class.getName();
+						if (childCursor.hasAttr(CoreQName.ENGINE)) {
+							engine = childCursor.getAttrValue(CoreQName.ENGINE);
+						}
 						String value = childCursor.collectDescendantText(false);
 						values.put(columnRef, new ScriptString(value, engine));
 					} else {

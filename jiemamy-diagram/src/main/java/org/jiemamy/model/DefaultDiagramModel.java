@@ -111,8 +111,13 @@ public final class DefaultDiagramModel extends AbstractEntity implements Diagram
 	 * @throws EntityNotFoundException このダイアグラムが指定したノードを管理していない場合
 	 */
 	public NodeModel deleteNode(EntityRef<? extends NodeModel> reference) {
-		if (getSourceConnectionsFor(reference).size() > 0 || getTargetConnections(reference).size() > 0) {
-			throw new ModelConsistencyException();
+		Collection<? extends ConnectionModel> sourceConnections = getSourceConnectionsFor(reference);
+		if (sourceConnections.size() > 0) {
+			throw new ModelConsistencyException("node has source connections: " + sourceConnections);
+		}
+		Collection<? extends ConnectionModel> targetConnections = getTargetConnections(reference);
+		if (targetConnections.size() > 0) {
+			throw new ModelConsistencyException("node has target connections: " + targetConnections);
 		}
 		NodeModel deleted = nodes.delete(reference);
 		logger.info("node deleted: " + deleted);
@@ -280,9 +285,11 @@ public final class DefaultDiagramModel extends AbstractEntity implements Diagram
 	 */
 	public void store(ConnectionModel connectionModel) {
 		Validate.notNull(connectionModel);
-		if (nodes.contains(connectionModel.getSource()) == false
-				|| nodes.contains(connectionModel.getTarget()) == false) {
-			throw new ModelConsistencyException();
+		if (nodes.contains(connectionModel.getSource()) == false) {
+			throw new ModelConsistencyException("connection's source node is unknown: " + connectionModel.getSource());
+		}
+		if (nodes.contains(connectionModel.getTarget()) == false) {
+			throw new ModelConsistencyException("connection's target node is unknown: " + connectionModel.getTarget());
 		}
 		if (connectionModel.isSelfConnection() && connectionModel.getBendpoints().isEmpty()
 				&& connectionModel instanceof DefaultConnectionModel) {
