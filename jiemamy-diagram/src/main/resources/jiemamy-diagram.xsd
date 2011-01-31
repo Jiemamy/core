@@ -20,7 +20,7 @@
   <xsd:element name="diagrams">
     <xsd:complexType>
       <xsd:sequence maxOccurs="unbounded">
-        <xsd:element ref="diagram" maxOccurs="unbounded" />
+        <xsd:element ref="diagram" minOccurs="0" maxOccurs="unbounded" />
       </xsd:sequence>
     </xsd:complexType>
   </xsd:element>
