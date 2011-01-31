@@ -82,7 +82,7 @@ public final class DefaultDiagramModelSerializationHandler extends Serialization
 			do {
 				childCursor.advance();
 				if (childCursor.getCurrEvent() == SMEvent.START_ELEMENT) {
-					if (childCursor.isQName(CoreQName.NAME)) {
+					if (childCursor.isQName(DiagramQName.NAME)) {
 						diagramModel.setName(childCursor.collectDescendantText(false));
 					} else if (childCursor.isQName(DiagramQName.LEVEL)) {
 						String text = childCursor.collectDescendantText(false);
@@ -140,7 +140,7 @@ public final class DefaultDiagramModelSerializationHandler extends Serialization
 			diagramElement.addAttribute(CoreQName.ID, model.getId());
 			diagramElement.addAttribute(CoreQName.CLASS, model.getClass());
 			
-			diagramElement.addElementAndCharacters(CoreQName.NAME, model.getName());
+			diagramElement.addElementAndCharacters(DiagramQName.NAME, model.getName());
 			diagramElement.addElementAndCharacters(DiagramQName.LEVEL, model.getLevel());
 			diagramElement.addElementAndCharacters(DiagramQName.MODE, model.getMode());
 			

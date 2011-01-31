@@ -462,55 +462,68 @@
   </sql:sql>
   <diagram:diagrams xmlns:diagram="http://jiemamy.org/xml/ns/diagram">
     <diagram:diagram id="1deca0e8-6153-47ad-abe8-ac764f768d96">
-      <name>全部表示する</name>
-      <diagram:mode>PHYSICAL</diagram:mode>
+      <diagram:name>全部表示する</diagram:name>
       <diagram:level>ATTRTYPE</diagram:level>
-      <diagram:elements>
+      <diagram:mode>PHYSICAL</diagram:mode>
+      
+      <diagram:nodes>
         <diagram:node id="aa7caa23-7958-4bd0-a356-8f09d4b74f08">
-          <diagram:objectRef ref="9f522e56-809c-45fd-8416-39201014218b"/>
+          <diagram:core ref="9f522e56-809c-45fd-8416-39201014218b"/>
           <diagram:boundary height="-1" width="-1" x="360" y="60"/>
         </diagram:node>
         <diagram:node id="eb6506ef-4a25-4296-b6d7-c08741f19d5a">
-          <diagram:objectRef ref="d7489ed6-0add-443d-95cf-234376eb0455"/>
+          <diagram:core ref="d7489ed6-0add-443d-95cf-234376eb0455"/>
           <diagram:boundary height="-1" width="-1" x="60" y="60"/>
         </diagram:node>
         <diagram:node id="2387bfd0-7106-44ad-a34e-24231bbea6d5">
-          <diagram:objectRef ref="516f7961-cb7b-48e2-990b-7fb0c750c3a4"/>
+          <diagram:core ref="516f7961-cb7b-48e2-990b-7fb0c750c3a4"/>
           <diagram:boundary height="-1" width="-1" x="60" y="270"/>
         </diagram:node>
         <diagram:node id="2689d193-52a1-4fd4-a14c-9857274518c5" class="org.jiemamy.model.StickyNodeModel">
           <diagram:contents>メモーー</diagram:contents>
-          <diagram:boundary color="#0a0b0c" height="-1" width="-1" x="360" y="270"/>
+          <diagram:color red="10" green="11" blue="12"/>
+          <diagram:boundary height="-1" width="-1" x="360" y="270"/>
         </diagram:node>
+      </diagram:nodes>
+      <diagram:connections>
         <diagram:connection id="366b547f-a2a6-42b2-a3a4-38745436c425">
-          <diagram:objectRef ref="e43d3c43-33c8-4b02-aa42-83f2d868cfe6"/>
+          <diagram:core ref="e43d3c43-33c8-4b02-aa42-83f2d868cfe6"/>
+          <diagram:source ref="e43d3c43-33c8-4b02-aa42-83f2d868cfe6"/>
+          <diagram:target ref="e43d3c43-33c8-4b02-aa42-83f2d868cfe6"/>
           <diagram:bendpoints>
             <diagram:bendpoint x="310" y="60"/>
             <diagram:bendpoint x="360" y="10"/>
           </diagram:bendpoints>
         </diagram:connection>
-        <diagram:connectionProfile id="e5b3d709-2aea-4e26-a90c-b8f438d2da9d">
-          <diagram:objectRef ref="e7dd92b4-1d97-4be6-bab6-fa9fe26eb6ed"/>
-        </diagram:connectionProfile>
-      </diagram:elements>
+        <diagram:connection id="e5b3d709-2aea-4e26-a90c-b8f438d2da9d">
+          <diagram:core ref="e7dd92b4-1d97-4be6-bab6-fa9fe26eb6ed"/>
+          <diagram:source ref="e43d3c43-33c8-4b02-aa42-83f2d868cfe6"/>
+          <diagram:target ref="e43d3c43-33c8-4b02-aa42-83f2d868cfe6"/>
+          <diagram:bendpoints/>
+        </diagram:connection>
+      </diagram:connections>
     </diagram:diagram>
     <diagram:diagram id="53c7cdb7-1512-46c7-8ee3-aadec6007896">
-      <name>一部表示する</name>
-      <diagram:mode>PHYSICAL</diagram:mode>
+      <diagram:name>一部表示する</diagram:name>
       <diagram:level>ATTRTYPE</diagram:level>
-      <diagram:elements>
+      <diagram:mode>PHYSICAL</diagram:mode>
+      <diagram:nodes>
         <diagram:node id="d71ff015-101c-4669-8745-312d1da34efe">
-          <diagram:objectRef ref="9f522e56-809c-45fd-8416-39201014218b"/>
+          <diagram:core ref="9f522e56-809c-45fd-8416-39201014218b"/>
           <diagram:boundary height="-1" width="-1" x="60" y="60"/>
         </diagram:node>
         <diagram:node id="2df7718f-d71e-4dbf-8327-e0ad36f03d5d">
-          <diagram:objectRef ref="516f7961-cb7b-48e2-990b-7fb0c750c3a4"/>
+          <diagram:core ref="516f7961-cb7b-48e2-990b-7fb0c750c3a4"/>
           <diagram:boundary height="-1" width="-1" x="270" y="270"/>
         </diagram:node>
+      </diagram:nodes>
+      <diagram:connections>
         <diagram:connection id="b615f111-5143-4b12-bfdb-9a06806a9ace">
-          <diagram:objectRef ref="e7dd92b4-1d97-4be6-bab6-fa9fe26eb6ed"/>
+          <diagram:core ref="e7dd92b4-1d97-4be6-bab6-fa9fe26eb6ed"/>
+          <diagram:source ref="e43d3c43-33c8-4b02-aa42-83f2d868cfe6"/>
+          <diagram:target ref="e43d3c43-33c8-4b02-aa42-83f2d868cfe6"/>
         </diagram:connection>
-      </diagram:elements>
+      </diagram:connections>
     </diagram:diagram>
   </diagram:diagrams>
 </jiemamy>

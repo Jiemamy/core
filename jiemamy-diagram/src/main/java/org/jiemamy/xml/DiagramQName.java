@@ -35,6 +35,9 @@ public enum DiagramQName implements JiemamyQName {
 	DIAGRAM(DiagramNamespace.NS_DIAGRAM, "diagram"),
 
 	/***/
+	NAME(DiagramNamespace.NS_DIAGRAM, "name"),
+
+	/***/
 	NODE(DiagramNamespace.NS_DIAGRAM, "node"),
 
 	/***/

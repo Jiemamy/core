@@ -29,7 +29,6 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -37,7 +36,7 @@ import org.junit.Test;
  * 
  * @author daisuke
  */
-public class SampleXmlViewTest {
+public class SampleXmlDiagramTest {
 	
 	/**
 	 * sample.xmlとxsdの整合性をチェックする。
@@ -45,7 +44,7 @@ public class SampleXmlViewTest {
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	@Ignore("XMLの仕様がまた未定")
+//	@Ignore("XMLの仕様がまた未定")
 	public void test01_sample_xmlとxsdの整合性をチェックする() throws Exception {
 		// Windowsでは通り、Linuxではコケるので、ひとまずLinuxではテストしない。
 		assumeThat(System.getProperty("os.name").toLowerCase(), is(not("linux")));
@@ -53,12 +52,12 @@ public class SampleXmlViewTest {
 		// XML Schemaオブジェクトを作る
 		SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 		Schema schema = schemaFactory.newSchema(new Source[] {
-			new StreamSource(SampleXmlViewTest.class.getResourceAsStream("/jiemamy-core.xsd")),
-			new StreamSource(SampleXmlViewTest.class.getResourceAsStream("/jiemamy-diagram.xsd")),
+			new StreamSource(SampleXmlDiagramTest.class.getResourceAsStream("/jiemamy-core.xsd")),
+			new StreamSource(SampleXmlDiagramTest.class.getResourceAsStream("/jiemamy-diagram.xsd")),
 		});
 		
 		// 妥当性検証
 		Validator validator = schema.newValidator();
-		validator.validate(new StreamSource(SampleXmlViewTest.class.getResourceAsStream("/jiemamy-sample.xml")));
+		validator.validate(new StreamSource(SampleXmlDiagramTest.class.getResourceAsStream("/sample1.jiemamy.xml")));
 	}
 }

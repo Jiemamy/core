@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<jiemamy xmlns="http://jiemamy.org/xml/ns/core" version="0.3.0-SNAPSHOT">
+<jiemamy xmlns="http://jiemamy.org/xml/ns/core" version="0.3.0-SNAPSHOT"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://jiemamy.org/xml/ns/core ../../../../jiemamy-core/src/main/resources/jiemamy-core.xsd http://jiemamy.org/xml/ns/diagram ../../main/resources/jiemamy-diagram.xsd">
+
   <metadata class="org.jiemamy.DefaultContextMetadata">
     <dialect>org.jiemamy.dialect.GenericDialect</dialect>
   </metadata>
@@ -174,7 +177,7 @@
   <dataSets/>
   <diagram:diagrams xmlns:diagram="http://jiemamy.org/xml/ns/diagram">
     <diagram:diagram id="4026c70b-53f2-4ada-aebf-99a2b7d3a467" class="org.jiemamy.model.DefaultDiagramModel">
-      <name>default</name>
+      <diagram:name>default</diagram:name>
       <diagram:level>ATTRTYPE</diagram:level>
       <diagram:mode>PHYSICAL</diagram:mode>
       <diagram:nodes>

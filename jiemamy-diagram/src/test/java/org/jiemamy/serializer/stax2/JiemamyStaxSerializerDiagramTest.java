@@ -107,7 +107,7 @@ public class JiemamyStaxSerializerDiagramTest {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		serializer.serialize(context, baos);
 		String actual = baos.toString(CharEncoding.UTF_8);
-		String expected = getXml("diagram1.jiemamy");
+		String expected = getXml("diagram1.jiemamy.xml");
 		
 		logger.info("actual  ={}", actual.replaceAll("[\r\n]", ""));
 		logger.info("expected={}", expected.replaceAll("[\r\n]", ""));
@@ -127,7 +127,7 @@ public class JiemamyStaxSerializerDiagramTest {
 		UUID nodeId = UUID.fromString("c748964d-0ef5-492d-97c4-71e2124cf5d6");
 		UUID diagramId = UUID.fromString("a0ed1691-bf18-46e4-bc63-5ee4343588f8");
 		
-		String xml = getXml("diagram1.jiemamy");
+		String xml = getXml("diagram1.jiemamy.xml");
 		ByteArrayInputStream bais = new ByteArrayInputStream(xml.getBytes(CharEncoding.UTF_8));
 		JiemamyContext deserialized = serializer.deserialize(bais, DiagramFacet.PROVIDER);
 		
@@ -165,7 +165,7 @@ public class JiemamyStaxSerializerDiagramTest {
 		UUID empNodeId = UUID.fromString("52b1a1e8-737d-4df2-bc67-22aa8b74f562");
 		UUID connectionId = UUID.fromString("345125d6-1160-4c5d-a20d-654d6f37e4eb");
 		
-		String xml = getXml("diagram2.jiemamy");
+		String xml = getXml("diagram2.jiemamy.xml");
 		ByteArrayInputStream bais = new ByteArrayInputStream(xml.getBytes(CharEncoding.UTF_8));
 		JiemamyContext deserialized = serializer.deserialize(bais, DiagramFacet.PROVIDER);
 		
