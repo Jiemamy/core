@@ -26,6 +26,8 @@ import org.jiemamy.model.column.ColumnModel;
 /**
  * キー制約を表すインターフェイス。
  * 
+ * <p>このインターフェイスで定義する全てのメソッドは冪等でなければならない(must)。</p>
+ * 
  * @author daisuke
  */
 public interface KeyConstraintModel extends ConstraintModel {

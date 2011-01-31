@@ -25,6 +25,8 @@ import org.jiemamy.dddbase.EntityRef;
  * 
  * <p>内部キーとは、外部キーではないキー制約、すなわち {@link UniqueKeyConstraintModel} や {@link PrimaryKeyConstraintModel} の事である。</p>
  * 
+ * <p>このインターフェイスで定義する全てのメソッドは冪等でなければならない(must)。</p>
+ * 
  * @since 0.2
  * @author daisuke
  */

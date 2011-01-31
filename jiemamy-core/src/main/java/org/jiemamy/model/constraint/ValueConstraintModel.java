@@ -25,6 +25,8 @@ import org.jiemamy.dddbase.EntityRef;
  * 
  * <p>主にNOT NULL制約や、CHECK制約を表す。</p>
  * 
+ * <p>このインターフェイスで定義する全てのメソッドは冪等でなければならない(must)。</p>
+ * 
  * @since 0.2
  * @author daisuke
  */

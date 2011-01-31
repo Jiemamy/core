@@ -26,6 +26,8 @@ import org.jiemamy.model.geometory.JmRectangle;
 /**
  * ダイアグラム上のノードを表すインターフェイス。
  * 
+ * <p>このインターフェイスで定義する全てのメソッドは冪等でなければならない(must)。</p>
+ * 
  * @since 0.3
  * @author daisuke
  */

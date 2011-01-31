@@ -28,6 +28,8 @@ import org.jiemamy.model.table.TableModel;
 /**
  * INSERT用データセットを表すモデルインターフェイス。
  * 
+ * <p>このインターフェイスで定義する全てのメソッドは冪等でなければならない(must)。</p>
+ * 
  * @since 0.2
  * @author daisuke
  */

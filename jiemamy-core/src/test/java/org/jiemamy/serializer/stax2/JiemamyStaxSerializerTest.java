@@ -91,8 +91,8 @@ public class JiemamyStaxSerializerTest {
 		String actual = baos.toString(CharEncoding.UTF_8);
 		
 		String expected = getXml("core1.jiemamy");
-		System.out.println(actual);
-		System.out.println(expected);
+//		System.out.println(actual);
+//		System.out.println(expected);
 		
 		DetailedDiff diff = new DetailedDiff(new Diff(actual, expected));
 		assertThat(diff.getAllDifferences().toString(), diff.similar(), is(true));
@@ -237,8 +237,8 @@ public class JiemamyStaxSerializerTest {
 		String actual = baos.toString(CharEncoding.UTF_8);
 		String expected = getXml("core5.jiemamy");
 		
-		logger.info("actual  ={}", actual.replaceAll("[\n\r]", ""));
-		logger.info("expected={}", expected.replaceAll("[\n\r]", ""));
+//		logger.info("actual  ={}", actual.replaceAll("[\n\r]", ""));
+//		logger.info("expected={}", expected.replaceAll("[\n\r]", ""));
 		
 		DetailedDiff diff = new DetailedDiff(new Diff(actual, expected));
 		assertThat(diff.getAllDifferences().toString(), diff.similar(), is(true));
@@ -391,7 +391,7 @@ public class JiemamyStaxSerializerTest {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			serializer.serialize(original, baos);
 			String first = baos.toString(CharEncoding.UTF_8);
-			logger.info("1 = {}", first);
+//			logger.info("1 = {}", first);
 			FileUtils.write(file1, first);
 			
 			// そのXMLをデシリアライズしてみる

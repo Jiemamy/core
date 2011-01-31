@@ -42,7 +42,7 @@
             <xsd:documentation xml:lang="ja-JP">データセット定義部</xsd:documentation> 
           </xsd:annotation>
         </xsd:element>
-        <xsd:any minOccurs="0" maxOccurs="unbounded" processContents="lax"/>
+        <xsd:any minOccurs="0" maxOccurs="unbounded" processContents="lax" namespace="##other"/>
       </xsd:sequence>
       <xsd:attribute name="version" type="xsd:string" use="required">
         <xsd:annotation>

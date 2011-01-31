@@ -29,6 +29,8 @@ import org.jiemamy.model.geometory.JmPoint;
 /**
  * コネクションのビジュアル情報インターフェイス。
  * 
+ * <p>このインターフェイスで定義する全てのメソッドは冪等でなければならない(must)。</p>
+ * 
  * @since 0.2
  * @author daisuke
  */

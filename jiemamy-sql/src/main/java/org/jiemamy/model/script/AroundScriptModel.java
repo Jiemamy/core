@@ -27,6 +27,8 @@ import org.jiemamy.script.ScriptEngine;
 /**
  * 開始/終了スクリプトモデル。
  * 
+ * <p>このインターフェイスで定義する全てのメソッドは冪等でなければならない(must)。</p>
+ * 
  * @since 0.3
  * @author daisuke
  */

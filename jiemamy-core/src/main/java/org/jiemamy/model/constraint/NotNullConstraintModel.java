@@ -24,6 +24,8 @@ import org.jiemamy.model.column.ColumnModel;
 /**
  * NOT NULL制約を表すモデルインターフェイス。
  * 
+ * <p>このインターフェイスで定義する全てのメソッドは冪等でなければならない(must)。</p>
+ * 
  * @since 0.2
  * @author daisuke
  */

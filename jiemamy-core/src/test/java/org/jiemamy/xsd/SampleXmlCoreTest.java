@@ -30,6 +30,8 @@ import javax.xml.validation.Validator;
 
 import org.junit.Test;
 
+import org.jiemamy.JiemamyContext;
+
 /**
  * サンプルとして用意した sample.xml と、XML Schemaファイルの定義の整合性をチェックするテストクラス。
  * 
@@ -52,12 +54,12 @@ public class SampleXmlCoreTest {
 				SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema"/* XMLConstants.W3C_XML_SCHEMA_NS_URI */);
 		// HACK StAXをclasspathに入れると、XMLConstantsの仕様が変わって、上記フィールドにアクセスできなくなる。なんでじゃ。
 		Schema schema = schemaFactory.newSchema(new Source[] {
-			new StreamSource(SampleXmlCoreTest.class.getResourceAsStream("/jiemamy-core.xsd"))
+			new StreamSource(JiemamyContext.class.getResourceAsStream("/jiemamy-core.xsd"))
 		});
 		
 		// 妥当性検証
 		Validator validator = schema.newValidator();
-		validator.validate(new StreamSource(SampleXmlCoreTest.class.getResourceAsStream("/jiemamy-sample0.xml")));
-		validator.validate(new StreamSource(SampleXmlCoreTest.class.getResourceAsStream("/jiemamy-sample.xml")));
+		validator.validate(new StreamSource(JiemamyContext.class.getResourceAsStream("/jiemamy-sample0.xml")));
+		validator.validate(new StreamSource(JiemamyContext.class.getResourceAsStream("/jiemamy-sample.xml")));
 	}
 }

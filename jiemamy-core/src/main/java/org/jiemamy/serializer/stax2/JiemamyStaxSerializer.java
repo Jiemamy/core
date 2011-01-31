@@ -107,6 +107,9 @@ public class JiemamyStaxSerializer implements JiemamySerializer {
 					doc.closeRootAndWriter();
 				} catch (XMLStreamException e) {
 					// ignore
+//				} catch (IllegalStateException e) {
+//					e.printStackTrace();
+//					// ignore
 				}
 			}
 		}

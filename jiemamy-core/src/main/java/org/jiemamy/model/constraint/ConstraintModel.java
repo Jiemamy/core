@@ -24,6 +24,8 @@ import org.jiemamy.dddbase.EntityRef;
 /**
  * 制約を表すモデルのインターフェイス。
  * 
+ * <p>このインターフェイスで定義する全てのメソッドは冪等でなければならない(must)。</p>
+ * 
  * @author daisuke
  */
 public interface ConstraintModel extends Entity {

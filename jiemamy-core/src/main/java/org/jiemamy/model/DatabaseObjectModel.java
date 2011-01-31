@@ -29,6 +29,8 @@ import org.jiemamy.model.parameter.ParameterMap;
 /**
  * リレーショナルデータベースモデルにおける「CREATE対象」を表すモデルインターフェイス。
  * 
+ * <p>このインターフェイスで定義する全てのメソッドは冪等でなければならない(must)。</p>
+ * 
  * @since 0.3
  * @author daisuke
  */

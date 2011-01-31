@@ -23,6 +23,8 @@ import org.jiemamy.dddbase.EntityRef;
 /**
  * チェック制約を表すモデルインターフェイス。
  * 
+ * <p>このインターフェイスで定義する全てのメソッドは冪等でなければならない(must)。</p>
+ * 
  * @author daisuke
  */
 public interface CheckConstraintModel extends ValueConstraintModel {

@@ -38,6 +38,8 @@ import org.jiemamy.model.parameter.ParameterMap;
 /**
  * リレーショナルデータベースにおける「テーブル」を表すモデルインターフェイス。
  * 
+ * <p>このインターフェイスで定義する全てのメソッドは冪等でなければならない(must)。</p>
+ * 
  * @author daisuke
  */
 public interface TableModel extends DatabaseObjectModel, EntityResolver {

@@ -9,11 +9,11 @@
 		version="0.3">
 
 	<xsd:annotation>
-		<xsd:documentation xml:lang="en">Jiemamy view model schema</xsd:documentation> 
-		<xsd:documentation xml:lang="ja-JP">Jiemamyビューモデルスキーマ</xsd:documentation> 
+		<xsd:documentation xml:lang="en">Jiemamy diagram model schema</xsd:documentation> 
+		<xsd:documentation xml:lang="ja-JP">Jiemamyダイアグラムモデルスキーマ</xsd:documentation> 
 	</xsd:annotation>
 	
-	<xsd:import namespace="http://jiemamy.org/xml/ns/core" schemaLocation="../../../jiemamy-core/src/main/resources/jiemamy-core.xsd"/>
+	<xsd:import namespace="http://jiemamy.org/xml/ns/core" schemaLocation="jiemamy-core.xsd"/>
 
 	<xsd:element name="diagrams">
 		<xsd:complexType>
