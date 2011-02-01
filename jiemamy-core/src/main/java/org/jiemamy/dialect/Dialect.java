@@ -21,6 +21,7 @@ package org.jiemamy.dialect;
 import java.util.Collection;
 import java.util.List;
 
+import org.jiemamy.model.datatype.DataTypeCategory;
 import org.jiemamy.model.datatype.TypeReference;
 import org.jiemamy.validator.Validator;
 
@@ -95,21 +96,11 @@ public interface Dialect {
 	 */
 	Validator getValidator();
 	
-//	/**
-//	 * TODO for daisuke
-//	 * 
-//	 * @param typeName
-//	 * @return
-//	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-//	 * TODO 名前が変
-//	 */
-//	TypeReference normalize(String typeName);
-	
 	/**
-	 * TODO for daisuke
+	 * 型記述子を、このSQL方言による型記述子表現に正規化する。
 	 * 
-	 * @param in
-	 * @return
+	 * @param in 入力型記述子
+	 * @return 正規化した型記述子、正規化に失敗した場合は {@link DataTypeCategory#UNKNOWN} の型記述子となる。
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	TypeReference normalize(TypeReference in);
@@ -121,17 +112,4 @@ public interface Dialect {
 	 * @since 0.2
 	 */
 	String toString();
-	
-	String toString(TypeReference typeReference);
-	
-//	/**
-//	 * SQL文のリストから、{@link JiemamyContext} を生成する。
-//	 * 
-//	 * @param statements SQL文のリスト
-//	 * @return 生成した{@link RootModel}
-//	 * @throws UnsupportedOperationException 実装がこの機能を提供していない場合
-//	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-//	 * @since 0.2
-//	 */
-//	JiemamyContext parseStatements(List<SqlStatement> statements);
 }

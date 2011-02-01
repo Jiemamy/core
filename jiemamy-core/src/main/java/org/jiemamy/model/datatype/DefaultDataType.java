@@ -51,7 +51,7 @@ public final class DefaultDataType implements DataType {
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param typeReference
+	 * @param typeReference 型記述子
 	 */
 	public DefaultDataType(TypeReference typeReference) {
 		Validate.notNull(typeReference);

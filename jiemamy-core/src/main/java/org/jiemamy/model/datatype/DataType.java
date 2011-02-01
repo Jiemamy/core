@@ -21,12 +21,30 @@ package org.jiemamy.model.datatype;
 import org.jiemamy.model.parameter.ParameterMap;
 
 /**
- * 型記述子。
+ * データ型をあらわすインターフェイス。
+ * 
+ * <p>実質的に{@link TypeReference} + パラメータで成っている。</p>
+ * 
+ * <p>例えば「INTEGER」や「INTEGER(serial)」「VARCHAR(32)」など、DBのデータ型として
+ * 完成した形の型表現を表す。</p>
  * 
  * @author daisuke
+ * @see TypeReference
  */
 public interface DataType extends Cloneable {
 	
+	/**
+	 * 型記述子のクローンを取得する。
+	 * 
+	 * <p>この型のサブタイプは、必ずこのメソッドを再定義し、戻り値型を自分自身の型に共変して宣言
+	 * すべきである(should)。例えば、{@code FooType extends DataType} という型を宣言したら、
+	 * そのメソッドとして {@code FooType clone()} というシグネチャのメソッドを再定義
+	 * すべきである(should)。</p>
+	 * 
+	 * @return clone クローンオブジェクト
+	 * @since 1.0.0
+	 * @see Object#clone()
+	 */
 	DataType clone();
 	
 	/**
@@ -46,5 +64,10 @@ public interface DataType extends Cloneable {
 	 */
 	ParameterMap getParams();
 	
+	/**
+	 * 型記述子を取得する。
+	 * 
+	 * @return 型記述子
+	 */
 	TypeReference getTypeReference();
 }

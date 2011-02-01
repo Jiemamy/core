@@ -53,8 +53,8 @@ public abstract class AbstractDialect implements Dialect {
 	 * インスタンスを生成する。
 	 * 
 	 * @param connectionUriTemplate JDBC接続URLの雛形文字列
-	 * @param typeEntries 
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @param typeEntries 型エントリのリスト
+	 * @throws IllegalArgumentException 引数に{@code null}または{@code null}要素を与えた場合
 	 */
 	public AbstractDialect(String connectionUriTemplate, List<Entry> typeEntries) {
 		Validate.notNull(connectionUriTemplate);
@@ -76,6 +76,11 @@ public abstract class AbstractDialect implements Dialect {
 		return connectionUriTemplate;
 	}
 	
+	/**
+	 * 型エントリのリストを取得する。
+	 * 
+	 * @return 型エントリのリスト
+	 */
 	public List<Entry> getTypeEntries() {
 		return Lists.newArrayList(typeEntries);
 	}
@@ -97,15 +102,6 @@ public abstract class AbstractDialect implements Dialect {
 		return new AllValidator();
 	}
 	
-//	public final TypeReference normalize(String typeName) {
-//		for (Entry typeEntry : typeEntries) {
-//			if (typeEntry.descriptor.matches(typeName)) {
-//				return typeEntry.descriptor;
-//			}
-//		}
-//		return DefaultTypeReference.UNKNOWN;
-//	}
-	
 	public final TypeReference normalize(TypeReference in) {
 		TypeReference result = normalize0(in);
 		assert result.getCategory() == DataTypeCategory.UNKNOWN || getAllTypeReferences().contains(result) : result
@@ -113,10 +109,15 @@ public abstract class AbstractDialect implements Dialect {
 		return result;
 	}
 	
-	public String toString(TypeReference typeReference) {
-		return normalize(typeReference).getTypeName();
-	}
-	
+	/**
+	 * {@link #normalize(TypeReference)}の実装メソッド。
+	 * 
+	 * <p>このメソッドの戻り値は、 {@link #getAllTypeReferences()}に含まれる値であるか、
+	 * または {@link DefaultTypeReference#UNKNOWN} でなければならない。</p>
+	 * 
+	 * @param in 入力型記述子
+	 * @return 正規化した型記述子
+	 */
 	protected TypeReference normalize0(TypeReference in) {
 		for (Entry typeEntry : typeEntries) {
 			if (typeEntry.getDescriptor().equals(in)) {
@@ -134,7 +135,13 @@ public abstract class AbstractDialect implements Dialect {
 	}
 	
 
-	public static class Entry {
+	/**
+	 * 型エントリ。
+	 * 
+	 * @version $Id$
+	 * @author daisuke
+	 */
+	public static final class Entry {
 		
 		private final TypeReference descriptor;
 		
@@ -144,7 +151,8 @@ public abstract class AbstractDialect implements Dialect {
 		/**
 		 * インスタンスを生成する。
 		 * 
-		 * @param descriptor
+		 * @param descriptor {@link TypeReference}
+		 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 		 */
 		public Entry(TypeReference descriptor) {
 			this(descriptor, new ArrayList<TypeParameterSpec>());
@@ -153,8 +161,8 @@ public abstract class AbstractDialect implements Dialect {
 		/**
 		 * インスタンスを生成する。
 		 * 
-		 * @param descriptor
-		 * @param typeParameterSpecs
+		 * @param descriptor {@link TypeReference}
+		 * @param typeParameterSpecs {@link TypeParameterSpec}の集合
 		 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 		 */
 		public Entry(TypeReference descriptor, Collection<TypeParameterSpec> typeParameterSpecs) {
@@ -164,10 +172,20 @@ public abstract class AbstractDialect implements Dialect {
 			this.typeParameterSpecs = Lists.newArrayList(typeParameterSpecs);
 		}
 		
+		/**
+		 * {@link TypeReference}を取得する。
+		 * 
+		 * @return {@link TypeReference}
+		 */
 		public TypeReference getDescriptor() {
 			return descriptor;
 		}
 		
+		/**
+		 * {@link TypeParameterSpec}の集合を取得する。
+		 * 
+		 * @return {@link TypeParameterSpec}の集合
+		 */
 		public Collection<TypeParameterSpec> getTypeParameterSpecs() {
 			return typeParameterSpecs;
 		}

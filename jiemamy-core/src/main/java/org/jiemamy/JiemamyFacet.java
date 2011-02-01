@@ -38,9 +38,9 @@ import org.jiemamy.xml.JiemamyNamespace;
 public interface JiemamyFacet {
 	
 	/**
-	 * TODO for daisuke
+	 * このファセットが管理保持する {@link Entity} の集合を取得する。
 	 * 
-	 * @return
+	 * @return エンティティの集合
 	 */
 	Set<? extends Entity> getEntities();
 	
@@ -51,16 +51,26 @@ public interface JiemamyFacet {
 	 */
 	JiemamyNamespace[] getNamespaces();
 	
+	/**
+	 * このファセットが管理保持する {@link Entity} のリゾルバを取得する。
+	 * 
+	 * @return リゾルバ
+	 */
 	OnMemoryEntityResolver<?> getResolver();
 	
+	/**
+	 * このファセットが定義するXMLスキーマのロケーションを返す。
+	 * 
+	 * @return XMLスキーマのロケーション
+	 */
 	URL getSchema();
 	
 	/**
 	 * {@link SerializationDirector}に対して各種 {@link SerializationHandler} を設定する。
 	 * 
-	 * <p>このメソッドはユーザが呼び出すことを想定していない。</p>
+	 * <p>このメソッドはAPIユーザが呼び出すことを想定していない。</p>
 	 * 
-	 * @param serializationDirector
+	 * @param serializationDirector {@link SerializationDirector}
 	 */
 	void prepareSerializationHandlers(SerializationDirector serializationDirector);
 }

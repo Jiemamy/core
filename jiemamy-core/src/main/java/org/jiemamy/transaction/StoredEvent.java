@@ -24,11 +24,12 @@ import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.Repository;
 
 /**
- * モデルを編集するためのEDITコマンドのインターフェース。
+ * リポジトリの {@link Entity} が追加・変更・削除されたことを表すイベント。
  * 
  * <p>このインターフェイスの実装は、イミュータブルであることが望ましい。</p>
  * 
  * @since 0.2
+ * @param <T> 変更が起こったリポジトリが管理するエンティティの型
  * @author daisuke
  * @author shin1ogawa
  */
@@ -43,9 +44,9 @@ public class StoredEvent<T extends Entity> extends EventObject {
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param source 
-	 * @param before 
-	 * @param after 
+	 * @param source イベント発生元リポジトリ 
+	 * @param before 変更前のエンティティ（新規の場合は {@code null}）
+	 * @param after 変更後のエンティティ（削除の場合は {@code null}）
 	 */
 	public StoredEvent(Repository<T> source, T before, T after) {
 		super(source);
@@ -53,10 +54,20 @@ public class StoredEvent<T extends Entity> extends EventObject {
 		this.after = after;
 	}
 	
+	/**
+	 * 変更後のエンティティを取得する。
+	 * 
+	 * @return 変更後のエンティティ（削除の場合は {@code null}）
+	 */
 	public T getAfter() {
 		return after;
 	}
 	
+	/**
+	 * 変更前のエンティティを取得する。
+	 * 
+	 * @return 変更前のエンティティ（新規の場合は {@code null}）
+	 */
 	public T getBefore() {
 		return before;
 	}

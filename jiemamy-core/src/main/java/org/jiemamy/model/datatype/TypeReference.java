@@ -23,10 +23,13 @@ import java.util.Collection;
 import org.jiemamy.dddbase.ValueObject;
 
 /**
- * TODO for daisuke
+ * 型記述子インターフェイス。
+ * 
+ * <p>このインターフェイスで定義する全てのメソッドは冪等でなければならない(must)。</p>
  * 
  * @version $Id$
  * @author daisuke
+ * TODO rename to TypeDescriptor
  */
 public interface TypeReference extends ValueObject {
 	
@@ -50,12 +53,4 @@ public interface TypeReference extends ValueObject {
 	 * @return 型名の文字列
 	 */
 	String getTypeName();
-	
-	/**
-	 * TODO for daisuke
-	 * 
-	 * @param typeName
-	 * @return TODO 場合は{@code true}、そうでない場合は{@code false}
-	 */
-	boolean matches(String typeName);
 }

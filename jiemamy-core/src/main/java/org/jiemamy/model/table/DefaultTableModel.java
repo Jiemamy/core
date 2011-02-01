@@ -76,8 +76,8 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	 * @param tables 対象{@link TableModel}
 	 * @param columnModel 対象カラム
 	 * @return この属性が所属するテーブル
-	 * @throws TableNotFoundException
-	 * @throws TooManyTablesFoundException
+	 * @throws TableNotFoundException 候補の中から属するテーブルが見つからなかった場合
+	 * @throws TooManyTablesFoundException 候補の中に属するテーブルが複数見つかった場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public static TableModel findDeclaringTable(Collection<? extends TableModel> tables, final ColumnModel columnModel) {
@@ -105,8 +105,8 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	 * @param tables 対象{@link TableModel}
 	 * @param constraintModel 対象制約
 	 * @return この制約が所属するテーブル
-	 * @throws TableNotFoundException
-	 * @throws TooManyTablesFoundException
+	 * @throws TableNotFoundException 候補の中から属するテーブルが見つからなかった場合
+	 * @throws TooManyTablesFoundException 候補の中に属するテーブルが複数見つかった場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public static TableModel findDeclaringTable(Collection<? extends TableModel> tables,
@@ -154,7 +154,7 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	 * @param databaseObjects 対象{@link DatabaseObjectModel}
 	 * @param foreignKey 対象外部キー
 	 * @return 指定した外部キーが参照するキー. 該当するキーが存在しなかった場合、{@code null}
-	 * @throws ModelConsistencyException
+	 * @throws ModelConsistencyException 指定した外部キーが参照カラムを持っていない場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public static KeyConstraintModel findReferencedKeyConstraint(

@@ -133,11 +133,12 @@ public final class ScriptString {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * スクリプトを実行して、結果を得る。
 	 * 
-	 * @param env
+	 * @param env 環境オブジェクトの{@link Map}
 	 * @return 処理結果
-	 * @throws ClassNotFoundException 
+	 * @throws ClassNotFoundException {@link #scriptEngineClassName}に対応するエンジンが存在しない場合
+	 * @throws ClassCastException {@link #scriptEngineClassName}が {@link ScriptEngine} インターフェイスを持たない場合
 	 */
 	public String process(Map<String, Object> env) throws ClassNotFoundException {
 		if (scriptEngine == null) {

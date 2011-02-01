@@ -30,9 +30,16 @@ import org.apache.commons.lang.Validate;
  * 
  * @version $Id$
  * @author daisuke
+ * TODO rename to DefaultTypeDescriptor
  */
 public final class DefaultTypeReference implements TypeReference {
 	
+	/**
+	 * {@link DataTypeCategory#UNKNOWN}を表す型記述子
+	 * 
+	 * <p>他のどの型記述子オブジェクトとも{@link #equals(Object)}がfalseとなるよう、
+	 * {@link DefaultTypeReference}のインスタンスではない。</p>
+	 */
 	public static final TypeReference UNKNOWN = new TypeReference() {
 		
 		public Collection<String> getAliasTypeNames() {
@@ -45,10 +52,6 @@ public final class DefaultTypeReference implements TypeReference {
 		
 		public String getTypeName() {
 			return "UNKNOWN";
-		}
-		
-		public boolean matches(String typeName) {
-			return false;
 		}
 		
 		@Override
@@ -102,11 +105,11 @@ public final class DefaultTypeReference implements TypeReference {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		DefaultTypeReference other = (DefaultTypeReference) obj;
-		if (category != other.category) {
+		TypeReference other = (TypeReference) obj;
+		if (category != other.getCategory()) {
 			return false;
 		}
-		if (!typeName.equals(other.typeName)) {
+		if (typeName.equals(other.getTypeName()) == false) {
 			return false;
 		}
 		return true;
@@ -131,10 +134,6 @@ public final class DefaultTypeReference implements TypeReference {
 		result = prime * result + category.hashCode();
 		result = prime * result + typeName.hashCode();
 		return result;
-	}
-	
-	public boolean matches(String typeName) {
-		return this.typeName.equals(typeName) || getAliasTypeNames().contains(typeName);
 	}
 	
 	@Override

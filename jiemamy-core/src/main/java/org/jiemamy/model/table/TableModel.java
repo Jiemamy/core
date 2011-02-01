@@ -81,6 +81,13 @@ public interface TableModel extends DatabaseObjectModel, EntityResolver {
 	 */
 	List<ColumnModel> getColumns();
 	
+	/**
+	 * このテーブルが持つカラムのうち、指定した型を持つカラムのリストを返す。
+	 * 
+	 * @param <T> 型
+	 * @param clazz 型
+	 * @return 指定した型を持つカラムのリスト
+	 */
 	<T extends ColumnModel>List<T> getColumns(Class<T> clazz);
 	
 	/**

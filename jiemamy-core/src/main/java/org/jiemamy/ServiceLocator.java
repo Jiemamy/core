@@ -34,6 +34,7 @@ public interface ServiceLocator {
 	 * @param fqcn サービスクラスの完全修飾名
 	 * @return サービスインスタンス
 	 * @throws ClassNotFoundException サービスクラスが見つからない場合または引数に{@code null}を与えた場合
+	 * @throws ClassCastException {@code fqcn}で表すクラスが {@code clazz}型ではない場合
 	 * @since 0.3
 	 */
 	<T>T getService(Class<T> clazz, String fqcn) throws ClassNotFoundException;

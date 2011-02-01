@@ -44,15 +44,15 @@ import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.column.Column;
 import org.jiemamy.model.column.ColumnModel;
 import org.jiemamy.model.column.DefaultColumnModel;
+import org.jiemamy.model.constraint.DefaultForeignKeyConstraintModel;
 import org.jiemamy.model.constraint.DefaultNotNullConstraintModel;
 import org.jiemamy.model.constraint.DefaultPrimaryKeyConstraintModel;
-import org.jiemamy.model.constraint.ForeignKey;
 import org.jiemamy.model.dataset.DefaultDataSetModel;
 import org.jiemamy.model.dataset.DefaultRecordModel;
 import org.jiemamy.model.dataset.RecordModel;
 import org.jiemamy.model.datatype.DataTypeCategory;
-import org.jiemamy.model.datatype.DefaultTypeReference;
 import org.jiemamy.model.datatype.DefaultDataType;
+import org.jiemamy.model.datatype.DefaultTypeReference;
 import org.jiemamy.model.datatype.TypeParameterKey;
 import org.jiemamy.model.datatype.TypeReference;
 import org.jiemamy.model.sql.SqlStatement;
@@ -205,8 +205,8 @@ public class DefaultSqlEmitterTest {
 				.with(empMgrId)
 				.with(DefaultPrimaryKeyConstraintModel.of(empId))
 				.with(DefaultNotNullConstraintModel.of(empName))
-				.with(new ForeignKey().referencing(empDeptId, deptId).build())
-				.with(new ForeignKey().referencing(empMgrId, empId).build())
+				.with(DefaultForeignKeyConstraintModel.of(empDeptId, deptId))
+				.with(DefaultForeignKeyConstraintModel.of(empMgrId, empId))
 				.build();
 		// FORMAT-ON
 		context.store(dept);

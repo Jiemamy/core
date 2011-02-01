@@ -112,7 +112,7 @@ public abstract class AbstractIdentifierValidator extends AbstractValidator {
 		/**
 		 * インスタンスを生成する。
 		 * 
-		 * @param target 
+		 * @param target 空の名前を持つエンティティ
 		 */
 		public EmptyNameProblem(Entity target) {
 			super(target, "E0011");
