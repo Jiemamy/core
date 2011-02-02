@@ -65,6 +65,11 @@ public abstract class SerializationHandler<T> {
 	 */
 	public abstract void handleSerialization(T model, SerializationContext sctx) throws SerializationException;
 	
+	/**
+	 * ディレクタを取得する。
+	 * 
+	 * @return {@link SerializationDirector}
+	 */
 	protected SerializationDirector getDirector() {
 		return director;
 	}

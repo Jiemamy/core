@@ -22,15 +22,16 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.jiemamy.model.constraint.DeferrabilityModel.InitiallyCheckTime;
 import org.jiemamy.model.constraint.ForeignKeyConstraintModel.MatchType;
 import org.jiemamy.model.constraint.ForeignKeyConstraintModel.ReferentialAction;
+import org.jiemamy.model.datatype.DataType;
 import org.jiemamy.model.datatype.TypeParameterKey;
 import org.jiemamy.model.datatype.TypeReference;
-import org.jiemamy.model.datatype.DataType;
 import org.jiemamy.model.index.IndexColumnModel.SortOrder;
 import org.jiemamy.model.index.IndexModel;
 import org.jiemamy.model.sql.Keyword;
@@ -41,7 +42,7 @@ import org.jiemamy.model.table.TableModel;
 import org.jiemamy.model.view.ViewModel;
 
 /**
- * {@link TokenResolver}の標準実装クラス。
+ * {@link TokenResolver}のデフォルト実装クラス。
  * 
  * @author daisuke
  */
@@ -51,7 +52,7 @@ public class DefaultTokenResolver implements TokenResolver {
 	
 
 	public List<Token> resolve(Object value) {
-		List<Token> tokens = Lists.newArrayListWithCapacity(2);
+		List<Token> tokens = Lists.newArrayListWithExpectedSize(5);
 		if (value instanceof InitiallyCheckTime) {
 			InitiallyCheckTime initiallyCheckTime = (InitiallyCheckTime) value;
 			if (initiallyCheckTime == InitiallyCheckTime.IMMEDIATE) {
@@ -111,13 +112,16 @@ public class DefaultTokenResolver implements TokenResolver {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * データ型をトークン列に変換する。
 	 * 
-	 * @param type
-	 * @return
+	 * @param type 変換対象データ型
+	 * @return トークンシーケンス. 引数に{@code null}を与えた場合は空のリスト
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	protected List<Token> resolveType(DataType type) {
-		List<Token> result = Lists.newArrayList();
+		Validate.notNull(type);
+		
+		List<Token> result = Lists.newArrayListWithExpectedSize(5);
 		TypeReference typeReference = type.getTypeReference();
 		result.add(Keyword.of(typeReference.getTypeName()));
 		if (type.getParam(TypeParameterKey.SIZE) != null) {

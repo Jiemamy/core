@@ -39,6 +39,7 @@ import org.codehaus.staxmate.out.SMOutputDocument;
  */
 public abstract class AbstractSerializationHandlerTest {
 	
+	/** 改行文字列 */
 	protected static final String LF = "\n";
 	
 	private static final SMOutputFactory OUT_FACTORY = new SMOutputFactory(XMLOutputFactory.newInstance());
@@ -46,11 +47,25 @@ public abstract class AbstractSerializationHandlerTest {
 	private static final SMInputFactory IN_FACTORY = new SMInputFactory(XMLInputFactory.newInstance());
 	
 
+	/**
+	 * ルート要素のカーソルを取得する。
+	 * 
+	 * @param in XMLの入力ストリーム
+	 * @return カーソル
+	 * @throws XMLStreamException 例外が発生した場合
+	 */
 	protected SMHierarchicCursor getCursor(InputStream in) throws XMLStreamException {
 		SMHierarchicCursor cursor = IN_FACTORY.rootElementCursor(in);
 		return cursor;
 	}
 	
+	/**
+	 * 出力先ドキュメントを取得する。
+	 * 
+	 * @param out XMLの出力ストリーム
+	 * @return 出力先ドキュメント
+	 * @throws XMLStreamException 例外が発生した場合
+	 */
 	protected SMOutputDocument getDocument(OutputStream out) throws XMLStreamException {
 		SMOutputDocument doc = OUT_FACTORY.createOutputDocument(out);
 		doc.setIndentation("\n" + StringUtils.repeat("  ", 100), 1, 2); // CHECKSTYLE IGNORE THIS LINE

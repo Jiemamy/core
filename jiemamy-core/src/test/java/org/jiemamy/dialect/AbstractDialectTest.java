@@ -67,5 +67,10 @@ public abstract class AbstractDialectTest {
 		assertThat(dialect.getValidator(), is(notNullValue()));
 	}
 	
+	/**
+	 * テスト対象の {@link Dialect} インスタンスを取得する。
+	 * 
+	 * @return {@link Dialect}
+	 */
 	protected abstract Dialect getInstance();
 }

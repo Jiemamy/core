@@ -28,7 +28,7 @@ import org.jiemamy.JiemamyContext;
 import org.jiemamy.utils.sql.metadata.TypeSafeDatabaseMetaData;
 
 /**
- * TODO for daisuke
+ * {@link DatabaseMetadataParser}のデフォルト実装クラス。
  * 
  * @version $Id$
  * @author daisuke
@@ -45,8 +45,8 @@ public class DefaultDatabaseMetadataParser implements DatabaseMetadataParser {
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param doImportVisitor
-	 * @param fkImportVisitor
+	 * @param doImportVisitor {@link DatabaseObjectImportVisitor}
+	 * @param fkImportVisitor {@link ForeignKeyImportVisitor}
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public DefaultDatabaseMetadataParser(DatabaseObjectImportVisitor doImportVisitor,
@@ -59,6 +59,9 @@ public class DefaultDatabaseMetadataParser implements DatabaseMetadataParser {
 	
 	/**
 	 * インスタンスを生成する。
+	 * 
+	 * @param dialect {@link Dialect}
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public DefaultDatabaseMetadataParser(Dialect dialect) {
 		this(new DefaultDatabaseObjectImportVisitor(dialect), new DefaultForeignKeyImportVisitor(dialect));

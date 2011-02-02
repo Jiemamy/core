@@ -21,6 +21,8 @@ package org.jiemamy.validator;
 import java.util.Locale;
 import java.util.UUID;
 
+import org.apache.commons.lang.Validate;
+
 import org.jiemamy.JiemamyContext;
 
 /**
@@ -76,6 +78,16 @@ public interface Problem {
 	 */
 	Severity getSeverity();
 	
+	/**
+	 * この問題の主たる原因であろうと思われるエンティティのIDを返す。
+	 * 
+	 * <p>このIDが表すエンティティは、必ずしも原因であるとは限らない。
+	 * また、複数のエンティティが原因である場合でも、その中から任意の1エンティティを選んだ結果の
+	 * IDであり、毎回同じとも限らない。さらに、原因であろうエンティティが特定できない場合は
+	 * このメソッドは{@code null}を返す。</p>
+	 * 
+	 * @return エンティティのID
+	 */
 	UUID getTargetId();
 	
 	/**
@@ -112,7 +124,17 @@ public interface Problem {
 		/** 情報: 問題でなないが、何かしらの情報を表現したい場合 */
 		INFO(1);
 		
+		/**
+		 * エラーコード文字列から、重要度を割り出して返す。
+		 * 
+		 * <p>エラーコード文字列の先頭1文字が、重要度のイニシャルであるため、それを識別する。</p>
+		 * 
+		 * @param code エラーコード文字列
+		 * @return 重要度、一致する重要度が見つからなかった場合は{@code null}
+		 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+		 */
 		public static Severity fromErrorCode(String code) {
+			Validate.notNull(code);
 			for (Severity severity : values()) {
 				if (code.startsWith(Character.toString(severity.name().charAt(0)))) {
 					return severity;

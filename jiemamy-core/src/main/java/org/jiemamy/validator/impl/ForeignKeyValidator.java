@@ -25,7 +25,6 @@ import com.google.common.collect.Lists;
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.model.constraint.ForeignKeyConstraintModel;
 import org.jiemamy.model.constraint.KeyConstraintModel;
-import org.jiemamy.model.table.DefaultTableModel;
 import org.jiemamy.model.table.TableModel;
 import org.jiemamy.validator.AbstractProblem;
 import org.jiemamy.validator.AbstractValidator;
@@ -53,7 +52,7 @@ public class ForeignKeyValidator extends AbstractValidator {
 					problems.add(new ReferenceMappingProblem(foreignKey));
 				}
 				
-				if (DefaultTableModel.findReferencedKeyConstraint(context.getTables(), foreignKey) == null) {
+				if (foreignKey.findReferencedKeyConstraint(context.getTables()) == null) {
 					problems.add(new ReferenceKeyProblem(foreignKey));
 				}
 			}

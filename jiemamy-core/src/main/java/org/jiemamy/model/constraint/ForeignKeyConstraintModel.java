@@ -18,11 +18,16 @@
  */
 package org.jiemamy.model.constraint;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.model.DatabaseObjectModel;
+import org.jiemamy.model.ModelConsistencyException;
 import org.jiemamy.model.column.ColumnModel;
+import org.jiemamy.model.table.TableModel;
 
 /**
  * リレーショナルデータベースにおける「外部キー」を表すモデルインターフェイス。
@@ -35,6 +40,24 @@ import org.jiemamy.model.column.ColumnModel;
 public interface ForeignKeyConstraintModel extends KeyConstraintModel {
 	
 	ForeignKeyConstraintModel clone();
+	
+	/**
+	 * {@code databaseObjects}の中から、指定した外部キーが参照するキー制約を取得する。
+	 * 
+	 * @param databaseObjects 対象{@link DatabaseObjectModel}
+	 * @return 指定した外部キーが参照するキー. 該当するキーが存在しなかった場合、{@code null}
+	 * @throws ModelConsistencyException 指定した外部キーが参照カラムを持っていない場合
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	KeyConstraintModel findReferencedKeyConstraint(Collection<? extends DatabaseObjectModel> databaseObjects);
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param tables
+	 * @return
+	 */
+	TableModel findReferenceTable(Set<TableModel> tables);
 	
 	/**
 	 * マッチ型を取得する。
@@ -75,6 +98,7 @@ public interface ForeignKeyConstraintModel extends KeyConstraintModel {
 	 * 
 	 * @param context コンテキスト
 	 * @return 自己参照外部キーである場合は{@code true}、そうでない場合は{@code false}
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	boolean isSelfReference(JiemamyContext context);
 	

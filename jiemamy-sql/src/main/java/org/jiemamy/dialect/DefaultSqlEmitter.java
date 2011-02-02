@@ -48,9 +48,9 @@ import org.jiemamy.model.constraint.PrimaryKeyConstraintModel;
 import org.jiemamy.model.constraint.UniqueKeyConstraintModel;
 import org.jiemamy.model.dataset.DataSetModel;
 import org.jiemamy.model.dataset.RecordModel;
+import org.jiemamy.model.datatype.DataType;
 import org.jiemamy.model.datatype.DataTypeCategory;
 import org.jiemamy.model.datatype.LiteralType;
-import org.jiemamy.model.datatype.DataType;
 import org.jiemamy.model.index.IndexColumnModel;
 import org.jiemamy.model.index.IndexColumnModel.SortOrder;
 import org.jiemamy.model.index.IndexModel;
@@ -64,7 +64,6 @@ import org.jiemamy.model.sql.Literal;
 import org.jiemamy.model.sql.Separator;
 import org.jiemamy.model.sql.SqlStatement;
 import org.jiemamy.model.sql.Token;
-import org.jiemamy.model.table.DefaultTableModel;
 import org.jiemamy.model.table.TableModel;
 import org.jiemamy.model.view.ViewModel;
 import org.jiemamy.script.ScriptString;
@@ -522,8 +521,7 @@ public class DefaultSqlEmitter implements SqlEmitter {
 				addColumnList(context, tokens, foreignKey.getKeyColumns());
 				tokens.add(Keyword.REFERENCES);
 				
-				DatabaseObjectModel referenceEntity =
-						DefaultTableModel.findReferencedDatabaseObject(context.getDatabaseObjects(), foreignKey);
+				TableModel referenceEntity = foreignKey.findReferenceTable(context.getTables());
 				tokens.add(Identifier.of(referenceEntity.getName()));
 				addColumnList(context, tokens, foreignKey.getReferenceColumns());
 				

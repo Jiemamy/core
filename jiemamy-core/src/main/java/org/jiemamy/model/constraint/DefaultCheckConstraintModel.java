@@ -24,7 +24,7 @@ import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
 
 /**
- * チェック制約のモデル。
+ * {@link CheckConstraintModel}のデフォルト実装クラス。
  * 
  * @author daisuke
  */
@@ -81,6 +81,11 @@ public final class DefaultCheckConstraintModel extends AbstractValueConstraintMo
 		return expression;
 	}
 	
+	/**
+	 * CHECK制約定義式を設定する。
+	 * 
+	 * @param expression CHECK制約定義式
+	 */
 	public void setExpression(String expression) {
 		this.expression = expression;
 	}

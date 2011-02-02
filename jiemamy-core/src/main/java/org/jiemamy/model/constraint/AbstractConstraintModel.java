@@ -18,11 +18,16 @@
  */
 package org.jiemamy.model.constraint;
 
+import java.util.Collection;
 import java.util.UUID;
 
+import org.apache.commons.lang.Validate;
+
+import org.jiemamy.TableNotFoundException;
 import org.jiemamy.dddbase.AbstractEntity;
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.model.table.TableModel;
 
 /**
  * 抽象制約モデル。
@@ -60,6 +65,17 @@ public abstract class AbstractConstraintModel extends AbstractEntity implements 
 		return clone;
 	}
 	
+	public TableModel findDeclaringTable(Collection<TableModel> tables) {
+		Validate.noNullElements(tables);
+		for (TableModel tableModel : tables) {
+			if (tableModel.getConstraints().contains(this)) {
+				// TODO TooManyTablesFoundException処理の実装をまだしていない
+				return tableModel;
+			}
+		}
+		throw new TableNotFoundException("contains " + this + " in " + tables);
+	}
+	
 	public DeferrabilityModel getDeferrability() {
 		return deferrability;
 	}
@@ -76,18 +92,38 @@ public abstract class AbstractConstraintModel extends AbstractEntity implements 
 		return name;
 	}
 	
+	/**
+	 * 遅延評価可能性モデルを設定する。
+	 * 
+	 * @param deferrability 遅延評価可能性モデル
+	 */
 	public void setDeferrability(DeferrabilityModel deferrability) {
 		this.deferrability = deferrability;
 	}
 	
+	/**
+	 * 説明を設定する。
+	 * 
+	 * @param description 説明
+	 */
 	public void setDescription(String description) {
 		this.description = description;
 	}
 	
+	/**
+	 * 論理名を設定する。
+	 * 
+	 * @param logicalName 論理名
+	 */
 	public void setLogicalName(String logicalName) {
 		this.logicalName = logicalName;
 	}
 	
+	/**
+	 * 物理名を設定する。
+	 * 
+	 * @param name 物理名
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}

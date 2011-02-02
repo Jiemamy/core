@@ -46,7 +46,6 @@ import org.jiemamy.dddbase.OrderedOnMemoryRepository;
 import org.jiemamy.dddbase.utils.MutationMonitor;
 import org.jiemamy.model.DatabaseObjectModel;
 import org.jiemamy.model.DefaultDatabaseObjectModel;
-import org.jiemamy.model.ModelConsistencyException;
 import org.jiemamy.model.column.ColumnModel;
 import org.jiemamy.model.constraint.ConstraintModel;
 import org.jiemamy.model.constraint.ForeignKeyConstraintModel;
@@ -129,52 +128,14 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 		}
 	}
 	
-	public static DatabaseObjectModel findReferencedDatabaseObject(
-			Collection<? extends DatabaseObjectModel> databaseObjects, ForeignKeyConstraintModel foreignKey) {
-		Validate.noNullElements(databaseObjects);
-		Validate.notNull(foreignKey);
-		if (foreignKey.getReferenceColumns().size() == 0) {
-			throw new ModelConsistencyException();
-		}
-		EntityRef<? extends ColumnModel> columnRef = foreignKey.getReferenceColumns().get(0);
-		
-		for (DatabaseObjectModel databaseObject : databaseObjects) {
-			for (Entity entity : databaseObject.getSubEntities()) {
-				if (columnRef.isReferenceOf(entity)) {
-					return databaseObject;
-				}
+	private static Set<TableModel> filter(Set<DatabaseObjectModel> databaseObjects) {
+		Set<TableModel> result = Sets.newHashSet();
+		for (DatabaseObjectModel databaseObjectModel : databaseObjects) {
+			if (databaseObjectModel instanceof TableModel) {
+				result.add((TableModel) databaseObjectModel);
 			}
 		}
-		return null;
-	}
-	
-	/**
-	 * {@code databaseObjects}の中から、指定した外部キーが参照するキー制約を取得する。
-	 * 
-	 * @param databaseObjects 対象{@link DatabaseObjectModel}
-	 * @param foreignKey 対象外部キー
-	 * @return 指定した外部キーが参照するキー. 該当するキーが存在しなかった場合、{@code null}
-	 * @throws ModelConsistencyException 指定した外部キーが参照カラムを持っていない場合
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 */
-	public static KeyConstraintModel findReferencedKeyConstraint(
-			Collection<? extends DatabaseObjectModel> databaseObjects, ForeignKeyConstraintModel foreignKey) {
-		Validate.noNullElements(databaseObjects);
-		Validate.notNull(foreignKey);
-		if (foreignKey.getReferenceColumns().size() == 0) {
-			throw new ModelConsistencyException();
-		}
-		EntityRef<? extends ColumnModel> columnRef = foreignKey.getReferenceColumns().get(0);
-		
-		for (DatabaseObjectModel databaseObject : databaseObjects) {
-			for (Entity entity : databaseObject.getSubEntities()) {
-				if (columnRef.isReferenceOf(entity)) {
-					TableModel tableModel = (TableModel) databaseObject;
-					return tableModel.findReferencedKeyConstraint(foreignKey);
-				}
-			}
-		}
-		return null;
+		return result;
 	}
 	
 
@@ -266,7 +227,10 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 		Validate.notNull(databaseObjects);
 		Set<DatabaseObjectModel> results = Sets.newHashSet();
 		for (ForeignKeyConstraintModel foreignKey : getForeignKeyConstraintModels()) {
-			results.add(findReferencedDatabaseObject(databaseObjects, foreignKey));
+			KeyConstraintModel referencedKeyConstraint = foreignKey.findReferencedKeyConstraint(databaseObjects);
+			TableModel declaringTable =
+					referencedKeyConstraint.findDeclaringTable(DefaultTableModel.filter(databaseObjects));
+			results.add(declaringTable);
 		}
 		return results;
 	}

@@ -37,8 +37,10 @@ public final class DefaultDataType implements DataType {
 	 * 
 	 * @param category 型カテゴリ
 	 * @return 型記述子
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public static DefaultDataType of(DataTypeCategory category) {
+		Validate.notNull(category);
 		return new DefaultDataType(new DefaultTypeReference(category));
 	}
 	
@@ -52,6 +54,7 @@ public final class DefaultDataType implements DataType {
 	 * インスタンスを生成する。
 	 * 
 	 * @param typeReference 型記述子
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public DefaultDataType(TypeReference typeReference) {
 		Validate.notNull(typeReference);
@@ -81,14 +84,10 @@ public final class DefaultDataType implements DataType {
 			return false;
 		}
 		DefaultDataType other = (DefaultDataType) obj;
-		if (!params.equals(other.params)) {
+		if (params.equals(other.params) == false) {
 			return false;
 		}
-		if (typeReference == null) {
-			if (other.typeReference != null) {
-				return false;
-			}
-		} else if (!typeReference.equals(other.typeReference)) {
+		if (typeReference.equals(other.typeReference) == false) {
 			return false;
 		}
 		return true;
@@ -111,11 +110,23 @@ public final class DefaultDataType implements DataType {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + params.hashCode();
-		result = prime * result + ((typeReference == null) ? 0 : typeReference.hashCode());
+		result = prime * result + typeReference.hashCode();
 		return result;
 	}
 	
+	/**
+	 * {@link String}型でパラメータを追加する。
+	 * 
+	 * <p>このメソッドはタイプセーフを失うので、通常は {@link #putParam(TypeParameterKey, Object)}
+	 * を利用すべきである。</p>
+	 * 
+	 * @param key キー
+	 * @param value 値
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
 	public void putParam(String key, String value) {
+		Validate.notNull(key);
+		Validate.notNull(value);
 		params.put(key, value);
 	}
 	
@@ -128,6 +139,8 @@ public final class DefaultDataType implements DataType {
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public <T>void putParam(TypeParameterKey<T> key, T value) {
+		Validate.notNull(key);
+		Validate.notNull(value);
 		params.put(key, value);
 	}
 	
@@ -138,9 +151,16 @@ public final class DefaultDataType implements DataType {
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public void removeParam(TypeParameterKey<?> key) {
+		Validate.notNull(key);
 		params.remove(key);
 	}
 	
+	/**
+	 * 型記述子を設定する。
+	 * 
+	 * @param typeReference 型記述子
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
 	public void setTypeReference(TypeReference typeReference) {
 		this.typeReference = typeReference;
 	}

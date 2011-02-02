@@ -20,6 +20,7 @@ package org.jiemamy.model.constraint;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import com.google.common.collect.Lists;
@@ -27,11 +28,13 @@ import com.google.common.collect.Lists;
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.TableNotFoundException;
 import org.jiemamy.dddbase.DefaultEntityRef;
+import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.utils.CloneUtil;
 import org.jiemamy.dddbase.utils.MutationMonitor;
+import org.jiemamy.model.DatabaseObjectModel;
+import org.jiemamy.model.ModelConsistencyException;
 import org.jiemamy.model.column.ColumnModel;
 import org.jiemamy.model.table.TableModel;
 
@@ -84,11 +87,44 @@ public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstrain
 		super(id);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * <p>この実装では、このメソッドは必ず {@link #addReferenceColumn(EntityRef)}と
+	 * ペアで利用し、それぞれのカラム数が一致するように注意しなければならない。
+	 * この契約に違反しないために、基本的にこのメソッドの利用は推奨せず、代わりに
+	 * {@link #addReferencing(EntityRef, EntityRef)}を利用すべきである。</p>
+	 */
+	@Override
+	public void addKeyColumn(EntityRef<? extends ColumnModel> keyColumn) {
+		// javadocのためにオーバーライドし、FindBugs警告を消すためにnullチェックした
+		Validate.notNull(keyColumn);
+		super.addKeyColumn(keyColumn);
+	}
+	
+	/**
+	 * 参照カラムを追加する。
+	 * 
+	 * <p>この実装では、このメソッドは必ず {@link #addKeyColumn(EntityRef)}と
+	 * ペアで利用し、それぞれのカラム数が一致するように注意しなければならない。
+	 * この契約に違反しないために、基本的にこのメソッドの利用は推奨せず、代わりに
+	 * {@link #addReferencing(EntityRef, EntityRef)}を利用すべきである。</p>
+	 * 
+	 * @param refColumn 参照カラム
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
 	public void addReferenceColumn(EntityRef<? extends ColumnModel> refColumn) {
 		Validate.notNull(refColumn);
 		referenceColumns.add(refColumn);
 	}
 	
+	/**
+	 * キーカラムと参照カラムのペアを追加する。
+	 * 
+	 * @param key キーカラム
+	 * @param ref 参照カラム
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
 	public void addReferencing(EntityRef<? extends ColumnModel> key, EntityRef<? extends ColumnModel> ref) {
 		Validate.notNull(key);
 		Validate.notNull(ref);
@@ -109,13 +145,30 @@ public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstrain
 		return clone;
 	}
 	
-	public TableModel findDeclaringTable(Collection<TableModel> tables) {
-		for (TableModel tableModel : tables) {
-			if (tableModel.getConstraints().contains(this)) {
-				return tableModel;
+	public KeyConstraintModel findReferencedKeyConstraint(Collection<? extends DatabaseObjectModel> databaseObjects) {
+		Validate.noNullElements(databaseObjects);
+		
+		List<EntityRef<? extends ColumnModel>> referenceColumns = getReferenceColumns();
+		if (referenceColumns.size() == 0) {
+			throw new ModelConsistencyException();
+		}
+		EntityRef<? extends ColumnModel> columnRef = referenceColumns.get(0);
+		
+		for (DatabaseObjectModel databaseObject : databaseObjects) {
+			for (Entity entity : databaseObject.getSubEntities()) {
+				if (columnRef.isReferenceOf(entity)) {
+					TableModel tableModel = (TableModel) databaseObject;
+					return tableModel.findReferencedKeyConstraint(this);
+				}
 			}
 		}
-		throw new TableNotFoundException("contains " + this + " in " + tables);
+		return null;
+	}
+	
+	public TableModel findReferenceTable(Set<TableModel> tables) {
+		Validate.noNullElements(tables);
+		KeyConstraintModel keyConstraint = findReferencedKeyConstraint(tables);
+		return keyConstraint.findDeclaringTable(tables);
 	}
 	
 	public MatchType getMatchType() {
@@ -135,18 +188,37 @@ public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstrain
 	}
 	
 	public boolean isSelfReference(JiemamyContext context) {
-		// TODO Auto-generated method stub
-		return false;
+		Validate.notNull(context);
+		Set<TableModel> tables = context.getTables();
+		TableModel declaringTableOfForeignKey = findDeclaringTable(tables);
+		KeyConstraintModel referencedKeyConstraint = findReferencedKeyConstraint(tables);
+		TableModel declaringTableOfReferenceKey = referencedKeyConstraint.findDeclaringTable(tables);
+		return declaringTableOfForeignKey.equals(declaringTableOfReferenceKey);
 	}
 	
+	/**
+	 * マッチ型を設定する。
+	 * 
+	 * @param matchType マッチ型
+	 */
 	public void setMatchType(MatchType matchType) {
 		this.matchType = matchType;
 	}
 	
+	/**
+	 * 削除時アクションを設定する。
+	 * 
+	 * @param onDelete 削除時アクション
+	 */
 	public void setOnDelete(ReferentialAction onDelete) {
 		this.onDelete = onDelete;
 	}
 	
+	/**
+	 * 更新時アクションを設定する。
+	 * 
+	 * @param onUpdate 更新時アクション
+	 */
 	public void setOnUpdate(ReferentialAction onUpdate) {
 		this.onUpdate = onUpdate;
 	}

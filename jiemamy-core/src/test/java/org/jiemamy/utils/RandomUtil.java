@@ -93,10 +93,21 @@ public final class RandomUtil {
 		return Math.abs(R.nextInt()) % limit;
 	}
 	
+	/**
+	 * メジャーなメタ構文変数（foo, barなど）をランダムで生成する。
+	 * 
+	 * @return メタ構文変数
+	 */
 	public static String meta() {
 		return meta(1);
 	}
 	
+	/**
+	 * メジャーなメタ構文変数（foo, barなど）を複数個連結したものをランダムで生成する。
+	 * 
+	 * @param size 連結数
+	 * @return メタ構文変数
+	 */
 	public static String meta(int size) {
 		StrBuilder sb = new StrBuilder();
 		for (int i = 0; i < size; i++) {

@@ -36,7 +36,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.model.DatabaseObjectModel;
 import org.jiemamy.model.column.Column;
 import org.jiemamy.model.column.ColumnModel;
 import org.jiemamy.model.column.ColumnParameterKey;
@@ -368,8 +367,8 @@ public class DefaultTableModelTest {
 		ColumnModel c;
 		ColumnModel d;
 		ColumnModel e;
-		ForeignKeyConstraintModel fk12;
-		ForeignKeyConstraintModel fk23;
+		ForeignKeyConstraintModel fk21;
+		ForeignKeyConstraintModel fk32;
 		KeyConstraintModel pk1;
 		KeyConstraintModel pk2;
 		
@@ -383,22 +382,24 @@ public class DefaultTableModelTest {
 				.with(c = new Column("C").build())
 				.with(d = new Column("D").build())
 				.with(pk2 = DefaultPrimaryKeyConstraintModel.of(d))
-				.with(fk12 = DefaultForeignKeyConstraintModel.of(c, b))
+				.with(fk21 = DefaultForeignKeyConstraintModel.of(c, b))
 				.build();
 		TableModel t3 = new Table("THREE")
 				.with(e = new Column("E").build())
 				.with(new Column("F").build())
-				.with(fk23 = DefaultForeignKeyConstraintModel.of(e, d))
+				.with(fk32 = DefaultForeignKeyConstraintModel.of(e, d))
 				.build();
 		
 		ctx.store(t1);
 		ctx.store(t2);
 		ctx.store(t3);
 		
-		assertThat(DefaultTableModel.findReferencedDatabaseObject(ctx.getDatabaseObjects(), fk12), is((DatabaseObjectModel) t1));
-		assertThat(DefaultTableModel.findReferencedDatabaseObject(ctx.getDatabaseObjects(), fk23), is((DatabaseObjectModel) t2));
-		assertThat(DefaultTableModel.findReferencedKeyConstraint(ctx.getDatabaseObjects(), fk12), is(pk1));
-		assertThat(DefaultTableModel.findReferencedKeyConstraint(ctx.getDatabaseObjects(), fk23), is(pk2));
+		assertThat(fk21.findDeclaringTable(ctx.getTables()), is(t2));
+		assertThat(fk32.findDeclaringTable(ctx.getTables()), is(t3));
+		assertThat(fk21.findReferenceTable(ctx.getTables()), is(t1));
+		assertThat(fk32.findReferenceTable(ctx.getTables()), is(t2));
+		assertThat(fk21.findReferencedKeyConstraint(ctx.getDatabaseObjects()), is(pk1));
+		assertThat(fk32.findReferencedKeyConstraint(ctx.getDatabaseObjects()), is(pk2));
 		// FORMAT-ON
 	}
 }

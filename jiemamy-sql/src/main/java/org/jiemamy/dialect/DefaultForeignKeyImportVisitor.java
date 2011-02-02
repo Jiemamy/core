@@ -52,9 +52,13 @@ public class DefaultForeignKeyImportVisitor extends AbstractCollectionVisitor<Ke
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param dialect
+	 * @param dialect {@link Dialect}
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public DefaultForeignKeyImportVisitor(Dialect dialect) {
+		Validate.notNull(dialect);
+		// 現状dialectは無視する。
+		// DefaultDatabaseObjectImportVisitorとの対称性を維持するために引数に持っている。
 	}
 	
 	public void initialize(JiemamyContext context) {

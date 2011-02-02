@@ -19,13 +19,24 @@
 package org.jiemamy;
 
 /**
- * TODO for daisuke
+ * {@link JiemamyContext}に対するメタデータを表すインターフェイス。
  * 
  * @version $Id$
  * @author daisuke
  */
 public interface ContextMetadata extends Cloneable {
 	
+	/**
+	 * {@link ContextMetadata}のクローンを取得する。
+	 * 
+	 * <p>この型のサブタイプは、必ずこのメソッドを再定義し、戻り値型を自分自身の型に共変して宣言
+	 * すべきである(should)。例えば、{@code FooMetadata extends ContextMetadata} という型を宣言したら、
+	 * そのメソッドとして {@code FooMetadata clone()} というシグネチャのメソッドを再定義
+	 * すべきである(should)。</p>
+	 * 
+	 * @return clone クローンオブジェクト
+	 * @see Object#clone()
+	 */
 	ContextMetadata clone();
 	
 	/**

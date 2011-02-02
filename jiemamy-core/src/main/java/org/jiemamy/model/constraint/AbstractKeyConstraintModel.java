@@ -52,11 +52,20 @@ public abstract class AbstractKeyConstraintModel extends AbstractConstraintModel
 		super(id);
 	}
 	
+	/**
+	 * キーカラムを追加する。
+	 * 
+	 * @param keyColumn キーカラム参照
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
 	public void addKeyColumn(EntityRef<? extends ColumnModel> keyColumn) {
 		Validate.notNull(keyColumn);
 		keyColumns.add(keyColumn);
 	}
 	
+	/**
+	 * キーカラムを全削除する。
+	 */
 	public void clearKeyColumns() {
 		keyColumns.clear();
 	}
@@ -72,6 +81,14 @@ public abstract class AbstractKeyConstraintModel extends AbstractConstraintModel
 		return MutationMonitor.monitor(Lists.newArrayList(keyColumns));
 	}
 	
+	/**
+	 * キーカラムを削除する。
+	 * 
+	 * <p>指定したキーカラムが見つからなかった場合は、何もしない。</p>
+	 * 
+	 * @param keyColumn キーカラム参照
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
 	public void removeKeyColumn(EntityRef<? extends ColumnModel> keyColumn) {
 		Validate.notNull(keyColumn);
 		keyColumns.remove(keyColumn);

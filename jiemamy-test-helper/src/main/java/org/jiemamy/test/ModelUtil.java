@@ -22,6 +22,8 @@ import java.util.HashMap;
 
 import com.google.common.collect.Maps;
 
+import org.apache.commons.lang.Validate;
+
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dialect.Dialect;
@@ -29,8 +31,8 @@ import org.jiemamy.dialect.GenericDialect;
 import org.jiemamy.model.column.ColumnModel;
 import org.jiemamy.model.dataset.DefaultRecordModel;
 import org.jiemamy.model.datatype.DataTypeCategory;
-import org.jiemamy.model.datatype.DefaultTypeReference;
 import org.jiemamy.model.datatype.DefaultDataType;
+import org.jiemamy.model.datatype.DefaultTypeReference;
 import org.jiemamy.model.datatype.TypeReference;
 import org.jiemamy.script.ScriptString;
 
@@ -42,9 +44,9 @@ import org.jiemamy.script.ScriptString;
 final class ModelUtil {
 	
 	/**
-	 * TODO for daisuke
+	 * 新しい {@link RecordBuilder} を返す。
 	 * 
-	 * @return
+	 * @return new {@link RecordBuilder}
 	 */
 	public static RecordBuilder newRecord() {
 		return new RecordBuilder();
@@ -81,6 +83,8 @@ final class ModelUtil {
 		}
 		
 		public RecordBuilder addValue(ColumnModel col, String val) {
+			Validate.notNull(col);
+			Validate.notNull(val);
 			map.put(col.toReference(), new ScriptString(val));
 			return this;
 		}

@@ -32,10 +32,10 @@ import org.jiemamy.dddbase.utils.CloneUtil;
 import org.jiemamy.dddbase.utils.MutationMonitor;
 import org.jiemamy.model.DefaultDatabaseObjectModel;
 import org.jiemamy.model.constraint.CheckConstraintModel;
+import org.jiemamy.model.datatype.DataType;
 import org.jiemamy.model.datatype.DataTypeCategory;
 import org.jiemamy.model.datatype.TypeParameterKey;
 import org.jiemamy.model.datatype.TypeReference;
-import org.jiemamy.model.datatype.DataType;
 import org.jiemamy.model.parameter.ParameterMap;
 
 /**
@@ -80,10 +80,6 @@ public final class DefaultDomainModel extends DefaultDatabaseObjectModel impleme
 	
 	public TypeReference asType() {
 		return new DomainType();
-	}
-	
-	public Collection<? extends CheckConstraintModel> breachEncapsulationOfCheckConstraints() {
-		return checkConstraints;
 	}
 	
 	@Override

@@ -349,25 +349,25 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 				.addValue(deptLoc, "NEW YORK").build();
 		result.add(record);
 		
-		record = ModelUtil.newRecord() // uuid.get("3971430b-ef1d-4e5a-b996-f2acfa7536c0"));
-		.addValue(deptId, "2")
-		.addValue(deptDeptNo, "20")
-		.addValue(deptDeptName, "RESEARCH")
-		.addValue(deptLoc, "DALLAS").build();
+		record = ModelUtil.newRecord()
+				.addValue(deptId, "2")
+				.addValue(deptDeptNo, "20")
+				.addValue(deptDeptName, "RESEARCH")
+				.addValue(deptLoc, "DALLAS").build();
 		result.add(record);
 		
-		record = ModelUtil.newRecord() // uuid.get("0591cc1e-45a6-4598-b85a-20fae51b7991"));
-		.addValue(deptId, "3")
-		.addValue(deptDeptNo, "30")
-		.addValue(deptDeptName, "SALES")
-		.addValue(deptLoc, "CHICAGO").build();
+		record = ModelUtil.newRecord()
+				.addValue(deptId, "3")
+				.addValue(deptDeptNo, "30")
+				.addValue(deptDeptName, "SALES")
+				.addValue(deptLoc, "CHICAGO").build();
 		result.add(record);
 		
-		record = ModelUtil.newRecord() // uuid.get("ac275955-4710-484a-b694-f7acc6ded08f"));
-		.addValue(deptId, "4")
-		.addValue(deptDeptNo, "40")
-		.addValue(deptDeptName, "OPERATIONS")
-		.addValue(deptLoc, "BOSTON").build();
+		record = ModelUtil.newRecord()
+				.addValue(deptId, "4")
+				.addValue(deptDeptNo, "40")
+				.addValue(deptDeptName, "OPERATIONS")
+				.addValue(deptLoc, "BOSTON").build();
 		result.add(record);
 		// CHECKSTYLE:ON
 		
@@ -375,87 +375,87 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 	}
 	
 	private List<RecordModel> createDataSetEnEmp() {
-		List<RecordModel> result = Lists. newArrayList();
+		List<RecordModel> result = Lists.newArrayList();
 		
 		// CHECKSTYLE:OFF
-		RecordModel record = ModelUtil.newRecord() // uuid.get("6ce22d69-bd75-4822-946f-a51221fd45eb"));
-		.addValue(empId, "1")
-		.addValue(empEmpNo, "10")
-		.addValue(empEmpName, "SMITH")
-		.addValue(empMgrId, "3")
-		.addValue(empHiredate, "2003-02-01")
-		.addValue(empSal, "40")
-		.addValue(empDeptId, "3").build();
+		RecordModel record = ModelUtil.newRecord()
+				.addValue(empId, "1")
+				.addValue(empEmpNo, "10")
+				.addValue(empEmpName, "SMITH")
+				.addValue(empMgrId, "3")
+				.addValue(empHiredate, "2003-02-01")
+				.addValue(empSal, "40")
+				.addValue(empDeptId, "3").build();
 		result.add(record);
 		
-		record = ModelUtil.newRecord() // uuid.get("03962eb2-90ab-4cff-8fac-14e52e117361"));
-		.addValue(empId, "2")
-		.addValue(empEmpNo, "20")
-		.addValue(empEmpName, "ALLEN")
-		.addValue(empMgrId, "3")
-		.addValue(empHiredate, "2000-03-04")
-		.addValue(empSal, "50")
-		.addValue(empDeptId, "4").build();
+		record = ModelUtil.newRecord()
+				.addValue(empId, "2")
+				.addValue(empEmpNo, "20")
+				.addValue(empEmpName, "ALLEN")
+				.addValue(empMgrId, "3")
+				.addValue(empHiredate, "2000-03-04")
+				.addValue(empSal, "50")
+				.addValue(empDeptId, "4").build();
 		result.add(record);
 		
-		record = ModelUtil.newRecord() // uuid.get("f5f16c1e-4a41-4ccd-9c87-00c09c0e7609"));
-		.addValue(empId, "3")
-		.addValue(empEmpNo, "30")
-		.addValue(empEmpName, "WARD")
-//		.addValue(empMgrId, null)
-		.addValue(empHiredate, "1993-12-05")
-		.addValue(empSal, "60")
-		.addValue(empDeptId, "4").build();
+		record = ModelUtil.newRecord()
+				.addValue(empId, "3")
+				.addValue(empEmpNo, "30")
+				.addValue(empEmpName, "WARD")
+//				.addValue(empMgrId, null)
+				.addValue(empHiredate, "1993-12-05")
+				.addValue(empSal, "60")
+				.addValue(empDeptId, "4").build();
 		result.add(record);
 		
-		record = ModelUtil.newRecord() // uuid.get("03a9e57f-3010-4d46-8024-1915c262749e"));
-		.addValue(empId, "4")
-		.addValue(empEmpNo, "40")
-		.addValue(empEmpName, "JONES")
-		.addValue(empMgrId, "2")
-		.addValue(empHiredate, "2007-04-01")
-		.addValue(empSal, "36")
-		.addValue(empDeptId, "2").build();
+		record = ModelUtil.newRecord()
+				.addValue(empId, "4")
+				.addValue(empEmpNo, "40")
+				.addValue(empEmpName, "JONES")
+				.addValue(empMgrId, "2")
+				.addValue(empHiredate, "2007-04-01")
+				.addValue(empSal, "36")
+				.addValue(empDeptId, "2").build();
 		result.add(record);
 		
-		record = ModelUtil.newRecord() // uuid.get("4206acce-b31f-4c2e-8682-4796254a4dca"));
-		.addValue(empId, "5")
-		.addValue(empEmpNo, "50")
-		.addValue(empEmpName, "MARTIN")
-		.addValue(empMgrId, "1")
-		.addValue(empHiredate, "2002-05-30")
-		.addValue(empSal, "30")
-		.addValue(empDeptId, "3").build();
+		record = ModelUtil.newRecord()
+				.addValue(empId, "5")
+				.addValue(empEmpNo, "50")
+				.addValue(empEmpName, "MARTIN")
+				.addValue(empMgrId, "1")
+				.addValue(empHiredate, "2002-05-30")
+				.addValue(empSal, "30")
+				.addValue(empDeptId, "3").build();
 		result.add(record);
 		
-		record = ModelUtil.newRecord() // uuid.get("6748ce0e-462d-44df-a536-18f14a3c2643"));
-		.addValue(empId, "6")
-		.addValue(empEmpNo, "60")
-		.addValue(empEmpName, "BLAKE")
-		.addValue(empMgrId, "3")
-		.addValue(empHiredate, "2007-04-01")
-		.addValue(empSal, "25")
-		.addValue(empDeptId, "2").build();
+		record = ModelUtil.newRecord()
+				.addValue(empId, "6")
+				.addValue(empEmpNo, "60")
+				.addValue(empEmpName, "BLAKE")
+				.addValue(empMgrId, "3")
+				.addValue(empHiredate, "2007-04-01")
+				.addValue(empSal, "25")
+				.addValue(empDeptId, "2").build();
 		result.add(record);
 		
-		record = ModelUtil.newRecord() // uuid.get("f8564bdf-f61c-4711-b606-69aed74324a6"));
-		.addValue(empId, "7")
-		.addValue(empEmpNo, "70")
-		.addValue(empEmpName, "CLARK")
-		.addValue(empMgrId, "1")
-		.addValue(empHiredate, "2004-09-01")
-		.addValue(empSal, "30")
-		.addValue(empDeptId, "1").build();
+		record = ModelUtil.newRecord()
+				.addValue(empId, "7")
+				.addValue(empEmpNo, "70")
+				.addValue(empEmpName, "CLARK")
+				.addValue(empMgrId, "1")
+				.addValue(empHiredate, "2004-09-01")
+				.addValue(empSal, "30")
+				.addValue(empDeptId, "1").build();
 		result.add(record);
 		
-		record = ModelUtil.newRecord() // uuid.get("dd1cc8e1-7562-4539-86d8-5390d043325a"));
-		.addValue(empId, "8")
-		.addValue(empEmpNo, "80")
-		.addValue(empEmpName, "SCOTT")
-		.addValue(empMgrId, "4")
-		.addValue(empHiredate, "2008-03-01")
-		.addValue(empSal, "25")
-		.addValue(empDeptId, "2").build();
+		record = ModelUtil.newRecord()
+				.addValue(empId, "8")
+				.addValue(empEmpNo, "80")
+				.addValue(empEmpName, "SCOTT")
+				.addValue(empMgrId, "4")
+				.addValue(empHiredate, "2008-03-01")
+				.addValue(empSal, "25")
+				.addValue(empDeptId, "2").build();
 		result.add(record);
 		// CHECKSTYLE:ON
 		
@@ -466,32 +466,32 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		List<RecordModel> result = new ArrayList<RecordModel>();
 		
 		// CHECKSTYLE:OFF
-		RecordModel record = ModelUtil.newRecord() // uuid.get("61671217-d61c-4f42-9985-4f6b2c970171"));
-		.addValue(deptId, "1")
-		.addValue(deptDeptNo, "10")
-		.addValue(deptDeptName, "経理部")
-		.addValue(deptLoc, "広島").build();
+		RecordModel record = ModelUtil.newRecord()
+				.addValue(deptId, "1")
+				.addValue(deptDeptNo, "10")
+				.addValue(deptDeptName, "経理部")
+				.addValue(deptLoc, "広島").build();
 		result.add(record);
 		
-		record = ModelUtil.newRecord() // uuid.get("171d019e-163f-42f6-82dc-15340798fdf4"));
-		.addValue(deptId, "2")
-		.addValue(deptDeptNo, "20")
-		.addValue(deptDeptName, "研究開発部")
-		.addValue(deptLoc, "京都").build();
+		record = ModelUtil.newRecord()
+				.addValue(deptId, "2")
+				.addValue(deptDeptNo, "20")
+				.addValue(deptDeptName, "研究開発部")
+				.addValue(deptLoc, "京都").build();
 		result.add(record);
 		
-		record = ModelUtil.newRecord() // uuid.get("838344e6-093d-4202-aaca-bacf1a7ff376"));
-		.addValue(deptId, "3")
-		.addValue(deptDeptNo, "30")
-		.addValue(deptDeptName, "営業部")
-		.addValue(deptLoc, "東京").build();
+		record = ModelUtil.newRecord()
+				.addValue(deptId, "3")
+				.addValue(deptDeptNo, "30")
+				.addValue(deptDeptName, "営業部")
+				.addValue(deptLoc, "東京").build();
 		result.add(record);
 		
-		record = ModelUtil.newRecord() // uuid.get("2f29bb19-0a20-4251-8052-568194e6101c"));
-		.addValue(deptId, "4")
-		.addValue(deptDeptNo, "40")
-		.addValue(deptDeptName, "経営本部").build();
-		// locは指定せず、特定しない状態
+		record = ModelUtil.newRecord()
+				.addValue(deptId, "4")
+				.addValue(deptDeptNo, "40")
+				.addValue(deptDeptName, "経営本部").build();
+				// locは指定せず、特定しない状態
 		result.add(record);
 		// CHECKSTYLE:ON
 		
@@ -502,84 +502,84 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		List<RecordModel> result = Lists.newArrayList();
 		
 		// CHECKSTYLE:OFF
-		RecordModel record = ModelUtil.newRecord() // uuid.get("9365e670-1eff-4a23-90bd-f794b9742b10"));
-		.addValue(empId, "1")
-		.addValue(empEmpNo, "10")
-		.addValue(empEmpName, "鈴木 茂")
-		.addValue(empMgrId, "3")
-		.addValue(empHiredate, "2003-02-01")
-		.addValue(empSal, "40")
-		.addValue(empDeptId, "3").build();
+		RecordModel record = ModelUtil.newRecord()
+				.addValue(empId, "1")
+				.addValue(empEmpNo, "10")
+				.addValue(empEmpName, "鈴木 茂")
+				.addValue(empMgrId, "3")
+				.addValue(empHiredate, "2003-02-01")
+				.addValue(empSal, "40")
+				.addValue(empDeptId, "3").build();
 		result.add(record);
 		
-		record = ModelUtil.newRecord() // uuid.get("90673863-ba77-461b-ab82-fffecd7e873b"));
-		.addValue(empId, "2")
-		.addValue(empEmpNo, "20")
-		.addValue(empEmpName, "内海 透")
-		.addValue(empMgrId, "3")
-		.addValue(empHiredate, "2000-03-04")
-		.addValue(empSal, "50")
-		.addValue(empDeptId, "4").build();
+		record = ModelUtil.newRecord()
+				.addValue(empId, "2")
+				.addValue(empEmpNo, "20")
+				.addValue(empEmpName, "内海 透")
+				.addValue(empMgrId, "3")
+				.addValue(empHiredate, "2000-03-04")
+				.addValue(empSal, "50")
+				.addValue(empDeptId, "4").build();
 		result.add(record);
 		
-		record = ModelUtil.newRecord() // uuid.get("5bf32699-c2ff-4d96-9e26-2a3f3d7c7661"));
-		.addValue(empId, "3")
-		.addValue(empEmpNo, "30")
-		.addValue(empEmpName, "村瀬 武彦")
-//		.addValue(empMgrId, null)
-		.addValue(empHiredate, "1993-12-05")
-		.addValue(empSal, "60")
-		.addValue(empDeptId, "4").build();
+		record = ModelUtil.newRecord()
+				.addValue(empId, "3")
+				.addValue(empEmpNo, "30")
+				.addValue(empEmpName, "村瀬 武彦")
+//				.addValue(empMgrId, null)
+				.addValue(empHiredate, "1993-12-05")
+				.addValue(empSal, "60")
+				.addValue(empDeptId, "4").build();
 		result.add(record);
 		
-		record = ModelUtil.newRecord() // uuid.get("f164796f-ed85-48a0-98af-2f6045ee3a33"));
-		.addValue(empId, "4")
-		.addValue(empEmpNo, "40")
-		.addValue(empEmpName, "近藤 美樹")
-		.addValue(empMgrId, "2")
-		.addValue(empHiredate, "2007-04-01")
-		.addValue(empSal, "36")
-		.addValue(empDeptId, "2").build();
+		record = ModelUtil.newRecord()
+				.addValue(empId, "4")
+				.addValue(empEmpNo, "40")
+				.addValue(empEmpName, "近藤 美樹")
+				.addValue(empMgrId, "2")
+				.addValue(empHiredate, "2007-04-01")
+				.addValue(empSal, "36")
+				.addValue(empDeptId, "2").build();
 		result.add(record);
 		
-		record = ModelUtil.newRecord() // uuid.get("c10562ee-4ab9-40a5-8a21-83f331df5c85"));
-		.addValue(empId, "5")
-		.addValue(empEmpNo, "50")
-		.addValue(empEmpName, "榊 美子")
-		.addValue(empMgrId, "1")
-		.addValue(empHiredate, "2002-05-30")
-		.addValue(empSal, "30")
-		.addValue(empDeptId, "3").build();
+		record = ModelUtil.newRecord()
+				.addValue(empId, "5")
+				.addValue(empEmpNo, "50")
+				.addValue(empEmpName, "榊 美子")
+				.addValue(empMgrId, "1")
+				.addValue(empHiredate, "2002-05-30")
+				.addValue(empSal, "30")
+				.addValue(empDeptId, "3").build();
 		result.add(record);
 		
-		record = ModelUtil.newRecord() // uuid.get("29c9a655-f4ed-4753-aea6-1e21cb28f891"));
-		.addValue(empId, "6")
-		.addValue(empEmpNo, "60")
-		.addValue(empEmpName, "三浦 佑")
-		.addValue(empMgrId, "3")
-		.addValue(empHiredate, "2007-04-01")
-		.addValue(empSal, "25")
-		.addValue(empDeptId, "2").build();
+		record = ModelUtil.newRecord()
+				.addValue(empId, "6")
+				.addValue(empEmpNo, "60")
+				.addValue(empEmpName, "三浦 佑")
+				.addValue(empMgrId, "3")
+				.addValue(empHiredate, "2007-04-01")
+				.addValue(empSal, "25")
+				.addValue(empDeptId, "2").build();
 		result.add(record);
 		
-		record = ModelUtil.newRecord() // uuid.get("b65b9b12-bb68-4845-a514-a57f0bd57616"));
-		.addValue(empId, "7")
-		.addValue(empEmpNo, "70")
-		.addValue(empEmpName, "前島 孝幸")
-		.addValue(empMgrId, "1")
-		.addValue(empHiredate, "2004-09-01")
-		.addValue(empSal, "30")
-		.addValue(empDeptId, "1").build();
+		record = ModelUtil.newRecord()
+				.addValue(empId, "7")
+				.addValue(empEmpNo, "70")
+				.addValue(empEmpName, "前島 孝幸")
+				.addValue(empMgrId, "1")
+				.addValue(empHiredate, "2004-09-01")
+				.addValue(empSal, "30")
+				.addValue(empDeptId, "1").build();
 		result.add(record);
 		
-		record = ModelUtil.newRecord() // uuid.get("0eb27151-323a-4679-bde4-0b01f561139f"));
-		.addValue(empId, "8")
-		.addValue(empEmpNo, "80")
-		.addValue(empEmpName, "島崎 由比")
-		.addValue(empMgrId, "4")
-		.addValue(empHiredate, "2008-03-01")
-		.addValue(empSal, "25")
-		.addValue(empDeptId, "2").build();
+		record = ModelUtil.newRecord()
+				.addValue(empId, "8")
+				.addValue(empEmpNo, "80")
+				.addValue(empEmpName, "島崎 由比")
+				.addValue(empMgrId, "4")
+				.addValue(empHiredate, "2008-03-01")
+				.addValue(empSal, "25")
+				.addValue(empDeptId, "2").build();
 		result.add(record);
 		// CHECKSTYLE:ON
 		// FORMAT-ON

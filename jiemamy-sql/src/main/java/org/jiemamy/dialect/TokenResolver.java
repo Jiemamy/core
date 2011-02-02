@@ -23,7 +23,7 @@ import java.util.List;
 import org.jiemamy.model.sql.Token;
 
 /**
- * Enumをトークンシーケンスに変換するリゾルバ。
+ * Enum等を{@link Token}のシーケンスに変換するリゾルバ。
  * 
  * @author daisuke
  */
@@ -32,7 +32,9 @@ public interface TokenResolver {
 	/**
 	 * オブジェクトをトークン列に変換する。
 	 * 
-	 * @param value 変換対象
+	 * <p>指定したオブジェクトの変換に対応しない場合は、空のリストを返す。</p>
+	 * 
+	 * @param value 変換対象オブジェクト
 	 * @return トークンシーケンス. 引数に{@code null}を与えた場合は空のリスト
 	 */
 	List<Token> resolve(Object value);
