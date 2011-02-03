@@ -118,7 +118,8 @@ public final class DefaultAroundScriptModelSerializationHandler extends Serializ
 		try {
 			JiemamyOutputElement aroundScriptElement = parent.addElement(SqlQName.AROUND_SCRIPT);
 			aroundScriptElement.addAttribute(CoreQName.ID, model.getId());
-			aroundScriptElement.addAttribute(CoreQName.CLASS, model.getClass());
+//			DefaultのHandlerはクラス属性をシリアライズしない
+//			aroundScriptElement.addAttribute(CoreQName.CLASS, model.getClass());
 			sctx.push(aroundScriptElement);
 			
 			aroundScriptElement.addElement(SqlQName.CORE).addAttribute(CoreQName.REF,
