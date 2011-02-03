@@ -72,7 +72,7 @@ public class ReferenceValidator extends AbstractValidator {
 		 * @param elementReference 参照の切れた参照オブジェクト
 		 */
 		private ReferenceProblem(EntityRef<?> elementReference, String pos) {
-			super(null, "F0040");
+			super(null, "F0190");
 			setArguments(new Object[] {
 				pos,
 				elementReference.getReferentId().toString()

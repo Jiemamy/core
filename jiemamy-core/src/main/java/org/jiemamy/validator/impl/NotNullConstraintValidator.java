@@ -91,7 +91,7 @@ public class NotNullConstraintValidator extends AbstractValidator {
 		 * @param nn 不正な非NULL制約
 		 */
 		public TargetNotFoundProblem(NotNullConstraintModel nn) {
-			super(nn, "F0020");
+			super(nn, "F0090");
 			setArguments(new Object[] {
 				nn.getName(),
 			});

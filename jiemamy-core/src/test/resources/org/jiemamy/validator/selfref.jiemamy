@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jiemamy xmlns="http://jiemamy.org/xml/ns/core" version="0.3.0-SNAPSHOT">
+  <metadata class="org.jiemamy.DefaultContextMetadata">
+    <dialect>org.jiemamy.dialect.GenericDialect</dialect>
+  </metadata>
+  <dbobjects>
+    <table id="a2909bd0-ceb2-4412-a452-118779528794" class="org.jiemamy.model.table.DefaultTableModel">
+      <name>LINKED_LIST</name>
+      <logicalName/>
+      <description/>
+      <columns>
+        <column id="6c3d8f2e-cb10-4a72-9b5a-c2779d77de77" class="org.jiemamy.model.column.DefaultColumnModel">
+          <name>ID</name>
+          <logicalName/>
+          <description/>
+          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
+            <typeCategory>INTEGER</typeCategory>
+            <typeName>INTEGER</typeName>
+          </dataType>
+          <defaultValue/>
+        </column>
+        <column id="8623b3c8-a291-48a7-907b-cedd416d6c0b" class="org.jiemamy.model.column.DefaultColumnModel">
+          <name>NEXT</name>
+          <logicalName/>
+          <description/>
+          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
+            <typeCategory>INTEGER</typeCategory>
+            <typeName>INTEGER</typeName>
+          </dataType>
+          <defaultValue/>
+        </column>
+        <column id="94948a62-b791-4cb7-8e55-c3a5fb020f63" class="org.jiemamy.model.column.DefaultColumnModel">
+          <name>VALUE</name>
+          <logicalName/>
+          <description/>
+          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
+            <typeCategory>VARCHAR</typeCategory>
+            <typeName>VARCHAR</typeName>
+            <parameters>
+              <parameter key="size">32</parameter>
+            </parameters>
+          </dataType>
+          <defaultValue/>
+        </column>
+      </columns>
+      <constraints>
+        <primaryKey id="5c129b41-32cc-4d87-83d7-7aa92bde541a" class="org.jiemamy.model.constraint.DefaultPrimaryKeyConstraintModel">
+          <keyColumns>
+            <columnRef ref="6c3d8f2e-cb10-4a72-9b5a-c2779d77de77"/>
+          </keyColumns>
+        </primaryKey>
+        <foreignKey id="398f20c2-6e3f-4b17-9532-ad38dbe77b66" class="org.jiemamy.model.constraint.DefaultForeignKeyConstraintModel">
+          <name/>
+          <keyColumns>
+            <columnRef ref="8623b3c8-a291-48a7-907b-cedd416d6c0b"/>
+          </keyColumns>
+          <referenceColumns>
+            <columnRef ref="6c3d8f2e-cb10-4a72-9b5a-c2779d77de77"/>
+          </referenceColumns>
+        </foreignKey>
+      </constraints>
+    </table>
+  </dbobjects>
+  <dataSets/>
+  <diagram:diagrams xmlns:diagram="http://jiemamy.org/xml/ns/diagram">
+    <diagram:diagram id="61781425-71f0-43b2-b46d-60be74c9bede" class="org.jiemamy.model.DefaultDiagramModel">
+      <diagram:name>default</diagram:name>
+      <diagram:level>ATTRTYPE</diagram:level>
+      <diagram:mode>PHYSICAL</diagram:mode>
+      <diagram:nodes>
+        <diagram:node id="75c077ae-b179-4533-949d-ff12b5675891" class="org.jiemamy.model.DefaultDatabaseObjectNodeModel">
+          <diagram:core ref="a2909bd0-ceb2-4412-a452-118779528794"/>
+          <diagram:boundary x="149" y="76" width="-1" height="-1"/>
+        </diagram:node>
+      </diagram:nodes>
+      <diagram:connections>
+        <diagram:connection id="8834556e-c8ba-4401-aa14-4feec7d0062b" class="org.jiemamy.model.DefaultConnectionModel">
+          <diagram:core ref="398f20c2-6e3f-4b17-9532-ad38dbe77b66"/>
+          <diagram:source ref="75c077ae-b179-4533-949d-ff12b5675891"/>
+          <diagram:target ref="75c077ae-b179-4533-949d-ff12b5675891"/>
+          <diagram:bendpoints>
+            <diagram:bendpoint x="99" y="76"/>
+            <diagram:bendpoint x="149" y="26"/>
+          </diagram:bendpoints>
+        </diagram:connection>
+      </diagram:connections>
+    </diagram:diagram>
+  </diagram:diagrams>
+  <sql:sqls xmlns:sql="http://jiemamy.org/xml/ns/sql"/>
+</jiemamy>

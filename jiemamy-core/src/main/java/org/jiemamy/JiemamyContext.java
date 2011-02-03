@@ -20,6 +20,7 @@ package org.jiemamy;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -297,19 +298,22 @@ public/*final*/class JiemamyContext implements EntityResolver {
 	 * @return 祖先モデルのSet
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public Collection<DatabaseObjectModel> findSuperDatabaseObjectsRecursive(DatabaseObjectModel databaseObject) {
+	public Set<DatabaseObjectModel> findSuperDatabaseObjectsRecursive(DatabaseObjectModel databaseObject) {
 		Validate.notNull(databaseObject);
-		Collection<DatabaseObjectModel> superModels = findSuperDatabaseObjectsNonRecursive(databaseObject);
-		Collection<DatabaseObjectModel> result = Lists.newArrayList();
-		result.addAll(superModels);
+		return findSuperDatabaseObjectsRecursive(databaseObject, databaseObject, new HashSet<DatabaseObjectModel>());
+	}
+	
+	public Set<DatabaseObjectModel> findSuperDatabaseObjectsRecursive(DatabaseObjectModel start,
+			DatabaseObjectModel target, Set<DatabaseObjectModel> collector) {
+		Collection<DatabaseObjectModel> superModels = findSuperDatabaseObjectsNonRecursive(target);
+		collector.addAll(superModels);
 		
 		for (DatabaseObjectModel superModel : superModels) {
-			if (databaseObject.equals(superModel) == false) {
-				result.addAll(findSuperDatabaseObjectsRecursive(superModel));
+			if (superModel.equals(target) == false && superModel.equals(start) == false) {
+				findSuperDatabaseObjectsRecursive(start, superModel, collector);
 			}
 		}
-		
-		return result;
+		return collector;
 	}
 	
 	/**

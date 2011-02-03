@@ -79,7 +79,7 @@ public class PrimaryKeyValidator extends AbstractValidator {
 		 * @param tableModel 主キーが存在しないテーブル
 		 */
 		public NoPrimaryKeyProblem(TableModel tableModel) {
-			super(tableModel, "N0010");
+			super(tableModel, "N0080");
 			setArguments(new Object[] {
 				tableModel.getName()
 			});

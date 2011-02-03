@@ -70,7 +70,7 @@ public class ForeignKeyValidator extends AbstractValidator {
 		 * @param foreignKey 不正な外部キー
 		 */
 		public ReferenceKeyProblem(ForeignKeyConstraintModel foreignKey) {
-			super(foreignKey, "F0080");
+			super(foreignKey, "F0200");
 			setArguments(new Object[] {
 				foreignKey.getName(),
 				foreignKey.getKeyColumns().size(),
@@ -87,7 +87,7 @@ public class ForeignKeyValidator extends AbstractValidator {
 		 * @param foreignKey 不正な外部キー
 		 */
 		public ReferenceMappingProblem(ForeignKeyConstraintModel foreignKey) {
-			super(foreignKey, "F0090");
+			super(foreignKey, "F0220");
 			setArguments(new Object[] {
 				foreignKey.getName(),
 				foreignKey.getKeyColumns().size(),

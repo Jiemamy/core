@@ -19,21 +19,19 @@
 package org.jiemamy.validator.impl;
 
 import java.util.Collection;
-import java.util.List;
 
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
-import org.apache.commons.lang.StringUtils;
-
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.model.column.ColumnModel;
+import org.jiemamy.model.DatabaseObjectModel;
 import org.jiemamy.model.table.TableModel;
 import org.jiemamy.validator.AbstractProblem;
 import org.jiemamy.validator.AbstractValidator;
 import org.jiemamy.validator.Problem;
 
 /**
- * テーブルのバリデータ。
+ * 外部キーの循環参照を検出するバリデータ。
  * 
  * <ul>
  *   <li>テーブル名は必須である。</li>
@@ -42,49 +40,40 @@ import org.jiemamy.validator.Problem;
  * 
  * @author daisuke
  */
-public class TableValidator extends AbstractValidator {
+public class CyclicForeignReferenceValidator extends AbstractValidator {
 	
 	public Collection<Problem> validate(JiemamyContext context) {
 		Collection<Problem> problems = Lists.newArrayList();
 		for (TableModel tableModel : context.getTables()) {
-			List<? extends ColumnModel> columns = tableModel.getColumns();
-			if (columns.size() == 0) {
-				problems.add(new NoColumnProblem(tableModel));
+			Collection<DatabaseObjectModel> superDatabaseObjectsRecursive =
+					context.findSuperDatabaseObjectsRecursive(tableModel);
+			if (superDatabaseObjectsRecursive.size() == 1
+					&& Iterables.getOnlyElement(superDatabaseObjectsRecursive).equals(tableModel)) {
+				// 自己参照FK
+				continue;
 			}
-			if (StringUtils.isEmpty(tableModel.getName())) {
-				problems.add(new EmptyTableNameProblem(tableModel));
+			if (superDatabaseObjectsRecursive.contains(tableModel)) {
+				problems.add(new CyclicForeignReferenceProblem(tableModel));
+				// 循環ノード数分検出してしまうので、1つ検出したらすぐに戻る
+				// TODO 循環の数＝輪の数を検出し、エラーの数にできないか？
+				return problems;
 			}
 		}
 		return problems;
 	}
 	
 
-	static class EmptyTableNameProblem extends AbstractProblem {
+	static class CyclicForeignReferenceProblem extends AbstractProblem {
 		
 		/**
 		 * インスタンスを生成する。
 		 * 
 		 * @param tableModel テーブル名が設定されていないテーブル
 		 */
-		public EmptyTableNameProblem(TableModel tableModel) {
-			super(tableModel, "E0170");
+		public CyclicForeignReferenceProblem(TableModel tableModel) {
+			super(tableModel, "F230");
 			setArguments(new Object[] {
 				tableModel.getId().toString()
-			});
-		}
-	}
-	
-	static class NoColumnProblem extends AbstractProblem {
-		
-		/**
-		 * インスタンスを生成する。
-		 * 
-		 * @param tableModel カラムの存在しないテーブル
-		 */
-		public NoColumnProblem(TableModel tableModel) {
-			super(tableModel, "W0060");
-			setArguments(new Object[] {
-				tableModel.getName()
 			});
 		}
 	}
