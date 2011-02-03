@@ -271,7 +271,7 @@ public class DefaultTableModelTest {
 		assertThat(table.getColumn("FOO"), is(foo));
 		assertThat(table.getColumn("BAR"), is(bar));
 		
-		table.delete(bar.toReference());
+		table.deleteColumn(bar.toReference());
 		
 		// 消したら1つになる
 		assertThat(table.getColumns().size(), is(1));
@@ -349,9 +349,9 @@ public class DefaultTableModelTest {
 		DefaultColumnModel column = new Column().build();
 		
 		table1.store(column);
-		table1.delete(column.toReference());
+		table1.deleteColumn(column.toReference());
 		table2.store(column);
-		table2.delete(column.toReference());
+		table2.deleteColumn(column.toReference());
 		
 		table1.store(column);
 	}

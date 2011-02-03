@@ -23,6 +23,8 @@ import java.util.UUID;
 
 import com.google.common.collect.Lists;
 
+import org.apache.commons.lang.Validate;
+
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.utils.CloneUtil;
@@ -54,17 +56,14 @@ public final class DefaultIndexModel extends DefaultDatabaseObjectModel implemen
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * インデックスカラムを追加する。
 	 * 
-	 * @param indexColumn
+	 * @param indexColumn インデックスカラム
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public void addIndexColumn(IndexColumnModel indexColumn) {
+		Validate.notNull(indexColumn);
 		indexColumns.add(indexColumn);
-	}
-	
-	public List<IndexColumnModel> breachEncapsulationOfIndexColumns() {
-		return indexColumns;
 	}
 	
 	@Override

@@ -168,7 +168,10 @@ public final class DefaultForeignKeyConstraintModel extends DefaultKeyConstraint
 	public TableModel findReferenceTable(Set<TableModel> tables) {
 		Validate.noNullElements(tables);
 		KeyConstraintModel keyConstraint = findReferencedKeyConstraint(tables);
-		return keyConstraint.findDeclaringTable(tables);
+		if (keyConstraint != null) {
+			return keyConstraint.findDeclaringTable(tables);
+		}
+		return null;
 	}
 	
 	public MatchType getMatchType() {

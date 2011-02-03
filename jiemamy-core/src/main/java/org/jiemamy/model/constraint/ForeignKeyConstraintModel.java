@@ -44,18 +44,19 @@ public interface ForeignKeyConstraintModel extends KeyConstraintModel {
 	/**
 	 * {@code databaseObjects}の中から、指定した外部キーが参照するキー制約を取得する。
 	 * 
-	 * @param databaseObjects 対象{@link DatabaseObjectModel}
-	 * @return 指定した外部キーが参照するキー. 該当するキーが存在しなかった場合、{@code null}
+	 * @param databaseObjects 候補{@link DatabaseObjectModel}
+	 * @return 指定した外部キーが参照するキー、該当するキーが存在しなかった場合は{@code null}
 	 * @throws ModelConsistencyException 指定した外部キーが参照カラムを持っていない場合
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @throws IllegalArgumentException 引数に{@code null}または{@code null}要素を与えた場合
 	 */
 	KeyConstraintModel findReferencedKeyConstraint(Collection<? extends DatabaseObjectModel> databaseObjects);
 	
 	/**
-	 * TODO for daisuke
+	 * {@code tables}の中から、指定した外部キーが参照するテーブルを取得する。
 	 * 
-	 * @param tables
-	 * @return
+	 * @param tables 候補{@link TableModel}
+	 * @return 指定した外部キーが参照するテーブル、該当するテーブルが存在しなかった場合は{@code null}
+	 * @throws IllegalArgumentException 引数に{@code null}または{@code null}要素を与えた場合
 	 */
 	TableModel findReferenceTable(Set<TableModel> tables);
 	

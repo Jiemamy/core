@@ -24,12 +24,21 @@ import java.sql.SQLException;
 import org.jiemamy.JiemamyContext;
 
 /**
- * {@link DatabaseMetaData}から TODO パーサインターフェイス。
+ * {@link DatabaseMetaData}から情報を読み取り、インポートするパーサインターフェイス。
  * 
  * @author daisuke
  */
 public interface DatabaseMetadataParser {
 	
+	/**
+	 * {@link DatabaseMetaData}を {@link ParseMetadataConfig}の設定に従って解析し、
+	 * 結果を{@link JiemamyContext}に格納する。
+	 * 
+	 * @param context 格納先 {@link JiemamyContext}
+	 * @param meta 解析対象 {@link DatabaseMetaData}
+	 * @param config 解析設定
+	 * @throws SQLException 解析中に {@link SQLException} が発生した場合
+	 */
 	void parseMetadata(JiemamyContext context, DatabaseMetaData meta, ParseMetadataConfig config) throws SQLException;
 	
 }

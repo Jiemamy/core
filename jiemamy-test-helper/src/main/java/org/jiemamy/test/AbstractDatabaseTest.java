@@ -21,6 +21,7 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assume.assumeThat;
 
 import java.io.InputStream;
+import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.URL;
 import java.sql.Connection;
@@ -30,6 +31,7 @@ import java.util.Properties;
 
 import org.apache.commons.io.IOUtils;
 import org.junit.Before;
+import org.junit.internal.AssumptionViolatedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -78,6 +80,13 @@ public abstract class AbstractDatabaseTest {
 		}
 	}
 	
+	/**
+	 * プロパティファイルから読み出した情報を利用して {@link Connection} を返す。
+	 * 
+	 * @return {@link ConnectException}
+	 * @throws ClassNotFoundException ドライバクラスが見つからなかった場合
+	 * @throws AssumptionViolatedException プロパティファイルがロードできなかった場合
+	 */
 	protected Connection getConnection() throws ClassNotFoundException {
 		assumeThat(props, is(notNullValue()));
 		Class.forName(getDriverClassName());
@@ -91,33 +100,77 @@ public abstract class AbstractDatabaseTest {
 		return connection;
 	}
 	
+	/**
+	 * プロパティファイルから読み出したDB接続URLを返す。
+	 * 
+	 * @return DB接続URL
+	 * @throws AssumptionViolatedException プロパティファイルがロードできなかった場合
+	 */
 	protected String getConnectionUri() {
 		assumeThat(props, is(notNullValue()));
 		return props.getProperty("uri");
 	}
 	
+	/**
+	 * プロパティファイルから読み出したドライバのクラス名を返す。
+	 * 
+	 * @return ドライバのクラス名
+	 * @throws AssumptionViolatedException プロパティファイルがロードできなかった場合
+	 */
 	protected String getDriverClassName() {
 		assumeThat(props, is(notNullValue()));
 		return props.getProperty("driverClass");
 	}
 	
+	/**
+	 * プロパティファイルから読み出したドライバJARのパスを返す。
+	 * 
+	 * @return ドライバJARのパス
+	 * @throws AssumptionViolatedException プロパティファイルがロードできなかった場合
+	 */
 	protected String getJarPath() {
 		assumeThat(props, is(notNullValue()));
 		return props.getProperty("driverJar");
 	}
 	
+	/**
+	 * プロパティファイルから読み出したパスワード名を返す。
+	 * 
+	 * @return パスワード
+	 * @throws AssumptionViolatedException プロパティファイルがロードできなかった場合
+	 */
 	protected String getPassword() {
 		assumeThat(props, is(notNullValue()));
 		return props.getProperty("password");
 	}
 	
+	/**
+	 * DB接続情報プロパティファイルへのclasspathパスを返す。
+	 * 
+	 * @param hostName テスト実行中のホスト名
+	 * @return プロパティファイルへのclasspathパス
+	 */
 	protected abstract String getPropertiesFilePath(String hostName);
 	
+	/**
+	 * プロパティファイルから読み出したユーザ名を返す。
+	 * 
+	 * @return ユーザ名
+	 * @throws AssumptionViolatedException プロパティファイルがロードできなかった場合
+	 */
 	protected String getUsername() {
 		assumeThat(props, is(notNullValue()));
 		return props.getProperty("user");
 	}
 	
+	/**
+	 * プロパティファイルから読み出した情報を利用して {@link DefaultDatabaseImportConfig} を返す。
+	 * 
+	 * @param dialect {@link Dialect} 
+	 * @param urls ドライバJARのURLの配列
+	 * @return {@link DefaultDatabaseImportConfig}
+	 * @throws AssumptionViolatedException プロパティファイルがロードできなかった場合
+	 */
 	protected DefaultDatabaseImportConfig newDatabaseImportConfig(Dialect dialect, URL[] urls) {
 		DefaultDatabaseImportConfig config = new DefaultDatabaseImportConfig();
 		config.setDriverClassName(getDriverClassName());

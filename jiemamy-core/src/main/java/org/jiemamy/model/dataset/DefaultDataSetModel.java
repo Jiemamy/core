@@ -62,10 +62,6 @@ public final class DefaultDataSetModel extends AbstractEntity implements DataSet
 		super(id);
 	}
 	
-	public Map<EntityRef<? extends TableModel>, List<RecordModel>> breachEncapsulationOfRecords() {
-		return records;
-	}
-	
 	@Override
 	public synchronized DefaultDataSetModel clone() {
 		DefaultDataSetModel clone = (DefaultDataSetModel) super.clone();

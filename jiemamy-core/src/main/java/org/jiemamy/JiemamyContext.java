@@ -303,19 +303,6 @@ public/*final*/class JiemamyContext implements EntityResolver {
 		return findSuperDatabaseObjectsRecursive(databaseObject, databaseObject, new HashSet<DatabaseObjectModel>());
 	}
 	
-	public Set<DatabaseObjectModel> findSuperDatabaseObjectsRecursive(DatabaseObjectModel start,
-			DatabaseObjectModel target, Set<DatabaseObjectModel> collector) {
-		Collection<DatabaseObjectModel> superModels = findSuperDatabaseObjectsNonRecursive(target);
-		collector.addAll(superModels);
-		
-		for (DatabaseObjectModel superModel : superModels) {
-			if (superModel.equals(target) == false && superModel.equals(start) == false) {
-				findSuperDatabaseObjectsRecursive(start, superModel, collector);
-			}
-		}
-		return collector;
-	}
-	
 	/**
 	 * このコンテキストが管理する全ての {@link DatabaseObjectModel} の{@link List}を取得する。
 	 * 
@@ -576,6 +563,15 @@ public/*final*/class JiemamyContext implements EntityResolver {
 		eventBroker.fireEvent(new StoredEvent<DataSetModel>(dsms, old, dsm));
 	}
 	
+	/**
+	 * 指定した2つの位置にあるデータセットの順序を入れ替える。
+	 * 
+	 * @param index1 the index of the {@link DataSetModel} to be swapped.
+	 * @param index2 the index of the other {@link DataSetModel} to be swapped.
+	 * @throws IndexOutOfBoundsException if either {@code index1} or {@code index2}
+	 *         is out of range (index1 &lt; 0 || index1 &gt;= list.size()
+	 *         || index2 &lt; 0 || index2 &gt;= list.size()).
+	 */
 	public void swapDataSet(int index1, int index2) {
 		dsms.swap(index1, index2);
 		eventBroker.fireEvent(new StoredEvent<DataSetModel>(dsms, null, null));
@@ -595,6 +591,19 @@ public/*final*/class JiemamyContext implements EntityResolver {
 	 */
 	public UUID toUUID(String name) {
 		return uuidProvider.valueOfOrRandom(name);
+	}
+	
+	private Set<DatabaseObjectModel> findSuperDatabaseObjectsRecursive(DatabaseObjectModel start,
+			DatabaseObjectModel target, Set<DatabaseObjectModel> collector) {
+		Collection<DatabaseObjectModel> superModels = findSuperDatabaseObjectsNonRecursive(target);
+		collector.addAll(superModels);
+		
+		for (DatabaseObjectModel superModel : superModels) {
+			if (superModel.equals(target) == false && superModel.equals(start) == false) {
+				findSuperDatabaseObjectsRecursive(start, superModel, collector);
+			}
+		}
+		return collector;
 	}
 	
 	private OnMemoryCompositeEntityResolver getCompositeResolver() {

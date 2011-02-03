@@ -181,9 +181,8 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	 * @return 削除したモデル
 	 * @throws EntityNotFoundException このテーブルが指定したカラムを管理していない場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 * TODO rename to deleteColumn
 	 */
-	public ColumnModel delete(EntityRef<? extends ColumnModel> ref) {
+	public ColumnModel deleteColumn(EntityRef<? extends ColumnModel> ref) {
 		Validate.notNull(ref);
 		ColumnModel deleted = columns.delete(ref);
 		logger.info("column deleted: " + deleted);
@@ -475,6 +474,15 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 		}
 	}
 	
+	/**
+	 * 指定した2つの位置にあるカラムの順序を入れ替える。
+	 * 
+	 * @param index1 the index of the {@link ColumnModel} to be swapped.
+	 * @param index2 the index of the other {@link ColumnModel} to be swapped.
+	 * @throws IndexOutOfBoundsException if either {@code index1} or {@code index2}
+	 *         is out of range (index1 &lt; 0 || index1 &gt;= list.size()
+	 *         || index2 &lt; 0 || index2 &gt;= list.size()).
+	 */
 	public void swapColumn(int index1, int index2) {
 		columns.swap(index1, index2);
 		eventBroker.fireEvent(new StoredEvent<ColumnModel>(columns, null, null));

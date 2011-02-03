@@ -429,7 +429,7 @@ public class JiemamyContextTest {
 	@Test
 	public void test15_removeしたカラムを同じテーブルに追加できる() throws Exception {
 		t1a.store(c1a);
-		t1a.delete(c1a.toReference());
+		t1a.deleteColumn(c1a.toReference());
 		t1a.store(c1a); // removeしたら再addできる
 	}
 	
@@ -441,7 +441,7 @@ public class JiemamyContextTest {
 	@Test
 	public void test16_もちろんremoveしたカラムを他のテーブルに追加してもよい() throws Exception {
 		t1a.store(c1a);
-		t1a.delete(c1a.toReference());
+		t1a.deleteColumn(c1a.toReference());
 		t2.store(c1a); // removeしたら再addできる
 	}
 	
@@ -453,7 +453,7 @@ public class JiemamyContextTest {
 	@Test
 	public void test17_t1aで管理したのはc1bじゃなくてc1だけどremoveできる() throws Exception {
 		t1a.store(c1a);
-		t1a.delete(c1b.toReference());
+		t1a.deleteColumn(c1b.toReference());
 	}
 	
 	/**
@@ -463,7 +463,7 @@ public class JiemamyContextTest {
 	 */
 	@Test(expected = EntityNotFoundException.class)
 	public void test18_管理していないカラムをremoveできない() throws Exception {
-		t1a.delete(c1a.toReference());
+		t1a.deleteColumn(c1a.toReference());
 	}
 	
 	/**
@@ -474,7 +474,7 @@ public class JiemamyContextTest {
 	@Test(expected = EntityNotFoundException.class)
 	public void test19_c1aを管理しているのはt2じゃないので例外() throws Exception {
 		t1a.store(c1a);
-		t2.delete(c1a.toReference());
+		t2.deleteColumn(c1a.toReference());
 	}
 	
 	/**

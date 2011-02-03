@@ -121,6 +121,9 @@ public class ViewTestModelBuilder extends CoreTestModelBuilder {
 	@Override
 	public JiemamyContext build() {
 		JiemamyContext jiemamy = super.build();
+		// HACK ↑がFindBugsに「意味ない代入」って言われるので↓で無意味な呼び出しをしてみている。
+		// createPresentations 前にsuper.build() 呼んでおかなきゃいけないっつのに。
+		jiemamy.getClass();
 		createPresentations();
 		
 		return jiemamy;
