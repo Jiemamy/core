@@ -75,7 +75,7 @@ public final class DefaultDomainModel extends DefaultDatabaseObjectModel impleme
 	 */
 	public void addCheckConstraint(CheckConstraintModel checkConstraint) {
 		Validate.notNull(checkConstraint);
-		checkConstraints.add(checkConstraint);
+		checkConstraints.add(checkConstraint.clone());
 	}
 	
 	public TypeReference asType() {
@@ -85,13 +85,13 @@ public final class DefaultDomainModel extends DefaultDatabaseObjectModel impleme
 	@Override
 	public DefaultDomainModel clone() {
 		DefaultDomainModel clone = (DefaultDomainModel) super.clone();
-		clone.checkConstraints = CloneUtil.cloneValueArrayList(checkConstraints);
+		clone.checkConstraints = CloneUtil.cloneEntityArrayList(checkConstraints);
 		clone.params = params.clone();
 		return clone;
 	}
 	
 	public Collection<? extends CheckConstraintModel> getCheckConstraints() {
-		return MutationMonitor.monitor(Lists.newArrayList(checkConstraints));
+		return MutationMonitor.monitor(CloneUtil.cloneEntityArrayList(checkConstraints));
 	}
 	
 	public DataType getDataType() {

@@ -89,7 +89,6 @@ public class SqlFacet implements JiemamyFacet {
 	 * @return 削除したモデル
 	 * @throws EntityNotFoundException 参照で示すエンティティが見つからなかった場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 * TODO rename to deleteDiagram
 	 */
 	public AroundScriptModel deleteScript(EntityRef<? extends AroundScriptModel> reference) {
 		AroundScriptModel deleted = scripts.delete(reference);
