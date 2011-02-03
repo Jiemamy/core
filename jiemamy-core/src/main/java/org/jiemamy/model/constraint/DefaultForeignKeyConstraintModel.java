@@ -43,7 +43,7 @@ import org.jiemamy.model.table.TableModel;
  * 
  * @author daisuke
  */
-public final class DefaultForeignKeyConstraintModel extends AbstractKeyConstraintModel implements
+public final class DefaultForeignKeyConstraintModel extends DefaultKeyConstraintModel implements
 		ForeignKeyConstraintModel {
 	
 	/**

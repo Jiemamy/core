@@ -28,7 +28,7 @@ import org.jiemamy.dddbase.EntityRef;
  * 
  * @author daisuke
  */
-public final class DefaultCheckConstraintModel extends AbstractValueConstraintModel implements CheckConstraintModel {
+public final class DefaultCheckConstraintModel extends DefaultValueConstraintModel implements CheckConstraintModel {
 	
 	/**
 	 * インスタンスを生成する。

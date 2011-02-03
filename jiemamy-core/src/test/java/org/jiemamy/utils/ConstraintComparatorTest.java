@@ -31,7 +31,7 @@ import com.google.common.collect.Lists;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.jiemamy.model.constraint.AbstractValueConstraintModel;
+import org.jiemamy.model.constraint.DefaultValueConstraintModel;
 import org.jiemamy.model.constraint.CheckConstraintModel;
 import org.jiemamy.model.constraint.ConstraintModel;
 import org.jiemamy.model.constraint.ForeignKeyConstraintModel;
@@ -127,7 +127,7 @@ public class ConstraintComparatorTest {
 	}
 	
 
-	static class DefaultAaaConstraintModel extends AbstractValueConstraintModel {
+	static class DefaultAaaConstraintModel extends DefaultValueConstraintModel {
 		
 		/**
 		 * インスタンスを生成する。
@@ -138,7 +138,7 @@ public class ConstraintComparatorTest {
 		
 	}
 	
-	static class DefaultBbbConstraintModel extends AbstractValueConstraintModel {
+	static class DefaultBbbConstraintModel extends DefaultValueConstraintModel {
 		
 		/**
 		 * インスタンスを生成する。
@@ -149,7 +149,7 @@ public class ConstraintComparatorTest {
 		
 	}
 	
-	static class DefaultCccConstraintModel extends AbstractValueConstraintModel {
+	static class DefaultCccConstraintModel extends DefaultValueConstraintModel {
 		
 		/**
 		 * インスタンスを生成する。
@@ -160,7 +160,7 @@ public class ConstraintComparatorTest {
 		
 	}
 	
-	static class DefaultDddConstraintModel extends AbstractValueConstraintModel {
+	static class DefaultDddConstraintModel extends DefaultValueConstraintModel {
 		
 		/**
 		 * インスタンスを生成する。

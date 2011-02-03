@@ -30,11 +30,11 @@ import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.table.TableModel;
 
 /**
- * 抽象制約モデル。
+ * {@link ConstraintModel}のデフォルト抽象実装クラス。
  * 
  * @author daisuke
  */
-public abstract class AbstractConstraintModel extends AbstractEntity implements ConstraintModel {
+public abstract class DefaultConstraintModel extends AbstractEntity implements ConstraintModel {
 	
 	/** 物理名 */
 	private String name;
@@ -55,13 +55,13 @@ public abstract class AbstractConstraintModel extends AbstractEntity implements 
 	 * @param id ENTITY ID
 	 * @throws IllegalArgumentException 引数{@code id}に{@code null}を与えた場合
 	 */
-	public AbstractConstraintModel(UUID id) {
+	public DefaultConstraintModel(UUID id) {
 		super(id);
 	}
 	
 	@Override
-	public AbstractConstraintModel clone() {
-		AbstractConstraintModel clone = (AbstractConstraintModel) super.clone();
+	public DefaultConstraintModel clone() {
+		DefaultConstraintModel clone = (DefaultConstraintModel) super.clone();
 		return clone;
 	}
 	
@@ -129,8 +129,8 @@ public abstract class AbstractConstraintModel extends AbstractEntity implements 
 	}
 	
 	@Override
-	public EntityRef<? extends AbstractConstraintModel> toReference() {
-		return new DefaultEntityRef<AbstractConstraintModel>(this);
+	public EntityRef<? extends DefaultConstraintModel> toReference() {
+		return new DefaultEntityRef<DefaultConstraintModel>(this);
 	}
 	
 	@Override

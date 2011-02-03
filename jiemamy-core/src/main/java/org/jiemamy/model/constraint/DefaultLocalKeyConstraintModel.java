@@ -24,12 +24,12 @@ import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
 
 /**
- * TODO for daisuke
+ * {@link LocalKeyConstraintModel}のデフォルト抽象実装クラス。
  * 
  * @version $Id$
  * @author daisuke
  */
-public abstract class AbstractLocalKeyConstraintModel extends AbstractKeyConstraintModel implements
+public abstract class DefaultLocalKeyConstraintModel extends DefaultKeyConstraintModel implements
 		LocalKeyConstraintModel {
 	
 	/**
@@ -38,18 +38,18 @@ public abstract class AbstractLocalKeyConstraintModel extends AbstractKeyConstra
 	 * @param id ENTITY ID
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public AbstractLocalKeyConstraintModel(UUID id) {
+	public DefaultLocalKeyConstraintModel(UUID id) {
 		super(id);
 	}
 	
 	@Override
-	public AbstractLocalKeyConstraintModel clone() {
-		AbstractLocalKeyConstraintModel clone = (AbstractLocalKeyConstraintModel) super.clone();
+	public DefaultLocalKeyConstraintModel clone() {
+		DefaultLocalKeyConstraintModel clone = (DefaultLocalKeyConstraintModel) super.clone();
 		return clone;
 	}
 	
 	@Override
-	public EntityRef<? extends AbstractLocalKeyConstraintModel> toReference() {
-		return new DefaultEntityRef<AbstractLocalKeyConstraintModel>(this);
+	public EntityRef<? extends DefaultLocalKeyConstraintModel> toReference() {
+		return new DefaultEntityRef<DefaultLocalKeyConstraintModel>(this);
 	}
 }

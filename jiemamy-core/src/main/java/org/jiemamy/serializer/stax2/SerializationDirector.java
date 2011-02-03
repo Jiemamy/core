@@ -76,7 +76,6 @@ public class SerializationDirector {
 	
 	final Map<QName, SerializationHandler<?>> handlersWithQNameKey = Maps.newHashMap();
 	
-	@Deprecated
 	private final DummyHandler dummy;
 	
 
@@ -89,7 +88,7 @@ public class SerializationDirector {
 	public SerializationDirector(JiemamyContext context) {
 		Validate.notNull(context);
 		
-		dummy = new DummyHandler(this); // FIXME これがケツ持ちをしてる
+		dummy = new DummyHandler(this); // これがケツ持ちをしてる
 		
 		addHandler(JiemamyContext.class, CoreQName.JIEMAMY, new JiemamyContextSerializationHandler(this));
 		addHandler(DefaultContextMetadata.class, CoreQName.META, new DefaultContextMetadataSerializationHandler(this));
@@ -153,12 +152,10 @@ public class SerializationDirector {
 			
 			SerializationHandler<T> handler = (SerializationHandler<T>) handlersWithQNameKey.get(qName);
 			
-			// FIXME ケツ持ち処理start
 			if (handler == null) {
 				logger.error("can not found deserialization handler : " + qName);
 				handler = (SerializationHandler<T>) dummy;
 			}
-			// ケツ持ち処理end
 			
 			return handler;
 		} catch (XMLStreamException e) {
@@ -171,12 +168,10 @@ public class SerializationDirector {
 		Validate.notNull(targetName);
 		SerializationHandler<T> handler = (SerializationHandler<T>) handlersWithFqcnKey.get(targetName);
 		
-		// FIXME ケツ持ち処理start
 		if (handler == null) {
 			logger.error("can not found serialization handler : " + targetName);
 			handler = (SerializationHandler<T>) dummy;
 		}
-		// ケツ持ち処理end
 		
 		return handler;
 	}
@@ -185,5 +180,4 @@ public class SerializationDirector {
 		Validate.notNull(target);
 		return findHandler(target.getClass().getName());
 	}
-	
 }

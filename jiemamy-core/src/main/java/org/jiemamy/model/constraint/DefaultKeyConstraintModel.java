@@ -32,11 +32,11 @@ import org.jiemamy.dddbase.utils.MutationMonitor;
 import org.jiemamy.model.column.ColumnModel;
 
 /**
- * 抽象キー制約モデル。
+ * {@link KeyConstraintModel}のデフォルト抽象実装クラス。
  * 
  * @author daisuke
  */
-public abstract class AbstractKeyConstraintModel extends AbstractConstraintModel implements KeyConstraintModel {
+public abstract class DefaultKeyConstraintModel extends DefaultConstraintModel implements KeyConstraintModel {
 	
 	/** キー制約を構成するカラムのリスト */
 	private List<EntityRef<? extends ColumnModel>> keyColumns = Lists.newArrayList();
@@ -48,7 +48,7 @@ public abstract class AbstractKeyConstraintModel extends AbstractConstraintModel
 	 * @param id ENTITY ID
 	 * @throws IllegalArgumentException 引数{@code id}に{@code null}を与えた場合
 	 */
-	public AbstractKeyConstraintModel(UUID id) {
+	public DefaultKeyConstraintModel(UUID id) {
 		super(id);
 	}
 	
@@ -71,8 +71,8 @@ public abstract class AbstractKeyConstraintModel extends AbstractConstraintModel
 	}
 	
 	@Override
-	public AbstractKeyConstraintModel clone() {
-		AbstractKeyConstraintModel clone = (AbstractKeyConstraintModel) super.clone();
+	public DefaultKeyConstraintModel clone() {
+		DefaultKeyConstraintModel clone = (DefaultKeyConstraintModel) super.clone();
 		clone.keyColumns = CloneUtil.cloneValueArrayList(keyColumns);
 		return clone;
 	}
@@ -95,8 +95,8 @@ public abstract class AbstractKeyConstraintModel extends AbstractConstraintModel
 	}
 	
 	@Override
-	public EntityRef<? extends AbstractKeyConstraintModel> toReference() {
-		return new DefaultEntityRef<AbstractKeyConstraintModel>(this);
+	public EntityRef<? extends DefaultKeyConstraintModel> toReference() {
+		return new DefaultEntityRef<DefaultKeyConstraintModel>(this);
 	}
 	
 	@Override

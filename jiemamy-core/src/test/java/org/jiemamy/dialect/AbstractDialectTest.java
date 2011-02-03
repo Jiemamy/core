@@ -31,7 +31,7 @@ import org.jiemamy.model.datatype.DataTypeCategory;
 import org.jiemamy.model.datatype.DefaultTypeReference;
 
 /**
- * TODO for daisuke
+ * {@link Dialect}用テストの抽象実装クラス。
  * 
  * @version $Id$
  * @author daisuke
@@ -39,7 +39,7 @@ import org.jiemamy.model.datatype.DefaultTypeReference;
 public abstract class AbstractDialectTest {
 	
 	/**
-	 * TODO for daisuke
+	 * 全ての {@link DataTypeCategory} について、 {@link TypeParameterSpec} を取得できる。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
@@ -52,7 +52,7 @@ public abstract class AbstractDialectTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * {@link Dialect}の基本メソッドが{@code null}を返したりしないことを確認。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */

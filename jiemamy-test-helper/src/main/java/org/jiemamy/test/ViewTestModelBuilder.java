@@ -127,8 +127,8 @@ public class ViewTestModelBuilder extends CoreTestModelBuilder {
 	}
 	
 	private void createPresentations() {
-		if (jiemamy.hasFacet(DiagramFacet.class)) {
-			DiagramFacet facet = jiemamy.getFacet(DiagramFacet.class);
+		if (context.hasFacet(DiagramFacet.class)) {
+			DiagramFacet facet = context.getFacet(DiagramFacet.class);
 			
 			// ダイアグラム表現の生成・追加(1)
 			DefaultDiagramModel presentation1 =

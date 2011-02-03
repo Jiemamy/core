@@ -45,7 +45,9 @@ import org.jiemamy.model.datatype.DataTypeCategory;
 import org.jiemamy.model.datatype.DefaultDataType;
 import org.jiemamy.model.datatype.TypeParameterKey;
 import org.jiemamy.model.domain.DefaultDomainModel;
+import org.jiemamy.model.index.DefaultIndexColumnModel;
 import org.jiemamy.model.index.DefaultIndexModel;
+import org.jiemamy.model.index.IndexColumnModel.SortOrder;
 import org.jiemamy.model.table.DefaultTableModel;
 import org.jiemamy.model.view.DefaultViewModel;
 
@@ -65,7 +67,7 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 	public final Instruction instruction;
 	
 	/** 生成するモデルのインスタンス空間 */
-	public final JiemamyContext jiemamy;
+	public final JiemamyContext context;
 	
 	// ---- models
 	
@@ -209,12 +211,12 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 	 * 
 	 * @param uuid UUID生成ストラテジ
 	 * @param instruction 設定オブジェクト
-	 * @param jiemamy コンテキスト
+	 * @param context コンテキスト
 	 */
-	public CoreTestModelBuilder(UuidStrategy uuid, Instruction instruction, JiemamyContext jiemamy) {
+	public CoreTestModelBuilder(UuidStrategy uuid, Instruction instruction, JiemamyContext context) {
 		this.uuid = uuid;
 		this.instruction = instruction;
-		this.jiemamy = jiemamy;
+		this.context = context;
 	}
 	
 	/**
@@ -232,14 +234,14 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		meta.setDialectClassName(dialectClassName);
 		meta.setDescription("Jiemamyテストモデル1");
 		meta.setSchemaName("FOO");
-		jiemamy.setMetadata(meta);
+		context.setMetadata(meta);
 		
 		createDomains();
 		createEntities();
 		createForeignKeys();
 		createDataSets();
 		
-		return jiemamy;
+		return context;
 	}
 	
 	/**
@@ -247,8 +249,8 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 	 * 
 	 * @return Jiemamyオブジェクト
 	 */
-	public JiemamyContext getJiemamy() {
-		return jiemamy;
+	public JiemamyContext getJiemamyContext() {
+		return context;
 	}
 	
 	/**
@@ -264,14 +266,14 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		dataSetEn.setName("データ群en");
 		dataSetEn.putRecord(tableDept.toReference(), createDataSetEnDept());
 		dataSetEn.putRecord(tableEmp.toReference(), createDataSetEnEmp());
-		jiemamy.store(dataSetEn);
+		context.store(dataSetEn);
 		
 		// データセットの生成・追加(2)
 		DefaultDataSetModel dataSetJa = new DefaultDataSetModel(uuid.get("91246ed4-1ef3-440e-bf12-40fa4439a71b"));
 		dataSetJa.setName("データ群ja");
 		dataSetJa.putRecord(tableDept.toReference(), createDataSetJaDept());
 		dataSetJa.putRecord(tableEmp.toReference(), createDataSetJaEmp());
-		jiemamy.store(dataSetJa);
+		context.store(dataSetJa);
 	}
 	
 	/**
@@ -284,7 +286,7 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		
 		domainId = new DefaultDomainModel(uuid.get("2eec0aa0-5122-4eb7-833d-9f5a43e7abe9"));
 		domainId.setName("ID");
-		domainId.setDataType(ModelUtil.createDataType(jiemamy, DataTypeCategory.INTEGER));
+		domainId.setDataType(ModelUtil.createDataType(context, DataTypeCategory.INTEGER));
 		domainId.setNotNull(true);
 		DefaultCheckConstraintModel check =
 				new DefaultCheckConstraintModel(uuid.get("48b76d76-b288-480a-afa4-111247379f8d"));
@@ -292,15 +294,15 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		check.setExpression("VALUE > 0");
 		domainId.addCheckConstraint(check);
 		domainId.putParam(TypeParameterKey.SERIAL, true);
-		jiemamy.store(domainId);
+		context.store(domainId);
 		
 		domainName = new DefaultDomainModel(uuid.get("62f1e6ec-e6aa-4d52-a6c3-27dac086f2d7"));
 		domainName.setName("NAME");
-		DefaultDataType dataType = ModelUtil.createDataType(jiemamy, DataTypeCategory.VARCHAR);
+		DefaultDataType dataType = ModelUtil.createDataType(context, DataTypeCategory.VARCHAR);
 		dataType.putParam(TypeParameterKey.SIZE, 32); // CHECKSTYLE IGNORE THIS LINE
 		domainName.setDataType(dataType);
 		domainName.setDescription("人名用の型です。");
-		jiemamy.store(domainName);
+		context.store(domainName);
 	}
 	
 	/**
@@ -308,11 +310,12 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 	 */
 	protected void createEntities() {
 		createTableDept();
-		jiemamy.store(tableDept);
+		context.store(tableDept);
 		createTableEmp();
-		jiemamy.store(tableEmp);
+		context.store(tableEmp);
+		context.store(empNameIndex);
 		createViewHighSal();
-		jiemamy.store(viewHighSal);
+		context.store(viewHighSal);
 	}
 	
 	/**
@@ -598,7 +601,7 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		deptId = new DefaultColumnModel(uuid.get("c7ed225d-92a6-4cc2-90de-60531804464e"));
 		deptId.setName("ID");
 		if (instruction.supressUseDomain) {
-			deptId.setDataType(ModelUtil.createDataType(jiemamy, DataTypeCategory.INTEGER));
+			deptId.setDataType(ModelUtil.createDataType(context, DataTypeCategory.INTEGER));
 		} else {
 			deptId.setDataType(new DefaultDataType(domainId.asType()));
 		}
@@ -612,13 +615,13 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		
 		deptDeptNo = new DefaultColumnModel(uuid.get("2d951389-6bc7-49d7-8631-1d26fe17047e"));
 		deptDeptNo.setName("DEPT_NO");
-		deptDeptNo.setDataType(ModelUtil.createDataType(jiemamy, DataTypeCategory.INTEGER));
+		deptDeptNo.setDataType(ModelUtil.createDataType(context, DataTypeCategory.INTEGER));
 		deptDeptNo.setLogicalName("部署番号");
 		tableDept.store(deptDeptNo);
 		
 		deptDeptName = new DefaultColumnModel(uuid.get("1fcd63d3-974e-4d2e-a0d8-3b9c233104d9"));
 		deptDeptName.setName("DEPT_NAME");
-		DefaultDataType deptDeptNameDataType = ModelUtil.createDataType(jiemamy, DataTypeCategory.VARCHAR);
+		DefaultDataType deptDeptNameDataType = ModelUtil.createDataType(context, DataTypeCategory.VARCHAR);
 		deptDeptNameDataType.putParam(TypeParameterKey.SIZE, 20);
 		deptDeptName.setDataType(deptDeptNameDataType);
 		deptDeptName.setLogicalName("部署名");
@@ -626,7 +629,7 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		
 		deptLoc = new DefaultColumnModel(uuid.get("7bf79e76-07b8-43b6-a993-b8ef374a31f5"));
 		deptLoc.setName("LOC");
-		DefaultDataType deptLocDataType = ModelUtil.createDataType(jiemamy, DataTypeCategory.VARCHAR);
+		DefaultDataType deptLocDataType = ModelUtil.createDataType(context, DataTypeCategory.VARCHAR);
 		deptLocDataType.putParam(TypeParameterKey.SIZE, 20);
 		deptLoc.setDataType(deptLocDataType);
 		deptLoc.setLogicalName("ロケーション");
@@ -657,7 +660,7 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		empId = new DefaultColumnModel(uuid.get("44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e"));
 		empId.setName("ID");
 		if (instruction.supressUseDomain) {
-			empId.setDataType(ModelUtil.createDataType(jiemamy, DataTypeCategory.INTEGER));
+			empId.setDataType(ModelUtil.createDataType(context, DataTypeCategory.INTEGER));
 		} else {
 			empId.setDataType(new DefaultDataType(domainId.asType()));
 		}
@@ -666,7 +669,7 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		
 		empEmpNo = new DefaultColumnModel(uuid.get("248a429b-2159-4ebd-a791-eee42a059374"));
 		empEmpNo.setName("EMP_NO");
-		empEmpNo.setDataType(ModelUtil.createDataType(jiemamy, DataTypeCategory.INTEGER));
+		empEmpNo.setDataType(ModelUtil.createDataType(context, DataTypeCategory.INTEGER));
 		empEmpNo.setLogicalName("従業員番号");
 		tableEmp.store(empEmpNo);
 		
@@ -679,7 +682,7 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		empEmpName = new DefaultColumnModel(uuid.get("0e51b6df-43ab-408c-90ef-de13c6aab881"));
 		empEmpName.setName("EMP_NAME");
 		if (instruction.supressUseDomain) {
-			DefaultDataType dataType = ModelUtil.createDataType(jiemamy, DataTypeCategory.VARCHAR);
+			DefaultDataType dataType = ModelUtil.createDataType(context, DataTypeCategory.VARCHAR);
 			dataType.putParam(TypeParameterKey.SIZE, 32); // CHECKSTYLE IGNORE THIS LINE
 			empEmpName.setDataType(dataType);
 		} else {
@@ -691,18 +694,18 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		
 		empMgrId = new DefaultColumnModel(uuid.get("3d21a85a-72de-41b3-99dd-f4cb94e58d84"));
 		empMgrId.setName("MGR_ID");
-		empMgrId.setDataType(ModelUtil.createDataType(jiemamy, DataTypeCategory.INTEGER));
+		empMgrId.setDataType(ModelUtil.createDataType(context, DataTypeCategory.INTEGER));
 		empMgrId.setLogicalName("上司ID");
 		tableEmp.store(empMgrId);
 		
 		empHiredate = new DefaultColumnModel(uuid.get("f0b57eed-98ab-4c21-9855-218c592814dc"));
 		empHiredate.setName("HIREDATE");
-		empHiredate.setDataType(ModelUtil.createDataType(jiemamy, DataTypeCategory.DATE));
+		empHiredate.setDataType(ModelUtil.createDataType(context, DataTypeCategory.DATE));
 		tableEmp.store(empHiredate);
 		
 		empSal = new DefaultColumnModel(uuid.get("80786549-dc2c-4c1c-bcbd-9f6fdec911d2"));
 		empSal.setName("SAL");
-		DefaultDataType dataType = ModelUtil.createDataType(jiemamy, DataTypeCategory.NUMERIC);
+		DefaultDataType dataType = ModelUtil.createDataType(context, DataTypeCategory.NUMERIC);
 		dataType.putParam(TypeParameterKey.PRECISION, 7);
 		dataType.putParam(TypeParameterKey.SCALE, 2);
 		empSal.setDataType(dataType);
@@ -716,7 +719,7 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		
 		empDeptId = new DefaultColumnModel(uuid.get("4ae69b7a-7a0e-422a-89dc-0f0cff77565b"));
 		empDeptId.setName("DEPT_ID");
-		empDeptId.setDataType(ModelUtil.createDataType(jiemamy, DataTypeCategory.INTEGER));
+		empDeptId.setDataType(ModelUtil.createDataType(context, DataTypeCategory.INTEGER));
 		tableEmp.store(empDeptId);
 		
 		empPk = new DefaultPrimaryKeyConstraintModel(uuid.get("6145e6a0-9ff7-4033-999d-99d80392a48f"));
@@ -736,15 +739,10 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 			notNull.setColumn(columnModel.toReference());
 		}
 		
-		// FIXME index対応
-//		empNameIndex = new DefaultIndexModel(uuid.get("9abc9e01-4cdb-42fe-a495-93b56af35a1d"));
-//		empNameIndex.setName("IDX_EMP_NAME");
-//		DefaultIndexColumnModel indexColumnModel =
-//				new DefaultIndexColumnModel(uuid.get("52d2b6aa-fff7-4c33-af13-f4d0b63e8e58"));
-//		indexColumnModel.setColumnRef(empEmpName.toReference());
-//		indexColumnModel.setSortOrder(SortOrder.DESC);
-//		empNameIndex.getIndexColumns().add(indexColumnModel);
-//		tableEmp.getIndexes().add(empNameIndex);
+		empNameIndex = new DefaultIndexModel(uuid.get("9abc9e01-4cdb-42fe-a495-93b56af35a1d"));
+		empNameIndex.setName("IDX_EMP_NAME");
+		DefaultIndexColumnModel indexColumnModel = DefaultIndexColumnModel.of(empEmpName, SortOrder.DESC);
+		empNameIndex.addIndexColumn(indexColumnModel);
 	}
 	
 	private void createViewHighSal() {

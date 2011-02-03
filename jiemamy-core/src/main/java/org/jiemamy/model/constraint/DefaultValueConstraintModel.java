@@ -24,12 +24,12 @@ import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
 
 /**
- * TODO for daisuke
+ * {@link ValueConstraintModel}のデフォルト抽象実装クラス。
  * 
  * @version $Id$
  * @author daisuke
  */
-public abstract class AbstractValueConstraintModel extends AbstractConstraintModel implements ValueConstraintModel {
+public abstract class DefaultValueConstraintModel extends DefaultConstraintModel implements ValueConstraintModel {
 	
 	/**
 	 * インスタンスを生成する。
@@ -37,18 +37,18 @@ public abstract class AbstractValueConstraintModel extends AbstractConstraintMod
 	 * @param id ENTITY ID
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public AbstractValueConstraintModel(UUID id) {
+	public DefaultValueConstraintModel(UUID id) {
 		super(id);
 	}
 	
 	@Override
-	public AbstractValueConstraintModel clone() {
-		AbstractValueConstraintModel clone = (AbstractValueConstraintModel) super.clone();
+	public DefaultValueConstraintModel clone() {
+		DefaultValueConstraintModel clone = (DefaultValueConstraintModel) super.clone();
 		return clone;
 	}
 	
 	@Override
-	public EntityRef<? extends AbstractValueConstraintModel> toReference() {
-		return new DefaultEntityRef<AbstractValueConstraintModel>(this);
+	public EntityRef<? extends DefaultValueConstraintModel> toReference() {
+		return new DefaultEntityRef<DefaultValueConstraintModel>(this);
 	}
 }
