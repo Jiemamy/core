@@ -1,4 +1,5 @@
 /*
+ * Copyright 2007-2011 Jiemamy Project and the Others.
  * Created on 2010/11/28
  *
  * This file is part of Jiemamy.

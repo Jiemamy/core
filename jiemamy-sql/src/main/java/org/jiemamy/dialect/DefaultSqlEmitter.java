@@ -393,7 +393,7 @@ public class DefaultSqlEmitter implements SqlEmitter {
 				// TODO env-objectを整備
 				value = ss.process(env);
 			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
+				logger.error("", e);
 				continue;
 			}
 			
