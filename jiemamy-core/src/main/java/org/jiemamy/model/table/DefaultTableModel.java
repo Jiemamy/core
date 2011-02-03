@@ -228,9 +228,11 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 		Set<DatabaseObjectModel> results = Sets.newHashSet();
 		for (ForeignKeyConstraintModel foreignKey : getForeignKeyConstraintModels()) {
 			KeyConstraintModel referencedKeyConstraint = foreignKey.findReferencedKeyConstraint(databaseObjects);
-			TableModel declaringTable =
-					referencedKeyConstraint.findDeclaringTable(DefaultTableModel.filter(databaseObjects));
-			results.add(declaringTable);
+			if (referencedKeyConstraint != null) {
+				TableModel declaringTable =
+						referencedKeyConstraint.findDeclaringTable(DefaultTableModel.filter(databaseObjects));
+				results.add(declaringTable);
+			}
 		}
 		return results;
 	}
