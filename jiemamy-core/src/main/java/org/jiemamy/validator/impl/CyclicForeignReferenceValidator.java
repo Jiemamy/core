@@ -33,11 +33,6 @@ import org.jiemamy.validator.Problem;
 /**
  * 外部キーの循環参照を検出するバリデータ。
  * 
- * <ul>
- *   <li>テーブル名は必須である。</li>
- *   <li>テーブルにはカラムが1つ以上必要である。</li>
- * </ul>
- * 
  * @author daisuke
  */
 public class CyclicForeignReferenceValidator extends AbstractValidator {

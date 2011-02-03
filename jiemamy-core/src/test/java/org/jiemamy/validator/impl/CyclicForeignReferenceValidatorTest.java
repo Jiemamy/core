@@ -49,7 +49,10 @@ public class CyclicForeignReferenceValidatorTest {
 		"/org/jiemamy/validator/cyclic4.jiemamy"
 	};
 	
-	private static final String PATH_SELFREF = "/org/jiemamy/validator/selfref.jiemamy";
+	private static final String[] PATHS_PSEUDO_CYCLIC = {
+		"/org/jiemamy/validator/selfref.jiemamy",
+		"/org/jiemamy/validator/noncyclic4.jiemamy"
+	};
 	
 	private CyclicForeignReferenceValidator validator;
 	
@@ -87,20 +90,22 @@ public class CyclicForeignReferenceValidatorTest {
 	}
 	
 	/**
-	 * 自己参照は循環FKとして検出しない。
+	 * 自己参照や循環でないものは循環FKとして検出しない。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test02_自己参照は循環FKとして検出しない() throws Exception {
+	public void test02_自己参照や循環でないものは循環FKとして検出しない() throws Exception {
 		InputStream in = null;
-		try {
-			in = CyclicForeignReferenceValidatorTest.class.getResourceAsStream(PATH_SELFREF);
-			JiemamyContext deserialized = JiemamyContext.findSerializer().deserialize(in);
-			Collection<Problem> problems = validator.validate(deserialized);
-			assertThat(problems.isEmpty(), is(true));
-		} finally {
-			IOUtils.closeQuietly(in);
+		for (String path : PATHS_PSEUDO_CYCLIC) {
+			try {
+				in = CyclicForeignReferenceValidatorTest.class.getResourceAsStream(path);
+				JiemamyContext deserialized = JiemamyContext.findSerializer().deserialize(in);
+				Collection<Problem> problems = validator.validate(deserialized);
+				assertThat(problems.isEmpty(), is(true));
+			} finally {
+				IOUtils.closeQuietly(in);
+			}
 		}
 	}
 }
