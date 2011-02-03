@@ -138,7 +138,7 @@ public final class DefaultDiagramModelSerializationHandler extends Serialization
 			JiemamyOutputElement diagramElement = parent.addElement(DiagramQName.DIAGRAM);
 			sctx.push(diagramElement);
 			diagramElement.addAttribute(CoreQName.ID, model.getId());
-			diagramElement.addAttribute(CoreQName.CLASS, model.getClass());
+//			diagramElement.addAttribute(CoreQName.CLASS, model.getClass());
 			
 			diagramElement.addElementAndCharacters(DiagramQName.NAME, model.getName());
 			diagramElement.addElementAndCharacters(DiagramQName.LEVEL, model.getLevel());

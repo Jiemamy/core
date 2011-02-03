@@ -3,30 +3,30 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://jiemamy.org/xml/ns/core ../../../../jiemamy-core/src/main/resources/jiemamy-core.xsd http://jiemamy.org/xml/ns/diagram ../../main/resources/jiemamy-diagram.xsd">
 
-  <metadata class="org.jiemamy.DefaultContextMetadata">
+  <metadata>
     <dialect>org.jiemamy.dialect.GenericDialect</dialect>
   </metadata>
   <dbobjects>
-    <table id="1199b4f1-66cc-4e80-9d86-a00139439caf" class="org.jiemamy.model.table.DefaultTableModel">
+    <table id="1199b4f1-66cc-4e80-9d86-a00139439caf">
       <name>DEPT</name>
       <logicalName/>
       <description/>
       <columns>
-        <column id="53d7b37c-47b6-409c-9838-48f16b20e553" class="org.jiemamy.model.column.DefaultColumnModel">
+        <column id="53d7b37c-47b6-409c-9838-48f16b20e553">
           <name>ID</name>
           <logicalName/>
           <description/>
-          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
+          <dataType>
             <typeCategory>INTEGER</typeCategory>
             <typeName>BIGINT</typeName>
           </dataType>
           <defaultValue/>
         </column>
-        <column id="4bb1a299-8784-4fc7-bbf6-a1dccb6c6acf" class="org.jiemamy.model.column.DefaultColumnModel">
+        <column id="4bb1a299-8784-4fc7-bbf6-a1dccb6c6acf">
           <name>NAME</name>
           <logicalName/>
           <description/>
-          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
+          <dataType>
             <typeCategory>VARCHAR</typeCategory>
             <typeName>VARCHAR</typeName>
             <parameters>
@@ -35,11 +35,11 @@
           </dataType>
           <defaultValue/>
         </column>
-        <column id="c47a58ed-ba78-4b29-92bc-9767981b7e10" class="org.jiemamy.model.column.DefaultColumnModel">
+        <column id="c47a58ed-ba78-4b29-92bc-9767981b7e10">
           <name>LOC</name>
           <logicalName/>
           <description/>
-          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
+          <dataType>
             <typeCategory>VARCHAR</typeCategory>
             <typeName>VARCHAR</typeName>
             <parameters>
@@ -48,21 +48,21 @@
           </dataType>
           <defaultValue/>
         </column>
-        <column id="a1f95004-025c-471b-a137-da51158142a4" class="org.jiemamy.model.column.DefaultColumnModel">
+        <column id="a1f95004-025c-471b-a137-da51158142a4">
           <name>DELETED</name>
           <logicalName/>
           <description/>
-          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
+          <dataType>
             <typeCategory>TIMESTAMP</typeCategory>
             <typeName>TIMESTAMP</typeName>
           </dataType>
           <defaultValue/>
         </column>
-        <column id="f7e51922-7461-4c54-b581-dd6e1f339746" class="org.jiemamy.model.column.DefaultColumnModel">
+        <column id="f7e51922-7461-4c54-b581-dd6e1f339746">
           <name>CREATED</name>
           <logicalName/>
           <description/>
-          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
+          <dataType>
             <typeCategory>TIMESTAMP</typeCategory>
             <typeName>TIMESTAMP</typeName>
             <parameters>
@@ -73,39 +73,39 @@
         </column>
       </columns>
       <constraints>
-        <primaryKey id="699bd4dc-6aeb-4ca5-ac76-5071180e79e5" class="org.jiemamy.model.constraint.DefaultPrimaryKeyConstraintModel">
+        <primaryKey id="699bd4dc-6aeb-4ca5-ac76-5071180e79e5">
           <keyColumns>
             <columnRef ref="53d7b37c-47b6-409c-9838-48f16b20e553"/>
           </keyColumns>
         </primaryKey>
-        <notNull id="1f5186b6-6c57-4fce-a88e-494a63ec714c" class="org.jiemamy.model.constraint.DefaultNotNullConstraintModel">
+        <notNull id="1f5186b6-6c57-4fce-a88e-494a63ec714c">
           <columnRef ref="4bb1a299-8784-4fc7-bbf6-a1dccb6c6acf"/>
         </notNull>
-        <notNull id="6c6b9da1-caaa-46b9-bee5-c59e72f82d70" class="org.jiemamy.model.constraint.DefaultNotNullConstraintModel">
+        <notNull id="6c6b9da1-caaa-46b9-bee5-c59e72f82d70">
           <columnRef ref="f7e51922-7461-4c54-b581-dd6e1f339746"/>
         </notNull>
       </constraints>
     </table>
-    <table id="733dc4cf-c845-4d7a-bb96-c96e2fb1bf06" class="org.jiemamy.model.table.DefaultTableModel">
+    <table id="733dc4cf-c845-4d7a-bb96-c96e2fb1bf06">
       <name>EMP</name>
       <logicalName/>
       <description/>
       <columns>
-        <column id="adfd440d-74f2-4042-bf9d-2f56e185a4cb" class="org.jiemamy.model.column.DefaultColumnModel">
+        <column id="adfd440d-74f2-4042-bf9d-2f56e185a4cb">
           <name>ID</name>
           <logicalName/>
           <description/>
-          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
+          <dataType>
             <typeCategory>INTEGER</typeCategory>
             <typeName>INTEGER</typeName>
           </dataType>
           <defaultValue/>
         </column>
-        <column id="1d3b8fef-282a-405f-b758-920b8f748485" class="org.jiemamy.model.column.DefaultColumnModel">
+        <column id="1d3b8fef-282a-405f-b758-920b8f748485">
           <name>NAME</name>
           <logicalName/>
           <description/>
-          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
+          <dataType>
             <typeCategory>INTEGER</typeCategory>
             <typeName>INTEGER</typeName>
             <parameters>
@@ -114,21 +114,21 @@
           </dataType>
           <defaultValue/>
         </column>
-        <column id="9f1b7134-24af-45c6-ae6b-5a0db1209f2b" class="org.jiemamy.model.column.DefaultColumnModel">
+        <column id="9f1b7134-24af-45c6-ae6b-5a0db1209f2b">
           <name>DEPT_ID</name>
           <logicalName/>
           <description/>
-          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
+          <dataType>
             <typeCategory>INTEGER</typeCategory>
             <typeName>INTEGER</typeName>
           </dataType>
           <defaultValue/>
         </column>
-        <column id="e49dac38-796c-4d48-98f1-d6827f60b54d" class="org.jiemamy.model.column.DefaultColumnModel">
+        <column id="e49dac38-796c-4d48-98f1-d6827f60b54d">
           <name>CREATED</name>
           <logicalName/>
           <description/>
-          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
+          <dataType>
             <typeCategory>TIMESTAMP</typeCategory>
             <typeName>TIMESTAMP</typeName>
             <parameters>
@@ -137,11 +137,11 @@
           </dataType>
           <defaultValue/>
         </column>
-        <column id="a82ab852-142b-44af-9326-2f3a5b4bada3" class="org.jiemamy.model.column.DefaultColumnModel">
+        <column id="a82ab852-142b-44af-9326-2f3a5b4bada3">
           <name>DELETED</name>
           <logicalName/>
           <description/>
-          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
+          <dataType>
             <typeCategory>TIMESTAMP</typeCategory>
             <typeName>TIMESTAMP</typeName>
             <parameters>
@@ -152,12 +152,12 @@
         </column>
       </columns>
       <constraints>
-        <primaryKey id="7d25d7b5-b57c-4b7a-a496-ded6121a0582" class="org.jiemamy.model.constraint.DefaultPrimaryKeyConstraintModel">
+        <primaryKey id="7d25d7b5-b57c-4b7a-a496-ded6121a0582">
           <keyColumns>
             <columnRef ref="adfd440d-74f2-4042-bf9d-2f56e185a4cb"/>
           </keyColumns>
         </primaryKey>
-        <foreignKey id="d03b71e3-cb88-4f8e-a31b-774780a2d811" class="org.jiemamy.model.constraint.DefaultForeignKeyConstraintModel">
+        <foreignKey id="d03b71e3-cb88-4f8e-a31b-774780a2d811">
           <keyColumns>
             <columnRef ref="9f1b7134-24af-45c6-ae6b-5a0db1209f2b"/>
           </keyColumns>
@@ -165,10 +165,10 @@
             <columnRef ref="53d7b37c-47b6-409c-9838-48f16b20e553"/>
           </referenceColumns>
         </foreignKey>
-        <notNull id="94f0effc-7a3d-40e4-bd92-571b8ed32f82" class="org.jiemamy.model.constraint.DefaultNotNullConstraintModel">
+        <notNull id="94f0effc-7a3d-40e4-bd92-571b8ed32f82">
           <columnRef ref="1d3b8fef-282a-405f-b758-920b8f748485"/>
         </notNull>
-        <notNull id="1072c917-ae76-4c7b-9bec-57f5cfb98ac3" class="org.jiemamy.model.constraint.DefaultNotNullConstraintModel">
+        <notNull id="1072c917-ae76-4c7b-9bec-57f5cfb98ac3">
           <columnRef ref="e49dac38-796c-4d48-98f1-d6827f60b54d"/>
         </notNull>
       </constraints>
@@ -176,22 +176,22 @@
   </dbobjects>
   <dataSets/>
   <diagram:diagrams xmlns:diagram="http://jiemamy.org/xml/ns/diagram">
-    <diagram:diagram id="4026c70b-53f2-4ada-aebf-99a2b7d3a467" class="org.jiemamy.model.DefaultDiagramModel">
+    <diagram:diagram id="4026c70b-53f2-4ada-aebf-99a2b7d3a467">
       <diagram:name>default</diagram:name>
       <diagram:level>ATTRTYPE</diagram:level>
       <diagram:mode>PHYSICAL</diagram:mode>
       <diagram:nodes>
-        <diagram:node id="e68577a0-7ce9-4fb1-8411-af5b0dda5a52" class="org.jiemamy.model.DefaultDatabaseObjectNodeModel">
+        <diagram:node id="e68577a0-7ce9-4fb1-8411-af5b0dda5a52">
           <diagram:core ref="733dc4cf-c845-4d7a-bb96-c96e2fb1bf06"/>
           <diagram:boundary x="393" y="64" width="-1" height="-1"/>
         </diagram:node>
-        <diagram:node id="52b1a1e8-737d-4df2-bc67-22aa8b74f562" class="org.jiemamy.model.DefaultDatabaseObjectNodeModel">
+        <diagram:node id="52b1a1e8-737d-4df2-bc67-22aa8b74f562">
           <diagram:core ref="1199b4f1-66cc-4e80-9d86-a00139439caf"/>
           <diagram:boundary x="50" y="77" width="-1" height="-1"/>
         </diagram:node>
       </diagram:nodes>
       <diagram:connections>
-        <diagram:connection id="345125d6-1160-4c5d-a20d-654d6f37e4eb" class="org.jiemamy.model.DefaultConnectionModel">
+        <diagram:connection id="345125d6-1160-4c5d-a20d-654d6f37e4eb">
           <diagram:core ref="d03b71e3-cb88-4f8e-a31b-774780a2d811"/>
           <diagram:source ref="e68577a0-7ce9-4fb1-8411-af5b0dda5a52"/>
           <diagram:target ref="52b1a1e8-737d-4df2-bc67-22aa8b74f562"/>

@@ -139,7 +139,7 @@ public final class DefaultConnectionModelSerializationHandler extends Serializat
 		try {
 			JiemamyOutputElement connElement = parent.addElement(DiagramQName.CONNECTION);
 			connElement.addAttribute(CoreQName.ID, model.getId());
-			connElement.addAttribute(CoreQName.CLASS, model.getClass());
+//			connElement.addAttribute(CoreQName.CLASS, model.getClass());
 			sctx.push(connElement);
 			
 			connElement.addElement(DiagramQName.CORE).addAttribute(CoreQName.REF,

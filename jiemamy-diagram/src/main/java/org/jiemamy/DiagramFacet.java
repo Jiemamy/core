@@ -171,10 +171,13 @@ public class DiagramFacet implements JiemamyFacet {
 		// FORMAT-OFF CHECKSTYLE:OFF
 		director.addHandler(DiagramFacet.class, DiagramQName.DIAGRAMS, new DiagramFacetSerializationHandler(director));
 		director.addHandler(DefaultDiagramModel.class, DiagramQName.DIAGRAM, new DefaultDiagramModelSerializationHandler(director));
-		director.addHandler(DefaultDatabaseObjectNodeModel.class, DiagramQName.NODE, new DefaultDatabaseObjectNodeModelSerializationHandler(director));
+		
+		// THINK
+		// Nodeモデルのハンドラは必ず最後にDefaultDatabaseObjectNodeModelを登録すること
+		// でないとHashマップのキーが上書きされてしまう。
 		director.addHandler(StickyNodeModel.class, DiagramQName.NODE, new StickyNodeModelSerializationHandler(director));
+		director.addHandler(DefaultDatabaseObjectNodeModel.class, DiagramQName.NODE, new DefaultDatabaseObjectNodeModelSerializationHandler(director));
 		director.addHandler(DefaultConnectionModel.class, DiagramQName.CONNECTION, new DefaultConnectionModelSerializationHandler(director));
-		// TODO sticky handler
 		director.addHandler(JmColor.class, DiagramQName.COLOR, new JmColorSerializationHandler(director));
 		director.addHandler(JmPoint.class, DiagramQName.BENDPOINT, new JmPointSerializationHandler(director));
 		director.addHandler(JmRectangle.class, DiagramQName.BOUNDARY, new JmRectangleSerializationHandler(director));

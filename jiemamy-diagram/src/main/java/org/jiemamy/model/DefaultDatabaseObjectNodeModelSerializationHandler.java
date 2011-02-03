@@ -121,7 +121,7 @@ public final class DefaultDatabaseObjectNodeModelSerializationHandler extends
 		try {
 			JiemamyOutputElement nodeElement = parent.addElement(DiagramQName.NODE);
 			nodeElement.addAttribute(CoreQName.ID, model.getId());
-			nodeElement.addAttribute(CoreQName.CLASS, model.getClass());
+//			nodeElement.addAttribute(CoreQName.CLASS, model.getClass());
 			sctx.push(nodeElement);
 			
 			nodeElement.addElement(DiagramQName.CORE).addAttribute(CoreQName.REF,

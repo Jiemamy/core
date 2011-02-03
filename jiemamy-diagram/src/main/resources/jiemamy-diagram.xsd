@@ -55,7 +55,7 @@
   <xsd:element name="node">
     <xsd:complexType>
       <xsd:sequence>
-        <xsd:choice>
+        <xsd:choice minOccurs="0">
           <xsd:element ref="core"/>
           <xsd:element name="contents" type="xsd:string"/>
         </xsd:choice>

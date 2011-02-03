@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <jiemamy xmlns="http://jiemamy.org/xml/ns/core" version="0.3.0-SNAPSHOT">
-  <metadata class="org.jiemamy.DefaultContextMetadata"/>
+  <metadata/>
   <dbobjects>
-    <table id="5780585f-5f3d-4f72-a38b-7665042e6c00" class="org.jiemamy.model.table.DefaultTableModel">
+    <table id="5780585f-5f3d-4f72-a38b-7665042e6c00">
       <name>foo</name>
       <columns/>
       <constraints/>
@@ -10,11 +10,11 @@
   </dbobjects>
   <dataSets/>
   <diagram:diagrams xmlns:diagram="http://jiemamy.org/xml/ns/diagram">
-    <diagram:diagram id="a0ed1691-bf18-46e4-bc63-5ee4343588f8" class="org.jiemamy.model.DefaultDiagramModel">
+    <diagram:diagram id="a0ed1691-bf18-46e4-bc63-5ee4343588f8">
       <diagram:level>ATTRTYPE</diagram:level>
       <diagram:mode>PHYSICAL</diagram:mode>
       <diagram:nodes>
-        <diagram:node id="c748964d-0ef5-492d-97c4-71e2124cf5d6" class="org.jiemamy.model.DefaultDatabaseObjectNodeModel">
+        <diagram:node id="c748964d-0ef5-492d-97c4-71e2124cf5d6">
           <diagram:core ref="5780585f-5f3d-4f72-a38b-7665042e6c00"/>
           <diagram:boundary x="100" y="100" width="-1" height="-1"/>
         </diagram:node>
