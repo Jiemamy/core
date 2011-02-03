@@ -25,6 +25,9 @@ import java.util.List;
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.model.DatabaseObjectModel;
+import org.jiemamy.model.ModelConsistencyException;
+import org.jiemamy.validator.Validator;
+import org.jiemamy.validator.impl.CyclicForeignReferenceValidator;
 
 /**
  * エンティティの依存度を計算するクラス。
@@ -38,6 +41,8 @@ public final class EntityDependencyCalculator {
 	/** 並べ替えの結果 */
 	private static List<DatabaseObjectModel> results;
 	
+	private static final Validator VALIDATOR = new CyclicForeignReferenceValidator();
+	
 
 	/**
 	 * エンティティを、依存度の低い順に並べ替えたリストを取得します。
@@ -45,9 +50,14 @@ public final class EntityDependencyCalculator {
 	 * @param context 対象のデータベースモデル
 	 * @return エンティティのリスト
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @throws ModelConsistencyException エンティティ同士に循環依存がある場合
 	 */
 	public static List<DatabaseObjectModel> getSortedEntityList(JiemamyContext context) {
 		Validate.notNull(context);
+		
+		if (VALIDATOR.validate(context).size() > 0) {
+			throw new ModelConsistencyException();
+		}
 		
 		results = new ArrayList<DatabaseObjectModel>(context.getDatabaseObjects().size());
 		

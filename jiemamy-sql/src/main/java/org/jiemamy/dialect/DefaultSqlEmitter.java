@@ -25,7 +25,6 @@ import java.util.Map;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
@@ -68,6 +67,7 @@ import org.jiemamy.model.table.TableModel;
 import org.jiemamy.model.view.ViewModel;
 import org.jiemamy.script.ScriptString;
 import org.jiemamy.utils.ConstraintComparator;
+import org.jiemamy.utils.collection.ListUtil;
 
 /**
  * {@link SqlEmitter}の標準実装クラス。
@@ -126,9 +126,8 @@ public class DefaultSqlEmitter implements SqlEmitter {
 		
 		if (config.emitDropStatements()) {
 			List<DatabaseObjectModel> dropList = EntityDependencyCalculator.getSortedEntityList(context);
-			DatabaseObjectModel[] array = dropList.toArray(new DatabaseObjectModel[dropList.size()]);
-			ArrayUtils.reverse(array);
-			for (DatabaseObjectModel entityModel : array) {
+			ListUtil.reverse(dropList);
+			for (DatabaseObjectModel entityModel : dropList) {
 				result.add(emitDropEntityStatement(entityModel));
 			}
 		}

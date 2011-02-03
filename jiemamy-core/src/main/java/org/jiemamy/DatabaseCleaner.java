@@ -35,6 +35,7 @@ import org.jiemamy.composer.ImportException;
 import org.jiemamy.composer.importer.DatabaseImportConfig;
 import org.jiemamy.composer.importer.DatabaseImporter;
 import org.jiemamy.model.DatabaseObjectModel;
+import org.jiemamy.model.ModelConsistencyException;
 import org.jiemamy.model.index.IndexModel;
 import org.jiemamy.model.table.TableModel;
 import org.jiemamy.model.view.ViewModel;
@@ -67,7 +68,12 @@ public class DatabaseCleaner {
 		DatabaseImporter databaseImporter = new DatabaseImporter();
 		databaseImporter.importModel(context, config);
 		
-		List<DatabaseObjectModel> sortedDomList = EntityDependencyCalculator.getSortedEntityList(context);
+		List<DatabaseObjectModel> sortedDomList;
+		try {
+			sortedDomList = EntityDependencyCalculator.getSortedEntityList(context);
+		} catch (ModelConsistencyException e) {
+			throw new ImportException("imported model is inconsistent.", e);
+		}
 		ListUtil.reverse(sortedDomList);
 		
 		Connection connection = null;

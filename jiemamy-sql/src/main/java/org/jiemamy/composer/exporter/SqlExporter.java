@@ -37,6 +37,7 @@ import org.jiemamy.composer.AbstractExporter;
 import org.jiemamy.composer.ExportException;
 import org.jiemamy.dialect.Dialect;
 import org.jiemamy.dialect.SqlEmitter;
+import org.jiemamy.model.ModelConsistencyException;
 import org.jiemamy.model.sql.SqlStatement;
 
 /**
@@ -108,6 +109,8 @@ public class SqlExporter extends AbstractExporter<SqlExportConfig> {
 			throw new ExportException(e);
 		} catch (ClassNotFoundException e) {
 			throw new ExportException("Dialect not found.", e);
+		} catch (ModelConsistencyException e) {
+			throw new ExportException("This model is inconsistent.", e);
 		} catch (UnsupportedOperationException e) {
 			throw new ExportException("This dialect does not support export SQL.", e);
 		} finally {

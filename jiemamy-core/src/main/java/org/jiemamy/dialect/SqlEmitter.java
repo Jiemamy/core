@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.JiemamyFacet;
+import org.jiemamy.model.ModelConsistencyException;
 import org.jiemamy.model.sql.SqlStatement;
 
 /**
@@ -39,6 +40,7 @@ public interface SqlEmitter {
 	 * @return SQLのリスト
 	 * @throws IllegalArgumentException 引数{@code context}が必要な{@link JiemamyFacet}を備えていない場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @throws ModelConsistencyException モデルの整合性が壊れていて、エミットできない場合
 	 */
 	List<SqlStatement> emit(JiemamyContext context, EmitConfig config);
 	
