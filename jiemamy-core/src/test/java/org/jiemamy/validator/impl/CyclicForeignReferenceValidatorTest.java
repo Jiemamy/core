@@ -51,7 +51,8 @@ public class CyclicForeignReferenceValidatorTest {
 	
 	private static final String[] PATHS_PSEUDO_CYCLIC = {
 		"/org/jiemamy/validator/selfref.jiemamy",
-		"/org/jiemamy/validator/noncyclic4.jiemamy"
+		"/org/jiemamy/validator/noncyclic4.jiemamy",
+		"/org/jiemamy/validator/empdept.jiemamy",
 	};
 	
 	private CyclicForeignReferenceValidator validator;

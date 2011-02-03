@@ -20,7 +20,6 @@ package org.jiemamy.validator.impl;
 
 import java.util.Collection;
 
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
 import org.jiemamy.JiemamyContext;
@@ -38,20 +37,24 @@ import org.jiemamy.validator.Problem;
 public class CyclicForeignReferenceValidator extends AbstractValidator {
 	
 	public Collection<Problem> validate(JiemamyContext context) {
-		Collection<Problem> problems = Lists.newArrayList();
+		Collection<Problem> problems = Lists.newArrayListWithCapacity(1);
 		for (TableModel tableModel : context.getTables()) {
-			Collection<DatabaseObjectModel> superDatabaseObjectsRecursive =
-					context.findSuperDatabaseObjectsRecursive(tableModel);
-			if (superDatabaseObjectsRecursive.size() == 1
-					&& Iterables.getOnlyElement(superDatabaseObjectsRecursive).equals(tableModel)) {
-				// 自己参照FK
-				continue;
-			}
-			if (superDatabaseObjectsRecursive.contains(tableModel)) {
-				problems.add(new CyclicForeignReferenceProblem(tableModel));
-				// 循環ノード数分検出してしまうので、1つ検出したらすぐに戻る
-				// TODO 循環の数＝輪の数を検出し、エラーの数にできないか？
-				return problems;
+			Collection<DatabaseObjectModel> superNonRecursives =
+					context.findSuperDatabaseObjectsNonRecursive(tableModel);
+			for (DatabaseObjectModel superNonRecursive : superNonRecursives) {
+				if (superNonRecursive.equals(tableModel)) {
+					// 自己参照
+					continue;
+				}
+				
+				Collection<DatabaseObjectModel> superRecursive =
+						context.findSuperDatabaseObjectsRecursive(superNonRecursive);
+				if (superRecursive.contains(tableModel)) {
+					problems.add(new CyclicForeignReferenceProblem(tableModel));
+					// 循環ノード数分検出してしまうので、1つ検出したらすぐに戻る
+					// TODO 循環の数＝輪の数を検出し、エラーの数にできないか？
+					return problems;
+				}
 			}
 		}
 		return problems;
