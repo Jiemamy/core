@@ -69,7 +69,7 @@ public class CyclicForeignReferenceValidator extends AbstractValidator {
 		 * @param tableModel テーブル名が設定されていないテーブル
 		 */
 		public CyclicForeignReferenceProblem(TableModel tableModel) {
-			super(tableModel, "F230");
+			super(tableModel, "F0230");
 			setArguments(new Object[] {
 				tableModel.getId().toString()
 			});
