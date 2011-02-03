@@ -35,6 +35,7 @@ import javax.xml.xpath.XPathFactory;
 import com.google.common.collect.Lists;
 
 import org.apache.commons.io.FileUtils;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +47,7 @@ import org.w3c.dom.Document;
  * @version $Id$
  * @author daisuke
  */
-//@Ignore
+@Ignore
 public class JiemamyCoreReleaseTest {
 	
 	private static Logger logger = LoggerFactory.getLogger(JiemamyCoreReleaseTest.class);
