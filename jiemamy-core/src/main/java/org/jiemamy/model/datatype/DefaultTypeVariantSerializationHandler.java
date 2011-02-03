@@ -128,7 +128,8 @@ public final class DefaultTypeVariantSerializationHandler extends SerializationH
 		JiemamyOutputContainer parent = sctx.peek();
 		try {
 			JiemamyOutputElement element = parent.addElement(CoreQName.DATA_TYPE);
-			element.addAttribute(CoreQName.CLASS, model.getClass());
+//			DefaultのHandlerはクラス属性をシリアライズしない
+//			element.addAttribute(CoreQName.CLASS, model.getClass());
 			
 			TypeReference typeReference = model.getTypeReference();
 			element.addElementAndCharacters(CoreQName.TYPE_CATEGORY, typeReference.getCategory());

@@ -95,8 +95,7 @@ public class DefaultTableModelSerializationHandlerTest extends AbstractSerializa
 		// FORMAT-OFF
 		String expected = "<?xml version='1.0' encoding='UTF-8'?>" + LF
 				+ "<table xmlns=\"http://jiemamy.org/xml/ns/core\"" +
-						" id=\"" + id.toString() + "\"" +
-						" class=\"" + model.getClass().getName() + "\">" + LF
+						" id=\"" + id.toString() + "\">" + LF
 				+ "  <columns/>" + LF
 				+ "  <constraints/>" + LF
 				+ "</table>";

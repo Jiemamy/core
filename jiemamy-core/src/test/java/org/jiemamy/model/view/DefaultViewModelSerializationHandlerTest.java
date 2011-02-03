@@ -98,8 +98,7 @@ public class DefaultViewModelSerializationHandlerTest extends AbstractSerializat
 		// FORMAT-OFF
 		String expected = "<?xml version='1.0' encoding='UTF-8'?>" + LF
 				+ "<view xmlns=\"http://jiemamy.org/xml/ns/core\"" +
-						" id=\"" + id.toString() + "\"" +
-						" class=\"" + model.getClass().getName() + "\">" + LF
+						" id=\"" + id.toString() + "\">" + LF
 					+ "  <name>foo</name>" + LF
 					+ "  <definition>SELECT * FROM BAR</definition>" + LF
 				+ "</view>";

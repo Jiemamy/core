@@ -141,7 +141,8 @@ public final class DefaultDataSetModelSerializationHandler extends Serialization
 		try {
 			JiemamyOutputElement element = parent.addElement(CoreQName.DATASET);
 			element.addAttribute(CoreQName.ID, model.getId());
-			element.addAttribute(CoreQName.CLASS, model.getClass());
+//			DefaultのHandlerはクラス属性をシリアライズしない
+//			element.addAttribute(CoreQName.CLASS, model.getClass());
 			
 			element.addElementAndCharacters(CoreQName.NAME, model.getName());
 			

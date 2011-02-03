@@ -266,7 +266,7 @@
         <xsd:element ref="deferrability" minOccurs="0"/>
         <xsd:element ref="parameters" minOccurs="0"/>
       </xsd:sequence>
-      <xsd:attribute name="class" type="fqcnType" use="required" />
+      <xsd:attribute name="class" type="fqcnType" use="optional" />
       <xsd:attribute name="id" type="uuidType" use="required" />
     </xsd:complexType>
   </xsd:element>
@@ -296,7 +296,7 @@
         <xsd:element ref="deferrability" minOccurs="0" />
         <xsd:element ref="parameters" minOccurs="0"/>
       </xsd:sequence>
-      <xsd:attribute name="class" type="fqcnType" use="required" />
+      <xsd:attribute name="class" type="fqcnType" use="optional" />
       <xsd:attribute name="id" type="uuidType" use="required" />
     </xsd:complexType>
   </xsd:element>
@@ -340,7 +340,7 @@
         <xsd:element name="onUpdate" type="referentialActionType" minOccurs="0" />
         <xsd:element ref="parameters" minOccurs="0"/>
       </xsd:sequence>
-      <xsd:attribute name="class" type="fqcnType" use="required" />
+      <xsd:attribute name="class" type="fqcnType" use="optional" />
       <xsd:attribute name="id" type="uuidType" use="required" />
     </xsd:complexType>
   </xsd:element>
@@ -360,7 +360,7 @@
         <xsd:element name="expression" type="xsd:string" />
         <xsd:element ref="parameters" minOccurs="0"/>
       </xsd:sequence>
-      <xsd:attribute name="class" type="fqcnType" use="required" />
+      <xsd:attribute name="class" type="fqcnType" use="optional" />
       <xsd:attribute name="id" type="uuidType" use="required" />
     </xsd:complexType>
   </xsd:element>
@@ -378,7 +378,7 @@
         <xsd:element name="unique" type="xsd:boolean" />
         <xsd:element ref="parameters" minOccurs="0"/>
       </xsd:sequence>
-      <xsd:attribute name="class" type="fqcnType" use="required" />
+      <xsd:attribute name="class" type="fqcnType" use="optional" />
       <xsd:attribute name="id" type="uuidType" use="required" />
     </xsd:complexType>
   </xsd:element>
@@ -399,7 +399,7 @@
         <xsd:element name="sortOrder" type="sortOrderType" minOccurs="0" />
         <xsd:element ref="parameters" minOccurs="0"/>
       </xsd:sequence>
-      <xsd:attribute name="class" type="fqcnType" use="required" />
+      <xsd:attribute name="class" type="fqcnType" use="optional" />
     </xsd:complexType>
   </xsd:element>
   
@@ -475,7 +475,7 @@
         <xsd:element ref="columnRef" />
         <xsd:element ref="parameters" minOccurs="0"/>
       </xsd:sequence>
-      <xsd:attribute name="class" type="fqcnType" use="required" />
+      <xsd:attribute name="class" type="fqcnType" use="optional" />
       <xsd:attribute name="id" type="uuidType" use="required" />
     </xsd:complexType>
   </xsd:element>

@@ -113,7 +113,8 @@ public class DefaultCheckConstraintModelSerializationHandler extends Serializati
 		try {
 			JiemamyOutputElement element = parent.addElement(CoreQName.CHECK);
 			element.addAttribute(CoreQName.ID, model.getId());
-			element.addAttribute(CoreQName.CLASS, model.getClass());
+//			DefaultのHandlerはクラス属性をシリアライズしない
+//			element.addAttribute(CoreQName.CLASS, model.getClass());
 			
 			element.addElementAndCharacters(CoreQName.NAME, model.getName());
 			element.addElementAndCharacters(CoreQName.LOGICAL_NAME, model.getLogicalName());

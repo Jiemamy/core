@@ -151,7 +151,8 @@ public final class DefaultTableModelSerializationHandler extends SerializationHa
 		try {
 			JiemamyOutputElement element = parent.addElement(CoreQName.TABLE);
 			element.addAttribute(CoreQName.ID, model.getId());
-			element.addAttribute(CoreQName.CLASS, model.getClass());
+//			DefaultのHandlerはクラス属性をシリアライズしない
+//			element.addAttribute(CoreQName.CLASS, model.getClass());
 			
 			element.addElementAndCharacters(CoreQName.NAME, model.getName());
 			element.addElementAndCharacters(CoreQName.LOGICAL_NAME, model.getLogicalName());

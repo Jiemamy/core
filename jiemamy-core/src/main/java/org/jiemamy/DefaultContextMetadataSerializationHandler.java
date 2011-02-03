@@ -102,7 +102,8 @@ public final class DefaultContextMetadataSerializationHandler extends Serializat
 		JiemamyOutputContainer parent = sctx.peek();
 		try {
 			JiemamyOutputElement element = parent.addElement(CoreQName.META);
-			element.addAttribute(CoreQName.CLASS, model.getClass());
+//			DefaultのHandlerはクラス属性をシリアライズしない
+//			element.addAttribute(CoreQName.CLASS, model.getClass());
 			
 			element.addElementAndCharacters(CoreQName.DIALECT, model.getDialectClassName());
 			element.addElementAndCharacters(CoreQName.SCHEMA_NAME, model.getSchemaName());

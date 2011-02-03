@@ -80,7 +80,8 @@ public class DefaultDeferrabilityModelSerializationHandler extends Serialization
 		JiemamyOutputContainer parent = sctx.peek();
 		try {
 			JiemamyOutputElement element = parent.addElement(CoreQName.DEFERRABILITY);
-			element.addAttribute(CoreQName.CLASS, model.getClass());
+//			DefaultのHandlerはクラス属性をシリアライズしない
+//			element.addAttribute(CoreQName.CLASS, model.getClass());
 			element.addCharacters(model.name());
 		} catch (XMLStreamException e) {
 			throw new SerializationException(e);

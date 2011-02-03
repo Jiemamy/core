@@ -119,7 +119,8 @@ public final class DefaultRecordModelSerializationHandler extends SerializationH
 		JiemamyOutputContainer parent = sctx.peek();
 		try {
 			JiemamyOutputElement recordsElement = parent.addElement(CoreQName.RECORDS);
-			recordsElement.addAttribute(CoreQName.CLASS, model.getClass());
+//			DefaultのHandlerはクラス属性をシリアライズしない
+//			recordsElement.addAttribute(CoreQName.CLASS, model.getClass());
 			sctx.push(recordsElement);
 			
 			JiemamyContext context = sctx.getContext();

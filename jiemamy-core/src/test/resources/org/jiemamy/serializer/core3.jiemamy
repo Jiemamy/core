@@ -1,18 +1,18 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <jiemamy xmlns="http://jiemamy.org/xml/ns/core" version="0.3.0-SNAPSHOT">
-  <metadata class="org.jiemamy.DefaultContextMetadata">
+  <metadata>
     <schemaName>schema-name</schemaName>
     <description/>
   </metadata>
   <dbobjects>
-    <table id="d23695f8-76dd-4f8c-b5a2-1e02087ba44d" class="org.jiemamy.model.table.DefaultTableModel">
+    <table id="d23695f8-76dd-4f8c-b5a2-1e02087ba44d">
       <name>foo</name>
       <columns>
-        <column id="58a57dcc-7745-4718-b03d-0143eaaa8af3" class="org.jiemamy.model.column.DefaultColumnModel">
+        <column id="58a57dcc-7745-4718-b03d-0143eaaa8af3">
           <name>bar</name>
           <logicalName>baz</logicalName>
           <description/>
-          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
+          <dataType>
             <typeCategory>INTEGER</typeCategory>
             <typeName>INTEGER</typeName>
           </dataType>

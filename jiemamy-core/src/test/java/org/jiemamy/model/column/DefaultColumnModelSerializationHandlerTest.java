@@ -96,8 +96,7 @@ public class DefaultColumnModelSerializationHandlerTest extends AbstractSerializ
 		// FORMAT-OFF
 		String expected = "<?xml version='1.0' encoding='UTF-8'?>" + LF
 				+ "<column xmlns=\"http://jiemamy.org/xml/ns/core\"" +
-						" id=\"" + id.toString() + "\"" +
-						" class=\"" + model.getClass().getName() + "\">" + LF
+						" id=\"" + id.toString()+ "\">" + LF
 					+ "  <name>foo</name>" + LF
 				+ "</column>";
 		// FORMAT-ON
