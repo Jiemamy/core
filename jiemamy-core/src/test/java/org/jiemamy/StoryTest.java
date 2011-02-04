@@ -80,9 +80,9 @@ public class StoryTest {
 		// FORMAT-OFF
 		ColumnModel pk;
 		TableModel dept = new Table("T_DEPT").with(
-			pk = new Column("ID").whoseTypeIs(DefaultTypeVariantTest.random()).build(),
-			new Column("NAME").whoseTypeIs(DefaultTypeVariantTest.random()).build(),
-			new Column("LOC").whoseTypeIs(DefaultTypeVariantTest.random()).build()
+			pk = new Column("ID").type(DefaultTypeVariantTest.random()).build(),
+			new Column("NAME").type(DefaultTypeVariantTest.random()).build(),
+			new Column("LOC").type(DefaultTypeVariantTest.random()).build()
 		).with(DefaultPrimaryKeyConstraintModel.of(pk)).build();
 		//FORMAT-ON
 		

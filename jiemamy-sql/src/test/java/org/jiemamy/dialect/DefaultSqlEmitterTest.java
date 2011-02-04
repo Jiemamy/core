@@ -124,9 +124,9 @@ public class DefaultSqlEmitterTest {
 		
 		// FORMAT-OFF
 		DefaultTableModel table = new Table("T_FOO")
-				.with(new Column("HOGE").whoseTypeIs(new DefaultDataType(INTEGER)).build())
-				.with(new Column("FUGA").whoseTypeIs(varchar32).build())
-				.with(new Column("PIYO").whoseTypeIs(new DefaultDataType(TIMESTAMP)).build())
+				.with(new Column("HOGE").type(new DefaultDataType(INTEGER)).build())
+				.with(new Column("FUGA").type(varchar32).build())
+				.with(new Column("PIYO").type(new DefaultDataType(TIMESTAMP)).build())
 				.build();
 		// FORMAT-ON
 		context.store(table);
@@ -153,9 +153,9 @@ public class DefaultSqlEmitterTest {
 		
 		// FORMAT-OFF
 		DefaultTableModel table = new Table("T_FOO")
-				.with(new Column("HOGE").whoseTypeIs(new DefaultDataType(INTEGER)).build())
-				.with(new Column("FUGA").whoseTypeIs(varchar32).build())
-				.with(new Column("PIYO").whoseTypeIs(new DefaultDataType(TIMESTAMP)).build())
+				.with(new Column("HOGE").type(new DefaultDataType(INTEGER)).build())
+				.with(new Column("FUGA").type(varchar32).build())
+				.with(new Column("PIYO").type(new DefaultDataType(TIMESTAMP)).build())
 				.build();
 		// FORMAT-ON
 		context.store(table);
@@ -184,20 +184,20 @@ public class DefaultSqlEmitterTest {
 		varchar16.putParam(TypeParameterKey.SIZE, 16);
 		
 		// FORMAT-OFF
-		DefaultColumnModel deptId = new Column("ID").whoseTypeIs(new DefaultDataType(INTEGER)).build();
-		DefaultColumnModel deptName = new Column("NAME").whoseTypeIs(varchar32).build();
+		DefaultColumnModel deptId = new Column("ID").type(new DefaultDataType(INTEGER)).build();
+		DefaultColumnModel deptName = new Column("NAME").type(varchar32).build();
 		DefaultTableModel dept = new Table("DEPT")
 				.with(deptId)
 				.with(deptName)
-				.with(new Column("LOC").whoseTypeIs(varchar16).build())
+				.with(new Column("LOC").type(varchar16).build())
 				.with(DefaultPrimaryKeyConstraintModel.of(deptId))
 				.with(DefaultNotNullConstraintModel.of(deptName))
 				.build();
 		
-		DefaultColumnModel empId = new Column("ID").whoseTypeIs(new DefaultDataType(INTEGER)).build();
-		DefaultColumnModel empName = new Column("NAME").whoseTypeIs(varchar32).build();
-		DefaultColumnModel empDeptId = new Column("DEPT_ID").whoseTypeIs(new DefaultDataType(INTEGER)).build();
-		DefaultColumnModel empMgrId = new Column("MGR_ID").whoseTypeIs(new DefaultDataType(INTEGER)).build();
+		DefaultColumnModel empId = new Column("ID").type(new DefaultDataType(INTEGER)).build();
+		DefaultColumnModel empName = new Column("NAME").type(varchar32).build();
+		DefaultColumnModel empDeptId = new Column("DEPT_ID").type(new DefaultDataType(INTEGER)).build();
+		DefaultColumnModel empMgrId = new Column("MGR_ID").type(new DefaultDataType(INTEGER)).build();
 		DefaultTableModel emp = new Table("EMP")
 				.with(empId)
 				.with(empName)
@@ -255,9 +255,9 @@ public class DefaultSqlEmitterTest {
 		
 		// FORMAT-OFF
 		DefaultTableModel table = new Table("T_FOO")
-				.with(new Column("HOGE").whoseTypeIs(new DefaultDataType(INTEGER)).build())
-				.with(new Column("FUGA").whoseTypeIs(varchar32).build())
-				.with(new Column("PIYO").whoseTypeIs(new DefaultDataType(TIMESTAMP)).build())
+				.with(new Column("HOGE").type(new DefaultDataType(INTEGER)).build())
+				.with(new Column("FUGA").type(varchar32).build())
+				.with(new Column("PIYO").type(new DefaultDataType(TIMESTAMP)).build())
 				.build();
 		// FORMAT-ON
 		context.store(table);
@@ -291,9 +291,9 @@ public class DefaultSqlEmitterTest {
 		varchar32.putParam(TypeParameterKey.SIZE, 32);
 		
 		// FORMAT-OFF
-		ColumnModel colFoo = new Column("FOO").whoseTypeIs(new DefaultDataType(INTEGER)).build();
-		ColumnModel colBar = new Column("BAR").whoseTypeIs(varchar32).build();
-		ColumnModel colBaz = new Column("BAZ").whoseTypeIs(new DefaultDataType(TIMESTAMP)).build();
+		ColumnModel colFoo = new Column("FOO").type(new DefaultDataType(INTEGER)).build();
+		ColumnModel colBar = new Column("BAR").type(varchar32).build();
+		ColumnModel colBaz = new Column("BAZ").type(new DefaultDataType(TIMESTAMP)).build();
 		DefaultTableModel table = new Table("T_HOGE")
 				.with(colFoo)
 				.with(colBar)

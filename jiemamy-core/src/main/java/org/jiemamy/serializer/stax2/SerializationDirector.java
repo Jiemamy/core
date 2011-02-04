@@ -53,7 +53,7 @@ import org.jiemamy.model.dataset.DefaultDataSetModelSerializationHandler;
 import org.jiemamy.model.dataset.DefaultRecordModel;
 import org.jiemamy.model.dataset.DefaultRecordModelSerializationHandler;
 import org.jiemamy.model.datatype.DefaultDataType;
-import org.jiemamy.model.datatype.DefaultTypeVariantSerializationHandler;
+import org.jiemamy.model.datatype.DefaultDataTypeSerializationHandler;
 import org.jiemamy.model.table.DefaultTableModel;
 import org.jiemamy.model.table.DefaultTableModelSerializationHandler;
 import org.jiemamy.model.view.DefaultViewModel;
@@ -95,7 +95,7 @@ public class SerializationDirector {
 		addHandler(DefaultViewModel.class, CoreQName.VIEW, new DefaultViewModelSerializationHandler(this));
 		addHandler(DefaultTableModel.class, CoreQName.TABLE, new DefaultTableModelSerializationHandler(this));
 		addHandler(DefaultColumnModel.class, CoreQName.COLUMN, new DefaultColumnModelSerializationHandler(this));
-		addHandler(DefaultDataType.class, CoreQName.DATA_TYPE, new DefaultTypeVariantSerializationHandler(this));
+		addHandler(DefaultDataType.class, CoreQName.DATA_TYPE, new DefaultDataTypeSerializationHandler(this));
 		addHandler(DefaultNotNullConstraintModel.class, CoreQName.NOT_NULL,
 				new DefaultNotNullConstraintModelSerializationHandler(this));
 		addHandler(DefaultPrimaryKeyConstraintModel.class, CoreQName.PRIMARY_KEY,

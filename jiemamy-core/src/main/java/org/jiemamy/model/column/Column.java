@@ -75,7 +75,7 @@ public class Column extends AbstractEntityFactory<DefaultColumnModel> {
 	 * @param type データ型
 	 * @return this
 	 */
-	public Column whoseTypeIs(DataType type) {
+	public Column type(DataType type) {
 		this.type = type;
 		return this;
 	}

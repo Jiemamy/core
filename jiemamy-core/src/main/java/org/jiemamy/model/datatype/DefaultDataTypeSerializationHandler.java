@@ -52,9 +52,9 @@ import org.jiemamy.xml.CoreQName;
  * @version $Id$
  * @author daisuke
  */
-public final class DefaultTypeVariantSerializationHandler extends SerializationHandler<DefaultDataType> {
+public final class DefaultDataTypeSerializationHandler extends SerializationHandler<DefaultDataType> {
 	
-	private static Logger logger = LoggerFactory.getLogger(DefaultTypeVariantSerializationHandler.class);
+	private static Logger logger = LoggerFactory.getLogger(DefaultDataTypeSerializationHandler.class);
 	
 
 	/**
@@ -63,7 +63,7 @@ public final class DefaultTypeVariantSerializationHandler extends SerializationH
 	 * @param director 親となるディレクタ
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public DefaultTypeVariantSerializationHandler(SerializationDirector director) {
+	public DefaultDataTypeSerializationHandler(SerializationDirector director) {
 		super(director);
 	}
 	

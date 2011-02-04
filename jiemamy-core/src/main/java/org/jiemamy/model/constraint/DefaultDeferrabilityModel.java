@@ -18,6 +18,7 @@
  */
 package org.jiemamy.model.constraint;
 
+import org.jiemamy.JiemamyError;
 import org.jiemamy.utils.sql.metadata.KeyMeta.Deferrability;
 
 /**
@@ -39,6 +40,12 @@ public enum DefaultDeferrabilityModel implements DeferrabilityModel {
 	/** 遅延評価可能であり、基本的に遅延評価であることを表す。 */
 	DEFERRABLE_DEFERRED(true, InitiallyCheckTime.DEFERRED);
 	
+	/**
+	 * {@link Deferrability}の値から {@link DefaultDeferrabilityModel}の値を引き当てる。
+	 * 
+	 * @param deferrability {@link Deferrability}の値
+	 * @return 対応する {@link DefaultDeferrabilityModel}の値、見つからなかった場合は{@code null}
+	 */
 	public static DefaultDeferrabilityModel fromDeferrability(Deferrability deferrability) {
 		if (deferrability == Deferrability.INITIALLY_DEFERRED) {
 			return DEFERRABLE_DEFERRED;
@@ -51,6 +58,13 @@ public enum DefaultDeferrabilityModel implements DeferrabilityModel {
 		}
 	}
 	
+	/**
+	 * {@link Deferrability}の値から {@link DefaultDeferrabilityModel}の値を引き当てる。
+	 * 
+	 * @param deferrable 遅延可能な場合は{@code true}、そうでない場合は{@code false}
+	 * @param initiallyCheckTime 制約検査を行うデフォルトの時期
+	 * @return 対応する {@link DefaultDeferrabilityModel}の値
+	 */
 	public static DefaultDeferrabilityModel valueOf(boolean deferrable, InitiallyCheckTime initiallyCheckTime) {
 		if (deferrable) {
 			if (initiallyCheckTime == null) {
@@ -59,11 +73,11 @@ public enum DefaultDeferrabilityModel implements DeferrabilityModel {
 				return DEFERRABLE_IMMEDIATE;
 			} else if (initiallyCheckTime == InitiallyCheckTime.DEFERRED) {
 				return DEFERRABLE_DEFERRED;
+			} else {
+				throw new JiemamyError("unknown value: " + initiallyCheckTime);
 			}
-		} else {
-			return INDEFERRABLE;
 		}
-		throw new IllegalArgumentException();
+		return INDEFERRABLE;
 	}
 	
 
