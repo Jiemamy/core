@@ -49,6 +49,7 @@ import org.jiemamy.JiemamyContext;
 import org.jiemamy.JiemamyContextTest;
 import org.jiemamy.model.column.ColumnModel;
 import org.jiemamy.model.column.DefaultColumnModel;
+import org.jiemamy.model.constraint.ForeignKeyConstraintModel;
 import org.jiemamy.model.datatype.DataTypeCategory;
 import org.jiemamy.model.datatype.DefaultDataType;
 import org.jiemamy.model.table.DefaultTableModel;
@@ -362,6 +363,23 @@ public class JiemamyStaxSerializerTest {
 		ColumnModel c2 = tableModel.getColumns().get(1);
 		assertThat(c2.getId(), is(UUID.fromString("7774052e-40ee-4796-b990-2411be64fb35")));
 		assertThat(c2.getName(), is("CCCC2"));
+	}
+	
+	/**
+	 * シンボリックIDが利用できることを確認。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test16() throws Exception {
+		String xml = getXml("symbolicid.jiemamy");
+		ByteArrayInputStream bais = new ByteArrayInputStream(xml.getBytes(CharEncoding.UTF_8));
+		JiemamyContext deserialized = serializer.deserialize(bais);
+		TableModel t2 = deserialized.getTable("TABLE_2");
+		ForeignKeyConstraintModel fk = Iterables.getOnlyElement(t2.getForeignKeyConstraintModels());
+		TableModel t1 = fk.findReferenceTable(deserialized.getTables());
+		
+		assertThat(t1.getName(), is("TABLE_1"));
 	}
 	
 	/**

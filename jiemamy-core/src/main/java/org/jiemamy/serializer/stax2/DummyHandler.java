@@ -46,16 +46,14 @@ public class DummyHandler extends SerializationHandler<Object> {
 	@Override
 	public Object handleDeserialization(DeserializationContext ctx) {
 		Validate.notNull(ctx);
-		logger.error("DUMMY WORKER IS CALLED.");
+		logger.debug("dummy handler invoked.");
 		return null;
-//		throw new RuntimeException();
 	}
 	
 	@Override
 	public void handleSerialization(Object model, SerializationContext sctx) {
 		Validate.notNull(model);
 		Validate.notNull(sctx);
-		logger.error("DUMMY WORKER IS CALLED.");
-//		throw new RuntimeException();
+		logger.debug("dummy handler invoked.");
 	}
 }

@@ -153,7 +153,8 @@ public class SerializationDirector {
 			SerializationHandler<T> handler = (SerializationHandler<T>) handlersWithQNameKey.get(qName);
 			
 			if (handler == null) {
-				logger.error("can not found deserialization handler : " + qName);
+				// 例えば JiemamyContext が DiagramFacet を持っていないのに<diagram:*>要素が来た時など、このハンドラが相手をする。
+				logger.warn("can not found deserialization handler : " + qName);
 				handler = (SerializationHandler<T>) dummy;
 			}
 			
@@ -169,7 +170,7 @@ public class SerializationDirector {
 		SerializationHandler<T> handler = (SerializationHandler<T>) handlersWithFqcnKey.get(targetName);
 		
 		if (handler == null) {
-			logger.error("can not found serialization handler : " + targetName);
+			logger.warn("can not found serialization handler : " + targetName);
 			handler = (SerializationHandler<T>) dummy;
 		}
 		

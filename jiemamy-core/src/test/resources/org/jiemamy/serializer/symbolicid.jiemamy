@@ -1,0 +1,122 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jiemamy xmlns="http://jiemamy.org/xml/ns/core" version="0.3.0-SNAPSHOT">
+  <metadata>
+    <dialect>org.jiemamy.dialect.GenericDialect</dialect>
+  </metadata>
+  <dbobjects>
+    <table id="b93cd48a-6ca1-4aaa-a610-a789e6d1fe81">
+      <name>TABLE_1</name>
+      <logicalName/>
+      <description/>
+      <columns>
+        <column id="table1_id">
+          <name>ID</name>
+          <logicalName/>
+          <description/>
+          <dataType>
+            <typeCategory>INTEGER</typeCategory>
+            <typeName>INTEGER</typeName>
+          </dataType>
+          <defaultValue/>
+        </column>
+        <column id="5b3c874f-e2ca-496e-a5e1-0295b01779ea">
+          <name>VALUE</name>
+          <logicalName/>
+          <description/>
+          <dataType>
+            <typeCategory>INTEGER</typeCategory>
+            <typeName>INTEGER</typeName>
+          </dataType>
+          <defaultValue/>
+        </column>
+      </columns>
+      <constraints>
+        <primaryKey id="af39a4e3-0e52-439e-a116-2db2803a035e">
+          <keyColumns>
+            <columnRef ref="table1_id"/>
+          </keyColumns>
+        </primaryKey>
+      </constraints>
+    </table>
+    <table id="7cd6db63-e3dd-47d8-9c4c-cc8bad29e919">
+      <name>TABLE_2</name>
+      <logicalName/>
+      <description/>
+      <columns>
+        <column id="table2_id">
+          <name>ID</name>
+          <logicalName/>
+          <description/>
+          <dataType>
+            <typeCategory>INTEGER</typeCategory>
+            <typeName>INTEGER</typeName>
+          </dataType>
+          <defaultValue/>
+        </column>
+        <column id="table2_key">
+          <name>KEY</name>
+          <logicalName/>
+          <description/>
+          <dataType>
+            <typeCategory>INTEGER</typeCategory>
+            <typeName>INTEGER</typeName>
+          </dataType>
+          <defaultValue/>
+        </column>
+        <column id="bcde3bd7-997f-4dae-b10d-5d91e8fa4d61">
+          <name>VALUE</name>
+          <logicalName/>
+          <description/>
+          <dataType>
+            <typeCategory>INTEGER</typeCategory>
+            <typeName>INTEGER</typeName>
+          </dataType>
+          <defaultValue/>
+        </column>
+      </columns>
+      <constraints>
+        <primaryKey id="1db9eb27-63af-438e-8e82-f3097a8a1322">
+          <keyColumns>
+            <columnRef ref="table2_id"/>
+          </keyColumns>
+        </primaryKey>
+        <foreignKey id="f606ecbb-e4c7-464e-8df6-83799d8f4889">
+          <name/>
+          <keyColumns>
+            <columnRef ref="table2_key"/>
+          </keyColumns>
+          <referenceColumns>
+            <columnRef ref="table1_id"/>
+          </referenceColumns>
+        </foreignKey>
+      </constraints>
+    </table>
+  </dbobjects>
+  <dataSets/>
+  <diagram:diagrams xmlns:diagram="http://jiemamy.org/xml/ns/diagram">
+    <diagram:diagram id="2a078025-570c-4dc6-bfba-adb4a15374fa">
+      <diagram:name>default</diagram:name>
+      <diagram:level>ATTRTYPE</diagram:level>
+      <diagram:mode>PHYSICAL</diagram:mode>
+      <diagram:nodes>
+        <diagram:node id="8bf3358a-6221-4558-aaee-cc47aa19b7e6">
+          <diagram:core ref="b93cd48a-6ca1-4aaa-a610-a789e6d1fe81"/>
+          <diagram:boundary x="51" y="68" width="-1" height="-1"/>
+        </diagram:node>
+        <diagram:node id="9f11a96d-a5af-4656-8d50-ffe6439c170d">
+          <diagram:core ref="7cd6db63-e3dd-47d8-9c4c-cc8bad29e919"/>
+          <diagram:boundary x="288" y="112" width="-1" height="-1"/>
+        </diagram:node>
+      </diagram:nodes>
+      <diagram:connections>
+        <diagram:connection id="19e8e074-2a88-475d-bc59-b6c5cd973fde">
+          <diagram:core ref="f606ecbb-e4c7-464e-8df6-83799d8f4889"/>
+          <diagram:source ref="9f11a96d-a5af-4656-8d50-ffe6439c170d"/>
+          <diagram:target ref="8bf3358a-6221-4558-aaee-cc47aa19b7e6"/>
+          <diagram:bendpoints/>
+        </diagram:connection>
+      </diagram:connections>
+    </diagram:diagram>
+  </diagram:diagrams>
+  <sql:sqls xmlns:sql="http://jiemamy.org/xml/ns/sql"/>
+</jiemamy>
