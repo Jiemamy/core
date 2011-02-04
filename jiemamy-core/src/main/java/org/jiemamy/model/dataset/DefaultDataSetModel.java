@@ -18,6 +18,7 @@
  */
 package org.jiemamy.model.dataset;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -60,6 +61,23 @@ public final class DefaultDataSetModel extends AbstractEntity implements DataSet
 	 */
 	public DefaultDataSetModel(UUID id) {
 		super(id);
+	}
+	
+	/**
+	 * テーブルに対応するレコードを追加する。
+	 * 
+	 * @param ref テーブルの参照
+	 * @param record レコード
+	 * @throws IllegalArgumentException 引数{@code ref}に{@code null}を与えた場合
+	 * @throws IllegalArgumentException 引数に{@code null}または{@code null}要素を与えた場合
+	 */
+	public synchronized void addRecord(EntityRef<? extends TableModel> ref, RecordModel record) {
+		Validate.notNull(ref);
+		Validate.notNull(record);
+		if (records.containsKey(ref) == false) {
+			records.put(ref, new ArrayList<RecordModel>());
+		}
+		records.get(ref).add(record);
 	}
 	
 	@Override
@@ -115,12 +133,13 @@ public final class DefaultDataSetModel extends AbstractEntity implements DataSet
 	 * テーブルに対応するレコードのリストを設定する。
 	 * 
 	 * @param ref テーブルの参照
-	 * @param record レコードのリスト
-	 * @throws IllegalArgumentException 引数{@code ref}に{@code null}を与えた場合
+	 * @param records レコードのリスト
+	 * @throws IllegalArgumentException 引数に{@code null}または{@code null}要素を与えた場合
 	 */
-	public synchronized void putRecord(EntityRef<? extends TableModel> ref, List<RecordModel> record) {
+	public synchronized void putRecord(EntityRef<? extends TableModel> ref, List<RecordModel> records) {
 		Validate.notNull(ref);
-		records.put(ref, Lists.newArrayList(record));
+		Validate.noNullElements(records);
+		this.records.put(ref, Lists.newArrayList(records));
 	}
 	
 	/**

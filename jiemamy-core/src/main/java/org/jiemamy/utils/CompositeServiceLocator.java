@@ -23,7 +23,7 @@ import org.apache.commons.lang.Validate;
 import org.jiemamy.ServiceLocator;
 
 /**
- * TODO for daisuke
+ * 複数の {@link ServiceLocator} を内包し、1つの {@link ServiceLocator} に見せるクラス。
  * 
  * @version $Id$
  * @author daisuke

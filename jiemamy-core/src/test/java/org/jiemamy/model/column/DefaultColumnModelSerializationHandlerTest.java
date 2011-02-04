@@ -71,12 +71,12 @@ public class DefaultColumnModelSerializationHandlerTest extends AbstractSerializ
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * 簡単なカラムを1つシリアライズして内容を確認する。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test01() throws Exception {
+	public void test01_簡単なカラムを1つシリアライズして内容を確認する() throws Exception {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		SMOutputDocument doc = F.createOutputDocument(baos);
 		doc.setIndentation("\n" + StringUtils.repeat("  ", 100), 1, 2); // CHECKSTYLE IGNORE THIS LINE
@@ -100,8 +100,9 @@ public class DefaultColumnModelSerializationHandlerTest extends AbstractSerializ
 					+ "  <name>foo</name>" + LF
 				+ "</column>";
 		// FORMAT-ON
-		logger.info("actual={}", actual);
-		logger.info("expected={}", expected);
+		
+//		logger.info("actual={}", actual);
+//		logger.info("expected={}", expected);
 		
 		assertThat(actual, is(expected));
 	}
