@@ -18,10 +18,15 @@
  */
 package org.jiemamy.model.column;
 
+import java.util.Collection;
+
+import org.jiemamy.TableNotFoundException;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.OrderedEntity;
 import org.jiemamy.model.datatype.DataType;
 import org.jiemamy.model.parameter.ParameterMap;
+import org.jiemamy.model.table.TableModel;
+import org.jiemamy.model.table.TooManyTablesFoundException;
 
 /**
  * リレーショナルデータベースにおける「カラム」を表すモデルインターフェイス。
@@ -34,6 +39,17 @@ import org.jiemamy.model.parameter.ParameterMap;
 public interface ColumnModel extends OrderedEntity {
 	
 	ColumnModel clone();
+	
+	/**
+	 * テーブルの集合の中からこのカラムが属するテーブルを返す。
+	 * 
+	 * @param tables 候補となるテーブルの集合
+	 * @return このカラムが属するテーブル
+	 * @throws TableNotFoundException 該当するテーブルが見つからなかった場合
+	 * @throws TooManyTablesFoundException 該当するテーブルが複数見つかった場合
+	 * @throws IllegalArgumentException 引数に{@code null}または{@code null}要素を与えた場合
+	 */
+	TableModel findDeclaringTable(Collection<? extends TableModel> tables);
 	
 	/**
 	 * 型記述子を取得する。

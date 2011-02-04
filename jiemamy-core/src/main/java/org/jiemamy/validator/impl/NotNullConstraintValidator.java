@@ -50,12 +50,12 @@ public class NotNullConstraintValidator extends AbstractValidator {
 		Collection<Problem> problems = Lists.newArrayList();
 		for (TableModel tableModel : context.getTables()) {
 			for (NotNullConstraintModel nn : tableModel.getConstraints(NotNullConstraintModel.class)) {
-				if (nn.getColumnRef() == null) {
+				if (nn.getColumn() == null) {
 					problems.add(new NullTargetProblem(tableModel, nn));
 				}
 				
 				try {
-					tableModel.resolve(nn.getColumnRef());
+					tableModel.resolve(nn.getColumn());
 				} catch (EntityNotFoundException e) {
 					problems.add(new TargetNotFoundProblem(nn));
 				}

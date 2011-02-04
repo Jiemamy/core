@@ -21,6 +21,7 @@ package org.jiemamy;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertThat;
@@ -72,12 +73,24 @@ public class SqlFacetTest {
 	}
 	
 	/**
+	 * SqlFacetを与えたcontextの挙動確認。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test01_SqlFacetを与えたcontextの挙動確認() throws Exception {
+		JiemamyContext context = new JiemamyContext(SqlFacet.PROVIDER);
+		assertThat(context.hasFacet(SqlFacet.class), is(true));
+		assertThat(context.getFacet(SqlFacet.class), is(notNullValue()));
+	}
+	
+	/**
 	 * テーブルにASを定義したら、getAroundScriptForで取得できる。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test01_テーブルにASを定義したら_getAroundScriptForで取得できる() throws Exception {
+	public void test02_テーブルにASを定義したら_getAroundScriptForで取得できる() throws Exception {
 		DefaultTableModel table = new DefaultTableModel(UUIDUtil.valueOfOrRandom("a"));
 		table.setName("T_FOO");
 		context.store(table);

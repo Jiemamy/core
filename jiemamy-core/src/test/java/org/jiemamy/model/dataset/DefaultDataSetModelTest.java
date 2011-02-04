@@ -104,12 +104,12 @@ public class DefaultDataSetModelTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * データを追加して維持されていることを確認。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void testname() throws Exception {
+	public void test01_データを追加して維持されていることを確認() throws Exception {
 		DefaultDataSetModel dataSet = new DefaultDataSetModel(UUID.randomUUID());
 		Map<EntityRef<? extends ColumnModel>, ScriptString> map = Maps.newHashMap();
 		dataSet.setName("hogehoge");

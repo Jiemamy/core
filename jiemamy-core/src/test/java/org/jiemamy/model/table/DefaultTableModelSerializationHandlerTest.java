@@ -71,12 +71,12 @@ public class DefaultTableModelSerializationHandlerTest extends AbstractSerializa
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * 簡単なテーブルを1つシリアライズして内容を確認する。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test01() throws Exception {
+	public void test01_簡単なテーブルを1つシリアライズして内容を確認する() throws Exception {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		SMOutputDocument doc = F.createOutputDocument(baos);
 		doc.setIndentation("\n" + StringUtils.repeat("  ", 100), 1, 2); // CHECKSTYLE IGNORE THIS LINE

@@ -137,7 +137,7 @@ public final class DefaultNotNullConstraintModelSerializationHandler extends
 			sctx.pop();
 			
 			JiemamyOutputElement colRefElement = element.addElement(CoreQName.COLUMN_REF);
-			EntityRef<? extends ColumnModel> colRef = model.getColumnRef();
+			EntityRef<? extends ColumnModel> colRef = model.getColumn();
 			if (colRef != null) {
 				colRefElement.addAttribute(CoreQName.REF, colRef.getReferentId());
 			} else {

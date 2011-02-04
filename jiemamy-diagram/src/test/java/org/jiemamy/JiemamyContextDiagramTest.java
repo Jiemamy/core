@@ -18,10 +18,7 @@
  */
 package org.jiemamy;
 
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
 import static org.jiemamy.utils.RandomUtil.integer;
-import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
@@ -54,14 +51,11 @@ public class JiemamyContextDiagramTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * 特にまだテストしたいことはないけどテストメソッドが1つもないとエラーが発生するので仕方なく置いてやってるメソッド。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test01_() throws Exception {
-		JiemamyContext context = new JiemamyContext(DiagramFacet.PROVIDER);
-		assertThat(context.hasFacet(DiagramFacet.class), is(true));
-		assertThat(context.getFacet(DiagramFacet.class), is(notNullValue()));
+	public void testname() throws Exception {
 	}
 }

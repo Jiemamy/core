@@ -34,8 +34,6 @@ import org.codehaus.staxmate.SMOutputFactory;
 import org.codehaus.staxmate.out.SMOutputDocument;
 import org.junit.Before;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import org.jiemamy.serializer.stax2.AbstractSerializationHandlerTest;
 import org.jiemamy.serializer.stax2.JiemamyDocument;
@@ -49,8 +47,6 @@ import org.jiemamy.serializer.stax2.SerializationDirector;
  * @author daisuke
  */
 public class DefaultColumnModelSerializationHandlerTest extends AbstractSerializationHandlerTest {
-	
-	private static Logger logger = LoggerFactory.getLogger(DefaultColumnModelSerializationHandlerTest.class);
 	
 	private static final SMOutputFactory F = new SMOutputFactory(XMLOutputFactory.newInstance());
 	

@@ -18,10 +18,7 @@
  */
 package org.jiemamy;
 
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
 import static org.jiemamy.utils.RandomUtil.integer;
-import static org.junit.Assert.assertThat;
 
 import java.util.Iterator;
 import java.util.Set;
@@ -63,14 +60,11 @@ public class JiemamyContextSqlTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * 特にまだテストしたいことはないけどテストメソッドが1つもないとエラーが発生するので仕方なく置いてやってるメソッド。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test01_() throws Exception {
-		JiemamyContext context = new JiemamyContext(SqlFacet.PROVIDER);
-		assertThat(context.hasFacet(SqlFacet.class), is(true));
-		assertThat(context.getFacet(SqlFacet.class), is(notNullValue()));
+	public void testname() throws Exception {
 	}
 }

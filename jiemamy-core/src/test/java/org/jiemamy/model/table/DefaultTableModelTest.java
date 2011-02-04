@@ -28,7 +28,6 @@ import static org.jiemamy.utils.RandomUtil.strNotEmpty;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
-import java.util.Collection;
 import java.util.UUID;
 
 import org.junit.After;
@@ -42,14 +41,11 @@ import org.jiemamy.model.column.ColumnParameterKey;
 import org.jiemamy.model.column.DefaultColumnModel;
 import org.jiemamy.model.column.DefaultColumnModelTest;
 import org.jiemamy.model.constraint.DefaultCheckConstraintModelTest;
-import org.jiemamy.model.constraint.DefaultForeignKeyConstraintModel;
 import org.jiemamy.model.constraint.DefaultNotNullConstraintModelTest;
 import org.jiemamy.model.constraint.DefaultPrimaryKeyConstraintModel;
 import org.jiemamy.model.constraint.DefaultPrimaryKeyConstraintModelTest;
 import org.jiemamy.model.constraint.DefaultUniqueKeyConstraintModel;
 import org.jiemamy.model.constraint.DefaultUniqueKeyConstraintModelTest;
-import org.jiemamy.model.constraint.ForeignKeyConstraintModel;
-import org.jiemamy.model.constraint.KeyConstraintModel;
 import org.jiemamy.model.parameter.Converters;
 import org.jiemamy.utils.RandomUtil;
 import org.jiemamy.utils.UUIDUtil;
@@ -303,40 +299,6 @@ public class DefaultTableModelTest {
 	}
 	
 	/**
-	 * {@link DefaultTableModel#findDeclaringTable(Collection, ColumnModel)}のテスト。
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
-	@Test
-	public void test06_findDeclaringTable() throws Exception {
-		ColumnModel a;
-		ColumnModel b;
-		ColumnModel c;
-		ColumnModel d;
-		
-		// FORMAT-OFF
-		TableModel t1 = new Table().whoseNameIs("ONE")
-				.with(a = new Column().whoseNameIs("A").build())
-				.with(b = new Column().whoseNameIs("B").build())
-				.build();
-		TableModel t2 = new Table().whoseNameIs("TWO")
-				.with(c = new Column().whoseNameIs("C").build())
-				.with(d = new Column().whoseNameIs("D").build())
-				.build();
-		// FORMAT-ON
-		
-		ctx.store(t1);
-		ctx.store(t2);
-		
-		Collection<TableModel> tables = ctx.getTables();
-		
-		assertThat(DefaultTableModel.findDeclaringTable(tables, a), is(t1));
-		assertThat(DefaultTableModel.findDeclaringTable(tables, b), is(t1));
-		assertThat(DefaultTableModel.findDeclaringTable(tables, c), is(t2));
-		assertThat(DefaultTableModel.findDeclaringTable(tables, d), is(t2));
-	}
-	
-	/**
 	 * TODO for daisuke
 	 * 
 	 * @throws Exception 例外が発生した場合
@@ -354,52 +316,5 @@ public class DefaultTableModelTest {
 		table2.deleteColumn(column.toReference());
 		
 		table1.store(column);
-	}
-	
-	/**
-	 * TODO for daisuke
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
-	@Test
-	public void test11() throws Exception {
-		ColumnModel b;
-		ColumnModel c;
-		ColumnModel d;
-		ColumnModel e;
-		ForeignKeyConstraintModel fk21;
-		ForeignKeyConstraintModel fk32;
-		KeyConstraintModel pk1;
-		KeyConstraintModel pk2;
-		
-		// FORMAT-OFF
-		TableModel t1 = new Table("ONE")
-				.with(new Column("A").build())
-				.with(b = new Column("B").build())
-				.with(pk1 = DefaultPrimaryKeyConstraintModel.of(b))
-				.build();
-		TableModel t2 = new Table("TWO")
-				.with(c = new Column("C").build())
-				.with(d = new Column("D").build())
-				.with(pk2 = DefaultPrimaryKeyConstraintModel.of(d))
-				.with(fk21 = DefaultForeignKeyConstraintModel.of(c, b))
-				.build();
-		TableModel t3 = new Table("THREE")
-				.with(e = new Column("E").build())
-				.with(new Column("F").build())
-				.with(fk32 = DefaultForeignKeyConstraintModel.of(e, d))
-				.build();
-		
-		ctx.store(t1);
-		ctx.store(t2);
-		ctx.store(t3);
-		
-		assertThat(fk21.findDeclaringTable(ctx.getTables()), is(t2));
-		assertThat(fk32.findDeclaringTable(ctx.getTables()), is(t3));
-		assertThat(fk21.findReferenceTable(ctx.getTables()), is(t1));
-		assertThat(fk32.findReferenceTable(ctx.getTables()), is(t2));
-		assertThat(fk21.findReferencedKeyConstraint(ctx.getDatabaseObjects()), is(pk1));
-		assertThat(fk32.findReferencedKeyConstraint(ctx.getDatabaseObjects()), is(pk2));
-		// FORMAT-ON
 	}
 }

@@ -61,12 +61,11 @@ public class DefaultPrimaryKeyConstraintModelTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * 特にまだテストしたいことはないけどテストメソッドが1つもないとエラーが発生するので仕方なく置いてやってるメソッド。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
 	public void testname() throws Exception {
-		
 	}
 }

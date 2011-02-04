@@ -1,6 +1,6 @@
 /*
  * Copyright 2007-2011 Jiemamy Project and the Others.
- * Created on 2009/01/20
+ * Created on 2011/02/04
  *
  * This file is part of Jiemamy.
  *
@@ -16,29 +16,23 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.model.constraint;
+package org.jiemamy.validator.impl;
 
 import org.jiemamy.dddbase.EntityRef;
-import org.jiemamy.model.column.ColumnModel;
+import org.jiemamy.validator.AbstractProblem;
 
-/**
- * NOT NULL制約を表すモデルインターフェイス。
- * 
- * <p>このインターフェイスで定義する全てのメソッドは冪等でなければならない(must)。</p>
- * 
- * @since 0.2
- * @author daisuke
- */
-public interface NotNullConstraintModel extends ValueConstraintModel {
-	
-	NotNullConstraintModel clone();
+class ReferenceProblem extends AbstractProblem {
 	
 	/**
-	* 対象カラム参照を取得する。
-	* 
-	* @return 対象カラム参照、未設定の場合{@code null}
-	*/
-	EntityRef<? extends ColumnModel> getColumn();
-	
-	EntityRef<? extends NotNullConstraintModel> toReference();
+	 * インスタンスを生成する。
+	 * @param pos 現在位置を表す文字列
+	 * @param elementReference 参照の切れた参照オブジェクト
+	 */
+	ReferenceProblem(EntityRef<?> elementReference, String pos) {
+		super(null, "F0190");
+		setArguments(new Object[] {
+			pos,
+			elementReference.getReferentId().toString()
+		});
+	}
 }

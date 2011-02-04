@@ -25,7 +25,7 @@ import com.google.common.base.Function;
 import org.jiemamy.dddbase.Entity;
 
 /**
- * TODO for daisuke
+ * {@link Entity}を受け取り、そのIDを返す関数オブジェクト。
  * 
  * @version $Id$
  * @author daisuke

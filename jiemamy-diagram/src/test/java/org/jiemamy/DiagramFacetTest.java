@@ -46,14 +46,13 @@ public class DiagramFacetTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * DiagramFacetを与えたcontextの挙動確認。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void testname() throws Exception {
-		DiagramFacet diagram = context.getFacet(DiagramFacet.class);
-		assertThat(diagram, is(notNullValue()));
+	public void test01_DiagramFacetを与えたcontextの挙動確認() throws Exception {
+		assertThat(context.hasFacet(DiagramFacet.class), is(true));
+		assertThat(context.getFacet(DiagramFacet.class), is(notNullValue()));
 	}
-	
 }

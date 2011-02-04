@@ -35,7 +35,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.TableNotFoundException;
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityNotFoundException;
@@ -69,65 +68,6 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	private static Logger logger = LoggerFactory.getLogger(DefaultTableModel.class);
 	
 
-	/**
-	 * {@code tables}の中から、このカラムが所属するテーブルを取得する。
-	 * 
-	 * @param tables 対象{@link TableModel}
-	 * @param columnModel 対象カラム
-	 * @return この属性が所属するテーブル
-	 * @throws TableNotFoundException 候補の中から属するテーブルが見つからなかった場合
-	 * @throws TooManyTablesFoundException 候補の中に属するテーブルが複数見つかった場合
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 */
-	public static TableModel findDeclaringTable(Collection<? extends TableModel> tables, final ColumnModel columnModel) {
-		Validate.noNullElements(tables);
-		Validate.notNull(columnModel);
-		Collection<? extends TableModel> c = Collections2.filter(tables, new Predicate<TableModel>() {
-			
-			public boolean apply(TableModel tableModel) {
-				return tableModel.getColumns().contains(columnModel);
-			}
-		});
-		
-		try {
-			return Iterables.getOnlyElement(c);
-		} catch (NoSuchElementException e) {
-			throw new TableNotFoundException("contains " + columnModel);
-		} catch (IllegalArgumentException e) {
-			throw new TooManyTablesFoundException(c);
-		}
-	}
-	
-	/**
-	 * {@code tables}の中から、この制約が所属するテーブルを取得する。
-	 * 
-	 * @param tables 対象{@link TableModel}
-	 * @param constraintModel 対象制約
-	 * @return この制約が所属するテーブル
-	 * @throws TableNotFoundException 候補の中から属するテーブルが見つからなかった場合
-	 * @throws TooManyTablesFoundException 候補の中に属するテーブルが複数見つかった場合
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 */
-	public static TableModel findDeclaringTable(Collection<? extends TableModel> tables,
-			final ConstraintModel constraintModel) {
-		Validate.noNullElements(tables);
-		Validate.notNull(constraintModel);
-		Collection<? extends TableModel> c = Collections2.filter(tables, new Predicate<TableModel>() {
-			
-			public boolean apply(TableModel tableModel) {
-				return tableModel.getConstraints().contains(constraintModel);
-			}
-		});
-		
-		try {
-			return Iterables.getOnlyElement(c);
-		} catch (NoSuchElementException e) {
-			throw new TableNotFoundException("contains " + constraintModel);
-		} catch (IllegalArgumentException e) {
-			throw new TooManyTablesFoundException(c);
-		}
-	}
-	
 	private static Set<TableModel> filter(Set<DatabaseObjectModel> databaseObjects) {
 		Set<TableModel> result = Sets.newHashSet();
 		for (DatabaseObjectModel databaseObjectModel : databaseObjects) {
@@ -312,7 +252,7 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	public NotNullConstraintModel getNotNullConstraintFor(EntityRef<? extends ColumnModel> reference) {
 		Validate.notNull(reference);
 		for (NotNullConstraintModel nn : getConstraints(NotNullConstraintModel.class)) {
-			EntityRef<? extends ColumnModel> columnRef = nn.getColumnRef();
+			EntityRef<? extends ColumnModel> columnRef = nn.getColumn();
 			if (columnRef == null) {
 				logger.warn("target column of NOT NULL is null: " + UUIDUtil.toShortString(nn.getId()));
 				continue;
@@ -346,7 +286,7 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 	public boolean isNotNullColumn(EntityRef<? extends ColumnModel> ref) {
 		Collection<NotNullConstraintModel> nns = getConstraints(NotNullConstraintModel.class);
 		for (NotNullConstraintModel nn : nns) {
-			EntityRef<? extends ColumnModel> columnRef = nn.getColumnRef();
+			EntityRef<? extends ColumnModel> columnRef = nn.getColumn();
 			if (columnRef != null && columnRef.equals(ref)) {
 				return true;
 			}
@@ -372,7 +312,7 @@ public/*final*/class DefaultTableModel extends DefaultDatabaseObjectModel implem
 				continue;
 			}
 			EntityRef<? extends ColumnModel> columnRef = foreignKey.getReferenceColumns().get(0);
-			TableModel referenceTableModel = findDeclaringTable(tables, context.resolve(columnRef));
+			TableModel referenceTableModel = context.resolve(columnRef).findDeclaringTable(tables);
 			if (referenceTableModel.equals(target)) {
 				return true;
 			}

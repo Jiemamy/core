@@ -46,7 +46,7 @@ public interface ConstraintModel extends Entity {
 	 * @throws TooManyTablesFoundException 該当するテーブルが複数見つかった場合
 	 * @throws IllegalArgumentException 引数に{@code null}または{@code null}要素を与えた場合
 	 */
-	TableModel findDeclaringTable(Collection<TableModel> tables);
+	TableModel findDeclaringTable(Collection<? extends TableModel> tables);
 	
 	/**
 	 * 遅延評価可能性モデルを取得する。

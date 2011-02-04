@@ -18,13 +18,24 @@
  */
 package org.jiemamy.model.column;
 
+import java.util.Collection;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Iterables;
+
+import org.apache.commons.lang.Validate;
+
+import org.jiemamy.TableNotFoundException;
 import org.jiemamy.dddbase.AbstractEntity;
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.datatype.DataType;
 import org.jiemamy.model.parameter.ParameterMap;
+import org.jiemamy.model.table.TableModel;
+import org.jiemamy.model.table.TooManyTablesFoundException;
 
 /**
  * カラム定義モデル。Artemisにおける{@link ColumnModel}の実装クラス。
@@ -68,6 +79,24 @@ public final class DefaultColumnModel extends AbstractEntity implements ColumnMo
 		DefaultColumnModel clone = (DefaultColumnModel) super.clone();
 		clone.params = params.clone();
 		return clone;
+	}
+	
+	public TableModel findDeclaringTable(Collection<? extends TableModel> tables) {
+		Validate.noNullElements(tables);
+		Collection<? extends TableModel> c = Collections2.filter(tables, new Predicate<TableModel>() {
+			
+			public boolean apply(TableModel tableModel) {
+				return tableModel.getColumns().contains(this);
+			}
+		});
+		
+		try {
+			return Iterables.getOnlyElement(c);
+		} catch (NoSuchElementException e) {
+			throw new TableNotFoundException("contains " + this + " in " + tables);
+		} catch (IllegalArgumentException e) {
+			throw new TooManyTablesFoundException(c);
+		}
 	}
 	
 	public DataType getDataType() {

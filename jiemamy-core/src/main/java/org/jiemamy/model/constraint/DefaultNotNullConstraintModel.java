@@ -68,7 +68,7 @@ public final class DefaultNotNullConstraintModel extends DefaultValueConstraintM
 		return clone;
 	}
 	
-	public EntityRef<? extends ColumnModel> getColumnRef() {
+	public EntityRef<? extends ColumnModel> getColumn() {
 		return column;
 	}
 	

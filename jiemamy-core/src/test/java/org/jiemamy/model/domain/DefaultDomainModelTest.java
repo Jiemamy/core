@@ -33,7 +33,7 @@ import org.jiemamy.model.table.DefaultTableModel;
 import org.jiemamy.model.table.Table;
 
 /**
- * TODO for daisuke
+ * {@link DefaultDomainModel}のテストクラス。
  * 
  * @version $Id$
  * @author daisuke

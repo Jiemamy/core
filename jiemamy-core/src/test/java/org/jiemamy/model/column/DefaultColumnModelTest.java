@@ -18,8 +18,8 @@
  */
 package org.jiemamy.model.column;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
@@ -31,18 +31,22 @@ import static org.jiemamy.utils.RandomUtil.str;
 import static org.jiemamy.utils.RandomUtil.strNotEmpty;
 import static org.junit.Assert.assertThat;
 
+import java.util.Collection;
 import java.util.UUID;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import org.jiemamy.JiemamyContext;
 import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.model.datatype.DataType;
 import org.jiemamy.model.datatype.DataTypeCategory;
 import org.jiemamy.model.datatype.DefaultDataType;
 import org.jiemamy.model.datatype.DefaultTypeVariantTest;
-import org.jiemamy.model.datatype.DataType;
 import org.jiemamy.model.parameter.Converters;
+import org.jiemamy.model.table.Table;
+import org.jiemamy.model.table.TableModel;
 import org.jiemamy.utils.RandomUtil;
 import org.jiemamy.utils.UUIDUtil;
 
@@ -150,6 +154,41 @@ public class DefaultColumnModelTest {
 	}
 	
 	/**
+	 * {@link ColumnModel#findDeclaringTable(Collection)}のテスト。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test03_findDeclaringTable() throws Exception {
+		JiemamyContext ctx = new JiemamyContext();
+		ColumnModel a;
+		ColumnModel b;
+		ColumnModel c;
+		ColumnModel d;
+		
+		// FORMAT-OFF
+		TableModel t1 = new Table().whoseNameIs("ONE")
+				.with(a = new Column().whoseNameIs("A").build())
+				.with(b = new Column().whoseNameIs("B").build())
+				.build();
+		TableModel t2 = new Table().whoseNameIs("TWO")
+				.with(c = new Column().whoseNameIs("C").build())
+				.with(d = new Column().whoseNameIs("D").build())
+				.build();
+		// FORMAT-ON
+		
+		ctx.store(t1);
+		ctx.store(t2);
+		
+		Collection<TableModel> tables = ctx.getTables();
+		
+		assertThat(a.findDeclaringTable(tables), is(t1));
+		assertThat(b.findDeclaringTable(tables), is(t1));
+		assertThat(c.findDeclaringTable(tables), is(t2));
+		assertThat(d.findDeclaringTable(tables), is(t2));
+	}
+	
+	/**
 	 * {@link DefaultColumnModel#clone()}のテスト。
 	 * 
 	 * @throws Exception 例外が発生した場合
@@ -170,4 +209,5 @@ public class DefaultColumnModelTest {
 		assertThat(column.getName(), is("name3"));
 		assertThat(clone.getName(), is("name2"));
 	}
+	
 }

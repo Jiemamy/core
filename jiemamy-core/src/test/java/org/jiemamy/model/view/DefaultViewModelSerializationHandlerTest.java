@@ -72,12 +72,12 @@ public class DefaultViewModelSerializationHandlerTest extends AbstractSerializat
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * 簡単なビューを1つシリアライズして内容を確認する。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test01() throws Exception {
+	public void test01_簡単なビューを1つシリアライズして内容を確認する() throws Exception {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		SMOutputDocument doc = F.createOutputDocument(baos);
 		doc.setIndentation("\n" + StringUtils.repeat("  ", 100), 1, 2); // CHECKSTYLE IGNORE THIS LINE
