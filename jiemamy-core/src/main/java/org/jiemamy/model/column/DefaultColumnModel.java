@@ -19,6 +19,7 @@
 package org.jiemamy.model.column;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
@@ -86,7 +87,9 @@ public final class DefaultColumnModel extends AbstractEntity implements ColumnMo
 		Collection<? extends TableModel> c = Collections2.filter(tables, new Predicate<TableModel>() {
 			
 			public boolean apply(TableModel tableModel) {
-				return tableModel.getColumns().contains(this);
+				List<ColumnModel> columns = tableModel.getColumns();
+				boolean result = columns.contains(DefaultColumnModel.this);
+				return result;
 			}
 		});
 		

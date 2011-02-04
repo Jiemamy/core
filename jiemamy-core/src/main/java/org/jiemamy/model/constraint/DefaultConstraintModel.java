@@ -76,7 +76,7 @@ public abstract class DefaultConstraintModel extends AbstractEntity implements C
 		Collection<? extends TableModel> c = Collections2.filter(tables, new Predicate<TableModel>() {
 			
 			public boolean apply(TableModel tableModel) {
-				return tableModel.getConstraints().contains(this);
+				return tableModel.getConstraints().contains(DefaultConstraintModel.this);
 			}
 		});
 		
