@@ -82,10 +82,22 @@ public final class DefaultIndexModel extends DefaultDatabaseObjectModel implemen
 		return unique;
 	}
 	
+	/**
+	 * インデックスカラムを削除する。
+	 * 
+	 * @param indexColumn インデックスカラム
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
 	public void reomveIndexColumn(IndexColumnModel indexColumn) {
+		Validate.notNull(indexColumn);
 		indexColumns.remove(indexColumn);
 	}
 	
+	/**
+	 * ユニークインデックスか否かを設定する
+	 * 
+	 * @param unique ユニークインデックスの場合は{@code true}、そうでない場合は{@code false}
+	 */
 	public void setUnique(boolean unique) {
 		this.unique = unique;
 	}

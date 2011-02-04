@@ -34,18 +34,37 @@ import org.jiemamy.model.table.TableModel;
 import org.jiemamy.model.table.TooManyColumnsFoundException;
 
 /**
- * TODO for daisuke
+ * {@link DefaultForeignKeyConstraintModel}に適切なデフォルト値を与えるファクトリ。
  * 
  * @version $Id$
  * @author daisuke
  */
 public final class ForeignKeyFactory {
 	
+	/**
+	 * 指定したテーブルからテーブルに貼られるデフォルト値を持った {@link DefaultForeignKeyConstraintModel} を生成して返す。
+	 * 
+	 * @param context {@link JiemamyContext}
+	 * @param declaringTable 制約の定義先テーブル
+	 * @param referenceTable 制約が参照するテーブル
+	 * @return 新しい {@link DefaultForeignKeyConstraintModel}
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
 	public static DefaultForeignKeyConstraintModel create(JiemamyContext context, TableModel declaringTable,
 			TableModel referenceTable) {
 		return setup(new DefaultForeignKeyConstraintModel(UUID.randomUUID()), context, declaringTable, referenceTable);
 	}
 	
+	/**
+	 * 入力の{@code fk}に対して指定したテーブルからテーブルに貼られるデフォルト値を設定する。
+	 * 
+	 * @param fk 設定対象外部キー
+	 * @param context {@link JiemamyContext}
+	 * @param declaringTable 制約の定義先テーブル
+	 * @param referenceTable 制約が参照するテーブル
+	 * @return {@code fk}
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
 	public static DefaultForeignKeyConstraintModel setup(DefaultForeignKeyConstraintModel fk, JiemamyContext context,
 			TableModel declaringTable, TableModel referenceTable) {
 		Validate.notNull(context);

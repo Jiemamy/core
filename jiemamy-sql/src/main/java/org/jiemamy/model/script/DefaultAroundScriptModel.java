@@ -84,6 +84,11 @@ public final class DefaultAroundScriptModel extends AbstractEntity implements Ar
 		return scripts.get(position).getScriptEngineClassName();
 	}
 	
+	/**
+	 * 挿入位置とスクリプト文字列の{@link Map}を返す。
+	 * 
+	 * @return 挿入位置とスクリプト文字列の{@link Map}
+	 */
 	public Map<Position, ScriptString> getScriptStrings() {
 		return MutationMonitor.monitor(Maps.newHashMap(scripts));
 	}
@@ -100,9 +105,9 @@ public final class DefaultAroundScriptModel extends AbstractEntity implements Ar
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * 設定対象{@link DatabaseObjectModel}の参照を設定する。
 	 * 
-	 * @param coreModelRef
+	 * @param coreModelRef 設定対象{@link DatabaseObjectModel}の参照
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public void setCoreModelRef(EntityRef<? extends DatabaseObjectModel> coreModelRef) {
@@ -111,7 +116,7 @@ public final class DefaultAroundScriptModel extends AbstractEntity implements Ar
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * 挿入位置に対してスクリプトを設定する。
 	 * 
 	 * @param position スクリプト挿入位置
 	 * @param script スクリプト

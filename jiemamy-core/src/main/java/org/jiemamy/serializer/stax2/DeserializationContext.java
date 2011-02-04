@@ -74,23 +74,40 @@ public class DeserializationContext {
 	}
 	
 	/**
-	 * カーソルを取得する。
+	 * 現在のカーソルを取得する。コンテキスト上のスタックから削除は行わない。
 	 * 
-	 * @return {@link JiemamyCursor}
+	 * @return 現在の{@link JiemamyCursor}
 	 */
 	public JiemamyCursor peek() {
 		return stack.peek();
 	}
 	
+	/**
+	 * コンテキスト上のスタックからpopし、現在のカーソルを取得する。
+	 * 
+	 * @return 現在の{@link JiemamyCursor}
+	 */
 	public JiemamyCursor pop() {
 		return stack.pop();
 	}
 	
+	/**
+	 * コンテキスト上のスタックに現在のカーソルとしてpushする。
+	 * 
+	 * @param cursor 現在の{@link JiemamyCursor}
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
 	public void push(JiemamyCursor cursor) {
 		Validate.notNull(cursor);
 		stack.push(cursor);
 	}
 	
+	/**
+	 * コンテキスト上のスタックに現在のカーソルとしてpushする。
+	 * 
+	 * @param cursor 現在の{@link SMHierarchicCursor}
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
 	public void push(SMHierarchicCursor cursor) {
 		Validate.notNull(cursor);
 		push(new JiemamyCursor(cursor));

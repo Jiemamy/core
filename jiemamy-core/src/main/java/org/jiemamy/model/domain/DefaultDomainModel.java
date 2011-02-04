@@ -22,14 +22,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.UUID;
 
-import com.google.common.collect.Lists;
-
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
-import org.jiemamy.dddbase.utils.CloneUtil;
-import org.jiemamy.dddbase.utils.MutationMonitor;
+import org.jiemamy.dddbase.OnMemoryRepository;
 import org.jiemamy.model.DefaultDatabaseObjectModel;
 import org.jiemamy.model.constraint.CheckConstraintModel;
 import org.jiemamy.model.datatype.DataType;
@@ -48,8 +45,7 @@ public final class DefaultDomainModel extends DefaultDatabaseObjectModel impleme
 	/** ドメインとして定義された型記述子 */
 	private DataType dataType;
 	
-	// TODO to Repository
-	private Collection<CheckConstraintModel> checkConstraints = Lists.newArrayList();
+	private OnMemoryRepository<CheckConstraintModel> checkConstraints = new OnMemoryRepository<CheckConstraintModel>();
 	
 	private boolean notNull;
 	
@@ -75,7 +71,7 @@ public final class DefaultDomainModel extends DefaultDatabaseObjectModel impleme
 	 */
 	public void addCheckConstraint(CheckConstraintModel checkConstraint) {
 		Validate.notNull(checkConstraint);
-		checkConstraints.add(checkConstraint.clone());
+		checkConstraints.store(checkConstraint);
 	}
 	
 	public TypeReference asType() {
@@ -85,13 +81,13 @@ public final class DefaultDomainModel extends DefaultDatabaseObjectModel impleme
 	@Override
 	public DefaultDomainModel clone() {
 		DefaultDomainModel clone = (DefaultDomainModel) super.clone();
-		clone.checkConstraints = CloneUtil.cloneEntityArrayList(checkConstraints);
+		clone.checkConstraints = checkConstraints.clone();
 		clone.params = params.clone();
 		return clone;
 	}
 	
 	public Collection<? extends CheckConstraintModel> getCheckConstraints() {
-		return MutationMonitor.monitor(CloneUtil.cloneEntityArrayList(checkConstraints));
+		return checkConstraints.getEntitiesAsSet();
 	}
 	
 	public DataType getDataType() {
@@ -154,9 +150,18 @@ public final class DefaultDomainModel extends DefaultDatabaseObjectModel impleme
 	}
 	
 
+	/**
+	 * ドメイン型の{@link TypeReference}実装クラス。
+	 * 
+	 * @version $Id$
+	 * @author daisuke
+	 */
 	public final class DomainType extends DefaultEntityRef<DomainModel> implements TypeReference {
 		
-		public DomainType() {
+		/**
+		 * インスタンスを生成する。
+		 */
+		DomainType() {
 			super(DefaultDomainModel.this);
 		}
 		
@@ -168,10 +173,23 @@ public final class DefaultDomainModel extends DefaultDatabaseObjectModel impleme
 			return dataType.getTypeReference().getCategory();
 		}
 		
+		/**
+		 * キーに対応するパラメータの値を取得する。
+		 * 
+		 * @param <T> 値の型
+		 * @param key キー
+		 * @return パラメータの値
+		 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+		 */
 		public <T>T getParam(TypeParameterKey<T> key) {
 			return dataType.getParam(key);
 		}
 		
+		/**
+		 * このモデルが持つ全パラメータを取得する。
+		 * 
+		 * @return カラムが持つ全パラメータ
+		 */
 		public ParameterMap getParams() {
 			return dataType.getParams();
 		}
@@ -180,12 +198,13 @@ public final class DefaultDomainModel extends DefaultDatabaseObjectModel impleme
 			return dataType.getTypeReference().getTypeName();
 		}
 		
+		/**
+		 * 型記述子を取得する。
+		 * 
+		 * @return 型記述子
+		 */
 		public TypeReference getTypeReference() {
 			return dataType.getTypeReference();
-		}
-		
-		public boolean matches(String typeName) {
-			return false;
 		}
 	}
 }
