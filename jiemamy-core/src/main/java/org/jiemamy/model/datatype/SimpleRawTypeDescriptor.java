@@ -59,6 +59,13 @@ public final class SimpleRawTypeDescriptor implements RawTypeDescriptor {
 		}
 	};
 	
+
+	private static <T>T notNull(T object) {
+		Validate.notNull(object);
+		return object;
+	}
+	
+
 	private String typeName;
 	
 	private RawTypeCategory category;
@@ -70,10 +77,10 @@ public final class SimpleRawTypeDescriptor implements RawTypeDescriptor {
 	 * インスタンスを生成する。
 	 * 
 	 * @param category 型カテゴリ
-	 * @throws NullPointerException 引数に{@code null}を与えた場合
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public SimpleRawTypeDescriptor(RawTypeCategory category) {
-		this(category, category.name());
+		this(category, notNull(category).name());
 	}
 	
 	/**
