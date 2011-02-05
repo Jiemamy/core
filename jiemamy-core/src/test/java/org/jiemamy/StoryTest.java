@@ -34,12 +34,9 @@ import org.jiemamy.model.column.JmColumnBuilder;
 import org.jiemamy.model.column.SimpleJmColumn;
 import org.jiemamy.model.constraint.SimpleJmForeignKeyConstraint;
 import org.jiemamy.model.constraint.SimpleJmPrimaryKeyConstraint;
-import org.jiemamy.model.datatype.SimpleDataTypeTest;
 import org.jiemamy.model.table.JmTable;
 import org.jiemamy.model.table.JmTableBuilder;
 import org.jiemamy.model.table.SimpleJmTable;
-import org.jiemamy.transaction.JiemamyTransaction;
-import org.jiemamy.transaction.SavePoint;
 
 /**
  * TODO for daisuke
@@ -63,40 +60,6 @@ public class StoryTest {
 	public void setUp() throws Exception {
 		ctx1 = new JiemamyContext();
 		ctx2 = new JiemamyContext();
-	}
-	
-	/**
-	 * TODO for daisuke
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
-	@Test
-	public void story1() throws Exception {
-		
-		JiemamyTransaction transaction = ctx1.getTransaction();
-		
-		SavePoint save1 = transaction.save();
-		// FORMAT-OFF
-		JmColumn pk;
-		JmTable dept = new JmTableBuilder("T_DEPT").with(
-			pk = new JmColumnBuilder("ID").type(SimpleDataTypeTest.random()).build(),
-			new JmColumnBuilder("NAME").type(SimpleDataTypeTest.random()).build(),
-			new JmColumnBuilder("LOC").type(SimpleDataTypeTest.random()).build()
-		).with(SimpleJmPrimaryKeyConstraint.of(pk)).build();
-		//FORMAT-ON
-		
-		ctx1.store(dept);
-		
-		assertThat(ctx1.getDbObjects().size(), is(1));
-		
-		SavePoint save2 = transaction.save();
-		transaction.rollback(save1);
-		
-		assertThat(ctx1.getDbObjects().size(), is(0));
-		
-		transaction.rollback(save2);
-		
-		assertThat(ctx1.getDbObjects().size(), is(1));
 	}
 	
 	/**

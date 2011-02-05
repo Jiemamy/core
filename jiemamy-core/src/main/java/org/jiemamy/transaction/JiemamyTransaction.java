@@ -24,6 +24,7 @@ import com.google.common.collect.Lists;
 
 import org.apache.commons.lang.Validate;
 
+import org.jiemamy.Experimental;
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.JiemamyError;
 import org.jiemamy.dddbase.Entity;
@@ -47,6 +48,7 @@ import org.jiemamy.utils.collection.EssentialStacks;
  * @since 0.3
  * @author daisuke
  */
+@Experimental
 public class JiemamyTransaction implements StoredEventListener {
 	
 	/** このファサードが発行したセーブポイントの集合 */

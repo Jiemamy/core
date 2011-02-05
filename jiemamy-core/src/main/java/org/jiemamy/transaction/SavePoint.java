@@ -20,6 +20,7 @@ package org.jiemamy.transaction;
 
 import org.apache.commons.lang.Validate;
 
+import org.jiemamy.Experimental;
 import org.jiemamy.utils.collection.ArrayEssentialStack;
 import org.jiemamy.utils.collection.EssentialStack;
 
@@ -31,6 +32,7 @@ import org.jiemamy.utils.collection.EssentialStack;
  * @since 0.2
  * @author daisuke
  */
+@Experimental
 public class SavePoint {
 	
 	private final EssentialStack<StoredEvent<?>> undoStackSnapShot;

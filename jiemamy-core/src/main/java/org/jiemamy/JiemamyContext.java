@@ -64,7 +64,6 @@ import org.jiemamy.serializer.JiemamySerializer;
 import org.jiemamy.serializer.stax2.JiemamyStaxSerializer;
 import org.jiemamy.transaction.EventBroker;
 import org.jiemamy.transaction.EventBrokerImpl;
-import org.jiemamy.transaction.JiemamyTransaction;
 import org.jiemamy.transaction.StoredEvent;
 import org.jiemamy.utils.LogMarker;
 import org.jiemamy.utils.UUIDProvider;
@@ -472,16 +471,16 @@ public/*final*/class JiemamyContext implements EntityResolver {
 		return getDbObjects(JmTable.class);
 	}
 	
-	/**
-	 * 新しいファサードインスタンスを生成し、取得する。
-	 * 
-	 * @return 新しいファサード
-	 * @since 0.2
-	 */
-	@Experimental
-	public JiemamyTransaction getTransaction() {
-		return new JiemamyTransaction(this);
-	}
+//	/**
+//	 * 新しいトランザクションインスタンスを生成し、取得する。
+//	 * 
+//	 * @return 新しいトランザクション
+//	 * @since 0.2
+//	 */
+//	@Experimental
+//	public JiemamyTransaction getTransaction() {
+//		return new JiemamyTransaction(this);
+//	}
 	
 	/**
 	 * このコンテキストが管理する全ての{@link JmView}を取得する。
