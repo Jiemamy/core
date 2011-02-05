@@ -31,7 +31,6 @@ public class ServiceNotFoundException extends RuntimeException {
 	 * インスタンスを生成する。
 	 */
 	public ServiceNotFoundException() {
-		super();
 	}
 	
 	/**

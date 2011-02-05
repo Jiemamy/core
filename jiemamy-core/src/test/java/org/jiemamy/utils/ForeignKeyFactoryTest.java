@@ -27,11 +27,11 @@ import com.google.common.collect.Iterables;
 import org.junit.Test;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.model.column.Column;
-import org.jiemamy.model.constraint.DefaultForeignKeyConstraintModel;
-import org.jiemamy.model.constraint.DefaultPrimaryKeyConstraintModel;
-import org.jiemamy.model.table.DefaultTableModel;
-import org.jiemamy.model.table.Table;
+import org.jiemamy.model.column.JmColumnBuilder;
+import org.jiemamy.model.constraint.SimpleJmForeignKeyConstraint;
+import org.jiemamy.model.constraint.SimpleJmPrimaryKeyConstraint;
+import org.jiemamy.model.table.JmTableBuilder;
+import org.jiemamy.model.table.SimpleJmTable;
 
 /**
  * {@link ForeignKeyFactory}のテストクラス。
@@ -50,26 +50,26 @@ public class ForeignKeyFactoryTest {
 	public void test01_create() throws Exception {
 		JiemamyContext context = new JiemamyContext();
 		// FORMAT-OFF
-		DefaultTableModel reference = new Table("DEPT")
-				.with(new Column("ID").build())
-				.with(new Column("NAME").build())
-				.with(new Column("LOC").build())
+		SimpleJmTable reference = new JmTableBuilder("DEPT")
+				.with(new JmColumnBuilder("ID").build())
+				.with(new JmColumnBuilder("NAME").build())
+				.with(new JmColumnBuilder("LOC").build())
 				.build();
 		// FORMAT-ON
-		reference.store(DefaultPrimaryKeyConstraintModel.of(reference.getColumn("ID")));
+		reference.store(SimpleJmPrimaryKeyConstraint.of(reference.getColumn("ID")));
 		context.store(reference);
 		
 		// FORMAT-OFF
-		DefaultTableModel declaring = new Table("EMP")
-				.with(new Column("ID").build())
-				.with(new Column("NAME").build())
-				.with(new Column("DEPT_ID").build())
+		SimpleJmTable declaring = new JmTableBuilder("EMP")
+				.with(new JmColumnBuilder("ID").build())
+				.with(new JmColumnBuilder("NAME").build())
+				.with(new JmColumnBuilder("DEPT_ID").build())
 				.build();
 		// FORMAT-ON
-		declaring.store(DefaultPrimaryKeyConstraintModel.of(declaring.getColumn("ID")));
+		declaring.store(SimpleJmPrimaryKeyConstraint.of(declaring.getColumn("ID")));
 		context.store(declaring);
 		
-		DefaultForeignKeyConstraintModel fk = ForeignKeyFactory.create(context, declaring, reference);
+		SimpleJmForeignKeyConstraint fk = ForeignKeyFactory.create(context, declaring, reference);
 		
 		assertThat(Iterables.getOnlyElement(fk.getKeyColumns()).isReferenceOf(declaring.getColumn("DEPT_ID")), is(true));
 		assertThat(Iterables.getOnlyElement(fk.getReferenceColumns()).isReferenceOf(reference.getColumn("ID")),
@@ -85,23 +85,23 @@ public class ForeignKeyFactoryTest {
 	public void test02_error1() throws Exception {
 		JiemamyContext context = new JiemamyContext();
 		// FORMAT-OFF
-		DefaultTableModel reference = new Table("DEPT")
-				.with(new Column("ID").build())
-				.with(new Column("NAME").build())
-				.with(new Column("LOC").build())
+		SimpleJmTable reference = new JmTableBuilder("DEPT")
+				.with(new JmColumnBuilder("ID").build())
+				.with(new JmColumnBuilder("NAME").build())
+				.with(new JmColumnBuilder("LOC").build())
 				.build();
 		// FORMAT-ON
 		// NO KEY
 		context.store(reference);
 		
 		// FORMAT-OFF
-		DefaultTableModel declaring = new Table("EMP")
-				.with(new Column("ID").build())
-				.with(new Column("NAME").build())
-				.with(new Column("DEPT_ID").build())
+		SimpleJmTable declaring = new JmTableBuilder("EMP")
+				.with(new JmColumnBuilder("ID").build())
+				.with(new JmColumnBuilder("NAME").build())
+				.with(new JmColumnBuilder("DEPT_ID").build())
 				.build();
 		// FORMAT-ON
-		declaring.store(DefaultPrimaryKeyConstraintModel.of(declaring.getColumn("ID")));
+		declaring.store(SimpleJmPrimaryKeyConstraint.of(declaring.getColumn("ID")));
 		context.store(declaring);
 		
 		try {
@@ -121,17 +121,17 @@ public class ForeignKeyFactoryTest {
 	public void test03_error2() throws Exception {
 		JiemamyContext context = new JiemamyContext();
 		// FORMAT-OFF
-		DefaultTableModel reference = new Table("DEPT")
-				.with(new Column("ID").build())
-				.with(new Column("NAME").build())
-				.with(new Column("LOC").build())
+		SimpleJmTable reference = new JmTableBuilder("DEPT")
+				.with(new JmColumnBuilder("ID").build())
+				.with(new JmColumnBuilder("NAME").build())
+				.with(new JmColumnBuilder("LOC").build())
 				.build();
 		// FORMAT-ON
-		reference.store(DefaultPrimaryKeyConstraintModel.of(reference.getColumn("ID")));
+		reference.store(SimpleJmPrimaryKeyConstraint.of(reference.getColumn("ID")));
 		context.store(reference);
 		
 		// FORMAT-OFF
-		DefaultTableModel declaring = new Table("EMP")
+		SimpleJmTable declaring = new JmTableBuilder("EMP")
 				// NO COLUMN
 				.build();
 		// FORMAT-ON

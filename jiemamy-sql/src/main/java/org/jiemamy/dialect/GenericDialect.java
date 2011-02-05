@@ -24,8 +24,8 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import org.jiemamy.dialect.TypeParameterSpec.Necessity;
-import org.jiemamy.model.datatype.DataTypeCategory;
-import org.jiemamy.model.datatype.DefaultTypeReference;
+import org.jiemamy.model.datatype.RawTypeCategory;
+import org.jiemamy.model.datatype.SimpleRawTypeDescriptor;
 import org.jiemamy.model.datatype.TypeParameterKey;
 import org.jiemamy.validator.AllValidator;
 import org.jiemamy.validator.Validator;
@@ -42,18 +42,18 @@ public final class GenericDialect extends AbstractDialect {
 	
 	static {
 		// FORMAT-OFF
-		typeEntries.add(new Entry(new DefaultTypeReference(DataTypeCategory.INTEGER), Arrays.asList(
+		typeEntries.add(new Entry(new SimpleRawTypeDescriptor(RawTypeCategory.INTEGER), Arrays.asList(
 				TypeParameterSpec.of(TypeParameterKey.SERIAL, Necessity.OPTIONAL)
 		)));
-		typeEntries.add(new Entry(new DefaultTypeReference(DataTypeCategory.DECIMAL), Arrays.asList(
+		typeEntries.add(new Entry(new SimpleRawTypeDescriptor(RawTypeCategory.DECIMAL), Arrays.asList(
 				TypeParameterSpec.of(TypeParameterKey.PRECISION, Necessity.REQUIRED),
 				TypeParameterSpec.of(TypeParameterKey.SCALE, Necessity.REQUIRED)
 		)));
-		typeEntries.add(new Entry(new DefaultTypeReference(DataTypeCategory.BOOLEAN)));
-		typeEntries.add(new Entry(new DefaultTypeReference(DataTypeCategory.VARCHAR), Arrays.asList(
+		typeEntries.add(new Entry(new SimpleRawTypeDescriptor(RawTypeCategory.BOOLEAN)));
+		typeEntries.add(new Entry(new SimpleRawTypeDescriptor(RawTypeCategory.VARCHAR), Arrays.asList(
 				TypeParameterSpec.of(TypeParameterKey.SIZE, Necessity.OPTIONAL)
 		)));
-		typeEntries.add(new Entry(new DefaultTypeReference(DataTypeCategory.TIMESTAMP), Arrays.asList(
+		typeEntries.add(new Entry(new SimpleRawTypeDescriptor(RawTypeCategory.TIMESTAMP), Arrays.asList(
 				TypeParameterSpec.of(TypeParameterKey.WITH_TIMEZONE, Necessity.OPTIONAL)
 		)));
 		// FORMAT-ON

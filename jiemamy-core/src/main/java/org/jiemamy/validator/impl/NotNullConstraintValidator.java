@@ -24,21 +24,21 @@ import com.google.common.collect.Lists;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.dddbase.EntityNotFoundException;
-import org.jiemamy.model.constraint.ForeignKeyConstraintModel;
-import org.jiemamy.model.constraint.KeyConstraintModel;
-import org.jiemamy.model.constraint.NotNullConstraintModel;
-import org.jiemamy.model.table.TableModel;
+import org.jiemamy.model.constraint.JmForeignKeyConstraint;
+import org.jiemamy.model.constraint.JmKeyConstraint;
+import org.jiemamy.model.constraint.JmNotNullConstraint;
+import org.jiemamy.model.table.JmTable;
 import org.jiemamy.validator.AbstractProblem;
 import org.jiemamy.validator.AbstractValidator;
 import org.jiemamy.validator.Problem;
 
 /**
- * {@link ForeignKeyConstraintModel}の構成を調べるバリデータ。
+ * {@link JmForeignKeyConstraint}の構成を調べるバリデータ。
  * 
  * <ul>
- *   <li>{@link ForeignKeyConstraintModel#getKeyColumns()}と{@link ForeignKeyConstraintModel#getReferenceColumns()}の
+ *   <li>{@link JmForeignKeyConstraint#getKeyColumns()}と{@link JmForeignKeyConstraint#getReferenceColumns()}の
  *   要素数は一致していなければならない。</li>
- *   <li>{@link ForeignKeyConstraintModel#getReferenceColumns()}は、参照先テーブルが持ついずれかの {@link KeyConstraintModel} の
+ *   <li>{@link JmForeignKeyConstraint#getReferenceColumns()}は、参照先テーブルが持ついずれかの {@link JmKeyConstraint} の
  *   キー構成カラムと一致していなければならない。</li>
  * </ul>
  * 
@@ -48,16 +48,16 @@ public class NotNullConstraintValidator extends AbstractValidator {
 	
 	public Collection<Problem> validate(JiemamyContext context) {
 		Collection<Problem> problems = Lists.newArrayList();
-		for (TableModel tableModel : context.getTables()) {
-			for (NotNullConstraintModel nn : tableModel.getConstraints(NotNullConstraintModel.class)) {
+		for (JmTable table : context.getTables()) {
+			for (JmNotNullConstraint nn : table.getConstraints(JmNotNullConstraint.class)) {
 				if (nn.getColumn() == null) {
-					problems.add(new NullTargetProblem(tableModel, nn));
+					problems.add(new NullTargetProblem(table, nn));
 				}
 				
 				try {
-					tableModel.resolve(nn.getColumn());
+					table.resolve(nn.getColumn());
 				} catch (EntityNotFoundException e) {
-					problems.add(new TargetNotFoundProblem(nn));
+					problems.add(new ReferenceProblem(nn, nn.getColumn()));
 				}
 			}
 		}
@@ -71,31 +71,15 @@ public class NotNullConstraintValidator extends AbstractValidator {
 		/**
 		 * インスタンスを生成する。
 		 * 
-		 * @param tableModel テーブル
+		 * @param table テーブル
 		 * @param nn 不正な非NULL制約
 		 */
-		public NullTargetProblem(TableModel tableModel, NotNullConstraintModel nn) {
+		public NullTargetProblem(JmTable table, JmNotNullConstraint nn) {
 			super(nn, "F0180");
 			setArguments(new Object[] {
-				tableModel.getName(),
+				table.getName(),
 				nn.getName(),
 			});
 		}
 	}
-	
-	static class TargetNotFoundProblem extends AbstractProblem {
-		
-		/**
-		 * インスタンスを生成する。
-		 * 
-		 * @param nn 不正な非NULL制約
-		 */
-		public TargetNotFoundProblem(NotNullConstraintModel nn) {
-			super(nn, "F0090");
-			setArguments(new Object[] {
-				nn.getName(),
-			});
-		}
-	}
-	
 }

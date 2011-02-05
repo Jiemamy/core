@@ -56,7 +56,7 @@ public class IdCollisionValidator extends AbstractValidator {
 		Collection<Problem> problems = Lists.newArrayList();
 		Collection<Entity> entities = Lists.newArrayList();
 		
-		entities.addAll(context.getDatabaseObjects());
+		entities.addAll(context.getDbObjects());
 		entities.addAll(context.getDataSets());
 		for (JiemamyFacet facet : context.getFacets()) {
 			entities.addAll(facet.getEntities());
@@ -96,7 +96,7 @@ public class IdCollisionValidator extends AbstractValidator {
 		 * 
 		 * @param entity 衝突したentity
 		 */
-		public IdCollisionProblem(Entity entity) {
+		IdCollisionProblem(Entity entity) {
 			super(null, "F0110");
 			setArguments(new Object[] {
 				entity.getId(),

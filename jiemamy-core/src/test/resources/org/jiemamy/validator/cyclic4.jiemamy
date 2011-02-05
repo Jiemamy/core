@@ -1,21 +1,21 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <jiemamy xmlns="http://jiemamy.org/xml/ns/core" version="0.3.0-SNAPSHOT">
-  <metadata class="org.jiemamy.DefaultContextMetadata">
+  <metadata class="org.jiemamy.SimpleJmMetadata">
     <dialect>org.jiemamy.dialect.mysql.MySqlDialect</dialect>
     <schemaName/>
     <description/>
   </metadata>
   <dbobjects>
-    <table id="941d0768-3615-4cfb-a805-6bc0290057b6" class="org.jiemamy.model.table.DefaultTableModel">
+    <table id="941d0768-3615-4cfb-a805-6bc0290057b6" class="org.jiemamy.model.table.SimpleJmTable">
       <name>TABLE_4</name>
       <logicalName/>
       <description/>
       <columns>
-        <column id="abb61422-c846-4f01-9418-426b08abcbc1" class="org.jiemamy.model.column.DefaultColumnModel">
+        <column id="abb61422-c846-4f01-9418-426b08abcbc1" class="org.jiemamy.model.column.SimpleJmColumn">
           <name>COLUMN_1</name>
           <logicalName/>
           <description/>
-          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
+          <dataType class="org.jiemamy.model.datatype.SimpleDataType">
             <typeCategory>INTEGER</typeCategory>
             <typeName>INTEGER</typeName>
           </dataType>
@@ -23,12 +23,12 @@
         </column>
       </columns>
       <constraints>
-        <primaryKey id="6c5b35e2-9e23-48a5-a14d-c928292c0db6" class="org.jiemamy.model.constraint.DefaultPrimaryKeyConstraintModel">
+        <primaryKey id="6c5b35e2-9e23-48a5-a14d-c928292c0db6" class="org.jiemamy.model.constraint.SimpleJmPrimaryKeyConstraint">
           <keyColumns>
             <columnRef ref="abb61422-c846-4f01-9418-426b08abcbc1"/>
           </keyColumns>
         </primaryKey>
-        <foreignKey id="a45bd2c8-c119-499c-b52d-214c9a33d097" class="org.jiemamy.model.constraint.DefaultForeignKeyConstraintModel">
+        <foreignKey id="a45bd2c8-c119-499c-b52d-214c9a33d097" class="org.jiemamy.model.constraint.SimpleJmForeignKeyConstraint">
           <keyColumns>
             <columnRef ref="abb61422-c846-4f01-9418-426b08abcbc1"/>
           </keyColumns>
@@ -38,16 +38,16 @@
         </foreignKey>
       </constraints>
     </table>
-    <table id="f43b8338-9969-49c4-b747-97dd88101367" class="org.jiemamy.model.table.DefaultTableModel">
+    <table id="f43b8338-9969-49c4-b747-97dd88101367" class="org.jiemamy.model.table.SimpleJmTable">
       <name>TABLE_1</name>
       <logicalName/>
       <description/>
       <columns>
-        <column id="5606d1dd-b8e3-4150-8610-e1249e3a4997" class="org.jiemamy.model.column.DefaultColumnModel">
+        <column id="5606d1dd-b8e3-4150-8610-e1249e3a4997" class="org.jiemamy.model.column.SimpleJmColumn">
           <name>COLUMN_1</name>
           <logicalName/>
           <description/>
-          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
+          <dataType class="org.jiemamy.model.datatype.SimpleDataType">
             <typeCategory>INTEGER</typeCategory>
             <typeName>INTEGER</typeName>
           </dataType>
@@ -55,12 +55,12 @@
         </column>
       </columns>
       <constraints>
-        <primaryKey id="bbcb93a0-6c7c-4ea3-831b-89974f02e730" class="org.jiemamy.model.constraint.DefaultPrimaryKeyConstraintModel">
+        <primaryKey id="bbcb93a0-6c7c-4ea3-831b-89974f02e730" class="org.jiemamy.model.constraint.SimpleJmPrimaryKeyConstraint">
           <keyColumns>
             <columnRef ref="5606d1dd-b8e3-4150-8610-e1249e3a4997"/>
           </keyColumns>
         </primaryKey>
-        <foreignKey id="f2016df3-2a3b-46a9-ac36-5e514eef24f8" class="org.jiemamy.model.constraint.DefaultForeignKeyConstraintModel">
+        <foreignKey id="f2016df3-2a3b-46a9-ac36-5e514eef24f8" class="org.jiemamy.model.constraint.SimpleJmForeignKeyConstraint">
           <keyColumns>
             <columnRef ref="5606d1dd-b8e3-4150-8610-e1249e3a4997"/>
           </keyColumns>
@@ -70,16 +70,16 @@
         </foreignKey>
       </constraints>
     </table>
-    <table id="1e3a07b6-0259-45b8-8619-b01edd9cc03b" class="org.jiemamy.model.table.DefaultTableModel">
+    <table id="1e3a07b6-0259-45b8-8619-b01edd9cc03b" class="org.jiemamy.model.table.SimpleJmTable">
       <name>TABLE_2</name>
       <logicalName/>
       <description/>
       <columns>
-        <column id="fba53e9c-43c9-46eb-b1ce-364989e4ac5e" class="org.jiemamy.model.column.DefaultColumnModel">
+        <column id="fba53e9c-43c9-46eb-b1ce-364989e4ac5e" class="org.jiemamy.model.column.SimpleJmColumn">
           <name>COLUMN_1</name>
           <logicalName/>
           <description/>
-          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
+          <dataType class="org.jiemamy.model.datatype.SimpleDataType">
             <typeCategory>INTEGER</typeCategory>
             <typeName>INTEGER</typeName>
           </dataType>
@@ -87,12 +87,12 @@
         </column>
       </columns>
       <constraints>
-        <primaryKey id="5eca1110-14b5-48f0-9f19-f0a3e2022291" class="org.jiemamy.model.constraint.DefaultPrimaryKeyConstraintModel">
+        <primaryKey id="5eca1110-14b5-48f0-9f19-f0a3e2022291" class="org.jiemamy.model.constraint.SimpleJmPrimaryKeyConstraint">
           <keyColumns>
             <columnRef ref="fba53e9c-43c9-46eb-b1ce-364989e4ac5e"/>
           </keyColumns>
         </primaryKey>
-        <foreignKey id="47e32e6b-76d4-4090-a62b-3e354db82bd9" class="org.jiemamy.model.constraint.DefaultForeignKeyConstraintModel">
+        <foreignKey id="47e32e6b-76d4-4090-a62b-3e354db82bd9" class="org.jiemamy.model.constraint.SimpleJmForeignKeyConstraint">
           <keyColumns>
             <columnRef ref="fba53e9c-43c9-46eb-b1ce-364989e4ac5e"/>
           </keyColumns>
@@ -102,16 +102,16 @@
         </foreignKey>
       </constraints>
     </table>
-    <table id="7b439e21-7aa1-4f2a-b7ad-1f743e2182d8" class="org.jiemamy.model.table.DefaultTableModel">
+    <table id="7b439e21-7aa1-4f2a-b7ad-1f743e2182d8" class="org.jiemamy.model.table.SimpleJmTable">
       <name>TABLE_3</name>
       <logicalName/>
       <description/>
       <columns>
-        <column id="61c08cfd-9589-4913-a941-5129536d5314" class="org.jiemamy.model.column.DefaultColumnModel">
+        <column id="61c08cfd-9589-4913-a941-5129536d5314" class="org.jiemamy.model.column.SimpleJmColumn">
           <name>COLUMN_1</name>
           <logicalName/>
           <description/>
-          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
+          <dataType class="org.jiemamy.model.datatype.SimpleDataType">
             <typeCategory>INTEGER</typeCategory>
             <typeName>INTEGER</typeName>
           </dataType>
@@ -119,12 +119,12 @@
         </column>
       </columns>
       <constraints>
-        <primaryKey id="d000d372-3208-49d5-8664-f71b3bcb5f9f" class="org.jiemamy.model.constraint.DefaultPrimaryKeyConstraintModel">
+        <primaryKey id="d000d372-3208-49d5-8664-f71b3bcb5f9f" class="org.jiemamy.model.constraint.SimpleJmPrimaryKeyConstraint">
           <keyColumns>
             <columnRef ref="61c08cfd-9589-4913-a941-5129536d5314"/>
           </keyColumns>
         </primaryKey>
-        <foreignKey id="880bfe24-c0dc-446e-bdb3-8f0702424c38" class="org.jiemamy.model.constraint.DefaultForeignKeyConstraintModel">
+        <foreignKey id="880bfe24-c0dc-446e-bdb3-8f0702424c38" class="org.jiemamy.model.constraint.SimpleJmForeignKeyConstraint">
           <keyColumns>
             <columnRef ref="61c08cfd-9589-4913-a941-5129536d5314"/>
           </keyColumns>
@@ -138,48 +138,48 @@
   <dataSets/>
   <sql:sqls xmlns:sql="http://jiemamy.org/xml/ns/sql"/>
   <diagram:diagrams xmlns:diagram="http://jiemamy.org/xml/ns/diagram">
-    <diagram:diagram id="da11b757-3b82-49e4-8b1a-741112c602df" class="org.jiemamy.model.DefaultDiagramModel">
+    <diagram:diagram id="da11b757-3b82-49e4-8b1a-741112c602df" class="org.jiemamy.model.SimpleJmDiagram">
       <diagram:name>default</diagram:name>
       <diagram:level>ATTRTYPE</diagram:level>
       <diagram:mode>PHYSICAL</diagram:mode>
       <diagram:nodes>
-        <diagram:node id="91c074cb-8847-4a6c-8beb-08f7392e9e66" class="org.jiemamy.model.DefaultDatabaseObjectNodeModel">
+        <diagram:node id="91c074cb-8847-4a6c-8beb-08f7392e9e66" class="org.jiemamy.model.SimpleJmDbObjectNode">
           <diagram:core ref="941d0768-3615-4cfb-a805-6bc0290057b6"/>
           <diagram:boundary x="32" y="203" width="-1" height="-1"/>
         </diagram:node>
-        <diagram:node id="afecf426-0ec6-4c64-92c8-43540530f827" class="org.jiemamy.model.DefaultDatabaseObjectNodeModel">
+        <diagram:node id="afecf426-0ec6-4c64-92c8-43540530f827" class="org.jiemamy.model.SimpleJmDbObjectNode">
           <diagram:core ref="7b439e21-7aa1-4f2a-b7ad-1f743e2182d8"/>
           <diagram:boundary x="436" y="203" width="-1" height="-1"/>
         </diagram:node>
-        <diagram:node id="fdc31665-58c8-43f9-910e-42d1cd468d22" class="org.jiemamy.model.DefaultDatabaseObjectNodeModel">
+        <diagram:node id="fdc31665-58c8-43f9-910e-42d1cd468d22" class="org.jiemamy.model.SimpleJmDbObjectNode">
           <diagram:core ref="f43b8338-9969-49c4-b747-97dd88101367"/>
           <diagram:boundary x="32" y="36" width="-1" height="-1"/>
         </diagram:node>
-        <diagram:node id="0a55b31d-8201-4885-a477-52900450f331" class="org.jiemamy.model.DefaultDatabaseObjectNodeModel">
+        <diagram:node id="0a55b31d-8201-4885-a477-52900450f331" class="org.jiemamy.model.SimpleJmDbObjectNode">
           <diagram:core ref="1e3a07b6-0259-45b8-8619-b01edd9cc03b"/>
           <diagram:boundary x="436" y="36" width="-1" height="-1"/>
         </diagram:node>
       </diagram:nodes>
       <diagram:connections>
-        <diagram:connection id="ce9d2dfb-8f87-48ba-9c45-1a8266c994ae" class="org.jiemamy.model.DefaultConnectionModel">
+        <diagram:connection id="ce9d2dfb-8f87-48ba-9c45-1a8266c994ae" class="org.jiemamy.model.SimpleJmConnection">
           <diagram:core ref="f2016df3-2a3b-46a9-ac36-5e514eef24f8"/>
           <diagram:source ref="fdc31665-58c8-43f9-910e-42d1cd468d22"/>
           <diagram:target ref="0a55b31d-8201-4885-a477-52900450f331"/>
           <diagram:bendpoints/>
         </diagram:connection>
-        <diagram:connection id="dacaed42-b919-4dda-859c-d097b483635d" class="org.jiemamy.model.DefaultConnectionModel">
+        <diagram:connection id="dacaed42-b919-4dda-859c-d097b483635d" class="org.jiemamy.model.SimpleJmConnection">
           <diagram:core ref="a45bd2c8-c119-499c-b52d-214c9a33d097"/>
           <diagram:source ref="91c074cb-8847-4a6c-8beb-08f7392e9e66"/>
           <diagram:target ref="fdc31665-58c8-43f9-910e-42d1cd468d22"/>
           <diagram:bendpoints/>
         </diagram:connection>
-        <diagram:connection id="ece028a0-fc0c-4071-976b-8125573ca970" class="org.jiemamy.model.DefaultConnectionModel">
+        <diagram:connection id="ece028a0-fc0c-4071-976b-8125573ca970" class="org.jiemamy.model.SimpleJmConnection">
           <diagram:core ref="880bfe24-c0dc-446e-bdb3-8f0702424c38"/>
           <diagram:source ref="afecf426-0ec6-4c64-92c8-43540530f827"/>
           <diagram:target ref="91c074cb-8847-4a6c-8beb-08f7392e9e66"/>
           <diagram:bendpoints/>
         </diagram:connection>
-        <diagram:connection id="40a3924f-33ae-4dc0-91b3-02f29bb5b638" class="org.jiemamy.model.DefaultConnectionModel">
+        <diagram:connection id="40a3924f-33ae-4dc0-91b3-02f29bb5b638" class="org.jiemamy.model.SimpleJmConnection">
           <diagram:core ref="47e32e6b-76d4-4090-a62b-3e354db82bd9"/>
           <diagram:source ref="0a55b31d-8201-4885-a477-52900450f331"/>
           <diagram:target ref="afecf426-0ec6-4c64-92c8-43540530f827"/>

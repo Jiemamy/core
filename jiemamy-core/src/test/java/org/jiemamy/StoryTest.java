@@ -24,21 +24,20 @@ import static org.mockito.Mockito.spy;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import org.jiemamy.dddbase.EntityRef;
-import org.jiemamy.model.column.Column;
-import org.jiemamy.model.column.ColumnModel;
-import org.jiemamy.model.column.DefaultColumnModel;
-import org.jiemamy.model.constraint.DefaultForeignKeyConstraintModel;
-import org.jiemamy.model.constraint.DefaultPrimaryKeyConstraintModel;
-import org.jiemamy.model.datatype.DefaultTypeVariantTest;
-import org.jiemamy.model.table.DefaultTableModel;
-import org.jiemamy.model.table.Table;
-import org.jiemamy.model.table.TableModel;
+import org.jiemamy.model.column.JmColumn;
+import org.jiemamy.model.column.JmColumnBuilder;
+import org.jiemamy.model.column.SimpleJmColumn;
+import org.jiemamy.model.constraint.SimpleJmForeignKeyConstraint;
+import org.jiemamy.model.constraint.SimpleJmPrimaryKeyConstraint;
+import org.jiemamy.model.datatype.SimpleDataTypeTest;
+import org.jiemamy.model.table.JmTable;
+import org.jiemamy.model.table.JmTableBuilder;
+import org.jiemamy.model.table.SimpleJmTable;
 import org.jiemamy.transaction.JiemamyTransaction;
 import org.jiemamy.transaction.SavePoint;
 
@@ -78,26 +77,26 @@ public class StoryTest {
 		
 		SavePoint save1 = transaction.save();
 		// FORMAT-OFF
-		ColumnModel pk;
-		TableModel dept = new Table("T_DEPT").with(
-			pk = new Column("ID").type(DefaultTypeVariantTest.random()).build(),
-			new Column("NAME").type(DefaultTypeVariantTest.random()).build(),
-			new Column("LOC").type(DefaultTypeVariantTest.random()).build()
-		).with(DefaultPrimaryKeyConstraintModel.of(pk)).build();
+		JmColumn pk;
+		JmTable dept = new JmTableBuilder("T_DEPT").with(
+			pk = new JmColumnBuilder("ID").type(SimpleDataTypeTest.random()).build(),
+			new JmColumnBuilder("NAME").type(SimpleDataTypeTest.random()).build(),
+			new JmColumnBuilder("LOC").type(SimpleDataTypeTest.random()).build()
+		).with(SimpleJmPrimaryKeyConstraint.of(pk)).build();
 		//FORMAT-ON
 		
 		ctx1.store(dept);
 		
-		assertThat(ctx1.getDatabaseObjects().size(), is(1));
+		assertThat(ctx1.getDbObjects().size(), is(1));
 		
 		SavePoint save2 = transaction.save();
 		transaction.rollback(save1);
 		
-		assertThat(ctx1.getDatabaseObjects().size(), is(0));
+		assertThat(ctx1.getDbObjects().size(), is(0));
 		
 		transaction.rollback(save2);
 		
-		assertThat(ctx1.getDatabaseObjects().size(), is(1));
+		assertThat(ctx1.getDbObjects().size(), is(1));
 	}
 	
 	/**
@@ -107,7 +106,7 @@ public class StoryTest {
 	 */
 	@Test
 	public void story2() throws Exception {
-		TableModel table = spy(new DefaultTableModel(UUID.randomUUID()));
+		JmTable table = spy(new SimpleJmTable());
 		ctx1.store(table);
 		ctx2.store(table);
 	}
@@ -119,19 +118,19 @@ public class StoryTest {
 	 */
 	@Test
 	public void test1() throws Exception {
-		DefaultColumnModel col1 = new Column().whoseNameIs("KEY").build();
-		DefaultColumnModel col2 = new Column().whoseNameIs("VALUE").build();
+		SimpleJmColumn col1 = new JmColumnBuilder().name("KEY").build();
+		SimpleJmColumn col2 = new JmColumnBuilder().name("VALUE").build();
 		
-		DefaultTableModel tableModel = new Table().whoseNameIs("T_PROPERTY").build();
-		tableModel.store(col1);
-		tableModel.store(col2);
-		List<EntityRef<? extends ColumnModel>> pk = new ArrayList<EntityRef<? extends ColumnModel>>();
+		SimpleJmTable table = new JmTableBuilder().name("T_PROPERTY").build();
+		table.store(col1);
+		table.store(col2);
+		List<EntityRef<? extends JmColumn>> pk = new ArrayList<EntityRef<? extends JmColumn>>();
 		pk.add(col1.toReference());
-		tableModel.store(DefaultPrimaryKeyConstraintModel.of(pk));
-		ctx1.store(tableModel);
+		table.store(SimpleJmPrimaryKeyConstraint.of(pk));
+		ctx1.store(table);
 		
-		assertThat(tableModel.getColumns().size(), is(2));
-		assertThat(tableModel.getConstraints().size(), is(1));
+		assertThat(table.getColumns().size(), is(2));
+		assertThat(table.getConstraints().size(), is(1));
 	}
 	
 	/**
@@ -141,18 +140,18 @@ public class StoryTest {
 	 */
 	@Test
 	public void test2() throws Exception {
-		ColumnModel pkColumn;
+		JmColumn pkColumn;
 		// FORMAT-OFF
-		DefaultTableModel tableModel = new Table().whoseNameIs("T_PROPERTY")
-				.with(pkColumn = new Column().whoseNameIs("KEY").build())
-				.with(new Column().whoseNameIs("VALUE").build())
-				.with(DefaultPrimaryKeyConstraintModel.of(pkColumn))
+		SimpleJmTable table = new JmTableBuilder().name("T_PROPERTY")
+				.with(pkColumn = new JmColumnBuilder().name("KEY").build())
+				.with(new JmColumnBuilder().name("VALUE").build())
+				.with(SimpleJmPrimaryKeyConstraint.of(pkColumn))
 				.build();
 		// FORMAT-ON
-		ctx1.store(tableModel);
+		ctx1.store(table);
 		
-		assertThat(tableModel.getColumns().size(), is(2));
-		assertThat(tableModel.getConstraints().size(), is(1));
+		assertThat(table.getColumns().size(), is(2));
+		assertThat(table.getConstraints().size(), is(1));
 	}
 	
 	/**
@@ -162,25 +161,25 @@ public class StoryTest {
 	 */
 	@Test
 	public void test3() throws Exception {
-		ColumnModel pkColumn;
-		ColumnModel fkColumn1;
-		ColumnModel fkColumn2;
-		ColumnModel refColumn;
+		JmColumn pkColumn;
+		JmColumn fkColumn1;
+		JmColumn fkColumn2;
+		JmColumn refColumn;
 		// FORMAT-OFF
-		DefaultTableModel dept = new Table().whoseNameIs("T_DEPT")
-				.with(pkColumn = refColumn = new Column().whoseNameIs("ID").build())
-				.with(new Column().whoseNameIs("NAME").build())
-				.with(new Column().whoseNameIs("LOC").build())
-				.with( DefaultPrimaryKeyConstraintModel.of(pkColumn))
+		SimpleJmTable dept = new JmTableBuilder().name("T_DEPT")
+				.with(pkColumn = refColumn = new JmColumnBuilder().name("ID").build())
+				.with(new JmColumnBuilder().name("NAME").build())
+				.with(new JmColumnBuilder().name("LOC").build())
+				.with( SimpleJmPrimaryKeyConstraint.of(pkColumn))
 				.build();
-		DefaultTableModel emp = new Table().whoseNameIs("T_EMP")
-				.with(pkColumn = new Column().whoseNameIs("ID").build())
-				.with(new Column().whoseNameIs("NAME").build())
-				.with(fkColumn1 = new Column().whoseNameIs("DEPT_ID").build())
-				.with(fkColumn2 = new Column().whoseNameIs("MGR_ID").build())
-				.with( DefaultPrimaryKeyConstraintModel.of(pkColumn))
-				.with(DefaultForeignKeyConstraintModel.of(fkColumn1,refColumn))
-				.with(DefaultForeignKeyConstraintModel.of(fkColumn2,pkColumn))
+		SimpleJmTable emp = new JmTableBuilder().name("T_EMP")
+				.with(pkColumn = new JmColumnBuilder().name("ID").build())
+				.with(new JmColumnBuilder().name("NAME").build())
+				.with(fkColumn1 = new JmColumnBuilder().name("DEPT_ID").build())
+				.with(fkColumn2 = new JmColumnBuilder().name("MGR_ID").build())
+				.with( SimpleJmPrimaryKeyConstraint.of(pkColumn))
+				.with(SimpleJmForeignKeyConstraint.of(fkColumn1,refColumn))
+				.with(SimpleJmForeignKeyConstraint.of(fkColumn2,pkColumn))
 				.build();
 		// FORMAT-ON
 		ctx1.store(dept);

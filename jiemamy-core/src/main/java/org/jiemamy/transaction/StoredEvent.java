@@ -29,7 +29,7 @@ import org.jiemamy.dddbase.Repository;
  * <p>このインターフェイスの実装は、イミュータブルであることが望ましい。</p>
  * 
  * @since 0.2
- * @param <T> 変更が起こったリポジトリが管理するエンティティの型
+ * @param <T> 変更が起こったリポジトリが管理する{@link Entity}の型
  * @author daisuke
  * @author shin1ogawa
  */
@@ -45,8 +45,8 @@ public class StoredEvent<T extends Entity> extends EventObject {
 	 * インスタンスを生成する。
 	 * 
 	 * @param source イベント発生元リポジトリ 
-	 * @param before 変更前のエンティティ（新規の場合は {@code null}）
-	 * @param after 変更後のエンティティ（削除の場合は {@code null}）
+	 * @param before 変更前の{@link Entity}（新規の場合は {@code null}）
+	 * @param after 変更後の{@link Entity}（削除の場合は {@code null}）
 	 */
 	public StoredEvent(Repository<T> source, T before, T after) {
 		super(source);
@@ -55,18 +55,18 @@ public class StoredEvent<T extends Entity> extends EventObject {
 	}
 	
 	/**
-	 * 変更後のエンティティを取得する。
+	 * 変更後の{@link Entity}を取得する。
 	 * 
-	 * @return 変更後のエンティティ（削除の場合は {@code null}）
+	 * @return 変更後の{@link Entity}（削除の場合は {@code null}）
 	 */
 	public T getAfter() {
 		return after;
 	}
 	
 	/**
-	 * 変更前のエンティティを取得する。
+	 * 変更前の{@link Entity}を取得する。
 	 * 
-	 * @return 変更前のエンティティ（新規の場合は {@code null}）
+	 * @return 変更前の{@link Entity}（新規の場合は {@code null}）
 	 */
 	public T getBefore() {
 		return before;

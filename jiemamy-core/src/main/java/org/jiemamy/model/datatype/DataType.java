@@ -23,13 +23,13 @@ import org.jiemamy.model.parameter.ParameterMap;
 /**
  * データ型をあらわすインターフェイス。
  * 
- * <p>実質的に{@link TypeReference} + パラメータで成っている。</p>
+ * <p>実質的に{@link RawTypeDescriptor} + パラメータで成っている。</p>
  * 
  * <p>例えば「INTEGER」や「INTEGER(serial)」「VARCHAR(32)」など、DBのデータ型として
  * 完成した形の型表現を表す。</p>
  * 
  * @author daisuke
- * @see TypeReference
+ * @see RawTypeDescriptor
  */
 public interface DataType extends Cloneable {
 	
@@ -69,5 +69,5 @@ public interface DataType extends Cloneable {
 	 * 
 	 * @return 型記述子
 	 */
-	TypeReference getTypeReference();
+	RawTypeDescriptor getRawTypeDescriptor();
 }

@@ -23,18 +23,18 @@ import java.util.Collection;
 import com.google.common.collect.Lists;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.model.constraint.PrimaryKeyConstraintModel;
-import org.jiemamy.model.table.TableModel;
+import org.jiemamy.model.constraint.JmPrimaryKeyConstraint;
+import org.jiemamy.model.table.JmTable;
 import org.jiemamy.validator.AbstractProblem;
 import org.jiemamy.validator.AbstractValidator;
 import org.jiemamy.validator.Problem;
 
 /**
- * {@link PrimaryKeyConstraintModel}の数を調べるバリデータ。
+ * {@link JmPrimaryKeyConstraint}の数を調べるバリデータ。
  * 
  * <ul>
- *   <li>1つのテーブルには複数の{@link PrimaryKeyConstraintModel}が含まれていてはならない。</li>
- *   <li>NOTICE: テーブルに{@link PrimaryKeyConstraintModel}が1つも存在しなかった場合。</p>
+ *   <li>1つのテーブルには複数の{@link JmPrimaryKeyConstraint}が含まれていてはならない。</li>
+ *   <li>NOTICE: テーブルに{@link JmPrimaryKeyConstraint}が1つも存在しなかった場合。</p>
  * </ul>
  * 
  * @author daisuke
@@ -43,13 +43,13 @@ public class PrimaryKeyValidator extends AbstractValidator {
 	
 	public Collection<Problem> validate(JiemamyContext context) {
 		Collection<Problem> result = Lists.newArrayList();
-		Collection<TableModel> tableModels = context.getTables();
-		for (TableModel tableModel : tableModels) {
-			int size = tableModel.getConstraints(PrimaryKeyConstraintModel.class).size();
+		Collection<JmTable> tables = context.getTables();
+		for (JmTable table : tables) {
+			int size = table.getConstraints(JmPrimaryKeyConstraint.class).size();
 			if (size == 0) {
-				result.add(new NoPrimaryKeyProblem(tableModel));
+				result.add(new NoPrimaryKeyProblem(table));
 			} else if (size > 1) {
-				result.add(new MultiplePrimaryKeyProblem(tableModel));
+				result.add(new MultiplePrimaryKeyProblem(table));
 			}
 		}
 		return result;
@@ -61,12 +61,12 @@ public class PrimaryKeyValidator extends AbstractValidator {
 		/**
 		 * インスタンスを生成する。
 		 * 
-		 * @param tableModel 複数の主キーが設定されたテーブル
+		 * @param table 複数の主キーが設定されたテーブル
 		 */
-		public MultiplePrimaryKeyProblem(TableModel tableModel) {
-			super(tableModel, "F0150");
+		public MultiplePrimaryKeyProblem(JmTable table) {
+			super(table, "F0150");
 			setArguments(new Object[] {
-				tableModel.getName()
+				table.getName()
 			});
 		}
 	}
@@ -76,12 +76,12 @@ public class PrimaryKeyValidator extends AbstractValidator {
 		/**
 		 * インスタンスを生成する。
 		 * 
-		 * @param tableModel 主キーが存在しないテーブル
+		 * @param table 主キーが存在しないテーブル
 		 */
-		public NoPrimaryKeyProblem(TableModel tableModel) {
-			super(tableModel, "N0080");
+		public NoPrimaryKeyProblem(JmTable table) {
+			super(table, "N0080");
 			setArguments(new Object[] {
-				tableModel.getName()
+				table.getName()
 			});
 		}
 	}

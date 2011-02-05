@@ -31,9 +31,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.model.column.DefaultColumnModel;
-import org.jiemamy.model.constraint.DefaultCheckConstraintModel;
-import org.jiemamy.model.table.DefaultTableModel;
+import org.jiemamy.model.column.SimpleJmColumn;
+import org.jiemamy.model.constraint.SimpleJmCheckConstraint;
+import org.jiemamy.model.table.SimpleJmTable;
 import org.jiemamy.utils.UUIDUtil;
 import org.jiemamy.validator.Problem;
 
@@ -69,30 +69,30 @@ public class CheckConstraintValidatorTest {
 	}
 	
 	/**
-	 * エンティティ名の重複バリデーションが正常に行われる。
+	 * check制約のバリデーションが正常に行われる。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test01_エンティティ名の重複バリデーションが正常に行われる() throws Exception {
+	public void test01_check制約のバリデーションが正常に行われる() throws Exception {
 		JiemamyContext context = new JiemamyContext();
 		
-		DefaultTableModel tableModel1 = new DefaultTableModel(UUIDUtil.valueOfOrRandom("a"));
-		tableModel1.setName("foo");
+		SimpleJmTable table1 = new SimpleJmTable(UUIDUtil.valueOfOrRandom("a"));
+		table1.setName("foo");
 		
-		DefaultColumnModel columnModel = new DefaultColumnModel(UUIDUtil.valueOfOrRandom("b"));
-		columnModel.setName("bar");
-//		columnModel.setDataType(factory.newDataType(BuiltinDataTypeMold.UNKNOWN));
+		SimpleJmColumn column = new SimpleJmColumn(UUIDUtil.valueOfOrRandom("b"));
+		column.setName("bar");
+//		column.setDataType(factory.newDataType(BuiltinDataTypeMold.UNKNOWN));
 		
-		tableModel1.store(columnModel);
-		context.store(tableModel1);
+		table1.store(column);
+		context.store(table1);
 		
 		Collection<? extends Problem> result1 = validator.validate(context);
 		assertThat(result1.size(), is(0)); // 問題なし
 		
-		DefaultCheckConstraintModel checkConstraint = DefaultCheckConstraintModel.of("");
-		tableModel1.store(checkConstraint);
-		context.store(tableModel1);
+		SimpleJmCheckConstraint checkConstraint = SimpleJmCheckConstraint.of("");
+		table1.store(checkConstraint);
+		context.store(table1);
 		
 		Collection<? extends Problem> result2 = validator.validate(context);
 		assertThat(result2.size(), is(1)); // 問題1つ
@@ -102,11 +102,11 @@ public class CheckConstraintValidatorTest {
 		assertThat(problem1.getMessage(Locale.JAPAN), is("テーブルfooの1番目のチェック制約に制約式がありません。"));
 		assertThat(problem1.getErrorCode(), is("E0031"));
 		
-		tableModel1.deleteConstraint(checkConstraint.toReference());
+		table1.deleteConstraint(checkConstraint.toReference());
 		
-		checkConstraint = DefaultCheckConstraintModel.of("", "cc");
-		tableModel1.store(checkConstraint);
-		context.store(tableModel1);
+		checkConstraint = SimpleJmCheckConstraint.of("", "cc");
+		table1.store(checkConstraint);
+		context.store(table1);
 		
 		Collection<? extends Problem> result3 = validator.validate(context);
 		assertThat(result3.size(), is(1)); // 問題1つ
@@ -116,11 +116,11 @@ public class CheckConstraintValidatorTest {
 		assertThat(problem2.getMessage(Locale.JAPAN), is("テーブルfooに設定されたチェック制約ccに制約式がありません。"));
 		assertThat(problem2.getErrorCode(), is("E0030"));
 		
-		tableModel1.deleteConstraint(checkConstraint.toReference());
+		table1.deleteConstraint(checkConstraint.toReference());
 		
-		checkConstraint = DefaultCheckConstraintModel.of("bar > 0", "cc");
-		tableModel1.store(checkConstraint);
-		context.store(tableModel1);
+		checkConstraint = SimpleJmCheckConstraint.of("bar > 0", "cc");
+		table1.store(checkConstraint);
+		context.store(table1);
 		
 		Collection<? extends Problem> result4 = validator.validate(context);
 		assertThat(result4.size(), describedAs(result4.toString(), is(0))); // 問題なし

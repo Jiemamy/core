@@ -24,11 +24,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.jiemamy.model.DefaultDatabaseObjectNodeModel;
-import org.jiemamy.model.DefaultDiagramModel;
-import org.jiemamy.model.NodeModel;
+import org.jiemamy.model.JmNode;
+import org.jiemamy.model.SimpleDbObjectNode;
+import org.jiemamy.model.SimpleJmDiagram;
 import org.jiemamy.model.geometory.JmRectangle;
-import org.jiemamy.model.table.DefaultTableModel;
+import org.jiemamy.model.table.SimpleJmTable;
 import org.jiemamy.utils.UUIDUtil;
 
 /**
@@ -70,13 +70,11 @@ public class StoryTest {
 	 */
 	@Test
 	public void testname() throws Exception {
-		DefaultTableModel table = new DefaultTableModel(UUIDUtil.valueOfOrRandom("table"));
-		DefaultDatabaseObjectNodeModel node =
-				new DefaultDatabaseObjectNodeModel(UUIDUtil.valueOfOrRandom("node"), table.toReference());
-		DefaultDatabaseObjectNodeModel node2 =
-				new DefaultDatabaseObjectNodeModel(UUIDUtil.valueOfOrRandom("node2"), table.toReference());
-		DefaultDiagramModel diagram = new DefaultDiagramModel(UUIDUtil.valueOfOrRandom("diagram"));
-		DefaultDiagramModel diagram2 = new DefaultDiagramModel(UUIDUtil.valueOfOrRandom("diagram2"));
+		SimpleJmTable table = new SimpleJmTable(UUIDUtil.valueOfOrRandom("table"));
+		SimpleDbObjectNode node = new SimpleDbObjectNode(UUIDUtil.valueOfOrRandom("node"), table.toReference());
+		SimpleDbObjectNode node2 = new SimpleDbObjectNode(UUIDUtil.valueOfOrRandom("node2"), table.toReference());
+		SimpleJmDiagram diagram = new SimpleJmDiagram(UUIDUtil.valueOfOrRandom("diagram"));
+		SimpleJmDiagram diagram2 = new SimpleJmDiagram(UUIDUtil.valueOfOrRandom("diagram2"));
 		
 		node.setBoundary(new JmRectangle(0, 0));
 		diagram.setName("diagram-1");
@@ -88,7 +86,7 @@ public class StoryTest {
 		diagramFacet.store(diagram);
 		
 		assertThat(diagramFacet.getDiagrams().size(), is(1));
-		assertThat(diagramFacet.getDiagram("diagram-1").getNodeFor(table.toReference()), is((NodeModel) node));
+		assertThat(diagramFacet.getDiagram("diagram-1").getNodeFor(table.toReference()), is((JmNode) node));
 		
 		assertThat(diagram2.getNodeFor(table.toReference()), is(nullValue()));
 		

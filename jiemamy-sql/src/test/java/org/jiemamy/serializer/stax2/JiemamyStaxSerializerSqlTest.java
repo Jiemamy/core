@@ -47,10 +47,10 @@ import org.slf4j.LoggerFactory;
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.JiemamyContextSqlTest;
 import org.jiemamy.SqlFacet;
-import org.jiemamy.model.script.AroundScriptModel;
-import org.jiemamy.model.script.DefaultAroundScriptModel;
-import org.jiemamy.model.table.DefaultTableModel;
-import org.jiemamy.model.table.TableModel;
+import org.jiemamy.model.script.JmAroundScript;
+import org.jiemamy.model.script.SimpleJmAroundScript;
+import org.jiemamy.model.table.JmTable;
+import org.jiemamy.model.table.SimpleJmTable;
 
 /**
  * {@link JiemamyStaxSerializer}のテスト：jiemamy-sql版。
@@ -88,10 +88,10 @@ public class JiemamyStaxSerializerSqlTest {
 		
 		JiemamyContext context = new JiemamyContext(SqlFacet.PROVIDER);
 		
-		DefaultTableModel table = new DefaultTableModel(tableId);
+		SimpleJmTable table = new SimpleJmTable(tableId);
 		context.store(table);
 		
-		DefaultAroundScriptModel aroundScript = new DefaultAroundScriptModel(scriptId);
+		SimpleJmAroundScript aroundScript = new SimpleJmAroundScript(scriptId);
 		aroundScript.setCoreModelRef(table.toReference());
 		context.getFacet(SqlFacet.class).store(aroundScript);
 		
@@ -125,14 +125,14 @@ public class JiemamyStaxSerializerSqlTest {
 		assertThat(deserialized, is(notNullValue()));
 		assertThat(deserialized.getTables().size(), is(1));
 		assertThat(deserialized.getDataSets().size(), is(0));
-		TableModel tableModel = Iterables.get(deserialized.getTables(), 0);
-		assertThat(tableModel.getId(), is(tableId));
+		JmTable table = Iterables.get(deserialized.getTables(), 0);
+		assertThat(table.getId(), is(tableId));
 		
 		SqlFacet facet = deserialized.getFacet(SqlFacet.class);
 		assertThat(facet.getAroundScripts().size(), is(1));
-		AroundScriptModel aroundScript = Iterables.get(facet.getAroundScripts(), 0);
+		JmAroundScript aroundScript = Iterables.get(facet.getAroundScripts(), 0);
 		assertThat(aroundScript.getId(), is(scriptId));
-		assertThat(aroundScript.getCoreModelRef().isReferenceOf(tableModel), is(true));
+		assertThat(aroundScript.getCoreModelRef().isReferenceOf(table), is(true));
 	}
 	
 	/**

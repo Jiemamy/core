@@ -23,7 +23,7 @@ import org.jiemamy.model.parameter.Converters;
 import org.jiemamy.model.parameter.ParameterKey;
 
 /**
- * {@link ViewModel}のパラメータを表すインターフェイス。
+ * {@link JmView}のパラメータを表すインターフェイス。
  * 
  * @param <T> 値の型
  * @version $Id$

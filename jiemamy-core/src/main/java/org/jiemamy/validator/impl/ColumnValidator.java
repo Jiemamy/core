@@ -25,8 +25,8 @@ import com.google.common.collect.Lists;
 import org.apache.commons.lang.StringUtils;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.model.column.ColumnModel;
-import org.jiemamy.model.table.TableModel;
+import org.jiemamy.model.column.JmColumn;
+import org.jiemamy.model.table.JmTable;
 import org.jiemamy.validator.AbstractProblem;
 import org.jiemamy.validator.AbstractValidator;
 import org.jiemamy.validator.Problem;
@@ -45,21 +45,20 @@ import org.jiemamy.validator.Problem;
 public class ColumnValidator extends AbstractValidator {
 	
 	public Collection<Problem> validate(JiemamyContext context) {
-		Collection<Problem> result = Lists.newArrayList();
-		Collection<TableModel> tableModels = context.getTables();
-		for (TableModel tableModel : tableModels) {
+		Collection<Problem> problems = Lists.newArrayList();
+		for (JmTable table : context.getTables()) {
 			int index = 0;
-			for (ColumnModel columnModel : tableModel.getColumns()) {
-				if (StringUtils.isEmpty(columnModel.getName())) {
-					result.add(new EmptyColumnNameProblem(tableModel, columnModel, index));
+			for (JmColumn column : table.getColumns()) {
+				if (StringUtils.isEmpty(column.getName())) {
+					problems.add(new EmptyColumnNameProblem(table, column, index));
 				}
-				if (columnModel.getDataType() == null) {
-					result.add(new EmptyDataTypeProblem(tableModel, columnModel));
+				if (column.getDataType() == null) {
+					problems.add(new EmptyDataTypeProblem(table, column));
 				}
 				index++;
 			}
 		}
-		return result;
+		return problems;
 	}
 	
 
@@ -68,14 +67,14 @@ public class ColumnValidator extends AbstractValidator {
 		/**
 		 * インスタンスを生成する。
 		 * 
-		 * @param tableModel 無名カラムが含まれるテーブル
-		 * @param columnModel 不正なカラム
+		 * @param table 無名カラムが含まれるテーブル
+		 * @param column 不正なカラム
 		 * @param index カラムのインデックス
 		 */
-		public EmptyColumnNameProblem(TableModel tableModel, ColumnModel columnModel, int index) {
-			super(columnModel, "E0040");
+		public EmptyColumnNameProblem(JmTable table, JmColumn column, int index) {
+			super(column, "E0040");
 			setArguments(new Object[] {
-				tableModel.getName(),
+				table.getName(),
 				index
 			});
 		}
@@ -86,14 +85,14 @@ public class ColumnValidator extends AbstractValidator {
 		/**
 		 * インスタンスを生成する。
 		 * 
-		 * @param tableModel データ型無指定のカラムが含まれるテーブル
-		 * @param columnModel データ型無指定のカラム
+		 * @param table データ型無指定のカラムが含まれるテーブル
+		 * @param column データ型無指定のカラム
 		 */
-		public EmptyDataTypeProblem(TableModel tableModel, ColumnModel columnModel) {
-			super(columnModel, "E0050");
+		public EmptyDataTypeProblem(JmTable table, JmColumn column) {
+			super(column, "E0050");
 			setArguments(new Object[] {
-				tableModel.getName(),
-				columnModel.getName()
+				table.getName(),
+				column.getName()
 			});
 		}
 	}

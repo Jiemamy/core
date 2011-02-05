@@ -22,7 +22,7 @@ import org.jiemamy.DiagramFacet;
 import org.jiemamy.dddbase.EntityNotFoundException;
 
 /**
- * {@link DiagramFacet}に対するクエリの結果、該当する {@link DiagramModel} が見つからなかったことを表す例外クラス。
+ * {@link DiagramFacet}に対するクエリの結果、該当する {@link JmDiagram} が見つからなかったことを表す例外クラス。
  * 
  * @version $Id$
  * @author daisuke

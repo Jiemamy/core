@@ -29,6 +29,7 @@ import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
+import org.jiemamy.dddbase.Entity;
 import org.jiemamy.utils.sql.metadata.KeyMeta;
 import org.jiemamy.utils.sql.metadata.TableMeta;
 import org.jiemamy.utils.sql.metadata.TypeSafeDatabaseMetaData;
@@ -78,10 +79,10 @@ class DatabaseReader {
 	}
 	
 	/**
-	 * DB接続からエンティティを読み込む。
+	 * DB接続から{@link Entity}を読み込む。
 	 * 
 	 * @param <T> 読み込んだ結果、戻り値型
-	 * @param visitor 各エンティティに情報に対するビジター
+	 * @param visitor 各{@link Entity}に情報に対するビジター
 	 * @return ビジターに依存した、実行結果
 	 * @throws SQLException SQLの実行に失敗した場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
@@ -102,7 +103,7 @@ class DatabaseReader {
 	 * DB接続からリレーションを読み込む。
 	 * 
 	 * @param <T> 読み込んだ結果、戻り値型
-	 * @param visitor 各エンティティに情報に対するビジター
+	 * @param visitor 各{@link Entity}に情報に対するビジター
 	 * @return ビジターに依存した、実行結果
 	 * @throws SQLException SQLの実行に失敗した場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
@@ -130,7 +131,7 @@ class DatabaseReader {
 	
 
 	/**
-	 * エンティティ名のリストを取得するビジター。
+	 * {@link Entity}名のリストを取得するビジター。
 	 * 
 	 * @author daisuke
 	 */

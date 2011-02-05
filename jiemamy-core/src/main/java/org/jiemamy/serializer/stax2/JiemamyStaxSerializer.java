@@ -66,10 +66,10 @@ public class JiemamyStaxSerializer implements JiemamySerializer {
 			Validatable streamReader = cursor.getStreamReader();
 			setValidators(streamReader, context.getFacets());
 			
-			DeserializationContext ctx = new DeserializationContext(context, cursor);
-			SerializationDirector director = new SerializationDirector(context);
+			DeserializationContext dctx = new DeserializationContext(context, cursor);
+			StaxDirector director = new StaxDirector(context);
 			cursor.advance();
-			director.direct(ctx);
+			director.direct(dctx);
 		} catch (XMLStreamException e) {
 			throw new SerializationException(e);
 		} finally {
@@ -98,7 +98,7 @@ public class JiemamyStaxSerializer implements JiemamySerializer {
 			doc.setIndentation("\n" + StringUtils.repeat("  ", 100), 1, 2); // CHECKSTYLE IGNORE THIS LINE
 			
 			SerializationContext ctx = new SerializationContext(context, doc);
-			SerializationDirector director = new SerializationDirector(context);
+			StaxDirector director = new StaxDirector(context);
 			director.direct(context, ctx);
 		} catch (XMLStreamException e) {
 			throw new SerializationException(e);

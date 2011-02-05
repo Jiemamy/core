@@ -31,10 +31,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.jiemamy.dddbase.Entity;
-import org.jiemamy.model.script.AroundScriptModel;
-import org.jiemamy.model.script.DefaultAroundScriptModel;
+import org.jiemamy.model.script.JmAroundScript;
 import org.jiemamy.model.script.Position;
-import org.jiemamy.model.table.DefaultTableModel;
+import org.jiemamy.model.script.SimpleJmAroundScript;
+import org.jiemamy.model.table.SimpleJmTable;
 import org.jiemamy.script.PlainScriptEngine;
 import org.jiemamy.utils.UUIDUtil;
 
@@ -91,31 +91,31 @@ public class SqlFacetTest {
 	 */
 	@Test
 	public void test02_テーブルにASを定義したら_getAroundScriptForで取得できる() throws Exception {
-		DefaultTableModel table = new DefaultTableModel(UUIDUtil.valueOfOrRandom("a"));
+		SimpleJmTable table = new SimpleJmTable(UUIDUtil.valueOfOrRandom("a"));
 		table.setName("T_FOO");
 		context.store(table);
 		
-		DefaultTableModel table2 = new DefaultTableModel(UUIDUtil.valueOfOrRandom("b"));
+		SimpleJmTable table2 = new SimpleJmTable(UUIDUtil.valueOfOrRandom("b"));
 		table2.setName("T_BAR");
 		context.store(table2);
 		
-		DefaultAroundScriptModel asm = new DefaultAroundScriptModel(UUIDUtil.valueOfOrRandom("b"));
+		SimpleJmAroundScript asm = new SimpleJmAroundScript(UUIDUtil.valueOfOrRandom("b"));
 		asm.setScript(Position.BEGIN, "-- BEGIN", PlainScriptEngine.class);
 		asm.setCoreModelRef(table.toReference());
 		facet.store(asm);
 		
 		// SqlFacet#getAroundScriptFor(Entity) で取り出せる
-		AroundScriptModel asm2 = facet.getAroundScriptFor(table.toReference());
-		assertThat(asm2, is(equalTo((AroundScriptModel) asm)));
-		assertThat(asm2, is(not(sameInstance((AroundScriptModel) asm))));
+		JmAroundScript asm2 = facet.getAroundScriptFor(table.toReference());
+		assertThat(asm2, is(equalTo((JmAroundScript) asm)));
+		assertThat(asm2, is(not(sameInstance((JmAroundScript) asm))));
 		
 		assertThat(facet.getAroundScriptFor(table2.toReference()), is(nullValue()));
 		
 		// SqlFacet#resolve(EntityRef) で取り出せる
 		@SuppressWarnings("deprecation")
-		DefaultAroundScriptModel asm3 = facet.resolve(asm.toReference());
-		assertThat(asm3, is(equalTo((AroundScriptModel) asm)));
-		assertThat(asm3, is(not(sameInstance((AroundScriptModel) asm))));
+		SimpleJmAroundScript asm3 = facet.resolve(asm.toReference());
+		assertThat(asm3, is(equalTo((JmAroundScript) asm)));
+		assertThat(asm3, is(not(sameInstance((JmAroundScript) asm))));
 		assertThat(asm3, is(not(sameInstance(asm2))));
 		
 		// SqlFacet#resolve(UUID) で取り出せる

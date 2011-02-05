@@ -29,9 +29,9 @@ import com.google.common.collect.Lists;
 
 import org.apache.commons.lang.Validate;
 
-import org.jiemamy.model.datatype.DataTypeCategory;
-import org.jiemamy.model.datatype.DefaultTypeReference;
-import org.jiemamy.model.datatype.TypeReference;
+import org.jiemamy.model.datatype.RawTypeCategory;
+import org.jiemamy.model.datatype.RawTypeDescriptor;
+import org.jiemamy.model.datatype.SimpleRawTypeDescriptor;
 import org.jiemamy.validator.AllValidator;
 import org.jiemamy.validator.Validator;
 
@@ -63,10 +63,10 @@ public abstract class AbstractDialect implements Dialect {
 		this.typeEntries = ImmutableList.copyOf(typeEntries);
 	}
 	
-	public List<TypeReference> getAllTypeReferences() {
-		return Lists.transform(typeEntries, new Function<Entry, TypeReference>() {
+	public List<RawTypeDescriptor> getAllTypeReferences() {
+		return Lists.transform(typeEntries, new Function<Entry, RawTypeDescriptor>() {
 			
-			public TypeReference apply(Entry from) {
+			public RawTypeDescriptor apply(Entry from) {
 				return from.descriptor;
 			}
 		});
@@ -85,9 +85,9 @@ public abstract class AbstractDialect implements Dialect {
 		return Lists.newArrayList(typeEntries);
 	}
 	
-	public Collection<TypeParameterSpec> getTypeParameterSpecs(TypeReference reference) {
-		TypeReference normalized = normalize(reference);
-		if (normalized.getCategory() == DataTypeCategory.UNKNOWN) {
+	public Collection<TypeParameterSpec> getTypeParameterSpecs(RawTypeDescriptor reference) {
+		RawTypeDescriptor normalized = normalize(reference);
+		if (normalized.getCategory() == RawTypeCategory.UNKNOWN) {
 			return Collections.emptyList();
 		}
 		for (Entry typeEntry : typeEntries) {
@@ -102,36 +102,36 @@ public abstract class AbstractDialect implements Dialect {
 		return new AllValidator();
 	}
 	
-	public final TypeReference normalize(TypeReference in) {
-		TypeReference result = normalize0(in);
-		assert result.getCategory() == DataTypeCategory.UNKNOWN || getAllTypeReferences().contains(result) : result
+	public final RawTypeDescriptor normalize(RawTypeDescriptor in) {
+		RawTypeDescriptor result = normalize0(in);
+		assert result.getCategory() == RawTypeCategory.UNKNOWN || getAllTypeReferences().contains(result) : result
 			.toString();
 		return result;
 	}
 	
 	/**
-	 * {@link #normalize(TypeReference)}の実装メソッド。
+	 * {@link #normalize(RawTypeDescriptor)}の実装メソッド。
 	 * 
 	 * <p>このメソッドの戻り値は、 {@link #getAllTypeReferences()}に含まれる値であるか、
-	 * または {@link DefaultTypeReference#UNKNOWN} でなければならない。</p>
+	 * または {@link SimpleRawTypeDescriptor#UNKNOWN} でなければならない。</p>
 	 * 
 	 * @param in 入力型記述子
 	 * @return 正規化した型記述子
 	 */
-	protected TypeReference normalize0(TypeReference in) {
+	protected RawTypeDescriptor normalize0(RawTypeDescriptor in) {
 		for (Entry typeEntry : typeEntries) {
 			if (typeEntry.getDescriptor().equals(in)) {
 				return in;
 			}
 		}
-		if (in.getCategory() != DataTypeCategory.UNKNOWN) {
+		if (in.getCategory() != RawTypeCategory.UNKNOWN) {
 			for (Entry typeEntry : typeEntries) {
 				if (typeEntry.getDescriptor().getCategory().equals(in.getCategory())) {
 					return typeEntry.getDescriptor();
 				}
 			}
 		}
-		return DefaultTypeReference.UNKNOWN;
+		return SimpleRawTypeDescriptor.UNKNOWN;
 	}
 	
 
@@ -143,7 +143,7 @@ public abstract class AbstractDialect implements Dialect {
 	 */
 	public static final class Entry {
 		
-		private final TypeReference descriptor;
+		private final RawTypeDescriptor descriptor;
 		
 		private final Collection<TypeParameterSpec> typeParameterSpecs;
 		
@@ -151,21 +151,21 @@ public abstract class AbstractDialect implements Dialect {
 		/**
 		 * インスタンスを生成する。
 		 * 
-		 * @param descriptor {@link TypeReference}
+		 * @param descriptor {@link RawTypeDescriptor}
 		 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 		 */
-		public Entry(TypeReference descriptor) {
+		public Entry(RawTypeDescriptor descriptor) {
 			this(descriptor, new ArrayList<TypeParameterSpec>());
 		}
 		
 		/**
 		 * インスタンスを生成する。
 		 * 
-		 * @param descriptor {@link TypeReference}
+		 * @param descriptor {@link RawTypeDescriptor}
 		 * @param typeParameterSpecs {@link TypeParameterSpec}の集合
 		 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 		 */
-		public Entry(TypeReference descriptor, Collection<TypeParameterSpec> typeParameterSpecs) {
+		public Entry(RawTypeDescriptor descriptor, Collection<TypeParameterSpec> typeParameterSpecs) {
 			Validate.notNull(descriptor);
 			Validate.notNull(typeParameterSpecs);
 			this.descriptor = descriptor;
@@ -173,11 +173,11 @@ public abstract class AbstractDialect implements Dialect {
 		}
 		
 		/**
-		 * {@link TypeReference}を取得する。
+		 * {@link RawTypeDescriptor}を取得する。
 		 * 
-		 * @return {@link TypeReference}
+		 * @return {@link RawTypeDescriptor}
 		 */
-		public TypeReference getDescriptor() {
+		public RawTypeDescriptor getDescriptor() {
 			return descriptor;
 		}
 		

@@ -27,29 +27,30 @@ import java.util.UUID;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import org.jiemamy.DefaultContextMetadata;
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.ServiceLocator;
-import org.jiemamy.model.column.ColumnModel;
-import org.jiemamy.model.column.DefaultColumnModel;
-import org.jiemamy.model.constraint.DefaultCheckConstraintModel;
-import org.jiemamy.model.constraint.DefaultDeferrabilityModel;
-import org.jiemamy.model.constraint.DefaultForeignKeyConstraintModel;
-import org.jiemamy.model.constraint.DefaultNotNullConstraintModel;
-import org.jiemamy.model.constraint.DefaultPrimaryKeyConstraintModel;
-import org.jiemamy.model.constraint.ForeignKeyConstraintModel.ReferentialAction;
-import org.jiemamy.model.dataset.DefaultDataSetModel;
-import org.jiemamy.model.dataset.DefaultRecordModel;
-import org.jiemamy.model.dataset.RecordModel;
-import org.jiemamy.model.datatype.DataTypeCategory;
-import org.jiemamy.model.datatype.DefaultDataType;
+import org.jiemamy.SimpleJmMetadata;
+import org.jiemamy.model.DbObject;
+import org.jiemamy.model.column.JmColumn;
+import org.jiemamy.model.column.SimpleJmColumn;
+import org.jiemamy.model.constraint.JmForeignKeyConstraint.ReferentialAction;
+import org.jiemamy.model.constraint.SimpleJmCheckConstraint;
+import org.jiemamy.model.constraint.SimpleJmDeferrability;
+import org.jiemamy.model.constraint.SimpleJmForeignKeyConstraint;
+import org.jiemamy.model.constraint.SimpleJmNotNullConstraint;
+import org.jiemamy.model.constraint.SimpleJmPrimaryKeyConstraint;
+import org.jiemamy.model.dataset.JmRecord;
+import org.jiemamy.model.dataset.SimpleJmDataSet;
+import org.jiemamy.model.dataset.SimpleJmRecord;
+import org.jiemamy.model.datatype.RawTypeCategory;
+import org.jiemamy.model.datatype.SimpleDataType;
 import org.jiemamy.model.datatype.TypeParameterKey;
-import org.jiemamy.model.domain.DefaultDomainModel;
-import org.jiemamy.model.index.DefaultIndexColumnModel;
-import org.jiemamy.model.index.DefaultIndexModel;
-import org.jiemamy.model.index.IndexColumnModel.SortOrder;
-import org.jiemamy.model.table.DefaultTableModel;
-import org.jiemamy.model.view.DefaultViewModel;
+import org.jiemamy.model.domain.SimpleJmDomain;
+import org.jiemamy.model.index.JmIndexColumn.SortOrder;
+import org.jiemamy.model.index.SimpleJmIndex;
+import org.jiemamy.model.index.SimpleJmIndexColumn;
+import org.jiemamy.model.table.SimpleJmTable;
+import org.jiemamy.model.view.SimpleJmView;
 
 /**
  * Jiemamyテストモデル1（EMP-DEPTテーブル）を組み立てるビルダ。
@@ -72,75 +73,75 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 	// ---- models
 	
 	/** 生成したモデル */
-	public DefaultDomainModel domainId;
+	public SimpleJmDomain domainId;
 	
 	// dept
 	
 	/** 生成したモデル */
-	public DefaultDomainModel domainName;
+	public SimpleJmDomain domainName;
 	
 	/** 生成したモデル */
-	public DefaultTableModel tableDept;
+	public SimpleJmTable tableDept;
 	
 	/** 生成したモデル */
-	public DefaultColumnModel deptId;
+	public SimpleJmColumn deptId;
 	
 	/** 生成したモデル */
-	public DefaultColumnModel deptDeptNo;
+	public SimpleJmColumn deptDeptNo;
 	
 	/** 生成したモデル */
-	public DefaultColumnModel deptDeptName;
+	public SimpleJmColumn deptDeptName;
 	
 	/** 生成したモデル */
-	public DefaultColumnModel deptLoc;
+	public SimpleJmColumn deptLoc;
 	
 	// emp
 	
 	/** 生成したモデル */
-	public DefaultPrimaryKeyConstraintModel deptPk;
+	public SimpleJmPrimaryKeyConstraint deptPk;
 	
 	/** 生成したモデル */
-	public DefaultTableModel tableEmp;
+	public SimpleJmTable tableEmp;
 	
 	/** 生成したモデル */
-	public DefaultColumnModel empId;
+	public SimpleJmColumn empId;
 	
 	/** 生成したモデル */
-	public DefaultColumnModel empEmpNo;
+	public SimpleJmColumn empEmpNo;
 	
 	/** 生成したモデル */
 	
-	public DefaultColumnModel empEmpName;
+	public SimpleJmColumn empEmpName;
 	
 	/** 生成したモデル */
-	public DefaultColumnModel empMgrId;
+	public SimpleJmColumn empMgrId;
 	
 	/** 生成したモデル */
-	public DefaultColumnModel empHiredate;
+	public SimpleJmColumn empHiredate;
 	
 	/** 生成したモデル */
-	public DefaultColumnModel empSal;
+	public SimpleJmColumn empSal;
 	
 	/** 生成したモデル */
-	public DefaultColumnModel empDeptId;
+	public SimpleJmColumn empDeptId;
 	
 	// highSal
 	
 	/** 生成したモデル */
-	public DefaultPrimaryKeyConstraintModel empPk;
+	public SimpleJmPrimaryKeyConstraint empPk;
 	
 	// fk
 	
 	/** 生成したモデル */
-	public DefaultViewModel viewHighSal;
+	public SimpleJmView viewHighSal;
 	
 	/** 生成したモデル */
-	public DefaultForeignKeyConstraintModel fkEmpEmp;
+	public SimpleJmForeignKeyConstraint fkEmpEmp;
 	
 	/** 生成したモデル */
-	public DefaultForeignKeyConstraintModel fkEmpDept;
+	public SimpleJmForeignKeyConstraint fkEmpDept;
 	
-	private DefaultIndexModel empNameIndex;
+	private SimpleJmIndex empNameIndex;
 	
 
 	/**
@@ -230,14 +231,14 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 	}
 	
 	public JiemamyContext build(String dialectClassName) {
-		DefaultContextMetadata meta = new DefaultContextMetadata();
+		SimpleJmMetadata meta = new SimpleJmMetadata();
 		meta.setDialectClassName(dialectClassName);
 		meta.setDescription("Jiemamyテストモデル1");
 		meta.setSchemaName("FOO");
 		context.setMetadata(meta);
 		
 		createDomains();
-		createEntities();
+		createDbObjects();
 		createForeignKeys();
 		createDataSets();
 		
@@ -262,14 +263,14 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		}
 		// データセットの生成・追加(1)
 		
-		DefaultDataSetModel dataSetEn = new DefaultDataSetModel(uuid.get("b73100b5-2d70-4b48-a825-311eacb63b2f"));
+		SimpleJmDataSet dataSetEn = new SimpleJmDataSet(uuid.get("b73100b5-2d70-4b48-a825-311eacb63b2f"));
 		dataSetEn.setName("データ群en");
 		dataSetEn.putRecord(tableDept.toReference(), createDataSetEnDept());
 		dataSetEn.putRecord(tableEmp.toReference(), createDataSetEnEmp());
 		context.store(dataSetEn);
 		
 		// データセットの生成・追加(2)
-		DefaultDataSetModel dataSetJa = new DefaultDataSetModel(uuid.get("91246ed4-1ef3-440e-bf12-40fa4439a71b"));
+		SimpleJmDataSet dataSetJa = new SimpleJmDataSet(uuid.get("91246ed4-1ef3-440e-bf12-40fa4439a71b"));
 		dataSetJa.setName("データ群ja");
 		dataSetJa.putRecord(tableDept.toReference(), createDataSetJaDept());
 		dataSetJa.putRecord(tableEmp.toReference(), createDataSetJaEmp());
@@ -277,38 +278,9 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 	}
 	
 	/**
-	 * ドメインを生成する。
+	 * {@link DbObject}を生成する。
 	 */
-	protected void createDomains() {
-		if (instruction.supressUseDomain) {
-			return;
-		}
-		
-		domainId = new DefaultDomainModel(uuid.get("2eec0aa0-5122-4eb7-833d-9f5a43e7abe9"));
-		domainId.setName("ID");
-		domainId.setDataType(ModelUtil.createDataType(context, DataTypeCategory.INTEGER));
-		domainId.setNotNull(true);
-		DefaultCheckConstraintModel check =
-				new DefaultCheckConstraintModel(uuid.get("48b76d76-b288-480a-afa4-111247379f8d"));
-		check.setName("hoge");
-		check.setExpression("VALUE > 0");
-		domainId.addCheckConstraint(check);
-		domainId.putParam(TypeParameterKey.SERIAL, true);
-		context.store(domainId);
-		
-		domainName = new DefaultDomainModel(uuid.get("62f1e6ec-e6aa-4d52-a6c3-27dac086f2d7"));
-		domainName.setName("NAME");
-		DefaultDataType dataType = ModelUtil.createDataType(context, DataTypeCategory.VARCHAR);
-		dataType.putParam(TypeParameterKey.SIZE, 32); // CHECKSTYLE IGNORE THIS LINE
-		domainName.setDataType(dataType);
-		domainName.setDescription("人名用の型です。");
-		context.store(domainName);
-	}
-	
-	/**
-	 * エンティティを生成する。
-	 */
-	protected void createEntities() {
+	protected void createDbObjects() {
 		createTableDept();
 		context.store(tableDept);
 		createTableEmp();
@@ -319,6 +291,34 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 	}
 	
 	/**
+	 * ドメインを生成する。
+	 */
+	protected void createDomains() {
+		if (instruction.supressUseDomain) {
+			return;
+		}
+		
+		domainId = new SimpleJmDomain(uuid.get("2eec0aa0-5122-4eb7-833d-9f5a43e7abe9"));
+		domainId.setName("ID");
+		domainId.setDataType(ModelUtil.createDataType(context, RawTypeCategory.INTEGER));
+		domainId.setNotNull(true);
+		SimpleJmCheckConstraint check = new SimpleJmCheckConstraint(uuid.get("48b76d76-b288-480a-afa4-111247379f8d"));
+		check.setName("hoge");
+		check.setExpression("VALUE > 0");
+		domainId.addCheckConstraint(check);
+		domainId.putParam(TypeParameterKey.SERIAL, true);
+		context.store(domainId);
+		
+		domainName = new SimpleJmDomain(uuid.get("62f1e6ec-e6aa-4d52-a6c3-27dac086f2d7"));
+		domainName.setName("NAME");
+		SimpleDataType dataType = ModelUtil.createDataType(context, RawTypeCategory.VARCHAR);
+		dataType.putParam(TypeParameterKey.SIZE, 32); // CHECKSTYLE IGNORE THIS LINE
+		domainName.setDataType(dataType);
+		domainName.setDescription("人名用の型です。");
+		context.store(domainName);
+	}
+	
+	/**
 	 * 外部キーを生成する。
 	 */
 	protected void createForeignKeys() {
@@ -326,26 +326,26 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 			return;
 		}
 		
-		fkEmpEmp = new DefaultForeignKeyConstraintModel(uuid.get("e43d3c43-33c8-4b02-aa42-83f2d868cfe6"));
+		fkEmpEmp = new SimpleJmForeignKeyConstraint(uuid.get("e43d3c43-33c8-4b02-aa42-83f2d868cfe6"));
 		fkEmpEmp.setName("emp_mgr_id_fkey");
 		fkEmpEmp.addReferencing(empMgrId.toReference(), empId.toReference());
 		fkEmpEmp.setOnDelete(ReferentialAction.SET_NULL);
-		DefaultDeferrabilityModel deferrability = DefaultDeferrabilityModel.DEFERRABLE_DEFERRED;
+		SimpleJmDeferrability deferrability = SimpleJmDeferrability.DEFERRABLE_DEFERRED;
 		fkEmpEmp.setDeferrability(deferrability);
 		tableEmp.store(fkEmpEmp);
 		
-		fkEmpDept = new DefaultForeignKeyConstraintModel(uuid.get("e7dd92b4-1d97-4be6-bab6-fa9fe26eb6ed"));
+		fkEmpDept = new SimpleJmForeignKeyConstraint(uuid.get("e7dd92b4-1d97-4be6-bab6-fa9fe26eb6ed"));
 		fkEmpDept.setName("emp_dept_id_fkey");
 		fkEmpDept.addReferencing(empDeptId.toReference(), deptId.toReference());
 		tableEmp.store(fkEmpDept);
 	}
 	
-	private List<RecordModel> createDataSetEnDept() {
-		List<RecordModel> result = Lists.newArrayList();
+	private List<JmRecord> createDataSetEnDept() {
+		List<JmRecord> result = Lists.newArrayList();
 		
 		// CHECKSTYLE:OFF
 		// FORMAT-OFF
-		DefaultRecordModel record = ModelUtil.newRecord()
+		SimpleJmRecord record = ModelUtil.newRecord()
 				.addValue(deptId, "1")
 				.addValue(deptDeptNo, "10")
 				.addValue(deptDeptName, "ACCOUNTING")
@@ -377,11 +377,11 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		return result;
 	}
 	
-	private List<RecordModel> createDataSetEnEmp() {
-		List<RecordModel> result = Lists.newArrayList();
+	private List<JmRecord> createDataSetEnEmp() {
+		List<JmRecord> result = Lists.newArrayList();
 		
 		// CHECKSTYLE:OFF
-		RecordModel record = ModelUtil.newRecord()
+		JmRecord record = ModelUtil.newRecord()
 				.addValue(empId, "1")
 				.addValue(empEmpNo, "10")
 				.addValue(empEmpName, "SMITH")
@@ -465,11 +465,11 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		return result;
 	}
 	
-	private List<RecordModel> createDataSetJaDept() {
-		List<RecordModel> result = new ArrayList<RecordModel>();
+	private List<JmRecord> createDataSetJaDept() {
+		List<JmRecord> result = new ArrayList<JmRecord>();
 		
 		// CHECKSTYLE:OFF
-		RecordModel record = ModelUtil.newRecord()
+		JmRecord record = ModelUtil.newRecord()
 				.addValue(deptId, "1")
 				.addValue(deptDeptNo, "10")
 				.addValue(deptDeptName, "経理部")
@@ -501,11 +501,11 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		return result;
 	}
 	
-	private List<RecordModel> createDataSetJaEmp() {
-		List<RecordModel> result = Lists.newArrayList();
+	private List<JmRecord> createDataSetJaEmp() {
+		List<JmRecord> result = Lists.newArrayList();
 		
 		// CHECKSTYLE:OFF
-		RecordModel record = ModelUtil.newRecord()
+		JmRecord record = ModelUtil.newRecord()
 				.addValue(empId, "1")
 				.addValue(empEmpNo, "10")
 				.addValue(empEmpName, "鈴木 茂")
@@ -591,45 +591,45 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 	}
 	
 	private void createTableDept() {
-		tableDept = new DefaultTableModel(uuid.get("d7489ed6-0add-443d-95cf-234376eb0455"));
+		tableDept = new SimpleJmTable(uuid.get("d7489ed6-0add-443d-95cf-234376eb0455"));
 		tableDept.setName("T_DEPT");
 		
 //		tableDept.getAroundScript().setScript(Position.BEGIN, "/* test begin script */");
 		
 		tableDept.setDescription("部署マスタです。");
 		
-		deptId = new DefaultColumnModel(uuid.get("c7ed225d-92a6-4cc2-90de-60531804464e"));
+		deptId = new SimpleJmColumn(uuid.get("c7ed225d-92a6-4cc2-90de-60531804464e"));
 		deptId.setName("ID");
 		if (instruction.supressUseDomain) {
-			deptId.setDataType(ModelUtil.createDataType(context, DataTypeCategory.INTEGER));
+			deptId.setDataType(ModelUtil.createDataType(context, RawTypeCategory.INTEGER));
 		} else {
-			deptId.setDataType(new DefaultDataType(domainId.asType()));
+			deptId.setDataType(new SimpleDataType(domainId.asType()));
 		}
 		deptId.setLogicalName("部署ID");
 		tableDept.store(deptId);
 		
-		deptPk = new DefaultPrimaryKeyConstraintModel(uuid.get("8de55e65-ec48-467a-bac5-8eee2d71d41c"));
+		deptPk = new SimpleJmPrimaryKeyConstraint(uuid.get("8de55e65-ec48-467a-bac5-8eee2d71d41c"));
 		deptPk.setName("dept_pkey");
 		deptPk.addKeyColumn(deptId.toReference());
 		tableDept.store(deptPk);
 		
-		deptDeptNo = new DefaultColumnModel(uuid.get("2d951389-6bc7-49d7-8631-1d26fe17047e"));
+		deptDeptNo = new SimpleJmColumn(uuid.get("2d951389-6bc7-49d7-8631-1d26fe17047e"));
 		deptDeptNo.setName("DEPT_NO");
-		deptDeptNo.setDataType(ModelUtil.createDataType(context, DataTypeCategory.INTEGER));
+		deptDeptNo.setDataType(ModelUtil.createDataType(context, RawTypeCategory.INTEGER));
 		deptDeptNo.setLogicalName("部署番号");
 		tableDept.store(deptDeptNo);
 		
-		deptDeptName = new DefaultColumnModel(uuid.get("1fcd63d3-974e-4d2e-a0d8-3b9c233104d9"));
+		deptDeptName = new SimpleJmColumn(uuid.get("1fcd63d3-974e-4d2e-a0d8-3b9c233104d9"));
 		deptDeptName.setName("DEPT_NAME");
-		DefaultDataType deptDeptNameDataType = ModelUtil.createDataType(context, DataTypeCategory.VARCHAR);
+		SimpleDataType deptDeptNameDataType = ModelUtil.createDataType(context, RawTypeCategory.VARCHAR);
 		deptDeptNameDataType.putParam(TypeParameterKey.SIZE, 20);
 		deptDeptName.setDataType(deptDeptNameDataType);
 		deptDeptName.setLogicalName("部署名");
 		tableDept.store(deptDeptName);
 		
-		deptLoc = new DefaultColumnModel(uuid.get("7bf79e76-07b8-43b6-a993-b8ef374a31f5"));
+		deptLoc = new SimpleJmColumn(uuid.get("7bf79e76-07b8-43b6-a993-b8ef374a31f5"));
 		deptLoc.setName("LOC");
-		DefaultDataType deptLocDataType = ModelUtil.createDataType(context, DataTypeCategory.VARCHAR);
+		SimpleDataType deptLocDataType = ModelUtil.createDataType(context, RawTypeCategory.VARCHAR);
 		deptLocDataType.putParam(TypeParameterKey.SIZE, 20);
 		deptLoc.setDataType(deptLocDataType);
 		deptLoc.setLogicalName("ロケーション");
@@ -640,16 +640,15 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		columnNotNullMap.put(deptDeptNo.getId(), uuid.get("cc709f63-a886-4207-a316-58ad7f279e10"));
 		columnNotNullMap.put(deptDeptName.getId(), uuid.get("fab2f883-0489-4661-bd57-f04286188eef"));
 		
-		for (ColumnModel columnModel : Arrays.asList(deptDeptNo, deptDeptName)) {
-			DefaultNotNullConstraintModel notNull =
-					new DefaultNotNullConstraintModel(columnNotNullMap.get(columnModel.getId()));
-			notNull.setColumn(columnModel.toReference());
+		for (JmColumn column : Arrays.asList(deptDeptNo, deptDeptName)) {
+			SimpleJmNotNullConstraint notNull = new SimpleJmNotNullConstraint(columnNotNullMap.get(column.getId()));
+			notNull.setColumn(column.toReference());
 			tableDept.store(notNull);
 		}
 	}
 	
 	private void createTableEmp() { // CHECKSTYLE IGNORE THIS LINE
-		tableEmp = new DefaultTableModel(uuid.get("9f522e56-809c-45fd-8416-39201014218b"));
+		tableEmp = new SimpleJmTable(uuid.get("9f522e56-809c-45fd-8416-39201014218b"));
 		tableEmp.setName("T_EMP");
 		tableEmp.setLogicalName("従業員");
 		
@@ -657,72 +656,72 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		
 		tableEmp.setDescription("従業員マスタです。");
 		
-		empId = new DefaultColumnModel(uuid.get("44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e"));
+		empId = new SimpleJmColumn(uuid.get("44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e"));
 		empId.setName("ID");
 		if (instruction.supressUseDomain) {
-			empId.setDataType(ModelUtil.createDataType(context, DataTypeCategory.INTEGER));
+			empId.setDataType(ModelUtil.createDataType(context, RawTypeCategory.INTEGER));
 		} else {
-			empId.setDataType(new DefaultDataType(domainId.asType()));
+			empId.setDataType(new SimpleDataType(domainId.asType()));
 		}
 		empId.setLogicalName("従業員ID");
 		tableEmp.store(empId);
 		
-		empEmpNo = new DefaultColumnModel(uuid.get("248a429b-2159-4ebd-a791-eee42a059374"));
+		empEmpNo = new SimpleJmColumn(uuid.get("248a429b-2159-4ebd-a791-eee42a059374"));
 		empEmpNo.setName("EMP_NO");
-		empEmpNo.setDataType(ModelUtil.createDataType(context, DataTypeCategory.INTEGER));
+		empEmpNo.setDataType(ModelUtil.createDataType(context, RawTypeCategory.INTEGER));
 		empEmpNo.setLogicalName("従業員番号");
 		tableEmp.store(empEmpNo);
 		
-		DefaultNotNullConstraintModel notNullEmpEmpNo =
-				new DefaultNotNullConstraintModel(uuid.get("05ee4c06-d8b5-4599-a7e9-1cda036ea2c7"));
+		SimpleJmNotNullConstraint notNullEmpEmpNo =
+				new SimpleJmNotNullConstraint(uuid.get("05ee4c06-d8b5-4599-a7e9-1cda036ea2c7"));
 //		notNullEmpEmpNo.getAdapter(Disablable.class).setDisabled(true);
 		notNullEmpEmpNo.setColumn(empEmpNo.toReference());
 		tableEmp.store(notNullEmpEmpNo);
 		
-		empEmpName = new DefaultColumnModel(uuid.get("0e51b6df-43ab-408c-90ef-de13c6aab881"));
+		empEmpName = new SimpleJmColumn(uuid.get("0e51b6df-43ab-408c-90ef-de13c6aab881"));
 		empEmpName.setName("EMP_NAME");
 		if (instruction.supressUseDomain) {
-			DefaultDataType dataType = ModelUtil.createDataType(context, DataTypeCategory.VARCHAR);
+			SimpleDataType dataType = ModelUtil.createDataType(context, RawTypeCategory.VARCHAR);
 			dataType.putParam(TypeParameterKey.SIZE, 32); // CHECKSTYLE IGNORE THIS LINE
 			empEmpName.setDataType(dataType);
 		} else {
-			empEmpName.setDataType(new DefaultDataType(domainName.asType()));
+			empEmpName.setDataType(new SimpleDataType(domainName.asType()));
 		}
 		empEmpName.setLogicalName("従業員名");
 		empEmpName.setDefaultValue("no name");
 		tableEmp.store(empEmpName);
 		
-		empMgrId = new DefaultColumnModel(uuid.get("3d21a85a-72de-41b3-99dd-f4cb94e58d84"));
+		empMgrId = new SimpleJmColumn(uuid.get("3d21a85a-72de-41b3-99dd-f4cb94e58d84"));
 		empMgrId.setName("MGR_ID");
-		empMgrId.setDataType(ModelUtil.createDataType(context, DataTypeCategory.INTEGER));
+		empMgrId.setDataType(ModelUtil.createDataType(context, RawTypeCategory.INTEGER));
 		empMgrId.setLogicalName("上司ID");
 		tableEmp.store(empMgrId);
 		
-		empHiredate = new DefaultColumnModel(uuid.get("f0b57eed-98ab-4c21-9855-218c592814dc"));
+		empHiredate = new SimpleJmColumn(uuid.get("f0b57eed-98ab-4c21-9855-218c592814dc"));
 		empHiredate.setName("HIREDATE");
-		empHiredate.setDataType(ModelUtil.createDataType(context, DataTypeCategory.DATE));
+		empHiredate.setDataType(ModelUtil.createDataType(context, RawTypeCategory.DATE));
 		tableEmp.store(empHiredate);
 		
-		empSal = new DefaultColumnModel(uuid.get("80786549-dc2c-4c1c-bcbd-9f6fdec911d2"));
+		empSal = new SimpleJmColumn(uuid.get("80786549-dc2c-4c1c-bcbd-9f6fdec911d2"));
 		empSal.setName("SAL");
-		DefaultDataType dataType = ModelUtil.createDataType(context, DataTypeCategory.NUMERIC);
+		SimpleDataType dataType = ModelUtil.createDataType(context, RawTypeCategory.NUMERIC);
 		dataType.putParam(TypeParameterKey.PRECISION, 7);
 		dataType.putParam(TypeParameterKey.SCALE, 2);
 		empSal.setDataType(dataType);
 		tableEmp.store(empSal);
 		
-		DefaultCheckConstraintModel checkConstraint =
-				new DefaultCheckConstraintModel(uuid.get("873f6660-7a61-4c2c-87a0-e922fa03b88c"));
+		SimpleJmCheckConstraint checkConstraint =
+				new SimpleJmCheckConstraint(uuid.get("873f6660-7a61-4c2c-87a0-e922fa03b88c"));
 		checkConstraint.setName("positive_sal");
 		checkConstraint.setExpression("SAL >= 0");
 		tableEmp.store(checkConstraint);
 		
-		empDeptId = new DefaultColumnModel(uuid.get("4ae69b7a-7a0e-422a-89dc-0f0cff77565b"));
+		empDeptId = new SimpleJmColumn(uuid.get("4ae69b7a-7a0e-422a-89dc-0f0cff77565b"));
 		empDeptId.setName("DEPT_ID");
-		empDeptId.setDataType(ModelUtil.createDataType(context, DataTypeCategory.INTEGER));
+		empDeptId.setDataType(ModelUtil.createDataType(context, RawTypeCategory.INTEGER));
 		tableEmp.store(empDeptId);
 		
-		empPk = new DefaultPrimaryKeyConstraintModel(uuid.get("6145e6a0-9ff7-4033-999d-99d80392a48f"));
+		empPk = new SimpleJmPrimaryKeyConstraint(uuid.get("6145e6a0-9ff7-4033-999d-99d80392a48f"));
 		empPk.setName("emp_pkey");
 		empPk.addKeyColumn(empId.toReference());
 		tableEmp.store(empPk);
@@ -733,20 +732,19 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		columnNotNullMap.put(empSal.getId(), uuid.get("a446779a-4fb6-4a0f-8262-22daae856e85"));
 		columnNotNullMap.put(empDeptId.getId(), uuid.get("b9a0fdce-a965-4118-ae71-5dc7150f6d4e"));
 		
-		for (ColumnModel columnModel : Arrays.asList(empEmpName, empHiredate, empSal, empDeptId)) {
-			DefaultNotNullConstraintModel notNull =
-					new DefaultNotNullConstraintModel(columnNotNullMap.get(columnModel.getId()));
-			notNull.setColumn(columnModel.toReference());
+		for (JmColumn column : Arrays.asList(empEmpName, empHiredate, empSal, empDeptId)) {
+			SimpleJmNotNullConstraint notNull = new SimpleJmNotNullConstraint(columnNotNullMap.get(column.getId()));
+			notNull.setColumn(column.toReference());
 		}
 		
-		empNameIndex = new DefaultIndexModel(uuid.get("9abc9e01-4cdb-42fe-a495-93b56af35a1d"));
+		empNameIndex = new SimpleJmIndex(uuid.get("9abc9e01-4cdb-42fe-a495-93b56af35a1d"));
 		empNameIndex.setName("IDX_EMP_NAME");
-		DefaultIndexColumnModel indexColumnModel = DefaultIndexColumnModel.of(empEmpName, SortOrder.DESC);
-		empNameIndex.addIndexColumn(indexColumnModel);
+		SimpleJmIndexColumn indexColumn = SimpleJmIndexColumn.of(empEmpName, SortOrder.DESC);
+		empNameIndex.addIndexColumn(indexColumn);
 	}
 	
 	private void createViewHighSal() {
-		viewHighSal = new DefaultViewModel(uuid.get("516f7961-cb7b-48e2-990b-7fb0c750c3a4"));
+		viewHighSal = new SimpleJmView(uuid.get("516f7961-cb7b-48e2-990b-7fb0c750c3a4"));
 		viewHighSal.setName("V_HIGH_SAL_EMP");
 		viewHighSal.setDefinition("SELECT * FROM T_EMP WHERE SAL > 2000;");
 		viewHighSal.setLogicalName("高給取り");

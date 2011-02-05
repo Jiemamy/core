@@ -32,6 +32,13 @@ import org.jiemamy.dddbase.Entity;
  */
 public class EntityToIdTransformer implements Function<Entity, UUID> {
 	
+	/** singleton instance */
+	public static final EntityToIdTransformer INSTANCE = new EntityToIdTransformer();
+	
+
+	private EntityToIdTransformer() {
+	}
+	
 	public UUID apply(Entity from) {
 		return from.getId();
 	}

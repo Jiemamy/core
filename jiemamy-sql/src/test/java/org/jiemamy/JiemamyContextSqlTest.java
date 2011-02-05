@@ -25,8 +25,8 @@ import java.util.Set;
 
 import org.junit.Test;
 
-import org.jiemamy.model.script.DefaultAroundScriptModelTest;
-import org.jiemamy.model.table.TableModel;
+import org.jiemamy.model.script.SimpleJmAroundScriptTest;
+import org.jiemamy.model.table.JmTable;
 
 /**
  * {@link JiemamyContext}のテスト：Sql版。
@@ -47,12 +47,12 @@ public class JiemamyContextSqlTest {
 		SqlFacet facet = context.getFacet(SqlFacet.class);
 		
 		// tablemodelの生成
-		Set<TableModel> set = context.getTables();
+		Set<JmTable> set = context.getTables();
 		if (set.size() > 1) {
 			int c = integer(set.size() - 1) + 1;
-			Iterator<TableModel> itr = set.iterator();
+			Iterator<JmTable> itr = set.iterator();
 			for (int i = 0; i < c; i++) {
-				facet.store(DefaultAroundScriptModelTest.random(itr.next()));
+				facet.store(SimpleJmAroundScriptTest.random(itr.next()));
 			}
 		}
 		

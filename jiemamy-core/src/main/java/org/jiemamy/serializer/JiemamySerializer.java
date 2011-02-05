@@ -54,7 +54,7 @@ public interface JiemamySerializer {
 	 * 
 	 * @param in デシリアライズするInputStream
 	 * @param facetProviders デシリアライズした{@link JiemamyContext}がサポートすべき {@link JiemamyFacet} のプロバイダ
-	 * @return デシリアライズしたRootModel
+	 * @return デシリアライズした {@link JiemamyContext}
 	 * @throws SerializationException デシリアライズに失敗した時
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 0.2

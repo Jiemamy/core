@@ -27,15 +27,15 @@ import org.apache.commons.lang.StringUtils;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.dddbase.EntityRef;
-import org.jiemamy.model.column.ColumnModel;
-import org.jiemamy.model.index.IndexColumnModel;
-import org.jiemamy.model.index.IndexModel;
+import org.jiemamy.model.column.JmColumn;
+import org.jiemamy.model.index.JmIndex;
+import org.jiemamy.model.index.JmIndexColumn;
 import org.jiemamy.validator.AbstractProblem;
 import org.jiemamy.validator.AbstractValidator;
 import org.jiemamy.validator.Problem;
 
 /**
- * {@link IndexModel}の構成を調べるバリデータ。
+ * {@link JmIndex}の構成を調べるバリデータ。
  * 
  * @author daisuke
  */
@@ -43,26 +43,26 @@ public class IndexValidator extends AbstractValidator {
 	
 	public Collection<Problem> validate(JiemamyContext context) {
 		Collection<Problem> result = Lists.newArrayList();
-//		Map<TableModel, Collection<UUID>> map = CollectionsUtil.newHashMap();
-//		for (TableModel tableModel : rootModel.getTables()) {
-//			Collection<UUID> columnIds = CollectionsUtil.newArrayList();
-//			for (ColumnModel columnModel : tableModel.getColumns()) {
-//				columnIds.add(columnModel.getId());
+//		Map<JmTable, Collection<UUID>> map = CollectionsUtil.newHashMap();
+//		for (JmTable table : context.getTables()) {
+//			Collection<UUID> columnIds = Lists.newArrayList();
+//			for (JmColumn column : table.getColumns()) {
+//				columnIds.add(column.getId());
 //			}
-//			map.put(tableModel, columnIds);
+//			map.put(table, columnIds);
 //		}
 		
-		for (IndexModel indexModel : context.getIndexes()) {
+		for (JmIndex index : context.getIndexes()) {
 			Collection<UUID> referenceColumnIds = Lists.newArrayList();
 			
-			if (indexModel.getIndexColumns().size() < 1) {
-				result.add(new NoIndexColumnProblem(indexModel));
+			if (index.getIndexColumns().size() < 1) {
+				result.add(new NoIndexColumnProblem(index));
 			}
-			for (IndexColumnModel indexColumnModel : indexModel.getIndexColumns()) {
-				EntityRef<? extends ColumnModel> columnRef = indexColumnModel.getColumnRef();
+			for (JmIndexColumn indexColumn : index.getIndexColumns()) {
+				EntityRef<? extends JmColumn> columnRef = indexColumn.getColumnRef();
 				if (referenceColumnIds.contains(columnRef.getReferentId())) {
-					ColumnModel columnModel = context.resolve(columnRef);
-					result.add(new DuplicatedIndexColumnsProblem(indexModel, columnModel));
+					JmColumn column = context.resolve(columnRef);
+					result.add(new DuplicatedIndexColumnsProblem(index, column));
 				}
 				referenceColumnIds.add(columnRef.getReferentId());
 			}
@@ -76,14 +76,14 @@ public class IndexValidator extends AbstractValidator {
 		/**
 		 * インスタンスを生成する。
 		 * 
-		 * @param indexModel 同じカラムが複数設定されたインデックス
-		 * @param columnModel 複数設定されたカラム
+		 * @param index 同じカラムが複数設定されたインデックス
+		 * @param column 複数設定されたカラム
 		 */
-		protected DuplicatedIndexColumnsProblem(IndexModel indexModel, ColumnModel columnModel) {
-			super(indexModel, "E0100");
+		protected DuplicatedIndexColumnsProblem(JmIndex index, JmColumn column) {
+			super(index, "E0100");
 			setArguments(new Object[] {
-				StringUtils.isEmpty(indexModel.getName()) ? indexModel.getId().toString() : indexModel.getName(),
-				columnModel.getName()
+				StringUtils.isEmpty(index.getName()) ? index.getId().toString() : index.getName(),
+				column.getName()
 			});
 		}
 	}
@@ -93,12 +93,12 @@ public class IndexValidator extends AbstractValidator {
 		/**
 		 * インスタンスを生成する。
 		 * 
-		 * @param indexModel インデックスカラムを1つも持たないインデックス
+		 * @param index インデックスカラムを1つも持たないインデックス
 		 */
-		public NoIndexColumnProblem(IndexModel indexModel) {
-			super(indexModel, "E0120");
+		public NoIndexColumnProblem(JmIndex index) {
+			super(index, "E0120");
 			setArguments(new Object[] {
-				StringUtils.isEmpty(indexModel.getName()) ? indexModel.getId().toString() : indexModel.getName(),
+				StringUtils.isEmpty(index.getName()) ? index.getId().toString() : index.getName(),
 			});
 		}
 	}

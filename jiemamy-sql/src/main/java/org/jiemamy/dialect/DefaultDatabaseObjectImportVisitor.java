@@ -23,7 +23,6 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.UUID;
 
 import com.google.common.collect.Lists;
 
@@ -34,20 +33,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.model.DatabaseObjectModel;
-import org.jiemamy.model.DefaultDatabaseObjectModel;
-import org.jiemamy.model.column.ColumnModel;
-import org.jiemamy.model.column.DefaultColumnModel;
-import org.jiemamy.model.constraint.DefaultNotNullConstraintModel;
-import org.jiemamy.model.constraint.DefaultPrimaryKeyConstraintModel;
-import org.jiemamy.model.datatype.DataTypeCategory;
-import org.jiemamy.model.datatype.DefaultTypeReference;
-import org.jiemamy.model.datatype.DefaultDataType;
+import org.jiemamy.model.DbObject;
+import org.jiemamy.model.SimpleDbObject;
+import org.jiemamy.model.column.JmColumn;
+import org.jiemamy.model.column.SimpleJmColumn;
+import org.jiemamy.model.constraint.SimpleJmNotNullConstraint;
+import org.jiemamy.model.constraint.SimpleJmPrimaryKeyConstraint;
+import org.jiemamy.model.datatype.RawTypeCategory;
+import org.jiemamy.model.datatype.SimpleDataType;
+import org.jiemamy.model.datatype.SimpleRawTypeDescriptor;
 import org.jiemamy.model.datatype.TypeParameterKey;
-import org.jiemamy.model.table.DefaultTableModel;
-import org.jiemamy.model.table.TableModel;
-import org.jiemamy.model.view.DefaultViewModel;
-import org.jiemamy.model.view.ViewModel;
+import org.jiemamy.model.table.JmTable;
+import org.jiemamy.model.table.SimpleJmTable;
+import org.jiemamy.model.view.JmView;
+import org.jiemamy.model.view.SimpleJmView;
 import org.jiemamy.utils.sql.metadata.ColumnMeta;
 import org.jiemamy.utils.sql.metadata.ColumnMeta.Nullable;
 import org.jiemamy.utils.sql.metadata.PrimaryKeyMeta;
@@ -59,12 +58,12 @@ import org.jiemamy.utils.visitor.AbstractTypeSafeResultSetVisitor;
 import org.jiemamy.utils.visitor.ForEachUtil;
 
 /**
- * {@link DatabaseObjectImportVisitor}のデフォルト実装クラス。
+ * {@link DbObjectImportVisitor}のデフォルト実装クラス。
  * 
  * @author daisuke
  */
 public class DefaultDatabaseObjectImportVisitor extends AbstractCollectionVisitor<TableMeta, Void, SQLException>
-		implements DatabaseObjectImportVisitor {
+		implements DbObjectImportVisitor {
 	
 	private static Logger logger = LoggerFactory.getLogger(DefaultDatabaseObjectImportVisitor.class);
 	
@@ -84,7 +83,7 @@ public class DefaultDatabaseObjectImportVisitor extends AbstractCollectionVisito
 	 * 
 	 * 例えば "TABLE" とか "VIEW" とか。
 	 */
-	private List<String> entityTypes;
+	private Collection<String> entityTypes;
 	
 	/**
 	 * 読み込み対象のエンティティ名のリスト
@@ -134,25 +133,25 @@ public class DefaultDatabaseObjectImportVisitor extends AbstractCollectionVisito
 		Validate.notNull(tableMeta);
 		if (entityTypes.contains(tableMeta.tableType)
 				&& (selectedEntities == null || selectedEntities.contains(tableMeta.tableName))) {
-			DatabaseObjectModel entityModel = createEntity(tableMeta);
-			if (entityModel != null) {
-				context.store(entityModel);
+			DbObject dbObject = createDbObject(tableMeta);
+			if (dbObject != null) {
+				context.store(dbObject);
 			}
 		}
 		return null;
 	}
 	
 	/**
-	 * {@link DatabaseMetaData}から得られた結果を読み込み、{@link ViewModel}を生成する。
+	 * {@link DatabaseMetaData}から得られた結果を読み込み、{@link JmView}を生成する。
 	 * 
 	 * @param tableMeta 読み込み対象エンティティの情報
-	 * @return 読み込んだ結果生成された{@link ViewModel}
+	 * @return 読み込んだ結果生成された{@link JmView}
 	 * @throws SQLException SQLの実行に失敗した場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	protected DatabaseObjectModel createEntity(TableMeta tableMeta) throws SQLException {
+	protected DbObject createDbObject(TableMeta tableMeta) throws SQLException {
 		Validate.notNull(tableMeta);
-		DefaultDatabaseObjectModel result = null;
+		SimpleDbObject result = null;
 		
 		logger.debug("type = " + tableMeta.tableType + "(" + tableMeta.tableName + ")");
 		if ("TABLE".equals(tableMeta.tableType)) {
@@ -172,47 +171,47 @@ public class DefaultDatabaseObjectImportVisitor extends AbstractCollectionVisito
 	}
 	
 	/**
-	 * {@link DatabaseMetaData}から得られる情報を読み込み、{@link TableModel}を生成する。
+	 * {@link DatabaseMetaData}から得られる情報を読み込み、{@link JmTable}を生成する。
 	 * 
 	 * @param tableName 読み込み対象テーブル名
-	 * @return 読み込んだ結果生成された{@link TableModel}
+	 * @return 読み込んだ結果生成された{@link JmTable}
 	 * @throws SQLException SQLの実行に失敗した場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	protected DefaultTableModel createTable(String tableName) throws SQLException {
+	protected SimpleJmTable createTable(String tableName) throws SQLException {
 		Validate.notNull(tableName);
-		final DefaultTableModel tableModel = new DefaultTableModel(UUID.randomUUID());
 		
-		tableModel.setName(tableName);
+		SimpleJmTable table = new SimpleJmTable();
+		table.setName(tableName);
 		
 		TypeSafeResultSet<ColumnMeta> columnsResult = null;
 		TypeSafeResultSet<PrimaryKeyMeta> keysResult = null;
 		try {
 			columnsResult = meta.getColumns("", config.getSchema(), tableName, "%");
-			ForEachUtil.accept(columnsResult, new ColumnMetaVisitor(tableModel));
+			ForEachUtil.accept(columnsResult, new ColumnMetaVisitor(table));
 			keysResult = meta.getPrimaryKeys("", config.getSchema(), tableName);
-			ForEachUtil.accept(keysResult, new PrimaryKeyMetaVisitor(tableModel));
+			ForEachUtil.accept(keysResult, new PrimaryKeyMetaVisitor(table));
 		} finally {
 			closeQuietly(columnsResult);
 			closeQuietly(keysResult);
 		}
-		return tableModel;
+		return table;
 	}
 	
 	/**
-	 * {@link DatabaseMetaData}から得られる情報を読み込み、{@link ViewModel}を生成する。
+	 * {@link DatabaseMetaData}から得られる情報を読み込み、{@link JmView}を生成する。
 	 * 
 	 * @param viewName 読み込み対象ビュー名
-	 * @return 読み込んだ結果生成された{@link ViewModel}
+	 * @return 読み込んだ結果生成された{@link JmView}
 	 * @throws SQLException SQLの実行に失敗した場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	protected DefaultViewModel createView(String viewName) throws SQLException {
+	protected SimpleJmView createView(String viewName) throws SQLException {
 		Validate.notNull(viewName);
 		// UNDONE ビューの定義SQLを取得する一般的な手段が分からない。
 		// v0.1, v0.2では実は実装できなかった所。
 		String definition = "VIEW DEFINITION (not implemented)";
-		DefaultViewModel view = new DefaultViewModel(UUID.randomUUID());
+		SimpleJmView view = new SimpleJmView();
 		view.setName(viewName);
 		view.setDefinition(definition);
 		
@@ -230,33 +229,32 @@ public class DefaultDatabaseObjectImportVisitor extends AbstractCollectionVisito
 	}
 	
 
-	private class ColumnMetaVisitor extends
-			AbstractTypeSafeResultSetVisitor<ColumnMeta, List<ColumnModel>, SQLException> {
+	private class ColumnMetaVisitor extends AbstractTypeSafeResultSetVisitor<ColumnMeta, List<JmColumn>, SQLException> {
 		
-		private final DefaultTableModel tableModel;
+		private final SimpleJmTable table;
 		
 
 		/**
 		 * インスタンスを生成する。
 		 * 
-		 * @param tableModel テーブル
+		 * @param table テーブル
 		 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 		 */
-		private ColumnMetaVisitor(DefaultTableModel tableModel) {
-			Validate.notNull(tableModel);
-			this.tableModel = tableModel;
+		private ColumnMetaVisitor(SimpleJmTable table) {
+			Validate.notNull(table);
+			this.table = table;
 		}
 		
-		public List<ColumnModel> visit(ColumnMeta element) {
+		public List<JmColumn> visit(ColumnMeta element) {
 			Validate.notNull(element);
 			
-			DefaultColumnModel columnModel = new DefaultColumnModel(UUID.randomUUID());
-			columnModel.setName(element.columnName);
-			columnModel.setDefaultValue(element.columnDef);
+			SimpleJmColumn column = new SimpleJmColumn();
+			column.setName(element.columnName);
+			column.setDefaultValue(element.columnDef);
 			
-			DataTypeCategory category = DataTypeCategory.fromSqlType(element.dataType);
-			DefaultTypeReference typeRef = new DefaultTypeReference(category, element.typeName);
-			DefaultDataType dataType = new DefaultDataType(typeRef);
+			RawTypeCategory category = RawTypeCategory.fromSqlType(element.dataType);
+			SimpleRawTypeDescriptor typeRef = new SimpleRawTypeDescriptor(category, element.typeName);
+			SimpleDataType dataType = new SimpleDataType(typeRef);
 			Collection<TypeParameterSpec> typeParameterSpecs = dialect.getTypeParameterSpecs(typeRef);
 			for (TypeParameterSpec spec : typeParameterSpecs) {
 				if (spec.getKey().equals(TypeParameterKey.SIZE)) {
@@ -267,19 +265,19 @@ public class DefaultDatabaseObjectImportVisitor extends AbstractCollectionVisito
 					dataType.putParam(TypeParameterKey.SCALE, element.decimalDigits);
 				}
 			}
-			columnModel.setDataType(dataType);
+			column.setDataType(dataType);
 			
-			tableModel.store(columnModel);
+			table.store(column);
 			
 			if (element.nullable == Nullable.NO_NULLS) {
-				DefaultNotNullConstraintModel notNullConstraint = new DefaultNotNullConstraintModel(UUID.randomUUID());
-				notNullConstraint.setColumn(columnModel.toReference());
-				tableModel.store(notNullConstraint);
+				SimpleJmNotNullConstraint notNullConstraint = new SimpleJmNotNullConstraint();
+				notNullConstraint.setColumn(column.toReference());
+				table.store(notNullConstraint);
 			}
 			
 			// TODO check制約のインポート
 			
-			finalResult.add(columnModel);
+			finalResult.add(column);
 			return null;
 		}
 		
@@ -292,37 +290,37 @@ public class DefaultDatabaseObjectImportVisitor extends AbstractCollectionVisito
 	private static class PrimaryKeyMetaVisitor extends
 			AbstractTypeSafeResultSetVisitor<PrimaryKeyMeta, Boolean, SQLException> {
 		
-		private DefaultPrimaryKeyConstraintModel primaryKey;
+		private SimpleJmPrimaryKeyConstraint primaryKey;
 		
-		private final DefaultTableModel tableModel;
+		private final SimpleJmTable table;
 		
 
 		/**
 		 * インスタンスを生成する。
 		 * 
-		 * @param tableModel テーブル
+		 * @param table テーブル
 		 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 		 */
-		private PrimaryKeyMetaVisitor(DefaultTableModel tableModel) {
-			Validate.notNull(tableModel);
-			this.tableModel = tableModel;
-			primaryKey = (DefaultPrimaryKeyConstraintModel) tableModel.getPrimaryKey();
+		private PrimaryKeyMetaVisitor(SimpleJmTable table) {
+			Validate.notNull(table);
+			this.table = table;
+			primaryKey = (SimpleJmPrimaryKeyConstraint) table.getPrimaryKey();
 		}
 		
 		public Boolean visit(PrimaryKeyMeta element) {
 			Validate.notNull(element);
 			
 			if (primaryKey == null) {
-				primaryKey = new DefaultPrimaryKeyConstraintModel(UUID.randomUUID());
+				primaryKey = new SimpleJmPrimaryKeyConstraint();
 			}
 			
-			for (ColumnModel columnModel : tableModel.getColumns()) {
-				if (columnModel.getName().equals(element.columnName)) {
-					primaryKey.addKeyColumn(columnModel.toReference());
+			for (JmColumn column : table.getColumns()) {
+				if (column.getName().equals(element.columnName)) {
+					primaryKey.addKeyColumn(column.toReference());
 					break;
 				}
 			}
-			tableModel.store(primaryKey);
+			table.store(primaryKey);
 			return null;
 		}
 	}

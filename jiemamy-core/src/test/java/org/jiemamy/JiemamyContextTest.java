@@ -40,18 +40,18 @@ import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityNotFoundException;
 import org.jiemamy.dialect.MockDialect;
-import org.jiemamy.model.DatabaseObjectModel;
-import org.jiemamy.model.column.Column;
-import org.jiemamy.model.column.ColumnModel;
-import org.jiemamy.model.column.DefaultColumnModel;
-import org.jiemamy.model.constraint.DefaultForeignKeyConstraintModel;
-import org.jiemamy.model.constraint.DefaultPrimaryKeyConstraintModel;
-import org.jiemamy.model.dataset.DefaultDataSetModelTest;
-import org.jiemamy.model.table.DefaultTableModel;
-import org.jiemamy.model.table.DefaultTableModelTest;
-import org.jiemamy.model.table.Table;
-import org.jiemamy.model.table.TableModel;
-import org.jiemamy.model.view.DefaultViewModelTest;
+import org.jiemamy.model.DbObject;
+import org.jiemamy.model.column.JmColumn;
+import org.jiemamy.model.column.JmColumnBuilder;
+import org.jiemamy.model.column.SimpleJmColumn;
+import org.jiemamy.model.constraint.SimpleJmForeignKeyConstraint;
+import org.jiemamy.model.constraint.SimpleJmPrimaryKeyConstraint;
+import org.jiemamy.model.dataset.SimpleJmDataSetTest;
+import org.jiemamy.model.table.JmTable;
+import org.jiemamy.model.table.JmTableBuilder;
+import org.jiemamy.model.table.SimpleJmTable;
+import org.jiemamy.model.table.SimpleJmTableTest;
+import org.jiemamy.model.view.SimpleJmViewTest;
 import org.jiemamy.utils.UUIDUtil;
 
 /**
@@ -84,21 +84,21 @@ public class JiemamyContextTest {
 	public static JiemamyContext random(FacetProvider... providers) {
 		JiemamyContext context = new JiemamyContext(providers);
 		
-		DefaultContextMetadata meta = new DefaultContextMetadata();
+		SimpleJmMetadata meta = new SimpleJmMetadata();
 		meta.setDescription(strNullable());
 		meta.setDialectClassName(bool() ? null : "org.jiemamy.dialect.GenericDialect");
 		meta.setSchemaName(strNullable());
 		context.setMetadata(meta);
 		
-		// tablemodelの生成
+		// tableの生成
 		int size = integer(5) + 1;
 		for (int i = 0; i < size; i++) {
-			context.store(DefaultTableModelTest.random());
+			context.store(SimpleJmTableTest.random());
 		}
-		// viewmodelの生成
+		// viewの生成
 		size = integer(5) + 1;
 		for (int i = 0; i < size; i++) {
-			context.store(DefaultViewModelTest.random());
+			context.store(SimpleJmViewTest.random());
 		}
 		
 		// TODO domain, indexとかもstoreする
@@ -106,7 +106,7 @@ public class JiemamyContextTest {
 		// dateSetの生成
 		size = integer(5) + 1;
 		for (int i = 0; i < size; i++) {
-			context.store(DefaultDataSetModelTest.random(context.getTables()));
+			context.store(SimpleJmDataSetTest.random(context.getTables()));
 		}
 		
 		return context;
@@ -127,21 +127,21 @@ public class JiemamyContextTest {
 	
 	private JiemamyContext ctx2;
 	
-	private DefaultTableModel t1a;
+	private SimpleJmTable t1a;
 	
-	private DefaultTableModel t1b;
+	private SimpleJmTable t1b;
 	
-	private DefaultTableModel t2;
+	private SimpleJmTable t2;
 	
-	private DefaultTableModel t3;
+	private SimpleJmTable t3;
 	
-	private DefaultColumnModel c1a;
+	private SimpleJmColumn c1a;
 	
-	private DefaultColumnModel c1b;
+	private SimpleJmColumn c1b;
 	
-	private DefaultColumnModel c2;
+	private SimpleJmColumn c2;
 	
-	private DefaultColumnModel c3;
+	private SimpleJmColumn c3;
 	
 
 	/**
@@ -155,15 +155,15 @@ public class JiemamyContextTest {
 		ctx2 = new JiemamyContext();
 		
 		// FORMAT-OFF
-		t1a = new DefaultTableModel(TID1); t1a.setName("A");
-		t1b = new DefaultTableModel(TID1); t1b.setName("B");
-		t2 = new DefaultTableModel(TID2);
-		t3 = new DefaultTableModel(TID3);
+		t1a = new SimpleJmTable(TID1); t1a.setName("A");
+		t1b = new SimpleJmTable(TID1); t1b.setName("B");
+		t2 = new SimpleJmTable(TID2);
+		t3 = new SimpleJmTable(TID3);
 		
-		c1a = new DefaultColumnModel(CID1); c1a.setName("A");
-		c1b = new DefaultColumnModel(CID1); c1b.setName("B");
-		c2 = new DefaultColumnModel(CID2);
-		c3 = new DefaultColumnModel(CID3);
+		c1a = new SimpleJmColumn(CID1); c1a.setName("A");
+		c1b = new SimpleJmColumn(CID1); c1b.setName("B");
+		c2 = new SimpleJmColumn(CID2);
+		c3 = new SimpleJmColumn(CID3);
 		// FORMAT-ON
 	}
 	
@@ -176,8 +176,8 @@ public class JiemamyContextTest {
 	public void test00_IDが違うテーブルを同じctxに追加できる() throws Exception {
 		ctx1.store(t1a);
 		ctx1.store(t3); // ID違うのでOK
-		assertThat(((TableModel) ctx1.resolve(TID1)).getName(), is("A"));
-		assertThat(((TableModel) ctx1.resolve(TID3)).getName(), is(nullValue()));
+		assertThat(((JmTable) ctx1.resolve(TID1)).getName(), is("A"));
+		assertThat(((JmTable) ctx1.resolve(TID3)).getName(), is(nullValue()));
 	}
 	
 	/**
@@ -189,7 +189,7 @@ public class JiemamyContextTest {
 	public void test01_IDが同じテーブルを同じctxに追加すると置換更新となる() throws Exception {
 		ctx1.store(t1a);
 		ctx1.store(t1b); // 等価なので置換
-		assertThat(((TableModel) ctx1.resolve(TID1)).getName(), is("B"));
+		assertThat(((JmTable) ctx1.resolve(TID1)).getName(), is("B"));
 	}
 	
 	/**
@@ -201,8 +201,8 @@ public class JiemamyContextTest {
 	public void test02_IDが同じであってもctxが違えば普通に別管理となる() throws Exception {
 		ctx1.store(t1a);
 		ctx2.store(t1b); // 等価だけどctxが違うので変化なし
-		assertThat(((TableModel) ctx1.resolve(TID1)).getName(), is("A"));
-		assertThat(((TableModel) ctx2.resolve(TID1)).getName(), is("B"));
+		assertThat(((JmTable) ctx1.resolve(TID1)).getName(), is("A"));
+		assertThat(((JmTable) ctx2.resolve(TID1)).getName(), is("B"));
 	}
 	
 	/**
@@ -214,7 +214,7 @@ public class JiemamyContextTest {
 	public void test03_同一テーブルを同じctx内にaddする意味はあまりない() throws Exception {
 		ctx1.store(t1a);
 		ctx1.store(t1a); // 同一なので置き換えるが無意味
-		assertThat(((TableModel) ctx1.resolve(TID1)).getName(), is("A"));
+		assertThat(((JmTable) ctx1.resolve(TID1)).getName(), is("A"));
 	}
 	
 	/**
@@ -226,14 +226,14 @@ public class JiemamyContextTest {
 	public void test04_同一テーブルを2つの異なるctxにaddしてもお互い影響しない() throws Exception {
 		ctx1.store(t1a);
 		ctx2.store(t1a); // ctxは違えど同一なのでexception
-		assertThat(((TableModel) ctx1.resolve(TID1)).getName(), is("A"));
-		assertThat(((TableModel) ctx2.resolve(TID1)).getName(), is("A"));
+		assertThat(((JmTable) ctx1.resolve(TID1)).getName(), is("A"));
+		assertThat(((JmTable) ctx2.resolve(TID1)).getName(), is("A"));
 		t1a.setName("A2");
-		assertThat(((TableModel) ctx1.resolve(TID1)).getName(), is("A"));
-		assertThat(((TableModel) ctx2.resolve(TID1)).getName(), is("A"));
+		assertThat(((JmTable) ctx1.resolve(TID1)).getName(), is("A"));
+		assertThat(((JmTable) ctx2.resolve(TID1)).getName(), is("A"));
 		ctx1.store(t1a);
-		assertThat(((TableModel) ctx1.resolve(TID1)).getName(), is("A2"));
-		assertThat(((TableModel) ctx2.resolve(TID1)).getName(), is("A"));
+		assertThat(((JmTable) ctx1.resolve(TID1)).getName(), is("A2"));
+		assertThat(((JmTable) ctx2.resolve(TID1)).getName(), is("A"));
 	}
 	
 	/**
@@ -244,7 +244,7 @@ public class JiemamyContextTest {
 	@Test
 	public void test05_removeしたテーブルを同じctxに追加できる() throws Exception {
 		ctx1.store(t1a);
-		ctx1.deleteDatabaseObject(t1a.toReference());
+		ctx1.deleteDbObject(t1a.toReference());
 		ctx1.store(t1a);
 	}
 	
@@ -256,7 +256,7 @@ public class JiemamyContextTest {
 	@Test
 	public void test06_もちろんremoveしたテーブルを他のctxに追加してもよい() throws Exception {
 		ctx1.store(t1a);
-		ctx1.deleteDatabaseObject(t1a.toReference());
+		ctx1.deleteDbObject(t1a.toReference());
 		ctx2.store(t1a);
 	}
 	
@@ -268,7 +268,7 @@ public class JiemamyContextTest {
 	@Test
 	public void test07_ctx1で管理したのはt1bじゃなくてt1aだけどIDが同じなのでremoveできる() throws Exception {
 		ctx1.store(t1a);
-		ctx1.deleteDatabaseObject(t1b.toReference());
+		ctx1.deleteDbObject(t1b.toReference());
 		try {
 			ctx1.resolve(t1a.toReference());
 			fail();
@@ -284,7 +284,7 @@ public class JiemamyContextTest {
 	 */
 	@Test(expected = EntityNotFoundException.class)
 	public void test08_管理していないインスタンスをremoveできない() throws Exception {
-		ctx1.deleteDatabaseObject(t1a.toReference());
+		ctx1.deleteDbObject(t1a.toReference());
 	}
 	
 	/**
@@ -295,7 +295,7 @@ public class JiemamyContextTest {
 	@Test(expected = EntityNotFoundException.class)
 	public void test09_t1aを管理しているのはctx2じゃないので例外() throws Exception {
 		ctx1.store(t1a);
-		ctx2.deleteDatabaseObject(t1a.toReference());
+		ctx2.deleteDbObject(t1a.toReference());
 	}
 	
 	/**
@@ -580,7 +580,7 @@ public class JiemamyContextTest {
 		t3.store(c3);
 		
 		ctx1.store(t1a);
-		ctx1.deleteDatabaseObject(t1a.toReference());
+		ctx1.deleteDbObject(t1a.toReference());
 		
 		try {
 			ctx1.resolve(TID1);
@@ -627,7 +627,7 @@ public class JiemamyContextTest {
 	 */
 	@Test
 	public void test21() throws Exception {
-		DefaultContextMetadata meta = new DefaultContextMetadata();
+		SimpleJmMetadata meta = new SimpleJmMetadata();
 		meta.setDialectClassName(MockDialect.class.getName());
 		ctx1.setMetadata(meta);
 		assertThat(ctx1.findDialect(), is(instanceOf(MockDialect.class)));
@@ -640,16 +640,16 @@ public class JiemamyContextTest {
 	 */
 	@Test
 	public void test31_double_add() throws Exception {
-		TableModel table = spy(new DefaultTableModel(UUID.randomUUID()));
+		JmTable table = spy(new SimpleJmTable());
 		
 		ctx1.store(table);
 		ctx1.store(table);
 		ctx2.store(table);
-		ctx2.deleteDatabaseObject(table.toReference());
-		ctx1.deleteDatabaseObject(table.toReference());
+		ctx2.deleteDbObject(table.toReference());
+		ctx1.deleteDbObject(table.toReference());
 		
 		try {
-			ctx1.deleteDatabaseObject(table.toReference());
+			ctx1.deleteDbObject(table.toReference());
 			fail();
 		} catch (EntityNotFoundException e) {
 			// success
@@ -663,26 +663,26 @@ public class JiemamyContextTest {
 	 */
 	@Test
 	public void test32_double_add() throws Exception {
-		TableModel table1 = new DefaultTableModel(UUIDUtil.valueOfOrRandom("a"));
-		TableModel table2 = new DefaultTableModel(UUIDUtil.valueOfOrRandom("a"));
+		JmTable table1 = new SimpleJmTable(UUIDUtil.valueOfOrRandom("a"));
+		JmTable table2 = new SimpleJmTable(UUIDUtil.valueOfOrRandom("a"));
 		
 		ctx1.store(table1);
 		ctx1.store(table1);
 		ctx1.store(table2);
 		ctx2.store(table1);
 		ctx2.store(table2);
-		ctx2.deleteDatabaseObject(table1.toReference());
-		ctx1.deleteDatabaseObject(table2.toReference());
+		ctx2.deleteDbObject(table1.toReference());
+		ctx1.deleteDbObject(table2.toReference());
 		
 		try {
-			ctx1.deleteDatabaseObject(table1.toReference());
+			ctx1.deleteDbObject(table1.toReference());
 			fail();
 		} catch (EntityNotFoundException e) {
 			// success
 		}
 		
 		try {
-			ctx2.deleteDatabaseObject(table2.toReference());
+			ctx2.deleteDbObject(table2.toReference());
 			fail();
 		} catch (EntityNotFoundException e) {
 			// success
@@ -697,7 +697,7 @@ public class JiemamyContextTest {
 	@Test
 	public void test34_get() throws Exception {
 		UUID id = UUID.randomUUID();
-		DefaultEntityRef<TableModel> ref = new DefaultEntityRef<TableModel>(id);
+		DefaultEntityRef<JmTable> tableRef = new DefaultEntityRef<JmTable>(id);
 		
 		try {
 			ctx1.resolve(id);
@@ -707,17 +707,17 @@ public class JiemamyContextTest {
 		}
 		
 		try {
-			ctx1.resolve(ref);
+			ctx1.resolve(tableRef);
 			fail();
 		} catch (EntityNotFoundException e) {
 			// success
 		}
 		
-		TableModel table = new DefaultTableModel(id);
+		JmTable table = new SimpleJmTable(id);
 		ctx1.store(table);
 		
 		assertThat(ctx1.resolve(id), is((Entity) table));
-		assertThat(ctx1.resolve(ref), is((Entity) table));
+		assertThat(ctx1.resolve(tableRef), is((Entity) table));
 	}
 	
 	/**
@@ -727,56 +727,56 @@ public class JiemamyContextTest {
 	 */
 	@Test
 	public void test37_query() throws Exception {
-		ColumnModel b;
-		ColumnModel c;
-		ColumnModel d;
-		ColumnModel e;
+		JmColumn b;
+		JmColumn c;
+		JmColumn d;
+		JmColumn e;
 		
 		// FORMAT-OFF
-		TableModel t1 = new Table("ONE")
-				.with(new Column("A").build())
-				.with(b = new Column("B").build())
-				.with(DefaultPrimaryKeyConstraintModel.of(b))
+		JmTable t1 = new JmTableBuilder("ONE")
+				.with(new JmColumnBuilder("A").build())
+				.with(b = new JmColumnBuilder("B").build())
+				.with(SimpleJmPrimaryKeyConstraint.of(b))
 				.build();
-		TableModel t2 = new Table("TWO")
-				.with(c = new Column("C").build())
-				.with(d = new Column("D").build())
-				.with(DefaultPrimaryKeyConstraintModel.of(d))
-				.with(DefaultForeignKeyConstraintModel.of(c, b))
+		JmTable t2 = new JmTableBuilder("TWO")
+				.with(c = new JmColumnBuilder("C").build())
+				.with(d = new JmColumnBuilder("D").build())
+				.with(SimpleJmPrimaryKeyConstraint.of(d))
+				.with(SimpleJmForeignKeyConstraint.of(c, b))
 				.build();
-		TableModel t3 = new Table("THREE")
-				.with(e = new Column("E").build())
-				.with(new Column("F").build())
-				.with(DefaultForeignKeyConstraintModel.of(e, d))
+		JmTable t3 = new JmTableBuilder("THREE")
+				.with(e = new JmColumnBuilder("E").build())
+				.with(new JmColumnBuilder("F").build())
+				.with(SimpleJmForeignKeyConstraint.of(e, d))
 				.build();
 		
 		ctx1.store(t1);
 		ctx1.store(t2);
 		ctx1.store(t3);
 		
-		assertThat(ctx1.findSubDatabaseObjectsNonRecursive(t1).size(), is(1));
-		assertThat(ctx1.findSubDatabaseObjectsNonRecursive(t2).size(), is(1));
-		assertThat(ctx1.findSubDatabaseObjectsNonRecursive(t3).size(), is(0));
-		assertThat(ctx1.findSubDatabaseObjectsNonRecursive(t1), hasItem((DatabaseObjectModel) t2));
-		assertThat(ctx1.findSubDatabaseObjectsNonRecursive(t2), hasItem((DatabaseObjectModel) t3));
+		assertThat(ctx1.findSubDbObjectsNonRecursive(t1).size(), is(1));
+		assertThat(ctx1.findSubDbObjectsNonRecursive(t2).size(), is(1));
+		assertThat(ctx1.findSubDbObjectsNonRecursive(t3).size(), is(0));
+		assertThat(ctx1.findSubDbObjectsNonRecursive(t1), hasItem((DbObject) t2));
+		assertThat(ctx1.findSubDbObjectsNonRecursive(t2), hasItem((DbObject) t3));
 		
-		assertThat(ctx1.findSubDatabaseObjectsRecursive(t1).size(), is(2));
-		assertThat(ctx1.findSubDatabaseObjectsRecursive(t2).size(), is(1));
-		assertThat(ctx1.findSubDatabaseObjectsRecursive(t3).size(), is(0));
-		assertThat(ctx1.findSubDatabaseObjectsRecursive(t1), hasItems((DatabaseObjectModel) t2, (DatabaseObjectModel) t3));
-		assertThat(ctx1.findSubDatabaseObjectsRecursive(t2), hasItem((DatabaseObjectModel) t3));
+		assertThat(ctx1.findSubDbObjectsRecursive(t1).size(), is(2));
+		assertThat(ctx1.findSubDbObjectsRecursive(t2).size(), is(1));
+		assertThat(ctx1.findSubDbObjectsRecursive(t3).size(), is(0));
+		assertThat(ctx1.findSubDbObjectsRecursive(t1), hasItems((DbObject) t2, (DbObject) t3));
+		assertThat(ctx1.findSubDbObjectsRecursive(t2), hasItem((DbObject) t3));
 		
-		assertThat(ctx1.findSuperDatabaseObjectsNonRecursive(t1).size(), is(0));
-		assertThat(ctx1.findSuperDatabaseObjectsNonRecursive(t2).size(), is(1));
-		assertThat(ctx1.findSuperDatabaseObjectsNonRecursive(t3).size(), is(1));
-		assertThat(ctx1.findSuperDatabaseObjectsNonRecursive(t2), hasItem((DatabaseObjectModel) t1));
-		assertThat(ctx1.findSuperDatabaseObjectsNonRecursive(t3), hasItem((DatabaseObjectModel) t2));
+		assertThat(ctx1.findSuperDbObjectsNonRecursive(t1).size(), is(0));
+		assertThat(ctx1.findSuperDbObjectsNonRecursive(t2).size(), is(1));
+		assertThat(ctx1.findSuperDbObjectsNonRecursive(t3).size(), is(1));
+		assertThat(ctx1.findSuperDbObjectsNonRecursive(t2), hasItem((DbObject) t1));
+		assertThat(ctx1.findSuperDbObjectsNonRecursive(t3), hasItem((DbObject) t2));
 		
-		assertThat(ctx1.findSuperDatabaseObjectsRecursive(t1).size(), is(0));
-		assertThat(ctx1.findSuperDatabaseObjectsRecursive(t2).size(), is(1));
-		assertThat(ctx1.findSuperDatabaseObjectsRecursive(t3).size(), is(2));
-		assertThat(ctx1.findSuperDatabaseObjectsRecursive(t2), hasItem((DatabaseObjectModel) t1));
-		assertThat(ctx1.findSuperDatabaseObjectsRecursive(t3), hasItems((DatabaseObjectModel) t1, (DatabaseObjectModel) t2));
+		assertThat(ctx1.findSuperDbObjectsRecursive(t1).size(), is(0));
+		assertThat(ctx1.findSuperDbObjectsRecursive(t2).size(), is(1));
+		assertThat(ctx1.findSuperDbObjectsRecursive(t3).size(), is(2));
+		assertThat(ctx1.findSuperDbObjectsRecursive(t2), hasItem((DbObject) t1));
+		assertThat(ctx1.findSuperDbObjectsRecursive(t3), hasItems((DbObject) t1, (DbObject) t2));
 		// FORMAT-ON
 	}
 }

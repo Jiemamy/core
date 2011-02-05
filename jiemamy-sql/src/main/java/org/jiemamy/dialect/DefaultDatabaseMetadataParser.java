@@ -25,6 +25,7 @@ import java.sql.SQLException;
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.JiemamyContext;
+import org.jiemamy.model.DbObject;
 import org.jiemamy.utils.sql.metadata.TypeSafeDatabaseMetaData;
 
 /**
@@ -35,8 +36,8 @@ import org.jiemamy.utils.sql.metadata.TypeSafeDatabaseMetaData;
  */
 public class DefaultDatabaseMetadataParser implements DatabaseMetadataParser {
 	
-	/** DBからエンティティ情報をインポートするビジター */
-	private final DatabaseObjectImportVisitor doImportVisitor;
+	/** DBから{@link DbObject}情報をインポートするビジター */
+	private final DbObjectImportVisitor doImportVisitor;
 	
 	/** DBから外部キー情報をインポートするビジター */
 	private final ForeignKeyImportVisitor fkImportVisitor;
@@ -45,12 +46,11 @@ public class DefaultDatabaseMetadataParser implements DatabaseMetadataParser {
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param doImportVisitor {@link DatabaseObjectImportVisitor}
+	 * @param doImportVisitor {@link DbObjectImportVisitor}
 	 * @param fkImportVisitor {@link ForeignKeyImportVisitor}
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public DefaultDatabaseMetadataParser(DatabaseObjectImportVisitor doImportVisitor,
-			ForeignKeyImportVisitor fkImportVisitor) {
+	public DefaultDatabaseMetadataParser(DbObjectImportVisitor doImportVisitor, ForeignKeyImportVisitor fkImportVisitor) {
 		Validate.notNull(doImportVisitor);
 		Validate.notNull(fkImportVisitor);
 		this.doImportVisitor = doImportVisitor;

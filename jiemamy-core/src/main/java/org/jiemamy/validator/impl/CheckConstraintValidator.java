@@ -25,8 +25,8 @@ import com.google.common.collect.Lists;
 import org.apache.commons.lang.StringUtils;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.model.constraint.CheckConstraintModel;
-import org.jiemamy.model.table.TableModel;
+import org.jiemamy.model.constraint.JmCheckConstraint;
+import org.jiemamy.model.table.JmTable;
 import org.jiemamy.validator.AbstractProblem;
 import org.jiemamy.validator.AbstractValidator;
 import org.jiemamy.validator.Problem;
@@ -44,11 +44,10 @@ public class CheckConstraintValidator extends AbstractValidator {
 	
 	public Collection<Problem> validate(JiemamyContext context) {
 		Collection<Problem> problems = Lists.newArrayList();
-		Collection<TableModel> tableModels = context.getTables();
-		for (TableModel tableModel : tableModels) {
+		for (JmTable table : context.getTables()) {
 			int index = 0;
-			for (CheckConstraintModel checkConstraint : tableModel.getConstraints(CheckConstraintModel.class)) {
-				validateCheckConstraint(problems, tableModel, index, checkConstraint);
+			for (JmCheckConstraint checkConstraint : table.getConstraints(JmCheckConstraint.class)) {
+				validateCheckConstraint(problems, table, index, checkConstraint);
 				index++;
 			}
 		}
@@ -61,18 +60,18 @@ public class CheckConstraintValidator extends AbstractValidator {
 	 * @param checkConstraint 検査対象のチェック制約
 	 * @return 問題がない場合は{@code true}、そうでない場合は{@code false}
 	 */
-	private boolean isValid(CheckConstraintModel checkConstraint) {
+	private boolean isValid(JmCheckConstraint checkConstraint) {
 		// TODO いつかは構文解析
 		return StringUtils.isEmpty(checkConstraint.getExpression()) == false;
 	}
 	
-	private void validateCheckConstraint(Collection<Problem> problems, TableModel tableModel, int index,
-			CheckConstraintModel checkConstraint) {
+	private void validateCheckConstraint(Collection<Problem> problems, JmTable table, int index,
+			JmCheckConstraint checkConstraint) {
 		if (isValid(checkConstraint) == false) {
 			if (StringUtils.isEmpty(checkConstraint.getName())) {
-				problems.add(new EmptyExpressionProblem(tableModel, checkConstraint, index));
+				problems.add(new EmptyExpressionProblem(table, checkConstraint, index));
 			} else {
-				problems.add(new EmptyExpressionProblem(tableModel, checkConstraint));
+				problems.add(new EmptyExpressionProblem(table, checkConstraint));
 			}
 		}
 	}
@@ -83,29 +82,29 @@ public class CheckConstraintValidator extends AbstractValidator {
 		/**
 		 * インスタンスを生成する。
 		 * 
-		 * @param tableModel 制約式未設定チェック制約が含まれるテーブル
-		 * @param checkConstraintModel 制約式未設定チェック制約
+		 * @param table 制約式未設定チェック制約が含まれるテーブル
+		 * @param checkConstraint 不正なチェック制約
+		 * @param index チェック制約のインデックス
 		 */
-		public EmptyExpressionProblem(TableModel tableModel, CheckConstraintModel checkConstraintModel) {
-			super(checkConstraintModel, "E0030");
+		public EmptyExpressionProblem(JmTable table, JmCheckConstraint checkConstraint, int index) {
+			super(checkConstraint, "E0031");
 			setArguments(new Object[] {
-				tableModel.getName(),
-				checkConstraintModel.getName()
+				table.getName(),
+				index + 1
 			});
 		}
 		
 		/**
 		 * インスタンスを生成する。
 		 * 
-		 * @param tableModel 制約式未設定チェック制約が含まれるテーブル
-		 * @param checkConstraintModel 不正なチェック制約
-		 * @param index チェック制約のインデックス
+		 * @param table 制約式未設定チェック制約が含まれるテーブル
+		 * @param checkConstraint 制約式未設定チェック制約
 		 */
-		public EmptyExpressionProblem(TableModel tableModel, CheckConstraintModel checkConstraintModel, int index) {
-			super(checkConstraintModel, "E0031");
+		EmptyExpressionProblem(JmTable table, JmCheckConstraint checkConstraint) {
+			super(checkConstraint, "E0030");
 			setArguments(new Object[] {
-				tableModel.getName(),
-				index + 1
+				table.getName(),
+				checkConstraint.getName()
 			});
 		}
 	}

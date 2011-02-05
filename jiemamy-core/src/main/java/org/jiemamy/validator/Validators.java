@@ -22,7 +22,7 @@ import org.jiemamy.validator.impl.CheckConstraintValidator;
 import org.jiemamy.validator.impl.ColumnValidator;
 import org.jiemamy.validator.impl.CyclicForeignReferenceValidator;
 import org.jiemamy.validator.impl.DataTypeValidator;
-import org.jiemamy.validator.impl.DatabaseObjectNameCollisionValidator;
+import org.jiemamy.validator.impl.DbObjectNameCollisionValidator;
 import org.jiemamy.validator.impl.ForeignKeyValidator;
 import org.jiemamy.validator.impl.IdCollisionValidator;
 import org.jiemamy.validator.impl.IndexValidator;
@@ -50,8 +50,8 @@ public final class Validators {
 	/** {@link CyclicForeignReferenceValidator} */
 	public static final Validator CyclicForeignReferenceValidator = new CyclicForeignReferenceValidator();
 	
-	/** {@link DatabaseObjectNameCollisionValidator} */
-	public static final Validator DatabaseObjectNameCollisionValidator = new DatabaseObjectNameCollisionValidator();
+	/** {@link DbObjectNameCollisionValidator} */
+	public static final Validator DbObjectNameCollisionValidator = new DbObjectNameCollisionValidator();
 	
 	/** {@link DataTypeValidator} */
 	public static final Validator DataTypeValidator = new DataTypeValidator();
@@ -81,7 +81,7 @@ public final class Validators {
 		CheckConstraintValidator,
 		ColumnValidator,
 		CyclicForeignReferenceValidator,
-		DatabaseObjectNameCollisionValidator,
+		DbObjectNameCollisionValidator,
 		DataTypeValidator,
 		ForeignKeyValidator,
 		IdCollisionValidator,

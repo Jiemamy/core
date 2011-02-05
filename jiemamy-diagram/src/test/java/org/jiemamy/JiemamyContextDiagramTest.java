@@ -22,7 +22,7 @@ import static org.jiemamy.utils.RandomUtil.integer;
 
 import org.junit.Test;
 
-import org.jiemamy.model.DefaultDiagramModelTest;
+import org.jiemamy.model.SimpleJmDiagramTest;
 
 /**
  * {@link JiemamyContext}のテスト：Diagram版。
@@ -41,10 +41,10 @@ public class JiemamyContextDiagramTest {
 		JiemamyContext context = JiemamyContextTest.random(DiagramFacet.PROVIDER);
 		DiagramFacet facet = context.getFacet(DiagramFacet.class);
 		
-		// tablemodelの生成
+		// tableの生成
 		int count = integer(5) + 1;
 		for (int i = 0; i < count; i++) {
-			facet.store(DefaultDiagramModelTest.random(context.getTables()));
+			facet.store(SimpleJmDiagramTest.random(context.getTables()));
 		}
 		
 		return context;

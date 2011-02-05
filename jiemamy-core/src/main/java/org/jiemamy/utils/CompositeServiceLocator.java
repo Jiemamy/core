@@ -37,7 +37,7 @@ public class CompositeServiceLocator implements ServiceLocator {
 	 * インスタンスを生成する。
 	 * 
 	 * @param locators リゾルバ
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @throws IllegalArgumentException 引数に{@code null}または{@code null}要素を与えた場合
 	 */
 	public CompositeServiceLocator(ServiceLocator... locators) {
 		Validate.noNullElements(locators);

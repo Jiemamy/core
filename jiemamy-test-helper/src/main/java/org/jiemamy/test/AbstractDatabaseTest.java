@@ -35,7 +35,7 @@ import org.junit.internal.AssumptionViolatedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.jiemamy.composer.importer.DefaultDatabaseImportConfig;
+import org.jiemamy.composer.importer.SimpleDbImportConfig;
 import org.jiemamy.dialect.Dialect;
 
 /**
@@ -164,15 +164,15 @@ public abstract class AbstractDatabaseTest {
 	}
 	
 	/**
-	 * プロパティファイルから読み出した情報を利用して {@link DefaultDatabaseImportConfig} を返す。
+	 * プロパティファイルから読み出した情報を利用して {@link SimpleDbImportConfig} を返す。
 	 * 
 	 * @param dialect {@link Dialect} 
 	 * @param urls ドライバJARのURLの配列
-	 * @return {@link DefaultDatabaseImportConfig}
+	 * @return {@link SimpleDbImportConfig}
 	 * @throws AssumptionViolatedException プロパティファイルがロードできなかった場合
 	 */
-	protected DefaultDatabaseImportConfig newDatabaseImportConfig(Dialect dialect, URL[] urls) {
-		DefaultDatabaseImportConfig config = new DefaultDatabaseImportConfig();
+	protected SimpleDbImportConfig newDatabaseImportConfig(Dialect dialect, URL[] urls) {
+		SimpleDbImportConfig config = new SimpleDbImportConfig();
 		config.setDriverClassName(getDriverClassName());
 		config.setUsername(getUsername());
 		config.setPassword(getPassword());

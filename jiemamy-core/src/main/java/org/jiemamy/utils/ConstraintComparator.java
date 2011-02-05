@@ -27,34 +27,37 @@ import com.google.common.collect.Lists;
 
 import org.apache.commons.lang.ArrayUtils;
 
-import org.jiemamy.model.constraint.CheckConstraintModel;
-import org.jiemamy.model.constraint.ConstraintModel;
-import org.jiemamy.model.constraint.ForeignKeyConstraintModel;
-import org.jiemamy.model.constraint.NotNullConstraintModel;
-import org.jiemamy.model.constraint.PrimaryKeyConstraintModel;
-import org.jiemamy.model.constraint.UniqueKeyConstraintModel;
+import org.jiemamy.model.constraint.JmCheckConstraint;
+import org.jiemamy.model.constraint.JmConstraint;
+import org.jiemamy.model.constraint.JmForeignKeyConstraint;
+import org.jiemamy.model.constraint.JmNotNullConstraint;
+import org.jiemamy.model.constraint.JmPrimaryKeyConstraint;
+import org.jiemamy.model.constraint.JmUniqueKeyConstraint;
 
 /**
- * 属性の出力順を整列させるコンパレータ。
+ * 制約の出力順を整列させるコンパレータ。
  * 
  * <p>PK, UK, FK, CHECKの順にならべ、同種内では元の順序を維持する。</p>
  * 
  * @author daisuke
  */
-public class ConstraintComparator implements Comparator<ConstraintModel> {
+public class ConstraintComparator implements Comparator<JmConstraint> {
 	
-	private static final ImmutableList<Class<? extends ConstraintModel>> ORDER;
+	/** singleton instance */
+	public static final ConstraintComparator INSTANCE = new ConstraintComparator();
+	
+	private static final ImmutableList<Class<? extends JmConstraint>> ORDER;
 	
 	static {
-		List<Class<? extends ConstraintModel>> order = Lists.newArrayList();
-		order.add(PrimaryKeyConstraintModel.class);
-		order.add(UniqueKeyConstraintModel.class);
-//		order.add(LocalKeyConstraintModel.class);
-		order.add(ForeignKeyConstraintModel.class);
-//		order.add(KeyConstraintModel.class);
-		order.add(NotNullConstraintModel.class);
-		order.add(CheckConstraintModel.class);
-//		order.add(ValueConstraintModel.class);
+		List<Class<? extends JmConstraint>> order = Lists.newArrayList();
+		order.add(JmPrimaryKeyConstraint.class);
+		order.add(JmUniqueKeyConstraint.class);
+//		order.add(JmLocalKeyConstraint.class);
+		order.add(JmForeignKeyConstraint.class);
+//		order.add(JmKeyConstraint.class);
+		order.add(JmNotNullConstraint.class);
+		order.add(JmCheckConstraint.class);
+//		order.add(JmValueConstraint.class);
 		ORDER = ImmutableList.copyOf(order);
 	}
 	
@@ -69,7 +72,10 @@ public class ConstraintComparator implements Comparator<ConstraintModel> {
 		return ArrayUtils.INDEX_NOT_FOUND;
 	}
 	
-	public int compare(ConstraintModel o1, ConstraintModel o2) {
+	private ConstraintComparator() {
+	}
+	
+	public int compare(JmConstraint o1, JmConstraint o2) {
 		if (o1 == o2) {
 			return 0;
 		}

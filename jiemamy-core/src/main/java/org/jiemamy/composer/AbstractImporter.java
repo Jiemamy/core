@@ -40,13 +40,13 @@ public abstract class AbstractImporter<T extends ImportConfig> implements Import
 		Validate.notNull(context);
 		Validate.notNull(configMap);
 		
-		T config = newDefaultConfigInstance();
+		T config = newSimpleConfigInstance();
 		try {
 			PropertyUtils.copyProperties(configMap, config);
 		} catch (IllegalAccessException e) {
-			throw new JiemamyError("DefaultDatabaseImportConfig must have public setter.", e);
+			throw new JiemamyError("SimpleDbImportConfig must have public setter.", e);
 		} catch (InvocationTargetException e) {
-			throw new JiemamyError("DefaultDatabaseImportConfig's setter must not to thwow exceptions.", e);
+			throw new JiemamyError("SimpleDbImportConfig's setter must not to thwow exceptions.", e);
 		} catch (NoSuchMethodException e) {
 			// ignore
 		}
@@ -58,6 +58,6 @@ public abstract class AbstractImporter<T extends ImportConfig> implements Import
 	 * 
 	 * @return この{@link Importer}用の{@link ImportConfig}のデフォルト実装インスタンス
 	 */
-	protected abstract T newDefaultConfigInstance();
+	protected abstract T newSimpleConfigInstance();
 	
 }

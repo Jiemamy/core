@@ -21,15 +21,15 @@ package org.jiemamy.utils;
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.model.DatabaseObjectModel;
-import org.jiemamy.model.DefaultDatabaseObjectModel;
-import org.jiemamy.model.domain.DomainModel;
-import org.jiemamy.model.index.IndexModel;
-import org.jiemamy.model.table.TableModel;
-import org.jiemamy.model.view.ViewModel;
+import org.jiemamy.model.DbObject;
+import org.jiemamy.model.SimpleDbObject;
+import org.jiemamy.model.domain.JmDomain;
+import org.jiemamy.model.index.JmIndex;
+import org.jiemamy.model.table.JmTable;
+import org.jiemamy.model.view.JmView;
 
 /**
- * {@link DatabaseObjectModel}名に関するユーティリティクラス。
+ * {@link DbObject}名に関するユーティリティクラス。
  * 
  * @version $Id$
  * @author daisuke
@@ -37,13 +37,14 @@ import org.jiemamy.model.view.ViewModel;
 public final class NamingUtil {
 	
 	/**
-	 * 自動的にエンティティ名を生成し、設定する。
+	 * 自動的に{@link DbObject}名を生成し、設定する。
 	 * 
-	 * @param target 設定対象のエンティティ
-	 * @param context ルートモデル
+	 * @param target 名前設定対象の{@link DbObject}
+	 * @param context {@link JiemamyContext}
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @throws IllegalArgumentException 名付けに対応していない {@link DbObject} を与えた場合
 	 */
-	public static void autoName(DefaultDatabaseObjectModel target, JiemamyContext context) {
+	public static void autoName(SimpleDbObject target, JiemamyContext context) {
 		Validate.notNull(target);
 		Validate.notNull(context);
 		
@@ -51,22 +52,22 @@ public final class NamingUtil {
 		int counter = 0;
 		boolean duplicated = true;
 		while (duplicated) {
-			if (target instanceof TableModel) {
+			if (target instanceof JmTable) {
 				sb.append("TABLE_");
-			} else if (target instanceof ViewModel) {
+			} else if (target instanceof JmView) {
 				sb.append("VIEW_");
-			} else if (target instanceof DomainModel) {
+			} else if (target instanceof JmDomain) {
 				sb.append("DOMAIN_");
-			} else if (target instanceof IndexModel) {
+			} else if (target instanceof JmIndex) {
 				sb.append("INDEX_");
 			} else {
-				throw new IllegalStateException("Unknown DatabaseObjectModel: " + target.getClass().toString());
+				throw new IllegalArgumentException("Unknown target: " + target.getClass().toString());
 			}
 			sb.append(++counter);
 			
 			duplicated = false;
-			for (DatabaseObjectModel dom : context.getDatabaseObjects()) {
-				if (sb.toString().equals(dom.getName())) {
+			for (DbObject dbObject : context.getDbObjects()) {
+				if (sb.toString().equals(dbObject.getName())) {
 					duplicated = true;
 					sb.setLength(0);
 					break;

@@ -21,8 +21,8 @@ package org.jiemamy.dialect;
 import java.util.Collection;
 import java.util.List;
 
-import org.jiemamy.model.datatype.DataTypeCategory;
-import org.jiemamy.model.datatype.TypeReference;
+import org.jiemamy.model.datatype.RawTypeCategory;
+import org.jiemamy.model.datatype.RawTypeDescriptor;
 import org.jiemamy.validator.Validator;
 
 /**
@@ -44,7 +44,7 @@ public interface Dialect {
 	 * @return データ型名のリスト
 	 * @since 0.3
 	 */
-	List<TypeReference> getAllTypeReferences();
+	List<RawTypeDescriptor> getAllTypeReferences();
 	
 	/**
 	 * JDBC接続URLの雛形文字列を取得する。
@@ -77,16 +77,16 @@ public interface Dialect {
 	SqlEmitter getSqlEmitter();
 	
 	/**
-	 * 指定した{@link TypeReference}に対する {@link TypeParameterSpec}の集合を取得する。
+	 * 指定した{@link RawTypeDescriptor}に対する {@link TypeParameterSpec}の集合を取得する。
 	 * 
 	 * <p>例えば、VARCHARに対して、どんなパラメータ仕様がありますか？ → SIZE が REQUIRED です<br/>
 	 * のような感じ。</p>
 	 * 
-	 * @param reference {@link TypeReference}
-	 * @return {@link TypeReference}に対する {@link TypeParameterSpec}の集合
+	 * @param reference {@link RawTypeDescriptor}
+	 * @return {@link RawTypeDescriptor}に対する {@link TypeParameterSpec}の集合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	Collection<TypeParameterSpec> getTypeParameterSpecs(TypeReference reference);
+	Collection<TypeParameterSpec> getTypeParameterSpecs(RawTypeDescriptor reference);
 	
 	/**
 	 * モデルのバリデータを取得する。
@@ -100,10 +100,10 @@ public interface Dialect {
 	 * 型記述子を、このSQL方言による型記述子表現に正規化する。
 	 * 
 	 * @param in 入力型記述子
-	 * @return 正規化した型記述子、正規化に失敗した場合は {@link DataTypeCategory#UNKNOWN} の型記述子となる。
+	 * @return 正規化した型記述子、正規化に失敗した場合は {@link RawTypeCategory#UNKNOWN} の型記述子となる。
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	TypeReference normalize(TypeReference in);
+	RawTypeDescriptor normalize(RawTypeDescriptor in);
 	
 	/**
 	 * SQL方言IDを返す。

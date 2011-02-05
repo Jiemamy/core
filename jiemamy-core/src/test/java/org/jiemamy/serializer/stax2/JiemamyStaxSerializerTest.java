@@ -44,16 +44,16 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.jiemamy.DefaultContextMetadata;
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.JiemamyContextTest;
-import org.jiemamy.model.column.ColumnModel;
-import org.jiemamy.model.column.DefaultColumnModel;
-import org.jiemamy.model.constraint.ForeignKeyConstraintModel;
-import org.jiemamy.model.datatype.DataTypeCategory;
-import org.jiemamy.model.datatype.DefaultDataType;
-import org.jiemamy.model.table.DefaultTableModel;
-import org.jiemamy.model.table.TableModel;
+import org.jiemamy.SimpleJmMetadata;
+import org.jiemamy.model.column.JmColumn;
+import org.jiemamy.model.column.SimpleJmColumn;
+import org.jiemamy.model.constraint.JmForeignKeyConstraint;
+import org.jiemamy.model.datatype.RawTypeCategory;
+import org.jiemamy.model.datatype.SimpleDataType;
+import org.jiemamy.model.table.JmTable;
+import org.jiemamy.model.table.SimpleJmTable;
 
 /**
  * {@link JiemamyStaxSerializer}のテストクラス。
@@ -108,13 +108,13 @@ public class JiemamyStaxSerializerTest {
 	public void test02_Tableを1つ含むJiemamyContextのシリアライズ結果を確認() throws Exception {
 		JiemamyContext context = new JiemamyContext();
 		
-		DefaultContextMetadata meta = new DefaultContextMetadata();
+		SimpleJmMetadata meta = new SimpleJmMetadata();
 		meta.setSchemaName("schema-name");
 		meta.setDescription("");
 		context.setMetadata(meta);
 		
 		UUID tid = UUID.fromString("d23695f8-76dd-4f8c-b5a2-1e02087ba44d");
-		DefaultTableModel t = new DefaultTableModel(tid);
+		SimpleJmTable t = new SimpleJmTable(tid);
 		t.setName("foo");
 		context.store(t);
 		
@@ -140,22 +140,22 @@ public class JiemamyStaxSerializerTest {
 	@Test
 	public void test03_Columnを1つ含むTableを1つ含むJiemamyContextのシリアライズ結果を確認() throws Exception {
 		JiemamyContext context = new JiemamyContext();
-		DefaultContextMetadata meta = new DefaultContextMetadata();
+		SimpleJmMetadata meta = new SimpleJmMetadata();
 		meta.setDialectClassName(null); // null → 要素欠損
 		meta.setSchemaName("schema-name");
 		meta.setDescription(""); // 空文字列 → 空要素
 		context.setMetadata(meta);
 		
 		UUID tid = UUID.fromString("d23695f8-76dd-4f8c-b5a2-1e02087ba44d");
-		DefaultTableModel t = new DefaultTableModel(tid);
+		SimpleJmTable t = new SimpleJmTable(tid);
 		t.setName("foo");
 		
 		UUID cid = UUID.fromString("58a57dcc-7745-4718-b03d-0143eaaa8af3");
-		DefaultColumnModel c = new DefaultColumnModel(cid);
+		SimpleJmColumn c = new SimpleJmColumn(cid);
 		c.setName("bar");
 		c.setLogicalName("baz");
 		c.setDescription("");
-		c.setDataType(DefaultDataType.of(DataTypeCategory.INTEGER));
+		c.setDataType(SimpleDataType.of(RawTypeCategory.INTEGER));
 		t.store(c);
 		context.store(t);
 		
@@ -184,12 +184,12 @@ public class JiemamyStaxSerializerTest {
 		JiemamyContext ctx = new JiemamyContext();
 		
 		UUID id1 = UUID.fromString("cbe160fd-e229-4ede-ae01-3a0ea44ae5d6");
-		DefaultTableModel t1 = new DefaultTableModel(id1);
+		SimpleJmTable t1 = new SimpleJmTable(id1);
 		t1.setName("FOO");
 		ctx.store(t1);
 		
 		UUID id2 = UUID.fromString("76d03b4d-c959-48e9-bd0e-d6c2f61ec54d");
-		DefaultTableModel t2 = new DefaultTableModel(id2);
+		SimpleJmTable t2 = new SimpleJmTable(id2);
 		t2.setName("BAR");
 		ctx.store(t2);
 		
@@ -216,19 +216,19 @@ public class JiemamyStaxSerializerTest {
 		JiemamyContext ctx = new JiemamyContext();
 		
 		UUID tid = UUID.fromString("0d7bf352-59c4-4683-ae59-2808f30e686e");
-		DefaultTableModel t = new DefaultTableModel(tid);
+		SimpleJmTable t = new SimpleJmTable(tid);
 		t.setName("TTTT");
 		
 		UUID cid1 = UUID.fromString("a4333846-1292-4b82-b68c-454762bf92a1");
-		DefaultColumnModel c1 = new DefaultColumnModel(cid1);
+		SimpleJmColumn c1 = new SimpleJmColumn(cid1);
 		c1.setName("CCCC1");
-		c1.setDataType(DefaultDataType.of(DataTypeCategory.INTEGER));
+		c1.setDataType(SimpleDataType.of(RawTypeCategory.INTEGER));
 		t.store(c1);
 		
 		UUID cid2 = UUID.fromString("7774052e-40ee-4796-b990-2411be64fb35");
-		DefaultColumnModel c2 = new DefaultColumnModel(cid2);
+		SimpleJmColumn c2 = new SimpleJmColumn(cid2);
 		c2.setName("CCCC2");
-		c2.setDataType(DefaultDataType.of(DataTypeCategory.INTEGER));
+		c2.setDataType(SimpleDataType.of(RawTypeCategory.INTEGER));
 		t.store(c2);
 		
 		ctx.store(t);
@@ -278,10 +278,10 @@ public class JiemamyStaxSerializerTest {
 		assertThat(deserialized.getMetadata().getSchemaName(), is("schema-name"));
 		assertThat(deserialized.getMetadata().getDescription(), is("")); // 空要素 → 空文字列
 		assertThat(deserialized.getTables().size(), is(1));
-		TableModel tableModel = Iterables.get(deserialized.getTables(), 0);
+		JmTable table = Iterables.get(deserialized.getTables(), 0);
 		
-		assertThat(tableModel.getId(), is(UUID.fromString("d23695f8-76dd-4f8c-b5a2-1e02087ba44d")));
-		assertThat(tableModel.getColumns().size(), is(0));
+		assertThat(table.getId(), is(UUID.fromString("d23695f8-76dd-4f8c-b5a2-1e02087ba44d")));
+		assertThat(table.getColumns().size(), is(0));
 	}
 	
 	/**
@@ -298,18 +298,18 @@ public class JiemamyStaxSerializerTest {
 		assertThat(deserialized, is(notNullValue()));
 		assertThat(deserialized.getTables().size(), is(1));
 		
-		TableModel tableModel = Iterables.get(deserialized.getTables(), 0);
-		assertThat(tableModel.getId(), is(UUID.fromString("d23695f8-76dd-4f8c-b5a2-1e02087ba44d")));
-		assertThat(tableModel.getName(), is("foo"));
-		assertThat(tableModel.getLogicalName(), is(nullValue()));
-		assertThat(tableModel.getDescription(), is(nullValue()));
-		assertThat(tableModel.getColumns().size(), is(1));
+		JmTable table = Iterables.get(deserialized.getTables(), 0);
+		assertThat(table.getId(), is(UUID.fromString("d23695f8-76dd-4f8c-b5a2-1e02087ba44d")));
+		assertThat(table.getName(), is("foo"));
+		assertThat(table.getLogicalName(), is(nullValue()));
+		assertThat(table.getDescription(), is(nullValue()));
+		assertThat(table.getColumns().size(), is(1));
 		
-		ColumnModel columnModel = tableModel.getColumns().get(0);
-		assertThat(columnModel.getId(), is(UUID.fromString("58a57dcc-7745-4718-b03d-0143eaaa8af3")));
-		assertThat(columnModel.getName(), is("bar"));
-		assertThat(columnModel.getLogicalName(), is("baz"));
-		assertThat(columnModel.getDescription(), is(""));
+		JmColumn column = table.getColumns().get(0);
+		assertThat(column.getId(), is(UUID.fromString("58a57dcc-7745-4718-b03d-0143eaaa8af3")));
+		assertThat(column.getName(), is("bar"));
+		assertThat(column.getLogicalName(), is("baz"));
+		assertThat(column.getDescription(), is(""));
 	}
 	
 	/**
@@ -326,7 +326,7 @@ public class JiemamyStaxSerializerTest {
 		assertThat(deserialized, is(notNullValue()));
 		
 		assertThat(deserialized.getTables().size(), is(2));
-		for (TableModel table : deserialized.getTables()) {
+		for (JmTable table : deserialized.getTables()) {
 			if (UUID.fromString("cbe160fd-e229-4ede-ae01-3a0ea44ae5d6").equals(table.getId())) {
 				assertThat(table.getName(), is("FOO"));
 			} else if (UUID.fromString("76d03b4d-c959-48e9-bd0e-d6c2f61ec54d").equals(table.getId())) {
@@ -351,16 +351,16 @@ public class JiemamyStaxSerializerTest {
 		assertThat(deserialized, is(notNullValue()));
 		assertThat(deserialized.getTables().size(), is(1));
 		
-		TableModel tableModel = Iterables.get(deserialized.getTables(), 0);
-		assertThat(tableModel.getId(), is(UUID.fromString("0d7bf352-59c4-4683-ae59-2808f30e686e")));
-		assertThat(tableModel.getName(), is("TTTT"));
-		assertThat(tableModel.getColumns().size(), is(2));
+		JmTable table = Iterables.get(deserialized.getTables(), 0);
+		assertThat(table.getId(), is(UUID.fromString("0d7bf352-59c4-4683-ae59-2808f30e686e")));
+		assertThat(table.getName(), is("TTTT"));
+		assertThat(table.getColumns().size(), is(2));
 		
-		ColumnModel c1 = tableModel.getColumns().get(0);
+		JmColumn c1 = table.getColumns().get(0);
 		assertThat(c1.getId(), is(UUID.fromString("a4333846-1292-4b82-b68c-454762bf92a1")));
 		assertThat(c1.getName(), is("CCCC1"));
 		
-		ColumnModel c2 = tableModel.getColumns().get(1);
+		JmColumn c2 = table.getColumns().get(1);
 		assertThat(c2.getId(), is(UUID.fromString("7774052e-40ee-4796-b990-2411be64fb35")));
 		assertThat(c2.getName(), is("CCCC2"));
 	}
@@ -375,9 +375,9 @@ public class JiemamyStaxSerializerTest {
 		String xml = getXml("symbolicid.jiemamy");
 		ByteArrayInputStream bais = new ByteArrayInputStream(xml.getBytes(CharEncoding.UTF_8));
 		JiemamyContext deserialized = serializer.deserialize(bais);
-		TableModel t2 = deserialized.getTable("TABLE_2");
-		ForeignKeyConstraintModel fk = Iterables.getOnlyElement(t2.getForeignKeyConstraintModels());
-		TableModel t1 = fk.findReferenceTable(deserialized.getTables());
+		JmTable t2 = deserialized.getTable("TABLE_2");
+		JmForeignKeyConstraint fk = Iterables.getOnlyElement(t2.getForeignKeyConstraints());
+		JmTable t1 = fk.findReferenceTable(deserialized.getTables());
 		
 		assertThat(t1.getName(), is("TABLE_1"));
 	}

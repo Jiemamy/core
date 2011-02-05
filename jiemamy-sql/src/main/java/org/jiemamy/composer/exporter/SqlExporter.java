@@ -129,7 +129,7 @@ public class SqlExporter extends AbstractExporter<SqlExportConfig> {
 	}
 	
 	@Override
-	protected SqlExportConfig newDefaultConfigInstance() {
-		return new DefaultSqlExportConfig();
+	protected SqlExportConfig newSimpleConfigInstance() {
+		return new SimpleSqlExportConfig();
 	}
 }

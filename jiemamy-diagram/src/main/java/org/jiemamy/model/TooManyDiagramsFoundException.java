@@ -18,12 +18,8 @@
  */
 package org.jiemamy.model;
 
-import java.util.Collection;
-
-import com.google.common.collect.Lists;
-
 /**
- * クエリの結果、該当する {@link DiagramModel} が複数見つかったことを表す例外クラス。
+ * クエリの結果、該当する {@link JmDiagram} が複数見つかったことを表す例外クラス。
  * 
  * @version $Id$
  * @author daisuke
@@ -31,7 +27,7 @@ import com.google.common.collect.Lists;
 @SuppressWarnings("serial")
 public class TooManyDiagramsFoundException extends ModelConsistencyException {
 	
-	private final Collection<DiagramModel> diagrams;
+	private final Iterable<JmDiagram> diagrams;
 	
 
 	/**
@@ -39,8 +35,7 @@ public class TooManyDiagramsFoundException extends ModelConsistencyException {
 	 * 
 	 * @param diagrams 見つかった複数のダイアグラムの集合
 	 */
-	public TooManyDiagramsFoundException(Collection<DiagramModel> diagrams) {
-		super(String.valueOf(diagrams.size()));
+	public TooManyDiagramsFoundException(Iterable<JmDiagram> diagrams) {
 		this.diagrams = diagrams;
 	}
 	
@@ -49,8 +44,8 @@ public class TooManyDiagramsFoundException extends ModelConsistencyException {
 	 * 
 	 * @return 見つかったダイアグラムの集合
 	 */
-	public Collection<DiagramModel> getDiagrams() {
-		return Lists.newArrayList(diagrams);
+	public Iterable<JmDiagram> getDiagrams() {
+		return diagrams;
 	}
 	
 }

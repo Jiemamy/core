@@ -30,6 +30,13 @@ import org.jiemamy.dddbase.Entity;
  */
 public class EntityComparator implements Comparator<Entity> {
 	
+	/** singleton instance */
+	public static final EntityComparator INSTANCE = new EntityComparator();
+	
+
+	private EntityComparator() {
+	}
+	
 	public int compare(Entity o1, Entity o2) {
 		return o1.getId().compareTo(o2.getId());
 	}

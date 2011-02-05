@@ -23,8 +23,8 @@ import java.util.Collection;
 import com.google.common.collect.Lists;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.model.DatabaseObjectModel;
-import org.jiemamy.model.table.TableModel;
+import org.jiemamy.model.DbObject;
+import org.jiemamy.model.table.JmTable;
 import org.jiemamy.validator.AbstractProblem;
 import org.jiemamy.validator.AbstractValidator;
 import org.jiemamy.validator.Problem;
@@ -38,19 +38,17 @@ public class CyclicForeignReferenceValidator extends AbstractValidator {
 	
 	public Collection<Problem> validate(JiemamyContext context) {
 		Collection<Problem> problems = Lists.newArrayListWithCapacity(1);
-		for (TableModel tableModel : context.getTables()) {
-			Collection<DatabaseObjectModel> superNonRecursives =
-					context.findSuperDatabaseObjectsNonRecursive(tableModel);
-			for (DatabaseObjectModel superNonRecursive : superNonRecursives) {
-				if (superNonRecursive.equals(tableModel)) {
+		for (JmTable table : context.getTables()) {
+			Collection<DbObject> superNonRecursives = context.findSuperDbObjectsNonRecursive(table);
+			for (DbObject superNonRecursive : superNonRecursives) {
+				if (superNonRecursive.equals(table)) {
 					// 自己参照
 					continue;
 				}
 				
-				Collection<DatabaseObjectModel> superRecursive =
-						context.findSuperDatabaseObjectsRecursive(superNonRecursive);
-				if (superRecursive.contains(tableModel)) {
-					problems.add(new CyclicForeignReferenceProblem(tableModel));
+				Collection<DbObject> superRecursive = context.findSuperDbObjectsRecursive(superNonRecursive);
+				if (superRecursive.contains(table)) {
+					problems.add(new CyclicForeignReferenceProblem(table));
 					// 循環ノード数分検出してしまうので、1つ検出したらすぐに戻る
 					// TODO 循環の数＝輪の数を検出し、エラーの数にできないか？
 					return problems;
@@ -66,12 +64,12 @@ public class CyclicForeignReferenceValidator extends AbstractValidator {
 		/**
 		 * インスタンスを生成する。
 		 * 
-		 * @param tableModel テーブル名が設定されていないテーブル
+		 * @param table 循環参照の要素となっているテーブルのひとつ
 		 */
-		public CyclicForeignReferenceProblem(TableModel tableModel) {
-			super(tableModel, "F0230");
+		CyclicForeignReferenceProblem(JmTable table) {
+			super(table, "F0230");
 			setArguments(new Object[] {
-				tableModel.getId().toString()
+				table.getId().toString()
 			});
 		}
 	}

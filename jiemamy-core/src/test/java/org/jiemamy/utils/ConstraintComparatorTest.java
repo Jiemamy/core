@@ -25,19 +25,19 @@ import static org.mockito.Mockito.mock;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.UUID;
 
 import com.google.common.collect.Lists;
 
-import org.junit.Before;
 import org.junit.Test;
 
-import org.jiemamy.model.constraint.DefaultValueConstraintModel;
-import org.jiemamy.model.constraint.CheckConstraintModel;
-import org.jiemamy.model.constraint.ConstraintModel;
-import org.jiemamy.model.constraint.ForeignKeyConstraintModel;
-import org.jiemamy.model.constraint.NotNullConstraintModel;
-import org.jiemamy.model.constraint.PrimaryKeyConstraintModel;
-import org.jiemamy.model.constraint.UniqueKeyConstraintModel;
+import org.jiemamy.model.constraint.JmCheckConstraint;
+import org.jiemamy.model.constraint.JmConstraint;
+import org.jiemamy.model.constraint.JmForeignKeyConstraint;
+import org.jiemamy.model.constraint.JmNotNullConstraint;
+import org.jiemamy.model.constraint.JmPrimaryKeyConstraint;
+import org.jiemamy.model.constraint.JmUniqueKeyConstraint;
+import org.jiemamy.model.constraint.SimpleJmValueConstraint;
 
 /**
  * {@link ConstraintComparator}のテストクラス。
@@ -47,126 +47,113 @@ import org.jiemamy.model.constraint.UniqueKeyConstraintModel;
  */
 public class ConstraintComparatorTest {
 	
-	private ConstraintComparator comparator;
-	
-
 	/**
-	 * テストを初期化する。
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
-	@Before
-	public void setUp() throws Exception {
-		comparator = new ConstraintComparator();
-	}
-	
-	/**
-	 * TODO for yamkazu
+	 * インターフェースの順でソートする。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test01_インターフェースの順でソート() throws Exception {
-		PrimaryKeyConstraintModel pk = mock(PrimaryKeyConstraintModel.class);
-		UniqueKeyConstraintModel uk = mock(UniqueKeyConstraintModel.class);
-		ForeignKeyConstraintModel fk = mock(ForeignKeyConstraintModel.class);
-		NotNullConstraintModel nn = mock(NotNullConstraintModel.class);
-		CheckConstraintModel c = mock(CheckConstraintModel.class);
-		ConstraintModel other = mock(ConstraintModel.class);
+	public void test01_インターフェースの順でソートする() throws Exception {
+		JmPrimaryKeyConstraint pk = mock(JmPrimaryKeyConstraint.class);
+		JmUniqueKeyConstraint uk = mock(JmUniqueKeyConstraint.class);
+		JmForeignKeyConstraint fk = mock(JmForeignKeyConstraint.class);
+		JmNotNullConstraint nn = mock(JmNotNullConstraint.class);
+		JmCheckConstraint c = mock(JmCheckConstraint.class);
+		JmConstraint other = mock(JmConstraint.class);
 		
-		ArrayList<ConstraintModel> models = Lists.newArrayList(nn, uk, pk, other, c, fk); // 適当な順番で追加
-		Collections.sort(models, comparator);
+		ArrayList<JmConstraint> models = Lists.newArrayList(nn, uk, pk, other, c, fk); // 適当な順番で追加
+		Collections.sort(models, ConstraintComparator.INSTANCE);
 		
-		assertThat(models.get(0), is(instanceOf(PrimaryKeyConstraintModel.class)));
-		assertThat(models.get(1), is(instanceOf(UniqueKeyConstraintModel.class)));
-		assertThat(models.get(2), is(instanceOf(ForeignKeyConstraintModel.class)));
-		assertThat(models.get(3), is(instanceOf(NotNullConstraintModel.class)));
-		assertThat(models.get(4), is(instanceOf(CheckConstraintModel.class)));
-		assertThat(models.get(5), is(instanceOf(ConstraintModel.class)));
+		assertThat(models.get(0), is(instanceOf(JmPrimaryKeyConstraint.class)));
+		assertThat(models.get(1), is(instanceOf(JmUniqueKeyConstraint.class)));
+		assertThat(models.get(2), is(instanceOf(JmForeignKeyConstraint.class)));
+		assertThat(models.get(3), is(instanceOf(JmNotNullConstraint.class)));
+		assertThat(models.get(4), is(instanceOf(JmCheckConstraint.class)));
+		assertThat(models.get(5), is(instanceOf(JmConstraint.class)));
 	}
 	
 	/**
-	 * TODO for yamkazu
+	 * インターフェースで一緒の場合は実装クラス名でソートする。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test02_インターフェースで一緒の場合は実装クラス名でソート() throws Exception {
-		ConstraintModel c1 = new DefaultAaaConstraintModel();
-		ConstraintModel c2 = new DefaultBbbConstraintModel();
-		ConstraintModel c3 = new DefaultCccConstraintModel();
-		ConstraintModel c4 = new DefaultDddConstraintModel();
+	public void test02_インターフェースで一緒の場合は実装クラス名でソートする() throws Exception {
+		JmConstraint c1 = new SampleAaaConstraint();
+		JmConstraint c2 = new SampleBbbConstraint();
+		JmConstraint c3 = new SampleCccConstraint();
+		JmConstraint c4 = new SampleDddConstraint();
 		
-		ArrayList<ConstraintModel> models = Lists.newArrayList(c2, c4, c3, c1); // 適当な順番で追加
-		Collections.sort(models, comparator);
+		ArrayList<JmConstraint> models = Lists.newArrayList(c2, c4, c3, c1); // 適当な順番で追加
+		Collections.sort(models, ConstraintComparator.INSTANCE);
 		
-		assertThat(models.get(0), is(instanceOf(DefaultAaaConstraintModel.class)));
-		assertThat(models.get(1), is(instanceOf(DefaultBbbConstraintModel.class)));
-		assertThat(models.get(2), is(instanceOf(DefaultCccConstraintModel.class)));
-		assertThat(models.get(3), is(instanceOf(DefaultDddConstraintModel.class)));
+		assertThat(models.get(0), is(instanceOf(SampleAaaConstraint.class)));
+		assertThat(models.get(1), is(instanceOf(SampleBbbConstraint.class)));
+		assertThat(models.get(2), is(instanceOf(SampleCccConstraint.class)));
+		assertThat(models.get(3), is(instanceOf(SampleDddConstraint.class)));
 	}
 	
 	/**
-	 * TODO for yamkazu
+	 * 実装クラス名も一緒の場合はIDでソートする。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test03_実装クラス名も一緒の場合はIDでソート() throws Exception {
-		ConstraintModel c1 = new DefaultAaaConstraintModel();
-		ConstraintModel c2 = new DefaultAaaConstraintModel();
-		ConstraintModel c3 = new DefaultAaaConstraintModel();
-		ConstraintModel c4 = new DefaultAaaConstraintModel();
+	public void test03_実装クラス名も一緒の場合はIDでソートする() throws Exception {
+		JmConstraint c1 = new SampleAaaConstraint();
+		JmConstraint c2 = new SampleAaaConstraint();
+		JmConstraint c3 = new SampleAaaConstraint();
+		JmConstraint c4 = new SampleAaaConstraint();
 		
-		ArrayList<ConstraintModel> models = Lists.newArrayList(c2, c4, c3, c1); // 適当な順番で追加
-		Collections.sort(models, comparator);
+		ArrayList<JmConstraint> constraints = Lists.newArrayList(c2, c4, c3, c1); // 適当な順番で追加
+		Collections.sort(constraints, ConstraintComparator.INSTANCE);
 		
-		assertThat(models.get(0).getId().compareTo(models.get(1).getId()), is(-1));
-		assertThat(models.get(1).getId().compareTo(models.get(2).getId()), is(-1));
-		assertThat(models.get(2).getId().compareTo(models.get(3).getId()), is(-1));
+		assertThat(constraints.get(0).getId().compareTo(constraints.get(1).getId()), is(-1));
+		assertThat(constraints.get(1).getId().compareTo(constraints.get(2).getId()), is(-1));
+		assertThat(constraints.get(2).getId().compareTo(constraints.get(3).getId()), is(-1));
 	}
 	
 
-	static class DefaultAaaConstraintModel extends DefaultValueConstraintModel {
+	static class SampleAaaConstraint extends SimpleJmValueConstraint {
 		
 		/**
 		 * インスタンスを生成する。
 		 */
-		public DefaultAaaConstraintModel() {
-			super(UUIDUtil.valueOfOrRandom(RandomUtil.strNotEmpty()));
+		public SampleAaaConstraint() {
+			super(UUID.randomUUID());
 		}
 		
 	}
 	
-	static class DefaultBbbConstraintModel extends DefaultValueConstraintModel {
+	static class SampleBbbConstraint extends SimpleJmValueConstraint {
 		
 		/**
 		 * インスタンスを生成する。
 		 */
-		public DefaultBbbConstraintModel() {
-			super(UUIDUtil.valueOfOrRandom(RandomUtil.strNotEmpty()));
+		public SampleBbbConstraint() {
+			super(UUID.randomUUID());
 		}
 		
 	}
 	
-	static class DefaultCccConstraintModel extends DefaultValueConstraintModel {
+	static class SampleCccConstraint extends SimpleJmValueConstraint {
 		
 		/**
 		 * インスタンスを生成する。
 		 */
-		public DefaultCccConstraintModel() {
-			super(UUIDUtil.valueOfOrRandom(RandomUtil.strNotEmpty()));
+		public SampleCccConstraint() {
+			super(UUID.randomUUID());
 		}
 		
 	}
 	
-	static class DefaultDddConstraintModel extends DefaultValueConstraintModel {
+	static class SampleDddConstraint extends SimpleJmValueConstraint {
 		
 		/**
 		 * インスタンスを生成する。
 		 */
-		public DefaultDddConstraintModel() {
-			super(UUIDUtil.valueOfOrRandom(RandomUtil.strNotEmpty()));
+		public SampleDddConstraint() {
+			super(UUID.randomUUID());
 		}
 		
 	}

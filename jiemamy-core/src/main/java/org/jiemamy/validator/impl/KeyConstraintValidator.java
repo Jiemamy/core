@@ -27,16 +27,16 @@ import org.apache.commons.lang.StringUtils;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.dddbase.EntityRef;
-import org.jiemamy.model.column.ColumnModel;
-import org.jiemamy.model.constraint.KeyConstraintModel;
-import org.jiemamy.model.table.TableModel;
+import org.jiemamy.model.column.JmColumn;
+import org.jiemamy.model.constraint.JmKeyConstraint;
+import org.jiemamy.model.table.JmTable;
 import org.jiemamy.utils.EntityToIdTransformer;
 import org.jiemamy.validator.AbstractProblem;
 import org.jiemamy.validator.AbstractValidator;
 import org.jiemamy.validator.Problem;
 
 /**
- * {@link KeyConstraintModel#getKeyColumns()}の構成を調べるバリデータ。
+ * {@link JmKeyConstraint#getKeyColumns()}の構成を調べるバリデータ。
  * 
  * <ul>
  *   <li>keyColumnsは、自テーブルのカラムへの参照で構成されていなければならない。</li>
@@ -48,15 +48,15 @@ public class KeyConstraintValidator extends AbstractValidator {
 	
 	public Collection<Problem> validate(JiemamyContext context) {
 		Collection<Problem> problems = Lists.newArrayList();
-		for (TableModel tableModel : context.getTables()) {
-			Collection<UUID> columnIds = Lists.transform(tableModel.getColumns(), new EntityToIdTransformer());
-			for (KeyConstraintModel keyConstraint : tableModel.getConstraints(KeyConstraintModel.class)) {
+		for (JmTable table : context.getTables()) {
+			Collection<UUID> columnIds = Lists.transform(table.getColumns(), EntityToIdTransformer.INSTANCE);
+			for (JmKeyConstraint keyConstraint : table.getConstraints(JmKeyConstraint.class)) {
 				if (keyConstraint.getKeyColumns().size() < 1) {
-					problems.add(new NoKeyColumnProblem(tableModel, keyConstraint));
+					problems.add(new NoKeyColumnProblem(table, keyConstraint));
 				}
-				for (EntityRef<? extends ColumnModel> columnRef : keyConstraint.getKeyColumns()) {
+				for (EntityRef<? extends JmColumn> columnRef : keyConstraint.getKeyColumns()) {
 					if (columnIds.contains(columnRef.getReferentId()) == false) {
-						problems.add(new IllegalKeyColumnRefProblem(columnRef, keyConstraint, tableModel));
+						problems.add(new IllegalKeyColumnRefProblem(columnRef, keyConstraint, table));
 					}
 				}
 			}
@@ -72,14 +72,13 @@ public class KeyConstraintValidator extends AbstractValidator {
 		 * 
 		 * @param columnRef 参照の切れた参照オブジェクト
 		 * @param keyConstraint 参照オブジェクトを保持するキー
-		 * @param tableModel キーを保持するテーブル
+		 * @param table キーを保持するテーブル
 		 */
-		public IllegalKeyColumnRefProblem(EntityRef<? extends ColumnModel> columnRef, KeyConstraintModel keyConstraint,
-				TableModel tableModel) {
+		IllegalKeyColumnRefProblem(EntityRef<? extends JmColumn> columnRef, JmKeyConstraint keyConstraint, JmTable table) {
 			super(keyConstraint, "F0130");
 			setArguments(new Object[] {
-				tableModel.getName(),
-				tableModel.getId().toString(),
+				table.getName(),
+				table.getId().toString(),
 				keyConstraint.getName(),
 				columnRef.getReferentId().toString()
 			});
@@ -91,13 +90,13 @@ public class KeyConstraintValidator extends AbstractValidator {
 		/**
 		 * インスタンスを生成する。
 		 * 
-		 * @param tableModel キーカラムを1つも持たないキー制約を持つテーブル
+		 * @param table キーカラムを1つも持たないキー制約を持つテーブル
 		 * @param keyConstraint キーカラムを1つも持たないキー制約
 		 */
-		public NoKeyColumnProblem(TableModel tableModel, KeyConstraintModel keyConstraint) {
+		NoKeyColumnProblem(JmTable table, JmKeyConstraint keyConstraint) {
 			super(keyConstraint, "F0140");
 			setArguments(new Object[] {
-				StringUtils.isEmpty(tableModel.getName()) ? tableModel.getId().toString() : tableModel.getName(),
+				StringUtils.isEmpty(table.getName()) ? table.getId().toString() : table.getName(),
 				keyConstraint.getName(),
 			});
 		}

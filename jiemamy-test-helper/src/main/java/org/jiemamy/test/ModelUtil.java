@@ -28,12 +28,12 @@ import org.jiemamy.JiemamyContext;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dialect.Dialect;
 import org.jiemamy.dialect.GenericDialect;
-import org.jiemamy.model.column.ColumnModel;
-import org.jiemamy.model.dataset.DefaultRecordModel;
-import org.jiemamy.model.datatype.DataTypeCategory;
-import org.jiemamy.model.datatype.DefaultDataType;
-import org.jiemamy.model.datatype.DefaultTypeReference;
-import org.jiemamy.model.datatype.TypeReference;
+import org.jiemamy.model.column.JmColumn;
+import org.jiemamy.model.dataset.SimpleJmRecord;
+import org.jiemamy.model.datatype.RawTypeCategory;
+import org.jiemamy.model.datatype.RawTypeDescriptor;
+import org.jiemamy.model.datatype.SimpleDataType;
+import org.jiemamy.model.datatype.SimpleRawTypeDescriptor;
 import org.jiemamy.script.ScriptString;
 
 /**
@@ -52,15 +52,15 @@ final class ModelUtil {
 		return new RecordBuilder();
 	}
 	
-	static DefaultDataType createDataType(JiemamyContext jiemamy, DataTypeCategory category) {
+	static SimpleDataType createDataType(JiemamyContext jiemamy, RawTypeCategory category) {
 		Dialect dialect;
 		try {
 			dialect = jiemamy.findDialect();
 		} catch (ClassNotFoundException e) {
 			dialect = new GenericDialect();
 		}
-		TypeReference normalize = dialect.normalize(new DefaultTypeReference(category));
-		return new DefaultDataType(normalize);
+		RawTypeDescriptor normalize = dialect.normalize(new SimpleRawTypeDescriptor(category));
+		return new SimpleDataType(normalize);
 	}
 	
 	private ModelUtil() {
@@ -75,22 +75,22 @@ final class ModelUtil {
 	 */
 	public static class RecordBuilder {
 		
-		private HashMap<EntityRef<? extends ColumnModel>, ScriptString> map;
+		private HashMap<EntityRef<? extends JmColumn>, ScriptString> map;
 		
 
 		private RecordBuilder() {
 			map = Maps.newHashMap();
 		}
 		
-		public RecordBuilder addValue(ColumnModel col, String val) {
+		public RecordBuilder addValue(JmColumn col, String val) {
 			Validate.notNull(col);
 			Validate.notNull(val);
 			map.put(col.toReference(), new ScriptString(val));
 			return this;
 		}
 		
-		public DefaultRecordModel build() {
-			return new DefaultRecordModel(map);
+		public SimpleJmRecord build() {
+			return new SimpleJmRecord(map);
 		}
 		
 	}

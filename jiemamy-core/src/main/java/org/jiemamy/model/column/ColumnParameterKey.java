@@ -23,7 +23,7 @@ import org.jiemamy.model.parameter.Converters;
 import org.jiemamy.model.parameter.ParameterKey;
 
 /**
- * {@link ColumnModel}のパラメータを表すインターフェイス。
+ * {@link JmColumn}のパラメータを表すインターフェイス。
  * 
  * @param <T> 値の型
  * @version $Id$

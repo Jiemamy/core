@@ -48,15 +48,15 @@ import org.slf4j.LoggerFactory;
 import org.jiemamy.DiagramFacet;
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.JiemamyContextDiagramTest;
-import org.jiemamy.model.ConnectionModel;
-import org.jiemamy.model.DatabaseObjectNodeModel;
-import org.jiemamy.model.DefaultDatabaseObjectNodeModel;
-import org.jiemamy.model.DefaultDiagramModel;
-import org.jiemamy.model.DiagramModel;
-import org.jiemamy.model.NodeModel;
+import org.jiemamy.model.DbObjectNode;
+import org.jiemamy.model.JmConnection;
+import org.jiemamy.model.JmDiagram;
+import org.jiemamy.model.JmNode;
+import org.jiemamy.model.SimpleDbObjectNode;
+import org.jiemamy.model.SimpleJmDiagram;
 import org.jiemamy.model.geometory.JmRectangle;
-import org.jiemamy.model.table.DefaultTableModel;
-import org.jiemamy.model.table.TableModel;
+import org.jiemamy.model.table.JmTable;
+import org.jiemamy.model.table.SimpleJmTable;
 
 /**
  * {@link JiemamyStaxSerializer}のテスト：jiemamy-diagram版。
@@ -94,13 +94,13 @@ public class JiemamyStaxSerializerDiagramTest {
 		
 		JiemamyContext context = new JiemamyContext(DiagramFacet.PROVIDER);
 		
-		DefaultTableModel table = new DefaultTableModel(tableId);
+		SimpleJmTable table = new SimpleJmTable(tableId);
 		table.setName("foo");
 		context.store(table);
 		
-		DefaultDatabaseObjectNodeModel nnode = new DefaultDatabaseObjectNodeModel(nodeId, table.toReference());
+		SimpleDbObjectNode nnode = new SimpleDbObjectNode(nodeId, table.toReference());
 		nnode.setBoundary(new JmRectangle(100, 100));
-		DefaultDiagramModel diagram = new DefaultDiagramModel(diagramId);
+		SimpleJmDiagram diagram = new SimpleJmDiagram(diagramId);
 		diagram.store(nnode);
 		context.getFacet(DiagramFacet.class).store(diagram);
 		
@@ -134,21 +134,21 @@ public class JiemamyStaxSerializerDiagramTest {
 		assertThat(deserialized, is(notNullValue()));
 		assertThat(deserialized.getTables().size(), is(1));
 		assertThat(deserialized.getDataSets().size(), is(0));
-		TableModel tableModel = Iterables.get(deserialized.getTables(), 0);
-		assertThat(tableModel.getId(), is(tableId));
-		assertThat(tableModel.getName(), is("foo"));
+		JmTable table = Iterables.get(deserialized.getTables(), 0);
+		assertThat(table.getId(), is(tableId));
+		assertThat(table.getName(), is("foo"));
 		
 		DiagramFacet facet = deserialized.getFacet(DiagramFacet.class);
 		assertThat(facet.getDiagrams().size(), is(1));
-		DiagramModel diagramModel = facet.getDiagrams().get(0);
-		assertThat(diagramModel.getId(), is(diagramId));
-		assertThat(diagramModel.getNodes().size(), is(1));
-		DatabaseObjectNodeModel nodeModel = (DatabaseObjectNodeModel) Iterables.get(diagramModel.getNodes(), 0);
-		assertThat(nodeModel.getId(), is(nodeId));
+		JmDiagram diagram = facet.getDiagrams().get(0);
+		assertThat(diagram.getId(), is(diagramId));
+		assertThat(diagram.getNodes().size(), is(1));
+		DbObjectNode node = (DbObjectNode) Iterables.get(diagram.getNodes(), 0);
+		assertThat(node.getId(), is(nodeId));
 		
-		assertThat(nodeModel.getCoreModelRef().isReferenceOf(tableModel), is(true));
-		assertThat(nodeModel.getBoundary(), is(new JmRectangle(100, 100)));
-		assertThat(nodeModel.getColor(), is(nullValue()));
+		assertThat(node.getCoreModelRef().isReferenceOf(table), is(true));
+		assertThat(node.getBoundary(), is(new JmRectangle(100, 100)));
+		assertThat(node.getColor(), is(nullValue()));
 	}
 	
 	/**
@@ -172,29 +172,29 @@ public class JiemamyStaxSerializerDiagramTest {
 		assertThat(deserialized, is(notNullValue()));
 		assertThat(deserialized.getTables().size(), is(2));
 		assertThat(deserialized.getDataSets().size(), is(0));
-//		TableModel tableModel = Iterables.get(deserialized.getTables(), 0);
-//		assertThat(tableModel.getId(), is(tableId));
+//		JmTable table = Iterables.get(deserialized.getTables(), 0);
+//		assertThat(table.getId(), is(tableId));
 		
 		DiagramFacet facet = deserialized.getFacet(DiagramFacet.class);
 		assertThat(facet.getDiagrams().size(), is(1));
-		DiagramModel diagramModel = facet.getDiagrams().get(0);
-		assertThat(diagramModel.getId(), is(diagramId));
-		assertThat(diagramModel.getNodes().size(), is(2));
-		for (NodeModel nodeModel : diagramModel.getNodes()) {
-			if (nodeModel.getId().equals(deptNodeId)) {
-				DatabaseObjectNodeModel odnm = (DatabaseObjectNodeModel) nodeModel; // node for DEPT
-				assertThat(odnm.getCoreModelRef().getReferentId(), is(deptTableId));
-			} else if (nodeModel.getId().equals(empNodeId)) {
-				DatabaseObjectNodeModel odnm = (DatabaseObjectNodeModel) nodeModel; // node for EMP
-				assertThat(odnm.getCoreModelRef().getReferentId(), is(empTableId));
+		JmDiagram diagram = facet.getDiagrams().get(0);
+		assertThat(diagram.getId(), is(diagramId));
+		assertThat(diagram.getNodes().size(), is(2));
+		for (JmNode node : diagram.getNodes()) {
+			if (node.getId().equals(deptNodeId)) {
+				DbObjectNode deptNode = (DbObjectNode) node; // node for DEPT
+				assertThat(deptNode.getCoreModelRef().getReferentId(), is(deptTableId));
+			} else if (node.getId().equals(empNodeId)) {
+				DbObjectNode empNode = (DbObjectNode) node; // node for EMP
+				assertThat(empNode.getCoreModelRef().getReferentId(), is(empTableId));
 			} else {
 				fail();
 			}
 		}
-		assertThat(diagramModel.getConnections().size(), is(1));
-		ConnectionModel connectionModel = Iterables.get(diagramModel.getConnections(), 0);
-		assertThat(connectionModel.getId(), is(connectionId));
-		assertThat(connectionModel.getBendpoints().size(), is(3));
+		assertThat(diagram.getConnections().size(), is(1));
+		JmConnection connection = Iterables.get(diagram.getConnections(), 0);
+		assertThat(connection.getId(), is(connectionId));
+		assertThat(connection.getBendpoints().size(), is(3));
 	}
 	
 	/**

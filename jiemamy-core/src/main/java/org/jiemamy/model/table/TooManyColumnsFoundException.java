@@ -20,13 +20,12 @@ package org.jiemamy.model.table;
 
 import java.util.Collection;
 
-import com.google.common.collect.Lists;
-
+import org.jiemamy.dddbase.utils.CloneUtil;
 import org.jiemamy.model.ModelConsistencyException;
-import org.jiemamy.model.column.ColumnModel;
+import org.jiemamy.model.column.JmColumn;
 
 /**
- * クエリの結果、該当する {@link ColumnModel} が複数見つかったことを表す例外クラス。
+ * クエリの結果、該当する {@link JmColumn} が複数見つかったことを表す例外クラス。
  * 
  * @version $Id$
  * @author daisuke
@@ -34,7 +33,7 @@ import org.jiemamy.model.column.ColumnModel;
 @SuppressWarnings("serial")
 public class TooManyColumnsFoundException extends ModelConsistencyException {
 	
-	private final Collection<ColumnModel> columns;
+	private final Collection<JmColumn> columns;
 	
 
 	/**
@@ -42,9 +41,9 @@ public class TooManyColumnsFoundException extends ModelConsistencyException {
 	 * 
 	 * @param columns 見つかった複数のカラムの集合
 	 */
-	public TooManyColumnsFoundException(Collection<ColumnModel> columns) {
+	public TooManyColumnsFoundException(Collection<JmColumn> columns) {
 		super(String.valueOf(columns.size()));
-		this.columns = columns;
+		this.columns = CloneUtil.cloneEntityArrayList(columns);
 	}
 	
 	/**
@@ -52,8 +51,8 @@ public class TooManyColumnsFoundException extends ModelConsistencyException {
 	 * 
 	 * @return 見つかったカラムの集合
 	 */
-	public Collection<ColumnModel> getColumns() {
-		return Lists.newArrayList(columns);
+	public Collection<JmColumn> getColumns() {
+		return CloneUtil.cloneEntityArrayList(columns);
 	}
 	
 }

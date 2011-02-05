@@ -33,7 +33,7 @@ import org.jiemamy.model.sql.SqlStatement;
 public interface SqlEmitter {
 	
 	/**
-	 * RootModelからSQLのリストを生成する。
+	 * {@link JiemamyContext}からSQLのリストを生成する。
 	 * 
 	 * @param context 対象{@link JiemamyContext}
 	 * @param config 設定 

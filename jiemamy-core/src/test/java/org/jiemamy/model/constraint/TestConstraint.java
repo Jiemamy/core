@@ -26,7 +26,7 @@ import org.jiemamy.dddbase.EntityRef;
  * @version $Id$
  * @author daisuke
  */
-public interface TestConstraint extends ConstraintModel {
+public interface TestConstraint extends JmConstraint {
 	
 	TestConstraint clone();
 	

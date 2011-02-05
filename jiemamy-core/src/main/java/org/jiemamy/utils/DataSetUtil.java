@@ -35,15 +35,15 @@ import com.google.common.collect.Maps;
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.dddbase.EntityRef;
-import org.jiemamy.model.column.ColumnModel;
-import org.jiemamy.model.dataset.DataSetModel;
-import org.jiemamy.model.dataset.DefaultRecordModel;
-import org.jiemamy.model.dataset.RecordModel;
-import org.jiemamy.model.table.TableModel;
+import org.jiemamy.model.column.JmColumn;
+import org.jiemamy.model.dataset.JmDataSet;
+import org.jiemamy.model.dataset.JmRecord;
+import org.jiemamy.model.dataset.SimpleJmRecord;
+import org.jiemamy.model.table.JmTable;
 import org.jiemamy.script.ScriptString;
 
 /**
- * {@link DataSetModel}のユーティリティクラス。
+ * {@link JmDataSet}のユーティリティクラス。
  * 
  * @author daisuke
  */
@@ -52,37 +52,36 @@ public final class DataSetUtil {
 	/**
 	 * 1テーブル分のレコードデータをすべてCSV化し、ストリームにエクスポートする。
 	 * 
-	 * @param dataSetModel データセット
-	 * @param tableModel 対象テーブル
+	 * @param dataSet データセット
+	 * @param table 対象テーブル
 	 * @param out 出力ストリーム
 	 * @throws IOException 入出力エラーが発生した場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public static void exportToCsv(DataSetModel dataSetModel, TableModel tableModel, OutputStream out)
-			throws IOException {
-		Validate.notNull(dataSetModel);
-		Validate.notNull(tableModel);
+	public static void exportToCsv(JmDataSet dataSet, JmTable table, OutputStream out) throws IOException {
+		Validate.notNull(dataSet);
+		Validate.notNull(table);
 		Validate.notNull(out);
 		
-		List<RecordModel> records = dataSetModel.getRecords().get(tableModel.toReference());
+		List<JmRecord> records = dataSet.getRecords().get(table.toReference());
 		
 		CSVWriter writer = null;
 		try {
 			writer = new CSVWriter(new OutputStreamWriter(out));
 			
-			List<ColumnModel> columns = tableModel.getColumns();
+			List<JmColumn> columns = table.getColumns();
 			String[] line = new String[columns.size()];
 			int i = 0;
-			for (ColumnModel columnModel : columns) {
-				line[i++] = columnModel.getName();
+			for (JmColumn column : columns) {
+				line[i++] = column.getName();
 			}
 			writer.writeNext(line);
 			
-			for (RecordModel recordModel : records) {
+			for (JmRecord record : records) {
 				line = new String[columns.size()];
-				for (ColumnModel columnModel : columns) {
-					int index = columns.indexOf(columnModel);
-					line[index] = recordModel.getValues().get(columnModel.toReference()).getScript();
+				for (JmColumn column : columns) {
+					int index = columns.indexOf(column);
+					line[index] = record.getValues().get(column.toReference()).getScript();
 				}
 				writer.writeNext(line);
 			}
@@ -98,19 +97,18 @@ public final class DataSetUtil {
 	 * 
 	 * <p>既にセットされているレコードはすべてクリアされる。</p>
 	 * 
-	 * @param dataSetModel データセット
-	 * @param tableModel 対象テーブル
+	 * @param dataSet データセット
+	 * @param table 対象テーブル
 	 * @param in 入力ストリーム
 	 * @throws IOException 入出力エラーが発生した場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public static void importFromCsv(DataSetModel dataSetModel, TableModel tableModel, InputStream in)
-			throws IOException {
-		Validate.notNull(dataSetModel);
-		Validate.notNull(tableModel);
+	public static void importFromCsv(JmDataSet dataSet, JmTable table, InputStream in) throws IOException {
+		Validate.notNull(dataSet);
+		Validate.notNull(table);
 		Validate.notNull(in);
 		
-		List<RecordModel> records = dataSetModel.getRecords().get(tableModel.toReference());
+		List<JmRecord> records = dataSet.getRecords().get(table.toReference());
 		records.clear();
 		
 		CSVReader reader = null;
@@ -118,18 +116,18 @@ public final class DataSetUtil {
 			reader = new CSVReader(new InputStreamReader(in));
 			String[] line = reader.readNext();
 			
-			List<ColumnModel> columnModels = Lists.newArrayList();
+			List<JmColumn> columns = Lists.newArrayList();
 			for (String columnName : line) {
-				ColumnModel columnModel = tableModel.getColumn(columnName);
-				columnModels.add(columnModel);
+				JmColumn column = table.getColumn(columnName);
+				columns.add(column);
 			}
 			
 			while ((line = reader.readNext()) != null) {
-				Map<EntityRef<? extends ColumnModel>, ScriptString> values = Maps.newHashMap();
+				Map<EntityRef<? extends JmColumn>, ScriptString> values = Maps.newHashMap();
 				for (int i = 0; i < line.length; i++) {
-					values.put(columnModels.get(i).toReference(), new ScriptString(line[i]));
+					values.put(columns.get(i).toReference(), new ScriptString(line[i]));
 				}
-				records.add(new DefaultRecordModel(values));
+				records.add(new SimpleJmRecord(values));
 			}
 		} finally {
 			if (reader != null) {
@@ -139,18 +137,18 @@ public final class DataSetUtil {
 	}
 	
 	/**
-	 * {@link DataSetModel}にレコードを設定する。
+	 * {@link JmDataSet}にレコードを設定する。
 	 * 
-	 * @param dataSetModel 対象{@link DataSetModel}
-	 * @param tableModel 設定対象テーブル
+	 * @param dataSet 対象{@link JmDataSet}
+	 * @param table 設定対象テーブル
 	 * @param records レコード
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public static void setRecord(DataSetModel dataSetModel, TableModel tableModel, List<RecordModel> records) {
-		Validate.notNull(dataSetModel);
-		Validate.notNull(tableModel);
+	public static void setRecord(JmDataSet dataSet, JmTable table, List<JmRecord> records) {
+		Validate.notNull(dataSet);
+		Validate.notNull(table);
 		Validate.notNull(records);
-		dataSetModel.getRecords().put(tableModel.toReference(), records);
+		dataSet.getRecords().put(table.toReference(), records);
 	}
 	
 	private DataSetUtil() {

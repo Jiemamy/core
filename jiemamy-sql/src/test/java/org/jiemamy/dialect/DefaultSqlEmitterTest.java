@@ -26,7 +26,6 @@ import static org.junit.Assert.assertThat;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -39,26 +38,26 @@ import org.slf4j.LoggerFactory;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.SqlFacet;
-import org.jiemamy.composer.exporter.DefaultSqlExportConfig;
+import org.jiemamy.composer.exporter.SimpleSqlExportConfig;
 import org.jiemamy.dddbase.EntityRef;
-import org.jiemamy.model.column.Column;
-import org.jiemamy.model.column.ColumnModel;
-import org.jiemamy.model.column.DefaultColumnModel;
-import org.jiemamy.model.constraint.DefaultForeignKeyConstraintModel;
-import org.jiemamy.model.constraint.DefaultNotNullConstraintModel;
-import org.jiemamy.model.constraint.DefaultPrimaryKeyConstraintModel;
-import org.jiemamy.model.dataset.DefaultDataSetModel;
-import org.jiemamy.model.dataset.DefaultRecordModel;
-import org.jiemamy.model.dataset.RecordModel;
-import org.jiemamy.model.datatype.DataTypeCategory;
-import org.jiemamy.model.datatype.DefaultDataType;
-import org.jiemamy.model.datatype.DefaultTypeReference;
+import org.jiemamy.model.column.JmColumn;
+import org.jiemamy.model.column.JmColumnBuilder;
+import org.jiemamy.model.column.SimpleJmColumn;
+import org.jiemamy.model.constraint.SimpleJmForeignKeyConstraint;
+import org.jiemamy.model.constraint.SimpleJmNotNullConstraint;
+import org.jiemamy.model.constraint.SimpleJmPrimaryKeyConstraint;
+import org.jiemamy.model.dataset.JmRecord;
+import org.jiemamy.model.dataset.SimpleJmDataSet;
+import org.jiemamy.model.dataset.SimpleJmRecord;
+import org.jiemamy.model.datatype.RawTypeCategory;
+import org.jiemamy.model.datatype.RawTypeDescriptor;
+import org.jiemamy.model.datatype.SimpleDataType;
+import org.jiemamy.model.datatype.SimpleRawTypeDescriptor;
 import org.jiemamy.model.datatype.TypeParameterKey;
-import org.jiemamy.model.datatype.TypeReference;
 import org.jiemamy.model.sql.SqlStatement;
-import org.jiemamy.model.table.DefaultTableModel;
-import org.jiemamy.model.table.Table;
-import org.jiemamy.model.view.DefaultViewModel;
+import org.jiemamy.model.table.JmTableBuilder;
+import org.jiemamy.model.table.SimpleJmTable;
+import org.jiemamy.model.view.SimpleJmView;
 import org.jiemamy.script.ScriptString;
 
 /**
@@ -71,15 +70,15 @@ public class DefaultSqlEmitterTest {
 	
 	private static Logger logger = LoggerFactory.getLogger(DefaultSqlEmitterTest.class);
 	
-	private static final TypeReference INTEGER = new DefaultTypeReference(DataTypeCategory.INTEGER);
+	private static final RawTypeDescriptor INTEGER = new SimpleRawTypeDescriptor(RawTypeCategory.INTEGER);
 	
-	private static final TypeReference VARCHAR = new DefaultTypeReference(DataTypeCategory.VARCHAR);
+	private static final RawTypeDescriptor VARCHAR = new SimpleRawTypeDescriptor(RawTypeCategory.VARCHAR);
 	
-	private static final TypeReference TIMESTAMP = new DefaultTypeReference(DataTypeCategory.TIMESTAMP);
+	private static final RawTypeDescriptor TIMESTAMP = new SimpleRawTypeDescriptor(RawTypeCategory.TIMESTAMP);
 	
 	private DefaultSqlEmitter emitter;
 	
-	private DefaultSqlExportConfig config;
+	private SimpleSqlExportConfig config;
 	
 	private JiemamyContext context;
 	
@@ -93,7 +92,7 @@ public class DefaultSqlEmitterTest {
 	public void setUp() throws Exception {
 		emitter = new DefaultSqlEmitter(new GenericDialect());
 		
-		config = new DefaultSqlExportConfig();
+		config = new SimpleSqlExportConfig();
 		config.setDataSetIndex(-1);
 		config.setEmitCreateSchema(true);
 		config.setEmitDropStatements(true);
@@ -119,14 +118,14 @@ public class DefaultSqlEmitterTest {
 	 */
 	@Test
 	public void test02_単純なテーブルを1つemitして確認() throws Exception {
-		DefaultDataType varchar32 = new DefaultDataType(VARCHAR);
+		SimpleDataType varchar32 = new SimpleDataType(VARCHAR);
 		varchar32.putParam(TypeParameterKey.SIZE, 32);
 		
 		// FORMAT-OFF
-		DefaultTableModel table = new Table("T_FOO")
-				.with(new Column("HOGE").type(new DefaultDataType(INTEGER)).build())
-				.with(new Column("FUGA").type(varchar32).build())
-				.with(new Column("PIYO").type(new DefaultDataType(TIMESTAMP)).build())
+		SimpleJmTable table = new JmTableBuilder("T_FOO")
+				.with(new JmColumnBuilder("HOGE").type(new SimpleDataType(INTEGER)).build())
+				.with(new JmColumnBuilder("FUGA").type(varchar32).build())
+				.with(new JmColumnBuilder("PIYO").type(new SimpleDataType(TIMESTAMP)).build())
 				.build();
 		// FORMAT-ON
 		context.store(table);
@@ -148,14 +147,14 @@ public class DefaultSqlEmitterTest {
 	 */
 	@Test
 	public void test03_単純なテーブルを1つemitして確認() throws Exception {
-		DefaultDataType varchar32 = new DefaultDataType(VARCHAR);
+		SimpleDataType varchar32 = new SimpleDataType(VARCHAR);
 		varchar32.putParam(TypeParameterKey.SIZE, 32);
 		
 		// FORMAT-OFF
-		DefaultTableModel table = new Table("T_FOO")
-				.with(new Column("HOGE").type(new DefaultDataType(INTEGER)).build())
-				.with(new Column("FUGA").type(varchar32).build())
-				.with(new Column("PIYO").type(new DefaultDataType(TIMESTAMP)).build())
+		SimpleJmTable table = new JmTableBuilder("T_FOO")
+				.with(new JmColumnBuilder("HOGE").type(new SimpleDataType(INTEGER)).build())
+				.with(new JmColumnBuilder("FUGA").type(varchar32).build())
+				.with(new JmColumnBuilder("PIYO").type(new SimpleDataType(TIMESTAMP)).build())
 				.build();
 		// FORMAT-ON
 		context.store(table);
@@ -178,35 +177,35 @@ public class DefaultSqlEmitterTest {
 	 */
 	@Test
 	public void test04_制約付きテーブルを2つemitして確認() throws Exception {
-		DefaultDataType varchar32 = new DefaultDataType(VARCHAR);
+		SimpleDataType varchar32 = new SimpleDataType(VARCHAR);
 		varchar32.putParam(TypeParameterKey.SIZE, 32);
-		DefaultDataType varchar16 = new DefaultDataType(VARCHAR);
+		SimpleDataType varchar16 = new SimpleDataType(VARCHAR);
 		varchar16.putParam(TypeParameterKey.SIZE, 16);
 		
 		// FORMAT-OFF
-		DefaultColumnModel deptId = new Column("ID").type(new DefaultDataType(INTEGER)).build();
-		DefaultColumnModel deptName = new Column("NAME").type(varchar32).build();
-		DefaultTableModel dept = new Table("DEPT")
+		SimpleJmColumn deptId = new JmColumnBuilder("ID").type(new SimpleDataType(INTEGER)).build();
+		SimpleJmColumn deptName = new JmColumnBuilder("NAME").type(varchar32).build();
+		SimpleJmTable dept = new JmTableBuilder("DEPT")
 				.with(deptId)
 				.with(deptName)
-				.with(new Column("LOC").type(varchar16).build())
-				.with(DefaultPrimaryKeyConstraintModel.of(deptId))
-				.with(DefaultNotNullConstraintModel.of(deptName))
+				.with(new JmColumnBuilder("LOC").type(varchar16).build())
+				.with(SimpleJmPrimaryKeyConstraint.of(deptId))
+				.with(SimpleJmNotNullConstraint.of(deptName))
 				.build();
 		
-		DefaultColumnModel empId = new Column("ID").type(new DefaultDataType(INTEGER)).build();
-		DefaultColumnModel empName = new Column("NAME").type(varchar32).build();
-		DefaultColumnModel empDeptId = new Column("DEPT_ID").type(new DefaultDataType(INTEGER)).build();
-		DefaultColumnModel empMgrId = new Column("MGR_ID").type(new DefaultDataType(INTEGER)).build();
-		DefaultTableModel emp = new Table("EMP")
+		SimpleJmColumn empId = new JmColumnBuilder("ID").type(new SimpleDataType(INTEGER)).build();
+		SimpleJmColumn empName = new JmColumnBuilder("NAME").type(varchar32).build();
+		SimpleJmColumn empDeptId = new JmColumnBuilder("DEPT_ID").type(new SimpleDataType(INTEGER)).build();
+		SimpleJmColumn empMgrId = new JmColumnBuilder("MGR_ID").type(new SimpleDataType(INTEGER)).build();
+		SimpleJmTable emp = new JmTableBuilder("EMP")
 				.with(empId)
 				.with(empName)
 				.with(empDeptId)
 				.with(empMgrId)
-				.with(DefaultPrimaryKeyConstraintModel.of(empId))
-				.with(DefaultNotNullConstraintModel.of(empName))
-				.with(DefaultForeignKeyConstraintModel.of(empDeptId, deptId))
-				.with(DefaultForeignKeyConstraintModel.of(empMgrId, empId))
+				.with(SimpleJmPrimaryKeyConstraint.of(empId))
+				.with(SimpleJmNotNullConstraint.of(empName))
+				.with(SimpleJmForeignKeyConstraint.of(empDeptId, deptId))
+				.with(SimpleJmForeignKeyConstraint.of(empMgrId, empId))
 				.build();
 		// FORMAT-ON
 		context.store(dept);
@@ -250,19 +249,19 @@ public class DefaultSqlEmitterTest {
 	 */
 	@Test
 	public void test05_テーブルとビューemitして確認() throws Exception {
-		DefaultDataType varchar32 = new DefaultDataType(VARCHAR);
+		SimpleDataType varchar32 = new SimpleDataType(VARCHAR);
 		varchar32.putParam(TypeParameterKey.SIZE, 32);
 		
 		// FORMAT-OFF
-		DefaultTableModel table = new Table("T_FOO")
-				.with(new Column("HOGE").type(new DefaultDataType(INTEGER)).build())
-				.with(new Column("FUGA").type(varchar32).build())
-				.with(new Column("PIYO").type(new DefaultDataType(TIMESTAMP)).build())
+		SimpleJmTable table = new JmTableBuilder("T_FOO")
+				.with(new JmColumnBuilder("HOGE").type(new SimpleDataType(INTEGER)).build())
+				.with(new JmColumnBuilder("FUGA").type(varchar32).build())
+				.with(new JmColumnBuilder("PIYO").type(new SimpleDataType(TIMESTAMP)).build())
 				.build();
 		// FORMAT-ON
 		context.store(table);
 		
-		DefaultViewModel view = new DefaultViewModel(UUID.randomUUID());
+		SimpleJmView view = new SimpleJmView();
 		view.setName("V_BAR");
 		view.setDefinition("SELECT * FROM T_FOO WHERE HOGE > 0");
 		context.store(view);
@@ -287,53 +286,53 @@ public class DefaultSqlEmitterTest {
 	 */
 	@Test
 	public void test06_DataSetをemitして確認() throws Exception {
-		DefaultDataType varchar32 = new DefaultDataType(VARCHAR);
+		SimpleDataType varchar32 = new SimpleDataType(VARCHAR);
 		varchar32.putParam(TypeParameterKey.SIZE, 32);
 		
 		// FORMAT-OFF
-		ColumnModel colFoo = new Column("FOO").type(new DefaultDataType(INTEGER)).build();
-		ColumnModel colBar = new Column("BAR").type(varchar32).build();
-		ColumnModel colBaz = new Column("BAZ").type(new DefaultDataType(TIMESTAMP)).build();
-		DefaultTableModel table = new Table("T_HOGE")
+		JmColumn colFoo = new JmColumnBuilder("FOO").type(new SimpleDataType(INTEGER)).build();
+		JmColumn colBar = new JmColumnBuilder("BAR").type(varchar32).build();
+		JmColumn colBaz = new JmColumnBuilder("BAZ").type(new SimpleDataType(TIMESTAMP)).build();
+		SimpleJmTable table = new JmTableBuilder("T_HOGE")
 				.with(colFoo)
 				.with(colBar)
 				.with(colBaz)
-				.with(DefaultPrimaryKeyConstraintModel.of(colFoo))
+				.with(SimpleJmPrimaryKeyConstraint.of(colFoo))
 				.build();
 		// FORMAT-ON
 		context.store(table);
 		
-		DefaultDataSetModel dataSet1 = new DefaultDataSetModel(UUID.randomUUID());
+		SimpleJmDataSet dataSet1 = new SimpleJmDataSet();
 		dataSet1.setName("type-1");
-		List<RecordModel> records1 = Lists.newArrayList();
-		Map<EntityRef<? extends ColumnModel>, ScriptString> values1 = Maps.newHashMap();
+		List<JmRecord> records1 = Lists.newArrayList();
+		Map<EntityRef<? extends JmColumn>, ScriptString> values1 = Maps.newHashMap();
 		values1.put(colFoo.toReference(), new ScriptString("1"));
 		values1.put(colBar.toReference(), new ScriptString("one"));
 		values1.put(colBaz.toReference(), new ScriptString("2011-01-25 09:22:01"));
-		records1.add(new DefaultRecordModel(values1));
+		records1.add(new SimpleJmRecord(values1));
 		values1.put(colFoo.toReference(), new ScriptString("2"));
 		values1.put(colBar.toReference(), new ScriptString("two"));
 		values1.put(colBaz.toReference(), new ScriptString("2011-01-25 09:34:05"));
-		records1.add(new DefaultRecordModel(values1));
+		records1.add(new SimpleJmRecord(values1));
 		dataSet1.putRecord(table.toReference(), records1);
 		context.store(dataSet1);
 		
-		DefaultDataSetModel dataSet2 = new DefaultDataSetModel(UUID.randomUUID());
+		SimpleJmDataSet dataSet2 = new SimpleJmDataSet();
 		dataSet2.setName("type-2");
-		List<RecordModel> records2 = Lists.newArrayList();
-		Map<EntityRef<? extends ColumnModel>, ScriptString> values2 = Maps.newHashMap();
+		List<JmRecord> records2 = Lists.newArrayList();
+		Map<EntityRef<? extends JmColumn>, ScriptString> values2 = Maps.newHashMap();
 		values2.put(colFoo.toReference(), new ScriptString("3"));
 		values2.put(colBar.toReference(), new ScriptString("three"));
 		values2.put(colBaz.toReference(), new ScriptString("2011-02-17 09:34:40"));
-		records2.add(new DefaultRecordModel(values2));
+		records2.add(new SimpleJmRecord(values2));
 		values2.put(colFoo.toReference(), new ScriptString("4"));
 		values2.put(colBar.toReference(), new ScriptString("four"));
 		values2.put(colBaz.toReference(), new ScriptString("2011-02-17 10:00:00"));
-		records2.add(new DefaultRecordModel(values2));
+		records2.add(new SimpleJmRecord(values2));
 		values2.put(colFoo.toReference(), new ScriptString("5"));
 		values2.put(colBar.toReference(), new ScriptString("five"));
 		values2.put(colBaz.toReference(), new ScriptString("2011-02-17 10:55:59"));
-		records2.add(new DefaultRecordModel(values2));
+		records2.add(new SimpleJmRecord(values2));
 		dataSet2.putRecord(table.toReference(), records2);
 		context.store(dataSet2);
 		

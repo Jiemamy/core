@@ -30,43 +30,43 @@ import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.jiemamy.ContextMetadata;
-import org.jiemamy.EntityDependencyCalculator;
 import org.jiemamy.JiemamyContext;
+import org.jiemamy.JmMetadata;
 import org.jiemamy.SqlFacet;
 import org.jiemamy.dddbase.EntityRef;
-import org.jiemamy.model.DatabaseObjectModel;
-import org.jiemamy.model.column.ColumnModel;
+import org.jiemamy.model.DbObject;
 import org.jiemamy.model.column.ColumnParameterKey;
-import org.jiemamy.model.constraint.CheckConstraintModel;
-import org.jiemamy.model.constraint.ConstraintModel;
-import org.jiemamy.model.constraint.DeferrabilityModel;
-import org.jiemamy.model.constraint.ForeignKeyConstraintModel;
-import org.jiemamy.model.constraint.NotNullConstraintModel;
-import org.jiemamy.model.constraint.PrimaryKeyConstraintModel;
-import org.jiemamy.model.constraint.UniqueKeyConstraintModel;
-import org.jiemamy.model.dataset.DataSetModel;
-import org.jiemamy.model.dataset.RecordModel;
+import org.jiemamy.model.column.JmColumn;
+import org.jiemamy.model.constraint.JmCheckConstraint;
+import org.jiemamy.model.constraint.JmConstraint;
+import org.jiemamy.model.constraint.JmDeferrability;
+import org.jiemamy.model.constraint.JmForeignKeyConstraint;
+import org.jiemamy.model.constraint.JmNotNullConstraint;
+import org.jiemamy.model.constraint.JmPrimaryKeyConstraint;
+import org.jiemamy.model.constraint.JmUniqueKeyConstraint;
+import org.jiemamy.model.dataset.JmDataSet;
+import org.jiemamy.model.dataset.JmRecord;
 import org.jiemamy.model.datatype.DataType;
-import org.jiemamy.model.datatype.DataTypeCategory;
 import org.jiemamy.model.datatype.LiteralType;
-import org.jiemamy.model.index.IndexColumnModel;
-import org.jiemamy.model.index.IndexColumnModel.SortOrder;
-import org.jiemamy.model.index.IndexModel;
+import org.jiemamy.model.datatype.RawTypeCategory;
+import org.jiemamy.model.index.JmIndex;
+import org.jiemamy.model.index.JmIndexColumn;
+import org.jiemamy.model.index.JmIndexColumn.SortOrder;
 import org.jiemamy.model.parameter.ParameterKey;
-import org.jiemamy.model.script.AroundScriptModel;
+import org.jiemamy.model.script.JmAroundScript;
 import org.jiemamy.model.script.Position;
-import org.jiemamy.model.sql.DefaultSqlStatement;
 import org.jiemamy.model.sql.Identifier;
 import org.jiemamy.model.sql.Keyword;
 import org.jiemamy.model.sql.Literal;
 import org.jiemamy.model.sql.Separator;
+import org.jiemamy.model.sql.SimpleSqlStatement;
 import org.jiemamy.model.sql.SqlStatement;
 import org.jiemamy.model.sql.Token;
-import org.jiemamy.model.table.TableModel;
-import org.jiemamy.model.view.ViewModel;
+import org.jiemamy.model.table.JmTable;
+import org.jiemamy.model.view.JmView;
 import org.jiemamy.script.ScriptString;
 import org.jiemamy.utils.ConstraintComparator;
+import org.jiemamy.utils.DbObjectDependencyCalculator;
 import org.jiemamy.utils.collection.ListUtil;
 
 /**
@@ -114,7 +114,7 @@ public class DefaultSqlEmitter implements SqlEmitter {
 		
 		emitScript(context, Position.BEGIN, result);
 		
-		ContextMetadata metadata = context.getMetadata();
+		JmMetadata metadata = context.getMetadata();
 		if (metadata != null && StringUtils.isEmpty(metadata.getSchemaName()) == false
 				&& config.emitCreateSchemaStatement()) {
 			if (config.emitDropStatements()) {
@@ -125,63 +125,63 @@ public class DefaultSqlEmitter implements SqlEmitter {
 		}
 		
 		if (config.emitDropStatements()) {
-			List<DatabaseObjectModel> dropList = EntityDependencyCalculator.getSortedEntityList(context);
+			List<DbObject> dropList = DbObjectDependencyCalculator.getSortedEntityList(context);
 			ListUtil.reverse(dropList);
-			for (DatabaseObjectModel entityModel : dropList) {
-				result.add(emitDropEntityStatement(entityModel));
+			for (DbObject dbObject : dropList) {
+				result.add(emitDropDbObjectStatement(dbObject));
 			}
 		}
 		
-		for (DatabaseObjectModel dom : EntityDependencyCalculator.getSortedEntityList(context)) {
-			Boolean disabled = dom.getParam(ParameterKey.DISABLED);
+		for (DbObject dbObject : DbObjectDependencyCalculator.getSortedEntityList(context)) {
+			Boolean disabled = dbObject.getParam(ParameterKey.DISABLED);
 			if (disabled != null && disabled) {
 				continue;
 			}
 			
-			emitScript(context, dom, Position.BEGIN, result);
+			emitScript(context, dbObject, Position.BEGIN, result);
 			
-			result.add(emitCreateStatement(context, dom));
+			result.add(emitCreateDbObjectStatement(context, dbObject));
 			
-//			if (dom instanceof TableModel) {
-//				TableModel tableModel = (TableModel) dom;
-//				for (IndexModel indexModel : tableModel.getIndexes()) {
-//					if (indexModel.hasAdapter(Disablable.class)
-//							&& Boolean.TRUE.equals(indexModel.getAdapter(Disablable.class).isDisabled())) {
+//			if (dom instanceof JmTable) {
+//				JmTable table = (JmTable) dbObject;
+//				for (JmIndex index : table.getIndexes()) {
+//					if (index.hasAdapter(Disablable.class)
+//							&& Boolean.TRUE.equals(index.getAdapter(Disablable.class).isDisabled())) {
 //						continue;
 //					}
 //					if (config.emitDropStatements()) {
-//						result.add(emitDropIndexStatement(indexModel));
+//						result.add(emitDropIndexStatement(index));
 //					}
 //					
-//					result.add(emitCreateIndexStatement(context, tableModel, indexModel));
+//					result.add(emitCreateIndexStatement(context, table, index));
 //				}
 //			}
 			
-			emitScript(context, dom, Position.END, result);
+			emitScript(context, dbObject, Position.END, result);
 		}
 		
 		int dataSetIndex = config.getDataSetIndex();
 		if (dataSetIndex >= 0 && dataSetIndex < context.getDataSets().size()) {
-			DataSetModel dataSetModel = context.getDataSets().get(dataSetIndex);
+			JmDataSet dataSet = context.getDataSets().get(dataSetIndex);
 			
-			result.add(new DefaultSqlStatement(Keyword.of("BEGIN"), Separator.SEMICOLON));
-			for (DatabaseObjectModel dom : EntityDependencyCalculator.getSortedEntityList(context)) {
-				Boolean disabled = dom.getParam(ParameterKey.DISABLED);
+			result.add(new SimpleSqlStatement(Keyword.of("BEGIN"), Separator.SEMICOLON));
+			for (DbObject dbObject : DbObjectDependencyCalculator.getSortedEntityList(context)) {
+				Boolean disabled = dbObject.getParam(ParameterKey.DISABLED);
 				if (disabled != null && disabled) {
 					continue;
 				}
-				if (dom instanceof TableModel) {
-					TableModel tableModel = (TableModel) dom;
-					List<RecordModel> records = dataSetModel.getRecords().get(tableModel.toReference());
+				if (dbObject instanceof JmTable) {
+					JmTable table = (JmTable) dbObject;
+					List<JmRecord> records = dataSet.getRecords().get(table.toReference());
 					if (records != null) {
-						for (RecordModel recordModel : records) {
-							result.add(emitInsertStatement(context, tableModel, recordModel));
+						for (JmRecord record : records) {
+							result.add(emitInsertStatement(context, table, record));
 						}
 					}
 				}
 				
 			}
-			result.add(new DefaultSqlStatement(Keyword.of("COMMIT"), Separator.SEMICOLON));
+			result.add(new SimpleSqlStatement(Keyword.of("COMMIT"), Separator.SEMICOLON));
 		}
 		
 		emitScript(context, Position.END, result);
@@ -193,28 +193,27 @@ public class DefaultSqlEmitter implements SqlEmitter {
 	 * カラム定義を出力する。
 	 * 
 	 * @param context コンテキスト
-	 * @param tableModel テーブル
-	 * @param columnModel カラム
+	 * @param table テーブル
+	 * @param column カラム
 	 * @param tokenResolver {@link TokenResolver}
 	 * @return トークンシーケンス
 	 */
-	protected List<Token> emitColumn(JiemamyContext context, TableModel tableModel, ColumnModel columnModel,
-			TokenResolver tokenResolver) {
+	protected List<Token> emitColumn(JiemamyContext context, JmTable table, JmColumn column, TokenResolver tokenResolver) {
 		List<Token> tokens = Lists.newArrayList();
-		tokens.add(Identifier.of(columnModel.getName()));
-		tokens.addAll(tokenResolver.resolve(columnModel.getDataType()));
+		tokens.add(Identifier.of(column.getName()));
+		tokens.addAll(tokenResolver.resolve(column.getDataType()));
 		
-		if (StringUtils.isEmpty(columnModel.getDefaultValue()) == false) {
-			DataTypeCategory category = columnModel.getDataType().getTypeReference().getCategory();
+		if (StringUtils.isEmpty(column.getDefaultValue()) == false) {
+			RawTypeCategory category = column.getDataType().getRawTypeDescriptor().getCategory();
 			tokens.add(Keyword.DEFAULT);
-			tokens.add(Literal.of(columnModel.getDefaultValue(), category.getLiteralType()));
+			tokens.add(Literal.of(column.getDefaultValue(), category.getLiteralType()));
 		}
 		
-		NotNullConstraintModel nnModel = tableModel.getNotNullConstraintFor(columnModel.toReference());
-		if (nnModel != null) {
-			if (StringUtils.isEmpty(nnModel.getName()) == false) {
+		JmNotNullConstraint nn = table.getNotNullConstraintFor(column.toReference());
+		if (nn != null) {
+			if (StringUtils.isEmpty(nn.getName()) == false) {
 				tokens.add(Keyword.CONSTRAINT);
-				tokens.add(Identifier.of(nnModel.getName()));
+				tokens.add(Identifier.of(nn.getName()));
 			}
 			tokens.add(Keyword.NOT);
 			tokens.add(Keyword.NULL);
@@ -224,40 +223,59 @@ public class DefaultSqlEmitter implements SqlEmitter {
 	}
 	
 	/**
+	 * DDLを出力する。
+	 * 
+	 * @param context コンテキスト
+	 * @param dbObject 対象{@link DbObject}
+	 * @return DDL
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	protected SqlStatement emitCreateDbObjectStatement(JiemamyContext context, DbObject dbObject) {
+		Validate.notNull(dbObject);
+		DbObjectEmitStrategy strategy = DbObjectEmitStrategy.fromDbObject(dbObject);
+		if (strategy == null) {
+			// TODO くるしまぎれｗ
+			logger.warn("strategy for {} is not found.", dbObject.getClass().getName());
+			return new SimpleSqlStatement(Keyword.of("-- " + dbObject.toString()));
+		}
+		return strategy.emit(context, dbObject, this, tokenResolver);
+	}
+	
+	/**
 	 * CREATE INDEX文を出力する。
 	 * 
 	 * @param context コンテキスト
-	 * @param tableModel インデックスをつけるテーブル
-	 * @param indexModel 対象インデックス
+	 * @param table インデックスをつけるテーブル
+	 * @param index 対象インデックス
 	 * @return CREATE INDEX文
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	protected SqlStatement emitCreateIndexStatement(JiemamyContext context, TableModel tableModel, IndexModel indexModel) {
-		Validate.notNull(tableModel);
-		Validate.notNull(indexModel);
+	protected SqlStatement emitCreateIndexStatement(JiemamyContext context, JmTable table, JmIndex index) {
+		Validate.notNull(table);
+		Validate.notNull(index);
 		List<Token> tokens = Lists.newArrayList();
 		tokens.add(Keyword.CREATE);
-		if (indexModel.isUnique()) {
+		if (index.isUnique()) {
 			tokens.add(Keyword.UNIQUE);
 		}
 		tokens.add(Keyword.INDEX);
-		tokens.add(Identifier.of(indexModel.getName()));
+		tokens.add(Identifier.of(index.getName()));
 		tokens.add(Keyword.ON);
-		tokens.add(Identifier.of(tableModel.getName()));
+		tokens.add(Identifier.of(table.getName()));
 		tokens.add(Separator.LEFT_PAREN);
 		
-		List<IndexColumnModel> indexColumns = indexModel.getIndexColumns();
-		for (IndexColumnModel indexColumnModel : indexColumns) {
-			tokens.addAll(emitIndexColumnClause(context, indexColumnModel));
+		List<JmIndexColumn> indexColumns = index.getIndexColumns();
+		for (JmIndexColumn indexColumn : indexColumns) {
+			tokens.addAll(emitIndexColumnClause(context, indexColumn));
 			tokens.add(Separator.COMMA);
 		}
 		
-		if (indexModel.getIndexColumns().isEmpty() == false) {
+		if (index.getIndexColumns().isEmpty() == false) {
 			tokens.remove(tokens.size() - 1);
 		}
 		tokens.add(Separator.RIGHT_PAREN);
 		tokens.add(Separator.SEMICOLON);
-		return new DefaultSqlStatement(tokens);
+		return new SimpleSqlStatement(tokens);
 	}
 	
 	/**
@@ -274,56 +292,41 @@ public class DefaultSqlEmitter implements SqlEmitter {
 		tokens.add(Keyword.SCHEMA);
 		tokens.add(Identifier.of(schemaName));
 		tokens.add(Separator.SEMICOLON);
-		return new DefaultSqlStatement(tokens);
+		return new SimpleSqlStatement(tokens);
 	}
 	
 	/**
-	 * DDLを出力する。
+	 * {@link DbObject}のDROP文を出力する。
 	 * 
-	 * @param context コンテキスト
-	 * @param dom 対象エンティティ
-	 * @return DDL
+	 * @param dbObject DROP対象{@link DbObject}
+	 * @return DROP文
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	protected SqlStatement emitCreateStatement(JiemamyContext context, DatabaseObjectModel dom) {
-		Validate.notNull(dom);
-		DatabaseObjectEmitStrategy strategy = DatabaseObjectEmitStrategy.fromEntity(dom);
-		if (strategy == null) {
-			// TODO くるしまぎれｗ
-			logger.warn("strategy for {} is not found.", dom.getClass().getName());
-			return new DefaultSqlStatement(Keyword.of("-- " + dom.toString()));
-		}
-		return strategy.emit(context, dom, this, tokenResolver);
-	}
-	
-	/**
-	 * エンティティのDROP文を出力する。
-	 * 
-	 * @param dom 対象エンティティ
-	 * @return DROP文
-	 */
-	protected SqlStatement emitDropEntityStatement(DatabaseObjectModel dom) {
+	protected SqlStatement emitDropDbObjectStatement(DbObject dbObject) {
+		Validate.notNull(dbObject);
 		List<Token> tokens = Lists.newArrayList();
 		tokens.add(Keyword.DROP);
-		tokens.addAll(tokenResolver.resolve(dom));
-		tokens.add(Identifier.of(dom.getName()));
+		tokens.addAll(tokenResolver.resolve(dbObject));
+		tokens.add(Identifier.of(dbObject.getName()));
 		tokens.add(Separator.SEMICOLON);
-		return new DefaultSqlStatement(tokens);
+		return new SimpleSqlStatement(tokens);
 	}
 	
 	/**
 	 * インデックスのDROP文を出力する。
 	 * 
-	 * @param indexModel 対象インデックス
+	 * @param index 対象インデックス
 	 * @return DROP文
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	protected SqlStatement emitDropIndexStatement(IndexModel indexModel) {
+	protected SqlStatement emitDropIndexStatement(JmIndex index) {
+		Validate.notNull(index);
 		List<Token> tokens = Lists.newArrayList();
 		tokens.add(Keyword.DROP);
 		tokens.add(Keyword.INDEX);
-		tokens.add(Identifier.of(indexModel.getName()));
+		tokens.add(Identifier.of(index.getName()));
 		tokens.add(Separator.SEMICOLON);
-		return new DefaultSqlStatement(tokens);
+		return new SimpleSqlStatement(tokens);
 	}
 	
 	/**
@@ -331,29 +334,34 @@ public class DefaultSqlEmitter implements SqlEmitter {
 	 * 
 	 * @param schemaName スキーマ名
 	 * @return DROP文
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	protected SqlStatement emitDropSchemaStatement(String schemaName) {
+		Validate.notNull(schemaName);
 		List<Token> tokens = Lists.newArrayList();
 		tokens.add(Keyword.DROP);
 		tokens.add(Keyword.SCHEMA);
 		tokens.add(Identifier.of(schemaName));
 		tokens.add(Separator.SEMICOLON);
-		return new DefaultSqlStatement(tokens);
+		return new SimpleSqlStatement(tokens);
 	}
 	
 	/**
 	 * インデックスカラムの定義句を出力する。
 	 * 
 	 * @param context コンテキスト
-	 * @param indexColumnModel 対象インデックスカラム
+	 * @param indexColumn 対象インデックスカラム
 	 * @return トークンシーケンス
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	protected List<Token> emitIndexColumnClause(JiemamyContext context, IndexColumnModel indexColumnModel) {
+	protected List<Token> emitIndexColumnClause(JiemamyContext context, JmIndexColumn indexColumn) {
+		Validate.notNull(context);
+		Validate.notNull(indexColumn);
 		List<Token> tokens = Lists.newArrayList();
-		EntityRef<? extends ColumnModel> columnRef = indexColumnModel.getColumnRef();
-		ColumnModel columnModel = context.resolve(columnRef);
-		tokens.add(Identifier.of(columnModel.getName()));
-		SortOrder sortOrder = indexColumnModel.getSortOrder();
+		EntityRef<? extends JmColumn> columnRef = indexColumn.getColumnRef();
+		JmColumn column = context.resolve(columnRef);
+		tokens.add(Identifier.of(column.getName()));
+		SortOrder sortOrder = indexColumn.getSortOrder();
 		tokens.addAll(tokenResolver.resolve(sortOrder));
 		return tokens;
 	}
@@ -362,33 +370,33 @@ public class DefaultSqlEmitter implements SqlEmitter {
 	 * INSERT文を出力する。
 	 * 
 	 * @param context コンテキスト
-	 * @param tableModel 対象テーブル
-	 * @param recordModel 対象レコード
+	 * @param table 対象テーブル
+	 * @param record 対象レコード
 	 * @return INSERT文
 	 */
-	protected SqlStatement emitInsertStatement(JiemamyContext context, TableModel tableModel, RecordModel recordModel) {
+	protected SqlStatement emitInsertStatement(JiemamyContext context, JmTable table, JmRecord record) {
 		List<Token> tokens = Lists.newArrayList();
 		tokens.add(Keyword.INSERT);
 		tokens.add(Keyword.INTO);
-		tokens.add(Identifier.of(tableModel.getName()));
+		tokens.add(Identifier.of(table.getName()));
 		
 		List<Token> columnList = Lists.newArrayList();
 		List<Token> dataList = Lists.newArrayList();
 		columnList.add(Separator.LEFT_PAREN);
 		dataList.add(Separator.LEFT_PAREN);
 		
-		List<ColumnModel> columns = tableModel.getColumns();
+		List<JmColumn> columns = table.getColumns();
 		int size = 0;
-		for (ColumnModel columnModel : columns) {
-			if (recordModel.getValues().containsKey(columnModel.toReference()) == false) {
+		for (JmColumn column : columns) {
+			if (record.getValues().containsKey(column.toReference()) == false) {
 				continue;
 			}
 			
-			DataType dataType = columnModel.getDataType();
+			DataType dataType = column.getDataType();
 			
 			String value;
 			try {
-				ScriptString ss = recordModel.getValues().get(columnModel.toReference());
+				ScriptString ss = record.getValues().get(column.toReference());
 				Map<String, Object> env = Maps.newHashMap();
 				// TODO env-objectを整備
 				value = ss.process(env);
@@ -401,10 +409,10 @@ public class DefaultSqlEmitter implements SqlEmitter {
 			if (value == null) {
 				dataLiteral = Literal.NULL;
 			} else {
-				dataLiteral = Literal.of(value, dataType.getTypeReference().getCategory().getLiteralType());
+				dataLiteral = Literal.of(value, dataType.getRawTypeDescriptor().getCategory().getLiteralType());
 			}
 			
-			columnList.add(Identifier.of(columnModel.getName()));
+			columnList.add(Identifier.of(column.getName()));
 			columnList.add(Separator.COMMA);
 			
 			dataList.add(dataLiteral);
@@ -423,25 +431,24 @@ public class DefaultSqlEmitter implements SqlEmitter {
 		tokens.addAll(dataList);
 		tokens.add(Separator.SEMICOLON);
 		
-		return new DefaultSqlStatement(tokens);
+		return new SimpleSqlStatement(tokens);
 	}
 	
-	private void emitScript(JiemamyContext context, DatabaseObjectModel dom, Position position,
-			List<SqlStatement> result) {
+	private void emitScript(JiemamyContext context, DbObject dbObject, Position position, List<SqlStatement> result) {
 		SqlFacet facet = context.getFacet(SqlFacet.class);
-		AroundScriptModel aroundScript = facet.getAroundScriptFor(dom.toReference());
+		JmAroundScript aroundScript = facet.getAroundScriptFor(dbObject.toReference());
 		
 		if (aroundScript == null) {
 			return;
 		}
 		
 		try {
-			String beginScriptResilt = aroundScript.process(context, position, dom);
+			String beginScriptResilt = aroundScript.process(context, position, dbObject);
 			if (StringUtils.isEmpty(beginScriptResilt) == false) {
-				result.add(new DefaultSqlStatement(Literal.of(beginScriptResilt, LiteralType.FRAGMENT)));
+				result.add(new SimpleSqlStatement(Literal.of(beginScriptResilt, LiteralType.FRAGMENT)));
 			}
 		} catch (ClassNotFoundException e) {
-			result.add(new DefaultSqlStatement(Literal.of(
+			result.add(new SimpleSqlStatement(Literal.of(
 					"-- ERROR: Cannot resolve " + aroundScript.getScriptEngineClassName(position) + "\n",
 					LiteralType.FRAGMENT)));
 		}
@@ -449,7 +456,7 @@ public class DefaultSqlEmitter implements SqlEmitter {
 	
 	private void emitScript(JiemamyContext context, Position position, List<SqlStatement> result) {
 		SqlFacet facet = context.getFacet(SqlFacet.class);
-		AroundScriptModel aroundScript = facet.getUniversalAroundScript();
+		JmAroundScript aroundScript = facet.getUniversalAroundScript();
 		
 		if (aroundScript == null) {
 			return;
@@ -458,10 +465,10 @@ public class DefaultSqlEmitter implements SqlEmitter {
 		try {
 			String beginScriptResilt = aroundScript.process(context, position, context);
 			if (StringUtils.isEmpty(beginScriptResilt) == false) {
-				result.add(new DefaultSqlStatement(Literal.of(beginScriptResilt, LiteralType.FRAGMENT)));
+				result.add(new SimpleSqlStatement(Literal.of(beginScriptResilt, LiteralType.FRAGMENT)));
 			}
 		} catch (ClassNotFoundException e) {
-			result.add(new DefaultSqlStatement(Literal.of(
+			result.add(new SimpleSqlStatement(Literal.of(
 					"-- ERROR: Cannot resolve " + aroundScript.getScriptEngineClassName(position) + "\n",
 					LiteralType.FRAGMENT)));
 		}
@@ -469,18 +476,18 @@ public class DefaultSqlEmitter implements SqlEmitter {
 	
 
 	/**
-	 * 属性の出力戦略列挙型。
+	 * 制約の出力戦略列挙型。
 	 * 
 	 * @author daisuke
 	 */
 	protected enum ConstraintEmitStrategy {
 		
 		/** 主キーの出力戦略 */
-		PK(PrimaryKeyConstraintModel.class) {
+		PK(JmPrimaryKeyConstraint.class) {
 			
 			@Override
-			public List<Token> emit(JiemamyContext context, ConstraintModel attributeModel, TokenResolver tokenResolver) {
-				PrimaryKeyConstraintModel primaryKey = (PrimaryKeyConstraintModel) attributeModel;
+			public List<Token> emit(JiemamyContext context, JmConstraint constraint, TokenResolver tokenResolver) {
+				JmPrimaryKeyConstraint primaryKey = (JmPrimaryKeyConstraint) constraint;
 				List<Token> tokens = Lists.newArrayList();
 				addConstraintNameDefinition(primaryKey, tokens);
 				tokens.add(Keyword.PRIMARY);
@@ -492,11 +499,11 @@ public class DefaultSqlEmitter implements SqlEmitter {
 		},
 		
 		/** ユニークキーの出力戦略 */
-		UK(UniqueKeyConstraintModel.class) {
+		UK(JmUniqueKeyConstraint.class) {
 			
 			@Override
-			public List<Token> emit(JiemamyContext context, ConstraintModel attributeModel, TokenResolver tokenResolver) {
-				UniqueKeyConstraintModel uniqueKey = (UniqueKeyConstraintModel) attributeModel;
+			public List<Token> emit(JiemamyContext context, JmConstraint constraint, TokenResolver tokenResolver) {
+				JmUniqueKeyConstraint uniqueKey = (JmUniqueKeyConstraint) constraint;
 				List<Token> tokens = Lists.newArrayList();
 				addConstraintNameDefinition(uniqueKey, tokens);
 				tokens.add(Keyword.UNIQUE);
@@ -508,11 +515,11 @@ public class DefaultSqlEmitter implements SqlEmitter {
 		},
 		
 		/** 外部キーの出力戦略 */
-		FK(ForeignKeyConstraintModel.class) {
+		FK(JmForeignKeyConstraint.class) {
 			
 			@Override
-			public List<Token> emit(JiemamyContext context, ConstraintModel attributeModel, TokenResolver tokenResolver) {
-				ForeignKeyConstraintModel foreignKey = (ForeignKeyConstraintModel) attributeModel;
+			public List<Token> emit(JiemamyContext context, JmConstraint constraint, TokenResolver tokenResolver) {
+				JmForeignKeyConstraint foreignKey = (JmForeignKeyConstraint) constraint;
 				List<Token> tokens = Lists.newArrayList();
 				addConstraintNameDefinition(foreignKey, tokens);
 				tokens.add(Keyword.FOREIGN);
@@ -520,7 +527,7 @@ public class DefaultSqlEmitter implements SqlEmitter {
 				addColumnList(context, tokens, foreignKey.getKeyColumns());
 				tokens.add(Keyword.REFERENCES);
 				
-				TableModel referenceEntity = foreignKey.findReferenceTable(context.getTables());
+				JmTable referenceEntity = foreignKey.findReferenceTable(context.getTables());
 				tokens.add(Identifier.of(referenceEntity.getName()));
 				addColumnList(context, tokens, foreignKey.getReferenceColumns());
 				
@@ -538,7 +545,7 @@ public class DefaultSqlEmitter implements SqlEmitter {
 					tokens.addAll(tokenResolver.resolve(foreignKey.getOnUpdate()));
 				}
 				if (foreignKey.getDeferrability() != null) {
-					DeferrabilityModel deferrability = foreignKey.getDeferrability();
+					JmDeferrability deferrability = foreignKey.getDeferrability();
 					if (deferrability.isDeferrable() == false) {
 						tokens.add(Keyword.NOT);
 					}
@@ -552,11 +559,11 @@ public class DefaultSqlEmitter implements SqlEmitter {
 		},
 		
 		/** CHECK制約の出力戦略 */
-		TABLE_CHECK(CheckConstraintModel.class) {
+		TABLE_CHECK(JmCheckConstraint.class) {
 			
 			@Override
-			public List<Token> emit(JiemamyContext context, ConstraintModel attributeModel, TokenResolver tokenResolver) {
-				CheckConstraintModel checkConstraint = (CheckConstraintModel) attributeModel;
+			public List<Token> emit(JiemamyContext context, JmConstraint constraint, TokenResolver tokenResolver) {
+				JmCheckConstraint checkConstraint = (JmCheckConstraint) constraint;
 				List<Token> tokens = Lists.newArrayList();
 				addConstraintNameDefinition(checkConstraint, tokens);
 				tokens.add(Keyword.CHECK);
@@ -569,12 +576,12 @@ public class DefaultSqlEmitter implements SqlEmitter {
 		};
 		
 		/**
-		 * 属性モデルから出力戦略を取得する。
+		 * 属性オブジェクトから、その出力戦略を取得する。
 		 * 
-		 * @param constraint 出力対象の属性モデル
+		 * @param constraint 出力対象の属性
 		 * @return 出力戦略
 		 */
-		public static ConstraintEmitStrategy fromAttribute(ConstraintModel constraint) {
+		public static ConstraintEmitStrategy fromAttribute(JmConstraint constraint) {
 			for (ConstraintEmitStrategy strategy : values()) {
 				if (strategy.clazz == constraint.getClass()) {
 					return strategy;
@@ -589,11 +596,11 @@ public class DefaultSqlEmitter implements SqlEmitter {
 		}
 		
 		private static void addColumnList(JiemamyContext context, List<Token> tokens,
-				List<EntityRef<? extends ColumnModel>> columnRefs) {
+				List<EntityRef<? extends JmColumn>> columnRefs) {
 			tokens.add(Separator.LEFT_PAREN);
-			for (EntityRef<? extends ColumnModel> columnRef : columnRefs) {
-				ColumnModel columnModel = context.resolve(columnRef);
-				tokens.add(Identifier.of(columnModel.getName()));
+			for (EntityRef<? extends JmColumn> columnRef : columnRefs) {
+				JmColumn column = context.resolve(columnRef);
+				tokens.add(Identifier.of(column.getName()));
 				tokens.add(Separator.COMMA);
 			}
 			
@@ -603,7 +610,7 @@ public class DefaultSqlEmitter implements SqlEmitter {
 			tokens.add(Separator.RIGHT_PAREN);
 		}
 		
-		private static void addConstraintNameDefinition(ConstraintModel constraint, List<Token> tokens) {
+		private static void addConstraintNameDefinition(JmConstraint constraint, List<Token> tokens) {
 			if (StringUtils.isEmpty(constraint.getName()) == false) {
 				tokens.add(Keyword.CONSTRAINT);
 				tokens.add(Identifier.of(constraint.getName()));
@@ -611,115 +618,115 @@ public class DefaultSqlEmitter implements SqlEmitter {
 		}
 		
 
-		private final Class<? extends ConstraintModel> clazz;
+		private final Class<? extends JmConstraint> clazz;
 		
 
-		ConstraintEmitStrategy(Class<? extends ConstraintModel> clazz) {
+		ConstraintEmitStrategy(Class<? extends JmConstraint> clazz) {
 			this.clazz = clazz;
 		}
 		
 		/**
-		 * 属性モデルからトークンシーケンスを出力する。
+		 * 制約からトークンシーケンスを出力する。
 		 * 
-		 * @param attributeModel 属性モデル
+		 * @param constraint 制約
 		 * @param tokenResolver トークンリゾルバ
-		 * @param <T> 出力する属性モデルの型
+		 * @param <T> 出力する制約モデルの型
 		 * @param context コンテキスト
 		 * @return トークンシーケンス
 		 */
-		public abstract <T extends ConstraintModel>List<Token> emit(JiemamyContext context, T attributeModel,
+		public abstract <T extends JmConstraint>List<Token> emit(JiemamyContext context, T constraint,
 				TokenResolver tokenResolver);
 		
 	}
 	
 	/**
-	 * エンティティの出力戦略。
+	 * {@link DbObject}の出力戦略。
 	 * 
 	 * @author daisuke
 	 */
-	protected enum DatabaseObjectEmitStrategy {
+	protected enum DbObjectEmitStrategy {
 		
 		/** テーブルの出力戦略 */
-		TABLE(TableModel.class) {
+		TABLE(JmTable.class) {
 			
 			@Override
-			public SqlStatement emit(JiemamyContext context, DatabaseObjectModel dom, DefaultSqlEmitter sqlEmitter,
+			public SqlStatement emit(JiemamyContext context, DbObject dbObject, DefaultSqlEmitter sqlEmitter,
 					TokenResolver tokenResolver) {
-				assert dom instanceof TableModel;
-				TableModel tableModel = (TableModel) dom;
+				assert dbObject instanceof JmTable;
+				JmTable table = (JmTable) dbObject;
 				List<Token> tokens = Lists.newArrayList();
 				tokens.add(Keyword.CREATE);
 				tokens.add(Keyword.TABLE);
-				tokens.add(Identifier.of(tableModel.getName()));
+				tokens.add(Identifier.of(table.getName()));
 				tokens.add(Separator.LEFT_PAREN);
-				for (ColumnModel columnModel : tableModel.getColumns()) {
-					Boolean disabled = columnModel.getParam(ColumnParameterKey.DISABLED);
+				for (JmColumn column : table.getColumns()) {
+					Boolean disabled = column.getParam(ColumnParameterKey.DISABLED);
 					if (disabled != null && disabled) {
 						continue;
 					}
-					List<Token> columnTokens = sqlEmitter.emitColumn(context, tableModel, columnModel, tokenResolver);
+					List<Token> columnTokens = sqlEmitter.emitColumn(context, table, column, tokenResolver);
 					tokens.addAll(columnTokens);
 					tokens.add(Separator.COMMA);
 				}
 				
-				List<ConstraintModel> list = Lists.newArrayList(tableModel.getConstraints());
-				Collections.sort(list, new ConstraintComparator());
-				for (ConstraintModel constraintModel : list) {
-//					Boolean disabled = constraintModel.getParam(ConstraintParameterKey.DISABLED);
+				List<JmConstraint> constraints = Lists.newArrayList(table.getConstraints());
+				Collections.sort(constraints, ConstraintComparator.INSTANCE);
+				for (JmConstraint constraint : constraints) {
+//					Boolean disabled = constraint.getParam(ConstraintParameterKey.DISABLED);
 //					if (disabled != null && disabled) {
 //						continue;
 //					}
-					ConstraintEmitStrategy strategy = ConstraintEmitStrategy.fromAttribute(constraintModel);
+					ConstraintEmitStrategy strategy = ConstraintEmitStrategy.fromAttribute(constraint);
 					if (strategy != null) {
-						List<Token> constraintTokens = strategy.emit(context, constraintModel, tokenResolver);
+						List<Token> constraintTokens = strategy.emit(context, constraint, tokenResolver);
 						tokens.addAll(constraintTokens);
 						tokens.add(Separator.COMMA);
 					}
 				}
 				
-				if (tableModel.getColumns().isEmpty() == false || tableModel.getConstraints().isEmpty() == false) {
+				if (table.getColumns().isEmpty() == false || table.getConstraints().isEmpty() == false) {
 					tokens.remove(tokens.size() - 1);
 				}
 				tokens.add(Separator.RIGHT_PAREN);
 				tokens.add(Separator.SEMICOLON);
-				return new DefaultSqlStatement(tokens);
+				return new SimpleSqlStatement(tokens);
 			}
 			
 		},
 		
 		/** ビューの出力戦略 */
-		VIEW(ViewModel.class) {
+		VIEW(JmView.class) {
 			
 			@Override
-			public SqlStatement emit(JiemamyContext context, DatabaseObjectModel dom,
-					DefaultSqlEmitter defaultSqlEmitter, TokenResolver tokenResolver) {
-				assert dom instanceof ViewModel;
-				ViewModel viewModel = (ViewModel) dom;
+			public SqlStatement emit(JiemamyContext context, DbObject dbObject, DefaultSqlEmitter defaultSqlEmitter,
+					TokenResolver tokenResolver) {
+				assert dbObject instanceof JmView;
+				JmView view = (JmView) dbObject;
 				List<Token> tokens = Lists.newArrayList();
 				tokens.add(Keyword.CREATE);
 				tokens.add(Keyword.VIEW);
-				tokens.add(Identifier.of(viewModel.getName()));
+				tokens.add(Identifier.of(view.getName()));
 				tokens.add(Keyword.AS);
-				tokens.add(Literal.of(viewModel.getDefinition(), LiteralType.FRAGMENT));
+				tokens.add(Literal.of(view.getDefinition(), LiteralType.FRAGMENT));
 				tokens.add(Separator.SEMICOLON);
-				return new DefaultSqlStatement(tokens);
+				return new SimpleSqlStatement(tokens);
 			}
 		};
 		
 		/**
-		 * エンティティモデルから出力戦略を取得する。
+		 * {@link DbObject}からその{@link DbObject}の出力戦略を取得する。
 		 * 
-		 * @param entityModel 出力対象のエンティティモデル
-		 * @return 出力戦略
+		 * @param dbObject 出力対象の{@link DbObject}
+		 * @return 出力戦略、マッチするものが見つからなかった場合は{@code null}
 		 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 		 */
-		public static DatabaseObjectEmitStrategy fromEntity(DatabaseObjectModel entityModel) {
-			Validate.notNull(entityModel);
-			for (DatabaseObjectEmitStrategy s : values()) {
-				if (s.clazz == entityModel.getClass()) {
+		public static DbObjectEmitStrategy fromDbObject(DbObject dbObject) {
+			Validate.notNull(dbObject);
+			for (DbObjectEmitStrategy s : values()) {
+				if (s.clazz == dbObject.getClass()) {
 					return s;
 				}
-				for (Class<?> c : entityModel.getClass().getInterfaces()) {
+				for (Class<?> c : dbObject.getClass().getInterfaces()) {
 					if (s.clazz == c) {
 						return s;
 					}
@@ -729,24 +736,24 @@ public class DefaultSqlEmitter implements SqlEmitter {
 		}
 		
 
-		private final Class<? extends DatabaseObjectModel> clazz;
+		private final Class<? extends DbObject> clazz;
 		
 
-		DatabaseObjectEmitStrategy(Class<? extends DatabaseObjectModel> clazz) {
+		DbObjectEmitStrategy(Class<? extends DbObject> clazz) {
 			this.clazz = clazz;
 		}
 		
 		/**
-		 * エンティティモデルからToken列を出力する。
+		 * {@link DbObject}から{@link Token}列を出力する。
 		 * 
 		 * @param context コンテキスト
-		 * @param dom {@link DatabaseObjectModel}
+		 * @param dbObject {@link DbObject}
 		 * @param sqlEmitter 利用している{@link SqlEmitter}のインスタンス
 		 * @param tokenResolver トークンリゾルバ
 		 * @return トークンシーケンス
 		 */
-		public abstract SqlStatement emit(JiemamyContext context, DatabaseObjectModel dom,
-				DefaultSqlEmitter sqlEmitter, TokenResolver tokenResolver);
+		public abstract SqlStatement emit(JiemamyContext context, DbObject dbObject, DefaultSqlEmitter sqlEmitter,
+				TokenResolver tokenResolver);
 		
 	}
 }

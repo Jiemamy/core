@@ -26,8 +26,8 @@ import com.google.common.collect.Lists;
 import org.apache.commons.lang.StringUtils;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.model.column.ColumnModel;
-import org.jiemamy.model.table.TableModel;
+import org.jiemamy.model.column.JmColumn;
+import org.jiemamy.model.table.JmTable;
 import org.jiemamy.validator.AbstractProblem;
 import org.jiemamy.validator.AbstractValidator;
 import org.jiemamy.validator.Problem;
@@ -46,13 +46,13 @@ public class TableValidator extends AbstractValidator {
 	
 	public Collection<Problem> validate(JiemamyContext context) {
 		Collection<Problem> problems = Lists.newArrayList();
-		for (TableModel tableModel : context.getTables()) {
-			List<? extends ColumnModel> columns = tableModel.getColumns();
+		for (JmTable table : context.getTables()) {
+			List<? extends JmColumn> columns = table.getColumns();
 			if (columns.size() == 0) {
-				problems.add(new NoColumnProblem(tableModel));
+				problems.add(new NoColumnProblem(table));
 			}
-			if (StringUtils.isEmpty(tableModel.getName())) {
-				problems.add(new EmptyTableNameProblem(tableModel));
+			if (StringUtils.isEmpty(table.getName())) {
+				problems.add(new EmptyTableNameProblem(table));
 			}
 		}
 		return problems;
@@ -64,12 +64,12 @@ public class TableValidator extends AbstractValidator {
 		/**
 		 * インスタンスを生成する。
 		 * 
-		 * @param tableModel テーブル名が設定されていないテーブル
+		 * @param table テーブル名が設定されていないテーブル
 		 */
-		public EmptyTableNameProblem(TableModel tableModel) {
-			super(tableModel, "E0170");
+		public EmptyTableNameProblem(JmTable table) {
+			super(table, "E0170");
 			setArguments(new Object[] {
-				tableModel.getId().toString()
+				table.getId().toString()
 			});
 		}
 	}
@@ -79,12 +79,12 @@ public class TableValidator extends AbstractValidator {
 		/**
 		 * インスタンスを生成する。
 		 * 
-		 * @param tableModel カラムの存在しないテーブル
+		 * @param table カラムの存在しないテーブル
 		 */
-		public NoColumnProblem(TableModel tableModel) {
-			super(tableModel, "W0060");
+		public NoColumnProblem(JmTable table) {
+			super(table, "W0060");
 			setArguments(new Object[] {
-				tableModel.getName()
+				table.getName()
 			});
 		}
 	}

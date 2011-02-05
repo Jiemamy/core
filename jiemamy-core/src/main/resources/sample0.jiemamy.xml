@@ -3,7 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     version="0.3"
     xsi:schemaLocation="http://jiemamy.org/xml/ns/core ../../main/resources/jiemamy-core.xsd">
-  <metadata class="org.jiemamy.DefaultContextMetadata">
+  <metadata class="org.jiemamy.SimpleJmMetadata">
     <dialect>org.jiemamy.dialect.mysql.MySqlDialect</dialect>
   </metadata>
   <dbobjects>

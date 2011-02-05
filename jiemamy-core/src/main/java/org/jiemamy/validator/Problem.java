@@ -24,6 +24,7 @@ import java.util.UUID;
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.JiemamyContext;
+import org.jiemamy.dddbase.Entity;
 
 /**
  * バリデータに指摘された問題インターフェイス。
@@ -79,14 +80,14 @@ public interface Problem {
 	Severity getSeverity();
 	
 	/**
-	 * この問題の主たる原因であろうと思われるエンティティのIDを返す。
+	 * この問題の主たる原因であろうと思われる{@link Entity}のIDを返す。
 	 * 
-	 * <p>このIDが表すエンティティは、必ずしも原因であるとは限らない。
-	 * また、複数のエンティティが原因である場合でも、その中から任意の1エンティティを選んだ結果の
-	 * IDであり、毎回同じとも限らない。さらに、原因であろうエンティティが特定できない場合は
+	 * <p>このIDが表す{@link Entity}は、必ずしも原因であるとは限らない。
+	 * また、複数の{@link Entity}が原因である場合でも、その中から任意の1{@link Entity}を選んだ結果の
+	 * IDであり、毎回同じとも限らない。さらに、原因であろう{@link Entity}が特定できない場合は
 	 * このメソッドは{@code null}を返す。</p>
 	 * 
-	 * @return エンティティのID
+	 * @return {@link Entity}のID
 	 */
 	UUID getTargetId();
 	

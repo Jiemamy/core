@@ -34,7 +34,7 @@ public interface Validator {
 	 * モデルのバリデーションを行う。
 	 * 
 	 * @param context バリデーション対象コンテキスト
-	 * @return バリデーションの結果. 問題がなかった場合は、空の{@link Collection}を返す。
+	 * @return バリデーションの結果、問題がなかった場合は、空の{@link Collection}を返す。
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 0.2
 	 */

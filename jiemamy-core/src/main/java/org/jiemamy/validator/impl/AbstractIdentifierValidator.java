@@ -29,10 +29,10 @@ import org.apache.commons.lang.Validate;
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dialect.ReservedWordsChecker;
-import org.jiemamy.model.DatabaseObjectModel;
-import org.jiemamy.model.column.ColumnModel;
-import org.jiemamy.model.constraint.ConstraintModel;
-import org.jiemamy.model.table.TableModel;
+import org.jiemamy.model.DbObject;
+import org.jiemamy.model.column.JmColumn;
+import org.jiemamy.model.constraint.JmConstraint;
+import org.jiemamy.model.table.JmTable;
 import org.jiemamy.validator.AbstractProblem;
 import org.jiemamy.validator.AbstractValidator;
 import org.jiemamy.validator.Problem;
@@ -67,23 +67,22 @@ public abstract class AbstractIdentifierValidator extends AbstractValidator {
 	}
 	
 	public Collection<? extends Problem> validate(JiemamyContext context) {
-		Collection<Problem> result = Lists.newArrayList();
-		
-		for (DatabaseObjectModel dbo : context.getDatabaseObjects()) {
-			collectProblem(dbo, dbo.getName(), result, false);
-			if (dbo instanceof TableModel) {
-				TableModel tableModel = (TableModel) dbo;
-				for (ColumnModel columnModel : tableModel.getColumns()) {
-					collectProblem(columnModel, columnModel.getName(), result, false);
+		Collection<Problem> problems = Lists.newArrayList();
+		for (DbObject dbObject : context.getDbObjects()) {
+			collectProblem(dbObject, dbObject.getName(), problems, false);
+			if (dbObject instanceof JmTable) {
+				JmTable table = (JmTable) dbObject;
+				for (JmColumn column : table.getColumns()) {
+					collectProblem(column, column.getName(), problems, false);
 				}
 				
-				for (ConstraintModel constraint : tableModel.getConstraints()) {
-					collectProblem(constraint, constraint.getName(), result, true);
+				for (JmConstraint constraint : table.getConstraints()) {
+					collectProblem(constraint, constraint.getName(), problems, true);
 				}
 			}
 		}
 		
-		return result;
+		return problems;
 	}
 	
 	int collectProblem(Entity entity, String name, Collection<Problem> result, boolean emptyValid) {
@@ -112,7 +111,7 @@ public abstract class AbstractIdentifierValidator extends AbstractValidator {
 		/**
 		 * インスタンスを生成する。
 		 * 
-		 * @param target 空の名前を持つエンティティ
+		 * @param target 空の名前を持つ{@link DbObject}
 		 */
 		public EmptyNameProblem(Entity target) {
 			super(target, "E0011");
@@ -124,7 +123,7 @@ public abstract class AbstractIdentifierValidator extends AbstractValidator {
 		/**
 		 * インスタンスを生成する。
 		 * 
-		 * @param target 不正な名前を持つエンティティ
+		 * @param target 不正な名前を持つ{@link Entity}
 		 * @param name 識別子名
 		 * @param pattern 識別子が満たすべき正規表現パターン
 		 */
@@ -142,7 +141,7 @@ public abstract class AbstractIdentifierValidator extends AbstractValidator {
 		/**
 		 * インスタンスを生成する。
 		 * 
-		 * @param target 不正な名前を持つエンティティ
+		 * @param target 不正な名前を持つ{@link Entity}
 		 * @param name 識別子名
 		 */
 		public ReservedWordProblem(Entity target, String name) {

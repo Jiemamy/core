@@ -18,15 +18,10 @@
  */
 package org.jiemamy.model.table;
 
-import java.util.Collection;
-
-import com.google.common.collect.Lists;
-
-import org.jiemamy.dddbase.utils.CloneUtil;
 import org.jiemamy.model.ModelConsistencyException;
 
 /**
- * クエリの結果、該当する {@link TableModel} が複数見つかったことを表す例外クラス。
+ * クエリの結果、該当する {@link JmTable} が複数見つかったことを表す例外クラス。
  * 
  * @version $Id$
  * @author daisuke
@@ -34,7 +29,7 @@ import org.jiemamy.model.ModelConsistencyException;
 @SuppressWarnings("serial")
 public class TooManyTablesFoundException extends ModelConsistencyException {
 	
-	private final Collection<? extends TableModel> tables;
+	private final Iterable<? extends JmTable> tables;
 	
 
 	/**
@@ -42,9 +37,8 @@ public class TooManyTablesFoundException extends ModelConsistencyException {
 	 * 
 	 * @param tables 見つかった複数のテーブルの集合
 	 */
-	public TooManyTablesFoundException(Collection<? extends TableModel> tables) {
-		super(String.valueOf(tables.size()) + " tables");
-		this.tables = CloneUtil.cloneEntityArrayList(tables);
+	public TooManyTablesFoundException(Iterable<? extends JmTable> tables) {
+		this.tables = tables;
 	}
 	
 	/**
@@ -52,8 +46,8 @@ public class TooManyTablesFoundException extends ModelConsistencyException {
 	 * 
 	 * @return 見つかったカラムの集合
 	 */
-	public Collection<? extends TableModel> getTables() {
-		return Lists.newArrayList(tables);
+	public Iterable<? extends JmTable> getTables() {
+		return tables;
 	}
 	
 }

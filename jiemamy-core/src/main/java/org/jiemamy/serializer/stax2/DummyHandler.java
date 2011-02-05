@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
  * @version $Id$
  * @author daisuke
  */
-public class DummyHandler extends SerializationHandler<Object> {
+public class DummyHandler extends StaxHandler<Object> {
 	
 	private static Logger logger = LoggerFactory.getLogger(DummyHandler.class);
 	
@@ -39,13 +39,13 @@ public class DummyHandler extends SerializationHandler<Object> {
 	 * @param director 親となるディレクタ
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public DummyHandler(SerializationDirector director) {
+	public DummyHandler(StaxDirector director) {
 		super(director);
 	}
 	
 	@Override
-	public Object handleDeserialization(DeserializationContext ctx) {
-		Validate.notNull(ctx);
+	public Object handleDeserialization(DeserializationContext dctx) {
+		Validate.notNull(dctx);
 		logger.debug("dummy handler invoked.");
 		return null;
 	}

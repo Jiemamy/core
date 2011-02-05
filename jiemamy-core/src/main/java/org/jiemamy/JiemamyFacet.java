@@ -23,8 +23,8 @@ import java.util.Set;
 
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.OnMemoryEntityResolver;
-import org.jiemamy.serializer.stax2.SerializationDirector;
-import org.jiemamy.serializer.stax2.SerializationHandler;
+import org.jiemamy.serializer.stax2.StaxDirector;
+import org.jiemamy.serializer.stax2.StaxHandler;
 import org.jiemamy.xml.JiemamyNamespace;
 
 /**
@@ -40,7 +40,7 @@ public interface JiemamyFacet {
 	/**
 	 * このファセットが管理保持する {@link Entity} の集合を取得する。
 	 * 
-	 * @return エンティティの集合
+	 * @return {@link Entity}の集合
 	 */
 	Set<? extends Entity> getEntities();
 	
@@ -66,11 +66,11 @@ public interface JiemamyFacet {
 	URL getSchema();
 	
 	/**
-	 * {@link SerializationDirector}に対して各種 {@link SerializationHandler} を設定する。
+	 * {@link StaxDirector}に対して各種 {@link StaxHandler} を設定する。
 	 * 
 	 * <p>このメソッドはAPIユーザが呼び出すことを想定していない。</p>
 	 * 
-	 * @param serializationDirector {@link SerializationDirector}
+	 * @param staxDirector {@link StaxDirector}
 	 */
-	void prepareSerializationHandlers(SerializationDirector serializationDirector);
+	void prepareStaxHandlers(StaxDirector staxDirector);
 }

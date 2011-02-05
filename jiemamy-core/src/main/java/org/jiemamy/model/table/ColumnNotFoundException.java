@@ -19,10 +19,10 @@
 package org.jiemamy.model.table;
 
 import org.jiemamy.dddbase.EntityNotFoundException;
-import org.jiemamy.model.column.ColumnModel;
+import org.jiemamy.model.column.JmColumn;
 
 /**
- * {@link TableModel}に対するクエリの結果、該当する {@link ColumnModel} が見つからなかったことを表す例外クラス。
+ * {@link JmTable}に対するクエリの結果、該当する {@link JmColumn} が見つからなかったことを表す例外クラス。
  * 
  * @version $Id$
  * @author daisuke

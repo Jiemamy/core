@@ -18,16 +18,32 @@
  */
 package org.jiemamy.validator.impl;
 
+import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.model.column.JmColumn;
 import org.jiemamy.validator.AbstractProblem;
 
 class ReferenceProblem extends AbstractProblem {
 	
 	/**
 	 * インスタンスを生成する。
+	 * 
+	 * @param target {@code reference}を持っている {@link Entity}
+	 * @param reference 参照の切れた参照オブジェクト
+	 */
+	ReferenceProblem(Entity target, EntityRef<? extends JmColumn> reference) {
+		super(target, "F0190");
+		setArguments(new Object[] {
+			reference.getReferentId().toString()
+		});
+	}
+	
+	/**
+	 * インスタンスを生成する。
 	 * @param pos 現在位置を表す文字列
 	 * @param elementReference 参照の切れた参照オブジェクト
 	 */
+	@Deprecated
 	ReferenceProblem(EntityRef<?> elementReference, String pos) {
 		super(null, "F0190");
 		setArguments(new Object[] {

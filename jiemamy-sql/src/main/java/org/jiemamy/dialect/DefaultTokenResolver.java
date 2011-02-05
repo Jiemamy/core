@@ -26,20 +26,20 @@ import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.jiemamy.model.constraint.DeferrabilityModel.InitiallyCheckTime;
-import org.jiemamy.model.constraint.ForeignKeyConstraintModel.MatchType;
-import org.jiemamy.model.constraint.ForeignKeyConstraintModel.ReferentialAction;
+import org.jiemamy.model.constraint.JmDeferrability.InitiallyCheckTime;
+import org.jiemamy.model.constraint.JmForeignKeyConstraint.MatchType;
+import org.jiemamy.model.constraint.JmForeignKeyConstraint.ReferentialAction;
 import org.jiemamy.model.datatype.DataType;
+import org.jiemamy.model.datatype.RawTypeDescriptor;
 import org.jiemamy.model.datatype.TypeParameterKey;
-import org.jiemamy.model.datatype.TypeReference;
-import org.jiemamy.model.index.IndexColumnModel.SortOrder;
-import org.jiemamy.model.index.IndexModel;
+import org.jiemamy.model.index.JmIndex;
+import org.jiemamy.model.index.JmIndexColumn.SortOrder;
 import org.jiemamy.model.sql.Keyword;
 import org.jiemamy.model.sql.Literal;
 import org.jiemamy.model.sql.Separator;
 import org.jiemamy.model.sql.Token;
-import org.jiemamy.model.table.TableModel;
-import org.jiemamy.model.view.ViewModel;
+import org.jiemamy.model.table.JmTable;
+import org.jiemamy.model.view.JmView;
 
 /**
  * {@link TokenResolver}のデフォルト実装クラス。
@@ -97,11 +97,11 @@ public class DefaultTokenResolver implements TokenResolver {
 			} else if (sortOrder == SortOrder.DESC) {
 				tokens.add(Keyword.DESC);
 			}
-		} else if (value instanceof TableModel) {
+		} else if (value instanceof JmTable) {
 			tokens.add(Keyword.TABLE);
-		} else if (value instanceof ViewModel) {
+		} else if (value instanceof JmView) {
 			tokens.add(Keyword.VIEW);
-		} else if (value instanceof IndexModel) {
+		} else if (value instanceof JmIndex) {
 			tokens.add(Keyword.INDEX);
 		} else if (value instanceof DataType) {
 			tokens.addAll(resolveType((DataType) value));
@@ -122,8 +122,8 @@ public class DefaultTokenResolver implements TokenResolver {
 		Validate.notNull(type);
 		
 		List<Token> result = Lists.newArrayListWithExpectedSize(5);
-		TypeReference typeReference = type.getTypeReference();
-		result.add(Keyword.of(typeReference.getTypeName()));
+		RawTypeDescriptor rawTypeDescriptor = type.getRawTypeDescriptor();
+		result.add(Keyword.of(rawTypeDescriptor.getTypeName()));
 		if (type.getParam(TypeParameterKey.SIZE) != null) {
 			result.add(Separator.LEFT_PAREN);
 			result.add(Literal.of(type.getParam(TypeParameterKey.SIZE)));

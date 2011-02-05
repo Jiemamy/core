@@ -23,20 +23,20 @@ import java.util.Collection;
 import com.google.common.collect.Lists;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.model.constraint.ForeignKeyConstraintModel;
-import org.jiemamy.model.constraint.KeyConstraintModel;
-import org.jiemamy.model.table.TableModel;
+import org.jiemamy.model.constraint.JmForeignKeyConstraint;
+import org.jiemamy.model.constraint.JmKeyConstraint;
+import org.jiemamy.model.table.JmTable;
 import org.jiemamy.validator.AbstractProblem;
 import org.jiemamy.validator.AbstractValidator;
 import org.jiemamy.validator.Problem;
 
 /**
- * {@link ForeignKeyConstraintModel}の構成を調べるバリデータ。
+ * {@link JmForeignKeyConstraint}の構成を調べるバリデータ。
  * 
  * <ul>
- *   <li>{@link ForeignKeyConstraintModel#getKeyColumns()}と{@link ForeignKeyConstraintModel#getReferenceColumns()}の
+ *   <li>{@link JmForeignKeyConstraint#getKeyColumns()}と{@link JmForeignKeyConstraint#getReferenceColumns()}の
  *   要素数は一致していなければならない。</li>
- *   <li>{@link ForeignKeyConstraintModel#getReferenceColumns()}は、参照先テーブルが持ついずれかの {@link KeyConstraintModel} の
+ *   <li>{@link JmForeignKeyConstraint#getReferenceColumns()}は、参照先テーブルが持ついずれかの {@link JmKeyConstraint} の
  *   キー構成カラムと一致していなければならない。</li>
  * </ul>
  * 
@@ -46,8 +46,8 @@ public class ForeignKeyValidator extends AbstractValidator {
 	
 	public Collection<Problem> validate(JiemamyContext context) {
 		Collection<Problem> problems = Lists.newArrayList();
-		for (TableModel tableModel : context.getTables()) {
-			for (ForeignKeyConstraintModel foreignKey : tableModel.getForeignKeyConstraintModels()) {
+		for (JmTable table : context.getTables()) {
+			for (JmForeignKeyConstraint foreignKey : table.getForeignKeyConstraints()) {
 				if (foreignKey.getKeyColumns().size() != foreignKey.getReferenceColumns().size()) {
 					problems.add(new ReferenceMappingProblem(foreignKey));
 				}
@@ -69,7 +69,7 @@ public class ForeignKeyValidator extends AbstractValidator {
 		 * 
 		 * @param foreignKey 不正な外部キー
 		 */
-		public ReferenceKeyProblem(ForeignKeyConstraintModel foreignKey) {
+		public ReferenceKeyProblem(JmForeignKeyConstraint foreignKey) {
 			super(foreignKey, "F0200");
 			setArguments(new Object[] {
 				foreignKey.getName(),
@@ -86,7 +86,7 @@ public class ForeignKeyValidator extends AbstractValidator {
 		 * 
 		 * @param foreignKey 不正な外部キー
 		 */
-		public ReferenceMappingProblem(ForeignKeyConstraintModel foreignKey) {
+		public ReferenceMappingProblem(JmForeignKeyConstraint foreignKey) {
 			super(foreignKey, "F0220");
 			setArguments(new Object[] {
 				foreignKey.getName(),

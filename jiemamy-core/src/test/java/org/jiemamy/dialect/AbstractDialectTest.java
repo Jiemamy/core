@@ -27,8 +27,8 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
-import org.jiemamy.model.datatype.DataTypeCategory;
-import org.jiemamy.model.datatype.DefaultTypeReference;
+import org.jiemamy.model.datatype.RawTypeCategory;
+import org.jiemamy.model.datatype.SimpleRawTypeDescriptor;
 
 /**
  * {@link Dialect}用テストの抽象実装クラス。
@@ -39,15 +39,15 @@ import org.jiemamy.model.datatype.DefaultTypeReference;
 public abstract class AbstractDialectTest {
 	
 	/**
-	 * 全ての {@link DataTypeCategory} について、 {@link TypeParameterSpec} を取得できる。
+	 * 全ての {@link RawTypeCategory} について、 {@link TypeParameterSpec} を取得できる。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
 	public void testabs01() throws Exception {
 		Dialect dialect = getInstance();
-		for (DataTypeCategory category : DataTypeCategory.values()) {
-			dialect.getTypeParameterSpecs(new DefaultTypeReference(category));
+		for (RawTypeCategory category : RawTypeCategory.values()) {
+			dialect.getTypeParameterSpecs(new SimpleRawTypeDescriptor(category));
 		}
 	}
 	
@@ -60,7 +60,7 @@ public abstract class AbstractDialectTest {
 	public void testabs02() throws Exception {
 		Dialect dialect = getInstance();
 		assertThat(dialect.getAllTypeReferences().size(), is(greaterThan(0)));
-		assertThat(dialect.getAllTypeReferences(), not(hasItem(DefaultTypeReference.UNKNOWN)));
+		assertThat(dialect.getAllTypeReferences(), not(hasItem(SimpleRawTypeDescriptor.UNKNOWN)));
 		assertThat(dialect.getConnectionUriTemplate(), is(notNullValue()));
 		assertThat(dialect.getName(), is(notNullValue()));
 		assertThat(dialect.getName(), is(not(dialect.getClass().getName())));

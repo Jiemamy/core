@@ -37,24 +37,24 @@ import org.jiemamy.dddbase.EntityNotFoundException;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.OnMemoryEntityResolver;
 import org.jiemamy.dddbase.OrderedOnMemoryRepository;
-import org.jiemamy.model.DefaultConnectionModel;
-import org.jiemamy.model.DefaultConnectionModelSerializationHandler;
-import org.jiemamy.model.DefaultDatabaseObjectNodeModel;
-import org.jiemamy.model.DefaultDatabaseObjectNodeModelSerializationHandler;
-import org.jiemamy.model.DefaultDiagramModel;
-import org.jiemamy.model.DefaultDiagramModelSerializationHandler;
-import org.jiemamy.model.DiagramModel;
 import org.jiemamy.model.DiagramNotFoundException;
-import org.jiemamy.model.StickyNodeModel;
-import org.jiemamy.model.StickyNodeModelSerializationHandler;
+import org.jiemamy.model.JmDiagram;
+import org.jiemamy.model.JmStickyNode;
+import org.jiemamy.model.JmStickyNodeStaxHandler;
+import org.jiemamy.model.SimpleDbObjectNode;
+import org.jiemamy.model.SimpleDbObjectNodeStaxHandler;
+import org.jiemamy.model.SimpleJmConnection;
+import org.jiemamy.model.SimpleJmConnectionStaxHandler;
+import org.jiemamy.model.SimpleJmDiagram;
+import org.jiemamy.model.SimpleJmDiagramStaxHandler;
 import org.jiemamy.model.TooManyDiagramsFoundException;
 import org.jiemamy.model.geometory.JmColor;
-import org.jiemamy.model.geometory.JmColorSerializationHandler;
+import org.jiemamy.model.geometory.JmColorStaxHandler;
 import org.jiemamy.model.geometory.JmPoint;
-import org.jiemamy.model.geometory.JmPointSerializationHandler;
+import org.jiemamy.model.geometory.JmPointStaxHandler;
 import org.jiemamy.model.geometory.JmRectangle;
-import org.jiemamy.model.geometory.JmRectangleSerializationHandler;
-import org.jiemamy.serializer.stax2.SerializationDirector;
+import org.jiemamy.model.geometory.JmRectangleStaxHandler;
+import org.jiemamy.serializer.stax2.StaxDirector;
 import org.jiemamy.transaction.StoredEvent;
 import org.jiemamy.utils.LogMarker;
 import org.jiemamy.xml.DiagramNamespace;
@@ -82,7 +82,7 @@ public class DiagramFacet implements JiemamyFacet {
 		}
 	};
 	
-	private OrderedOnMemoryRepository<DiagramModel> diagrams = new OrderedOnMemoryRepository<DiagramModel>();
+	private OrderedOnMemoryRepository<JmDiagram> diagrams = new OrderedOnMemoryRepository<JmDiagram>();
 	
 	private final JiemamyContext context;
 	
@@ -101,18 +101,18 @@ public class DiagramFacet implements JiemamyFacet {
 	}
 	
 	/**
-	 * {@link DiagramModel}を削除する。
+	 * {@link JmDiagram}を削除する。
 	 * 
-	 * @param reference 削除する{@link DiagramModel}への参照
+	 * @param reference 削除する{@link JmDiagram}への参照
 	 * @return 削除したモデル
-	 * @throws EntityNotFoundException 参照で示すエンティティが見つからなかった場合
+	 * @throws EntityNotFoundException 参照で示す{@link Entity}が見つからなかった場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public DiagramModel deleteDiagram(EntityRef<? extends DiagramModel> reference) {
+	public JmDiagram deleteDiagram(EntityRef<? extends JmDiagram> reference) {
 		Validate.notNull(reference);
-		DiagramModel deleted = diagrams.delete(reference);
+		JmDiagram deleted = diagrams.delete(reference);
 		logger.info("diagram deleted: " + deleted);
-		context.getEventBroker().fireEvent(new StoredEvent<DiagramModel>(diagrams, deleted, null));
+		context.getEventBroker().fireEvent(new StoredEvent<JmDiagram>(diagrams, deleted, null));
 		return deleted;
 	}
 	
@@ -124,10 +124,10 @@ public class DiagramFacet implements JiemamyFacet {
 	 * @throws DiagramNotFoundException ダイアグラムが見つからなかった場合
 	 * @throws TooManyDiagramsFoundException 同名のダイアグラムが複数見つかった場合
 	 */
-	public DiagramModel getDiagram(final String name) {
-		Collection<DiagramModel> c = Collections2.filter(diagrams.getEntitiesAsList(), new Predicate<DiagramModel>() {
+	public JmDiagram getDiagram(final String name) {
+		Collection<JmDiagram> c = Collections2.filter(diagrams.getEntitiesAsList(), new Predicate<JmDiagram>() {
 			
-			public boolean apply(DiagramModel diagram) {
+			public boolean apply(JmDiagram diagram) {
 				return StringUtils.equals(diagram.getName(), name);
 			}
 		});
@@ -146,7 +146,7 @@ public class DiagramFacet implements JiemamyFacet {
 	 * 
 	 * @return このファセットが持つダイアグラムの {@link List}
 	 */
-	public List<? extends DiagramModel> getDiagrams() {
+	public List<? extends JmDiagram> getDiagrams() {
 		return diagrams.getEntitiesAsList();
 	}
 	
@@ -166,68 +166,66 @@ public class DiagramFacet implements JiemamyFacet {
 		return DiagramFacet.class.getResource("/jiemamy-diagram.xsd");
 	}
 	
-	public void prepareSerializationHandlers(SerializationDirector director) {
+	public void prepareStaxHandlers(StaxDirector director) {
 		Validate.notNull(director);
 		// FORMAT-OFF CHECKSTYLE:OFF
-		director.addHandler(DiagramFacet.class, DiagramQName.DIAGRAMS, new DiagramFacetSerializationHandler(director));
-		director.addHandler(DefaultDiagramModel.class, DiagramQName.DIAGRAM, new DefaultDiagramModelSerializationHandler(director));
+		director.addHandler(DiagramFacet.class, DiagramQName.DIAGRAMS, new DiagramFacetStaxHandler(director));
+		director.addHandler(SimpleJmDiagram.class, DiagramQName.DIAGRAM, new SimpleJmDiagramStaxHandler(director));
 		
 		// THINK
-		// Nodeモデルのハンドラは必ず最後にDefaultDatabaseObjectNodeModelを登録すること
+		// Nodeモデルのハンドラは必ず最後にSimpleDbObjectNodeを登録すること
 		// でないとHashマップのキーが上書きされてしまう。
-		director.addHandler(StickyNodeModel.class, DiagramQName.NODE, new StickyNodeModelSerializationHandler(director));
-		director.addHandler(DefaultDatabaseObjectNodeModel.class, DiagramQName.NODE, new DefaultDatabaseObjectNodeModelSerializationHandler(director));
-		director.addHandler(DefaultConnectionModel.class, DiagramQName.CONNECTION, new DefaultConnectionModelSerializationHandler(director));
-		director.addHandler(JmColor.class, DiagramQName.COLOR, new JmColorSerializationHandler(director));
-		director.addHandler(JmPoint.class, DiagramQName.BENDPOINT, new JmPointSerializationHandler(director));
-		director.addHandler(JmRectangle.class, DiagramQName.BOUNDARY, new JmRectangleSerializationHandler(director));
+		director.addHandler(JmStickyNode.class, DiagramQName.NODE, new JmStickyNodeStaxHandler(director));
+		director.addHandler(SimpleDbObjectNode.class, DiagramQName.NODE, new SimpleDbObjectNodeStaxHandler(director));
+		director.addHandler(SimpleJmConnection.class, DiagramQName.CONNECTION, new SimpleJmConnectionStaxHandler(director));
+		director.addHandler(JmColor.class, DiagramQName.COLOR, new JmColorStaxHandler(director));
+		director.addHandler(JmPoint.class, DiagramQName.BENDPOINT, new JmPointStaxHandler(director));
+		director.addHandler(JmRectangle.class, DiagramQName.BOUNDARY, new JmRectangleStaxHandler(director));
 		// CHECKSTYLE:ON FORMAT-ON
 	}
 	
 	/**
-	 * エンティティ参照から、実体を引き当てる。
+	 * {@link EntityRef}から、{@link Entity}を引き当てる。
 	 * 
-	 * @param <T> エンティティの型
-	 * @param ref エンティティ参照
+	 * @param <T> {@link Entity}の型
+	 * @param reference {@link EntityRef}
 	 * @return {@link Entity}
-	 * @throws EntityNotFoundException 参照で示すエンティティが見つからなかった場合
+	 * @throws EntityNotFoundException 参照で示す{@link Entity}が見つからなかった場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	@Deprecated
-	public <T extends Entity>T resolve(EntityRef<T> ref) {
-		Validate.notNull(ref);
-		return diagrams.resolve(ref);
+	public <T extends Entity>T resolve(EntityRef<T> reference) {
+		Validate.notNull(reference);
+		return diagrams.resolve(reference);
 	}
 	
 	/**
-	 * エンティティIDから、実体を引き当てる。
+	 * IDから、{@link Entity}を引き当てる。
 	 * 
 	 * @param id ENTITY ID
 	 * @return {@link Entity}
-	 * @throws EntityNotFoundException IDで示すエンティティが見つからなかった場合
+	 * @throws EntityNotFoundException IDで示す{@link Entity}が見つからなかった場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	@Deprecated
 	public Entity resolve(UUID id) {
 		Validate.notNull(id);
 		return diagrams.resolve(id);
 	}
 	
 	/**
-	 * {@link DiagramModel}を保存する。
+	 * {@link JmDiagram}を保存する。
 	 * 
 	 * @param diagram ダイアグラム
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public void store(DiagramModel diagram) {
+	public void store(JmDiagram diagram) {
 		Validate.notNull(diagram);
-		DiagramModel old = diagrams.store(diagram);
+		JmDiagram old = diagrams.store(diagram);
 		if (old == null) {
 			logger.info(LogMarker.LIFECYCLE, "diagram stored: " + diagram);
 		} else {
 			logger.info(LogMarker.LIFECYCLE, "diagram updated: (old) " + old);
 			logger.info(LogMarker.LIFECYCLE, "                 (new) " + diagram);
 		}
-		context.getEventBroker().fireEvent(new StoredEvent<DiagramModel>(diagrams, old, diagram));
+		context.getEventBroker().fireEvent(new StoredEvent<JmDiagram>(diagrams, old, diagram));
 	}
 }

@@ -18,10 +18,12 @@
  */
 package org.jiemamy.dialect;
 
-import org.jiemamy.model.DatabaseObjectModel;
+import java.sql.DatabaseMetaData;
+
+import org.jiemamy.model.DbObject;
 
 /**
- * {@link Dialect}がエンティティ情報から{@link DatabaseObjectModel}を生成する際に必要となる設定情報を供給するインターフェイス。
+ * {@link Dialect}が{@link DatabaseMetaData}から{@link DbObject}を生成する際に必要となる設定情報を供給するインターフェイス。
  * 
  * @since 0.2
  * @author daisuke

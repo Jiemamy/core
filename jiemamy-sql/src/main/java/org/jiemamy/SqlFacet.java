@@ -30,11 +30,11 @@ import org.jiemamy.dddbase.EntityNotFoundException;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.OnMemoryEntityResolver;
 import org.jiemamy.dddbase.OnMemoryRepository;
-import org.jiemamy.model.DatabaseObjectModel;
-import org.jiemamy.model.script.AroundScriptModel;
-import org.jiemamy.model.script.DefaultAroundScriptModel;
-import org.jiemamy.model.script.DefaultAroundScriptModelSerializationHandler;
-import org.jiemamy.serializer.stax2.SerializationDirector;
+import org.jiemamy.model.DbObject;
+import org.jiemamy.model.script.JmAroundScript;
+import org.jiemamy.model.script.SimpleJmAroundScript;
+import org.jiemamy.model.script.SimpleJmAroundScriptStaxHandler;
+import org.jiemamy.serializer.stax2.StaxDirector;
 import org.jiemamy.transaction.StoredEvent;
 import org.jiemamy.utils.LogMarker;
 import org.jiemamy.xml.JiemamyNamespace;
@@ -67,9 +67,9 @@ public class SqlFacet implements JiemamyFacet {
 	
 	private final JiemamyContext context;
 	
-	private OnMemoryRepository<AroundScriptModel> scripts = new OnMemoryRepository<AroundScriptModel>();
+	private OnMemoryRepository<JmAroundScript> scripts = new OnMemoryRepository<JmAroundScript>();
 	
-	private AroundScriptModel universalAroundScript;
+	private JmAroundScript universalAroundScript;
 	
 
 	/**
@@ -83,43 +83,43 @@ public class SqlFacet implements JiemamyFacet {
 	}
 	
 	/**
-	 * {@link AroundScriptModel}を削除する。
+	 * {@link JmAroundScript}を削除する。
 	 * 
-	 * @param reference 削除する{@link AroundScriptModel}への参照
+	 * @param reference 削除する{@link JmAroundScript}への参照
 	 * @return 削除したモデル
-	 * @throws EntityNotFoundException 参照で示すエンティティが見つからなかった場合
+	 * @throws EntityNotFoundException 参照で示す{@link Entity}が見つからなかった場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public AroundScriptModel deleteScript(EntityRef<? extends AroundScriptModel> reference) {
-		AroundScriptModel deleted = scripts.delete(reference);
+	public JmAroundScript deleteScript(EntityRef<? extends JmAroundScript> reference) {
+		JmAroundScript deleted = scripts.delete(reference);
 		logger.info("script deleted: " + deleted);
-		context.getEventBroker().fireEvent(new StoredEvent<AroundScriptModel>(scripts, deleted, null));
+		context.getEventBroker().fireEvent(new StoredEvent<JmAroundScript>(scripts, deleted, null));
 		return deleted;
 	}
 	
 	/**
-	 * このSQLにおける、指定した {@link DatabaseObjectModel} の写像となる {@link AroundScriptModel} を取得する。
+	 * このSQLにおける、指定した {@link DbObject} の写像となる {@link JmAroundScript} を取得する。
 	 * 
-	 * @param ref {@link DatabaseObjectModel}の参照
-	 * @return 写像となる {@link AroundScriptModel}、存在しない場合は{@code null}
+	 * @param reference {@link DbObject}の参照
+	 * @return 写像となる {@link JmAroundScript}、存在しない場合は{@code null}
 	 */
-	public AroundScriptModel getAroundScriptFor(EntityRef<? extends DatabaseObjectModel> ref) {
-		Validate.notNull(ref);
-		for (AroundScriptModel aroundScriptModel : scripts.getEntitiesAsSet()) {
-			if (ref.equals(aroundScriptModel.getCoreModelRef())) {
-				return aroundScriptModel;
+	public JmAroundScript getAroundScriptFor(EntityRef<? extends DbObject> reference) {
+		Validate.notNull(reference);
+		for (JmAroundScript aroundScript : scripts.getEntitiesAsSet()) {
+			if (reference.equals(aroundScript.getCoreModelRef())) {
+				return aroundScript;
 			}
 		}
 		return null;
-//		throw new EntityNotFoundException("ref=" + ref);
+//		throw new EntityNotFoundException("ref=" + reference);
 	}
 	
 	/**
-	 * このファセットが管理する全ての {@link AroundScriptModel} の集合を取得する。
+	 * このファセットが管理する全ての {@link JmAroundScript} の集合を取得する。
 	 * 
-	 * @return {@link AroundScriptModel}の集合
+	 * @return {@link JmAroundScript}の集合
 	 */
-	public Collection<? extends AroundScriptModel> getAroundScripts() {
+	public Collection<? extends JmAroundScript> getAroundScripts() {
 		return scripts.getEntitiesAsSet();
 	}
 	
@@ -139,49 +139,47 @@ public class SqlFacet implements JiemamyFacet {
 		return SqlFacet.class.getResource("/jiemamy-sql.xsd");
 	}
 	
-	public AroundScriptModel getUniversalAroundScript() {
+	public JmAroundScript getUniversalAroundScript() {
 		if (universalAroundScript == null) {
 			return null;
 		}
 		return universalAroundScript.clone();
 	}
 	
-	public void prepareSerializationHandlers(SerializationDirector director) {
+	public void prepareStaxHandlers(StaxDirector director) {
 		Validate.notNull(director);
 		// FORMAT-OFF CHECKSTYLE:OFF
-		director.addHandler(SqlFacet.class, SqlQName.SQLS, new SqlFacetSerializationHandler(director));
-		director.addHandler(DefaultAroundScriptModel.class, SqlQName.AROUND_SCRIPT, new DefaultAroundScriptModelSerializationHandler(director));
+		director.addHandler(SqlFacet.class, SqlQName.SQLS, new SqlFacetStaxHandler(director));
+		director.addHandler(SimpleJmAroundScript.class, SqlQName.AROUND_SCRIPT, new SimpleJmAroundScriptStaxHandler(director));
 		// CHECKSTYLE:ON FORMAT-ON
 	}
 	
 	/**
-	 * エンティティ参照から、実体を引き当てる。
+	 * {@link EntityRef}から、{@link Entity}を引き当てる。
 	 * 
-	 * @param <T> エンティティの型
-	 * @param ref エンティティ参照
+	 * @param <T> {@link Entity}の型
+	 * @param reference {@link EntityRef}
 	 * @return {@link Entity}
-	 * @throws EntityNotFoundException 参照で示すエンティティが見つからなかった場合
+	 * @throws EntityNotFoundException 参照で示す{@link Entity}が見つからなかった場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	@Deprecated
-	public <T extends Entity>T resolve(EntityRef<T> ref) {
-		return scripts.resolve(ref);
+	public <T extends Entity>T resolve(EntityRef<T> reference) {
+		return scripts.resolve(reference);
 	}
 	
 	/**
-	 * エンティティIDから、実体を引き当てる。
+	 * IDから、{@link Entity}を引き当てる。
 	 * 
 	 * @param id ENTITY ID
 	 * @return {@link Entity}
-	 * @throws EntityNotFoundException 参照で示すエンティティが見つからなかった場合
+	 * @throws EntityNotFoundException 参照で示す{@link Entity}が見つからなかった場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	@Deprecated
 	public Entity resolve(UUID id) {
 		return scripts.resolve(id);
 	}
 	
-	public void setUniversalAroundScript(AroundScriptModel universalAroundScript) {
+	public void setUniversalAroundScript(JmAroundScript universalAroundScript) {
 		if (universalAroundScript == null) {
 			this.universalAroundScript = null;
 		} else {
@@ -195,9 +193,9 @@ public class SqlFacet implements JiemamyFacet {
 	 * @param script スクリプト
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public void store(AroundScriptModel script) {
+	public void store(JmAroundScript script) {
 		Validate.notNull(script);
-		AroundScriptModel old = scripts.store(script);
+		JmAroundScript old = scripts.store(script);
 		
 		if (old == null) {
 			logger.info(LogMarker.LIFECYCLE, "script stored: " + script);
@@ -205,6 +203,6 @@ public class SqlFacet implements JiemamyFacet {
 			logger.info(LogMarker.LIFECYCLE, "script updated: (old) " + old);
 			logger.info(LogMarker.LIFECYCLE, "                (new) " + script);
 		}
-		context.getEventBroker().fireEvent(new StoredEvent<AroundScriptModel>(scripts, old, script));
+		context.getEventBroker().fireEvent(new StoredEvent<JmAroundScript>(scripts, old, script));
 	}
 }

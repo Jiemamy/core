@@ -22,13 +22,11 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 
-import java.util.UUID;
-
 import org.junit.Before;
 import org.junit.Test;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.model.table.DefaultTableModel;
+import org.jiemamy.model.table.SimpleJmTable;
 
 /**
  * {@link NamingUtil}のテストクラス。
@@ -40,7 +38,7 @@ public class NamingUtilTest {
 	
 	private JiemamyContext context;
 	
-	private DefaultTableModel t1;
+	private SimpleJmTable t1;
 	
 
 	/**
@@ -51,7 +49,7 @@ public class NamingUtilTest {
 	@Before
 	public void setUp() throws Exception {
 		context = new JiemamyContext();
-		t1 = new DefaultTableModel(UUID.randomUUID());
+		t1 = new SimpleJmTable();
 		t1.setName("TABLE_1");
 		context.store(t1);
 	}
@@ -63,13 +61,13 @@ public class NamingUtilTest {
 	 */
 	@Test
 	public void test01_autoNameで適切な自動命名が行われる() throws Exception {
-		DefaultTableModel t2 = new DefaultTableModel(UUID.randomUUID());
+		SimpleJmTable t2 = new SimpleJmTable();
 		NamingUtil.autoName(t2, context);
 		
 		assertThat(t2.getName(), is(not("TABLE_1")));
 		context.store(t2);
 		
-		DefaultTableModel t3 = new DefaultTableModel(UUID.randomUUID());
+		SimpleJmTable t3 = new SimpleJmTable();
 		NamingUtil.autoName(t3, context);
 		
 		assertThat(t3.getName(), is(not("TABLE_1")));

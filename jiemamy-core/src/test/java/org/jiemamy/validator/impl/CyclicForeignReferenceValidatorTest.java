@@ -30,6 +30,8 @@ import com.google.common.collect.Iterables;
 import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.validator.Problem;
@@ -42,6 +44,8 @@ import org.jiemamy.validator.impl.CyclicForeignReferenceValidator.CyclicForeignR
  * @author daisuke
  */
 public class CyclicForeignReferenceValidatorTest {
+	
+	private static Logger logger = LoggerFactory.getLogger(CyclicForeignReferenceValidatorTest.class);
 	
 	private static final String[] PATHS_CYCLIC = {
 		"/org/jiemamy/validator/cyclic2.jiemamy",
@@ -77,6 +81,7 @@ public class CyclicForeignReferenceValidatorTest {
 	public void test01_循環FKを検出できる() throws Exception {
 		InputStream in = null;
 		for (String path : PATHS_CYCLIC) {
+			logger.debug(path);
 			try {
 				in = CyclicForeignReferenceValidatorTest.class.getResourceAsStream(path);
 				JiemamyContext deserialized = JiemamyContext.findSerializer().deserialize(in);

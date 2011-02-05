@@ -23,16 +23,21 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.UUID;
 
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.stream.events.Namespace;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,12 +52,14 @@ import org.jiemamy.dddbase.OnMemoryRepository;
 import org.jiemamy.dddbase.OrderedOnMemoryRepository;
 import org.jiemamy.dddbase.utils.MutationMonitor;
 import org.jiemamy.dialect.Dialect;
-import org.jiemamy.model.DatabaseObjectModel;
-import org.jiemamy.model.dataset.DataSetModel;
-import org.jiemamy.model.domain.DomainModel;
-import org.jiemamy.model.index.IndexModel;
-import org.jiemamy.model.table.TableModel;
-import org.jiemamy.model.view.ViewModel;
+import org.jiemamy.model.DbObject;
+import org.jiemamy.model.dataset.JmDataSet;
+import org.jiemamy.model.domain.JmDomain;
+import org.jiemamy.model.index.JmIndex;
+import org.jiemamy.model.table.JmTable;
+import org.jiemamy.model.table.TableNotFoundException;
+import org.jiemamy.model.table.TooManyTablesFoundException;
+import org.jiemamy.model.view.JmView;
 import org.jiemamy.serializer.JiemamySerializer;
 import org.jiemamy.serializer.stax2.JiemamyStaxSerializer;
 import org.jiemamy.transaction.EventBroker;
@@ -79,7 +86,7 @@ public/*final*/class JiemamyContext implements EntityResolver {
 	
 	private static boolean debug = getVersion().isSnapshot();
 	
-	private static ServiceLocator serviceLocator = new DefaultServiceLocator();
+	private static ServiceLocator serviceLocator = new SimpleServiceLocator();
 	
 	/** 利用する{@link JiemamySerializer}実装クラスのFQCN */
 	private static String serializerName = JiemamyStaxSerializer.class.getName();
@@ -164,11 +171,11 @@ public/*final*/class JiemamyContext implements EntityResolver {
 
 	private Map<Class<? extends JiemamyFacet>, JiemamyFacet> facets = Maps.newHashMap();
 	
-	private OnMemoryRepository<DatabaseObjectModel> doms = new OnMemoryRepository<DatabaseObjectModel>();
+	private OnMemoryRepository<DbObject> dbObjects = new OnMemoryRepository<DbObject>();
 	
-	private OrderedOnMemoryRepository<DataSetModel> dsms = new OrderedOnMemoryRepository<DataSetModel>();
+	private OrderedOnMemoryRepository<JmDataSet> dataSets = new OrderedOnMemoryRepository<JmDataSet>();
 	
-	private ContextMetadata metadata = new DefaultContextMetadata();
+	private JmMetadata metadata = new SimpleJmMetadata();
 	
 	private final UUIDProvider uuidProvider = new UUIDProvider();
 	
@@ -196,8 +203,9 @@ public/*final*/class JiemamyContext implements EntityResolver {
 		logger.debug(LogMarker.LIFECYCLE, "new context created (debug={})", isDebug());
 	}
 	
-	public boolean contains(EntityRef<?> ref) {
-		return contains(ref.getReferentId());
+	public boolean contains(EntityRef<?> reference) {
+		Validate.notNull(reference);
+		return contains(reference.getReferentId());
 	}
 	
 	public boolean contains(UUID id) {
@@ -205,30 +213,34 @@ public/*final*/class JiemamyContext implements EntityResolver {
 	}
 	
 	/**
-	 * {@link DatabaseObjectModel}を削除する。
+	 * {@link JmDataSet}を削除する。
 	 * 
-	 * @param reference 削除する{@link DatabaseObjectModel}への参照
+	 * @param reference 削除する{@link JmDataSet}への参照
 	 * @return 削除したモデル
-	 * @throws EntityNotFoundException このコンテキストが指定したデータベースオブジェクトを管理していない場合
+	 * @throws EntityNotFoundException このコンテキストが指定したデータセットを管理していない場合
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public DatabaseObjectModel deleteDatabaseObject(EntityRef<? extends DatabaseObjectModel> reference) {
-		DatabaseObjectModel deleted = doms.delete(reference);
-		logger.info(LogMarker.LIFECYCLE, "database object deleted: " + deleted);
-		eventBroker.fireEvent(new StoredEvent<DatabaseObjectModel>(doms, deleted, null));
+	public JmDataSet deleteDataSet(EntityRef<? extends JmDataSet> reference) {
+		Validate.notNull(reference);
+		JmDataSet deleted = dataSets.delete(reference);
+		logger.info(LogMarker.LIFECYCLE, "dataset deleted: " + deleted);
+		eventBroker.fireEvent(new StoredEvent<JmDataSet>(dataSets, deleted, null));
 		return deleted;
 	}
 	
 	/**
-	 * {@link DataSetModel}を削除する。
+	 * {@link DbObject}を削除する。
 	 * 
-	 * @param reference 削除する{@link DataSetModel}への参照
+	 * @param reference 削除する{@link DbObject}への参照
 	 * @return 削除したモデル
-	 * @throws EntityNotFoundException このコンテキストが指定したデータセットを管理していない場合
+	 * @throws EntityNotFoundException このコンテキストが指定したデータベースオブジェクトを管理していない場合
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public DataSetModel deleteDataSet(EntityRef<? extends DataSetModel> reference) {
-		DataSetModel deleted = dsms.delete(reference);
-		logger.info(LogMarker.LIFECYCLE, "dataset deleted: " + deleted);
-		eventBroker.fireEvent(new StoredEvent<DataSetModel>(dsms, deleted, null));
+	public DbObject deleteDbObject(EntityRef<? extends DbObject> reference) {
+		Validate.notNull(reference);
+		DbObject deleted = dbObjects.delete(reference);
+		logger.info(LogMarker.LIFECYCLE, "dbObject deleted: " + deleted);
+		eventBroker.fireEvent(new StoredEvent<DbObject>(dbObjects, deleted, null));
 		return deleted;
 	}
 	
@@ -237,7 +249,7 @@ public/*final*/class JiemamyContext implements EntityResolver {
 	 * 
 	 * @return SQL方言
 	 * @throws ClassNotFoundException SQL方言が見つからなかった場合
-	 * @throws IllegalStateException metadataまたはSQL方言が{@code null}の場合
+	 * @throws IllegalStateException {@code metadata}またはそこに設定したSQL方言が{@code null}の場合
 	 */
 	public Dialect findDialect() throws ClassNotFoundException {
 		if (metadata == null || metadata.getDialectClassName() == null) {
@@ -247,32 +259,32 @@ public/*final*/class JiemamyContext implements EntityResolver {
 	}
 	
 	/**
-	 * 直接の依存モデルの集合を返す。
+	 * {@code dbObject}<b>が</b>直接依存する{@link DbObject}の集合を返す。
 	 * 
-	 * @param databaseObject 対象{@link DatabaseObjectModel}
+	 * @param dbObject 対象{@link DbObject}
 	 * @return 直接の依存モデルの集合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public Collection<DatabaseObjectModel> findSubDatabaseObjectsNonRecursive(DatabaseObjectModel databaseObject) {
-		Validate.notNull(databaseObject);
-		return databaseObject.findSubDatabaseObjectsNonRecursive(this);
+	public Set<DbObject> findSubDbObjectsNonRecursive(DbObject dbObject) {
+		Validate.notNull(dbObject);
+		return dbObject.findSubDbObjectsNonRecursive(this);
 	}
 	
 	/**
-	 * 全ての依存モデルの集合を返す。
+	 * {@code dbObject}<b>が</b>依存する全ての{@link DbObject}の集合を返す。
 	 * 
-	 * @param standard 基準モデル
+	 * @param dbObject 対象{@link DbObject}
 	 * @return 全ての依存モデルの集合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public Collection<DatabaseObjectModel> findSubDatabaseObjectsRecursive(DatabaseObjectModel standard) {
-		Validate.notNull(standard);
-		Collection<DatabaseObjectModel> subModels = findSubDatabaseObjectsNonRecursive(standard);
-		Set<DatabaseObjectModel> result = Sets.newHashSet(subModels);
+	public Set<DbObject> findSubDbObjectsRecursive(DbObject dbObject) {
+		Validate.notNull(dbObject);
+		Collection<DbObject> subDbObjects = findSubDbObjectsNonRecursive(dbObject);
+		Set<DbObject> result = Sets.newHashSet(subDbObjects);
 		
-		for (DatabaseObjectModel subModel : subModels) {
-			if (standard.equals(subModel) == false) {
-				result.addAll(findSubDatabaseObjectsRecursive(subModel));
+		for (DbObject subDbObject : subDbObjects) {
+			if (dbObject.equals(subDbObject) == false) {
+				result.addAll(findSubDbObjectsRecursive(subDbObject));
 			}
 		}
 		
@@ -280,67 +292,71 @@ public/*final*/class JiemamyContext implements EntityResolver {
 	}
 	
 	/**
-	 * 参照先親モデルを返す。
+	 * {@code dbObject}<b>に</b>直接依存する{@link DbObject}の集合を返す。
 	 * 
-	 * @param databaseObject 対象{@link DatabaseObjectModel}
-	 * @return 親モデルのSet
+	 * @param dbOjbect 対象{@link DbObject}
+	 * @return 直接の非依存モデルの集合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public Collection<DatabaseObjectModel> findSuperDatabaseObjectsNonRecursive(DatabaseObjectModel databaseObject) {
-		Validate.notNull(databaseObject);
-		return databaseObject.findSuperDatabaseObjectsNonRecursive(getDatabaseObjects());
+	public Set<DbObject> findSuperDbObjectsNonRecursive(DbObject dbOjbect) {
+		Validate.notNull(dbOjbect);
+		return dbOjbect.findSuperDbObjectsNonRecursive(getDbObjects());
 	}
 	
 	/**
-	 * 全ての参照先 祖先モデルを返す。
+	 * {@code dbObject}<b>に</b>依存する全ての{@link DbObject}の集合を返す。
 	 * 
-	 * @param databaseObject 対象エンティティ
-	 * @return 祖先モデルのSet
+	 * @param dbOjbect 対象{@link DbObject}
+	 * @return 全ての非依存モデルの集合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public Set<DatabaseObjectModel> findSuperDatabaseObjectsRecursive(DatabaseObjectModel databaseObject) {
-		Validate.notNull(databaseObject);
-		return findSuperDatabaseObjectsRecursive(databaseObject, databaseObject, new HashSet<DatabaseObjectModel>());
+	public Set<DbObject> findSuperDbObjectsRecursive(DbObject dbOjbect) {
+		Validate.notNull(dbOjbect);
+		return findSuperDbObjectsRecursive(dbOjbect, dbOjbect, new HashSet<DbObject>());
 	}
 	
 	/**
-	 * このコンテキストが管理する全ての {@link DatabaseObjectModel} の{@link List}を取得する。
+	 * このコンテキストが管理する全ての{@link JmDataSet}の{@link List}を取得する。
 	 * 
-	 * @return {@link DatabaseObjectModel} の{@link List}
+	 * @return {@link JmDataSet} の{@link List}
 	 */
-	public Set<DatabaseObjectModel> getDatabaseObjects() {
-		return doms.getEntitiesAsSet();
+	public List<JmDataSet> getDataSets() {
+		return dataSets.getEntitiesAsList();
 	}
 	
-	public <T extends DatabaseObjectModel>Set<T> getDatabaseObjects(Class<T> clazz) {
-		Set<T> result = Sets.newHashSet();
-		for (DatabaseObjectModel dom : doms.getEntitiesAsSet()) {
-			if (clazz.isInstance(dom)) {
-				result.add(clazz.cast(dom));
-			}
-		}
+	/**
+	 * このコンテキストが管理する全ての{@link DbObject}の{@link Set}を取得する。
+	 * 
+	 * @return {@link DbObject}の{@link Set}
+	 */
+	public Set<DbObject> getDbObjects() {
+		return dbObjects.getEntitiesAsSet();
+	}
+	
+	/**
+	 * このコンテキストが管理する全ての{@link DbObject}のうち、{@code clazz}型を持つものを取得する。
+	 * 
+	 * @param <T> フィルターする型
+	 * @param clazz フィルターする型
+	 * @return {@link DbObject}の{@link Set}
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public <T extends DbObject>Set<T> getDbObjects(Class<T> clazz) {
+		Validate.notNull(clazz);
+		Set<T> result = Sets.newHashSet(Iterables.filter(dbObjects.getEntitiesAsSet(), clazz));
 		return result;
 	}
 	
 	/**
-	 * このコンテキストが管理する全ての {@link DataSetModel} の{@link List}を取得する。
-	 * 
-	 * @return {@link DataSetModel} の{@link List}
-	 */
-	public List<DataSetModel> getDataSets() {
-		return dsms.getEntitiesAsList();
-	}
-	
-	/**
-	 * このコンテキストが管理する全ての {@link DomainModel} を取得する。
+	 * このコンテキストが管理する全ての{@link JmDomain} を取得する。
 	 * 
 	 * <p>Note: Convenience method; equivalent to
-	 * {@code getDatabaseObjects(DomainModel.class));}.</p>
+	 * {@code getDbObjects(JmDomain.class);}.</p>
 	 * 
-	 * @return {@link DomainModel}のセット
+	 * @return {@link JmDomain}のセット
 	 */
-	public Set<DomainModel> getDomains() {
-		return getDatabaseObjects(DomainModel.class);
+	public Set<JmDomain> getDomains() {
+		return getDbObjects(JmDomain.class);
 	}
 	
 	/**
@@ -353,7 +369,7 @@ public/*final*/class JiemamyContext implements EntityResolver {
 	}
 	
 	/**
-	 * このコンテキストの {@link JiemamyFacet} を取得する。
+	 * このコンテキストの{@link JiemamyFacet}を取得する。
 	 * 
 	 * @param clazz ファセットの型
 	 * @param <T> ファセットの型
@@ -377,15 +393,15 @@ public/*final*/class JiemamyContext implements EntityResolver {
 	}
 	
 	/**
-	 * このコンテキストが管理する全ての {@link IndexModel} を取得する。
+	 * このコンテキストが管理する全ての{@link JmIndex}を取得する。
 	 * 
 	 * <p>Note: Convenience method; equivalent to
-	 * {@code getDatabaseObjects(IndexModel.class));}.</p>
+	 * {@code getDbObjects(JmIndex.class);}.</p>
 	 * 
-	 * @return {@link TableModel}のセット
+	 * @return {@link JmTable}のセット
 	 */
-	public Set<IndexModel> getIndexes() {
-		return getDatabaseObjects(IndexModel.class);
+	public Set<JmIndex> getIndexes() {
+		return getDbObjects(JmIndex.class);
 	}
 	
 	/**
@@ -393,7 +409,7 @@ public/*final*/class JiemamyContext implements EntityResolver {
 	 * 
 	 * @return メタデータ
 	 */
-	public ContextMetadata getMetadata() {
+	public JmMetadata getMetadata() {
 		return metadata.clone();
 	}
 	
@@ -421,31 +437,39 @@ public/*final*/class JiemamyContext implements EntityResolver {
 	}
 	
 	/**
-	 * このコンテキストが管理する {@link TableModel} の中から、指定したテーブル名を持つものを返す。
+	 * このコンテキストが管理する{@link JmTable}の中から、指定したテーブル名を持つものを返す。
 	 * 
 	 * @param name テーブル名
-	 * @return 見つかった  {@link TableModel}
-	 * @throws TableNotFoundException 指定したテーブル名を持つ {@link TableModel} が見つからなかった場合
+	 * @return 見つかった{@link JmTable}
+	 * @throws TableNotFoundException 指定したテーブル名を持つ{@link JmTable}が見つからなかった場合
+	 * @throws TooManyTablesFoundException 指定したテーブル名を持つ{@link JmTable}が複数見つかった場合
 	 */
-	public TableModel getTable(String name) {
-		for (TableModel table : getTables()) {
-			if (name.equals(table.getName())) {
-				return table;
+	public JmTable getTable(final String name) {
+		Collection<JmTable> c = Collections2.filter(getTables(), new Predicate<JmTable>() {
+			
+			public boolean apply(JmTable input) {
+				return ObjectUtils.equals(input.getName(), name);
 			}
+		});
+		try {
+			return Iterables.getOnlyElement(c);
+		} catch (NoSuchElementException e) {
+			throw new TableNotFoundException("name=" + name);
+		} catch (IllegalArgumentException e) {
+			throw new TooManyTablesFoundException(c);
 		}
-		throw new TableNotFoundException("name=" + name);
 	}
 	
 	/**
-	 * このコンテキストが管理する全ての {@link TableModel} を取得する。
+	 * このコンテキストが管理する全ての{@link JmTable}を取得する。
 	 * 
 	 * <p>Note: Convenience method; equivalent to
-	 * {@code getDatabaseObjects(TableModel.class));}.</p>
+	 * {@code getDbObjects(JmTable.class);}.</p>
 	 * 
-	 * @return {@link TableModel}のセット
+	 * @return {@link JmTable}のセット
 	 */
-	public Set<TableModel> getTables() {
-		return getDatabaseObjects(TableModel.class);
+	public Set<JmTable> getTables() {
+		return getDbObjects(JmTable.class);
 	}
 	
 	/**
@@ -460,15 +484,15 @@ public/*final*/class JiemamyContext implements EntityResolver {
 	}
 	
 	/**
-	 * このコンテキストが管理する全ての {@link ViewModel} を取得する。
+	 * このコンテキストが管理する全ての{@link JmView}を取得する。
 	 * 
 	 * <p>Note: Convenience method; equivalent to
-	 * {@code getDatabaseObjects(ViewModel.class));}.</p>
+	 * {@code getDbObjects(JmView.class);}.</p>
 	 * 
-	 * @return {@link ViewModel}のセット
+	 * @return {@link JmView}のセット
 	 */
-	public Set<ViewModel> getViews() {
-		return getDatabaseObjects(ViewModel.class);
+	public Set<JmView> getViews() {
+		return getDbObjects(JmView.class);
 	}
 	
 	/**
@@ -483,19 +507,21 @@ public/*final*/class JiemamyContext implements EntityResolver {
 	}
 	
 	/**
-	 * エンティティ参照から、{@link Entity}を引き当てる。
+	 * {@link EntityRef}から、{@link Entity}を引き当てる。
 	 * 
 	 * <p>リポジトリは、この実体のクローンを返す。従って、取得した {@link Entity}に対して
 	 * ミューテーションを起こしても、ストアした実体には影響を及ぼさない。</p>
 	 * 
-	 * <p>検索対象は子エンティティも含む。</p>
+	 * <p>検索対象は子{@link Entity}も含む。</p>
 	 * 
-	 * @param <T> エンティティの型
-	 * @param reference エンティティ参照
+	 * @param <T> {@link Entity}の型
+	 * @param reference {@link EntityRef}
 	 * @return {@link Entity}
-	 * @throws EntityNotFoundException 参照で示すエンティティが見つからなかった場合
+	 * @throws EntityNotFoundException 参照で示す{@link Entity}が見つからなかった場合
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public <T extends Entity>T resolve(EntityRef<T> reference) {
+		Validate.notNull(reference);
 		return getCompositeResolver().resolve(reference);
 	}
 	
@@ -505,13 +531,15 @@ public/*final*/class JiemamyContext implements EntityResolver {
 	 * <p>リポジトリは、この実体のクローンを返す。従って、取得した {@link Entity}に対して
 	 * ミューテーションを起こしても、ストアした実体には影響を及ぼさない。</p>
 	 * 
-	 * <p>検索対象は子エンティティも含む。</p>
+	 * <p>検索対象は子{@link Entity}も含む。</p>
 	 * 
 	 * @param id ENTITY ID
 	 * @return 見つかった{@link Entity}
-	 * @throws EntityNotFoundException 参照で示すエンティティが見つからなかった場合
+	 * @throws EntityNotFoundException 参照で示す{@link Entity}が見つからなかった場合
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public Entity resolve(UUID id) {
+		Validate.notNull(id);
 		return getCompositeResolver().resolve(id);
 	}
 	
@@ -521,60 +549,60 @@ public/*final*/class JiemamyContext implements EntityResolver {
 	 * @param metadata メタデータ
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public void setMetadata(ContextMetadata metadata) {
+	public void setMetadata(JmMetadata metadata) {
 		Validate.notNull(metadata);
 		this.metadata = metadata.clone();
 	}
 	
 	/**
-	 * {@link DatabaseObjectModel}を保存する。
+	 * {@link DbObject}を保存する。
 	 * 
-	 * @param dom {@link DatabaseObjectModel}
+	 * @param dbObject 保存したい{@link DbObject}
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public void store(DatabaseObjectModel dom) {
-		Validate.notNull(dom);
-//		Validate.notNull(dom.getName());
-		DatabaseObjectModel old = doms.store(dom);
+	public void store(DbObject dbObject) {
+		Validate.notNull(dbObject);
+//		Validate.notNull(dbObject.getName());
+		DbObject old = dbObjects.store(dbObject);
 		if (old == null) {
-			logger.info(LogMarker.LIFECYCLE, "database object stored: " + dom);
+			logger.info(LogMarker.LIFECYCLE, "dbObject stored: " + dbObject);
 		} else {
-			logger.info(LogMarker.LIFECYCLE, "database object updated: (old) " + old);
-			logger.info(LogMarker.LIFECYCLE, "                         (new) " + dom);
+			logger.info(LogMarker.LIFECYCLE, "dbObject updated: (old) " + old);
+			logger.info(LogMarker.LIFECYCLE, "                         (new) " + dbObject);
 		}
-		eventBroker.fireEvent(new StoredEvent<DatabaseObjectModel>(doms, old, dom));
+		eventBroker.fireEvent(new StoredEvent<DbObject>(dbObjects, old, dbObject));
 	}
 	
 	/**
-	 * {@link DataSetModel}を保存する。
+	 * {@link JmDataSet}を保存する。
 	 * 
-	 * @param dsm {@link DataSetModel}
+	 * @param dataSet 保存したい{@link JmDataSet}
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public void store(DataSetModel dsm) {
-		Validate.notNull(dsm);
-		DataSetModel old = dsms.store(dsm);
+	public void store(JmDataSet dataSet) {
+		Validate.notNull(dataSet);
+		JmDataSet old = dataSets.store(dataSet);
 		if (old == null) {
-			logger.info(LogMarker.LIFECYCLE, "dataset stored: " + dsm);
+			logger.info(LogMarker.LIFECYCLE, "dataset stored: " + dataSet);
 		} else {
 			logger.info(LogMarker.LIFECYCLE, "dataset updated: (old) " + old);
-			logger.info(LogMarker.LIFECYCLE, "                 (new) " + dsm);
+			logger.info(LogMarker.LIFECYCLE, "                 (new) " + dataSet);
 		}
-		eventBroker.fireEvent(new StoredEvent<DataSetModel>(dsms, old, dsm));
+		eventBroker.fireEvent(new StoredEvent<JmDataSet>(dataSets, old, dataSet));
 	}
 	
 	/**
 	 * 指定した2つの位置にあるデータセットの順序を入れ替える。
 	 * 
-	 * @param index1 the index of the {@link DataSetModel} to be swapped.
-	 * @param index2 the index of the other {@link DataSetModel} to be swapped.
+	 * @param index1 the index of the {@link JmDataSet} to be swapped.
+	 * @param index2 the index of the other {@link JmDataSet} to be swapped.
 	 * @throws IndexOutOfBoundsException if either {@code index1} or {@code index2}
 	 *         is out of range (index1 &lt; 0 || index1 &gt;= list.size()
 	 *         || index2 &lt; 0 || index2 &gt;= list.size()).
 	 */
 	public void swapDataSet(int index1, int index2) {
-		dsms.swap(index1, index2);
-		eventBroker.fireEvent(new StoredEvent<DataSetModel>(dsms, null, null));
+		dataSets.swap(index1, index2);
+		eventBroker.fireEvent(new StoredEvent<JmDataSet>(dataSets, null, null));
 	}
 	
 	@Override
@@ -583,7 +611,7 @@ public/*final*/class JiemamyContext implements EntityResolver {
 	}
 	
 	/**
-	 * このcontext用の {@link UUIDProvider} を利用して、文字列を {@link UUID} に変換する。
+	 * このcontext用の{@link UUIDProvider}を利用して、文字列を{@link UUID}に変換する。
 	 * 
 	 * @param name 文字列
 	 * @return {@link UUID}
@@ -593,14 +621,13 @@ public/*final*/class JiemamyContext implements EntityResolver {
 		return uuidProvider.valueOfOrRandom(name);
 	}
 	
-	private Set<DatabaseObjectModel> findSuperDatabaseObjectsRecursive(DatabaseObjectModel start,
-			DatabaseObjectModel target, Set<DatabaseObjectModel> collector) {
-		Collection<DatabaseObjectModel> superModels = findSuperDatabaseObjectsNonRecursive(target);
-		collector.addAll(superModels);
+	private Set<DbObject> findSuperDbObjectsRecursive(DbObject start, DbObject target, Set<DbObject> collector) {
+		Collection<DbObject> superDbObjects = findSuperDbObjectsNonRecursive(target);
+		collector.addAll(superDbObjects);
 		
-		for (DatabaseObjectModel superModel : superModels) {
-			if (superModel.equals(target) == false && superModel.equals(start) == false) {
-				findSuperDatabaseObjectsRecursive(start, superModel, collector);
+		for (DbObject superDbObject : superDbObjects) {
+			if (superDbObject.equals(target) == false && superDbObject.equals(start) == false) {
+				findSuperDbObjectsRecursive(start, superDbObject, collector);
 			}
 		}
 		return collector;
@@ -608,8 +635,8 @@ public/*final*/class JiemamyContext implements EntityResolver {
 	
 	private OnMemoryCompositeEntityResolver getCompositeResolver() {
 		Collection<OnMemoryEntityResolver<?>> c = Lists.newArrayList();
-		c.add(doms);
-		c.add(dsms);
+		c.add(dbObjects);
+		c.add(dataSets);
 		for (JiemamyFacet facet : facets.values()) {
 			c.add(facet.getResolver());
 		}

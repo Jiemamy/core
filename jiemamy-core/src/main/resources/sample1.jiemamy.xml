@@ -1,59 +1,59 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <jiemamy xmlns="http://jiemamy.org/xml/ns/core" version="0.3.0-SNAPSHOT">
-  <metadata class="org.jiemamy.DefaultContextMetadata">
+  <metadata class="org.jiemamy.SimpleJmMetadata">
     <dialect>org.jiemamy.dialect.mysql.MySqlDialect</dialect>
     <schemaName>FOO</schemaName>
     <description>Jiemamyテストモデル1</description>
   </metadata>
   <dbobjects>
-    <table id="9f522e56-809c-45fd-8416-39201014218b" class="org.jiemamy.model.table.DefaultTableModel">
+    <table id="9f522e56-809c-45fd-8416-39201014218b" class="org.jiemamy.model.table.SimpleJmTable">
       <name>T_EMP</name>
       <logicalName>従業員</logicalName>
       <description>従業員マスタです。</description>
       <columns>
-        <column id="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e" class="org.jiemamy.model.column.DefaultColumnModel">
+        <column id="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e" class="org.jiemamy.model.column.SimpleJmColumn">
           <name>ID</name>
           <logicalName>従業員ID</logicalName>
-          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
+          <dataType class="org.jiemamy.model.datatype.SimpleDataType">
             <typeCategory>UNKNOWN</typeCategory>
             <typeName>UNKNOWN</typeName>
           </dataType>
         </column>
-        <column id="248a429b-2159-4ebd-a791-eee42a059374" class="org.jiemamy.model.column.DefaultColumnModel">
+        <column id="248a429b-2159-4ebd-a791-eee42a059374" class="org.jiemamy.model.column.SimpleJmColumn">
           <name>EMP_NO</name>
           <logicalName>従業員番号</logicalName>
-          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
+          <dataType class="org.jiemamy.model.datatype.SimpleDataType">
             <typeCategory>INTEGER</typeCategory>
             <typeName>INTEGER</typeName>
           </dataType>
         </column>
-        <column id="0e51b6df-43ab-408c-90ef-de13c6aab881" class="org.jiemamy.model.column.DefaultColumnModel">
+        <column id="0e51b6df-43ab-408c-90ef-de13c6aab881" class="org.jiemamy.model.column.SimpleJmColumn">
           <name>EMP_NAME</name>
           <logicalName>従業員名</logicalName>
-          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
+          <dataType class="org.jiemamy.model.datatype.SimpleDataType">
             <typeCategory>UNKNOWN</typeCategory>
             <typeName>UNKNOWN</typeName>
           </dataType>
           <defaultValue>no name</defaultValue>
         </column>
-        <column id="3d21a85a-72de-41b3-99dd-f4cb94e58d84" class="org.jiemamy.model.column.DefaultColumnModel">
+        <column id="3d21a85a-72de-41b3-99dd-f4cb94e58d84" class="org.jiemamy.model.column.SimpleJmColumn">
           <name>MGR_ID</name>
           <logicalName>上司ID</logicalName>
-          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
+          <dataType class="org.jiemamy.model.datatype.SimpleDataType">
             <typeCategory>INTEGER</typeCategory>
             <typeName>INTEGER</typeName>
           </dataType>
         </column>
-        <column id="f0b57eed-98ab-4c21-9855-218c592814dc" class="org.jiemamy.model.column.DefaultColumnModel">
+        <column id="f0b57eed-98ab-4c21-9855-218c592814dc" class="org.jiemamy.model.column.SimpleJmColumn">
           <name>HIREDATE</name>
-          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
+          <dataType class="org.jiemamy.model.datatype.SimpleDataType">
             <typeCategory>DATE</typeCategory>
             <typeName>DATE</typeName>
           </dataType>
         </column>
-        <column id="80786549-dc2c-4c1c-bcbd-9f6fdec911d2" class="org.jiemamy.model.column.DefaultColumnModel">
+        <column id="80786549-dc2c-4c1c-bcbd-9f6fdec911d2" class="org.jiemamy.model.column.SimpleJmColumn">
           <name>SAL</name>
-          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
+          <dataType class="org.jiemamy.model.datatype.SimpleDataType">
             <typeCategory>NUMERIC</typeCategory>
             <typeName>NUMERIC</typeName>
             <parameters>
@@ -62,22 +62,22 @@
             </parameters>
           </dataType>
         </column>
-        <column id="4ae69b7a-7a0e-422a-89dc-0f0cff77565b" class="org.jiemamy.model.column.DefaultColumnModel">
+        <column id="4ae69b7a-7a0e-422a-89dc-0f0cff77565b" class="org.jiemamy.model.column.SimpleJmColumn">
           <name>DEPT_ID</name>
-          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
+          <dataType class="org.jiemamy.model.datatype.SimpleDataType">
             <typeCategory>INTEGER</typeCategory>
             <typeName>INTEGER</typeName>
           </dataType>
         </column>
       </columns>
       <constraints>
-        <primaryKey id="7932e79e-ece8-4ac2-817c-6ef4b1b7fd58" class="org.jiemamy.model.constraint.DefaultPrimaryKeyConstraintModel">
+        <primaryKey id="7932e79e-ece8-4ac2-817c-6ef4b1b7fd58" class="org.jiemamy.model.constraint.SimpleJmPrimaryKeyConstraint">
           <name>emp_pkey</name>
           <keyColumns>
             <columnRef ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e"/>
           </keyColumns>
         </primaryKey>
-        <foreignKey id="b28fcdca-5c0e-4f1a-bfe9-2a843ed7ee94" class="org.jiemamy.model.constraint.DefaultForeignKeyConstraintModel">
+        <foreignKey id="b28fcdca-5c0e-4f1a-bfe9-2a843ed7ee94" class="org.jiemamy.model.constraint.SimpleJmForeignKeyConstraint">
           <name>emp_dept_id_fkey</name>
           <keyColumns>
             <columnRef ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b"/>
@@ -86,7 +86,7 @@
             <columnRef ref="c7ed225d-92a6-4cc2-90de-60531804464e"/>
           </referenceColumns>
         </foreignKey>
-        <foreignKey id="d2103b8a-0b36-480a-a31e-edd6937e6420" class="org.jiemamy.model.constraint.DefaultForeignKeyConstraintModel">
+        <foreignKey id="d2103b8a-0b36-480a-a31e-edd6937e6420" class="org.jiemamy.model.constraint.SimpleJmForeignKeyConstraint">
           <name>emp_mgr_id_fkey</name>
           <keyColumns>
             <columnRef ref="3d21a85a-72de-41b3-99dd-f4cb94e58d84"/>
@@ -94,54 +94,54 @@
           <referenceColumns>
             <columnRef ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e"/>
           </referenceColumns>
-          <deferrability class="org.jiemamy.model.constraint.DefaultDeferrabilityModel">DEFERRABLE_DEFERRED</deferrability>
+          <deferrability class="org.jiemamy.model.constraint.SimpleJmDeferrability">DEFERRABLE_DEFERRED</deferrability>
           <onDelete>SET_NULL</onDelete>
         </foreignKey>
-        <notNull id="89c937d2-d787-40dc-9883-c39d3f429a64" class="org.jiemamy.model.constraint.DefaultNotNullConstraintModel">
+        <notNull id="89c937d2-d787-40dc-9883-c39d3f429a64" class="org.jiemamy.model.constraint.SimpleJmNotNullConstraint">
           <columnRef ref="248a429b-2159-4ebd-a791-eee42a059374"/>
         </notNull>
-        <notNull id="fca5bad5-0962-4b1c-adca-296529c80c80" class="org.jiemamy.model.constraint.DefaultNotNullConstraintModel">
+        <notNull id="fca5bad5-0962-4b1c-adca-296529c80c80" class="org.jiemamy.model.constraint.SimpleJmNotNullConstraint">
           <columnRef ref="80786549-dc2c-4c1c-bcbd-9f6fdec911d2"/>
         </notNull>
-        <notNull id="183814c0-ee9d-4e1b-8104-0f4861c34b0c" class="org.jiemamy.model.constraint.DefaultNotNullConstraintModel">
+        <notNull id="183814c0-ee9d-4e1b-8104-0f4861c34b0c" class="org.jiemamy.model.constraint.SimpleJmNotNullConstraint">
           <columnRef ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b"/>
         </notNull>
-        <notNull id="2590edfb-b005-4fa3-8110-d0cc97a4216f" class="org.jiemamy.model.constraint.DefaultNotNullConstraintModel">
+        <notNull id="2590edfb-b005-4fa3-8110-d0cc97a4216f" class="org.jiemamy.model.constraint.SimpleJmNotNullConstraint">
           <columnRef ref="0e51b6df-43ab-408c-90ef-de13c6aab881"/>
         </notNull>
-        <notNull id="5a599cef-46d8-4cb2-9ecd-0e40dc9927d8" class="org.jiemamy.model.constraint.DefaultNotNullConstraintModel">
+        <notNull id="5a599cef-46d8-4cb2-9ecd-0e40dc9927d8" class="org.jiemamy.model.constraint.SimpleJmNotNullConstraint">
           <columnRef ref="f0b57eed-98ab-4c21-9855-218c592814dc"/>
         </notNull>
-        <check id="35d265fc-138c-4755-8f92-5621f5c270d9" class="org.jiemamy.model.constraint.DefaultCheckConstraintModel">
+        <check id="35d265fc-138c-4755-8f92-5621f5c270d9" class="org.jiemamy.model.constraint.SimpleJmCheckConstraint">
           <name>positive_sal</name>
           <expression>SAL &lt;= 0</expression>
         </check>
       </constraints>
     </table>
-    <table id="d7489ed6-0add-443d-95cf-234376eb0455" class="org.jiemamy.model.table.DefaultTableModel">
+    <table id="d7489ed6-0add-443d-95cf-234376eb0455" class="org.jiemamy.model.table.SimpleJmTable">
       <name>T_DEPT</name>
       <description>部署マスタです。</description>
       <columns>
-        <column id="c7ed225d-92a6-4cc2-90de-60531804464e" class="org.jiemamy.model.column.DefaultColumnModel">
+        <column id="c7ed225d-92a6-4cc2-90de-60531804464e" class="org.jiemamy.model.column.SimpleJmColumn">
           <name>ID</name>
           <logicalName>部署ID</logicalName>
-          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
+          <dataType class="org.jiemamy.model.datatype.SimpleDataType">
             <typeCategory>UNKNOWN</typeCategory>
             <typeName>UNKNOWN</typeName>
           </dataType>
         </column>
-        <column id="2d951389-6bc7-49d7-8631-1d26fe17047e" class="org.jiemamy.model.column.DefaultColumnModel">
+        <column id="2d951389-6bc7-49d7-8631-1d26fe17047e" class="org.jiemamy.model.column.SimpleJmColumn">
           <name>DEPT_NO</name>
           <logicalName>部署番号</logicalName>
-          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
+          <dataType class="org.jiemamy.model.datatype.SimpleDataType">
             <typeCategory>INTEGER</typeCategory>
             <typeName>INTEGER</typeName>
           </dataType>
         </column>
-        <column id="1fcd63d3-974e-4d2e-a0d8-3b9c233104d9" class="org.jiemamy.model.column.DefaultColumnModel">
+        <column id="1fcd63d3-974e-4d2e-a0d8-3b9c233104d9" class="org.jiemamy.model.column.SimpleJmColumn">
           <name>DEPT_NAME</name>
           <logicalName>部署名</logicalName>
-          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
+          <dataType class="org.jiemamy.model.datatype.SimpleDataType">
             <typeCategory>VARCHAR</typeCategory>
             <typeName>VARCHAR</typeName>
             <parameters>
@@ -149,10 +149,10 @@
             </parameters>
           </dataType>
         </column>
-        <column id="7bf79e76-07b8-43b6-a993-b8ef374a31f5" class="org.jiemamy.model.column.DefaultColumnModel">
+        <column id="7bf79e76-07b8-43b6-a993-b8ef374a31f5" class="org.jiemamy.model.column.SimpleJmColumn">
           <name>LOC</name>
           <logicalName>ロケーション</logicalName>
-          <dataType class="org.jiemamy.model.datatype.DefaultDataType">
+          <dataType class="org.jiemamy.model.datatype.SimpleDataType">
             <typeCategory>VARCHAR</typeCategory>
             <typeName>VARCHAR</typeName>
             <parameters>
@@ -163,27 +163,27 @@
         </column>
       </columns>
       <constraints>
-        <notNull id="bb08f11a-363c-4889-a52e-7608ebd17392" class="org.jiemamy.model.constraint.DefaultNotNullConstraintModel">
+        <notNull id="bb08f11a-363c-4889-a52e-7608ebd17392" class="org.jiemamy.model.constraint.SimpleJmNotNullConstraint">
           <columnRef ref="1fcd63d3-974e-4d2e-a0d8-3b9c233104d9"/>
         </notNull>
-        <notNull id="cdca5bd8-c928-484b-b627-3da553d77e02" class="org.jiemamy.model.constraint.DefaultNotNullConstraintModel">
+        <notNull id="cdca5bd8-c928-484b-b627-3da553d77e02" class="org.jiemamy.model.constraint.SimpleJmNotNullConstraint">
           <columnRef ref="2d951389-6bc7-49d7-8631-1d26fe17047e"/>
         </notNull>
       </constraints>
     </table>
-    <view id="516f7961-cb7b-48e2-990b-7fb0c750c3a4" class="org.jiemamy.model.view.DefaultViewModel">
+    <view id="516f7961-cb7b-48e2-990b-7fb0c750c3a4" class="org.jiemamy.model.view.SimpleJmView">
       <name>V_HIGH_SAL_EMP</name>
       <logicalName>高給取り</logicalName>
       <definition>SELECT * FROM T_EMP WHERE SAL > 2000;</definition>
     </view>
   </dbobjects>
   <dataSets>
-    <dataSet id="7ee9b33b-9b48-41c8-bcd8-ae07ab00e581" class="org.jiemamy.model.dataset.DefaultDataSetModel">
+    <dataSet id="7ee9b33b-9b48-41c8-bcd8-ae07ab00e581" class="org.jiemamy.model.dataset.SimpleJmDataSet">
       <name>データ群en</name>
       <tableRecords>
         <tableRecord ref="9f522e56-809c-45fd-8416-39201014218b">
           <!-- TableName: T_EMP -->
-          <records class="org.jiemamy.model.dataset.DefaultRecordModel">
+          <records class="org.jiemamy.model.dataset.SimpleJmRecord">
             <!-- ColumnName: ID -->
             <record ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e" engine="org.jiemamy.script.PlainScriptEngine">1</record>
             <!-- ColumnName: EMP_NO -->
@@ -199,7 +199,7 @@
             <!-- ColumnName: DEPT_ID -->
             <record ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b" engine="org.jiemamy.script.PlainScriptEngine">3</record>
           </records>
-          <records class="org.jiemamy.model.dataset.DefaultRecordModel">
+          <records class="org.jiemamy.model.dataset.SimpleJmRecord">
             <!-- ColumnName: ID -->
             <record ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e" engine="org.jiemamy.script.PlainScriptEngine">2</record>
             <!-- ColumnName: EMP_NO -->
@@ -215,7 +215,7 @@
             <!-- ColumnName: DEPT_ID -->
             <record ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b" engine="org.jiemamy.script.PlainScriptEngine">4</record>
           </records>
-          <records class="org.jiemamy.model.dataset.DefaultRecordModel">
+          <records class="org.jiemamy.model.dataset.SimpleJmRecord">
             <!-- ColumnName: ID -->
             <record ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e" engine="org.jiemamy.script.PlainScriptEngine">3</record>
             <!-- ColumnName: EMP_NO -->
@@ -229,7 +229,7 @@
             <!-- ColumnName: DEPT_ID -->
             <record ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b" engine="org.jiemamy.script.PlainScriptEngine">4</record>
           </records>
-          <records class="org.jiemamy.model.dataset.DefaultRecordModel">
+          <records class="org.jiemamy.model.dataset.SimpleJmRecord">
             <!-- ColumnName: ID -->
             <record ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e" engine="org.jiemamy.script.PlainScriptEngine">4</record>
             <!-- ColumnName: EMP_NO -->
@@ -245,7 +245,7 @@
             <!-- ColumnName: DEPT_ID -->
             <record ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b" engine="org.jiemamy.script.PlainScriptEngine">2</record>
           </records>
-          <records class="org.jiemamy.model.dataset.DefaultRecordModel">
+          <records class="org.jiemamy.model.dataset.SimpleJmRecord">
             <!-- ColumnName: ID -->
             <record ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e" engine="org.jiemamy.script.PlainScriptEngine">5</record>
             <!-- ColumnName: EMP_NO -->
@@ -261,7 +261,7 @@
             <!-- ColumnName: DEPT_ID -->
             <record ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b" engine="org.jiemamy.script.PlainScriptEngine">3</record>
           </records>
-          <records class="org.jiemamy.model.dataset.DefaultRecordModel">
+          <records class="org.jiemamy.model.dataset.SimpleJmRecord">
             <!-- ColumnName: ID -->
             <record ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e" engine="org.jiemamy.script.PlainScriptEngine">6</record>
             <!-- ColumnName: EMP_NO -->
@@ -277,7 +277,7 @@
             <!-- ColumnName: DEPT_ID -->
             <record ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b" engine="org.jiemamy.script.PlainScriptEngine">2</record>
           </records>
-          <records class="org.jiemamy.model.dataset.DefaultRecordModel">
+          <records class="org.jiemamy.model.dataset.SimpleJmRecord">
             <!-- ColumnName: ID -->
             <record ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e" engine="org.jiemamy.script.PlainScriptEngine">7</record>
             <!-- ColumnName: EMP_NO -->
@@ -293,7 +293,7 @@
             <!-- ColumnName: DEPT_ID -->
             <record ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b" engine="org.jiemamy.script.PlainScriptEngine">1</record>
           </records>
-          <records class="org.jiemamy.model.dataset.DefaultRecordModel">
+          <records class="org.jiemamy.model.dataset.SimpleJmRecord">
             <!-- ColumnName: ID -->
             <record ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e" engine="org.jiemamy.script.PlainScriptEngine">8</record>
             <!-- ColumnName: EMP_NO -->
@@ -312,7 +312,7 @@
         </tableRecord>
         <tableRecord ref="d7489ed6-0add-443d-95cf-234376eb0455">
           <!-- TableName: T_DEPT -->
-          <records class="org.jiemamy.model.dataset.DefaultRecordModel">
+          <records class="org.jiemamy.model.dataset.SimpleJmRecord">
             <!-- ColumnName: ID -->
             <record ref="c7ed225d-92a6-4cc2-90de-60531804464e" engine="org.jiemamy.script.PlainScriptEngine">1</record>
             <!-- ColumnName: DEPT_NO -->
@@ -322,7 +322,7 @@
             <!-- ColumnName: LOC -->
             <record ref="7bf79e76-07b8-43b6-a993-b8ef374a31f5" engine="org.jiemamy.script.PlainScriptEngine">NEW YORK</record>
           </records>
-          <records class="org.jiemamy.model.dataset.DefaultRecordModel">
+          <records class="org.jiemamy.model.dataset.SimpleJmRecord">
             <!-- ColumnName: ID -->
             <record ref="c7ed225d-92a6-4cc2-90de-60531804464e" engine="org.jiemamy.script.PlainScriptEngine">2</record>
             <!-- ColumnName: DEPT_NO -->
@@ -332,7 +332,7 @@
             <!-- ColumnName: LOC -->
             <record ref="7bf79e76-07b8-43b6-a993-b8ef374a31f5" engine="org.jiemamy.script.PlainScriptEngine">DALLAS</record>
           </records>
-          <records class="org.jiemamy.model.dataset.DefaultRecordModel">
+          <records class="org.jiemamy.model.dataset.SimpleJmRecord">
             <!-- ColumnName: ID -->
             <record ref="c7ed225d-92a6-4cc2-90de-60531804464e" engine="org.jiemamy.script.PlainScriptEngine">3</record>
             <!-- ColumnName: DEPT_NO -->
@@ -342,7 +342,7 @@
             <!-- ColumnName: LOC -->
             <record ref="7bf79e76-07b8-43b6-a993-b8ef374a31f5" engine="org.jiemamy.script.PlainScriptEngine">CHICAGO</record>
           </records>
-          <records class="org.jiemamy.model.dataset.DefaultRecordModel">
+          <records class="org.jiemamy.model.dataset.SimpleJmRecord">
             <!-- ColumnName: ID -->
             <record ref="c7ed225d-92a6-4cc2-90de-60531804464e" engine="org.jiemamy.script.PlainScriptEngine">4</record>
             <!-- ColumnName: DEPT_NO -->
@@ -355,12 +355,12 @@
         </tableRecord>
       </tableRecords>
     </dataSet>
-    <dataSet id="c35debef-a218-48f5-b4da-40f88f8be6c0" class="org.jiemamy.model.dataset.DefaultDataSetModel">
+    <dataSet id="c35debef-a218-48f5-b4da-40f88f8be6c0" class="org.jiemamy.model.dataset.SimpleJmDataSet">
       <name>データ群ja</name>
       <tableRecords>
         <tableRecord ref="9f522e56-809c-45fd-8416-39201014218b">
           <!-- TableName: T_EMP -->
-          <records class="org.jiemamy.model.dataset.DefaultRecordModel">
+          <records class="org.jiemamy.model.dataset.SimpleJmRecord">
             <!-- ColumnName: ID -->
             <record ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e" engine="org.jiemamy.script.PlainScriptEngine">1</record>
             <!-- ColumnName: EMP_NO -->
@@ -376,7 +376,7 @@
             <!-- ColumnName: DEPT_ID -->
             <record ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b" engine="org.jiemamy.script.PlainScriptEngine">3</record>
           </records>
-          <records class="org.jiemamy.model.dataset.DefaultRecordModel">
+          <records class="org.jiemamy.model.dataset.SimpleJmRecord">
             <!-- ColumnName: ID -->
             <record ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e" engine="org.jiemamy.script.PlainScriptEngine">2</record>
             <!-- ColumnName: EMP_NO -->
@@ -392,7 +392,7 @@
             <!-- ColumnName: DEPT_ID -->
             <record ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b" engine="org.jiemamy.script.PlainScriptEngine">4</record>
           </records>
-          <records class="org.jiemamy.model.dataset.DefaultRecordModel">
+          <records class="org.jiemamy.model.dataset.SimpleJmRecord">
             <!-- ColumnName: ID -->
             <record ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e" engine="org.jiemamy.script.PlainScriptEngine">3</record>
             <!-- ColumnName: EMP_NO -->
@@ -406,7 +406,7 @@
             <!-- ColumnName: DEPT_ID -->
             <record ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b" engine="org.jiemamy.script.PlainScriptEngine">4</record>
           </records>
-          <records class="org.jiemamy.model.dataset.DefaultRecordModel">
+          <records class="org.jiemamy.model.dataset.SimpleJmRecord">
             <!-- ColumnName: ID -->
             <record ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e" engine="org.jiemamy.script.PlainScriptEngine">4</record>
             <!-- ColumnName: EMP_NO -->
@@ -422,7 +422,7 @@
             <!-- ColumnName: DEPT_ID -->
             <record ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b" engine="org.jiemamy.script.PlainScriptEngine">2</record>
           </records>
-          <records class="org.jiemamy.model.dataset.DefaultRecordModel">
+          <records class="org.jiemamy.model.dataset.SimpleJmRecord">
             <!-- ColumnName: ID -->
             <record ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e" engine="org.jiemamy.script.PlainScriptEngine">5</record>
             <!-- ColumnName: EMP_NO -->
@@ -438,7 +438,7 @@
             <!-- ColumnName: DEPT_ID -->
             <record ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b" engine="org.jiemamy.script.PlainScriptEngine">3</record>
           </records>
-          <records class="org.jiemamy.model.dataset.DefaultRecordModel">
+          <records class="org.jiemamy.model.dataset.SimpleJmRecord">
             <!-- ColumnName: ID -->
             <record ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e" engine="org.jiemamy.script.PlainScriptEngine">6</record>
             <!-- ColumnName: EMP_NO -->
@@ -454,7 +454,7 @@
             <!-- ColumnName: DEPT_ID -->
             <record ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b" engine="org.jiemamy.script.PlainScriptEngine">2</record>
           </records>
-          <records class="org.jiemamy.model.dataset.DefaultRecordModel">
+          <records class="org.jiemamy.model.dataset.SimpleJmRecord">
             <!-- ColumnName: ID -->
             <record ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e" engine="org.jiemamy.script.PlainScriptEngine">7</record>
             <!-- ColumnName: EMP_NO -->
@@ -470,7 +470,7 @@
             <!-- ColumnName: DEPT_ID -->
             <record ref="4ae69b7a-7a0e-422a-89dc-0f0cff77565b" engine="org.jiemamy.script.PlainScriptEngine">1</record>
           </records>
-          <records class="org.jiemamy.model.dataset.DefaultRecordModel">
+          <records class="org.jiemamy.model.dataset.SimpleJmRecord">
             <!-- ColumnName: ID -->
             <record ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e" engine="org.jiemamy.script.PlainScriptEngine">8</record>
             <!-- ColumnName: EMP_NO -->
@@ -489,7 +489,7 @@
         </tableRecord>
         <tableRecord ref="d7489ed6-0add-443d-95cf-234376eb0455">
           <!-- TableName: T_DEPT -->
-          <records class="org.jiemamy.model.dataset.DefaultRecordModel">
+          <records class="org.jiemamy.model.dataset.SimpleJmRecord">
             <!-- ColumnName: ID -->
             <record ref="c7ed225d-92a6-4cc2-90de-60531804464e" engine="org.jiemamy.script.PlainScriptEngine">1</record>
             <!-- ColumnName: DEPT_NO -->
@@ -499,7 +499,7 @@
             <!-- ColumnName: LOC -->
             <record ref="7bf79e76-07b8-43b6-a993-b8ef374a31f5" engine="org.jiemamy.script.PlainScriptEngine">広島</record>
           </records>
-          <records class="org.jiemamy.model.dataset.DefaultRecordModel">
+          <records class="org.jiemamy.model.dataset.SimpleJmRecord">
             <!-- ColumnName: ID -->
             <record ref="c7ed225d-92a6-4cc2-90de-60531804464e" engine="org.jiemamy.script.PlainScriptEngine">2</record>
             <!-- ColumnName: DEPT_NO -->
@@ -509,7 +509,7 @@
             <!-- ColumnName: LOC -->
             <record ref="7bf79e76-07b8-43b6-a993-b8ef374a31f5" engine="org.jiemamy.script.PlainScriptEngine">京都</record>
           </records>
-          <records class="org.jiemamy.model.dataset.DefaultRecordModel">
+          <records class="org.jiemamy.model.dataset.SimpleJmRecord">
             <!-- ColumnName: ID -->
             <record ref="c7ed225d-92a6-4cc2-90de-60531804464e" engine="org.jiemamy.script.PlainScriptEngine">3</record>
             <!-- ColumnName: DEPT_NO -->
@@ -519,7 +519,7 @@
             <!-- ColumnName: LOC -->
             <record ref="7bf79e76-07b8-43b6-a993-b8ef374a31f5" engine="org.jiemamy.script.PlainScriptEngine">東京</record>
           </records>
-          <records class="org.jiemamy.model.dataset.DefaultRecordModel">
+          <records class="org.jiemamy.model.dataset.SimpleJmRecord">
             <!-- ColumnName: ID -->
             <record ref="c7ed225d-92a6-4cc2-90de-60531804464e" engine="org.jiemamy.script.PlainScriptEngine">4</record>
             <!-- ColumnName: DEPT_NO -->
@@ -537,15 +537,15 @@
       <diagram:level>ATTRTYPE</diagram:level>
       <diagram:mode>PHYSICAL</diagram:mode>
       <diagram:nodes>
-        <diagram:node id="aa7caa23-7958-4bd0-a356-8f09d4b74f08" class="org.jiemamy.model.DefaultDatabaseObjectNodeModel">
+        <diagram:node id="aa7caa23-7958-4bd0-a356-8f09d4b74f08" class="org.jiemamy.model.SimpleDbObjectNode">
           <diagram:core ref="9f522e56-809c-45fd-8416-39201014218b"/>
           <diagram:boundary x="360" y="60" width="-1" height="-1"/>
         </diagram:node>
-        <diagram:node id="eb6506ef-4a25-4296-b6d7-c08741f19d5a" class="org.jiemamy.model.DefaultDatabaseObjectNodeModel">
+        <diagram:node id="eb6506ef-4a25-4296-b6d7-c08741f19d5a" class="org.jiemamy.model.SimpleDbObjectNode">
           <diagram:core ref="d7489ed6-0add-443d-95cf-234376eb0455"/>
           <diagram:boundary x="33" y="110" width="-1" height="-1"/>
         </diagram:node>
-        <diagram:node id="2387bfd0-7106-44ad-a34e-24231bbea6d5" class="org.jiemamy.model.DefaultDatabaseObjectNodeModel">
+        <diagram:node id="2387bfd0-7106-44ad-a34e-24231bbea6d5" class="org.jiemamy.model.SimpleDbObjectNode">
           <diagram:core ref="516f7961-cb7b-48e2-990b-7fb0c750c3a4"/>
           <diagram:boundary x="60" y="270" width="-1" height="-1"/>
         </diagram:node>
@@ -578,11 +578,11 @@
       <diagram:level>ATTRTYPE</diagram:level>
       <diagram:mode>PHYSICAL</diagram:mode>
       <diagram:nodes>
-        <diagram:node id="d71ff015-101c-4669-8745-312d1da34efe" class="org.jiemamy.model.DefaultDatabaseObjectNodeModel">
+        <diagram:node id="d71ff015-101c-4669-8745-312d1da34efe" class="org.jiemamy.model.SimpleDbObjectNode">
           <diagram:core ref="9f522e56-809c-45fd-8416-39201014218b"/>
           <diagram:boundary x="60" y="60" width="-1" height="-1"/>
         </diagram:node>
-        <diagram:node id="2df7718f-d71e-4dbf-8327-e0ad36f03d5d" class="org.jiemamy.model.DefaultDatabaseObjectNodeModel">
+        <diagram:node id="2df7718f-d71e-4dbf-8327-e0ad36f03d5d" class="org.jiemamy.model.SimpleDbObjectNode">
           <diagram:core ref="516f7961-cb7b-48e2-990b-7fb0c750c3a4"/>
           <diagram:boundary x="270" y="270" width="-1" height="-1"/>
         </diagram:node>
