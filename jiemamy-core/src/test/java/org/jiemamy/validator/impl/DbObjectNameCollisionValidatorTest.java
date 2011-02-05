@@ -96,7 +96,7 @@ public class DbObjectNameCollisionValidatorTest {
 		
 		Problem problem = result2.iterator().next();
 		assertThat(problem, is(instanceOf(DbObjectNameCollisionValidator.DbObjectNameCollisionProblem.class)));
-		assertThat(problem.getMessage(Locale.JAPAN), is("DbObject名 \"foo\" が重複しています。"));
+		assertThat(problem.getMessage(Locale.JAPAN), is("オブジェクト名 \"foo\" が重複しています。"));
 		assertThat(problem.getErrorCode(), is("E0070"));
 		
 		SimpleJmTable table3 = new SimpleJmTable(UUIDUtil.valueOfOrRandom("c"));
@@ -126,7 +126,7 @@ public class DbObjectNameCollisionValidatorTest {
 	@Test
 	@Ignore("enロケールメッセージをまだ作っていない")
 	public void test02_各ロケールのエラーメッセージが適切に構築される() throws Exception {
-		assertThat(problem.getMessage(Locale.JAPAN), is("DbObject名 \"foobar\" が重複しています。"));
+		assertThat(problem.getMessage(Locale.JAPAN), is("オブジェクト名 \"foobar\" が重複しています。"));
 		assertThat(problem.getMessage(Locale.ENGLISH), is("Duplicate dbObject name foobar"));
 		
 		Locale backup = Locale.getDefault();
