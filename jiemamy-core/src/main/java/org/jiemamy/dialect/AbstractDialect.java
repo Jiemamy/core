@@ -63,7 +63,7 @@ public abstract class AbstractDialect implements Dialect {
 		this.typeEntries = ImmutableList.copyOf(typeEntries);
 	}
 	
-	public List<RawTypeDescriptor> getAllTypeReferences() {
+	public List<RawTypeDescriptor> getAllRawTypeDescriptors() {
 		return Lists.transform(typeEntries, new Function<Entry, RawTypeDescriptor>() {
 			
 			public RawTypeDescriptor apply(Entry from) {
@@ -104,7 +104,7 @@ public abstract class AbstractDialect implements Dialect {
 	
 	public final RawTypeDescriptor normalize(RawTypeDescriptor in) {
 		RawTypeDescriptor result = normalize0(in);
-		assert result.getCategory() == RawTypeCategory.UNKNOWN || getAllTypeReferences().contains(result) : result
+		assert result.getCategory() == RawTypeCategory.UNKNOWN || getAllRawTypeDescriptors().contains(result) : result
 			.toString();
 		return result;
 	}
@@ -112,7 +112,7 @@ public abstract class AbstractDialect implements Dialect {
 	/**
 	 * {@link #normalize(RawTypeDescriptor)}の実装メソッド。
 	 * 
-	 * <p>このメソッドの戻り値は、 {@link #getAllTypeReferences()}に含まれる値であるか、
+	 * <p>このメソッドの戻り値は、 {@link #getAllRawTypeDescriptors()}に含まれる値であるか、
 	 * または {@link SimpleRawTypeDescriptor#UNKNOWN} でなければならない。</p>
 	 * 
 	 * @param in 入力型記述子

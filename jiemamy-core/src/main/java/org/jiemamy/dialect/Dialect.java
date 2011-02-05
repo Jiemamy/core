@@ -44,7 +44,7 @@ public interface Dialect {
 	 * @return データ型名のリスト
 	 * @since 0.3
 	 */
-	List<RawTypeDescriptor> getAllTypeReferences();
+	List<RawTypeDescriptor> getAllRawTypeDescriptors();
 	
 	/**
 	 * JDBC接続URLの雛形文字列を取得する。

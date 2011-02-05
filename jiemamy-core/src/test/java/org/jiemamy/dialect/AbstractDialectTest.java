@@ -59,8 +59,8 @@ public abstract class AbstractDialectTest {
 	@Test
 	public void testabs02() throws Exception {
 		Dialect dialect = getInstance();
-		assertThat(dialect.getAllTypeReferences().size(), is(greaterThan(0)));
-		assertThat(dialect.getAllTypeReferences(), not(hasItem(SimpleRawTypeDescriptor.UNKNOWN)));
+		assertThat(dialect.getAllRawTypeDescriptors().size(), is(greaterThan(0)));
+		assertThat(dialect.getAllRawTypeDescriptors(), not(hasItem(SimpleRawTypeDescriptor.UNKNOWN)));
 		assertThat(dialect.getConnectionUriTemplate(), is(notNullValue()));
 		assertThat(dialect.getName(), is(notNullValue()));
 		assertThat(dialect.getName(), is(not(dialect.getClass().getName())));
