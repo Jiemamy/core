@@ -55,6 +55,17 @@ public final class SimpleJmConnection extends AbstractEntity implements JmConnec
 	/**
 	 * インスタンスを生成する。
 	 * 
+	 * <p>ENTITY IDは{@code UUID.randomUUID()}を用いて自動生成する。</p>
+	 * 
+	 * @param coreModelRef CORE側の実体となる外部キーへの参照
+	 */
+	public SimpleJmConnection(EntityRef<? extends JmForeignKeyConstraint> coreModelRef) {
+		this(UUID.randomUUID(), coreModelRef);
+	}
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
 	 * @param id ENTITY ID
 	 * @param coreModelRef CORE側の実体となる外部キーへの参照
 	 */
