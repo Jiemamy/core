@@ -78,11 +78,13 @@ public class JiemamyTransaction implements StoredEventListener {
 	/**
 	 * モデルの状態をセーブポイントまでロールバックする。
 	 * 
+	 * @param <T> エンティティの型
 	 * @param savePoint セーブポイント
 	 * @throws IllegalArgumentException このファサードが発行したｓ{@link SavePoint}でない場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 0.2
 	 */
+	@SuppressWarnings("unchecked")
 	public <T extends Entity>void rollback(SavePoint savePoint) {
 		Validate.notNull(savePoint);
 		if (publishedSavePoints.contains(savePoint) == false) {
