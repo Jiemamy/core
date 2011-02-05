@@ -529,6 +529,17 @@ public class JiemamyCursor {
 		return cursor.getAttrEnumValue(index, enumType);
 	}
 	
+	/**
+	 * DOCME
+	 * 
+	 * @param <T> type of enum
+	 * @param jQName Jiemamy QName
+	 * @param enumType enum
+	 * @return value
+	 * @throws XMLStreamException If specified attribute can not be
+	 *   accessed (due to cursor state), or if attribute value
+	 *   is not a valid textual representation of double.
+	 */
 	public <T extends Enum<T>>T getAttrEnumValue(JiemamyQName jQName, Class<T> enumType) throws XMLStreamException {
 		int index = cursor.findAttrIndex(jQName.getQName().getNamespaceURI(), jQName.getQName().getLocalPart());
 		return cursor.getAttrEnumValue(index, enumType);
@@ -575,7 +586,7 @@ public class JiemamyCursor {
 	}
 	
 	/**
-	 * DOCME for daisuke
+	 * DOCME
 	 * 
 	 * @param jQName Jiemamy QName
 	 * @return value
@@ -740,7 +751,7 @@ public class JiemamyCursor {
 	}
 	
 	/**
-	 * DOCME for daisuke
+	 * DOCME
 	 * 
 	 * @param jQName Jiemamy QName
 	 * @return value
@@ -938,7 +949,7 @@ public class JiemamyCursor {
 	}
 	
 	/**
-	 * DOCME for daisuke
+	 * DOCME
 	 * 
 	 * @return DOCME
 	 * @see org.codehaus.staxmate.in.SMInputCursor#getElementInfoFactory()
@@ -948,7 +959,7 @@ public class JiemamyCursor {
 	}
 	
 	/**
-	 * DOCME for daisuke
+	 * DOCME
 	 * 
 	 * @return DOCME
 	 * @see org.codehaus.staxmate.in.SMInputCursor#getElementTracking()
@@ -1192,7 +1203,7 @@ public class JiemamyCursor {
 	}
 	
 	/**
-	 * DOCME for daisuke
+	 * DOCME
 	 * 
 	 * @return Information about the tracked element the parent cursor
 	 *    had, if parent cursor existed and was tracking element
@@ -1255,7 +1266,7 @@ public class JiemamyCursor {
 	}
 	
 	/**
-	 * DOCME for daisuke
+	 * DOCME
 	 * 
 	 * @return QName
 	 * @throws XMLStreamException if either the underlying parser has
@@ -1319,7 +1330,7 @@ public class JiemamyCursor {
 	}
 	
 	/**
-	 * DOCME for daisuke
+	 * DOCME
 	 * 
 	 * @return Information about last "tracked" element; element we have
 	 *    last iterated over when tracking has been enabled.
@@ -1397,7 +1408,7 @@ public class JiemamyCursor {
 	}
 	
 	/**
-	 * DOCME for daisuke
+	 * DOCME
 	 * 
 	 * @param jQName Jiemamy QName
 	 * @return true if current QName
