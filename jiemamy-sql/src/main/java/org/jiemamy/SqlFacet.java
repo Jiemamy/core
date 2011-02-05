@@ -139,6 +139,11 @@ public class SqlFacet implements JiemamyFacet {
 		return SqlFacet.class.getResource("/jiemamy-sql.xsd");
 	}
 	
+	/**
+	 * SQL出力全体に適用する{@link JmAroundScript}を取得する。
+	 * 
+	 * @return SQL出力全体に適用する{@link JmAroundScript}
+	 */
 	public JmAroundScript getUniversalAroundScript() {
 		if (universalAroundScript == null) {
 			return null;
@@ -179,6 +184,11 @@ public class SqlFacet implements JiemamyFacet {
 		return scripts.resolve(id);
 	}
 	
+	/**
+	 * SQL出力全体に適用する{@link JmAroundScript}を設定する。
+	 * 
+	 * @param universalAroundScript SQL出力全体に適用する{@link JmAroundScript}
+	 */
 	public void setUniversalAroundScript(JmAroundScript universalAroundScript) {
 		if (universalAroundScript == null) {
 			this.universalAroundScript = null;

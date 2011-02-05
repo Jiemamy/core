@@ -91,6 +91,7 @@ public final class DbObjectDependencyCalculator {
 	 * <p>但し、既に結果に含まれていた場合は何もしない。</p>
 	 * 
 	 * @param dbObject 追加する{@link DbObject}
+	 * @param result 結果リスト
 	 */
 	private static void addToResult(DbObject dbObject, List<DbObject> result) {
 		if (result.contains(dbObject) == false) {

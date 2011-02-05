@@ -112,14 +112,12 @@ public class SqlFacetTest {
 		assertThat(facet.getAroundScriptFor(table2.toReference()), is(nullValue()));
 		
 		// SqlFacet#resolve(EntityRef) で取り出せる
-		@SuppressWarnings("deprecation")
 		SimpleJmAroundScript asm3 = facet.resolve(asm.toReference());
 		assertThat(asm3, is(equalTo((JmAroundScript) asm)));
 		assertThat(asm3, is(not(sameInstance((JmAroundScript) asm))));
 		assertThat(asm3, is(not(sameInstance(asm2))));
 		
 		// SqlFacet#resolve(UUID) で取り出せる
-		@SuppressWarnings("deprecation")
 		Entity asm4 = facet.resolve(asm.getId());
 		assertThat(asm4, is(equalTo((Entity) asm)));
 		assertThat(asm4, is(not(sameInstance((Entity) asm))));

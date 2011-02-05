@@ -30,6 +30,13 @@ import org.jiemamy.model.datatype.TypeParameterKey;
  */
 public class TypeParameterSpec {
 	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @param key
+	 * @param necessity
+	 * @return
+	 */
 	public static TypeParameterSpec of(TypeParameterKey<?> key, Necessity necessity) {
 		return new TypeParameterSpec(key, necessity);
 	}
@@ -40,6 +47,12 @@ public class TypeParameterSpec {
 	private final Necessity necessity;
 	
 
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param key
+	 * @param necessity
+	 */
 	public TypeParameterSpec(TypeParameterKey<?> key, Necessity necessity) {
 		Validate.notNull(key);
 		Validate.notNull(necessity);
@@ -98,10 +111,10 @@ public class TypeParameterSpec {
 
 	public enum Necessity {
 		
-		/***/
+		/** 必須パラメータ */
 		REQUIRED,
 
-		/***/
+		/** 任意パラメータ */
 		OPTIONAL
 	}
 }
