@@ -59,10 +59,10 @@ public class SqlExporter extends AbstractExporter<SqlExportConfig> {
 	public static final String DATA_SET_INDEX = "dataSetIndex";
 	
 	/** COnfigKey: DROP文を出力するかどうか (Boolean) */
-	public static final String DROP = "drop";
+	public static final String DROP = "emitDropStatements";
 	
 	/** COnfigKey: DROP文を出力するかどうか (Boolean) */
-	public static final String SCHEMA = "schema";
+	public static final String SCHEMA = "emitCreateSchemaStatement";
 	
 
 	/**
