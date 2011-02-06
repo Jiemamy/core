@@ -373,10 +373,10 @@ public/*final*/class SimpleJmTable extends SimpleDbObject implements JmTable {
 //		Validate.notNull(column.getName());
 		JmColumn old = columns.store(column);
 		if (old == null) {
-			logger.info(LogMarker.LIFECYCLE, "column stored: " + column);
+			logger.debug(LogMarker.LIFECYCLE, "column stored: " + column);
 		} else {
-			logger.info(LogMarker.LIFECYCLE, "column updated: (old)" + old);
-			logger.info(LogMarker.LIFECYCLE, "                (new)" + column);
+			logger.debug(LogMarker.LIFECYCLE, "column updated: (old)" + old);
+			logger.debug(LogMarker.LIFECYCLE, "                (new)" + column);
 		}
 		eventBroker.fireEvent(new StoredEvent<JmColumn>(columns, old, column));
 	}
@@ -392,10 +392,10 @@ public/*final*/class SimpleJmTable extends SimpleDbObject implements JmTable {
 		JmConstraint old = constraints.store(constraint);
 		eventBroker.fireEvent(new StoredEvent<JmConstraint>(constraints, old, constraint));
 		if (old == null) {
-			logger.info(LogMarker.LIFECYCLE, "constraint stored: " + constraint);
+			logger.debug(LogMarker.LIFECYCLE, "constraint stored: " + constraint);
 		} else {
-			logger.info(LogMarker.LIFECYCLE, "constraint updated: (old)" + old);
-			logger.info(LogMarker.LIFECYCLE, "                    (new)" + constraint);
+			logger.debug(LogMarker.LIFECYCLE, "constraint updated: (old)" + old);
+			logger.debug(LogMarker.LIFECYCLE, "                    (new)" + constraint);
 		}
 	}
 	

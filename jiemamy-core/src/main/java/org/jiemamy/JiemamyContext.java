@@ -222,7 +222,7 @@ public/*final*/class JiemamyContext implements EntityResolver {
 	public JmDataSet deleteDataSet(EntityRef<? extends JmDataSet> reference) {
 		Validate.notNull(reference);
 		JmDataSet deleted = dataSets.delete(reference);
-		logger.info(LogMarker.LIFECYCLE, "dataset deleted: " + deleted);
+		logger.debug(LogMarker.LIFECYCLE, "dataset deleted: " + deleted);
 		eventBroker.fireEvent(new StoredEvent<JmDataSet>(dataSets, deleted, null));
 		return deleted;
 	}
@@ -238,7 +238,7 @@ public/*final*/class JiemamyContext implements EntityResolver {
 	public DbObject deleteDbObject(EntityRef<? extends DbObject> reference) {
 		Validate.notNull(reference);
 		DbObject deleted = dbObjects.delete(reference);
-		logger.info(LogMarker.LIFECYCLE, "dbObject deleted: " + deleted);
+		logger.debug(LogMarker.LIFECYCLE, "dbObject deleted: " + deleted);
 		eventBroker.fireEvent(new StoredEvent<DbObject>(dbObjects, deleted, null));
 		return deleted;
 	}
@@ -564,10 +564,10 @@ public/*final*/class JiemamyContext implements EntityResolver {
 //		Validate.notNull(dbObject.getName());
 		DbObject old = dbObjects.store(dbObject);
 		if (old == null) {
-			logger.info(LogMarker.LIFECYCLE, "dbObject stored: " + dbObject);
+			logger.debug(LogMarker.LIFECYCLE, "dbObject stored: " + dbObject);
 		} else {
-			logger.info(LogMarker.LIFECYCLE, "dbObject updated: (old) " + old);
-			logger.info(LogMarker.LIFECYCLE, "                         (new) " + dbObject);
+			logger.debug(LogMarker.LIFECYCLE, "dbObject updated: (old) " + old);
+			logger.debug(LogMarker.LIFECYCLE, "                         (new) " + dbObject);
 		}
 		eventBroker.fireEvent(new StoredEvent<DbObject>(dbObjects, old, dbObject));
 	}
@@ -582,10 +582,10 @@ public/*final*/class JiemamyContext implements EntityResolver {
 		Validate.notNull(dataSet);
 		JmDataSet old = dataSets.store(dataSet);
 		if (old == null) {
-			logger.info(LogMarker.LIFECYCLE, "dataset stored: " + dataSet);
+			logger.debug(LogMarker.LIFECYCLE, "dataset stored: " + dataSet);
 		} else {
-			logger.info(LogMarker.LIFECYCLE, "dataset updated: (old) " + old);
-			logger.info(LogMarker.LIFECYCLE, "                 (new) " + dataSet);
+			logger.debug(LogMarker.LIFECYCLE, "dataset updated: (old) " + old);
+			logger.debug(LogMarker.LIFECYCLE, "                 (new) " + dataSet);
 		}
 		eventBroker.fireEvent(new StoredEvent<JmDataSet>(dataSets, old, dataSet));
 	}

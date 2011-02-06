@@ -298,10 +298,10 @@ public final class SimpleJmDiagram extends AbstractOrderedEntity implements JmDi
 		}
 		JmConnection old = connections.store(connection);
 		if (old == null) {
-			logger.info(LogMarker.LIFECYCLE, "connection stored: " + connection);
+			logger.debug(LogMarker.LIFECYCLE, "connection stored: " + connection);
 		} else {
-			logger.info(LogMarker.LIFECYCLE, "connection updated: (old)" + old);
-			logger.info(LogMarker.LIFECYCLE, "                    (new)" + connection);
+			logger.debug(LogMarker.LIFECYCLE, "connection updated: (old)" + old);
+			logger.debug(LogMarker.LIFECYCLE, "                    (new)" + connection);
 		}
 	}
 	
@@ -315,10 +315,10 @@ public final class SimpleJmDiagram extends AbstractOrderedEntity implements JmDi
 		Validate.notNull(node);
 		JmNode old = nodes.store(node);
 		if (old == null) {
-			logger.info(LogMarker.LIFECYCLE, "node stored: " + node);
+			logger.debug(LogMarker.LIFECYCLE, "node stored: " + node);
 		} else {
-			logger.info(LogMarker.LIFECYCLE, "node updated: (old)" + old);
-			logger.info(LogMarker.LIFECYCLE, "              (new)" + node);
+			logger.debug(LogMarker.LIFECYCLE, "node updated: (old)" + old);
+			logger.debug(LogMarker.LIFECYCLE, "              (new)" + node);
 		}
 	}
 	
