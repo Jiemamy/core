@@ -251,8 +251,11 @@ public/*final*/class JiemamyContext implements EntityResolver {
 	 * @throws IllegalStateException {@code metadata}またはそこに設定したSQL方言が{@code null}の場合
 	 */
 	public Dialect findDialect() throws ClassNotFoundException {
-		if (metadata == null || metadata.getDialectClassName() == null) {
-			throw new IllegalStateException();
+		if (metadata == null) {
+			throw new IllegalStateException("metadata is null");
+		}
+		if (metadata.getDialectClassName() == null) {
+			throw new IllegalStateException("metadata.dialectClassName is null");
 		}
 		return getServiceLocator().getService(Dialect.class, metadata.getDialectClassName());
 	}
