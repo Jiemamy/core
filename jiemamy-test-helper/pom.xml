@@ -17,8 +17,8 @@
     <url>http://jira.jiemamy.org/browse/CORE</url>
   </issueManagement>
   <ciManagement>
-    <system>hudson</system>
-    <url>http://hudson.jiemamy.org/job/jiemamy-test-helper/</url>
+    <system>bamboo</system>
+    <url>http://bamboo.jiemamy.org/browse/CORE-TH</url>
     <notifiers>
       <notifier>
         <sendOnSuccess>false</sendOnSuccess>
