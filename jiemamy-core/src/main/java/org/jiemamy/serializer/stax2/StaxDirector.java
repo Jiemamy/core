@@ -114,6 +114,14 @@ public class StaxDirector {
 		}
 	}
 	
+	/**
+	 * ハンドラを登録する。
+	 * 
+	 * @param <T> ハンドラが対応するモデルの型
+	 * @param clazz ハンドラの対応するモデルの型
+	 * @param jQName ハンドラの対応するXML装飾名
+	 * @param handler ハンドラ
+	 */
 	public <T>void addHandler(Class<T> clazz, JiemamyQName jQName, StaxHandler<T> handler) {
 		Validate.notNull(clazz);
 		Validate.notNull(jQName);
@@ -122,12 +130,28 @@ public class StaxDirector {
 		handlersWithQNameKey.put(jQName.getQName(), handler);
 	}
 	
+	/**
+	 * デシリアライズする。
+	 * 
+	 * @param <T> デシリアライズ結果の型
+	 * @param dctx デシリアライズコンテキスト
+	 * @return デシリアライズ結果
+	 * @throws SerializationException デシリアライズに失敗した場合
+	 */
 	public <T>T direct(DeserializationContext dctx) throws SerializationException {
 		Validate.notNull(dctx);
 		StaxHandler<T> handler = findHandler(dctx.peek());
 		return handler.handleDeserialization(dctx);
 	}
 	
+	/**
+	 * シリアライズする。
+	 * 
+	 * @param <T> シリアライズ対象の型
+	 * @param target シリアライズ対象
+	 * @param sctx シリアライズコンテキスト
+	 * @throws SerializationException シリアライズに失敗した場合
+	 */
 	public <T>void direct(T target, SerializationContext sctx) throws SerializationException {
 		Validate.notNull(target);
 		Validate.notNull(sctx);

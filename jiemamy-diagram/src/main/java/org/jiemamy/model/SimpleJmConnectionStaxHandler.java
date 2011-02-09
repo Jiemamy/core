@@ -23,6 +23,8 @@ import java.util.UUID;
 
 import javax.xml.stream.XMLStreamException;
 
+import com.google.common.collect.Lists;
+
 import org.apache.commons.lang.Validate;
 import org.codehaus.staxmate.in.SMEvent;
 import org.slf4j.Logger;
@@ -77,7 +79,12 @@ public final class SimpleJmConnectionStaxHandler extends StaxHandler<SimpleJmCon
 			
 			String idString = cursor.getAttrValue(CoreQName.ID);
 			UUID id = dctx.getContext().toUUID(idString);
-			SimpleJmConnection connection = null;
+			
+			EntityRef<? extends JmForeignKeyConstraint> core = null;
+			EntityRef<? extends JmNode> source = null;
+			EntityRef<? extends JmNode> target = null;
+			List<JmPoint> points = Lists.newArrayList();
+			JmColor color = null;
 			
 			JiemamyCursor childCursor = cursor.childElementCursor();
 			dctx.push(childCursor);
@@ -87,21 +94,17 @@ public final class SimpleJmConnectionStaxHandler extends StaxHandler<SimpleJmCon
 					if (childCursor.isQName(DiagramQName.CORE)) {
 						String coreIdString = childCursor.getAttrValue(CoreQName.REF);
 						UUID coreId = UUIDUtil.valueOfOrRandom(coreIdString);
-						EntityRef<? extends JmForeignKeyConstraint> core = DefaultEntityRef.of(coreId);
-						connection = new SimpleJmConnection(id, core);
+						core = DefaultEntityRef.of(coreId);
 					} else if (childCursor.isQName(DiagramQName.SOURCE)) {
 						String sourceIdString = childCursor.getAttrValue(CoreQName.REF);
 						UUID sourceId = UUIDUtil.valueOfOrRandom(sourceIdString);
-						EntityRef<? extends JmNode> source = DefaultEntityRef.of(sourceId);
-						connection.setSource(source);
+						source = DefaultEntityRef.of(sourceId);
 					} else if (childCursor.isQName(DiagramQName.TARGET)) {
 						String targetIdString = childCursor.getAttrValue(CoreQName.REF);
 						UUID targetId = UUIDUtil.valueOfOrRandom(targetIdString);
-						EntityRef<? extends JmNode> target = DefaultEntityRef.of(targetId);
-						connection.setTarget(target);
+						target = DefaultEntityRef.of(targetId);
 					} else if (childCursor.isQName(DiagramQName.BENDPOINTS)) {
 						JiemamyCursor bendpointCursor = childCursor.childElementCursor();
-						List<JmPoint> points = connection.breachEncapsulationOfBendpoints();
 						while (bendpointCursor.getNext() != null) {
 							dctx.push(bendpointCursor);
 							JmPoint point = getDirector().direct(dctx);
@@ -113,8 +116,7 @@ public final class SimpleJmConnectionStaxHandler extends StaxHandler<SimpleJmCon
 							dctx.pop();
 						}
 					} else if (childCursor.isQName(DiagramQName.COLOR)) {
-						JmColor color = getDirector().direct(dctx);
-						connection.setColor(color);
+						color = getDirector().direct(dctx);
 					} else {
 						logger.warn("UNKNOWN ELEMENT: {}", childCursor.getQName().toString());
 					}
@@ -123,6 +125,12 @@ public final class SimpleJmConnectionStaxHandler extends StaxHandler<SimpleJmCon
 				}
 			} while (childCursor.getCurrEvent() != null);
 			dctx.pop();
+			
+			SimpleJmConnection connection = new SimpleJmConnection(id, core);
+			connection.setSource(source);
+			connection.setTarget(target);
+			connection.breachEncapsulationOfBendpoints().addAll(points);
+			connection.setColor(color);
 			
 			return connection;
 		} catch (XMLStreamException e) {

@@ -50,6 +50,8 @@ public final class SimpleJmDiagram extends AbstractOrderedEntity implements JmDi
 	
 	private static Logger logger = LoggerFactory.getLogger(SimpleJmDiagram.class);
 	
+	private static final int SELF_CONNECTION_OFFSET = 50;
+	
 	private String name;
 	
 	private Level level = Level.ATTRTYPE;
@@ -293,8 +295,8 @@ public final class SimpleJmDiagram extends AbstractOrderedEntity implements JmDi
 			SimpleJmConnection simpleJmConnection = (SimpleJmConnection) connection;
 			JmRectangle boundary = nodes.resolve(connection.getSource()).getBoundary();
 			List<JmPoint> points = simpleJmConnection.breachEncapsulationOfBendpoints();
-			points.add(new JmPoint(boundary.x - 50, boundary.y - 0));
-			points.add(new JmPoint(boundary.x - 0, boundary.y - 50));
+			points.add(new JmPoint(boundary.x - SELF_CONNECTION_OFFSET, boundary.y - 0));
+			points.add(new JmPoint(boundary.x - 0, boundary.y - SELF_CONNECTION_OFFSET));
 		}
 		JmConnection old = connections.store(connection);
 		if (old == null) {

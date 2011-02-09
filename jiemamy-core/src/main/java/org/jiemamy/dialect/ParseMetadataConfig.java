@@ -40,7 +40,9 @@ public interface ParseMetadataConfig {
 	/**
 	 * インポートするエンティティの種類を取得する。
 	 * 
-	 * @return インポートするエンティティの種類. 未設定の場合は{@code null}
+	 * <p>空配列の場合、何もインポートしないことを表す。{@code null}の場合は全てインポートすることを表す。</p>
+	 * 
+	 * @return インポートするエンティティの種類、未設定の場合は{@code null}
 	 */
 	String[] getEntityTypes();
 	
@@ -53,6 +55,8 @@ public interface ParseMetadataConfig {
 	
 	/**
 	 * インポートするエンティティ名の配列を取得する。
+	 * 
+	 * <p>空配列の場合、何もインポートしないことを表す。{@code null}の場合は全てインポートすることを表す。</p>
 	 * 
 	 * @return インポートするエンティティ名の配列. 未設定の場合は{@code null}
 	 */

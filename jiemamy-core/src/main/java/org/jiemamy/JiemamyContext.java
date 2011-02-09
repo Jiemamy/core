@@ -474,17 +474,6 @@ public/*final*/class JiemamyContext implements EntityResolver {
 		return getDbObjects(JmTable.class);
 	}
 	
-//	/**
-//	 * 新しいトランザクションインスタンスを生成し、取得する。
-//	 * 
-//	 * @return 新しいトランザクション
-//	 * @since 0.2
-//	 */
-//	@Experimental
-//	public JiemamyTransaction getTransaction() {
-//		return new JiemamyTransaction(this);
-//	}
-	
 	/**
 	 * このコンテキストが管理する全ての{@link JmView}を取得する。
 	 * 

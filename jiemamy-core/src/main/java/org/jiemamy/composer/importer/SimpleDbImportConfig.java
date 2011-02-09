@@ -50,6 +50,7 @@ public class SimpleDbImportConfig extends SimpleDbConnectionConfig implements Db
 	
 	public String[] getEntityTypes() {
 		if (entityTypes == null) {
+			// checkstyle警告は無視。ここはnull返しでなければならない。docコメント参照。
 			return null;
 		}
 		return entityTypes.clone();
@@ -61,6 +62,7 @@ public class SimpleDbImportConfig extends SimpleDbConnectionConfig implements Db
 	
 	public String[] getSelectedEntities() {
 		if (selectedEntities == null) {
+			// checkstyle警告は無視。ここはnull返しでなければならない。docコメント参照。
 			return null;
 		}
 		return selectedEntities.clone();

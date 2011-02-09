@@ -95,7 +95,9 @@ public final class SimpleJmDataSet extends AbstractOrderedEntity implements JmDa
 			List<JmRecord> value = entry.getValue();
 			cloneMap.put(entry.getKey(), CloneUtil.cloneValueArrayList(value));
 		}
-		clone.records = cloneMap;
+		synchronized (clone) {
+			clone.records = cloneMap;
+		}
 		
 		return clone;
 	}
