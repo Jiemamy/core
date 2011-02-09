@@ -42,7 +42,7 @@ import org.jiemamy.model.table.SimpleJmTable;
 public class ForeignKeyFactoryTest {
 	
 	/**
-	 * TODO for daisuke
+	 * {@link ForeignKeyFactory}を用いて、デフォルト設定済みの{@link SimpleJmForeignKeyConstraint}を生成する。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
@@ -77,7 +77,7 @@ public class ForeignKeyFactoryTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * referenceテーブルにキーが存在しない場合はエラー。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
@@ -113,7 +113,7 @@ public class ForeignKeyFactoryTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * declaringテーブルにカラムが（充分に）存在しない場合はエラー。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */

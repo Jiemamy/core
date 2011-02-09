@@ -30,6 +30,7 @@ import org.jiemamy.dddbase.Repository;
  * 
  * @since 0.2
  * @param <T> 変更が起こったリポジトリが管理する{@link Entity}の型
+ * @version $Id$
  * @author daisuke
  * @author shin1ogawa
  */

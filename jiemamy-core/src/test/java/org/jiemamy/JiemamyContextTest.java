@@ -30,6 +30,8 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.spy;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import org.junit.AfterClass;
@@ -39,6 +41,7 @@ import org.junit.Test;
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityNotFoundException;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dialect.MockDialect;
 import org.jiemamy.model.DbObject;
 import org.jiemamy.model.column.JmColumn;
@@ -165,6 +168,18 @@ public class JiemamyContextTest {
 		c2 = new SimpleJmColumn(CID2);
 		c3 = new SimpleJmColumn(CID3);
 		// FORMAT-ON
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void story2() throws Exception {
+		JmTable table = new SimpleJmTable();
+		ctx1.store(table);
+		ctx2.store(table);
 	}
 	
 	/**
@@ -778,5 +793,85 @@ public class JiemamyContextTest {
 		assertThat(ctx1.findSuperDbObjectsRecursive(t2), hasItem((DbObject) t1));
 		assertThat(ctx1.findSuperDbObjectsRecursive(t3), hasItems((DbObject) t1, (DbObject) t2));
 		// FORMAT-ON
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test38_() throws Exception {
+		SimpleJmColumn col1 = new JmColumnBuilder().name("KEY").build();
+		SimpleJmColumn col2 = new JmColumnBuilder().name("VALUE").build();
+		
+		SimpleJmTable table = new JmTableBuilder().name("T_PROPERTY").build();
+		table.store(col1);
+		table.store(col2);
+		List<EntityRef<? extends JmColumn>> pk = new ArrayList<EntityRef<? extends JmColumn>>();
+		pk.add(col1.toReference());
+		table.store(SimpleJmPrimaryKeyConstraint.of(pk));
+		ctx1.store(table);
+		
+		assertThat(table.getColumns().size(), is(2));
+		assertThat(table.getConstraints().size(), is(1));
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test39_() throws Exception {
+		JmColumn pkColumn;
+		// FORMAT-OFF
+		SimpleJmTable table = new JmTableBuilder().name("T_PROPERTY")
+				.with(pkColumn = new JmColumnBuilder().name("KEY").build())
+				.with(new JmColumnBuilder().name("VALUE").build())
+				.with(SimpleJmPrimaryKeyConstraint.of(pkColumn))
+				.build();
+		// FORMAT-ON
+		ctx1.store(table);
+		
+		assertThat(table.getColumns().size(), is(2));
+		assertThat(table.getConstraints().size(), is(1));
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test40_() throws Exception {
+		JmColumn pkColumn;
+		JmColumn fkColumn1;
+		JmColumn fkColumn2;
+		JmColumn refColumn;
+		// FORMAT-OFF
+		SimpleJmTable dept = new JmTableBuilder().name("T_DEPT")
+				.with(pkColumn = refColumn = new JmColumnBuilder().name("ID").build())
+				.with(new JmColumnBuilder().name("NAME").build())
+				.with(new JmColumnBuilder().name("LOC").build())
+				.with( SimpleJmPrimaryKeyConstraint.of(pkColumn))
+				.build();
+		SimpleJmTable emp = new JmTableBuilder().name("T_EMP")
+				.with(pkColumn = new JmColumnBuilder().name("ID").build())
+				.with(new JmColumnBuilder().name("NAME").build())
+				.with(fkColumn1 = new JmColumnBuilder().name("DEPT_ID").build())
+				.with(fkColumn2 = new JmColumnBuilder().name("MGR_ID").build())
+				.with( SimpleJmPrimaryKeyConstraint.of(pkColumn))
+				.with(SimpleJmForeignKeyConstraint.of(fkColumn1,refColumn))
+				.with(SimpleJmForeignKeyConstraint.of(fkColumn2,pkColumn))
+				.build();
+		// FORMAT-ON
+		ctx1.store(dept);
+		ctx1.store(emp);
+		
+		assertThat(dept.getColumns().size(), is(3));
+		assertThat(dept.getConstraints().size(), is(1));
+		assertThat(emp.getColumns().size(), is(4));
+		assertThat(emp.getConstraints().size(), is(3));
 	}
 }

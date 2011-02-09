@@ -19,7 +19,7 @@
 package org.jiemamy;
 
 /**
- * TODO for daisuke
+ * {@link ServiceLocator}がサービスクラスを見つけられなかった場合にスローする例外。
  * 
  * @version $Id$
  * @author daisuke

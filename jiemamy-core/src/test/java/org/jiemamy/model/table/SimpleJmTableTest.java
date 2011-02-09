@@ -299,7 +299,7 @@ public class SimpleJmTableTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * カラムの付け替えが成功すること。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
