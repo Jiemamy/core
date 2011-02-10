@@ -52,7 +52,7 @@ public class DbImporterTest {
 	 */
 	@Test
 	public void test01_getName() throws Exception {
-		assertThat(importer.getName(), is("Database Importer"));
+		assertThat(importer.getName(), is("Database Importer (core)"));
 	}
 	
 }
