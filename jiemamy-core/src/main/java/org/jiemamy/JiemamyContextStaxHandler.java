@@ -18,6 +18,7 @@
  */
 package org.jiemamy;
 
+import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.List;
 
@@ -77,6 +78,10 @@ public final class JiemamyContextStaxHandler extends StaxHandler<JiemamyContext>
 			JiemamyContext context = dctx.getContext();
 			
 			JiemamyCursor cursor = dctx.peek();
+			
+			String versionString = cursor.getAttrValue(CoreQName.VERSION);
+			verifyVersionCompatibility(versionString);
+			
 			JiemamyCursor childCursor = cursor.childElementCursor();
 			dctx.push(childCursor);
 			do {
@@ -185,5 +190,18 @@ public final class JiemamyContextStaxHandler extends StaxHandler<JiemamyContext>
 			sb.append(" ").append(ns).append(" ").append(loc);
 		}
 		return sb.deleteCharAt(0).toString();
+	}
+	
+	private void verifyVersionCompatibility(String versionString) throws SerializationException {
+		Version parsed = Version.parse(versionString);
+		Version myVersion = JiemamyContext.getVersion();
+		if (myVersion.canDeserialize(parsed) == false) {
+			// FORMAT-OFF
+			String message = MessageFormat.format(
+					"Jiemamy v{0} cannot deserialize v{1} data.",
+					myVersion.toString(), parsed.toString());
+			// FORMAT-ON
+			throw new SerializationException(message);
+		}
 	}
 }
