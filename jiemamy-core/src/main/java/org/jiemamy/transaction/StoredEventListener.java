@@ -19,7 +19,7 @@
 package org.jiemamy.transaction;
 
 /**
- * EDITコマンドが実行されたイベントの通知を受け取るリスナ。
+ * データがストアされたイベントの通知を受け取るリスナ。
  * 
  * @since 0.3
  * @author shin1ogawa
@@ -27,14 +27,14 @@ package org.jiemamy.transaction;
 public interface StoredEventListener {
 	
 	/**
-	 * コマンドが実行されたことを通知するcallbackメソッド。
+	 * データがストアされたことを通知するcallbackメソッド。
 	 * 
 	 * <p>監視対象に変更があった場合に{@link EventBroker}によってcallbackされる。</p>
 	 * 
-	 * @param command 実行されたコマンド
+	 * @param event イベント
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 0.3
 	 */
-	void commandExecuted(StoredEvent<?> command);
+	void handleStoredEvent(StoredEvent<?> event);
 	
 }

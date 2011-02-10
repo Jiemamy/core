@@ -77,7 +77,7 @@ public class EventBrokerImpl implements EventBroker {
 				needToDispatch = strategy.needToDispatch(listener, command);
 			}
 			if (needToDispatch) {
-				listener.commandExecuted(command);
+				listener.handleStoredEvent(command);
 				logger.debug(LogMarker.LIFECYCLE, "Listener is kicked: " + listener.toString());
 			}
 		}
