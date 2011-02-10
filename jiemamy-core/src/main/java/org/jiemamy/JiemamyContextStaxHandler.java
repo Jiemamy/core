@@ -140,7 +140,7 @@ public final class JiemamyContextStaxHandler extends StaxHandler<JiemamyContext>
 			
 			SMNamespace xsiNs =
 					element.getSMOutputElement().getNamespace("http://www.w3.org/2001/XMLSchema-instance", "xsi");
-			element.addAttribute(CoreQName.VERSION, JiemamyContext.getVersion().toString());
+			element.addAttribute(CoreQName.VERSION, JiemamyContext.getVersion().toStringSpec());
 			element.addAttribute(xsiNs, "schemaLocation", getSchemaLocation(model.getNamespaces()));
 			
 			JmMetadata meta = model.getMetadata();
