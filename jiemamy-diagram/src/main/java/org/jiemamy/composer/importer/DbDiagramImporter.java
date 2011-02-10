@@ -23,6 +23,8 @@ import java.util.Collection;
 import com.google.common.collect.Lists;
 
 import org.apache.commons.lang.Validate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.jiemamy.DiagramFacet;
 import org.jiemamy.JiemamyContext;
@@ -48,6 +50,9 @@ import org.jiemamy.transaction.StoredEventListener;
  */
 public class DbDiagramImporter extends DbImporter {
 	
+	private static Logger logger = LoggerFactory.getLogger(DbDiagramImporter.class);
+	
+
 	@Override
 	public String getName() {
 		return "Database Importer";
@@ -96,6 +101,7 @@ public class DbDiagramImporter extends DbImporter {
 		
 		public void handleStoredEvent(StoredEvent<?> event) {
 			if (event.getBefore() != null || event.getAfter() == null) {
+				logger.warn("deleted? updated? " + event.getBefore() + " " + event.getAfter());
 				return;
 			}
 			Object object = event.getAfter();
@@ -113,6 +119,7 @@ public class DbDiagramImporter extends DbImporter {
 		}
 		
 		void close() {
+			logger.debug("{} connections", fks.size());
 			for (JmForeignKeyConstraint fk : fks) {
 				SimpleJmConnection conn = new SimpleJmConnection(fk.toReference());
 				JmTable declaringTable = fk.findDeclaringTable(context.getTables());
