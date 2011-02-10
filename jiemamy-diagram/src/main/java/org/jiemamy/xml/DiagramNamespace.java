@@ -21,6 +21,7 @@ package org.jiemamy.xml;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.jiemamy.JiemamyContext;
 import org.jiemamy.JiemamyError;
 
 /**
@@ -31,8 +32,9 @@ import org.jiemamy.JiemamyError;
  */
 public enum DiagramNamespace implements JiemamyNamespace {
 	
-	/** Jiemamy view specifications */
-	NS_DIAGRAM("diagram", "http://jiemamy.org/xml/ns/diagram", "http://jiemamy.org/xml/0.3/jiemamy-diagram.xsd"),
+	/** Jiemamy diagram specifications */
+	NS_DIAGRAM("diagram", "http://jiemamy.org/xml/ns/diagram", "http://schema.jiemamy.org/xml/"
+			+ JiemamyContext.getVersion().toString() + "/jiemamy-diagram.xsd"),
 
 	/**  */
 	NONE("", "", "");

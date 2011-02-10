@@ -25,8 +25,10 @@ import javax.xml.stream.XMLStreamException;
 
 import com.google.common.collect.Lists;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.codehaus.staxmate.in.SMEvent;
+import org.codehaus.staxmate.out.SMNamespace;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,9 +38,11 @@ import org.jiemamy.serializer.SerializationException;
 import org.jiemamy.serializer.stax2.DeserializationContext;
 import org.jiemamy.serializer.stax2.JiemamyCursor;
 import org.jiemamy.serializer.stax2.JiemamyOutputContainer;
+import org.jiemamy.serializer.stax2.JiemamyOutputElement;
 import org.jiemamy.serializer.stax2.SerializationContext;
 import org.jiemamy.serializer.stax2.StaxDirector;
 import org.jiemamy.serializer.stax2.StaxHandler;
+import org.jiemamy.xml.JiemamyNamespace;
 import org.jiemamy.xml.SqlQName;
 
 /**
@@ -98,7 +102,13 @@ public final class SqlFacetStaxHandler extends StaxHandler<SqlFacet> {
 		Validate.notNull(sctx);
 		JiemamyOutputContainer parent = sctx.peek();
 		try {
-			sctx.push(parent.addElement(SqlQName.SQLS));
+			JiemamyOutputElement element = parent.addElement(SqlQName.SQLS);
+			
+			SMNamespace xsiNs =
+					element.getSMOutputElement().getNamespace("http://www.w3.org/2001/XMLSchema-instance", "xsi");
+			element.addAttribute(xsiNs, "schemaLocation", getSchemaLocation(model.getNamespaces()));
+			
+			sctx.push(element);
 			List<JmAroundScript> list = Lists.newArrayList(model.getAroundScripts());
 			Collections.sort(list, EntityComparator.INSTANCE);
 			for (JmAroundScript aroundScript : list) {
@@ -108,5 +118,18 @@ public final class SqlFacetStaxHandler extends StaxHandler<SqlFacet> {
 		} catch (XMLStreamException e) {
 			throw new SerializationException(e);
 		}
+	}
+	
+	private String getSchemaLocation(JiemamyNamespace[] namespaces) {
+		StringBuilder sb = new StringBuilder();
+		for (JiemamyNamespace namespace : namespaces) {
+			String ns = namespace.getNamespaceURI().toString();
+			String loc = namespace.getXmlSchemaLocation();
+			if (StringUtils.isEmpty(ns) || StringUtils.isEmpty(loc)) {
+				continue;
+			}
+			sb.append(" ").append(ns).append(" ").append(loc);
+		}
+		return sb.deleteCharAt(0).toString();
 	}
 }

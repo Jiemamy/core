@@ -21,6 +21,7 @@ package org.jiemamy.xml;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.jiemamy.JiemamyContext;
 import org.jiemamy.JiemamyError;
 
 /**
@@ -32,7 +33,8 @@ import org.jiemamy.JiemamyError;
 public enum SqlNamespace implements JiemamyNamespace {
 	
 	/** Jiemamy sql specifications */
-	NS_SQL("sql", "http://jiemamy.org/xml/ns/sql", "http://jiemamy.org/xml/0.3/jiemamy-sql.xsd"),
+	NS_SQL("sql", "http://jiemamy.org/xml/ns/sql", "http://schema.jiemamy.org/xml/"
+			+ JiemamyContext.getVersion().toString() + "/jiemamy-sql.xsd"),
 
 	/**  */
 	NONE("", "", "");

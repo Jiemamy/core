@@ -181,6 +181,14 @@ public class JiemamyOutputElement extends JiemamyOutputContainer {
 	}
 	
 	/**
+	 * somethingを取得する。 TODO for daisuke
+	 * @return the element
+	 */
+	public SMOutputElement getSMOutputElement() {
+		return element;
+	}
+	
+	/**
 	 * DOCME for daisuke
 	 * 
 	 * @return DOCME

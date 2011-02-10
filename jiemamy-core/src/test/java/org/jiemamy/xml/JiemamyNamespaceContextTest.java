@@ -41,7 +41,6 @@ public class JiemamyNamespaceContextTest {
 	public void test01_prefixからURIが_URIからprefixが相互変換できる() throws Exception {
 		NamespaceContext ctx = new JiemamyNamespaceContext(CoreNamespace.values());
 		assertThat(ctx.getNamespaceURI(""), is("http://jiemamy.org/xml/ns/core"));
-		assertThat(ctx.getNamespaceURI("core"), is("http://jiemamy.org/xml/ns/core"));
 		assertThat(ctx.getPrefix("http://jiemamy.org/xml/ns/core"), is(""));
 	}
 }

@@ -21,6 +21,7 @@ package org.jiemamy.xml;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.jiemamy.JiemamyContext;
 import org.jiemamy.JiemamyError;
 
 /**
@@ -41,11 +42,13 @@ public enum CoreNamespace implements JiemamyNamespace {
 	NS_XSI("xsi", "http://www.w3.org/2001/XMLSchema-instance", ""),
 
 	/** Jiemamy core specifications */
-	NS_CORE("", "http://jiemamy.org/xml/ns/core", "http://jiemamy.org/xml/0.3/jiemamy-core.xsd"),
+	NS_CORE("", "http://jiemamy.org/xml/ns/core", "http://schema.jiemamy.org/xml/"
+			+ JiemamyContext.getVersion().toString() + "/jiemamy-core.xsd"),
 
-	/** Jiemamy core specifications */
-	NS_DEFAULT("core", "http://jiemamy.org/xml/ns/core", "http://jiemamy.org/xml/0.3/jiemamy-core.xsd"),
-
+//	/** Jiemamy core specifications */
+//	NS_DEFAULT("core", "http://jiemamy.org/xml/ns/core", "http://schema.jiemamy.org/xml/"
+//			+ JiemamyContext.getVersion().toString() + "/jiemamy-core.xsd"),
+	
 	/**  */
 	NONE("", "", "");
 	

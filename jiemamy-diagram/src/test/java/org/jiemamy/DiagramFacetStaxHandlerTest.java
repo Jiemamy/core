@@ -93,7 +93,12 @@ public class DiagramFacetStaxHandlerTest extends AbstractStaxHandlerTest {
 		
 		// FORMAT-OFF
 		String expected = "<?xml version='1.0' encoding='UTF-8'?>" + LF
-				+ "<diagram:diagrams xmlns:diagram=\"http://jiemamy.org/xml/ns/diagram\"/>";
+				+ "<diagram:diagrams " +
+						"xmlns:diagram=\"http://jiemamy.org/xml/ns/diagram\" " +
+						"xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" " +
+						"xsi:schemaLocation=\"http://jiemamy.org/xml/ns/diagram " +
+							"http://schema.jiemamy.org/xml/" + JiemamyContext.getVersion().toString() + "/jiemamy-diagram.xsd\"/>";
+		
 		// FORMAT-ON
 		logger.info("actual={}", actual);
 		logger.info("expected={}", expected);
