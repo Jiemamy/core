@@ -208,10 +208,10 @@ public class SqlFacet implements JiemamyFacet {
 		JmAroundScript old = scripts.store(script);
 		
 		if (old == null) {
-			logger.info(LogMarker.LIFECYCLE, "script stored: " + script);
+			logger.debug(LogMarker.LIFECYCLE, "script stored: " + script);
 		} else {
-			logger.info(LogMarker.LIFECYCLE, "script updated: (old) " + old);
-			logger.info(LogMarker.LIFECYCLE, "                (new) " + script);
+			logger.debug(LogMarker.LIFECYCLE, "script updated: (old) " + old);
+			logger.debug(LogMarker.LIFECYCLE, "                (new) " + script);
 		}
 		context.getEventBroker().fireEvent(new StoredEvent<JmAroundScript>(scripts, old, script));
 	}

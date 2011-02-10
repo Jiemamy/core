@@ -221,10 +221,10 @@ public class DiagramFacet implements JiemamyFacet {
 		Validate.notNull(diagram);
 		JmDiagram old = diagrams.store(diagram);
 		if (old == null) {
-			logger.info(LogMarker.LIFECYCLE, "diagram stored: " + diagram);
+			logger.debug(LogMarker.LIFECYCLE, "diagram stored: " + diagram);
 		} else {
-			logger.info(LogMarker.LIFECYCLE, "diagram updated: (old) " + old);
-			logger.info(LogMarker.LIFECYCLE, "                 (new) " + diagram);
+			logger.debug(LogMarker.LIFECYCLE, "diagram updated: (old) " + old);
+			logger.debug(LogMarker.LIFECYCLE, "                 (new) " + diagram);
 		}
 		context.getEventBroker().fireEvent(new StoredEvent<JmDiagram>(diagrams, old, diagram));
 	}

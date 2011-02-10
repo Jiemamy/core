@@ -559,7 +559,7 @@ public/*final*/class JiemamyContext implements EntityResolver {
 			logger.debug(LogMarker.LIFECYCLE, "dbObject stored: " + dbObject);
 		} else {
 			logger.debug(LogMarker.LIFECYCLE, "dbObject updated: (old) " + old);
-			logger.debug(LogMarker.LIFECYCLE, "                         (new) " + dbObject);
+			logger.debug(LogMarker.LIFECYCLE, "                  (new) " + dbObject);
 		}
 		eventBroker.fireEvent(new StoredEvent<DbObject>(dbObjects, old, dbObject));
 	}
