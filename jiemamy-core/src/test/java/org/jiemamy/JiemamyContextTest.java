@@ -171,18 +171,6 @@ public class JiemamyContextTest {
 	}
 	
 	/**
-	 * TODO for daisuke
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
-	@Test
-	public void story2() throws Exception {
-		JmTable table = new SimpleJmTable();
-		ctx1.store(table);
-		ctx2.store(table);
-	}
-	
-	/**
 	 * IDが違うテーブルを同じctxに追加できる。
 	 * 
 	 * @throws Exception 例外が発生した場合
@@ -339,12 +327,12 @@ public class JiemamyContextTest {
 	}
 	
 	/**
-	 * IDが同じであってもテーブルが違えば置くことができる。
+	 * カラムのIDが同じであってもテーブルが違えば置くことができる。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test12_IDが同じであってもテーブルが違えば置くことができる() throws Exception {
+	public void test12_カラムのIDが同じであってもテーブルが違えば置くことができる() throws Exception {
 		t1a.store(c1a);
 		t2.store(c1b); // 等価だけどテーブルが違うのでOK
 		assertThat(t1a.getColumn(c1a.toReference()).getName(), is("A"));
@@ -352,12 +340,12 @@ public class JiemamyContextTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * カラムのIDが同じであってもテーブルのインスタンスが違えば置くことができる。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test12b_() throws Exception {
+	public void test12b_カラムのIDが同じであってもテーブルのインスタンスが違えば置くことができる() throws Exception {
 		t1a.store(c1a);
 		t1b.store(c1b); // 等価だけどテーブルが違うのでOK
 		assertThat(t1a.getColumn(c1a.toReference()).getName(), is("A"));
@@ -365,12 +353,12 @@ public class JiemamyContextTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * カラムとIDのIDが同じであってもコンテキストが違えば置くことができる。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test12c_() throws Exception {
+	public void test12c_カラムとIDのIDが同じであってもコンテキストが違えば置くことができる() throws Exception {
 		t1a.store(c1a);
 		t1b.store(c1b);
 		ctx1.store(t1a);
@@ -381,12 +369,12 @@ public class JiemamyContextTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * カラムとIDのIDが同じセットを同じコンテキストに置こうとすると例外。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test(expected = IllegalArgumentException.class)
-	public void test12d_() throws Exception {
+	public void test12d_カラムとIDのIDが同じセットを同じコンテキストに置こうとすると例外() throws Exception {
 		t1a.store(c1a);
 		t2.store(c1b);
 		ctx1.store(t1a);
