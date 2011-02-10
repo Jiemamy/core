@@ -78,7 +78,7 @@ public class DbImporter extends AbstractImporter<DbImportConfig> {
 	
 
 	public String getName() {
-		return "Database Importer";
+		return "Database Importer (core)";
 	}
 	
 	public boolean importModel(JiemamyContext context, DbImportConfig config) throws ImportException {

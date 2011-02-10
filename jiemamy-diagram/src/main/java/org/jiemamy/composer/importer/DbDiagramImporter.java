@@ -50,7 +50,7 @@ public class DbDiagramImporter extends DbImporter {
 	
 	@Override
 	public String getName() {
-		return "Database Diagram Importer";
+		return "Database Importer";
 	}
 	
 	@Override
@@ -76,7 +76,7 @@ public class DbDiagramImporter extends DbImporter {
 		
 		private final JiemamyContext context;
 		
-		private final SimpleJmDiagram diagram = new SimpleJmDiagram();
+		private final SimpleJmDiagram diagram;
 		
 		private int loc = 100;
 		
@@ -86,6 +86,12 @@ public class DbDiagramImporter extends DbImporter {
 		StoredEventListenerImpl(JiemamyContext context) {
 			Validate.notNull(context);
 			this.context = context;
+			DiagramFacet facet = context.getFacet(DiagramFacet.class);
+			if (facet.getDiagrams().isEmpty()) {
+				diagram = new SimpleJmDiagram();
+			} else {
+				diagram = (SimpleJmDiagram) facet.getDiagrams().get(0);
+			}
 		}
 		
 		public void handleStoredEvent(StoredEvent<?> event) {
