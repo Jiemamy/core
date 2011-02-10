@@ -67,10 +67,9 @@ public final class ScriptString {
 	 * 
 	 * @param script スクリプト文字列
 	 * @param scriptEngineClassName {@link ScriptEngine}の実装クラス名
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @throws IllegalArgumentException 引数{@code scriptEngineClassName}に{@code null}を与えた場合
 	 */
 	public ScriptString(String script, String scriptEngineClassName) {
-		Validate.notNull(script);
 		Validate.notNull(scriptEngineClassName);
 		this.script = script;
 		this.scriptEngineClassName = scriptEngineClassName;
@@ -92,17 +91,10 @@ public final class ScriptString {
 			if (other.script != null) {
 				return false;
 			}
-		} else if (!script.equals(other.script)) {
+		} else if (script.equals(other.script) == false) {
 			return false;
 		}
-		if (scriptEngineClassName == null) {
-			if (other.scriptEngineClassName != null) {
-				return false;
-			}
-		} else if (!scriptEngineClassName.equals(other.scriptEngineClassName)) {
-			return false;
-		}
-		return true;
+		return scriptEngineClassName.equals(other.scriptEngineClassName);
 	}
 	
 	/**
@@ -128,7 +120,7 @@ public final class ScriptString {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((script == null) ? 0 : script.hashCode());
-		result = prime * result + ((scriptEngineClassName == null) ? 0 : scriptEngineClassName.hashCode());
+		result = prime * result + scriptEngineClassName.hashCode();
 		return result;
 	}
 	
@@ -139,8 +131,9 @@ public final class ScriptString {
 	 * @return 処理結果
 	 * @throws ClassNotFoundException {@link #scriptEngineClassName}に対応するエンジンが存在しない場合
 	 * @throws ClassCastException {@link #scriptEngineClassName}が {@link ScriptEngine} インターフェイスを持たない場合
+	 * @throws ScriptException スクリプトの実行に失敗した場合
 	 */
-	public String process(Map<String, Object> env) throws ClassNotFoundException {
+	public String process(Map<String, Object> env) throws ClassNotFoundException, ScriptException {
 		if (scriptEngine == null) {
 			ServiceLocator serviceLocator = JiemamyContext.getServiceLocator();
 			scriptEngine = serviceLocator.getService(ScriptEngine.class, scriptEngineClassName);

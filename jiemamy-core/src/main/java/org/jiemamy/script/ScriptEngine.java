@@ -34,9 +34,9 @@ public interface ScriptEngine {
 	 * @param env スクリプト実行環境
 	 * @param script 評価するスクリプト
 	 * @return スクリプト評価結果
-	 * @throws IllegalArgumentException 引数{@code script}に{@code null}を与えた場合
+	 * @throws ScriptException スクリプトの実行に失敗した場合
 	 * @since 0.3
 	 */
-	String process(Map<String, Object> env, String script);
+	String process(Map<String, Object> env, String script) throws ScriptException;
 	
 }

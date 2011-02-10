@@ -20,12 +20,29 @@ package org.jiemamy.dialect;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.JiemamyContext;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.DbObject;
+import org.jiemamy.model.column.JmColumn;
+import org.jiemamy.model.dataset.SimpleJmDataSet;
+import org.jiemamy.model.dataset.SimpleJmRecord;
+import org.jiemamy.model.table.SimpleJmTable;
+import org.jiemamy.script.ScriptString;
+import org.jiemamy.utils.DbObjectDependencyCalculator;
+import org.jiemamy.utils.sql.SqlExecutor;
+import org.jiemamy.utils.sql.SqlExecutorHandler;
 import org.jiemamy.utils.sql.metadata.TypeSafeDatabaseMetaData;
 
 /**
@@ -84,6 +101,32 @@ public class DefaultDatabaseMetadataParser implements DatabaseMetadataParser {
 		
 		fkImportVisitor.initialize(context);
 		reader.readRelations(fkImportVisitor);
+		
+		List<DbObject> dbObjects = DbObjectDependencyCalculator.getSortedEntityList(context);
+		List<SimpleJmTable> tables = Lists.newArrayList(Iterables.filter(dbObjects, SimpleJmTable.class));
+		
+		final SimpleJmDataSet dataSet = new SimpleJmDataSet();
+		dataSet.setName("imported " + new Date().toString());
+		SqlExecutor ex = new SqlExecutor(connection);
+		for (final SimpleJmTable table : tables) {
+			ex.execute("SELECT * FROM " + table.getName() + ";", new SqlExecutorHandler() {
+				
+				public void handleResultSet(String sql, ResultSet rs) throws SQLException {
+					while (rs.next()) {
+						Map<EntityRef<? extends JmColumn>, ScriptString> map = Maps.newHashMap();
+						for (JmColumn col : table.getColumns()) {
+							String data = rs.getString(col.getName());
+							map.put(col.toReference(), new ScriptString(data));
+						}
+						dataSet.addRecord(table.toReference(), new SimpleJmRecord(map));
+					}
+				}
+				
+				public void handleUpdateCount(String sql, int count) {
+				}
+			});
+		}
+		context.store(dataSet);
 		
 		tearDownRead(connection);
 	}

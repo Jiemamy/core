@@ -64,6 +64,7 @@ import org.jiemamy.model.sql.SqlStatement;
 import org.jiemamy.model.sql.Token;
 import org.jiemamy.model.table.JmTable;
 import org.jiemamy.model.view.JmView;
+import org.jiemamy.script.ScriptException;
 import org.jiemamy.script.ScriptString;
 import org.jiemamy.utils.ConstraintComparator;
 import org.jiemamy.utils.DbObjectDependencyCalculator;
@@ -403,6 +404,9 @@ public class DefaultSqlEmitter implements SqlEmitter {
 			} catch (ClassNotFoundException e) {
 				logger.error("", e);
 				continue;
+			} catch (ScriptException e) {
+				logger.error("", e);
+				continue;
 			}
 			
 			Literal dataLiteral;
@@ -451,6 +455,10 @@ public class DefaultSqlEmitter implements SqlEmitter {
 			result.add(new SimpleSqlStatement(Literal.of(
 					"-- ERROR: Cannot resolve " + aroundScript.getScriptEngineClassName(position) + "\n",
 					LiteralType.FRAGMENT)));
+		} catch (ScriptException e) {
+			result.add(new SimpleSqlStatement(Literal.of(
+					"-- ERROR: script execution failed " + aroundScript.getScriptEngineClassName(position) + "\n",
+					LiteralType.FRAGMENT)));
 		}
 	}
 	
@@ -470,6 +478,10 @@ public class DefaultSqlEmitter implements SqlEmitter {
 		} catch (ClassNotFoundException e) {
 			result.add(new SimpleSqlStatement(Literal.of(
 					"-- ERROR: Cannot resolve " + aroundScript.getScriptEngineClassName(position) + "\n",
+					LiteralType.FRAGMENT)));
+		} catch (ScriptException e) {
+			result.add(new SimpleSqlStatement(Literal.of(
+					"-- ERROR: script execution failed " + aroundScript.getScriptEngineClassName(position) + "\n",
 					LiteralType.FRAGMENT)));
 		}
 	}

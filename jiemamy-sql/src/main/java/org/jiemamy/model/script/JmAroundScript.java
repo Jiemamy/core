@@ -23,6 +23,7 @@ import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.DbObject;
 import org.jiemamy.script.ScriptEngine;
+import org.jiemamy.script.ScriptException;
 
 /**
  * 開始/終了スクリプトモデル。
@@ -83,9 +84,11 @@ public interface JmAroundScript extends Entity {
 	 * @return スクリプト実行結果
 	 * @throws ClassNotFoundException スクリプトエンジンのクラスが解決できない場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @throws ScriptException スクリプトの実行に失敗した場合
 	 * @since 0.3
 	 */
-	String process(JiemamyContext context, Position position, Object target) throws ClassNotFoundException;
+	String process(JiemamyContext context, Position position, Object target) throws ClassNotFoundException,
+			ScriptException;
 	
 	EntityRef<? extends JmAroundScript> toReference();
 }

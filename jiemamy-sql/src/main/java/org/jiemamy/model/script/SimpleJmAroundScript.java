@@ -34,6 +34,7 @@ import org.jiemamy.dddbase.utils.CloneUtil;
 import org.jiemamy.dddbase.utils.MutationMonitor;
 import org.jiemamy.model.DbObject;
 import org.jiemamy.script.ScriptEngine;
+import org.jiemamy.script.ScriptException;
 import org.jiemamy.script.ScriptString;
 
 /**
@@ -102,7 +103,8 @@ public final class SimpleJmAroundScript extends AbstractEntity implements JmArou
 		return MutationMonitor.monitor(Maps.newHashMap(scripts));
 	}
 	
-	public String process(JiemamyContext context, Position position, Object target) throws ClassNotFoundException {
+	public String process(JiemamyContext context, Position position, Object target) throws ClassNotFoundException,
+			ScriptException {
 		Validate.notNull(context);
 		Validate.notNull(position);
 		Validate.notNull(target);
