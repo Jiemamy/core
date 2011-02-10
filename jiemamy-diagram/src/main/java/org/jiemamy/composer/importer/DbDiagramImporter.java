@@ -20,7 +20,7 @@ package org.jiemamy.composer.importer;
 
 import java.util.Collection;
 
-import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
@@ -85,7 +85,7 @@ public class DbDiagramImporter extends DbImporter {
 		
 		private int loc = 100;
 		
-		private Collection<JmForeignKeyConstraint> fks = Lists.newArrayList();
+		private Collection<JmForeignKeyConstraint> fks = Sets.newHashSet();
 		
 
 		StoredEventListenerImpl(JiemamyContext context) {
@@ -100,17 +100,19 @@ public class DbDiagramImporter extends DbImporter {
 		}
 		
 		public void handleStoredEvent(StoredEvent<?> event) {
-			if (event.getBefore() != null || event.getAfter() == null) {
-				logger.warn("deleted? updated? " + event.getBefore() + " " + event.getAfter());
+			if (event.getAfter() == null) {
+				logger.warn("deleted? " + event.getBefore());
 				return;
 			}
 			Object object = event.getAfter();
 			if (object instanceof JmTable || object instanceof JmView) {
 				DbObject dbObject = (DbObject) object;
-				SimpleDbObjectNode node = new SimpleDbObjectNode(dbObject.toReference());
-				node.setBoundary(new JmRectangle(loc, loc));
-				loc++;
-				diagram.store(node);
+				if (diagram.getNodeFor(dbObject.toReference()) == null) {
+					SimpleDbObjectNode node = new SimpleDbObjectNode(dbObject.toReference());
+					node.setBoundary(new JmRectangle(loc, loc));
+					loc += 10;
+					diagram.store(node);
+				}
 				if (dbObject instanceof JmTable) {
 					JmTable table = (JmTable) dbObject;
 					fks.addAll(table.getForeignKeyConstraints());

@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jiemamy xmlns="http://jiemamy.org/xml/ns/core" version="0.3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jiemamy.org/xml/ns/core http://schema.jiemamy.org/xml/0.3.0/jiemamy-core.xsd http://jiemamy.org/xml/ns/diagram http://schema.jiemamy.org/xml/0.3.0/jiemamy-diagram.xsd http://jiemamy.org/xml/ns/sql http://schema.jiemamy.org/xml/0.3.0/jiemamy-sql.xsd">
+  <metadata>
+    <dialect>org.jiemamy.dialect.GenericDialect</dialect>
+  </metadata>
+  <dbobjects>
+    <view id="09bfa125-b888-4d12-9422-a078115bfeb7">
+      <name>v_high_sal_emp</name>
+      <definition>VIEW DEFINITION (not implemented)</definition>
+    </view>
+  </dbobjects>
+  <dataSets/>
+  <diagram:diagrams xmlns:diagram="http://jiemamy.org/xml/ns/diagram" xsi:schemaLocation="http://jiemamy.org/xml/ns/diagram http://schema.jiemamy.org/xml/0.3.0/jiemamy-diagram.xsd">
+    <diagram:diagram id="4c55a365-bf3c-4a02-8d8d-83946e125ebb">
+      <diagram:name>default</diagram:name>
+      <diagram:level>ATTRTYPE</diagram:level>
+      <diagram:mode>PHYSICAL</diagram:mode>
+      <diagram:nodes>
+        <diagram:node id="007af078-832a-49f7-9ee6-3c4a1d863775">
+          <diagram:core ref="5363561b-ce8e-42ad-837b-e3da1d105123"/>
+          <diagram:boundary x="101" y="101" width="-1" height="-1"/>
+        </diagram:node>
+        <diagram:node id="1c84690d-8dc6-4954-9a5a-1336ba09c1a4">
+          <diagram:core ref="09bfa125-b888-4d12-9422-a078115bfeb7"/>
+          <diagram:boundary x="102" y="102" width="-1" height="-1"/>
+        </diagram:node>
+      </diagram:nodes>
+      <diagram:connections/>
+    </diagram:diagram>
+  </diagram:diagrams>
+  <sql:sqls xmlns:sql="http://jiemamy.org/xml/ns/sql" xsi:schemaLocation="http://jiemamy.org/xml/ns/sql http://schema.jiemamy.org/xml/0.3.0/jiemamy-sql.xsd"/>
+</jiemamy>
