@@ -31,6 +31,7 @@ import org.slf4j.LoggerFactory;
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.DbObject;
+import org.jiemamy.script.PlainScriptEngine;
 import org.jiemamy.script.ScriptString;
 import org.jiemamy.serializer.SerializationException;
 import org.jiemamy.serializer.stax2.DeserializationContext;
@@ -91,7 +92,14 @@ public final class SimpleJmAroundScriptStaxHandler extends StaxHandler<SimpleJmA
 						aroundScript.setCoreModelRef(core);
 					} else if (childCursor.isQName(SqlQName.SCRIPT)) {
 						Position position = childCursor.getAttrEnumValue(SqlQName.POSITION, Position.class);
-						String engine = childCursor.getAttrValue(CoreQName.ENGINE);
+						
+						String engine;
+						if (childCursor.hasAttr(CoreQName.ENGINE)) {
+							engine = childCursor.getAttrValue(CoreQName.ENGINE);
+						} else { // eingine属性がない場合はPlainScriptEngineで動作する
+							engine = PlainScriptEngine.class.getName();
+						}
+						
 						String script = childCursor.collectDescendantText(true);
 						aroundScript.setScript(position, script, engine);
 					} else {
@@ -128,7 +136,11 @@ public final class SimpleJmAroundScriptStaxHandler extends StaxHandler<SimpleJmA
 				ScriptString value = e.getValue();
 				JiemamyOutputElement scriptElement = aroundScriptElement.addElement(SqlQName.SCRIPT);
 				scriptElement.addAttribute(SqlQName.POSITION, e.getKey());
-				scriptElement.addAttribute(CoreQName.ENGINE, value.getScriptEngineClassName());
+				String scriptEngineClassName = value.getScriptEngineClassName();
+				if (scriptEngineClassName.equals(PlainScriptEngine.class.getName()) == false) {
+					// PlainScriptEngine以外の場合シリアライズする
+					scriptElement.addAttribute(CoreQName.ENGINE, scriptEngineClassName);
+				}
 				scriptElement.addCharacters(value.getScript());
 			}
 			
