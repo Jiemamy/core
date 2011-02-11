@@ -39,7 +39,7 @@ import org.jiemamy.model.datatype.SimpleRawTypeDescriptor;
 public abstract class AbstractDialectTest {
 	
 	/**
-	 * 全ての {@link RawTypeCategory} について、 {@link TypeParameterSpec} を取得できる。
+	 * 全ての {@link RawTypeCategory} について、データ型のパラメータの仕様を取得できる。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */

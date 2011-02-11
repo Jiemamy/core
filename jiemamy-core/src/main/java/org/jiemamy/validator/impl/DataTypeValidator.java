@@ -19,6 +19,7 @@
 package org.jiemamy.validator.impl;
 
 import java.util.Collection;
+import java.util.Map;
 
 import com.google.common.collect.Lists;
 
@@ -26,11 +27,11 @@ import org.apache.commons.lang.Validate;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.dialect.Dialect;
-import org.jiemamy.dialect.TypeParameterSpec;
-import org.jiemamy.dialect.TypeParameterSpec.Necessity;
+import org.jiemamy.dialect.Necessity;
 import org.jiemamy.model.column.JmColumn;
 import org.jiemamy.model.datatype.DataType;
 import org.jiemamy.model.datatype.SimpleRawTypeDescriptor;
+import org.jiemamy.model.datatype.TypeParameterKey;
 import org.jiemamy.model.table.JmTable;
 import org.jiemamy.validator.AbstractProblem;
 import org.jiemamy.validator.AbstractValidator;
@@ -86,11 +87,10 @@ public class DataTypeValidator extends AbstractValidator {
 			collector.add(new UnknownDataTypeReferenceProblem(table, column));
 		}
 		if (dialect != null) {
-			Collection<TypeParameterSpec> typeParameterSpecs =
+			Map<TypeParameterKey<?>, Necessity> typeParameterSpecs =
 					dialect.getTypeParameterSpecs(dataType.getRawTypeDescriptor());
-			for (TypeParameterSpec typeParameterSpec : typeParameterSpecs) {
-				if (typeParameterSpec.getNecessity() == Necessity.REQUIRED
-						&& dataType.getParam(typeParameterSpec.getKey()) == null) {
+			for (Map.Entry<TypeParameterKey<?>, Necessity> entry : typeParameterSpecs.entrySet()) {
+				if (entry.getValue() == Necessity.REQUIRED && dataType.getParam(entry.getKey()) == null) {
 					collector.add(new RequiredParameterNotFoundProblem(table, column));
 				}
 			}

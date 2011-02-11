@@ -23,6 +23,7 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.collect.Lists;
 
@@ -255,13 +256,13 @@ public class DefaultDatabaseObjectImportVisitor extends AbstractCollectionVisito
 			RawTypeCategory category = RawTypeCategory.fromSqlType(element.dataType);
 			SimpleRawTypeDescriptor typeRef = new SimpleRawTypeDescriptor(category, element.typeName);
 			SimpleDataType dataType = new SimpleDataType(typeRef);
-			Collection<TypeParameterSpec> typeParameterSpecs = dialect.getTypeParameterSpecs(typeRef);
-			for (TypeParameterSpec spec : typeParameterSpecs) {
-				if (spec.getKey().equals(TypeParameterKey.SIZE)) {
+			Map<TypeParameterKey<?>, Necessity> typeParameterSpecs = dialect.getTypeParameterSpecs(typeRef);
+			for (TypeParameterKey<?> key : typeParameterSpecs.keySet()) {
+				if (key.equals(TypeParameterKey.SIZE)) {
 					dataType.putParam(TypeParameterKey.SIZE, element.columnSize);
-				} else if (spec.getKey().equals(TypeParameterKey.PRECISION)) {
+				} else if (key.equals(TypeParameterKey.PRECISION)) {
 					dataType.putParam(TypeParameterKey.PRECISION, element.columnSize);
-				} else if (spec.getKey().equals(TypeParameterKey.SCALE)) {
+				} else if (key.equals(TypeParameterKey.SCALE)) {
 					dataType.putParam(TypeParameterKey.SCALE, element.decimalDigits);
 				}
 			}

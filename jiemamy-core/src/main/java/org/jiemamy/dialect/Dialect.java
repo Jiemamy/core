@@ -18,11 +18,12 @@
  */
 package org.jiemamy.dialect;
 
-import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.jiemamy.model.datatype.RawTypeCategory;
 import org.jiemamy.model.datatype.RawTypeDescriptor;
+import org.jiemamy.model.datatype.TypeParameterKey;
 import org.jiemamy.validator.Validator;
 
 /**
@@ -77,16 +78,16 @@ public interface Dialect {
 	SqlEmitter getSqlEmitter();
 	
 	/**
-	 * 指定した{@link RawTypeDescriptor}に対する {@link TypeParameterSpec}の集合を取得する。
+	 * 指定した{@link RawTypeDescriptor}に対するデータ型のパラメータの仕様を取得する。
 	 * 
 	 * <p>例えば、VARCHARに対して、どんなパラメータ仕様がありますか？ → SIZE が REQUIRED です<br/>
 	 * のような感じ。</p>
 	 * 
 	 * @param reference {@link RawTypeDescriptor}
-	 * @return {@link RawTypeDescriptor}に対する {@link TypeParameterSpec}の集合
+	 * @return {@link RawTypeDescriptor}に対するデータ型のパラメータの仕様
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	Collection<TypeParameterSpec> getTypeParameterSpecs(RawTypeDescriptor reference);
+	Map<TypeParameterKey<?>, Necessity> getTypeParameterSpecs(RawTypeDescriptor reference);
 	
 	/**
 	 * モデルのバリデータを取得する。

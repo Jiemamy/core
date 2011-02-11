@@ -18,12 +18,11 @@
  */
 package org.jiemamy.dialect;
 
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import org.jiemamy.dialect.TypeParameterSpec.Necessity;
 import org.jiemamy.model.datatype.RawTypeCategory;
 import org.jiemamy.model.datatype.SimpleRawTypeDescriptor;
 import org.jiemamy.model.datatype.TypeParameterKey;
@@ -36,26 +35,33 @@ import org.jiemamy.validator.Validator;
  * @version $Id$
  * @author daisuke
  */
+@SuppressWarnings("serial")
 public final class GenericDialect extends AbstractDialect {
 	
 	private static List<Entry> typeEntries = Lists.newArrayList();
 	
 	static {
 		// FORMAT-OFF
-		typeEntries.add(new Entry(new SimpleRawTypeDescriptor(RawTypeCategory.INTEGER), Arrays.asList(
-				TypeParameterSpec.of(TypeParameterKey.SERIAL, Necessity.OPTIONAL)
-		)));
-		typeEntries.add(new Entry(new SimpleRawTypeDescriptor(RawTypeCategory.DECIMAL), Arrays.asList(
-				TypeParameterSpec.of(TypeParameterKey.PRECISION, Necessity.REQUIRED),
-				TypeParameterSpec.of(TypeParameterKey.SCALE, Necessity.REQUIRED)
-		)));
+		// CHECKSTYLE:OFF
+		typeEntries.add(new Entry(new SimpleRawTypeDescriptor(RawTypeCategory.INTEGER),
+				new HashMap<TypeParameterKey<?>, Necessity>() {{
+						put(TypeParameterKey.SERIAL, Necessity.OPTIONAL);
+				}}));
+		typeEntries.add(new Entry(new SimpleRawTypeDescriptor(RawTypeCategory.DECIMAL),
+				new HashMap<TypeParameterKey<?>, Necessity>() {{
+						put(TypeParameterKey.PRECISION, Necessity.REQUIRED);
+						put(TypeParameterKey.SCALE, Necessity.REQUIRED);
+				}}));
 		typeEntries.add(new Entry(new SimpleRawTypeDescriptor(RawTypeCategory.BOOLEAN)));
-		typeEntries.add(new Entry(new SimpleRawTypeDescriptor(RawTypeCategory.VARCHAR), Arrays.asList(
-				TypeParameterSpec.of(TypeParameterKey.SIZE, Necessity.OPTIONAL)
-		)));
-		typeEntries.add(new Entry(new SimpleRawTypeDescriptor(RawTypeCategory.TIMESTAMP), Arrays.asList(
-				TypeParameterSpec.of(TypeParameterKey.WITH_TIMEZONE, Necessity.OPTIONAL)
-		)));
+		typeEntries.add(new Entry(new SimpleRawTypeDescriptor(RawTypeCategory.VARCHAR),
+				new HashMap<TypeParameterKey<?>, Necessity>() {{
+						put(TypeParameterKey.SIZE, Necessity.OPTIONAL);
+				}}));
+		typeEntries.add(new Entry(new SimpleRawTypeDescriptor(RawTypeCategory.TIMESTAMP),
+				new HashMap<TypeParameterKey<?>, Necessity>() {{
+						put(TypeParameterKey.WITH_TIMEZONE, Necessity.OPTIONAL);
+				}}));
+		// CHECKSTYLE:ON
 		// FORMAT-ON
 	}
 	

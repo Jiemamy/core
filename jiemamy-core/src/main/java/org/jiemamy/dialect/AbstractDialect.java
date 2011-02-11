@@ -18,20 +18,22 @@
  */
 package org.jiemamy.dialect;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.model.datatype.RawTypeCategory;
 import org.jiemamy.model.datatype.RawTypeDescriptor;
 import org.jiemamy.model.datatype.SimpleRawTypeDescriptor;
+import org.jiemamy.model.datatype.TypeParameterKey;
 import org.jiemamy.validator.AllValidator;
 import org.jiemamy.validator.Validator;
 
@@ -85,14 +87,14 @@ public abstract class AbstractDialect implements Dialect {
 		return Lists.newArrayList(typeEntries);
 	}
 	
-	public Collection<TypeParameterSpec> getTypeParameterSpecs(RawTypeDescriptor reference) {
+	public Map<TypeParameterKey<?>, Necessity> getTypeParameterSpecs(RawTypeDescriptor reference) {
 		RawTypeDescriptor normalized = normalize(reference);
 		if (normalized.getCategory() == RawTypeCategory.UNKNOWN) {
-			return Collections.emptyList();
+			return Collections.emptyMap();
 		}
 		for (Entry typeEntry : typeEntries) {
 			if (typeEntry.descriptor.equals(normalized)) {
-				return Lists.newArrayList(typeEntry.typeParameterSpecs);
+				return Maps.newHashMap(typeEntry.typeParameterSpecs);
 			}
 		}
 		throw new Error(reference.toString());
@@ -145,7 +147,7 @@ public abstract class AbstractDialect implements Dialect {
 		
 		private final RawTypeDescriptor descriptor;
 		
-		private final Collection<TypeParameterSpec> typeParameterSpecs;
+		private final Map<TypeParameterKey<?>, Necessity> typeParameterSpecs;
 		
 
 		/**
@@ -155,21 +157,21 @@ public abstract class AbstractDialect implements Dialect {
 		 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 		 */
 		public Entry(RawTypeDescriptor descriptor) {
-			this(descriptor, new ArrayList<TypeParameterSpec>());
+			this(descriptor, new HashMap<TypeParameterKey<?>, Necessity>());
 		}
 		
 		/**
 		 * インスタンスを生成する。
 		 * 
 		 * @param descriptor {@link RawTypeDescriptor}
-		 * @param typeParameterSpecs {@link TypeParameterSpec}の集合
+		 * @param typeParameterSpecs データ型のパラメータの仕様
 		 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 		 */
-		public Entry(RawTypeDescriptor descriptor, Collection<TypeParameterSpec> typeParameterSpecs) {
+		public Entry(RawTypeDescriptor descriptor, Map<TypeParameterKey<?>, Necessity> typeParameterSpecs) {
 			Validate.notNull(descriptor);
 			Validate.notNull(typeParameterSpecs);
 			this.descriptor = descriptor;
-			this.typeParameterSpecs = Lists.newArrayList(typeParameterSpecs);
+			this.typeParameterSpecs = Maps.newHashMap(typeParameterSpecs);
 		}
 		
 		/**
@@ -182,12 +184,12 @@ public abstract class AbstractDialect implements Dialect {
 		}
 		
 		/**
-		 * {@link TypeParameterSpec}の集合を取得する。
+		 * データ型のパラメータの仕様を取得する。
 		 * 
-		 * @return {@link TypeParameterSpec}の集合
+		 * @return データ型のパラメータの仕様
 		 */
-		public Collection<TypeParameterSpec> getTypeParameterSpecs() {
-			return typeParameterSpecs;
+		public Map<TypeParameterKey<?>, Necessity> getTypeParameterSpecs() {
+			return Maps.newHashMap(typeParameterSpecs);
 		}
 	}
 }
