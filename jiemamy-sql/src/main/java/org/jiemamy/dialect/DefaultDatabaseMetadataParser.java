@@ -54,26 +54,12 @@ import org.jiemamy.utils.sql.metadata.TypeSafeDatabaseMetaData;
 public class DefaultDatabaseMetadataParser implements DatabaseMetadataParser {
 	
 	/** DBから{@link DbObject}情報をインポートするビジター */
-	private final DbObjectImportVisitor doImportVisitor;
+	private final DbObjectImportVisitor dbObjectImportVisitor;
 	
 	/** DBから外部キー情報をインポートするビジター */
-	private final ForeignKeyImportVisitor fkImportVisitor;
+	private final ForeignKeyImportVisitor foreignKeyImportVisitor;
 	
 
-	/**
-	 * インスタンスを生成する。
-	 * 
-	 * @param doImportVisitor {@link DbObjectImportVisitor}
-	 * @param fkImportVisitor {@link ForeignKeyImportVisitor}
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 */
-	public DefaultDatabaseMetadataParser(DbObjectImportVisitor doImportVisitor, ForeignKeyImportVisitor fkImportVisitor) {
-		Validate.notNull(doImportVisitor);
-		Validate.notNull(fkImportVisitor);
-		this.doImportVisitor = doImportVisitor;
-		this.fkImportVisitor = fkImportVisitor;
-	}
-	
 	/**
 	 * インスタンスを生成する。
 	 * 
@@ -82,6 +68,21 @@ public class DefaultDatabaseMetadataParser implements DatabaseMetadataParser {
 	 */
 	public DefaultDatabaseMetadataParser(Dialect dialect) {
 		this(new DefaultDatabaseObjectImportVisitor(dialect), new DefaultForeignKeyImportVisitor(dialect));
+	}
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param dbObjectImportVisitor {@link DbObjectImportVisitor}
+	 * @param foreignKeyImportVisitor {@link ForeignKeyImportVisitor}
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	protected DefaultDatabaseMetadataParser(DbObjectImportVisitor dbObjectImportVisitor,
+			ForeignKeyImportVisitor foreignKeyImportVisitor) {
+		Validate.notNull(dbObjectImportVisitor);
+		Validate.notNull(foreignKeyImportVisitor);
+		this.dbObjectImportVisitor = dbObjectImportVisitor;
+		this.foreignKeyImportVisitor = foreignKeyImportVisitor;
 	}
 	
 	public void parseMetadata(JiemamyContext context, DatabaseMetaData meta, ParseMetadataConfig config)
@@ -96,11 +97,11 @@ public class DefaultDatabaseMetadataParser implements DatabaseMetadataParser {
 		
 		setUpRead(connection);
 		
-		doImportVisitor.intialize(metaData, context, config);
-		reader.readEnities(doImportVisitor);
+		dbObjectImportVisitor.intialize(metaData, context, config);
+		reader.readEnities(dbObjectImportVisitor);
 		
-		fkImportVisitor.initialize(context);
-		reader.readRelations(fkImportVisitor);
+		foreignKeyImportVisitor.initialize(context);
+		reader.readRelations(foreignKeyImportVisitor);
 		
 		if (config.isImportDataSet()) {
 			List<DbObject> dbObjects = DbObjectDependencyCalculator.getSortedEntityList(context);

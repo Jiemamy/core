@@ -188,9 +188,9 @@ public class DefaultDatabaseObjectImportVisitor extends AbstractCollectionVisito
 		TypeSafeResultSet<ColumnMeta> columnsResult = null;
 		TypeSafeResultSet<PrimaryKeyMeta> keysResult = null;
 		try {
-			columnsResult = meta.getColumns("", config.getSchema(), tableName, "%");
+			columnsResult = getMeta().getColumns("", config.getSchema(), tableName, "%");
 			ForEachUtil.accept(columnsResult, new ColumnMetaVisitor(table));
-			keysResult = meta.getPrimaryKeys("", config.getSchema(), tableName);
+			keysResult = getMeta().getPrimaryKeys("", config.getSchema(), tableName);
 			ForEachUtil.accept(keysResult, new PrimaryKeyMetaVisitor(table));
 		} finally {
 			closeQuietly(columnsResult);
@@ -217,6 +217,15 @@ public class DefaultDatabaseObjectImportVisitor extends AbstractCollectionVisito
 		view.setDefinition(definition);
 		
 		return view;
+	}
+	
+	/**
+	 * {@link TypeSafeDatabaseMetaData}を取得する。
+	 * 
+	 * @return {@link TypeSafeDatabaseMetaData}
+	 */
+	protected TypeSafeDatabaseMetaData getMeta() {
+		return meta;
 	}
 	
 	private void closeQuietly(TypeSafeResultSet<?> resultSet) {

@@ -44,6 +44,21 @@ public class SimpleDbImportConfig extends SimpleDbConnectionConfig implements Db
 	private boolean importDataSet;
 	
 
+	/**
+	 * インスタンスを生成する。
+	 */
+	public SimpleDbImportConfig() {
+	}
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param dialect {@link Dialect}
+	 */
+	public SimpleDbImportConfig(Dialect dialect) {
+		this.dialect = dialect;
+	}
+	
 	public Dialect getDialect() {
 		return dialect;
 	}

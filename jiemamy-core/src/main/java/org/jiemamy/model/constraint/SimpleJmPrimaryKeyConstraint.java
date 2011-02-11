@@ -37,22 +37,6 @@ public final class SimpleJmPrimaryKeyConstraint extends SimpleJmLocalKeyConstrai
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @param references キーカラムへの参照
-	 * @return {@link SimpleJmPrimaryKeyConstraint}
-	 * @throws IllegalArgumentException 引数に{@code null}または{@code null}要素を与えた場合
-	 */
-	public static SimpleJmPrimaryKeyConstraint of(EntityRef<? extends JmColumn>... references) {
-		Validate.noNullElements(references);
-		SimpleJmPrimaryKeyConstraint model = new SimpleJmPrimaryKeyConstraint();
-		for (EntityRef<? extends JmColumn> reference : references) {
-			model.addKeyColumn(reference);
-		}
-		return model;
-	}
-	
-	/**
-	 * インスタンスを生成する。
-	 * 
 	 * @param columns キーカラム
 	 * @return {@link SimpleJmPrimaryKeyConstraint}
 	 * @throws IllegalArgumentException 引数に{@code null}または{@code null}要素を与えた場合
