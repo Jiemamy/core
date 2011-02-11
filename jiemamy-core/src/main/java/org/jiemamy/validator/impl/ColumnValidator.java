@@ -75,7 +75,7 @@ public class ColumnValidator extends AbstractValidator {
 			super(column, "E0040");
 			setArguments(new Object[] {
 				table.getName(),
-				index
+				index + 1
 			});
 		}
 	}
