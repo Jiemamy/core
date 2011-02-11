@@ -67,7 +67,7 @@ public class DefaultDatabaseMetadataParser implements DatabaseMetadataParser {
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public DefaultDatabaseMetadataParser(Dialect dialect) {
-		this(new DefaultDatabaseObjectImportVisitor(dialect), new DefaultForeignKeyImportVisitor(dialect));
+		this(new DefaultDbObjectImportVisitor(dialect), new DefaultForeignKeyImportVisitor(dialect));
 	}
 	
 	/**

@@ -63,10 +63,10 @@ import org.jiemamy.utils.visitor.ForEachUtil;
  * 
  * @author daisuke
  */
-public class DefaultDatabaseObjectImportVisitor extends AbstractCollectionVisitor<TableMeta, Void, SQLException>
+public class DefaultDbObjectImportVisitor extends AbstractCollectionVisitor<TableMeta, Void, SQLException>
 		implements DbObjectImportVisitor {
 	
-	private static Logger logger = LoggerFactory.getLogger(DefaultDatabaseObjectImportVisitor.class);
+	private static Logger logger = LoggerFactory.getLogger(DefaultDbObjectImportVisitor.class);
 	
 	private static final String[] DEFAULT_TYPES = new String[] {
 		"TABLE",
@@ -104,7 +104,7 @@ public class DefaultDatabaseObjectImportVisitor extends AbstractCollectionVisito
 	 * @param dialect {@link Dialect}
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public DefaultDatabaseObjectImportVisitor(Dialect dialect) {
+	public DefaultDbObjectImportVisitor(Dialect dialect) {
 		Validate.notNull(dialect);
 		this.dialect = dialect;
 	}
