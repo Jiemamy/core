@@ -52,7 +52,7 @@ public class SerializationContext {
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	SerializationContext(JiemamyContext context, SMOutputDocument document) {
-		Validate.notNull(document);
+		Validate.notNull(context);
 		Validate.notNull(document);
 		this.context = context;
 		push(new JiemamyDocument(document));
