@@ -525,7 +525,7 @@
         <xsd:element name="tableRecord">
           <xsd:complexType>
             <xsd:sequence>
-              <xsd:element name="records" maxOccurs="unbounded">
+              <xsd:element name="records" minOccurs="0" maxOccurs="unbounded">
                 <xsd:complexType>
                   <xsd:sequence minOccurs="0" maxOccurs="unbounded">
                     <xsd:element ref="record"/>
