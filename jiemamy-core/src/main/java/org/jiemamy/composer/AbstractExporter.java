@@ -44,9 +44,9 @@ public abstract class AbstractExporter<T extends ExportConfig> implements Export
 		try {
 			PropertyUtils.copyProperties(configMap, config);
 		} catch (IllegalAccessException e) {
-			throw new JiemamyError("SimpleSqlExportConfig must have public setter.", e);
+			throw new JiemamyError("Simple config object must have public setter.", e);
 		} catch (InvocationTargetException e) {
-			throw new JiemamyError("SimpleSqlExportConfig's setter must not to thwow exceptions.", e);
+			throw new JiemamyError("Simple config object's setter must not to thwow exceptions.", e);
 		} catch (NoSuchMethodException e) {
 			// ignore
 		}

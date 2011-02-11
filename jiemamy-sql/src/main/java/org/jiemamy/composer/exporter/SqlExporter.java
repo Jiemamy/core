@@ -33,8 +33,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.composer.AbstractExporter;
 import org.jiemamy.composer.ExportException;
+import org.jiemamy.composer.FileExporter;
 import org.jiemamy.dialect.Dialect;
 import org.jiemamy.dialect.SqlEmitter;
 import org.jiemamy.model.ModelConsistencyException;
@@ -47,7 +47,7 @@ import org.jiemamy.model.sql.SqlStatement;
  * 
  * @author daisuke
  */
-public class SqlExporter extends AbstractExporter<SqlExportConfig> {
+public class SqlExporter extends FileExporter<SqlExportConfig> {
 	
 	/** ConfigKey: オーバーライトするかどうか (Boolean) */
 	public static final String OVERWRITE = "overwrite";
@@ -74,7 +74,6 @@ public class SqlExporter extends AbstractExporter<SqlExportConfig> {
 	public boolean exportModel(JiemamyContext context, SqlExportConfig config) throws ExportException {
 		Validate.notNull(context);
 		Validate.notNull(config);
-		Validate.notNull(config.getOutputFile());
 		
 		Writer writer = null;
 		try {
@@ -83,6 +82,9 @@ public class SqlExporter extends AbstractExporter<SqlExportConfig> {
 			List<SqlStatement> statements = emitter.emit(context, config);
 			
 			File outputFile = config.getOutputFile();
+			if (outputFile == null) {
+				outputFile = getDefaultOutputFile();
+			}
 			if (outputFile.exists()) {
 				if (config.isOverwrite() == false) {
 					return false;
@@ -126,6 +128,11 @@ public class SqlExporter extends AbstractExporter<SqlExportConfig> {
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+	}
+	
+	@Override
+	protected File getDefaultOutputFile() {
+		return new File("./target/exported.jiemamy");
 	}
 	
 	@Override
