@@ -27,7 +27,7 @@ import org.jiemamy.JiemamyError;
 /**
  * XML名前空間定数クラス。
  * 
- * @since 0.2
+ * @since 0.3
  * @author daisuke
  */
 public enum CoreNamespace implements JiemamyNamespace {
@@ -45,10 +45,6 @@ public enum CoreNamespace implements JiemamyNamespace {
 	NS_CORE("", "http://jiemamy.org/xml/ns/core", "http://schema.jiemamy.org/xml/"
 			+ JiemamyContext.getVersion().toString() + "/jiemamy-core.xsd"),
 
-//	/** Jiemamy core specifications */
-//	NS_DEFAULT("core", "http://jiemamy.org/xml/ns/core", "http://schema.jiemamy.org/xml/"
-//			+ JiemamyContext.getVersion().toString() + "/jiemamy-core.xsd"),
-	
 	/**  */
 	NONE("", "", "");
 	

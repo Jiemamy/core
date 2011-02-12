@@ -107,8 +107,7 @@ public class DataTypeValidator extends AbstractValidator {
 		 * @param column 制約式未設定チェック制約が設定されているカラム
 		 */
 		RequiredParameterNotFoundProblem(JmTable table, JmColumn column) {
-			super(column, "E0210");
-			setArguments(new Object[] {
+			super(column, "E0210", new Object[] {
 				table.getName(),
 				column.getName()
 			});
@@ -124,8 +123,7 @@ public class DataTypeValidator extends AbstractValidator {
 		 * @param column データ型が設定されていないカラム
 		 */
 		public UnknownDataTypeReferenceProblem(JmTable table, JmColumn column) {
-			super(column, "E0160");
-			setArguments(new Object[] {
+			super(column, "E0160", new Object[] {
 				table.getName(),
 				column.getName()
 			});

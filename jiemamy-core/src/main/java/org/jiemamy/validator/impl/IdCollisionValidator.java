@@ -97,8 +97,7 @@ public class IdCollisionValidator extends AbstractValidator {
 		 * @param entity 衝突したentity
 		 */
 		IdCollisionProblem(Entity entity) {
-			super(null, "F0110");
-			setArguments(new Object[] {
+			super(null, "F0110", new Object[] {
 				entity.getId(),
 				entity.toString(),
 				null

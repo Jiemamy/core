@@ -75,8 +75,7 @@ public class KeyConstraintValidator extends AbstractValidator {
 		 * @param table キーを保持するテーブル
 		 */
 		IllegalKeyColumnRefProblem(EntityRef<? extends JmColumn> columnRef, JmKeyConstraint keyConstraint, JmTable table) {
-			super(keyConstraint, "F0130");
-			setArguments(new Object[] {
+			super(keyConstraint, "F0130", new Object[] {
 				table.getName(),
 				table.getId().toString(),
 				keyConstraint.getName(),
@@ -94,8 +93,7 @@ public class KeyConstraintValidator extends AbstractValidator {
 		 * @param keyConstraint キーカラムを1つも持たないキー制約
 		 */
 		NoKeyColumnProblem(JmTable table, JmKeyConstraint keyConstraint) {
-			super(keyConstraint, "F0140");
-			setArguments(new Object[] {
+			super(keyConstraint, "F0140", new Object[] {
 				StringUtils.isEmpty(table.getName()) ? table.getId().toString() : table.getName(),
 				keyConstraint.getName(),
 			});

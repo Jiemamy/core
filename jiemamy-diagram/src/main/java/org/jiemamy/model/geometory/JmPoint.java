@@ -25,7 +25,7 @@ import java.io.Serializable;
  * 
  * <p>イミュータブルなクラスである。</p>
  * 
- * @since 0.2
+ * @since 0.3
  * @author daisuke
  */
 @SuppressWarnings("serial")
@@ -43,7 +43,7 @@ public final class JmPoint implements Serializable {
 	 * 
 	 * @param x X座標
 	 * @param y Y座標
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	public JmPoint(int x, int y) {
 		this.x = x;

@@ -87,8 +87,7 @@ public class CheckConstraintValidator extends AbstractValidator {
 		 * @param index チェック制約のインデックス
 		 */
 		public EmptyExpressionProblem(JmTable table, JmCheckConstraint checkConstraint, int index) {
-			super(checkConstraint, "E0031");
-			setArguments(new Object[] {
+			super(checkConstraint, "E0031", new Object[] {
 				table.getName(),
 				index + 1
 			});
@@ -101,8 +100,7 @@ public class CheckConstraintValidator extends AbstractValidator {
 		 * @param checkConstraint 制約式未設定チェック制約
 		 */
 		EmptyExpressionProblem(JmTable table, JmCheckConstraint checkConstraint) {
-			super(checkConstraint, "E0030");
-			setArguments(new Object[] {
+			super(checkConstraint, "E0030", new Object[] {
 				table.getName(),
 				checkConstraint.getName()
 			});

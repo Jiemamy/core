@@ -50,6 +50,7 @@ import org.jiemamy.dddbase.OnMemoryCompositeEntityResolver;
 import org.jiemamy.dddbase.OnMemoryEntityResolver;
 import org.jiemamy.dddbase.OnMemoryRepository;
 import org.jiemamy.dddbase.OrderedOnMemoryRepository;
+import org.jiemamy.dddbase.Repository;
 import org.jiemamy.dddbase.utils.MutationMonitor;
 import org.jiemamy.dialect.Dialect;
 import org.jiemamy.model.DbObject;
@@ -103,7 +104,8 @@ public/*final*/class JiemamyContext implements EntityResolver {
 	 */
 	public static JiemamySerializer findSerializer() {
 		try {
-			return getServiceLocator().getService(JiemamySerializer.class, serializerName);
+			ServiceLocator sl = getServiceLocator();
+			return sl.getService(JiemamySerializer.class, serializerName);
 		} catch (ClassNotFoundException e) {
 			throw new ServiceNotFoundException("", e);
 		}
@@ -137,6 +139,15 @@ public/*final*/class JiemamyContext implements EntityResolver {
 	}
 	
 	/**
+	 * デバッグモードを設定する。
+	 * 
+	 * @param debug デバッグモードにする場合は{@code true}、そうでない場合は{@code false}
+	 */
+	public static void setDebug(boolean debug) {
+		JiemamyContext.debug = debug;
+	}
+	
+	/**
 	 * 利用する{@link JiemamySerializer}実装クラスのFQCNを指定する。
 	 * 
 	 * @param serializerName 利用する{@link JiemamySerializer}実装クラスのFQCN
@@ -158,26 +169,23 @@ public/*final*/class JiemamyContext implements EntityResolver {
 		JiemamyContext.serviceLocator = serviceLocator;
 	}
 	
-	/**
-	 * デバッグモードを設定する。
-	 * 
-	 * @param debug デバッグモードにする場合は{@code true}、そうでない場合は{@code false}
-	 */
-	protected static void setDebug(boolean debug) {
-		JiemamyContext.debug = debug;
-	}
-	
 
+	/** contextが持つ全ての {@link JiemamyFacet} を保持する {@link Map} */
 	private Map<Class<? extends JiemamyFacet>, JiemamyFacet> facets = Maps.newHashMap();
 	
+	/** contextで管理する全ての {@link DbObject} を保持する {@link Repository} */
 	private OnMemoryRepository<DbObject> dbObjects = new OnMemoryRepository<DbObject>();
 	
+	/** contextで管理する全ての {@link JmDataSet} を保持する {@link Repository} */
 	private OrderedOnMemoryRepository<JmDataSet> dataSets = new OrderedOnMemoryRepository<JmDataSet>();
 	
+	/** メタデータ */
 	private JmMetadata metadata = new SimpleJmMetadata();
 	
+	/** このcontext用{@link UUIDProvider} */
 	private final UUIDProvider uuidProvider = new UUIDProvider();
 	
+	/** このcontext用{@link EventBroker} */
 	private final EventBroker eventBroker = new EventBrokerImpl();
 	
 
@@ -192,14 +200,14 @@ public/*final*/class JiemamyContext implements EntityResolver {
 	 * インスタンスを生成する。
 	 * 
 	 * @param facetProviders このコンテキストで利用するファセットの{@link FacetProvider}
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @throws IllegalArgumentException 引数に{@code null}または{@code null}要素を与えた場合
 	 */
 	public JiemamyContext(FacetProvider... facetProviders) {
 		Validate.noNullElements(facetProviders);
 		for (FacetProvider facetProvider : facetProviders) {
 			facets.put(facetProvider.getFacetType(), facetProvider.getFacet(this));
 		}
-		logger.debug(LogMarker.LIFECYCLE, "new context created (debug={})", isDebug());
+		logger.trace(LogMarker.LIFECYCLE, "new context created (debug={})", isDebug());
 	}
 	
 	public boolean contains(EntityRef<?> reference) {
@@ -208,6 +216,7 @@ public/*final*/class JiemamyContext implements EntityResolver {
 	}
 	
 	public boolean contains(UUID id) {
+		Validate.notNull(id);
 		return getCompositeResolver().contains(id);
 	}
 	
@@ -336,7 +345,7 @@ public/*final*/class JiemamyContext implements EntityResolver {
 	}
 	
 	/**
-	 * このコンテキストが管理する全ての{@link DbObject}のうち、{@code clazz}型を持つものを取得する。
+	 * このコンテキストが管理する全ての{@link DbObject}のうち、{@code clazz}型を持つものの集合を取得する。
 	 * 
 	 * @param <T> フィルターする型
 	 * @param clazz フィルターする型
@@ -346,11 +355,11 @@ public/*final*/class JiemamyContext implements EntityResolver {
 	public <T extends DbObject>Set<T> getDbObjects(Class<T> clazz) {
 		Validate.notNull(clazz);
 		Set<T> result = Sets.newHashSet(Iterables.filter(dbObjects.getEntitiesAsSet(), clazz));
-		return result;
+		return MutationMonitor.monitor(result);
 	}
 	
 	/**
-	 * このコンテキストが管理する全ての{@link JmDomain} を取得する。
+	 * このコンテキストが管理する全ての{@link JmDomain}を取得する。
 	 * 
 	 * <p>Note: Convenience method; equivalent to
 	 * {@code getDbObjects(JmDomain.class);}.</p>
@@ -377,8 +386,10 @@ public/*final*/class JiemamyContext implements EntityResolver {
 	 * @param <T> ファセットの型
 	 * @return このコンテキストの {@link JiemamyFacet}
 	 * @throws IllegalStateException コンテキストが指定したFacetを持っていない場合
+	 * @throws IllegalArgumentException 引数に{@code null}または{@code null}要素を与えた場合
 	 */
 	public <T extends JiemamyFacet>T getFacet(Class<T> clazz) {
+		Validate.notNull(clazz);
 		if (hasFacet(clazz) == false) {
 			throw new IllegalStateException();
 		}
@@ -494,7 +505,7 @@ public/*final*/class JiemamyContext implements EntityResolver {
 	 * @return ファセットを持つ場合は{@code true}、そうでない場合は{@code false}
 	 */
 	public <T extends JiemamyFacet>boolean hasFacet(Class<T> clazz) {
-		return facets.get(clazz) != null;
+		return facets.containsKey(clazz);
 	}
 	
 	/**

@@ -25,7 +25,7 @@ import java.io.Serializable;
  * 
  * <p>イミュータブルなクラスである。</p>
  * 
- * @since 0.2
+ * @since 0.3
  * @author daisuke
  */
 @SuppressWarnings("serial")
@@ -46,7 +46,7 @@ public final class JmRectangle implements Serializable {
 	 * 幅
 	 * 
 	 * <p>{@code -1}は自動算出を表す。</p>
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	public final int width;
 	
@@ -54,7 +54,7 @@ public final class JmRectangle implements Serializable {
 	 * 高さ
 	 * 
 	 * <p>{@code -1}は自動算出を表す。</p>
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	public final int height;
 	
@@ -64,7 +64,7 @@ public final class JmRectangle implements Serializable {
 	 * 
 	 * @param x X座標
 	 * @param y Y座標
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	public JmRectangle(int x, int y) {
 		this(x, y, DEFAULT, DEFAULT);
@@ -78,7 +78,7 @@ public final class JmRectangle implements Serializable {
 	 * @param width 幅（width >= -1） {@code -1}は自動算出を表す。
 	 * @param height 高さ（height >= -1） {@code -1}は自動算出を表す。
 	 * @throws IllegalArgumentException 引数の値が指定範囲外の場合
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	public JmRectangle(int x, int y, int width, int height) {
 		this.width = validateAndNormalizeRange("width", width);

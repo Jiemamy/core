@@ -26,7 +26,6 @@ import javax.xml.stream.XMLStreamException;
 
 import com.google.common.collect.Lists;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.codehaus.staxmate.in.SMEvent;
 import org.codehaus.staxmate.out.SMNamespace;
@@ -44,8 +43,8 @@ import org.jiemamy.serializer.stax2.JiemamyOutputElement;
 import org.jiemamy.serializer.stax2.SerializationContext;
 import org.jiemamy.serializer.stax2.StaxDirector;
 import org.jiemamy.serializer.stax2.StaxHandler;
+import org.jiemamy.xml.CoreNamespace;
 import org.jiemamy.xml.CoreQName;
-import org.jiemamy.xml.JiemamyNamespace;
 
 /**
  * {@link JiemamyContext}をシリアライズ/デシリアライズするハンドラ。
@@ -146,7 +145,7 @@ public final class JiemamyContextStaxHandler extends StaxHandler<JiemamyContext>
 			SMNamespace xsiNs =
 					element.getSMOutputElement().getNamespace("http://www.w3.org/2001/XMLSchema-instance", "xsi");
 			element.addAttribute(CoreQName.VERSION, JiemamyContext.getVersion().toStringSpec());
-			element.addAttribute(xsiNs, "schemaLocation", getSchemaLocation(model.getNamespaces()));
+			element.addAttribute(xsiNs, "schemaLocation", getSchemaLocationDefinition(CoreNamespace.values()));
 			
 			JmMetadata meta = model.getMetadata();
 			if (meta != null) {
@@ -177,19 +176,6 @@ public final class JiemamyContextStaxHandler extends StaxHandler<JiemamyContext>
 		} catch (XMLStreamException e) {
 			throw new SerializationException(e);
 		}
-	}
-	
-	private String getSchemaLocation(JiemamyNamespace[] namespaces) {
-		StringBuilder sb = new StringBuilder();
-		for (JiemamyNamespace namespace : namespaces) {
-			String ns = namespace.getNamespaceURI().toString();
-			String loc = namespace.getXmlSchemaLocation();
-			if (StringUtils.isEmpty(ns) || StringUtils.isEmpty(loc)) {
-				continue;
-			}
-			sb.append(" ").append(ns).append(" ").append(loc);
-		}
-		return sb.deleteCharAt(0).toString();
 	}
 	
 	private void verifyVersionCompatibility(String versionString) throws SerializationException {

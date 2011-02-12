@@ -23,7 +23,7 @@ import org.jiemamy.JiemamyContext;
 /**
  * {@link Problem#quickFix(JiemamyContext)}が不可能な場合。
  * 
- * @since 0.2
+ * @since 0.3
  * @author daisuke
  */
 @SuppressWarnings("serial")

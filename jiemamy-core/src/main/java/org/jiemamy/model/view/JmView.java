@@ -27,7 +27,7 @@ import org.jiemamy.model.parameter.ParameterMap;
  * 
  * <p>このインターフェイスで定義する全てのメソッドは冪等でなければならない(must)。</p>
  * 
- * @since 0.2
+ * @since 0.3
  * @author daisuke
  */
 public interface JmView extends DbObject {
@@ -38,7 +38,7 @@ public interface JmView extends DbObject {
 	 * VIEW定義SELECT文を取得する。
 	 * 
 	 * @return VIEW定義SELECT文. 未設定の場合は{@code null}
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	String getDefinition();
 	

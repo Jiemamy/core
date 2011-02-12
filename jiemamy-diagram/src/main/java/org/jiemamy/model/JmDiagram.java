@@ -57,7 +57,7 @@ public interface JmDiagram extends OrderedEntity, EntityResolver {
 	 * 表示レベルを取得する。
 	 * 
 	 * @return 表示レベル. 未設定の場合は{@code null}
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	Level getLevel();
 	
@@ -65,7 +65,7 @@ public interface JmDiagram extends OrderedEntity, EntityResolver {
 	 * 物理/論理モードを取得する。
 	 * 
 	 * @return 物理/論理モード. 未設定の場合は{@code null}
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	Mode getMode();
 	

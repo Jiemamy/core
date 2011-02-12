@@ -27,7 +27,7 @@ import org.jiemamy.dddbase.ValueObject;
  * 
  * <p>このインターフェイスの実装は、各DB実装に依存している。</p>
  * 
- * @since 0.2
+ * @since 0.3
  * @author daisuke
  */
 public interface SqlStatement extends ValueObject {
@@ -38,7 +38,7 @@ public interface SqlStatement extends ValueObject {
 	 * <p>変換ロジックには、環境によって定められたデフォルトのロジックが用いられる。</p>
 	 * 
 	 * @return SQL文
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	String toString();
 	
@@ -48,7 +48,7 @@ public interface SqlStatement extends ValueObject {
 	 * @param formatter フォーマッタ
 	 * @return SQL文
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	String toString(SqlFormatter formatter);
 	
@@ -58,7 +58,7 @@ public interface SqlStatement extends ValueObject {
 	 * <p>返される{@link List}は他に影響を及ぼさない独立したインスタンスである。</p>
 	 * 
 	 * @return トークンシーケンス
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	List<Token> toTokens();
 }

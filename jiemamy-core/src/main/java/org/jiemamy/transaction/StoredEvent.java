@@ -28,7 +28,7 @@ import org.jiemamy.dddbase.Repository;
  * 
  * <p>このインターフェイスの実装は、イミュータブルであることが望ましい。</p>
  * 
- * @since 0.2
+ * @since 0.3
  * @param <T> 変更が起こったリポジトリが管理する{@link Entity}の型
  * @version $Id$
  * @author daisuke

@@ -23,7 +23,7 @@ import java.net.URL;
 /**
  * DB接続に必要な設定情報を供給するインターフェイス。
  * 
- * @since 0.2
+ * @since 0.3
  * @author daisuke
  */
 public interface DbConnectionConfig {

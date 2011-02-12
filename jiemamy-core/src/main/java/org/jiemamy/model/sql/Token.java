@@ -23,7 +23,7 @@ package org.jiemamy.model.sql;
  * 
  * <p>このインターフェイスの実装は、イミュータブルでなければならない。</p>
  * 
- * @since 0.2
+ * @since 0.3
  * @author daisuke
  */
 public interface Token {
@@ -32,7 +32,7 @@ public interface Token {
 	 * トークンを文字列に変換する。
 	 * 
 	 * @return 文字列
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	String toString();
 }

@@ -30,7 +30,7 @@ import org.jiemamy.model.table.JmTable;
  * 
  * <p>このインターフェイスで定義する全てのメソッドは冪等でなければならない(must)。</p>
  * 
- * @since 0.2
+ * @since 0.3
  * @author daisuke
  */
 public interface JmDataSet extends OrderedEntity {
@@ -41,7 +41,7 @@ public interface JmDataSet extends OrderedEntity {
 	 * データセット名を取得する。
 	 * 
 	 * @return データセット名. 未設定の場合は{@code null}
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	String getName();
 	
@@ -51,7 +51,7 @@ public interface JmDataSet extends OrderedEntity {
 	 * <p>返される{@link Map}は他に影響を及ぼさない独立したインスタンスである。</p>
 	 * 
 	 * @return レコード情報
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	Map<EntityRef<? extends JmTable>, List<JmRecord>> getRecords();
 	

@@ -55,7 +55,19 @@ public abstract class AbstractProblem implements Problem {
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
 	public AbstractProblem(Entity target, String errorCode) {
-		this(target, errorCode, BUNDLE_NAME);
+		this(target, errorCode, BUNDLE_NAME, ArrayUtils.EMPTY_OBJECT_ARRAY);
+	}
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param target 不正な{@link Entity} may be {@code null}
+	 * @param errorCode エラーコード
+	 * @param arguments メッセージ引数の配列
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public AbstractProblem(Entity target, String errorCode, Object[] arguments) {
+		this(target, errorCode, BUNDLE_NAME, arguments);
 	}
 	
 	/**
@@ -64,14 +76,16 @@ public abstract class AbstractProblem implements Problem {
 	 * @param target 不正な{@link Entity} may be {@code null}
 	 * @param errorCode エラーコード
 	 * @param baseName {@link ResourceBundle}のベース名
+	 * @param arguments メッセージ引数の配列
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	AbstractProblem(Entity target, String errorCode, String baseName) {
+	AbstractProblem(Entity target, String errorCode, String baseName, Object[] arguments) {
 		Validate.notNull(errorCode);
 		Validate.notNull(baseName);
 		targetId = target == null ? null : target.getId();
 		this.errorCode = errorCode;
 		this.baseName = baseName;
+		this.arguments = arguments;
 	}
 	
 	public boolean canQuickFix() {
@@ -107,14 +121,5 @@ public abstract class AbstractProblem implements Problem {
 	@Override
 	public String toString() {
 		return errorCode + " " + getMessage();
-	}
-	
-	/**
-	 * メッセージの引数を設定する。
-	 * 
-	 * @param arguments 引数
-	 */
-	protected void setArguments(Object[] arguments) {
-		this.arguments = arguments;
 	}
 }

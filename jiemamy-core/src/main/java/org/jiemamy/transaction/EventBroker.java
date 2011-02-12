@@ -21,7 +21,7 @@ package org.jiemamy.transaction;
 /**
  * EDITコマンドの実行を監視し、登録されている{@link StoredEventListener}にイベントを通知する。
  * 
- * @since 0.2
+ * @since 0.3
  * @author shin1ogawa
  */
 public interface EventBroker {
@@ -31,7 +31,7 @@ public interface EventBroker {
 	 * 
 	 * @param listener 登録するリスナ
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	void addListener(StoredEventListener listener);
 	
@@ -41,7 +41,7 @@ public interface EventBroker {
 	 * @param listener 登録するリスナ
 	 * @param strategy リスナに対してEDITコマンドの通知を行うかどうかを判断する戦略
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	void addListener(StoredEventListener listener, DispatchStrategy strategy);
 	
@@ -52,7 +52,7 @@ public interface EventBroker {
 	 * 
 	 * @param command 実行されたEDITコマンド
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	void fireEvent(StoredEvent<?> command);
 	
@@ -61,7 +61,7 @@ public interface EventBroker {
 	 * 
 	 * @param listener 削除するリスナ
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	void removeListener(StoredEventListener listener);
 	
@@ -70,7 +70,7 @@ public interface EventBroker {
 	 * 
 	 * @param strategy デフォルトで適用される{@link DispatchStrategy}の実装インスタンス
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	void setDefaultStrategy(DispatchStrategy strategy);
 	

@@ -26,12 +26,12 @@ import java.util.List;
  * 
  * @author daisuke
  */
-public class AllValidator extends CompositeValidator {
+public class StandardValidator extends CompositeValidator {
 	
 	/**
 	 * インスタンスを生成する。
 	 */
-	public AllValidator() {
+	public StandardValidator() {
 		List<Validator> validators = getValidators();
 		validators.addAll(Arrays.asList(Validators.values()));
 	}

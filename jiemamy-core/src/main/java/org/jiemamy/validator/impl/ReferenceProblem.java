@@ -32,8 +32,7 @@ class ReferenceProblem extends AbstractProblem {
 	 * @param reference 参照の切れた参照オブジェクト
 	 */
 	ReferenceProblem(Entity target, EntityRef<? extends JmColumn> reference) {
-		super(target, "F0190");
-		setArguments(new Object[] {
+		super(target, "F0190", new Object[] {
 			reference.getReferentId().toString()
 		});
 	}
@@ -45,8 +44,7 @@ class ReferenceProblem extends AbstractProblem {
 	 */
 	@Deprecated
 	ReferenceProblem(EntityRef<?> elementReference, String pos) {
-		super(null, "F0190");
-		setArguments(new Object[] {
+		super(null, "F0190", new Object[] {
 			pos,
 			elementReference.getReferentId().toString()
 		});

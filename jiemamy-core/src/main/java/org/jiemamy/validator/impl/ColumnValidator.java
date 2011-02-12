@@ -72,8 +72,7 @@ public class ColumnValidator extends AbstractValidator {
 		 * @param index カラムのインデックス
 		 */
 		public EmptyColumnNameProblem(JmTable table, JmColumn column, int index) {
-			super(column, "E0040");
-			setArguments(new Object[] {
+			super(column, "E0040", new Object[] {
 				table.getName(),
 				index + 1
 			});
@@ -89,8 +88,7 @@ public class ColumnValidator extends AbstractValidator {
 		 * @param column データ型無指定のカラム
 		 */
 		public EmptyDataTypeProblem(JmTable table, JmColumn column) {
-			super(column, "E0050");
-			setArguments(new Object[] {
+			super(column, "E0050", new Object[] {
 				table.getName(),
 				column.getName()
 			});

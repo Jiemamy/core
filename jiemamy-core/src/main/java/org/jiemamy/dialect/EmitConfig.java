@@ -23,7 +23,7 @@ import org.jiemamy.JiemamyContext;
 /**
  * {@link JiemamyContext}をSQL化する際に必要となる設定情報を供給するインターフェイス。
  * 
- * @since 0.2
+ * @since 0.3
  * @author daisuke
  */
 public interface EmitConfig {
@@ -32,7 +32,7 @@ public interface EmitConfig {
 	 * CREATE SCHEMA文を出力するかどうかを取得する。
 	 * 
 	 * @return 出力する場合は{@code true}、そうでない場合は{@code false}
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	boolean emitCreateSchemaStatement();
 	
@@ -40,7 +40,7 @@ public interface EmitConfig {
 	 * CREATE文の前にDROP文を出力するかどうかを取得する。
 	 * 
 	 * @return　出力する場合は{@code true}、そうでない場合は{@code false}
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	boolean emitDropStatements();
 	
@@ -48,7 +48,7 @@ public interface EmitConfig {
 	 * 出力するデータセットのインデックスを取得する。
 	 * 
 	 * @return 出力するデータセットのインデックス. 出力しない場合は負数
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	int getDataSetIndex();
 	

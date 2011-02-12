@@ -128,8 +128,7 @@ public abstract class AbstractIdentifierValidator extends AbstractValidator {
 		 * @param pattern 識別子が満たすべき正規表現パターン
 		 */
 		public InvalidNameProblem(Entity target, String name, Pattern pattern) {
-			super(target, "E0010");
-			setArguments(new Object[] {
+			super(target, "E0010", new Object[] {
 				name,
 				pattern.pattern()
 			});
@@ -145,8 +144,7 @@ public abstract class AbstractIdentifierValidator extends AbstractValidator {
 		 * @param name 識別子名
 		 */
 		public ReservedWordProblem(Entity target, String name) {
-			super(target, "E0020");
-			setArguments(new Object[] {
+			super(target, "E0020", new Object[] {
 				name
 			});
 		}

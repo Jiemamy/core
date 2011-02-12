@@ -67,8 +67,7 @@ public class CyclicForeignReferenceValidator extends AbstractValidator {
 		 * @param table 循環参照の要素となっているテーブルのひとつ
 		 */
 		CyclicForeignReferenceProblem(JmTable table) {
-			super(table, "F0230");
-			setArguments(new Object[] {
+			super(table, "F0230", new Object[] {
 				table.getId().toString()
 			});
 		}

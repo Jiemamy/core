@@ -23,7 +23,7 @@ import javax.xml.namespace.QName;
 /**
  * Jiemamy XML Modelにおける、XMLのノード（要素や属性）の完全修飾名を保持する列挙型。
  * 
- * @since 0.2
+ * @since 0.3
  * @author daisuke
  */
 public enum CoreQName implements JiemamyQName {

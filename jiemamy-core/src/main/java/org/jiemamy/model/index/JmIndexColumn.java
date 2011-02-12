@@ -25,7 +25,7 @@ import org.jiemamy.model.column.JmColumn;
 /**
  * インデックス対象のカラムを表すモデルインターフェイス。
  * 
- * @since 0.2
+ * @since 0.3
  * @author daisuke
  */
 public interface JmIndexColumn extends ValueObject {
@@ -34,7 +34,7 @@ public interface JmIndexColumn extends ValueObject {
 	 * インデックス対象カラムを取得する。
 	 * 
 	 * @return インデックス対象カラム
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	EntityRef<? extends JmColumn> getColumnRef();
 	
@@ -42,7 +42,7 @@ public interface JmIndexColumn extends ValueObject {
 	 * カラムソート方式を取得する。
 	 * 
 	 * @return カラムソート方式. 未設定の場合は{@code null}
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	SortOrder getSortOrder();
 	
@@ -50,7 +50,7 @@ public interface JmIndexColumn extends ValueObject {
 	/**
 	 * ソート順を表す列挙型。
 	 * 
-	 * @since 0.2
+	 * @since 0.3
 	 * @author daisuke
 	 */
 	public static enum SortOrder {

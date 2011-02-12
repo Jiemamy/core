@@ -35,7 +35,7 @@ public interface JmCheckConstraint extends JmValueConstraint {
 	* CHECK制約定義式を取得する。
 	* 
 	* @return CHECK制約定義式. 未設定の場合は{@code null}
-	* @since 0.2
+	* @since 0.3
 	*/
 	String getExpression();
 	

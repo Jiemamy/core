@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * SQLを整形するフォーマッタインターフェイス。
  * 
- * @since 0.2
+ * @since 0.3
  * @author daisuke
  */
 public interface SqlFormatter {
@@ -34,7 +34,7 @@ public interface SqlFormatter {
 	 * @param tokens トークン列
 	 * @return 整形済みSQL文字列
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	String format(List<Token> tokens);
 	
@@ -44,7 +44,7 @@ public interface SqlFormatter {
 	 * @param stmt SQL文
 	 * @return 整形済みSQL文字列
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	String format(SqlStatement stmt);
 }

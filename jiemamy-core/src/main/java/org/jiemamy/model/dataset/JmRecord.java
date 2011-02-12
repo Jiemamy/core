@@ -31,7 +31,7 @@ import org.jiemamy.script.ScriptString;
 /**
  * DB上のデータの各レコード（Row）を表すモデルインターフェイス。
  * 
- * @since 0.2
+ * @since 0.3
  * @author daisuke
  */
 public interface JmRecord extends ValueObject {
@@ -74,7 +74,7 @@ public interface JmRecord extends ValueObject {
 	 * </table>
 	 * 
 	 * @return カラムに対応するデータ
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	Map<EntityRef<? extends JmColumn>, ScriptString> getValues();
 	

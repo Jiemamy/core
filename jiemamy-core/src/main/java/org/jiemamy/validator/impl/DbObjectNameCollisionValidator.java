@@ -78,8 +78,7 @@ public class DbObjectNameCollisionValidator extends AbstractValidator {
 		 * @param dbObjects 衝突した{@link DbObject}の集合
 		 */
 		DbObjectNameCollisionProblem(String dbObjectName, Collection<DbObject> dbObjects) {
-			super(null, "E0070");
-			setArguments(new Object[] {
+			super(null, "E0070", new Object[] {
 				dbObjectName
 			});
 		}

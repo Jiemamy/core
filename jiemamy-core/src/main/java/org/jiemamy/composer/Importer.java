@@ -26,7 +26,7 @@ import org.jiemamy.JiemamyContext;
  * 外部リソースからJiemamyモデルに入力を行うインターフェイス。
  * 
  * @param <T> インポート作業に必要な設定情報を保持する型
- * @since 0.2
+ * @since 0.3
  * @author daisuke
  */
 public interface Importer<T extends ImportConfig> {
@@ -35,7 +35,7 @@ public interface Importer<T extends ImportConfig> {
 	 * Importerの名称を取得する。
 	 * 
 	 * @return Importerの名称
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	String getName();
 	
@@ -51,7 +51,7 @@ public interface Importer<T extends ImportConfig> {
 	 * @throws ImportException インポートに失敗した時
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @throws IllegalArgumentException 必須config情報が{@code null}の場合
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	boolean importModel(JiemamyContext context, Map<String, Object> configMap) throws ImportException;
 	
@@ -64,7 +64,7 @@ public interface Importer<T extends ImportConfig> {
 	 * @throws ImportException インポートに失敗した時
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @throws IllegalArgumentException 必須config情報が{@code null}の場合
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	boolean importModel(JiemamyContext context, T config) throws ImportException;
 	

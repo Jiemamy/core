@@ -21,7 +21,7 @@ package org.jiemamy.model;
 /**
  * 物理/論理モード表示をあらわす列挙型。
  * 
- * @since 0.2
+ * @since 0.3
  * @author daisuke
  */
 public enum Mode {

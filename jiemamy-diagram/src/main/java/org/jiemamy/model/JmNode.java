@@ -39,7 +39,7 @@ public interface JmNode extends Entity {
 	 * ノードのレイアウト情報を取得する。
 	 * 
 	 * @return ノードのレイアウト情報. 未設定の場合は{@code null}
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	JmRectangle getBoundary();
 	
@@ -47,7 +47,7 @@ public interface JmNode extends Entity {
 	 * ノードの色情報を取得する。
 	 * 
 	 * @return ノードの色情報. 未設定の場合は{@code null}
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	JmColor getColor();
 	

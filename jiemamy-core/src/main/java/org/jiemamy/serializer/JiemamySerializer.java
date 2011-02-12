@@ -57,7 +57,7 @@ public interface JiemamySerializer {
 	 * @return デシリアライズした {@link JiemamyContext}
 	 * @throws SerializationException デシリアライズに失敗した時
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	JiemamyContext deserialize(InputStream in, FacetProvider... facetProviders) throws SerializationException;
 	
@@ -68,7 +68,7 @@ public interface JiemamySerializer {
 	 * @param out シリアライズ結果を出力するstream
 	 * @throws SerializationException シリアライズに失敗した時
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	void serialize(JiemamyContext context, OutputStream out) throws SerializationException;
 	

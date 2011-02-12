@@ -21,7 +21,7 @@ package org.jiemamy.transaction;
 /**
  * リスナに対してEDITコマンドの通知を行うかどうかを判断するための戦略
  * 
- * @since 0.2
+ * @since 0.3
  * @author daisuke
  */
 public interface DispatchStrategy {
@@ -32,7 +32,7 @@ public interface DispatchStrategy {
 	 * @param listener EDITコマンドリスナ
 	 * @param command EDITコマンド
 	 * @return dispatchが必要な場合は{@code true}、そうでない場合は{@code false}
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	boolean needToDispatch(StoredEventListener listener, StoredEvent<?> command);
 	

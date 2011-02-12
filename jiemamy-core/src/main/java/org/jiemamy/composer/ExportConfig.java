@@ -24,7 +24,7 @@ package org.jiemamy.composer;
  * <p>{@link Exporter}実装者は、 {@link Exporter}の実装と共に、このインターフェイスを拡張し、{@link Exporter}の
  * 動作に必要なパラメータを取得するメソッドを定義する。</p>
  * 
- * @since 0.2
+ * @since 0.3
  * @author daisuke
  */
 public interface ExportConfig {

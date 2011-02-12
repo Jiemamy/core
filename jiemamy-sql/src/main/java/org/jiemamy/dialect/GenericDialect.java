@@ -26,7 +26,7 @@ import com.google.common.collect.Lists;
 import org.jiemamy.model.datatype.RawTypeCategory;
 import org.jiemamy.model.datatype.SimpleRawTypeDescriptor;
 import org.jiemamy.model.datatype.TypeParameterKey;
-import org.jiemamy.validator.AllValidator;
+import org.jiemamy.validator.StandardValidator;
 import org.jiemamy.validator.Validator;
 
 /**
@@ -65,7 +65,7 @@ public final class GenericDialect extends AbstractDialect {
 		// FORMAT-ON
 	}
 	
-	private Validator validator = new AllValidator();
+	private Validator validator = new StandardValidator();
 	
 
 	/**

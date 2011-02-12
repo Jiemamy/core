@@ -31,7 +31,7 @@ public interface JmDeferrability extends ValueObject {
 	 * 遅延評価の初期状態を取得する。
 	 * 
 	 * @return 遅延評価の初期状態. 未設定の場合は{@code null}
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	InitiallyCheckTime getInitiallyCheckTime();
 	
@@ -39,7 +39,7 @@ public interface JmDeferrability extends ValueObject {
 	 * 遅延評価可能性を取得する。
 	 * 
 	 * @return 遅延評価可能性
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	boolean isDeferrable();
 	
@@ -48,7 +48,7 @@ public interface JmDeferrability extends ValueObject {
 	 * 制約検査を行うデフォルトの時期。
 	 * 
 	 * @author daisuke
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	public enum InitiallyCheckTime {
 		

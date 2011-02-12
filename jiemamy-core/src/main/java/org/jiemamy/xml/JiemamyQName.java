@@ -31,7 +31,7 @@ public interface JiemamyQName {
 	 * XMLノード完全修飾名を取得する。
 	 * 
 	 * @return XMLノード完全修飾名
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	QName getQName();
 	
@@ -46,7 +46,7 @@ public interface JiemamyQName {
 	 * </pre>
 	 * 
 	 * @return 完全修飾名文字列
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	String getQNameString();
 }

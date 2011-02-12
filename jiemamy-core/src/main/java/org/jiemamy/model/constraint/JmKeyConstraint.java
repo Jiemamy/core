@@ -40,7 +40,7 @@ public interface JmKeyConstraint extends JmConstraint {
 	* <p>返される{@link List}は他に影響を及ぼさない独立したインスタンスである。</p>
 	* 
 	* @return キーを構成するカラムのリスト
-	* @since 0.2
+	* @since 0.3
 	*/
 	List<EntityRef<? extends JmColumn>> getKeyColumns();
 	

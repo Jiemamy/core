@@ -32,7 +32,7 @@ import org.jiemamy.validator.Validator;
  * <p>実装クラスは、引数無しのデフォルトコンストラクタを持たなければならない。
  * また、実装クラスはステートレスである必要がある。</p>
  * 
- * @since 0.2
+ * @since 0.3
  * @author daisuke
  */
 public interface Dialect {
@@ -51,7 +51,7 @@ public interface Dialect {
 	 * JDBC接続URLの雛形文字列を取得する。
 	 * 
 	 * @return JDBC接続URLの雛形文字列
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	String getConnectionUriTemplate();
 	
@@ -66,7 +66,7 @@ public interface Dialect {
 	 * SQL方言名を取得する。
 	 * 
 	 * @return SQL方言名
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	String getName();
 	
@@ -93,7 +93,7 @@ public interface Dialect {
 	 * モデルのバリデータを取得する。
 	 * 
 	 * @return モデルのバリデータ
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	Validator getValidator();
 	
@@ -110,7 +110,7 @@ public interface Dialect {
 	 * SQL方言IDを返す。
 	 * 
 	 * @return SQL方言ID
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	String toString();
 }

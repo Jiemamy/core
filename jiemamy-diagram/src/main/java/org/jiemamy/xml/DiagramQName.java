@@ -23,7 +23,7 @@ import javax.xml.namespace.QName;
 /**
  * Jiemamy VIEW仕様におけるXMLノード定数を保持する列挙型。
  * 
- * @since 0.2
+ * @since 0.3
  * @author daisuke
  */
 public enum DiagramQName implements JiemamyQName {

@@ -21,7 +21,7 @@ package org.jiemamy.composer;
 /**
  * {@link Importer}実行時に問題が発生した場合にスローされる例外。
  * 
- * @since 0.2
+ * @since 0.3
  * @author daisuke
  */
 @SuppressWarnings("serial")
@@ -31,7 +31,7 @@ public class ImportException extends Exception {
 	 * インスタンスを生成する。
 	 * 
 	 * @param message 例外メッセージ
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	public ImportException(String message) {
 		super(message);
@@ -42,7 +42,7 @@ public class ImportException extends Exception {
 	 * 
 	 * @param message 例外メッセージ
 	 * @param cause 起因例外
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	public ImportException(String message, Throwable cause) {
 		super(message, cause);
@@ -52,7 +52,7 @@ public class ImportException extends Exception {
 	 * インスタンスを生成する。
 	 * 
 	 * @param cause 起因例外
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	public ImportException(Throwable cause) {
 		super(cause);

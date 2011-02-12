@@ -36,6 +36,7 @@ import org.jiemamy.serializer.stax2.JiemamyOutputElement;
 import org.jiemamy.serializer.stax2.SerializationContext;
 import org.jiemamy.serializer.stax2.StaxDirector;
 import org.jiemamy.serializer.stax2.StaxHandler;
+import org.jiemamy.xml.DiagramNamespace;
 import org.jiemamy.xml.DiagramQName;
 import org.jiemamy.xml.JiemamyNamespace;
 
@@ -100,7 +101,7 @@ public final class DiagramFacetStaxHandler extends StaxHandler<DiagramFacet> {
 			
 			SMNamespace xsiNs =
 					element.getSMOutputElement().getNamespace("http://www.w3.org/2001/XMLSchema-instance", "xsi");
-			element.addAttribute(xsiNs, "schemaLocation", getSchemaLocation(model.getNamespaces()));
+			element.addAttribute(xsiNs, "schemaLocation", getSchemaLocationDefinition(DiagramNamespace.values()));
 			
 			sctx.push(element);
 			for (JmDiagram diagram : model.getDiagrams()) {
@@ -110,18 +111,5 @@ public final class DiagramFacetStaxHandler extends StaxHandler<DiagramFacet> {
 		} catch (XMLStreamException e) {
 			throw new SerializationException(e);
 		}
-	}
-	
-	private String getSchemaLocation(JiemamyNamespace[] namespaces) {
-		StringBuilder sb = new StringBuilder();
-		for (JiemamyNamespace namespace : namespaces) {
-			String ns = namespace.getNamespaceURI().toString();
-			String loc = namespace.getXmlSchemaLocation();
-			if (StringUtils.isEmpty(ns) || StringUtils.isEmpty(loc)) {
-				continue;
-			}
-			sb.append(" ").append(ns).append(" ").append(loc);
-		}
-		return sb.deleteCharAt(0).toString();
 	}
 }

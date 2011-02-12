@@ -22,7 +22,7 @@ package org.jiemamy.composer;
  * {@link Exporter}実行時に問題が発生した場合にスローされる例外。
  * 
  * @author daisuke
- * @since 0.2
+ * @since 0.3
  */
 @SuppressWarnings("serial")
 public class ExportException extends Exception {
@@ -31,7 +31,7 @@ public class ExportException extends Exception {
 	 * インスタンスを生成する。
 	 * 
 	 * @param cause 起因例外
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	public ExportException(Exception cause) {
 		super(cause);
@@ -41,7 +41,7 @@ public class ExportException extends Exception {
 	 * インスタンスを生成する。
 	 * 
 	 * @param message 例外メッセージ
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	public ExportException(String message) {
 		super(message);
@@ -52,7 +52,7 @@ public class ExportException extends Exception {
 	 * 
 	 * @param message 例外メッセージ
 	 * @param cause 起因例外
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	public ExportException(String message, Exception cause) {
 		super(message, cause);

@@ -26,7 +26,7 @@ import org.jiemamy.dddbase.EntityRef;
 /**
  * ダイアグラムにおける「付箋（注釈）」を表すモデルインターフェイス。
  * 
- * @since 0.2
+ * @since 0.3
  * @author daisuke
  */
 public final class JmStickyNode extends SimpleJmNode {
@@ -63,7 +63,7 @@ public final class JmStickyNode extends SimpleJmNode {
 	 * 内容文を取得する。
 	 * 
 	 * @return 内容文. 未設定の場合は{@code null}
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	public String getContents() {
 		return contents;
@@ -75,7 +75,7 @@ public final class JmStickyNode extends SimpleJmNode {
 	 * <p>未設定とする場合は{@code null}を与えるが、モデルとしては無効となる。</p>
 	 * 
 	* @param contents 内容文
-	* @since 0.2
+	* @since 0.3
 	*/
 	public void setContents(String contents) {
 		this.contents = contents;

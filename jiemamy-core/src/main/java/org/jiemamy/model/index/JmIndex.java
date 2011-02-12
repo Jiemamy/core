@@ -28,7 +28,7 @@ import org.jiemamy.model.DbObject;
  * 
  * <p>このインターフェイスで定義する全てのメソッドは冪等でなければならない(must)。</p>
  * 
- * @since 0.2
+ * @since 0.3
  * @author daisuke
  */
 public interface JmIndex extends DbObject {
@@ -39,7 +39,7 @@ public interface JmIndex extends DbObject {
 	 * インデックスカラムのリストを取得する。
 	 * 
 	 * @return インデックスカラムのリスト
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	List<JmIndexColumn> getIndexColumns();
 	
@@ -47,7 +47,7 @@ public interface JmIndex extends DbObject {
 	 * インデックス名を取得する。
 	 * 
 	 * @return インデックス名. 未設定の場合は{@code null}
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	String getName();
 	
@@ -55,7 +55,7 @@ public interface JmIndex extends DbObject {
 	 * ユニークインデックスか否かを取得する。
 	 * 
 	 * @return ユニークインデックスか否か
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	boolean isUnique();
 	

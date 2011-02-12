@@ -75,8 +75,7 @@ public class NotNullConstraintValidator extends AbstractValidator {
 		 * @param nn 不正な非NULL制約
 		 */
 		public NullTargetProblem(JmTable table, JmNotNullConstraint nn) {
-			super(nn, "F0180");
-			setArguments(new Object[] {
+			super(nn, "F0180", new Object[] {
 				table.getName(),
 				nn.getName(),
 			});

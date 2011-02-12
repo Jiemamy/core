@@ -92,7 +92,7 @@ public enum RawTypeCategory {
 	 * 
 	 * @param sqlType {@link Types}の値
 	 * @return カテゴリ. 適切なカテゴリが見つからなかった場合は{@code null}
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	public static RawTypeCategory fromSqlType(int sqlType) {
 		for (RawTypeCategory category : values()) {
@@ -119,7 +119,7 @@ public enum RawTypeCategory {
 	 * このカテゴリのリテラルの種類を取得する。
 	 * 
 	 * @return リテラルの種類
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	public LiteralType getLiteralType() {
 		return literalType;
@@ -129,7 +129,7 @@ public enum RawTypeCategory {
 	 * このカテゴリの{@link Types}の値を取得する。
 	 * 
 	 * @return {@link Types}の値
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	public int getSqlType() {
 		return sqlType;

@@ -21,7 +21,7 @@ package org.jiemamy.model;
 /**
  * 表示レベルを表す列挙型。
  * 
- * @since 0.2
+ * @since 0.3
  * @author daisuke
  */
 public enum Level {

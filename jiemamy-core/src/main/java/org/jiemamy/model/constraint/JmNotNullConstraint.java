@@ -26,7 +26,7 @@ import org.jiemamy.model.column.JmColumn;
  * 
  * <p>このインターフェイスで定義する全てのメソッドは冪等でなければならない(must)。</p>
  * 
- * @since 0.2
+ * @since 0.3
  * @author daisuke
  */
 public interface JmNotNullConstraint extends JmValueConstraint {

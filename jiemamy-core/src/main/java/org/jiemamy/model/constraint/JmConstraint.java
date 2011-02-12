@@ -50,7 +50,7 @@ public interface JmConstraint extends Entity {
 	 * 遅延評価可能性モデルを取得する。
 	 * 
 	 * @return 遅延評価可能性モデル、未設定の場合は{@code null}
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	JmDeferrability getDeferrability();
 	
@@ -72,7 +72,7 @@ public interface JmConstraint extends Entity {
 	 * 物理名を取得する。
 	 * 
 	 * @return 物理名、未設定の場合は{@code null}
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	String getName();
 	

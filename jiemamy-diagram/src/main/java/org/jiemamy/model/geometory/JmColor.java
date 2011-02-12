@@ -25,7 +25,7 @@ import java.io.Serializable;
  * 
  * <p>イミュータブルなクラスである。</p>
  * 
- * @since 0.2
+ * @since 0.3
  * @author daisuke
  */
 @SuppressWarnings("serial")
@@ -43,7 +43,7 @@ public final class JmColor implements Serializable {
 	 * 
 	 * @param value 文字列
 	 * @return {@link JmColor}
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	public static JmColor parse(String value) {
 		if (value == null || value.length() != 7) {
@@ -74,7 +74,7 @@ public final class JmColor implements Serializable {
 	 * @param green 緑（0-255）
 	 * @param blue 青（0-255）
 	 * @throws IllegalArgumentException 値が範囲外の場合
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	public JmColor(int red, int green, int blue) {
 		validateRange("red", red);
@@ -122,7 +122,7 @@ public final class JmColor implements Serializable {
 	/**
 	 * #xxxxxx形式の文字列として出力を行う。
 	 * 
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	@Override
 	public String toString() {
@@ -135,7 +135,7 @@ public final class JmColor implements Serializable {
 	 * @param name 引数名
 	 * @param target チェック対象
 	 * @throws IllegalArgumentException 値が範囲外の場合
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	private void validateRange(String name, int target) {
 		if (target < MIN || target > MAX) {

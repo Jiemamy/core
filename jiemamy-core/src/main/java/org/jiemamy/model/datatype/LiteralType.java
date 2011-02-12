@@ -21,7 +21,7 @@ package org.jiemamy.model.datatype;
 /**
  * リテラルの種類をあらわす列挙型。
  * 
- * @since 0.2
+ * @since 0.3
  * @author daisuke
  */
 public enum LiteralType {
@@ -130,7 +130,7 @@ public enum LiteralType {
 	 * 
 	 * @param value 値
 	 * @return リテラル表記
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	public abstract String convert(String value);
 }

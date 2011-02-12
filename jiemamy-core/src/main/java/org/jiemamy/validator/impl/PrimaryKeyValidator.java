@@ -64,8 +64,7 @@ public class PrimaryKeyValidator extends AbstractValidator {
 		 * @param table 複数の主キーが設定されたテーブル
 		 */
 		public MultiplePrimaryKeyProblem(JmTable table) {
-			super(table, "F0150");
-			setArguments(new Object[] {
+			super(table, "F0150", new Object[] {
 				table.getName()
 			});
 		}
@@ -79,8 +78,7 @@ public class PrimaryKeyValidator extends AbstractValidator {
 		 * @param table 主キーが存在しないテーブル
 		 */
 		public NoPrimaryKeyProblem(JmTable table) {
-			super(table, "N0080");
-			setArguments(new Object[] {
+			super(table, "N0080", new Object[] {
 				table.getName()
 			});
 		}

@@ -47,6 +47,7 @@ public class JiemamyNamespaceContext implements NamespaceContext {
 	}
 	
 	public String getNamespaceURI(String prefix) {
+		Validate.notNull(prefix);
 		for (JiemamyNamespace ns : namespaces) {
 			if (prefix.equals(ns.getPrefix())) {
 				return ns.getNamespaceURI().toString();
@@ -56,6 +57,7 @@ public class JiemamyNamespaceContext implements NamespaceContext {
 	}
 	
 	public String getPrefix(String namespaceURI) {
+		Validate.notNull(namespaceURI);
 		for (JiemamyNamespace ns : namespaces) {
 			if (namespaceURI.equals(ns.getNamespaceURI().toString())) {
 				return ns.getPrefix();
@@ -65,6 +67,7 @@ public class JiemamyNamespaceContext implements NamespaceContext {
 	}
 	
 	public Iterator<?> getPrefixes(String namespaceURI) {
+		Validate.notNull(namespaceURI);
 		String p = getPrefix(namespaceURI);
 		if (p != null) {
 			return Arrays.asList(p).iterator();

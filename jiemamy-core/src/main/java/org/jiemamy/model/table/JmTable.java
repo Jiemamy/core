@@ -94,7 +94,7 @@ public interface JmTable extends DbObject, EntityResolver {
 	 * このテーブルが持つ制約の集合を取得する。
 	 * 
 	 * @return このテーブルが持つ制約の集合
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	Set<? extends JmConstraint> getConstraints();
 	
@@ -105,7 +105,7 @@ public interface JmTable extends DbObject, EntityResolver {
 	 * @param clazz 制約の型
 	 * @return 制約の集合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	<T extends JmConstraint>Collection<T> getConstraints(Class<T> clazz);
 	

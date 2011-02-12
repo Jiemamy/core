@@ -29,7 +29,7 @@ import org.jiemamy.dddbase.Entity;
 /**
  * バリデータに指摘された問題インターフェイス。
  * 
- * @since 0.2
+ * @since 0.3
  * @author daisuke
  */
 public interface Problem {
@@ -38,7 +38,7 @@ public interface Problem {
 	 * クイックフィックスが可能な問題かどうかを調べる。
 	 * 
 	 * @return 可能な場合は{@code true}、そうでない場合は{@code false}
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	boolean canQuickFix();
 	
@@ -46,7 +46,7 @@ public interface Problem {
 	 * エラーコードを取得する。
 	 * 
 	 * @return エラーコード
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	String getErrorCode();
 	
@@ -56,7 +56,7 @@ public interface Problem {
 	 * <p>デフォルトロケールにおけるメッセージがなかった場合は、 {@link Locale#US} におけるメッセージを返す。</p>
 	 * 
 	 * @return 指摘事項を説明するメッセージ
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	String getMessage();
 	
@@ -67,7 +67,7 @@ public interface Problem {
 	 * 
 	 * @param locale ロケール
 	 * @return 指摘事項を説明するメッセージ
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	String getMessage(Locale locale);
 	
@@ -75,7 +75,7 @@ public interface Problem {
 	 * 問題の重要度を取得する。
 	 * 
 	 * @return 問題の重要度
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	Severity getSeverity();
 	
@@ -97,7 +97,7 @@ public interface Problem {
 	 * @param context コンテキスト
 	 * @throws CannotFixException クイックフィックスが不可能な問題である場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	void quickFix(JiemamyContext context);
 	
@@ -105,7 +105,7 @@ public interface Problem {
 	/**
 	 * 問題の重要度を表す列挙型。
 	 * 
-	 * @since 0.2
+	 * @since 0.3
 	 * @author daisuke
 	 */
 	public enum Severity {
@@ -157,7 +157,7 @@ public interface Problem {
 		 * 重要度を数値化した値を取得する。
 		 * 
 		 * @return 重要度を数値化した値
-		 * @since 0.2
+		 * @since 0.3
 		 */
 		public int getValue() {
 			return value;

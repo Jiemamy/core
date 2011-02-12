@@ -32,7 +32,7 @@ import org.jiemamy.model.table.JmTable;
  * 
  * <p>このインターフェイスで定義する全てのメソッドは冪等でなければならない(must)。</p>
  * 
- * @since 0.2
+ * @since 0.3
  * @author daisuke
  */
 public interface JmForeignKeyConstraint extends JmKeyConstraint {
@@ -62,7 +62,7 @@ public interface JmForeignKeyConstraint extends JmKeyConstraint {
 	 * マッチ型を取得する。
 	 * 
 	 * @return マッチ型. 未設定の場合は{@code null}
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	MatchType getMatchType();
 	
@@ -70,7 +70,7 @@ public interface JmForeignKeyConstraint extends JmKeyConstraint {
 	 * 削除時アクションを取得する。
 	 * 
 	 * @return 削除時アクション. 未設定の場合は{@code null}
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	ReferentialAction getOnDelete();
 	
@@ -78,7 +78,7 @@ public interface JmForeignKeyConstraint extends JmKeyConstraint {
 	 * 更新時アクションを取得する。
 	 * 
 	 * @return 更新時アクション. 未設定の場合は{@code null}
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	ReferentialAction getOnUpdate();
 	
@@ -88,7 +88,7 @@ public interface JmForeignKeyConstraint extends JmKeyConstraint {
 	 * <p>返される{@link List}は他に影響を及ぼさない独立したインスタンスである。</p>
 	 * 
 	 * @return 参照カラムのリスト
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	List<EntityRef<? extends JmColumn>> getReferenceColumns();
 	
@@ -109,7 +109,7 @@ public interface JmForeignKeyConstraint extends JmKeyConstraint {
 	 * 
 	 * <p>照合型には3種類があり、デフォルトは{@link #SIMPLE}照合型。</p>
 	 * 
-	 * @since 0.2
+	 * @since 0.3
 	 * @author daisuke
 	 */
 	public enum MatchType {

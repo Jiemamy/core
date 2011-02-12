@@ -26,7 +26,7 @@ import org.jiemamy.JiemamyContext;
  * Jiemamyモデルから外部リソースに出力を行うインターフェイス。
  * 
  * @param <T> エクスポート作業に必要な設定情報を提供する型
- * @since 0.2
+ * @since 0.3
  * @author daisuke
  */
 public interface Exporter<T extends ExportConfig> {
@@ -46,7 +46,7 @@ public interface Exporter<T extends ExportConfig> {
 	 * @throws ClassCastException {@code configMap}の値が想定外である場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @throws IllegalArgumentException 必須config情報に対して{@code null}を返した場合
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	boolean exportModel(JiemamyContext context, Map<String, Object> configMap) throws ExportException;
 	
@@ -61,7 +61,7 @@ public interface Exporter<T extends ExportConfig> {
 	 * @throws ExportException エクスポートに失敗した時
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @throws IllegalArgumentException 必須config情報に対して{@code null}を返した場合
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	boolean exportModel(JiemamyContext context, T config) throws ExportException;
 	
@@ -69,7 +69,7 @@ public interface Exporter<T extends ExportConfig> {
 	 * Exporterの名称を取得する。
 	 * 
 	 * @return Exporterの名称
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	String getName();
 	

@@ -31,7 +31,7 @@ import org.jiemamy.model.geometory.JmPoint;
  * 
  * <p>このインターフェイスで定義する全てのメソッドは冪等でなければならない(must)。</p>
  * 
- * @since 0.2
+ * @since 0.3
  * @author daisuke
  */
 public interface JmConnection extends Entity {
@@ -46,7 +46,7 @@ public interface JmConnection extends Entity {
 	 * <p>ベンドポイントが1つも設定されていない場合は、空のリストを返す。</p>
 	 * 
 	 * @return ベンドポイントのリスト
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	List<JmPoint> getBendpoints();
 	
@@ -54,7 +54,7 @@ public interface JmConnection extends Entity {
 	 * コネクションの色情報を取得する。
 	 * 
 	 * @return コネクションの色情報. 未設定の場合は{@code null}
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	JmColor getColor();
 	
@@ -71,7 +71,7 @@ public interface JmConnection extends Entity {
 	 * 
 	 * @return 接続元ノード
 	 * @throws ModelConsistencyException モデルの不整合により、接続元ノードが不明な場合
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	EntityRef<? extends JmNode> getSource();
 	
@@ -80,7 +80,7 @@ public interface JmConnection extends Entity {
 	 * 
 	 * @return 接続先ノード
 	 * @throws ModelConsistencyException モデルの不整合により、接続先ノードが不明な場合
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	EntityRef<? extends JmNode> getTarget();
 	
@@ -89,7 +89,7 @@ public interface JmConnection extends Entity {
 	 * 
 	 * @return 自己コネクションである場合は{@code true}、そうでない場合は{@code false}
 	 * @throws IllegalStateException sourceまたはtargetが{@code null}の場合
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	boolean isSelfConnection();
 	

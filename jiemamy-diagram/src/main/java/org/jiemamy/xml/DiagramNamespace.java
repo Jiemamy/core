@@ -27,7 +27,7 @@ import org.jiemamy.JiemamyError;
 /**
  * XML名前空間定数クラス。
  * 
- * @since 0.2
+ * @since 0.3
  * @author daisuke
  */
 public enum DiagramNamespace implements JiemamyNamespace {

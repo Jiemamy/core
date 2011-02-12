@@ -18,9 +18,11 @@
  */
 package org.jiemamy.serializer.stax2;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.serializer.SerializationException;
+import org.jiemamy.xml.JiemamyNamespace;
 
 /**
  * 各モデルをシリアライズ/デシリアライズするハンドラの抽象クラス。
@@ -72,5 +74,25 @@ public abstract class StaxHandler<T> {
 	 */
 	protected StaxDirector getDirector() {
 		return director;
+	}
+	
+	/**
+	 * XMLのxsi:schemaLocation属性に設定する名前空間スキーマ定義文字列を生成する。
+	 * 
+	 * @param namespaces XML名前空間の配列
+	 * @return 名前空間スキーマ定義文字列
+	 */
+	protected String getSchemaLocationDefinition(JiemamyNamespace[] namespaces) {
+		StringBuilder sb = new StringBuilder();
+		for (JiemamyNamespace namespace : namespaces) {
+			String ns = namespace.getNamespaceURI().toString();
+			String loc = namespace.getXmlSchemaLocation();
+			if (StringUtils.isEmpty(ns) || StringUtils.isEmpty(loc)) {
+				continue;
+			}
+			sb.append(" ").append(ns).append(" ").append(loc);
+		}
+		// 先頭の余計な空白1つを除去
+		return sb.deleteCharAt(0).toString();
 	}
 }

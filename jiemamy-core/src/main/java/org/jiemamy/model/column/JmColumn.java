@@ -31,7 +31,7 @@ import org.jiemamy.model.table.TooManyTablesFoundException;
  * 
  * <p>このインターフェイスで定義する全てのメソッドは冪等でなければならない(must)。</p>
  * 
- * @since 0.2
+ * @since 0.3
  * @author daisuke
  */
 public interface JmColumn extends OrderedEntity {
@@ -53,7 +53,7 @@ public interface JmColumn extends OrderedEntity {
 	 * 型記述子を取得する。
 	 * 
 	 * @return 型記述子. 未設定の場合は{@code null}
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	DataType getDataType();
 	
@@ -61,7 +61,7 @@ public interface JmColumn extends OrderedEntity {
 	 * デフォルト値を取得する。
 	 * 
 	 * @return デフォルト値. 未設定の場合は{@code null}
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	String getDefaultValue();
 	
@@ -69,7 +69,7 @@ public interface JmColumn extends OrderedEntity {
 	 * 説明文を取得する。
 	 * 
 	 * @return 説明文. 未設定の場合は{@code null}
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	String getDescription();
 	
@@ -77,7 +77,7 @@ public interface JmColumn extends OrderedEntity {
 	 * 論理名を取得する。
 	 * 
 	 * @return 論理名. 未設定の場合は{@code null}
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	String getLogicalName();
 	
@@ -85,7 +85,7 @@ public interface JmColumn extends OrderedEntity {
 	 * 物理名を取得する。
 	 * 
 	 * @return 物理名. 未設定の場合は{@code null}
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	String getName();
 	

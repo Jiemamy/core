@@ -29,7 +29,7 @@ public class SerializationException extends Exception {
 	/**
 	 * インスタンスを生成する。
 	 * 
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	public SerializationException() {
 		super();
@@ -39,7 +39,7 @@ public class SerializationException extends Exception {
 	 * インスタンスを生成する。
 	 * 
 	 * @param message 例外メッセージ
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	public SerializationException(String message) {
 		super(message);
@@ -50,7 +50,7 @@ public class SerializationException extends Exception {
 	 * 
 	 * @param message 例外メッセージ
 	 * @param cause 起因例外
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	public SerializationException(String message, Throwable cause) {
 		super(message, cause);
@@ -60,7 +60,7 @@ public class SerializationException extends Exception {
 	 * インスタンスを生成する。
 	 * 
 	 * @param cause 起因例外
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	public SerializationException(Throwable cause) {
 		super(cause);

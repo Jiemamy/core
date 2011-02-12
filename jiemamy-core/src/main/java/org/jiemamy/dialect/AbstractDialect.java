@@ -34,7 +34,7 @@ import org.jiemamy.model.datatype.RawTypeCategory;
 import org.jiemamy.model.datatype.RawTypeDescriptor;
 import org.jiemamy.model.datatype.SimpleRawTypeDescriptor;
 import org.jiemamy.model.datatype.TypeParameterKey;
-import org.jiemamy.validator.AllValidator;
+import org.jiemamy.validator.StandardValidator;
 import org.jiemamy.validator.Validator;
 
 /**
@@ -101,7 +101,7 @@ public abstract class AbstractDialect implements Dialect {
 	}
 	
 	public Validator getValidator() {
-		return new AllValidator();
+		return new StandardValidator();
 	}
 	
 	public final RawTypeDescriptor normalize(RawTypeDescriptor in) {

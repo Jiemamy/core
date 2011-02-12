@@ -31,7 +31,7 @@ public interface JiemamyNamespace {
 	 * 名前空間URLを取得する。
 	 * 
 	 * @return 名前空間URI
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	URI getNamespaceURI();
 	
@@ -39,7 +39,7 @@ public interface JiemamyNamespace {
 	 * 名前空間prefixを取得する。
 	 * 
 	 * @return 名前空間prefix
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	String getPrefix();
 	
@@ -47,7 +47,7 @@ public interface JiemamyNamespace {
 	 * XMLスキーマリソースが存在するURLを取得する。
 	 * 
 	 * @return XMLスキーマリソースが存在するURL. may be null.
-	 * @since 0.2
+	 * @since 0.3
 	 */
 	String getXmlSchemaLocation();
 }
