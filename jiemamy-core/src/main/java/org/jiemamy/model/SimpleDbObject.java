@@ -81,7 +81,7 @@ public abstract class SimpleDbObject extends AbstractEntity implements DbObject 
 	
 	public Set<DbObject> findSuperDbObjectsNonRecursive(Set<DbObject> dbObjects) {
 		Validate.notNull(dbObjects);
-		return Collections.emptySet(); // TODO 未実装
+		return Collections.emptySet();
 	}
 	
 	public String getDescription() {

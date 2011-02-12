@@ -382,7 +382,7 @@ public class JiemamyContextTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * 同じIDのカラムを複数のテーブルに格納した場合、それぞれのテーブルが属するcontextが異なれば問題は起きない。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
@@ -481,7 +481,7 @@ public class JiemamyContextTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * カラムをテーブルにstoreしただけでは、contextからresolveはできない。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */

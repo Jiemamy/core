@@ -26,7 +26,7 @@ import org.jiemamy.JiemamyContext;
 import org.jiemamy.ServiceLocator;
 
 /**
- * TODO for daisuke
+ * 結果を文字列として出力するスクリプトを表すクラス。
  * 
  * @version $Id$
  * @author daisuke

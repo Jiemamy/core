@@ -39,12 +39,12 @@ import org.jiemamy.model.table.SimpleJmTable;
 public class SimpleJmDomainTest {
 	
 	/**
-	 * TODO for daisuke
+	 * {@link JmDomain}を定義し、それをデータ型として使って見る。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void testname() throws Exception {
+	public void test01_() throws Exception {
 		JiemamyContext context = new JiemamyContext();
 		
 		SimpleDataType integer = new SimpleDataType(new SimpleRawTypeDescriptor(RawTypeCategory.INTEGER));
