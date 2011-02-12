@@ -20,7 +20,6 @@ package org.jiemamy;
 
 import javax.xml.stream.XMLStreamException;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.codehaus.staxmate.in.SMEvent;
 import org.codehaus.staxmate.out.SMNamespace;
@@ -38,7 +37,6 @@ import org.jiemamy.serializer.stax2.StaxDirector;
 import org.jiemamy.serializer.stax2.StaxHandler;
 import org.jiemamy.xml.DiagramNamespace;
 import org.jiemamy.xml.DiagramQName;
-import org.jiemamy.xml.JiemamyNamespace;
 
 /**
  * {@link DiagramFacet}をシリアライズ/デシリアライズするハンドラ。

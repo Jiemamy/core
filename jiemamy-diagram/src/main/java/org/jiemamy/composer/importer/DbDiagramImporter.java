@@ -79,11 +79,13 @@ public class DbDiagramImporter extends DbImporter {
 
 	private static class StoredEventListenerImpl implements StoredEventListener {
 		
+		private static final int DELTA = 50;
+		
 		private final JiemamyContext context;
 		
 		private final SimpleJmDiagram diagram;
 		
-		private int loc = 100;
+		private JmRectangle prev = new JmRectangle(0, 0);
 		
 		private Collection<JmForeignKeyConstraint> fks = Sets.newHashSet();
 		
@@ -109,9 +111,10 @@ public class DbDiagramImporter extends DbImporter {
 				DbObject dbObject = (DbObject) object;
 				if (diagram.getNodeFor(dbObject.toReference()) == null) {
 					SimpleDbObjectNode node = new SimpleDbObjectNode(dbObject.toReference());
-					node.setBoundary(new JmRectangle(loc, loc));
-					loc += 10;
+					JmRectangle rect = new JmRectangle(prev.x + DELTA, prev.y + DELTA);
+					node.setBoundary(rect);
 					diagram.store(node);
+					prev = rect;
 				}
 				if (dbObject instanceof JmTable) {
 					JmTable table = (JmTable) dbObject;
