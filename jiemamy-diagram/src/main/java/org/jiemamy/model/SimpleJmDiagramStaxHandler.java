@@ -33,13 +33,13 @@ import org.slf4j.LoggerFactory;
 
 import org.jiemamy.serializer.EntityComparator;
 import org.jiemamy.serializer.SerializationException;
-import org.jiemamy.serializer.stax2.DeserializationContext;
-import org.jiemamy.serializer.stax2.JiemamyCursor;
-import org.jiemamy.serializer.stax2.JiemamyOutputContainer;
-import org.jiemamy.serializer.stax2.JiemamyOutputElement;
-import org.jiemamy.serializer.stax2.SerializationContext;
-import org.jiemamy.serializer.stax2.StaxDirector;
-import org.jiemamy.serializer.stax2.StaxHandler;
+import org.jiemamy.serializer.stax.DeserializationContext;
+import org.jiemamy.serializer.stax.JiemamyCursor;
+import org.jiemamy.serializer.stax.JiemamyOutputContainer;
+import org.jiemamy.serializer.stax.JiemamyOutputElement;
+import org.jiemamy.serializer.stax.SerializationContext;
+import org.jiemamy.serializer.stax.StaxDirector;
+import org.jiemamy.serializer.stax.StaxHandler;
 import org.jiemamy.xml.CoreQName;
 import org.jiemamy.xml.DiagramQName;
 

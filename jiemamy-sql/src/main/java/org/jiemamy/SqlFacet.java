@@ -34,7 +34,7 @@ import org.jiemamy.model.DbObject;
 import org.jiemamy.model.script.JmAroundScript;
 import org.jiemamy.model.script.SimpleJmAroundScript;
 import org.jiemamy.model.script.SimpleJmAroundScriptStaxHandler;
-import org.jiemamy.serializer.stax2.StaxDirector;
+import org.jiemamy.serializer.stax.StaxDirector;
 import org.jiemamy.transaction.StoredEvent;
 import org.jiemamy.utils.LogMarker;
 import org.jiemamy.xml.JiemamyNamespace;

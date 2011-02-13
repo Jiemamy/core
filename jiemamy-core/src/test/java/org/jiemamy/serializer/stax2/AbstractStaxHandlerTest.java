@@ -31,6 +31,8 @@ import org.codehaus.staxmate.SMOutputFactory;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.out.SMOutputDocument;
 
+import org.jiemamy.serializer.stax.StaxHandler;
+
 /**
  * {@link StaxHandler}をテストする際の骨格実装テストクラス。
  * 

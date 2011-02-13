@@ -16,7 +16,7 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.serializer.stax2;
+package org.jiemamy.serializer.stax;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;

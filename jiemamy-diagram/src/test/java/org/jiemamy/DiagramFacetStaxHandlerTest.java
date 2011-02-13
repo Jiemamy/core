@@ -35,12 +35,12 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.jiemamy.serializer.stax.DeserializationContext;
+import org.jiemamy.serializer.stax.JiemamyCursor;
+import org.jiemamy.serializer.stax.JiemamyDocument;
+import org.jiemamy.serializer.stax.SerializationContext;
+import org.jiemamy.serializer.stax.StaxDirector;
 import org.jiemamy.serializer.stax2.AbstractStaxHandlerTest;
-import org.jiemamy.serializer.stax2.DeserializationContext;
-import org.jiemamy.serializer.stax2.JiemamyCursor;
-import org.jiemamy.serializer.stax2.JiemamyDocument;
-import org.jiemamy.serializer.stax2.SerializationContext;
-import org.jiemamy.serializer.stax2.StaxDirector;
 
 /**
  * {@link DiagramFacetStaxHandler}のテストクラス。

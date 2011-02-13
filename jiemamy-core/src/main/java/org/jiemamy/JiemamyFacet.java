@@ -23,8 +23,8 @@ import java.util.Set;
 
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.OnMemoryEntityResolver;
-import org.jiemamy.serializer.stax2.StaxDirector;
-import org.jiemamy.serializer.stax2.StaxHandler;
+import org.jiemamy.serializer.stax.StaxDirector;
+import org.jiemamy.serializer.stax.StaxHandler;
 import org.jiemamy.xml.JiemamyNamespace;
 
 /**

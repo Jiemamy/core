@@ -57,6 +57,7 @@ import org.jiemamy.model.SimpleJmDiagram;
 import org.jiemamy.model.geometory.JmRectangle;
 import org.jiemamy.model.table.JmTable;
 import org.jiemamy.model.table.SimpleJmTable;
+import org.jiemamy.serializer.stax.JiemamyStaxSerializer;
 
 /**
  * {@link JiemamyStaxSerializer}のテスト：jiemamy-diagram版。

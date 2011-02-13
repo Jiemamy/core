@@ -54,6 +54,7 @@ import org.jiemamy.model.datatype.RawTypeCategory;
 import org.jiemamy.model.datatype.SimpleDataType;
 import org.jiemamy.model.table.JmTable;
 import org.jiemamy.model.table.SimpleJmTable;
+import org.jiemamy.serializer.stax.JiemamyStaxSerializer;
 
 /**
  * {@link JiemamyStaxSerializer}のテストクラス。

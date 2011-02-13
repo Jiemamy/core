@@ -49,18 +49,15 @@ public class SimpleServiceLocator implements ServiceLocator {
 			}
 		}
 		
-		// FIXME テストクラスから実行されると、サービスロケータによってserviceを読み込めない。
-		// このtryブロックがなければMySqlEmitterTestがコケる。なぜだろうか。
-		// (v0.2で確認した事象。v0.3以降では未検証)
-		try {
-			@SuppressWarnings("unchecked")
-			T result = (T) Class.forName(fqcn).newInstance();
-			return result;
-		} catch (InstantiationException e) {
-			// ignore
-		} catch (IllegalAccessException e) {
-			// ignore
-		}
+//		try {
+//			@SuppressWarnings("unchecked")
+//			T result = (T) Class.forName(fqcn).newInstance();
+//			return result;
+//		} catch (InstantiationException e) {
+//			// ignore
+//		} catch (IllegalAccessException e) {
+//			// ignore
+//		}
 		
 		throw new ClassNotFoundException(fqcn);
 	}

@@ -62,7 +62,7 @@ import org.jiemamy.model.table.TableNotFoundException;
 import org.jiemamy.model.table.TooManyTablesFoundException;
 import org.jiemamy.model.view.JmView;
 import org.jiemamy.serializer.JiemamySerializer;
-import org.jiemamy.serializer.stax2.JiemamyStaxSerializer;
+import org.jiemamy.serializer.stax.JiemamyStaxSerializer;
 import org.jiemamy.transaction.EventBroker;
 import org.jiemamy.transaction.EventBrokerImpl;
 import org.jiemamy.transaction.StoredEvent;

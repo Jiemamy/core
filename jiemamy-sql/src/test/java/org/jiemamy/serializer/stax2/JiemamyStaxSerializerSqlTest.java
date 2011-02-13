@@ -51,6 +51,7 @@ import org.jiemamy.model.script.JmAroundScript;
 import org.jiemamy.model.script.SimpleJmAroundScript;
 import org.jiemamy.model.table.JmTable;
 import org.jiemamy.model.table.SimpleJmTable;
+import org.jiemamy.serializer.stax.JiemamyStaxSerializer;
 
 /**
  * {@link JiemamyStaxSerializer}のテスト：jiemamy-sql版。

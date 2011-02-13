@@ -54,7 +54,7 @@ import org.jiemamy.model.geometory.JmPoint;
 import org.jiemamy.model.geometory.JmPointStaxHandler;
 import org.jiemamy.model.geometory.JmRectangle;
 import org.jiemamy.model.geometory.JmRectangleStaxHandler;
-import org.jiemamy.serializer.stax2.StaxDirector;
+import org.jiemamy.serializer.stax.StaxDirector;
 import org.jiemamy.transaction.StoredEvent;
 import org.jiemamy.utils.LogMarker;
 import org.jiemamy.xml.DiagramNamespace;

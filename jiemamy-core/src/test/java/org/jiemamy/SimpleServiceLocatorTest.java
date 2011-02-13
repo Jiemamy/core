@@ -26,6 +26,7 @@ import static org.junit.Assert.assertThat;
 import javax.imageio.spi.ServiceRegistry;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import org.jiemamy.dialect.Dialect;
@@ -61,6 +62,7 @@ public class SimpleServiceLocatorTest {
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
+	@Ignore("MockDialectはサービスレジストリに登録されている。現在SimpleServiceLocatorはリフレクションによるサービス取得をサポートしない")
 	public void test01コンストラクタのリフレクション呼び出しによるサービス取得() throws Exception {
 		Dialect dialect = serviceLocator.getService(Dialect.class, "org.jiemamy.dialect.MockDialect");
 		assertThat(dialect, is(notNullValue()));

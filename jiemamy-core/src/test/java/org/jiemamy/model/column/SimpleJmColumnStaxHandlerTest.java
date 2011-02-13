@@ -35,10 +35,10 @@ import org.codehaus.staxmate.out.SMOutputDocument;
 import org.junit.Before;
 import org.junit.Test;
 
+import org.jiemamy.serializer.stax.JiemamyDocument;
+import org.jiemamy.serializer.stax.SerializationContext;
+import org.jiemamy.serializer.stax.StaxDirector;
 import org.jiemamy.serializer.stax2.AbstractStaxHandlerTest;
-import org.jiemamy.serializer.stax2.JiemamyDocument;
-import org.jiemamy.serializer.stax2.SerializationContext;
-import org.jiemamy.serializer.stax2.StaxDirector;
 
 /**
  * {@link SimpleJmColumnStaxHandler}のテストクラス。
