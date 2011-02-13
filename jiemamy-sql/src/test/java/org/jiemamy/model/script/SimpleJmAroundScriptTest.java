@@ -42,11 +42,12 @@ public class SimpleJmAroundScriptTest {
 	public static SimpleJmAroundScript random(JmTable table) {
 		SimpleJmAroundScript model = new SimpleJmAroundScript();
 		model.setCoreModelRef(table.toReference());
+		// TODO engineもたまに指定する
 		if (bool()) {
 			model.setScript(Position.BEGIN, strNotEmpty());
 		}
 		if (bool()) {
-			model.setScript(Position.END, strNotEmpty(), strNotEmpty());
+			model.setScript(Position.END, strNotEmpty());
 		}
 		return model;
 	}

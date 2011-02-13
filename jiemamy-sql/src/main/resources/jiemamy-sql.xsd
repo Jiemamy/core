@@ -36,13 +36,9 @@
   </xs:element>
 
   <xs:element name="script">
-    <xs:complexType>
-      <xs:simpleContent>
-        <xs:extension base="xs:string">
-          <xs:attribute name="position" type="positionType" use="required" />
-          <xs:attribute name="engine" type="core:fqcnType" use="optional" />
-        </xs:extension>
-      </xs:simpleContent>
+    <xs:complexType mixed="true">
+      <xs:attribute name="engine" type="core:fqcnType" use="optional" />
+      <xs:attribute name="position" type="positionType" use="required" />
     </xs:complexType>
   </xs:element>
 
