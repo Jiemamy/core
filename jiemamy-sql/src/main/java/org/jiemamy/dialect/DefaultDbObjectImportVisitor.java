@@ -1,5 +1,5 @@
 /*
- * Copyright 2007-2009 Jiemamy Project and the Others.
+ * Copyright 2007-2011 Jiemamy Project and the Others.
  * Created on 2009/03/30
  *
  * This file is part of Jiemamy.
@@ -63,8 +63,8 @@ import org.jiemamy.utils.visitor.ForEachUtil;
  * 
  * @author daisuke
  */
-public class DefaultDbObjectImportVisitor extends AbstractCollectionVisitor<TableMeta, Void, SQLException>
-		implements DbObjectImportVisitor {
+public class DefaultDbObjectImportVisitor extends AbstractCollectionVisitor<TableMeta, Void, SQLException> implements
+		DbObjectImportVisitor {
 	
 	private static Logger logger = LoggerFactory.getLogger(DefaultDbObjectImportVisitor.class);
 	
