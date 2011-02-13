@@ -238,8 +238,8 @@ public class JiemamyStaxSerializerTest {
 		String actual = baos.toString(CharEncoding.UTF_8);
 		String expected = getXml("core5.jiemamy");
 		
-//		logger.info("actual  ={}", actual.replaceAll("[\n\r]", ""));
-//		logger.info("expected={}", expected.replaceAll("[\n\r]", ""));
+		logger.info("actual  ={}", actual.replaceAll("[\n\r]", ""));
+		logger.info("expected={}", expected.replaceAll("[\n\r]", ""));
 		
 		DetailedDiff diff = new DetailedDiff(new Diff(actual, expected));
 		assertThat(diff.getAllDifferences().toString(), diff.similar(), is(true));

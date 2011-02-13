@@ -16,8 +16,10 @@
           <logicalName/>
           <description/>
           <dataType class="org.jiemamy.model.datatype.SimpleDataType">
-            <typeCategory>INTEGER</typeCategory>
-            <typeName>INTEGER</typeName>
+            <typeDesc>
+              <typeCategory>INTEGER</typeCategory>
+              <typeName>INTEGER</typeName>
+            </typeDesc>
           </dataType>
           <defaultValue/>
         </column>
@@ -48,8 +50,10 @@
           <logicalName/>
           <description/>
           <dataType class="org.jiemamy.model.datatype.SimpleDataType">
-            <typeCategory>INTEGER</typeCategory>
-            <typeName>INTEGER</typeName>
+            <typeDesc>
+              <typeCategory>INTEGER</typeCategory>
+              <typeName>INTEGER</typeName>
+            </typeDesc>
           </dataType>
           <defaultValue/>
         </column>
@@ -80,8 +84,10 @@
           <logicalName/>
           <description/>
           <dataType class="org.jiemamy.model.datatype.SimpleDataType">
-            <typeCategory>INTEGER</typeCategory>
-            <typeName>INTEGER</typeName>
+            <typeDesc>
+              <typeCategory>INTEGER</typeCategory>
+              <typeName>INTEGER</typeName>
+            </typeDesc>
           </dataType>
           <defaultValue/>
         </column>

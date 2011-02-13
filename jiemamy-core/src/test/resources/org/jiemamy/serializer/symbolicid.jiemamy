@@ -14,8 +14,10 @@
           <logicalName/>
           <description/>
           <dataType>
-            <typeCategory>INTEGER</typeCategory>
-            <typeName>INTEGER</typeName>
+            <typeDesc>
+              <typeCategory>INTEGER</typeCategory>
+              <typeName>INTEGER</typeName>
+            </typeDesc>
           </dataType>
           <defaultValue/>
         </column>
@@ -24,8 +26,10 @@
           <logicalName/>
           <description/>
           <dataType>
-            <typeCategory>INTEGER</typeCategory>
-            <typeName>INTEGER</typeName>
+            <typeDesc>
+              <typeCategory>INTEGER</typeCategory>
+              <typeName>INTEGER</typeName>
+            </typeDesc>
           </dataType>
           <defaultValue/>
         </column>
@@ -48,8 +52,10 @@
           <logicalName/>
           <description/>
           <dataType>
-            <typeCategory>INTEGER</typeCategory>
-            <typeName>INTEGER</typeName>
+            <typeDesc>
+              <typeCategory>INTEGER</typeCategory>
+              <typeName>INTEGER</typeName>
+            </typeDesc>
           </dataType>
           <defaultValue/>
         </column>
@@ -58,8 +64,10 @@
           <logicalName/>
           <description/>
           <dataType>
-            <typeCategory>INTEGER</typeCategory>
-            <typeName>INTEGER</typeName>
+            <typeDesc>
+              <typeCategory>INTEGER</typeCategory>
+              <typeName>INTEGER</typeName>
+            </typeDesc>
           </dataType>
           <defaultValue/>
         </column>
@@ -68,8 +76,10 @@
           <logicalName/>
           <description/>
           <dataType>
-            <typeCategory>INTEGER</typeCategory>
-            <typeName>INTEGER</typeName>
+            <typeDesc>
+              <typeCategory>INTEGER</typeCategory>
+              <typeName>INTEGER</typeName>
+            </typeDesc>
           </dataType>
           <defaultValue/>
         </column>

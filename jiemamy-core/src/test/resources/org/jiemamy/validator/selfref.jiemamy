@@ -14,8 +14,10 @@
           <logicalName/>
           <description/>
           <dataType class="org.jiemamy.model.datatype.SimpleDataType">
-            <typeCategory>INTEGER</typeCategory>
-            <typeName>INTEGER</typeName>
+            <typeDesc>
+              <typeCategory>INTEGER</typeCategory>
+              <typeName>INTEGER</typeName>
+            </typeDesc>
           </dataType>
           <defaultValue/>
         </column>
@@ -24,8 +26,10 @@
           <logicalName/>
           <description/>
           <dataType class="org.jiemamy.model.datatype.SimpleDataType">
-            <typeCategory>INTEGER</typeCategory>
-            <typeName>INTEGER</typeName>
+            <typeDesc>
+              <typeCategory>INTEGER</typeCategory>
+              <typeName>INTEGER</typeName>
+            </typeDesc>
           </dataType>
           <defaultValue/>
         </column>
@@ -34,8 +38,10 @@
           <logicalName/>
           <description/>
           <dataType class="org.jiemamy.model.datatype.SimpleDataType">
-            <typeCategory>VARCHAR</typeCategory>
-            <typeName>VARCHAR</typeName>
+            <typeDesc>
+              <typeCategory>VARCHAR</typeCategory>
+              <typeName>VARCHAR</typeName>
+            </typeDesc>
             <parameters>
               <parameter key="size">32</parameter>
             </parameters>

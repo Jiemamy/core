@@ -1,8 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<jiemamy xmlns="http://jiemamy.org/xml/ns/core" version="0.3"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://jiemamy.org/xml/ns/core ../../../../jiemamy-core/src/main/resources/jiemamy-core.xsd http://jiemamy.org/xml/ns/diagram ../../main/resources/jiemamy-diagram.xsd">
-
+<jiemamy xmlns="http://jiemamy.org/xml/ns/core" version="0.3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jiemamy.org/xml/ns/core http://schema.jiemamy.org/xml/0.3.0/jiemamy-core.xsd">
   <metadata>
     <dialect>org.jiemamy.dialect.GenericDialect</dialect>
   </metadata>
@@ -17,8 +14,10 @@
           <logicalName/>
           <description/>
           <dataType>
-            <typeCategory>INTEGER</typeCategory>
-            <typeName>BIGINT</typeName>
+            <typeDesc>
+              <typeCategory>INTEGER</typeCategory>
+              <typeName>BIGINT</typeName>
+            </typeDesc>
           </dataType>
           <defaultValue/>
         </column>
@@ -27,8 +26,10 @@
           <logicalName/>
           <description/>
           <dataType>
-            <typeCategory>VARCHAR</typeCategory>
-            <typeName>VARCHAR</typeName>
+            <typeDesc>
+              <typeCategory>VARCHAR</typeCategory>
+              <typeName>VARCHAR</typeName>
+            </typeDesc>
             <parameters>
               <parameter key="size">32</parameter>
             </parameters>
@@ -40,8 +41,10 @@
           <logicalName/>
           <description/>
           <dataType>
-            <typeCategory>VARCHAR</typeCategory>
-            <typeName>VARCHAR</typeName>
+            <typeDesc>
+              <typeCategory>VARCHAR</typeCategory>
+              <typeName>VARCHAR</typeName>
+            </typeDesc>
             <parameters>
               <parameter key="size">16</parameter>
             </parameters>
@@ -53,8 +56,10 @@
           <logicalName/>
           <description/>
           <dataType>
-            <typeCategory>TIMESTAMP</typeCategory>
-            <typeName>TIMESTAMP</typeName>
+            <typeDesc>
+              <typeCategory>TIMESTAMP</typeCategory>
+              <typeName>TIMESTAMP</typeName>
+            </typeDesc>
           </dataType>
           <defaultValue/>
         </column>
@@ -63,8 +68,10 @@
           <logicalName/>
           <description/>
           <dataType>
-            <typeCategory>TIMESTAMP</typeCategory>
-            <typeName>TIMESTAMP</typeName>
+            <typeDesc>
+              <typeCategory>TIMESTAMP</typeCategory>
+              <typeName>TIMESTAMP</typeName>
+            </typeDesc>
             <parameters>
               <parameter key="with_timezone">false</parameter>
             </parameters>
@@ -96,8 +103,10 @@
           <logicalName/>
           <description/>
           <dataType>
-            <typeCategory>INTEGER</typeCategory>
-            <typeName>INTEGER</typeName>
+            <typeDesc>
+              <typeCategory>INTEGER</typeCategory>
+              <typeName>INTEGER</typeName>
+            </typeDesc>
           </dataType>
           <defaultValue/>
         </column>
@@ -106,8 +115,10 @@
           <logicalName/>
           <description/>
           <dataType>
-            <typeCategory>INTEGER</typeCategory>
-            <typeName>INTEGER</typeName>
+            <typeDesc>
+              <typeCategory>INTEGER</typeCategory>
+              <typeName>INTEGER</typeName>
+            </typeDesc>
             <parameters>
               <parameter key="serial">false</parameter>
             </parameters>
@@ -119,8 +130,10 @@
           <logicalName/>
           <description/>
           <dataType>
-            <typeCategory>INTEGER</typeCategory>
-            <typeName>INTEGER</typeName>
+            <typeDesc>
+              <typeCategory>INTEGER</typeCategory>
+              <typeName>INTEGER</typeName>
+            </typeDesc>
           </dataType>
           <defaultValue/>
         </column>
@@ -129,8 +142,10 @@
           <logicalName/>
           <description/>
           <dataType>
-            <typeCategory>TIMESTAMP</typeCategory>
-            <typeName>TIMESTAMP</typeName>
+            <typeDesc>
+              <typeCategory>TIMESTAMP</typeCategory>
+              <typeName>TIMESTAMP</typeName>
+            </typeDesc>
             <parameters>
               <parameter key="with_timezone">false</parameter>
             </parameters>
@@ -142,8 +157,10 @@
           <logicalName/>
           <description/>
           <dataType>
-            <typeCategory>TIMESTAMP</typeCategory>
-            <typeName>TIMESTAMP</typeName>
+            <typeDesc>
+              <typeCategory>TIMESTAMP</typeCategory>
+              <typeName>TIMESTAMP</typeName>
+            </typeDesc>
             <parameters>
               <parameter key="with_timezone">false</parameter>
             </parameters>

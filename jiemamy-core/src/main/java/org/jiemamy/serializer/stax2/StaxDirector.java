@@ -54,6 +54,8 @@ import org.jiemamy.model.dataset.SimpleJmRecord;
 import org.jiemamy.model.dataset.SimpleJmRecordStaxHandler;
 import org.jiemamy.model.datatype.SimpleDataType;
 import org.jiemamy.model.datatype.SimpleDataTypeStaxHandler;
+import org.jiemamy.model.datatype.SimpleRawTypeDescriptor;
+import org.jiemamy.model.datatype.SimpleRawTypeDescriptorStaxHandler;
 import org.jiemamy.model.table.SimpleJmTable;
 import org.jiemamy.model.table.SimpleJmTableStaxHandler;
 import org.jiemamy.model.view.SimpleJmView;
@@ -92,10 +94,15 @@ public class StaxDirector {
 		
 		addHandler(JiemamyContext.class, CoreQName.JIEMAMY, new JiemamyContextStaxHandler(this));
 		addHandler(SimpleJmMetadata.class, CoreQName.META, new SimpleJmMetadataStaxHandler(this));
+		
 		addHandler(SimpleJmView.class, CoreQName.VIEW, new SimpleJmViewStaxHandler(this));
 		addHandler(SimpleJmTable.class, CoreQName.TABLE, new SimpleJmTableStaxHandler(this));
+		
 		addHandler(SimpleJmColumn.class, CoreQName.COLUMN, new SimpleJmColumnStaxHandler(this));
+		
 		addHandler(SimpleDataType.class, CoreQName.DATA_TYPE, new SimpleDataTypeStaxHandler(this));
+		addHandler(SimpleRawTypeDescriptor.class, CoreQName.TYPE_DESC, new SimpleRawTypeDescriptorStaxHandler(this));
+		
 		addHandler(SimpleJmNotNullConstraint.class, CoreQName.NOT_NULL, new SimpleJmNotNullConstraintStaxHandler(this));
 		addHandler(SimpleJmPrimaryKeyConstraint.class, CoreQName.PRIMARY_KEY,
 				new SimpleJmPrimaryKeyConstraintStaxHandler(this));

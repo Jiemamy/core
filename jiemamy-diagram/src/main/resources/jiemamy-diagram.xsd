@@ -1,162 +1,162 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema
+<xs:schema
     targetNamespace="http://jiemamy.org/xml/ns/diagram"
     xmlns:core="http://jiemamy.org/xml/ns/core"
     xmlns="http://jiemamy.org/xml/ns/diagram"
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
     elementFormDefault="qualified"
     attributeFormDefault="unqualified"
     version="0.3">
 
-  <xsd:annotation>
-    <xsd:documentation xml:lang="en">Jiemamy diagram model schema</xsd:documentation> 
-    <xsd:documentation xml:lang="ja-JP">Jiemamyダイアグラムモデルスキーマ</xsd:documentation> 
-  </xsd:annotation>
+  <xs:annotation>
+    <xs:documentation xml:lang="en">Jiemamy diagram model schema</xs:documentation> 
+    <xs:documentation xml:lang="ja-JP">Jiemamyダイアグラムモデルスキーマ</xs:documentation> 
+  </xs:annotation>
   
-  <xsd:import
+  <xs:import
       namespace="http://jiemamy.org/xml/ns/core"
       schemaLocation="jiemamy-core.xsd"/>
 
-  <xsd:element name="diagrams">
-    <xsd:complexType>
-      <xsd:sequence maxOccurs="unbounded">
-        <xsd:element ref="diagram" minOccurs="0" maxOccurs="unbounded" />
-      </xsd:sequence>
-    </xsd:complexType>
-  </xsd:element>
+  <xs:element name="diagrams">
+    <xs:complexType>
+      <xs:sequence maxOccurs="unbounded">
+        <xs:element ref="diagram" minOccurs="0" maxOccurs="unbounded" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   
 
-  <xsd:element name="diagram">
-    <xsd:complexType>
-      <xsd:sequence>
-        <xsd:element ref="name" minOccurs="0" />
-        <xsd:element name="level" type="levelType" minOccurs="0" />
-        <xsd:element name="mode" type="modeType" minOccurs="0" />
-        <xsd:element name="nodes" minOccurs="0">
-          <xsd:complexType>
-            <xsd:sequence minOccurs="0" maxOccurs="unbounded">
-              <xsd:element ref="node" maxOccurs="unbounded" />
-            </xsd:sequence>
-          </xsd:complexType>
-        </xsd:element>
-        <xsd:element name="connections" minOccurs="0">
-          <xsd:complexType>
-            <xsd:choice minOccurs="0" maxOccurs="unbounded">
-              <xsd:element ref="connection" maxOccurs="unbounded" />
-            </xsd:choice>
-          </xsd:complexType>
-        </xsd:element>
-      </xsd:sequence>
-      <xsd:attribute name="id" type="core:uuidType" use="required" />
-      <xsd:attribute name="class" type="core:fqcnType" use="optional" />
-    </xsd:complexType>
-  </xsd:element>
+  <xs:element name="diagram">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="name" minOccurs="0" />
+        <xs:element name="level" type="levelType" minOccurs="0" />
+        <xs:element name="mode" type="modeType" minOccurs="0" />
+        <xs:element name="nodes" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence minOccurs="0" maxOccurs="unbounded">
+              <xs:element ref="node" maxOccurs="unbounded" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="connections" minOccurs="0">
+          <xs:complexType>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+              <xs:element ref="connection" maxOccurs="unbounded" />
+            </xs:choice>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="id" type="core:uuidType" use="required" />
+      <xs:attribute name="class" type="core:fqcnType" use="optional" />
+    </xs:complexType>
+  </xs:element>
 
-  <xsd:element name="node">
-    <xsd:complexType>
-      <xsd:sequence>
-        <xsd:choice minOccurs="0">
-          <xsd:element ref="core"/>
-          <xsd:element name="contents" type="xsd:string"/>
-        </xsd:choice>
-        <xsd:element ref="color" minOccurs="0"/>
-        <xsd:element name="boundary">
-          <xsd:complexType>
-            <xsd:attribute name="x" type="overMinusOneType" default="-1" />
-            <xsd:attribute name="y" type="overMinusOneType" default="-1" />
-            <xsd:attribute name="width" type="overMinusOneType" default="-1" />
-            <xsd:attribute name="height" type="overMinusOneType" default="-1" />
-          </xsd:complexType>
-        </xsd:element>
-      </xsd:sequence>
-      <xsd:attribute name="id" type="core:uuidType" use="required" />
-      <xsd:attribute name="class" type="core:fqcnType" use="optional" />
-    </xsd:complexType>
-  </xsd:element>
+  <xs:element name="node">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:choice minOccurs="0">
+          <xs:element ref="core"/>
+          <xs:element name="contents" type="xs:string"/>
+        </xs:choice>
+        <xs:element ref="color" minOccurs="0"/>
+        <xs:element name="boundary">
+          <xs:complexType>
+            <xs:attribute name="x" type="overMinusOneType" default="-1" />
+            <xs:attribute name="y" type="overMinusOneType" default="-1" />
+            <xs:attribute name="width" type="overMinusOneType" default="-1" />
+            <xs:attribute name="height" type="overMinusOneType" default="-1" />
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="id" type="core:uuidType" use="required" />
+      <xs:attribute name="class" type="core:fqcnType" use="optional" />
+    </xs:complexType>
+  </xs:element>
 
-  <xsd:element name="connection">
-    <xsd:complexType>
-      <xsd:sequence>
-        <xsd:element ref="core"/>
-        <xsd:element ref="source"/>
-        <xsd:element ref="target"/>
-        <xsd:element ref="color" minOccurs="0" />
-        <xsd:element ref="bendpoints" minOccurs="0" maxOccurs="unbounded"/>
-      </xsd:sequence>
-      <xsd:attribute name="id" type="core:uuidType" use="required" />
-      <xsd:attribute name="class" type="core:fqcnType" use="optional" />
-    </xsd:complexType>
-  </xsd:element>
+  <xs:element name="connection">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="core"/>
+        <xs:element ref="source"/>
+        <xs:element ref="target"/>
+        <xs:element ref="color" minOccurs="0" />
+        <xs:element ref="bendpoints" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="id" type="core:uuidType" use="required" />
+      <xs:attribute name="class" type="core:fqcnType" use="optional" />
+    </xs:complexType>
+  </xs:element>
   
   
-  <xsd:element name="core">
-    <xsd:complexType>
-      <xsd:attribute name="ref" type="core:uuidType" use="required" />
-    </xsd:complexType>
-  </xsd:element>
+  <xs:element name="core">
+    <xs:complexType>
+      <xs:attribute name="ref" type="core:uuidType" use="required" />
+    </xs:complexType>
+  </xs:element>
 
-  <xsd:element name="source">
-    <xsd:complexType>
-      <xsd:attribute name="ref" type="core:uuidType" use="required" />
-    </xsd:complexType>
-  </xsd:element>
+  <xs:element name="source">
+    <xs:complexType>
+      <xs:attribute name="ref" type="core:uuidType" use="required" />
+    </xs:complexType>
+  </xs:element>
 
-  <xsd:element name="target">
-    <xsd:complexType>
-      <xsd:attribute name="ref" type="core:uuidType" use="required" />
-    </xsd:complexType>
-  </xsd:element>
+  <xs:element name="target">
+    <xs:complexType>
+      <xs:attribute name="ref" type="core:uuidType" use="required" />
+    </xs:complexType>
+  </xs:element>
 
-  <xsd:element name="bendpoints">
-    <xsd:complexType>
-      <xsd:sequence>
-        <xsd:element name="bendpoint" minOccurs="0" maxOccurs="unbounded">
-          <xsd:complexType>
-            <xsd:attribute name="x" type="overMinusOneType" default="-1" />
-            <xsd:attribute name="y" type="overMinusOneType" default="-1" />
-          </xsd:complexType>
-        </xsd:element>
-      </xsd:sequence>
-    </xsd:complexType>
-  </xsd:element>
+  <xs:element name="bendpoints">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="bendpoint" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:attribute name="x" type="overMinusOneType" default="-1" />
+            <xs:attribute name="y" type="overMinusOneType" default="-1" />
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
 
-  <xsd:element name="color">
-    <xsd:complexType>
-      <xsd:attribute name="red" type="overMinusOneType" default="-1" />
-      <xsd:attribute name="green" type="overMinusOneType" default="-1" />
-      <xsd:attribute name="blue" type="overMinusOneType" default="-1" />
-    </xsd:complexType>
-  </xsd:element>
+  <xs:element name="color">
+    <xs:complexType>
+      <xs:attribute name="red" type="overMinusOneType" default="-1" />
+      <xs:attribute name="green" type="overMinusOneType" default="-1" />
+      <xs:attribute name="blue" type="overMinusOneType" default="-1" />
+    </xs:complexType>
+  </xs:element>
 
-  <xsd:element name="name" type="xsd:string">
-    <xsd:annotation>
-      <xsd:documentation xml:lang="en">Physical name of Jiemamy model</xsd:documentation> 
-      <xsd:documentation xml:lang="ja-JP">モデル名</xsd:documentation>
-    </xsd:annotation>
-  </xsd:element>
+  <xs:element name="name" type="xs:string">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">Physical name of Jiemamy model</xs:documentation> 
+      <xs:documentation xml:lang="ja-JP">モデル名</xs:documentation>
+    </xs:annotation>
+  </xs:element>
 
   <!-- 単純型 -->
   
-  <xsd:simpleType name="overMinusOneType">
-    <xsd:restriction base="xsd:integer">
-      <xsd:minInclusive value="-1" />
-    </xsd:restriction>
-  </xsd:simpleType>
+  <xs:simpleType name="overMinusOneType">
+    <xs:restriction base="xs:integer">
+      <xs:minInclusive value="-1" />
+    </xs:restriction>
+  </xs:simpleType>
   
-  <xsd:simpleType name="modeType">
-    <xsd:restriction base="xsd:token">
-      <xsd:enumeration value="PHYSICAL" />
-      <xsd:enumeration value="LOGICAL" />
-    </xsd:restriction>
-  </xsd:simpleType>
+  <xs:simpleType name="modeType">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="PHYSICAL" />
+      <xs:enumeration value="LOGICAL" />
+    </xs:restriction>
+  </xs:simpleType>
 
-  <xsd:simpleType name="levelType">
-    <xsd:restriction base="xsd:token">
-      <xsd:enumeration value="ENTITY" />
-      <xsd:enumeration value="KEY" />
-      <xsd:enumeration value="ATTR" />
-      <xsd:enumeration value="ATTRTYPE" />
-    </xsd:restriction>
-  </xsd:simpleType>
+  <xs:simpleType name="levelType">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="ENTITY" />
+      <xs:enumeration value="KEY" />
+      <xs:enumeration value="ATTR" />
+      <xs:enumeration value="ATTRTYPE" />
+    </xs:restriction>
+  </xs:simpleType>
 
-</xsd:schema>
+</xs:schema>

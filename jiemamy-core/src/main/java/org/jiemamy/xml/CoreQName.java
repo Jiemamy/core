@@ -118,6 +118,9 @@ public enum CoreQName implements JiemamyQName {
 	DATA_TYPE(CoreNamespace.NS_CORE, "dataType"),
 
 	/***/
+	TYPE_DESC(CoreNamespace.NS_CORE, "typeDesc"),
+
+	/***/
 	TYPE_CATEGORY(CoreNamespace.NS_CORE, "typeCategory"),
 
 	/***/

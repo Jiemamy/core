@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<jiemamy xmlns="http://jiemamy.org/xml/ns/core" version="0.3">
+<jiemamy xmlns="http://jiemamy.org/xml/ns/core" version="0.3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jiemamy.org/xml/ns/core http://schema.jiemamy.org/xml/0.3.0/jiemamy-core.xsd">
   <metadata class="org.jiemamy.SimpleJmMetadata">
     <dialect>org.jiemamy.dialect.mysql.MySqlDialect</dialect>
     <schemaName>FOO</schemaName>
@@ -15,24 +15,30 @@
           <name>ID</name>
           <logicalName>従業員ID</logicalName>
           <dataType class="org.jiemamy.model.datatype.SimpleDataType">
-            <typeCategory>UNKNOWN</typeCategory>
-            <typeName>UNKNOWN</typeName>
+            <typeDesc>
+              <typeCategory>UNKNOWN</typeCategory>
+              <typeName>UNKNOWN</typeName>
+            </typeDesc>
           </dataType>
         </column>
         <column id="248a429b-2159-4ebd-a791-eee42a059374" class="org.jiemamy.model.column.SimpleJmColumn">
           <name>EMP_NO</name>
           <logicalName>従業員番号</logicalName>
           <dataType class="org.jiemamy.model.datatype.SimpleDataType">
-            <typeCategory>INTEGER</typeCategory>
-            <typeName>INTEGER</typeName>
+            <typeDesc>
+              <typeCategory>INTEGER</typeCategory>
+              <typeName>INTEGER</typeName>
+            </typeDesc>
           </dataType>
         </column>
         <column id="0e51b6df-43ab-408c-90ef-de13c6aab881" class="org.jiemamy.model.column.SimpleJmColumn">
           <name>EMP_NAME</name>
           <logicalName>従業員名</logicalName>
           <dataType class="org.jiemamy.model.datatype.SimpleDataType">
-            <typeCategory>UNKNOWN</typeCategory>
-            <typeName>UNKNOWN</typeName>
+            <typeDesc>
+              <typeCategory>UNKNOWN</typeCategory>
+              <typeName>UNKNOWN</typeName>
+            </typeDesc>
           </dataType>
           <defaultValue>no name</defaultValue>
         </column>
@@ -40,22 +46,28 @@
           <name>MGR_ID</name>
           <logicalName>上司ID</logicalName>
           <dataType class="org.jiemamy.model.datatype.SimpleDataType">
-            <typeCategory>INTEGER</typeCategory>
-            <typeName>INTEGER</typeName>
+            <typeDesc>
+              <typeCategory>INTEGER</typeCategory>
+              <typeName>INTEGER</typeName>
+            </typeDesc>
           </dataType>
         </column>
         <column id="f0b57eed-98ab-4c21-9855-218c592814dc" class="org.jiemamy.model.column.SimpleJmColumn">
           <name>HIREDATE</name>
           <dataType class="org.jiemamy.model.datatype.SimpleDataType">
-            <typeCategory>DATE</typeCategory>
-            <typeName>DATE</typeName>
+            <typeDesc>
+              <typeCategory>DATE</typeCategory>
+              <typeName>DATE</typeName>
+            </typeDesc>
           </dataType>
         </column>
         <column id="80786549-dc2c-4c1c-bcbd-9f6fdec911d2" class="org.jiemamy.model.column.SimpleJmColumn">
           <name>SAL</name>
           <dataType class="org.jiemamy.model.datatype.SimpleDataType">
-            <typeCategory>NUMERIC</typeCategory>
-            <typeName>NUMERIC</typeName>
+            <typeDesc>
+              <typeCategory>NUMERIC</typeCategory>
+              <typeName>NUMERIC</typeName>
+            </typeDesc>
             <parameters>
               <parameter key="precision">7</parameter>
               <parameter key="scale">2</parameter>
@@ -65,8 +77,10 @@
         <column id="4ae69b7a-7a0e-422a-89dc-0f0cff77565b" class="org.jiemamy.model.column.SimpleJmColumn">
           <name>DEPT_ID</name>
           <dataType class="org.jiemamy.model.datatype.SimpleDataType">
-            <typeCategory>INTEGER</typeCategory>
-            <typeName>INTEGER</typeName>
+            <typeDesc>
+              <typeCategory>INTEGER</typeCategory>
+              <typeName>INTEGER</typeName>
+            </typeDesc>
           </dataType>
         </column>
       </columns>
@@ -126,24 +140,30 @@
           <name>ID</name>
           <logicalName>部署ID</logicalName>
           <dataType class="org.jiemamy.model.datatype.SimpleDataType">
-            <typeCategory>UNKNOWN</typeCategory>
-            <typeName>UNKNOWN</typeName>
+            <typeDesc>
+              <typeCategory>UNKNOWN</typeCategory>
+              <typeName>UNKNOWN</typeName>
+            </typeDesc>
           </dataType>
         </column>
         <column id="2d951389-6bc7-49d7-8631-1d26fe17047e" class="org.jiemamy.model.column.SimpleJmColumn">
           <name>DEPT_NO</name>
           <logicalName>部署番号</logicalName>
           <dataType class="org.jiemamy.model.datatype.SimpleDataType">
-            <typeCategory>INTEGER</typeCategory>
-            <typeName>INTEGER</typeName>
+            <typeDesc>
+              <typeCategory>INTEGER</typeCategory>
+              <typeName>INTEGER</typeName>
+            </typeDesc>
           </dataType>
         </column>
         <column id="1fcd63d3-974e-4d2e-a0d8-3b9c233104d9" class="org.jiemamy.model.column.SimpleJmColumn">
           <name>DEPT_NAME</name>
           <logicalName>部署名</logicalName>
           <dataType class="org.jiemamy.model.datatype.SimpleDataType">
-            <typeCategory>VARCHAR</typeCategory>
-            <typeName>VARCHAR</typeName>
+            <typeDesc>
+              <typeCategory>VARCHAR</typeCategory>
+              <typeName>VARCHAR</typeName>
+            </typeDesc>
             <parameters>
               <parameter key="size">20</parameter>
             </parameters>
@@ -153,8 +173,10 @@
           <name>LOC</name>
           <logicalName>ロケーション</logicalName>
           <dataType class="org.jiemamy.model.datatype.SimpleDataType">
-            <typeCategory>VARCHAR</typeCategory>
-            <typeName>VARCHAR</typeName>
+            <typeDesc>
+              <typeCategory>VARCHAR</typeCategory>
+              <typeName>VARCHAR</typeName>
+            </typeDesc>
             <parameters>
               <parameter key="size">20</parameter>
             </parameters>

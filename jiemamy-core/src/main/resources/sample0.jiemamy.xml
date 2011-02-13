@@ -1,32 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jiemamy xmlns="http://jiemamy.org/xml/ns/core"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<jiemamy
+    xmlns="http://jiemamy.org/xml/ns/core"
     version="0.3"
-    xsi:schemaLocation="http://jiemamy.org/xml/ns/core ../../main/resources/jiemamy-core.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://jiemamy.org/xml/ns/core http://schema.jiemamy.org/xml/0.3.0-SNAPSHOT/jiemamy-core.xsd">
   <metadata class="org.jiemamy.SimpleJmMetadata">
     <dialect>org.jiemamy.dialect.mysql.MySqlDialect</dialect>
   </metadata>
   <dbobjects>
-    <table class="org.jiemamy.model.DefaultTableModel" id="9f522e56-809c-45fd-8416-39201014218b">
+    <table id="9f522e56-809c-45fd-8416-39201014218b">
       <name>T_MAP</name>
       <columns>
-        <column class="org.jiemamy.model.DefaultColumnModel" id="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">
+        <column id="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e">
           <name>KEY</name>
           <dataType>
-            <typeCategory>INTEGER</typeCategory>
-            <typeName>INTEGER</typeName>
+            <typeDesc>
+              <typeCategory>INTEGER</typeCategory>
+              <typeName>INTEGER</typeName>
+            </typeDesc>
           </dataType>
         </column>
-        <column class="org.jiemamy.model.DefaultColumnModel" id="248a429b-2159-4ebd-a791-eee42a059374">
+        <column id="248a429b-2159-4ebd-a791-eee42a059374">
           <name>VALUE</name>
           <dataType>
-            <typeCategory>INTEGER</typeCategory>
-            <typeName>INTEGER</typeName>
+            <typeDesc>
+              <typeCategory>INTEGER</typeCategory>
+              <typeName>INTEGER</typeName>
+            </typeDesc>
           </dataType>
         </column>
       </columns>
       <constraints>
-        <primaryKey class="org.jiemamy.model.DefaultPrimaryKeyModel" id="8334cd86-f8d6-44ff-b9be-f694bc0cdc8d">
+        <primaryKey id="8334cd86-f8d6-44ff-b9be-f694bc0cdc8d">
           <name>emp_pkey</name>
           <keyColumns>
             <columnRef ref="44c8e93d-b7ad-46cc-9b29-88c3a7d6c33e"/>

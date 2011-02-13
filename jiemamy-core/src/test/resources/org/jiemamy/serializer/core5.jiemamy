@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<jiemamy xmlns="http://jiemamy.org/xml/ns/core" version="0.3">
+<jiemamy xmlns="http://jiemamy.org/xml/ns/core" version="0.3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jiemamy.org/xml/ns/core http://schema.jiemamy.org/xml/0.3.0/jiemamy-core.xsd">
   <metadata/>
   <dbobjects>
     <table id="0d7bf352-59c4-4683-ae59-2808f30e686e">
@@ -8,15 +8,19 @@
         <column id="a4333846-1292-4b82-b68c-454762bf92a1">
           <name>CCCC1</name>
           <dataType>
-            <typeCategory>INTEGER</typeCategory>
-            <typeName>INTEGER</typeName>
+            <typeDesc>
+              <typeCategory>INTEGER</typeCategory>
+              <typeName>INTEGER</typeName>
+            </typeDesc>
           </dataType>
         </column>
         <column id="7774052e-40ee-4796-b990-2411be64fb35">
           <name>CCCC2</name>
           <dataType>
-            <typeCategory>INTEGER</typeCategory>
-            <typeName>INTEGER</typeName>
+            <typeDesc>
+              <typeCategory>INTEGER</typeCategory>
+              <typeName>INTEGER</typeName>
+            </typeDesc>
           </dataType>
         </column>
       </columns>

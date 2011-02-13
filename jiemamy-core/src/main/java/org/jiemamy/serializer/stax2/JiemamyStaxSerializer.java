@@ -53,6 +53,9 @@ import org.jiemamy.serializer.SerializationException;
  */
 public class JiemamyStaxSerializer implements JiemamySerializer {
 	
+	private boolean validate;
+	
+
 	public JiemamyContext deserialize(InputStream in, FacetProvider... facetProviders) throws SerializationException {
 		Validate.notNull(in);
 		Validate.noNullElements(facetProviders);
@@ -82,6 +85,15 @@ public class JiemamyStaxSerializer implements JiemamySerializer {
 			}
 		}
 		return context;
+	}
+	
+	/**
+	 * シリアライズ・デシリアライズ時にXMLSchemaバリデーションを行うかどうかを返す。
+	 * 
+	 * @return バリデーションを行う場合は{@code true}、そうでない場合は{@code false}
+	 */
+	public boolean isValidate() {
+		return validate;
 	}
 	
 	public void serialize(JiemamyContext context, OutputStream out) throws SerializationException {
@@ -114,16 +126,27 @@ public class JiemamyStaxSerializer implements JiemamySerializer {
 		
 	}
 	
-	private void setValidators(Validatable streamReader, Set<JiemamyFacet> facets) throws XMLStreamException {
+	/**
+	 * シリアライズ・デシリアライズ時にXMLSchemaバリデーションを行うかどうかを設定する。
+	 * @param validate バリデーションを行う場合は{@code true}、そうでない場合は{@code false}
+	 */
+	public void setValidate(boolean validate) {
+		this.validate = validate;
+	}
+	
+	private void setValidators(Validatable validatable, Set<JiemamyFacet> facets) throws XMLStreamException {
+		if (validate == false) {
+			return;
+		}
 		XMLValidationSchemaFactory sf =
 				XMLValidationSchemaFactory.newInstance(XMLValidationSchema.SCHEMA_ID_W3C_SCHEMA);
 		XMLValidationSchema vs = sf.createSchema(JiemamyStaxSerializer.class.getResource("/jiemamy-core.xsd"));
-		streamReader.validateAgainst(vs);
+		validatable.validateAgainst(vs);
 		for (JiemamyFacet facet : facets) {
 			URL schema = facet.getSchema();
 			if (schema != null) {
 				XMLValidationSchema fvs = sf.createSchema(schema);
-				streamReader.validateAgainst(fvs);
+				validatable.validateAgainst(fvs);
 			}
 		}
 	}
