@@ -53,7 +53,7 @@ import org.jiemamy.serializer.SerializationException;
  */
 public class JiemamyStaxSerializer implements JiemamySerializer {
 	
-	private boolean validate;
+	private boolean validate = true;
 	
 
 	public JiemamyContext deserialize(InputStream in, FacetProvider... facetProviders) throws SerializationException {
