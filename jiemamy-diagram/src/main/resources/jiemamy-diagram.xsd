@@ -5,17 +5,16 @@
     xmlns="http://jiemamy.org/xml/ns/diagram"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
     elementFormDefault="qualified"
-    attributeFormDefault="unqualified"
     version="0.3">
 
   <xs:annotation>
-    <xs:documentation xml:lang="en">Jiemamy diagram model schema</xs:documentation> 
-    <xs:documentation xml:lang="ja-JP">Jiemamyダイアグラムモデルスキーマ</xs:documentation> 
+    <xs:documentation xml:lang="en">Jiemamy XML diagram model schema</xs:documentation> 
+    <xs:documentation xml:lang="ja-JP">Jiemamy XML ダイアグラムモデルスキーマ</xs:documentation> 
   </xs:annotation>
   
   <xs:import
       namespace="http://jiemamy.org/xml/ns/core"
-      schemaLocation="jiemamy-core.xsd"/>
+      schemaLocation="http://schema.jiemamy.org/xml/0.3.0/jiemamy-core.xsd"/>
 
   <xs:element name="diagrams">
     <xs:complexType>

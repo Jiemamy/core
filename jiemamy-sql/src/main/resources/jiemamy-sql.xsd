@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+    targetNamespace="http://jiemamy.org/xml/ns/sql"
+    xmlns:core="http://jiemamy.org/xml/ns/core"
+    xmlns="http://jiemamy.org/xml/ns/sql"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    elementFormDefault="qualified"
+    version="0.3">
+
+  <xs:annotation>
+    <xs:documentation xml:lang="en">Jiemamy XML SQL model schema</xs:documentation> 
+    <xs:documentation xml:lang="ja-JP">Jiemamy XML SQLモデルスキーマ</xs:documentation> 
+  </xs:annotation>
+  
+  <xs:import
+      namespace="http://jiemamy.org/xml/ns/core"
+      schemaLocation="http://schema.jiemamy.org/xml/0.3.0/jiemamy-core.xsd"/>
+
+  <xs:element name="sql">
+    <xs:complexType>
+      <xs:sequence maxOccurs="unbounded">
+        <xs:element ref="aroundScript" minOccurs="0" maxOccurs="unbounded" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name="aroundScript">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="core" />
+        <xs:element ref="script" maxOccurs="unbounded" />
+      </xs:sequence>
+      <xs:attribute name="id" type="core:uuidType" use="required" />
+      <xs:attribute name="class" type="core:fqcnType" use="optional" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="script">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute name="position" type="positionType" use="required" />
+          <xs:attribute name="engine" type="core:fqcnType" use="optional" />
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="core">
+    <xs:complexType>
+      <xs:attribute name="ref" type="core:uuidType" use="required" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:simpleType name="positionType">
+    <xs:restriction base="xs:token">
+      <xs:enumeration value="BEGIN" />
+      <xs:enumeration value="END" />
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>
