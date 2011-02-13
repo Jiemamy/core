@@ -68,7 +68,7 @@ final class ModelUtil {
 	
 
 	/**
-	 * TODO for daisuke
+	 * {@link SimpleJmRecord}インスタンスのビルダクラス。
 	 * 
 	 * @version $Id$
 	 * @author daisuke

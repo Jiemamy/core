@@ -28,7 +28,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.ServiceLocator;
 import org.jiemamy.SimpleJmMetadata;
 import org.jiemamy.model.DbObject;
 import org.jiemamy.model.column.JmColumn;
@@ -177,15 +176,6 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 	 */
 	public CoreTestModelBuilder(JiemamyContext jiemamy) {
 		this(UuidStrategy.FIXED, new Instruction(), jiemamy);
-	}
-	
-	/**
-	 * インスタンスを生成する。
-	 * 
-	 * @param serviceLocator サービスロケータ
-	 */
-	public CoreTestModelBuilder(ServiceLocator serviceLocator) {
-		this(UuidStrategy.FIXED, new Instruction(), new JiemamyContext(/*TODO serviceLocator*/));
 	}
 	
 	/**
