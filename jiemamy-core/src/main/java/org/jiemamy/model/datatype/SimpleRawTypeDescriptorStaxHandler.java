@@ -41,7 +41,7 @@ import org.jiemamy.serializer.stax2.StaxHandler;
 import org.jiemamy.xml.CoreQName;
 
 /**
- * {@link SimpleDataType}をシリアライズ/デシリアライズするハンドラ。
+ * {@link SimpleRawTypeDescriptor}をシリアライズ/デシリアライズするハンドラ。
  * 
  * @version $Id$
  * @author daisuke

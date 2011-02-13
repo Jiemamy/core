@@ -72,7 +72,7 @@ public class DiagramFacetStaxHandlerTest extends AbstractStaxHandlerTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * {@link DiagramFacet}を単体シリアライズしてみる。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
@@ -107,7 +107,7 @@ public class DiagramFacetStaxHandlerTest extends AbstractStaxHandlerTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * {@link DiagramFacet}を単体デシリアライズしてみる。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
