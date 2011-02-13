@@ -45,8 +45,7 @@ public class SimpleJmAroundScriptTest {
 		// TODO engineもたまに指定する
 		if (bool()) {
 			model.setScript(Position.BEGIN, strNotEmpty());
-		}
-		if (bool()) {
+		} else {
 			model.setScript(Position.END, strNotEmpty());
 		}
 		return model;

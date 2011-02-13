@@ -27,19 +27,20 @@
           </xs:annotation>
           <xs:complexType>
             <xs:choice minOccurs="0" maxOccurs="unbounded">
-              <xs:element ref="table"/>
-              <xs:element ref="view"/>
-              <xs:element ref="domain"/>
-              <xs:element ref="index" />
-              <xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax" namespace="##other"/>
+              <xs:element ref="dbObject"/>
             </xs:choice>
           </xs:complexType>
         </xs:element>
-        <xs:element ref="dataSets" minOccurs="0">
+        <xs:element name="dataSets" minOccurs="0">
           <xs:annotation>
             <xs:documentation xml:lang="en">Insert data definition</xs:documentation>
             <xs:documentation xml:lang="ja-JP">データセット定義部</xs:documentation> 
           </xs:annotation>
+          <xs:complexType>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+               <xs:element ref="dataSet" minOccurs="0" maxOccurs="unbounded" />
+            </xs:choice>
+          </xs:complexType>
         </xs:element>
         <xs:any minOccurs="0" maxOccurs="unbounded" processContents="lax" namespace="##other"/>
       </xs:sequence>
@@ -77,139 +78,136 @@
       <xs:attribute name="class" type="fqcnType" use="optional" />
     </xs:complexType>
   </xs:element>
+  
+  <xs:element name="dbObject" abstract="true" type="dbObjectType"/>
+  <xs:complexType name="dbObjectType" abstract="true">
+    <xs:sequence>
+      <xs:element ref="name">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">Physical name of Database Object</xs:documentation> 
+          <xs:documentation xml:lang="ja-JP">DBオブジェクト物理名</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element ref="logicalName" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">Logical name of Database Object</xs:documentation> 
+          <xs:documentation xml:lang="ja-JP">DBオブジェクト論理名</xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element ref="description" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation xml:lang="en">Database Object description</xs:documentation>
+          <xs:documentation xml:lang="ja-JP">DBオブジェクトの説明文</xs:documentation> 
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
 
-  <xs:element name="domain">
+  <xs:element name="domain" substitutionGroup="dbObject">
     <xs:annotation>
       <xs:documentation xml:lang="en">Data type domain</xs:documentation> 
       <xs:documentation xml:lang="ja-JP">ドメイン</xs:documentation>
     </xs:annotation>
     <xs:complexType>
-      <xs:sequence>
-        <xs:element ref="name">
-          <xs:annotation>
-            <xs:documentation xml:lang="en">Physical name of DOMAIN</xs:documentation> 
-            <xs:documentation xml:lang="ja-JP">ドメイン物理名</xs:documentation>
-          </xs:annotation>
-        </xs:element>
-        <xs:element ref="logicalName" minOccurs="0">
-          <xs:annotation>
-            <xs:documentation xml:lang="en">Logical name of DOMAIN</xs:documentation> 
-            <xs:documentation xml:lang="ja-JP">ドメイン論理名</xs:documentation>
-          </xs:annotation>
-        </xs:element>
-        <xs:element ref="description" minOccurs="0">
-          <xs:annotation>
-            <xs:documentation xml:lang="en">Domain description</xs:documentation>
-            <xs:documentation xml:lang="ja-JP">ドメインの説明文</xs:documentation> 
-          </xs:annotation>
-        </xs:element>
-        <xs:element ref="dataType" />
-        <xs:element name="notNull" type="xs:boolean" minOccurs="0"/>
-        <xs:element ref="check" minOccurs="0"/>
-        <xs:element ref="parameters" minOccurs="0"/>
-      </xs:sequence>
-      <xs:attribute name="id" type="uuidType" use="required"/>
-      <xs:attribute name="class" type="fqcnType" use="optional" />
+      <xs:complexContent>
+        <xs:extension base="dbObjectType">
+          <xs:sequence>
+            <xs:element ref="dataType" />
+            <xs:element name="notNull" type="xs:boolean" minOccurs="0"/>
+            <xs:element ref="check" minOccurs="0"/>
+            <xs:element ref="parameters" minOccurs="0"/>
+          </xs:sequence>
+          <xs:attribute name="id" type="uuidType" use="required"/>
+          <xs:attribute name="class" type="fqcnType" use="optional" />
+        </xs:extension>
+      </xs:complexContent>
     </xs:complexType>
   </xs:element>
 
-
-  <xs:element name="table">
+  <xs:element name="table" substitutionGroup="dbObject">
     <xs:annotation>
       <xs:documentation xml:lang="en">TABLE definition</xs:documentation> 
       <xs:documentation xml:lang="ja-JP">テーブル定義</xs:documentation>
     </xs:annotation>
     <xs:complexType>
-      <xs:sequence>
-        <xs:element ref="name">
-          <xs:annotation>
-            <xs:documentation xml:lang="en">Physical name of TABLE</xs:documentation> 
-            <xs:documentation xml:lang="ja-JP">テーブル物理名</xs:documentation>
-          </xs:annotation>
-        </xs:element>
-        <xs:element ref="logicalName" minOccurs="0">
-          <xs:annotation>
-            <xs:documentation xml:lang="en">Logical name of TABLE</xs:documentation> 
-            <xs:documentation xml:lang="ja-JP">テーブル論理名</xs:documentation>
-          </xs:annotation>
-        </xs:element>
-        <xs:element ref="description" minOccurs="0">
-          <xs:annotation>
-            <xs:documentation xml:lang="en">Table description</xs:documentation>
-            <xs:documentation xml:lang="ja-JP">テーブルの説明文</xs:documentation> 
-          </xs:annotation>
-        </xs:element>
-        <xs:element name="columns">
-          <xs:annotation>
-            <xs:documentation xml:lang="en">Column definition</xs:documentation>
-            <xs:documentation xml:lang="ja-JP">カラム定義部</xs:documentation> 
-          </xs:annotation>
-          <xs:complexType>
-            <xs:choice minOccurs="0" maxOccurs="unbounded">
-              <xs:element ref="column" minOccurs="0" maxOccurs="unbounded"/>
-            </xs:choice>
-          </xs:complexType>
-        </xs:element>
-        <xs:element name="constraints">
-          <xs:annotation>
-            <xs:documentation xml:lang="en">Constraint definition</xs:documentation>
-            <xs:documentation xml:lang="ja-JP">制約定義部</xs:documentation> 
-          </xs:annotation>
-          <xs:complexType>
-            <xs:choice minOccurs="0" maxOccurs="unbounded">
-              <xs:element ref="primaryKey" minOccurs="0" />
-              <xs:element ref="uniqueKey" minOccurs="0" maxOccurs="unbounded" />
-              <xs:element ref="foreignKey" minOccurs="0" maxOccurs="unbounded" />
-              <xs:element ref="notNull" minOccurs="0" maxOccurs="unbounded" />
-              <xs:element ref="check" minOccurs="0" maxOccurs="unbounded" />
-            </xs:choice>
-          </xs:complexType>
-        </xs:element>
-        <xs:element ref="parameters" minOccurs="0"/>
-      </xs:sequence>
-      <xs:attribute name="class" type="fqcnType" use="optional" />
-      <xs:attribute name="id" type="uuidType" use="required" />
+      <xs:complexContent>
+        <xs:extension base="dbObjectType">
+          <xs:sequence>
+            <xs:element name="columns">
+              <xs:annotation>
+                <xs:documentation xml:lang="en">Column definition</xs:documentation>
+                <xs:documentation xml:lang="ja-JP">カラム定義部</xs:documentation> 
+              </xs:annotation>
+              <xs:complexType>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                  <xs:element ref="column" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:choice>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="constraints">
+              <xs:annotation>
+                <xs:documentation xml:lang="en">Constraint definition</xs:documentation>
+                <xs:documentation xml:lang="ja-JP">制約定義部</xs:documentation> 
+              </xs:annotation>
+              <xs:complexType>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                  <xs:element ref="primaryKey" minOccurs="0" />
+                  <xs:element ref="uniqueKey" minOccurs="0" maxOccurs="unbounded" />
+                  <xs:element ref="foreignKey" minOccurs="0" maxOccurs="unbounded" />
+                  <xs:element ref="notNull" minOccurs="0" maxOccurs="unbounded" />
+                  <xs:element ref="check" minOccurs="0" maxOccurs="unbounded" />
+                </xs:choice>
+              </xs:complexType>
+            </xs:element>
+            <xs:element ref="parameters" minOccurs="0"/>
+          </xs:sequence>
+          <xs:attribute name="class" type="fqcnType" use="optional" />
+          <xs:attribute name="id" type="uuidType" use="required" />
+        </xs:extension>
+      </xs:complexContent>
     </xs:complexType>
   </xs:element>
 
-  <xs:element name="view">
+  <xs:element name="view" substitutionGroup="dbObject">
     <xs:annotation>
       <xs:documentation xml:lang="en">VIEW definition</xs:documentation> 
       <xs:documentation xml:lang="ja-JP">ビュー定義</xs:documentation>
     </xs:annotation>
     <xs:complexType>
-      <xs:sequence>
-        <xs:element ref="name">
-          <xs:annotation>
-            <xs:documentation xml:lang="en">Physical name of VIEW</xs:documentation> 
-            <xs:documentation xml:lang="ja-JP">ビュー物理名</xs:documentation>
-          </xs:annotation>
-        </xs:element>
-        <xs:element ref="logicalName" minOccurs="0">
-          <xs:annotation>
-            <xs:documentation xml:lang="en">Logical name of VIEW</xs:documentation> 
-            <xs:documentation xml:lang="ja-JP">ビュー論理名</xs:documentation>
-          </xs:annotation>
-        </xs:element>
-        <xs:element ref="description" minOccurs="0">
-          <xs:annotation>
-            <xs:documentation xml:lang="en">View description</xs:documentation>
-            <xs:documentation xml:lang="ja-JP">ビューの説明文</xs:documentation> 
-          </xs:annotation>
-        </xs:element>
-        <xs:element name="definition" type="xs:string">
-          <xs:annotation>
-            <xs:documentation xml:lang="en">View definition</xs:documentation>
-            <xs:documentation xml:lang="ja-JP">ビューの定義SELECT文</xs:documentation> 
-          </xs:annotation>
-        </xs:element>
-        <xs:element ref="parameters" minOccurs="0"/>
-      </xs:sequence>
-      <xs:attribute name="class" type="fqcnType" use="optional" />
-      <xs:attribute name="id" type="uuidType" use="required" />
+      <xs:complexContent>
+        <xs:extension base="dbObjectType">
+          <xs:sequence>
+            <xs:element name="definition" type="xs:string">
+              <xs:annotation>
+                <xs:documentation xml:lang="en">View definition</xs:documentation>
+                <xs:documentation xml:lang="ja-JP">ビューの定義SELECT文</xs:documentation> 
+              </xs:annotation>
+            </xs:element>
+            <xs:element ref="parameters" minOccurs="0"/>
+          </xs:sequence>
+          <xs:attribute name="class" type="fqcnType" use="optional" />
+          <xs:attribute name="id" type="uuidType" use="required" />
+        </xs:extension>
+      </xs:complexContent>
     </xs:complexType>
   </xs:element>
 
+  <xs:element name="index" substitutionGroup="dbObject">
+    <xs:complexType>
+      <xs:complexContent>
+        <xs:extension base="dbObjectType">
+          <xs:sequence>
+            <xs:element ref="indexColumns" />
+            <xs:element name="unique" type="xs:boolean" />
+            <xs:element ref="parameters" minOccurs="0"/>
+          </xs:sequence>
+          <xs:attribute name="class" type="fqcnType" use="optional" />
+          <xs:attribute name="id" type="uuidType" use="required" />
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+  </xs:element>
+  
   <xs:element name="column">
     <xs:annotation>
       <xs:documentation xml:lang="en">Column of table</xs:documentation> 
@@ -349,6 +347,31 @@
     </xs:complexType>
   </xs:element>
   
+  <xs:element name="notNull">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="name" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation xml:lang="en">Physical name of NOT NULL constraint</xs:documentation> 
+            <xs:documentation xml:lang="ja-JP">NOT NULL制約物理名</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="logicalName" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation xml:lang="en">Logical name of NOT NULL constraint</xs:documentation> 
+            <xs:documentation xml:lang="ja-JP">NOT NULL制約論理名</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element ref="description" minOccurs="0" />
+        <xs:element ref="deferrability" minOccurs="0" />
+        <xs:element ref="columnRef" />
+        <xs:element ref="parameters" minOccurs="0"/>
+      </xs:sequence>
+      <xs:attribute name="class" type="fqcnType" use="optional" />
+      <xs:attribute name="id" type="uuidType" use="required" />
+    </xs:complexType>
+  </xs:element>
+
   <xs:element name="check">
     <xs:complexType>
       <xs:sequence>
@@ -369,24 +392,20 @@
     </xs:complexType>
   </xs:element>
 
-  <xs:element name="index">
+  <xs:element name="keyColumns">
     <xs:complexType>
-      <xs:sequence>
-        <xs:element ref="name">
-          <xs:annotation>
-            <xs:documentation xml:lang="en">Physical name of INDEX</xs:documentation> 
-            <xs:documentation xml:lang="ja-JP">インデックス名</xs:documentation>
-          </xs:annotation>
-        </xs:element>
-        <xs:element ref="indexColumns" />
-        <xs:element name="unique" type="xs:boolean" />
-        <xs:element ref="parameters" minOccurs="0"/>
+      <xs:sequence minOccurs="1" maxOccurs="unbounded">
+        <xs:element ref="columnRef" />
       </xs:sequence>
-      <xs:attribute name="class" type="fqcnType" use="optional" />
-      <xs:attribute name="id" type="uuidType" use="required" />
     </xs:complexType>
   </xs:element>
   
+  <xs:element name="columnRef">
+    <xs:complexType mixed="true">
+      <xs:attribute name="ref" type="uuidRefType" use="required" />
+    </xs:complexType>
+  </xs:element>
+
   <xs:element name="indexColumns">
     <xs:complexType>
       <xs:sequence minOccurs="1" maxOccurs="unbounded">
@@ -404,40 +423,6 @@
         <xs:element ref="parameters" minOccurs="0"/>
       </xs:sequence>
       <xs:attribute name="class" type="fqcnType" use="optional" />
-    </xs:complexType>
-  </xs:element>
-  
-  <xs:element name="keyColumns">
-    <xs:complexType>
-      <xs:sequence minOccurs="1" maxOccurs="unbounded">
-        <xs:element ref="columnRef" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  
-  <xs:element name="columnRef">
-    <xs:complexType mixed="true">
-      <xs:attribute name="ref" type="uuidRefType" use="required" />
-    </xs:complexType>
-  </xs:element>
-
-  
-  <xs:element name="beginScript">
-    <xs:annotation>
-      <xs:documentation xml:lang="en">Begin script output before target definition</xs:documentation> 
-      <xs:documentation xml:lang="ja-JP">開始スクリプト（このモデルのSQL表現を出力する直前に追加されるSQL文）</xs:documentation>
-    </xs:annotation>
-    <xs:complexType mixed="true">
-      <xs:attribute name="engine" type="fqcnType" use="optional" />
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="endScript">
-    <xs:annotation>
-      <xs:documentation xml:lang="en">End script output after target definition</xs:documentation> 
-      <xs:documentation xml:lang="ja-JP">終了スクリプト（このモデルのSQL表現を出力する直後に追加されるSQL文）</xs:documentation>
-    </xs:annotation>
-    <xs:complexType mixed="true">
-      <xs:attribute name="engine" type="fqcnType" use="optional" />
     </xs:complexType>
   </xs:element>
   
@@ -469,39 +454,6 @@
     </xs:complexType>
   </xs:element>
   
-  <xs:element name="notNull">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element ref="name" minOccurs="0">
-          <xs:annotation>
-            <xs:documentation xml:lang="en">Physical name of NOT NULL constraint</xs:documentation> 
-            <xs:documentation xml:lang="ja-JP">NOT NULL制約物理名</xs:documentation>
-          </xs:annotation>
-        </xs:element>
-        <xs:element ref="logicalName" minOccurs="0">
-          <xs:annotation>
-            <xs:documentation xml:lang="en">Logical name of NOT NULL constraint</xs:documentation> 
-            <xs:documentation xml:lang="ja-JP">NOT NULL制約論理名</xs:documentation>
-          </xs:annotation>
-        </xs:element>
-        <xs:element ref="description" minOccurs="0" />
-        <xs:element ref="deferrability" minOccurs="0" />
-        <xs:element ref="columnRef" />
-        <xs:element ref="parameters" minOccurs="0"/>
-      </xs:sequence>
-      <xs:attribute name="class" type="fqcnType" use="optional" />
-      <xs:attribute name="id" type="uuidType" use="required" />
-    </xs:complexType>
-  </xs:element>
-
-
-  <xs:element name="dataSets">
-    <xs:complexType>
-       <xs:sequence>
-         <xs:element ref="dataSet" minOccurs="0" maxOccurs="unbounded" />
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
 
   <xs:element name="dataSet">
     <xs:complexType>
@@ -566,22 +518,30 @@
   <xs:element name="name" type="xs:string">
     <xs:annotation>
       <xs:documentation xml:lang="en">Physical name of Jiemamy model</xs:documentation> 
-      <xs:documentation xml:lang="ja-JP">モデル名</xs:documentation>
+      <xs:documentation xml:lang="ja-JP">モデル物理名</xs:documentation>
     </xs:annotation>
   </xs:element>
+  
   <xs:element name="logicalName" type="xs:string">
     <xs:annotation>
       <xs:documentation xml:lang="en">Logical name of Jiemamy model</xs:documentation> 
       <xs:documentation xml:lang="ja-JP">モデル論理名</xs:documentation>
     </xs:annotation>
   </xs:element>
+  
   <xs:element name="description" type="xs:string">
     <xs:annotation>
       <xs:documentation xml:lang="en">Description for Jiemamy model</xs:documentation> 
       <xs:documentation xml:lang="ja-JP">モデルに対する説明文</xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="defaultValue" type="xs:string" />
+  
+  <xs:element name="defaultValue" type="xs:string">
+    <xs:annotation>
+      <xs:documentation xml:lang="en">Default value</xs:documentation> 
+      <xs:documentation xml:lang="ja-JP">デフォルト値</xs:documentation>
+    </xs:annotation>
+  </xs:element>
 
   <!-- 単純型 -->
   

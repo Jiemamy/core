@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema
     targetNamespace="http://jiemamy.org/xml/ns/sql"
-    xmlns:core="http://jiemamy.org/xml/ns/core"
     xmlns="http://jiemamy.org/xml/ns/sql"
+    xmlns:core="http://jiemamy.org/xml/ns/core"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
     elementFormDefault="qualified"
     version="0.3">
@@ -36,9 +36,17 @@
   </xs:element>
 
   <xs:element name="script">
-    <xs:complexType mixed="true">
-      <xs:attribute name="engine" type="core:fqcnType" use="optional" />
-      <xs:attribute name="position" type="positionType" use="required" />
+    <xs:annotation>
+      <xs:documentation xml:lang="en">Begin/end script output before target definition</xs:documentation> 
+      <xs:documentation xml:lang="ja-JP">開始/終了スクリプト（モデルのSQL表現を出力する直前に追加されるSQL文）</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute name="position" type="positionType" use="required" />
+          <xs:attribute name="engine" type="core:fqcnType" use="optional" />
+        </xs:extension>
+      </xs:simpleContent>
     </xs:complexType>
   </xs:element>
 
