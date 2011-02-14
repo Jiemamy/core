@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 Jiemamy Project and the others.
+ * Copyright 2007-2011 Jiemamy Project and the Others.
  * Created on 2010/12/08
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -101,5 +101,4 @@ public class StoryTest {
 		assertThat(diagramFacet.getDiagram("diagram-2").getNodeFor(table.toReference()).getBoundary(),
 				is(new JmRectangle(10, 10)));
 	}
-	
 }

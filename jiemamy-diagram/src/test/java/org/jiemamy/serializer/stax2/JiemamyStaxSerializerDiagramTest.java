@@ -1,5 +1,3 @@
-package org.jiemamy.serializer.stax2;
-
 /*
  * Copyright 2007-2011 Jiemamy Project and the Others.
  * Created on 2010/12/15
@@ -18,6 +16,7 @@ package org.jiemamy.serializer.stax2;
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
+package org.jiemamy.serializer.stax2;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
