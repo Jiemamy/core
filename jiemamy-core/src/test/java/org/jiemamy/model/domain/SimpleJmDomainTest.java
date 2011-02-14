@@ -18,8 +18,6 @@
  */
 package org.jiemamy.model.domain;
 
-import java.io.ByteArrayOutputStream;
-
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,9 +73,9 @@ public class SimpleJmDomainTest {
 		context.store(table);
 		
 		// UNDONE 続きをなんか書かないと。
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		JiemamyContext.findSerializer().serialize(context, baos);
-		logger.info(baos.toString());
+//		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//		JiemamyContext.findSerializer().serialize(context, baos);
+//		logger.info(baos.toString());
 	}
 	
 }
