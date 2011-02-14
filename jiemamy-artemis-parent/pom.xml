@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
     <artifactId>jiemamy-master</artifactId>
     <groupId>org.jiemamy</groupId>
@@ -12,7 +10,7 @@
   <artifactId>jiemamy-artemis-parent</artifactId>
   <packaging>pom</packaging>
   <name>Jiemamy APIs</name>
-  <version>0.3.0-SNAPSHOT</version>
+  <version>0.3.0</version>
   <inceptionYear>2007</inceptionYear>
   <modules>
     <module>../jiemamy-core</module>
@@ -39,4 +37,10 @@
       <url>http://maven.jiemamy.org/release/</url>
     </repository>
   </repositories>
+
+  <scm>
+    <connection>scm:svn:http://svn.jiemamy.org/products/leto/jiemamy-master/tags/artemis-0.3.0/jiemamy-artemis-parent</connection>
+    <developerConnection>scm:svn:http://svn.jiemamy.org/products/leto/jiemamy-master/tags/artemis-0.3.0/jiemamy-artemis-parent</developerConnection>
+    <url>http://fisheye.jiemamy.org/browse/leto/jiemamy-master/tags/artemis-0.3.0/jiemamy-artemis-parent</url>
+  </scm>
 </project>
