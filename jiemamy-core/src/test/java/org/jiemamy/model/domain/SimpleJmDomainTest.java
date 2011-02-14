@@ -40,6 +40,7 @@ import org.jiemamy.model.table.SimpleJmTable;
  */
 public class SimpleJmDomainTest {
 	
+	@SuppressWarnings("unused")
 	private static Logger logger = LoggerFactory.getLogger(SimpleJmDomainTest.class);
 	
 
