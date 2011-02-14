@@ -18,7 +18,11 @@
  */
 package org.jiemamy.model.domain;
 
+import java.io.ByteArrayOutputStream;
+
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.model.column.JmColumnBuilder;
@@ -38,6 +42,9 @@ import org.jiemamy.model.table.SimpleJmTable;
  */
 public class SimpleJmDomainTest {
 	
+	private static Logger logger = LoggerFactory.getLogger(SimpleJmDomainTest.class);
+	
+
 	/**
 	 * {@link JmDomain}を定義し、それをデータ型として使って見る。
 	 * 
@@ -68,7 +75,9 @@ public class SimpleJmDomainTest {
 		context.store(table);
 		
 		// UNDONE 続きをなんか書かないと。
-//		JiemamyContext.findSerializer().serialize(context, System.out);
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		JiemamyContext.findSerializer().serialize(context, baos);
+		logger.info(baos.toString());
 	}
 	
 }

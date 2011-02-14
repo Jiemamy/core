@@ -47,7 +47,6 @@ import org.w3c.dom.Document;
  * @version $Id$
  * @author daisuke
  */
-@Ignore
 public class JiemamyCoreReleaseTest {
 	
 	private static Logger logger = LoggerFactory.getLogger(JiemamyCoreReleaseTest.class);
@@ -119,15 +118,17 @@ public class JiemamyCoreReleaseTest {
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
+	@Ignore
 	public void testVersion() throws Exception {
 		File pom = new File("./pom.xml");
 		DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
 		Document dom = documentBuilder.parse(pom);
 		String pomVersion = VERSION_IN_POM.evaluate(dom);
-		logger.info("version = " + pomVersion);
 		Version version = JiemamyContext.getVersion();
+		logger.info("pom-version = " + pomVersion);
+		logger.info(" my-version = " + version);
 		assertThat(pomVersion, is(version.toString()));
-		assertThat(version.isSnapshot(), is(false));
+//		assertThat(version.isSnapshot(), is(false));
 	}
 	
 	private void checkFixMe(File target, Collection<String> paths) throws IOException {
