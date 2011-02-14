@@ -25,6 +25,9 @@ import static org.junit.Assert.fail;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.InputStream;
+
+import com.google.common.collect.Iterables;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -38,6 +41,9 @@ import org.jiemamy.SimpleJmMetadata;
 import org.jiemamy.SqlFacet;
 import org.jiemamy.composer.Exporter;
 import org.jiemamy.dialect.MockDialect;
+import org.jiemamy.model.parameter.ParameterKey;
+import org.jiemamy.model.table.JmTable;
+import org.jiemamy.serializer.JiemamySerializer;
 
 /**
  * {@link SqlExporter}のテストクラス。
@@ -49,17 +55,51 @@ public class SqlExporterTest {
 	private static Logger logger = LoggerFactory.getLogger(SqlExporterTest.class);
 	
 	/** ${WORKSPACE}/org.jiemamy.composer/target/sqlExporterTest1.sql */
-	private static final File OUTPUT_FILE = new File("./target/sqlExporterTest1.sql");
+	private static final File OUTPUT_FILE = new File("./target/testresult/sqlExporterTest1.sql");
 	
 	/** ${WORKSPACE}/org.jiemamy.composer/target/notExists/sqlExporterTest2.sql */
-	private static final File OUTPUT_FILE_IN_NOT_EXISTS_DIR = new File("./target/notExists/sqlExporterTest2.sql");
+	private static final File OUTPUT_FILE_IN_NOT_EXISTS_DIR = new File(
+			"./target/testresult/notExists/sqlExporterTest2.sql");
 	
-	private static final File NOT_EXISTS_DIR = new File("./target/notExists");
+	private static final File NOT_EXISTS_DIR = new File("./target/testresult/notExists");
 	
 	/** テスト対象のエクスポータ */
 	private Exporter<SqlExportConfig> exporter = new SqlExporter();
 	
 
+	/**
+	 * CORE-197検証コード。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test_core197() throws Exception {
+		JiemamySerializer serializer = JiemamyContext.findSerializer();
+		InputStream in = null;
+		try {
+			in = SqlExporterTest.class.getResourceAsStream("/datafile/core-197.jiemamy");
+			JiemamyContext context = serializer.deserialize(in, SqlFacet.PROVIDER);
+			
+			JmTable table = Iterables.getOnlyElement(context.getTables());
+			assertThat(table.getParam(ParameterKey.DISABLED), is(true));
+			
+			File output = new File("./target/testresult/sqlExporterTest_core197.sql");
+			
+			SimpleSqlExportConfig config = new SimpleSqlExportConfig();
+			config.setOutputFile(output);
+			config.setOverwrite(true);
+			
+			boolean exportModel = exporter.exportModel(context, config);
+			assertThat(exportModel, is(true));
+			
+			String content = FileUtils.readFileToString(output);
+			logger.info(content);
+			assertThat(content, is("BEGIN;\nCOMMIT;\n"));
+		} finally {
+			IOUtils.closeQuietly(in);
+		}
+	}
+	
 	/**
 	 * モデルからSQLファイルがエクスポートできることを確認する。
 	 * 
