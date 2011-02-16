@@ -104,6 +104,10 @@ public abstract class AbstractDialect implements Dialect {
 		return new StandardValidator();
 	}
 	
+	public RawTypeDescriptor normalize(RawTypeCategory category) {
+		return normalize(new SimpleRawTypeDescriptor(category));
+	}
+	
 	public final RawTypeDescriptor normalize(RawTypeDescriptor in) {
 		RawTypeDescriptor result = normalize0(in);
 		assert result.getCategory() == RawTypeCategory.UNKNOWN || getAllRawTypeDescriptors().contains(result) : result

@@ -98,6 +98,15 @@ public interface Dialect {
 	Validator getValidator();
 	
 	/**
+	 * 型カテゴリを、このSQL方言による型記述子表現に正規化する。
+	 * 
+	 * @param category 入力型カテゴリ
+	 * @return 正規化した型記述子
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	RawTypeDescriptor normalize(RawTypeCategory category);
+	
+	/**
 	 * 型記述子を、このSQL方言による型記述子表現に正規化する。
 	 * 
 	 * @param in 入力型記述子
