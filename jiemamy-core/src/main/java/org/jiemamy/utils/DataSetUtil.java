@@ -38,7 +38,9 @@ import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.column.JmColumn;
 import org.jiemamy.model.dataset.JmDataSet;
 import org.jiemamy.model.dataset.JmRecord;
+import org.jiemamy.model.dataset.SimpleJmDataSet;
 import org.jiemamy.model.dataset.SimpleJmRecord;
+import org.jiemamy.model.table.ColumnNotFoundException;
 import org.jiemamy.model.table.JmTable;
 import org.jiemamy.script.ScriptString;
 
@@ -101,31 +103,32 @@ public final class DataSetUtil {
 	 * @param table 対象テーブル
 	 * @param in 入力ストリーム
 	 * @throws IOException 入出力エラーが発生した場合
+	 * @throws ColumnNotFoundException CSVの1行目で指定したカラム名が見つからない場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public static void importFromCsv(JmDataSet dataSet, JmTable table, InputStream in) throws IOException {
+	public static void importFromCsv(SimpleJmDataSet dataSet, JmTable table, InputStream in) throws IOException {
 		Validate.notNull(dataSet);
 		Validate.notNull(table);
 		Validate.notNull(in);
 		
-		List<JmRecord> records = dataSet.getRecords().get(table.toReference());
-		records.clear();
+		List<JmRecord> records = Lists.newArrayList();
 		
 		CSVReader reader = null;
 		try {
 			reader = new CSVReader(new InputStreamReader(in));
-			String[] line = reader.readNext();
+			String[] columnNames = reader.readNext();
 			
 			List<JmColumn> columns = Lists.newArrayList();
-			for (String columnName : line) {
+			for (String columnName : columnNames) {
 				JmColumn column = table.getColumn(columnName);
 				columns.add(column);
 			}
 			
-			while ((line = reader.readNext()) != null) {
+			String[] dataElements;
+			while ((dataElements = reader.readNext()) != null) {
 				Map<EntityRef<? extends JmColumn>, ScriptString> values = Maps.newHashMap();
-				for (int i = 0; i < line.length; i++) {
-					values.put(columns.get(i).toReference(), new ScriptString(line[i]));
+				for (int i = 0; i < Math.min(columns.size(), dataElements.length); i++) {
+					values.put(columns.get(i).toReference(), new ScriptString(dataElements[i]));
 				}
 				records.add(new SimpleJmRecord(values));
 			}
@@ -134,6 +137,8 @@ public final class DataSetUtil {
 				reader.close();
 			}
 		}
+		
+		dataSet.putRecord(table.toReference(), records);
 	}
 	
 	/**

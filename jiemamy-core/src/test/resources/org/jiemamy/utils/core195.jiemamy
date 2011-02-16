@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jiemamy xmlns="http://jiemamy.org/xml/ns/core" version="0.3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jiemamy.org/xml/ns/core http://schema.jiemamy.org/xml/0.3.0/jiemamy-core.xsd">
+  <metadata>
+    <dialect>org.jiemamy.dialect.GenericDialect</dialect>
+  </metadata>
+  <dbobjects>
+    <table id="db8e47b1-ae7c-4af4-85e1-15afeae48aaa">
+      <name>TABLE_1</name>
+      <logicalName/>
+      <description/>
+      <columns>
+        <column id="6f9d3809-6592-4d28-a19b-d69a60955ac7">
+          <name>a</name>
+          <logicalName/>
+          <description/>
+          <dataType>
+            <typeDesc>
+              <typeCategory>VARCHAR</typeCategory>
+              <typeName>VARCHAR</typeName>
+            </typeDesc>
+          </dataType>
+          <defaultValue/>
+        </column>
+        <column id="594fdd1c-e30f-49af-ad15-f4e1ea425598">
+          <name>b</name>
+          <logicalName/>
+          <description/>
+          <dataType>
+            <typeDesc>
+              <typeCategory>VARCHAR</typeCategory>
+              <typeName>VARCHAR</typeName>
+            </typeDesc>
+          </dataType>
+          <defaultValue/>
+        </column>
+        <column id="8de992af-903b-4e41-8797-9b8ec26869d1">
+          <name>c</name>
+          <logicalName/>
+          <description/>
+          <dataType>
+            <typeDesc>
+              <typeCategory>VARCHAR</typeCategory>
+              <typeName>VARCHAR</typeName>
+            </typeDesc>
+          </dataType>
+          <defaultValue/>
+        </column>
+        <column id="838c53e3-6f21-45a2-8118-f3e30ca61e47">
+          <name>d</name>
+          <logicalName/>
+          <description/>
+          <dataType>
+            <typeDesc>
+              <typeCategory>VARCHAR</typeCategory>
+              <typeName>VARCHAR</typeName>
+            </typeDesc>
+          </dataType>
+          <defaultValue/>
+        </column>
+      </columns>
+      <constraints/>
+    </table>
+  </dbobjects>
+  <dataSets>
+    <dataSet id="dc80d36d-37c6-484e-ba4d-9d3e9807000b">
+      <name>DATASET_1</name>
+      <tableRecords/>
+    </dataSet>
+  </dataSets>
+  <diagram:diagrams xmlns:diagram="http://jiemamy.org/xml/ns/diagram" xsi:schemaLocation="http://jiemamy.org/xml/ns/diagram http://schema.jiemamy.org/xml/0.3.0/jiemamy-diagram.xsd">
+    <diagram:diagram id="c8fbf862-0572-46d4-8b03-549d2e54d0ac">
+      <diagram:name>default</diagram:name>
+      <diagram:level>ATTRTYPE</diagram:level>
+      <diagram:mode>PHYSICAL</diagram:mode>
+      <diagram:nodes>
+        <diagram:node id="b35325ed-ce15-4fe3-a771-42f069a29c5c">
+          <diagram:core ref="db8e47b1-ae7c-4af4-85e1-15afeae48aaa"/>
+          <diagram:boundary x="147" y="89" width="-1" height="-1"/>
+        </diagram:node>
+      </diagram:nodes>
+      <diagram:connections/>
+    </diagram:diagram>
+  </diagram:diagrams>
+  <sql:sqls xmlns:sql="http://jiemamy.org/xml/ns/sql" xsi:schemaLocation="http://jiemamy.org/xml/ns/sql http://schema.jiemamy.org/xml/0.3.0/jiemamy-sql.xsd"/>
+</jiemamy>
