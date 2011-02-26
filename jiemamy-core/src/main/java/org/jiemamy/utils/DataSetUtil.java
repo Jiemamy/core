@@ -32,6 +32,7 @@ import au.com.bytecode.opencsv.CSVWriter;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import org.apache.commons.io.IOExceptionWithCause;
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.dddbase.EntityRef;
@@ -132,6 +133,10 @@ public final class DataSetUtil {
 				}
 				records.add(new SimpleJmRecord(values));
 			}
+		} catch (ColumnNotFoundException ex) {
+			throw new IOExceptionWithCause("CSVファイル不正", ex);
+		} catch (IndexOutOfBoundsException ex) {
+			throw new IOExceptionWithCause("CSVファイル不正", ex);
 		} finally {
 			if (reader != null) {
 				reader.close();

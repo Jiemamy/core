@@ -20,7 +20,9 @@ package org.jiemamy.utils;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 import org.apache.commons.io.IOUtils;
@@ -62,6 +64,37 @@ public class DataSetUtilTest {
 			JmRecord record = dataSet.getRecord(table.toReference()).get(0);
 			assertThat(record.getValues().get(table.getColumn("a").toReference()).getScript(), is("a"));
 			assertThat(record.getValues().containsKey(table.getColumn("b").toReference()), is(false));
+		} finally {
+			IOUtils.closeQuietly(inJiemamy);
+			IOUtils.closeQuietly(inCsv);
+		}
+	}
+	
+	/**
+	 * Core-196に対応する。インポートするCSVの1行目がカラム名にあっていない時に
+	 * 例外が出ないようにしたい
+	 * 
+	 * TODO for s.tonouchi
+	 * 
+	 * @throws Exception 想定外の例外
+	 */
+	@Test
+	public void test_core196() throws Exception {
+		JiemamySerializer serializer = JiemamyContext.findSerializer();
+		InputStream inJiemamy = null;
+		InputStream inCsv = null;
+		JiemamyContext context = null;
+		try {
+			inJiemamy = DataSetUtilTest.class.getResourceAsStream("/org/jiemamy/utils/core196.jiemamy");
+			inCsv = DataSetUtilTest.class.getResourceAsStream("/org/jiemamy/utils/core196.csv");
+			context = serializer.deserialize(inJiemamy);
+			SimpleJmDataSet dataSet = (SimpleJmDataSet) context.getDataSets().get(0);
+			JmTable table = context.getTable("TABLE_1");
+			DataSetUtil.importFromCsv(dataSet, table, inCsv);
+			fail("このメソッドは無事に通過してはいけない");
+			
+		} catch (IOException ex) {
+			
 		} finally {
 			IOUtils.closeQuietly(inJiemamy);
 			IOUtils.closeQuietly(inCsv);
