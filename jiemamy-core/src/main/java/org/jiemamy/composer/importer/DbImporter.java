@@ -128,5 +128,4 @@ public class DbImporter extends AbstractImporter<DbImportConfig> {
 	protected DbImportConfig newSimpleConfigInstance() {
 		return new SimpleDbImportConfig();
 	}
-	
 }
