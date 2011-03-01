@@ -19,8 +19,11 @@
 package org.jiemamy;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.hasToString;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.nullValue;
 import static org.jiemamy.utils.RandomUtil.bool;
@@ -33,6 +36,8 @@ import static org.mockito.Mockito.spy;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import com.google.common.collect.Iterables;
 
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -54,7 +59,11 @@ import org.jiemamy.model.table.JmTable;
 import org.jiemamy.model.table.JmTableBuilder;
 import org.jiemamy.model.table.SimpleJmTable;
 import org.jiemamy.model.table.SimpleJmTableTest;
+import org.jiemamy.model.table.TableNotFoundException;
+import org.jiemamy.model.table.TooManyTablesFoundException;
 import org.jiemamy.model.view.SimpleJmViewTest;
+import org.jiemamy.serializer.JiemamySerializer;
+import org.jiemamy.serializer.stax.JiemamyStaxSerializer;
 import org.jiemamy.utils.UUIDUtil;
 
 /**
@@ -666,8 +675,8 @@ public class JiemamyContextTest {
 	 */
 	@Test
 	public void test32_double_add() throws Exception {
-		JmTable table1 = new SimpleJmTable(UUIDUtil.valueOfOrRandom("a"));
-		JmTable table2 = new SimpleJmTable(UUIDUtil.valueOfOrRandom("a"));
+		JmTable table1 = new SimpleJmTable(ctx1.toUUID("a"));
+		JmTable table2 = new SimpleJmTable(ctx1.toUUID("a"));
 		
 		ctx1.store(table1);
 		ctx1.store(table1);
@@ -861,5 +870,125 @@ public class JiemamyContextTest {
 		assertThat(dept.getConstraints().size(), is(1));
 		assertThat(emp.getColumns().size(), is(4));
 		assertThat(emp.getConstraints().size(), is(3));
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test41() throws Exception {
+		SimpleJmTable t1 = new SimpleJmTable();
+		t1.setName("TBL");
+		ctx1.store(t1);
+		SimpleJmTable t2 = new SimpleJmTable();
+		t2.setName("TBL");
+		ctx1.store(t2);
+		
+		try {
+			ctx1.getTable("XXX");
+			fail();
+		} catch (TableNotFoundException e) {
+			// success
+		}
+		
+		try {
+			ctx1.getTable("TBL");
+			fail();
+		} catch (TooManyTablesFoundException e) {
+			Iterable<? extends JmTable> tables = e.getTables();
+			assertThat(Iterables.size(tables), is(2));
+			assertThat(Iterables.contains(tables, t1), is(true));
+			assertThat(Iterables.contains(tables, t2), is(true));
+		}
+	}
+	
+	/**
+	 * {@link JiemamyContext#isDebug()}, {@link JiemamyContext#setDebug(boolean)}のテスト。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test42_() throws Exception {
+		assertThat(JiemamyContext.isDebug(), is(false));
+		JiemamyContext.setDebug(true);
+		assertThat(JiemamyContext.isDebug(), is(true));
+		JiemamyContext.setDebug(false);
+		assertThat(JiemamyContext.isDebug(), is(false));
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test43_toString() throws Exception {
+		assertThat(ctx1, hasToString(is("JiemamyContext@" + Integer.toHexString(System.identityHashCode(ctx1)))));
+		assertThat(ctx2, hasToString(is("JiemamyContext@" + Integer.toHexString(System.identityHashCode(ctx2)))));
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test44_uuid() throws Exception {
+		// UUID化できるStringを与えた場合 → fromString生成
+		UUID uuid1 = ctx1.toUUID("ffffffff-ffff-ffff-ffff-ffffffffffff");
+		assertThat(uuid1, is(UUID.fromString("ffffffff-ffff-ffff-ffff-ffffffffffff")));
+		
+		// UUID化できないStringを与えた場合 → randomUUID生成
+		UUID uuid2 = ctx1.toUUID("foo");
+		assertThat(uuid2.toString(), is(not("foo")));
+		
+		UUID foo1 = ctx1.toUUID("foo");
+		UUID bar1 = ctx1.toUUID("bar");
+		UUID baz1 = ctx1.toUUID("baz");
+		UUID nul1 = ctx1.toUUID(null);
+		UUID foo2 = ctx2.toUUID("foo");
+		UUID bar2 = ctx2.toUUID("bar");
+		UUID baz2 = ctx2.toUUID("baz");
+		UUID nul2 = ctx2.toUUID(null);
+		
+		// 同じname（nullを含む）には同じUUIDが対応し続けること
+		assertThat(ctx1.toUUID("foo"), is(equalTo(foo1)));
+		assertThat(ctx1.toUUID("bar"), is(equalTo(bar1)));
+		assertThat(ctx1.toUUID("baz"), is(equalTo(baz1)));
+		assertThat(ctx1.toUUID(null), is(equalTo(nul1)));
+		assertThat(ctx2.toUUID("foo"), is(equalTo(foo2)));
+		assertThat(ctx2.toUUID("bar"), is(equalTo(bar2)));
+		assertThat(ctx2.toUUID("baz"), is(equalTo(baz2)));
+		assertThat(ctx2.toUUID(null), is(equalTo(nul2)));
+		
+		assertThat(ctx1.toUUID("foo"), is(not(equalTo(foo2))));
+		assertThat(ctx1.toUUID("bar"), is(not(equalTo(bar2))));
+		assertThat(ctx1.toUUID("baz"), is(not(equalTo(baz2))));
+		assertThat(ctx1.toUUID(null), is(not(equalTo(nul2))));
+	}
+	
+	/**
+	 * {@link JiemamyContext#findSerializer()}のテスト。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test80_() throws Exception {
+		JiemamySerializer serializer = JiemamyContext.findSerializer();
+		assertThat(serializer, is(instanceOf(JiemamyStaxSerializer.class)));
+		
+		// TODO
+//		String backup = JiemamyContext.getSerializerName();
+		try {
+			JiemamyContext.setSerializerName("xxx");
+			JiemamyContext.findSerializer();
+			fail();
+		} catch (ServiceNotFoundException e) {
+			// success
+		} finally {
+			JiemamyContext.setSerializerName(/*backup*/JiemamyStaxSerializer.class.getName());
+		}
 	}
 }

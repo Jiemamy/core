@@ -22,6 +22,9 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
+
+import java.io.Serializable;
 
 import javax.imageio.spi.ServiceRegistry;
 
@@ -86,5 +89,35 @@ public class SimpleServiceLocatorTest {
 		SampleService service2 = serviceLocator.getService(SampleService.class, "org.jiemamy.SampleServiceImpl2");
 		assertThat(service2, is(notNullValue()));
 		assertThat(service2, is(instanceOf(SampleServiceImpl2.class)));
+	}
+	
+	/**
+	 * nullはClassNotFoundException。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test03_nullはClassNotFoundException() throws Exception {
+		try {
+			serviceLocator.getService(Serializable.class, null);
+			fail();
+		} catch (ClassNotFoundException e) {
+			// success
+		}
+	}
+	
+	/**
+	 * nullはServiceNotFoundException。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test04_ClassNotFoundException() throws Exception {
+		try {
+			serviceLocator.getService(Serializable.class, "hoge");
+			fail();
+		} catch (ClassNotFoundException e) {
+			// success
+		}
 	}
 }
