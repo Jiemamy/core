@@ -19,12 +19,12 @@
 package org.jiemamy.composer.exporter;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.InputStream;
 
 import com.google.common.collect.Iterables;
@@ -61,6 +61,10 @@ public class SqlExporterTest {
 	private static final File OUTPUT_FILE_IN_NOT_EXISTS_DIR = new File(
 			"./target/testresult/notExists/sqlExporterTest2.sql");
 	
+	/** ${WORKSPACE}/org.jiemamy.composer/target/notExists/sqlExporterTest3.sql */
+	private static final File OUTPUT_FILE_ALREADY_EXISTS = new File(
+			"./target/testresult/notExists/sqlExporterTest3.sql");
+	
 	private static final File NOT_EXISTS_DIR = new File("./target/testresult/notExists");
 	
 	/** テスト対象のエクスポータ */
@@ -94,7 +98,7 @@ public class SqlExporterTest {
 			
 			String content = FileUtils.readFileToString(output);
 			logger.info(content);
-			assertThat(content, is("BEGIN;\nCOMMIT;\n"));
+			assertThat(content, is(""));
 		} finally {
 			IOUtils.closeQuietly(in);
 		}
@@ -106,7 +110,7 @@ public class SqlExporterTest {
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test02_() throws Exception {
+	public void test01_モデルからSQLファイルがエクスポートできる() throws Exception {
 		JiemamyContext context = JiemamyContextTest.random(SqlFacet.PROVIDER);
 		
 		deleteFile(OUTPUT_FILE);
@@ -124,27 +128,18 @@ public class SqlExporterTest {
 			exporter.exportModel(context, config);
 			
 			assertThat(OUTPUT_FILE.exists(), is(true));
-			
-			reader = new BufferedReader(new FileReader(OUTPUT_FILE));
-			String line;
-			while ((line = reader.readLine()) != null) {
-				logger.info(line);
-			}
-			
-			// UNDONE sqlExporterTest1.sqlの内容確認
-			
 		} finally {
 			IOUtils.closeQuietly(reader);
 		}
 	}
 	
 	/**
-	 * モデルからSQLファイルがエクスポートできることを確認する。
+	 * 出力先の親ディレクトリが存在しなくてもモデルからSQLファイルがエクスポートできることを確認する。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test03_() throws Exception {
+	public void test02_出力先の親ディレクトリが存在しなくてもモデルからSQLファイルがエクスポートできる() throws Exception {
 		JiemamyContext context = JiemamyContextTest.random(SqlFacet.PROVIDER);
 		
 		FileUtils.deleteDirectory(NOT_EXISTS_DIR);
@@ -162,15 +157,68 @@ public class SqlExporterTest {
 			exporter.exportModel(context, config);
 			
 			assertThat(OUTPUT_FILE_IN_NOT_EXISTS_DIR.exists(), is(true));
+		} finally {
+			IOUtils.closeQuietly(reader);
+		}
+	}
+	
+	/**
+	 * Overwrite(false)の際、出力先ファイルが存在すると何もしない。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test03_() throws Exception {
+		JiemamyContext context = JiemamyContextTest.random(SqlFacet.PROVIDER);
+		
+		FileUtils.writeStringToFile(OUTPUT_FILE_ALREADY_EXISTS, "hoge");
+		assertThat(OUTPUT_FILE_ALREADY_EXISTS.exists(), is(true));
+		
+		SimpleJmMetadata meta = new SimpleJmMetadata();
+		meta.setDialectClassName(MockDialect.class.getName());
+		context.setMetadata(meta);
+		
+		BufferedReader reader = null;
+		try {
+			SimpleSqlExportConfig config = new SimpleSqlExportConfig();
+			config.setOutputFile(OUTPUT_FILE_ALREADY_EXISTS);
+			config.setOverwrite(false);
+			boolean exportModel = exporter.exportModel(context, config);
 			
-			reader = new BufferedReader(new FileReader(OUTPUT_FILE_IN_NOT_EXISTS_DIR));
-			String line;
-			while ((line = reader.readLine()) != null) {
-				logger.info(line);
-			}
+			assertThat(exportModel, is(false));
+			assertThat(OUTPUT_FILE_ALREADY_EXISTS.exists(), is(true));
+			assertThat(FileUtils.readFileToString(OUTPUT_FILE_ALREADY_EXISTS), is("hoge"));
+		} finally {
+			IOUtils.closeQuietly(reader);
+		}
+	}
+	
+	/**
+	 * Overwrite(true)の際、出力先ファイルが存在すると上書きとなる。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test04_() throws Exception {
+		JiemamyContext context = JiemamyContextTest.random(SqlFacet.PROVIDER);
+		
+		FileUtils.writeStringToFile(OUTPUT_FILE_ALREADY_EXISTS, "hoge");
+		assertThat(OUTPUT_FILE_ALREADY_EXISTS.exists(), is(true));
+		
+		SimpleJmMetadata meta = new SimpleJmMetadata();
+		meta.setDialectClassName(MockDialect.class.getName());
+		context.setMetadata(meta);
+		
+		BufferedReader reader = null;
+		try {
+			SimpleSqlExportConfig config = new SimpleSqlExportConfig();
+			config.setOutputFile(OUTPUT_FILE_ALREADY_EXISTS);
+			config.setOverwrite(true);
+			boolean exportModel = exporter.exportModel(context, config);
 			
-			// UNDONE sqlExporterTest2.sqlの内容確認
-			
+			assertThat(exportModel, is(true));
+			assertThat(OUTPUT_FILE_ALREADY_EXISTS.exists(), is(true));
+			assertThat(FileUtils.readFileToString(OUTPUT_FILE_ALREADY_EXISTS), is(not("hoge")));
 		} finally {
 			IOUtils.closeQuietly(reader);
 		}
