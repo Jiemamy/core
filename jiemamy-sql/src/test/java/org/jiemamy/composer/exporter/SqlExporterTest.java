@@ -224,6 +224,43 @@ public class SqlExporterTest {
 		}
 	}
 	
+	/**
+	 * CORE-200検証コード。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test05_core200() throws Exception {
+		JiemamySerializer serializer = JiemamyContext.findSerializer();
+		InputStream in = null;
+		try {
+			in = SqlExporterTest.class.getResourceAsStream("/datafile/core-200.jiemamy");
+			JiemamyContext context = serializer.deserialize(in, SqlFacet.PROVIDER);
+			
+			File output = new File("./target/testresult/sqlExporterTest_core200.sql");
+			
+			SimpleSqlExportConfig config = new SimpleSqlExportConfig();
+			config.setOutputFile(output);
+			config.setOverwrite(true);
+			
+			config.setDataSetIndex(-1);
+			assertThat(exporter.exportModel(context, config), is(true));
+			config.setDataSetIndex(0);
+			assertThat(exporter.exportModel(context, config), is(true));
+			config.setDataSetIndex(1);
+			assertThat(exporter.exportModel(context, config), is(true));
+			try {
+				config.setDataSetIndex(2);
+				exporter.exportModel(context, config);
+				fail();
+			} catch (IllegalArgumentException e) {
+				// success;
+			}
+		} finally {
+			IOUtils.closeQuietly(in);
+		}
+	}
+	
 	private void deleteFile(File file) {
 		if (file.exists() == false) {
 			return;

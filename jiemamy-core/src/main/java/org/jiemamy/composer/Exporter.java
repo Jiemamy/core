@@ -60,7 +60,7 @@ public interface Exporter<T extends ExportConfig> {
 	 * @return エクスポートが正常に完了した場合は{@code true}、設定等により出力が行われなかった場合は{@code false}
 	 * @throws ExportException エクスポートに失敗した時
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 * @throws IllegalArgumentException 必須config情報に対して{@code null}を返した場合
+	 * @throws IllegalArgumentException configが満たすべき条件を満たさなかった場合
 	 * @since 0.3
 	 */
 	boolean exportModel(JiemamyContext context, T config) throws ExportException;

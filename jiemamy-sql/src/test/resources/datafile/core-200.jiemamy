@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<jiemamy xmlns="http://jiemamy.org/xml/ns/core" version="0.3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jiemamy.org/xml/ns/core http://schema.jiemamy.org/xml/0.3.0/jiemamy-core.xsd">
+  <metadata>
+    <dialect>org.jiemamy.dialect.GenericDialect</dialect>
+    <schemaName/>
+    <description/>
+  </metadata>
+  <dbobjects>
+    <table id="646cc0c4-1798-4ced-806a-75ded2880933">
+      <name>TABLE_1</name>
+      <logicalName/>
+      <description/>
+      <columns>
+        <column id="db28f5ba-895e-47ea-9103-f29b5ce816da">
+          <name>COLUMN_1</name>
+          <logicalName/>
+          <description/>
+          <dataType>
+            <typeDesc>
+              <typeCategory>VARCHAR</typeCategory>
+              <typeName>VARCHAR</typeName>
+            </typeDesc>
+            <parameters>
+              <parameter key="size">32</parameter>
+            </parameters>
+          </dataType>
+          <defaultValue/>
+        </column>
+        <column id="569be5d3-8e5e-480f-a48a-1a95cf213c1a">
+          <name>COLUMN_2</name>
+          <logicalName/>
+          <description/>
+          <dataType>
+            <typeDesc>
+              <typeCategory>VARCHAR</typeCategory>
+              <typeName>VARCHAR</typeName>
+            </typeDesc>
+            <parameters>
+              <parameter key="size">32</parameter>
+            </parameters>
+          </dataType>
+          <defaultValue/>
+        </column>
+      </columns>
+      <constraints>
+        <primaryKey id="7c1b2370-6ee4-4a34-941d-e2f4bb012f9e">
+          <keyColumns>
+            <columnRef ref="db28f5ba-895e-47ea-9103-f29b5ce816da"/>
+          </keyColumns>
+        </primaryKey>
+        <notNull id="49fb5625-95a9-4a1e-a2d9-ebadff9b27f9">
+          <columnRef ref="569be5d3-8e5e-480f-a48a-1a95cf213c1a"/>
+        </notNull>
+        <notNull id="70dc506f-280c-4cbb-82c1-c969a5df5ae4">
+          <columnRef ref="db28f5ba-895e-47ea-9103-f29b5ce816da"/>
+        </notNull>
+      </constraints>
+    </table>
+  </dbobjects>
+  <dataSets>
+    <dataSet id="2aefce8b-b5a1-4aa4-9cb1-e558f1bee02d">
+      <name>DATASET_1</name>
+      <tableRecords>
+        <tableRecord ref="646cc0c4-1798-4ced-806a-75ded2880933">
+          <records>
+            <record ref="db28f5ba-895e-47ea-9103-f29b5ce816da" engine="org.jiemamy.script.PlainScriptEngine">daisuke</record>
+            <record ref="569be5d3-8e5e-480f-a48a-1a95cf213c1a" engine="org.jiemamy.script.PlainScriptEngine">miyamoto</record>
+          </records>
+          <records>
+            <record ref="db28f5ba-895e-47ea-9103-f29b5ce816da" engine="org.jiemamy.script.PlainScriptEngine">kazuki</record>
+            <record ref="569be5d3-8e5e-480f-a48a-1a95cf213c1a" engine="org.jiemamy.script.PlainScriptEngine">yamamoto</record>
+          </records>
+          <records>
+            <record ref="db28f5ba-895e-47ea-9103-f29b5ce816da" engine="org.jiemamy.script.PlainScriptEngine">ohsuke</record>
+            <record ref="569be5d3-8e5e-480f-a48a-1a95cf213c1a" engine="org.jiemamy.script.PlainScriptEngine">noguchi</record>
+          </records>
+        </tableRecord>
+      </tableRecords>
+    </dataSet>
+    <dataSet id="c4b5dde9-1deb-4ae8-9899-d08077d06123">
+      <name>DATASET_2</name>
+      <tableRecords>
+        <tableRecord ref="646cc0c4-1798-4ced-806a-75ded2880933">
+          <records>
+            <record ref="db28f5ba-895e-47ea-9103-f29b5ce816da" engine="org.jiemamy.script.PlainScriptEngine">ダイスケ</record>
+            <record ref="569be5d3-8e5e-480f-a48a-1a95cf213c1a" engine="org.jiemamy.script.PlainScriptEngine">都元</record>
+          </records>
+        </tableRecord>
+      </tableRecords>
+    </dataSet>
+  </dataSets>
+  <sql:sqls xmlns:sql="http://jiemamy.org/xml/ns/sql" xsi:schemaLocation="http://jiemamy.org/xml/ns/sql http://schema.jiemamy.org/xml/0.3.0/jiemamy-sql.xsd"/>
+  <diagram:diagrams xmlns:diagram="http://jiemamy.org/xml/ns/diagram" xsi:schemaLocation="http://jiemamy.org/xml/ns/diagram http://schema.jiemamy.org/xml/0.3.0/jiemamy-diagram.xsd">
+    <diagram:diagram id="3377198b-c5e1-4b78-913d-d290e52f004a">
+      <diagram:name>default</diagram:name>
+      <diagram:level>ATTRTYPE</diagram:level>
+      <diagram:mode>PHYSICAL</diagram:mode>
+      <diagram:nodes>
+        <diagram:node id="809721f7-2985-4838-9108-ca267d6e3c0e">
+          <diagram:core ref="646cc0c4-1798-4ced-806a-75ded2880933"/>
+          <diagram:boundary x="118" y="76" width="-1" height="-1"/>
+        </diagram:node>
+      </diagram:nodes>
+      <diagram:connections/>
+    </diagram:diagram>
+  </diagram:diagrams>
+</jiemamy>

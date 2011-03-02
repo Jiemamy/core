@@ -70,10 +70,14 @@ public class SqlExporter extends FileExporter<SqlExportConfig> {
 	 * 
 	 * <p>この実装では、{@link SqlExportConfig#getOutputFile()}で示されるファイルの親ディレクトリが存在しなかった場合、
 	 * そのディレクトリを作成しようと試みる。ディレクトリの作成に失敗した場合は、 {@link ExportException}をスローする。</p>
+	 * 
+	 * @throws IllegalArgumentException configが満たすべき条件を満たさなかった場合、すなわち
+	 * 		{@code config.getDataSetIndex() >= context.getDataSets().size()}である場合
 	 */
 	public boolean exportModel(JiemamyContext context, SqlExportConfig config) throws ExportException {
 		Validate.notNull(context);
 		Validate.notNull(config);
+		Validate.isTrue(config.getDataSetIndex() < context.getDataSets().size());
 		
 		Writer writer = null;
 		try {

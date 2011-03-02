@@ -109,6 +109,7 @@ public class DefaultSqlEmitter implements SqlEmitter {
 		Validate.notNull(context);
 		Validate.notNull(config);
 		Validate.isTrue(context.hasFacet(SqlFacet.class));
+		Validate.isTrue(config.getDataSetIndex() < context.getDataSets().size());
 		List<SqlStatement> result = Lists.newArrayList();
 		
 		// THINK RootBeginScript と CreateSchemaStatement、どっちが先？
