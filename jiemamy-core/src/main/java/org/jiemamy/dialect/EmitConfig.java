@@ -47,7 +47,7 @@ public interface EmitConfig {
 	/**
 	 * 出力するデータセットのインデックスを取得する。
 	 * 
-	 * @return 出力するデータセットのインデックス. 出力しない場合は負数
+	 * @return 出力するデータセットのインデックス。出力しない場合は負数。未設定の場合は{@code -1}を返す。
 	 * @since 0.3
 	 */
 	int getDataSetIndex();
