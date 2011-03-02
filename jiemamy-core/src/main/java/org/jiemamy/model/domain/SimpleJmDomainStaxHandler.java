@@ -32,7 +32,6 @@ import org.codehaus.staxmate.in.SMEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.jiemamy.SimpleJmMetadata;
 import org.jiemamy.model.constraint.JmCheckConstraint;
 import org.jiemamy.model.constraint.JmConstraint;
 import org.jiemamy.model.datatype.DataType;
@@ -48,10 +47,10 @@ import org.jiemamy.utils.ConstraintComparator;
 import org.jiemamy.xml.CoreQName;
 
 /**
- * {@link SimpleJmMetadata}をシリアライズ/デシリアライズするハンドラ。
+ * {@link SimpleJmDomain}をシリアライズ/デシリアライズするハンドラ。
  * 
  * @version $Id$
- * @author daisuke
+ * @author yamkazu
  */
 public final class SimpleJmDomainStaxHandler extends StaxHandler<SimpleJmDomain> {
 	

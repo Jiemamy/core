@@ -26,7 +26,6 @@ import org.apache.commons.lang.Validate;
 import org.codehaus.staxmate.in.SMEvent;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.model.datatype.SimpleRawTypeDescriptor;
 import org.jiemamy.model.domain.SimpleJmDomain.DomainType;
 import org.jiemamy.serializer.SerializationException;
 import org.jiemamy.serializer.stax.DeserializationContext;
@@ -39,10 +38,10 @@ import org.jiemamy.serializer.stax.StaxHandler;
 import org.jiemamy.xml.CoreQName;
 
 /**
- * {@link SimpleRawTypeDescriptor}をシリアライズ/デシリアライズするハンドラ。
+ * {@link SimpleJmDomain.DomainType}をシリアライズ/デシリアライズするハンドラ。
  * 
  * @version $Id$
- * @author daisuke
+ * @author yamkazu
  */
 public final class SimpleJmDomainTypeStaxHandler extends StaxHandler<SimpleJmDomain.DomainType> {
 	
