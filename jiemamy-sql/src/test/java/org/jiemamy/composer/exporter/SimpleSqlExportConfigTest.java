@@ -60,7 +60,7 @@ public class SimpleSqlExportConfigTest {
 	public void test01_作ったインスタンスのチェック() throws Exception {
 		assertThat(config.emitCreateSchemaStatement(), is(false));
 		assertThat(config.emitDropStatements(), is(false));
-		assertThat(config.getDataSetIndex(), is(0));
+		assertThat(config.getDataSetIndex(), is(-1));
 		assertThat(config.getOutputFile(), is(nullValue()));
 		assertThat(config.isOverwrite(), is(false));
 		
