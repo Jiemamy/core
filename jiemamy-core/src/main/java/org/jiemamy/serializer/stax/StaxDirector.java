@@ -56,6 +56,9 @@ import org.jiemamy.model.datatype.SimpleDataType;
 import org.jiemamy.model.datatype.SimpleDataTypeStaxHandler;
 import org.jiemamy.model.datatype.SimpleRawTypeDescriptor;
 import org.jiemamy.model.datatype.SimpleRawTypeDescriptorStaxHandler;
+import org.jiemamy.model.domain.SimpleJmDomain;
+import org.jiemamy.model.domain.SimpleJmDomainStaxHandler;
+import org.jiemamy.model.domain.SimpleJmDomainTypeStaxHandler;
 import org.jiemamy.model.table.SimpleJmTable;
 import org.jiemamy.model.table.SimpleJmTableStaxHandler;
 import org.jiemamy.model.view.SimpleJmView;
@@ -97,10 +100,14 @@ public class StaxDirector {
 		
 		addHandler(SimpleJmView.class, CoreQName.VIEW, new SimpleJmViewStaxHandler(this));
 		addHandler(SimpleJmTable.class, CoreQName.TABLE, new SimpleJmTableStaxHandler(this));
+		addHandler(SimpleJmDomain.class, CoreQName.DOMAIN, new SimpleJmDomainStaxHandler(this));
 		
 		addHandler(SimpleJmColumn.class, CoreQName.COLUMN, new SimpleJmColumnStaxHandler(this));
 		
 		addHandler(SimpleDataType.class, CoreQName.DATA_TYPE, new SimpleDataTypeStaxHandler(this));
+		
+		// CoreQName.TYPE_DESCのデフォルトハンドラはSimpleRawTypeDescriptorの為、それを最後に登録すること
+		addHandler(SimpleJmDomain.DomainType.class, CoreQName.TYPE_DESC, new SimpleJmDomainTypeStaxHandler(this));
 		addHandler(SimpleRawTypeDescriptor.class, CoreQName.TYPE_DESC, new SimpleRawTypeDescriptorStaxHandler(this));
 		
 		addHandler(SimpleJmNotNullConstraint.class, CoreQName.NOT_NULL, new SimpleJmNotNullConstraintStaxHandler(this));

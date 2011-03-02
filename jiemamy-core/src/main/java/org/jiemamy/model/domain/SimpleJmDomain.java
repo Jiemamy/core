@@ -85,6 +85,7 @@ public final class SimpleJmDomain extends SimpleDbObject implements JmDomain {
 	
 	public RawTypeDescriptor asType() {
 		return new DomainType();
+//		return new DomainType(this, THINK ここでContext引っ張れないよな...コンストラクタでContextもつ？うーん);
 	}
 	
 	@Override
@@ -158,6 +159,18 @@ public final class SimpleJmDomain extends SimpleDbObject implements JmDomain {
 		return new DefaultEntityRef<SimpleJmDomain>(this);
 	}
 	
+	/**
+	 * {@link ParameterMap} を取得する。
+	 * 
+	 * <p>このメソッドは内部で保持している {@link ParameterMap} オブジェクトの参照を返すことにより
+	 * 内部表現を暴露していることに注意すること。</p>
+	 * 
+	 * @return {@link ParameterMap}の内部参照
+	 */
+	ParameterMap breachEncapsulationOfParams() {
+		return params;
+	}
+	
 
 	/**
 	 * ドメイン型の{@link RawTypeDescriptor}実装クラス。
@@ -165,7 +178,9 @@ public final class SimpleJmDomain extends SimpleDbObject implements JmDomain {
 	 * @version $Id$
 	 * @author daisuke
 	 */
-	public final class DomainType extends DefaultEntityRef<JmDomain> implements RawTypeDescriptor {
+	public/*static*/final class DomainType extends DefaultEntityRef<JmDomain> implements RawTypeDescriptor {
+		
+//		private final OnMemoryEntityResolver<? extends JmDomain> resolver;
 		
 		/**
 		 * インスタンスを生成する。
@@ -174,12 +189,21 @@ public final class SimpleJmDomain extends SimpleDbObject implements JmDomain {
 			super(SimpleJmDomain.this);
 		}
 		
+//		DomainType(SimpleJmDomain domain, OnMemoryEntityResolver<? extends SimpleJmDomain> resolver) {
+//			super(domain);
+//			
+//			Validate.notNull(resolver);
+//			this.resolver = resolver;
+//		}
+		
 		public Collection<String> getAliasTypeNames() {
 			return Collections.emptyList();
 		}
 		
 		public RawTypeCategory getCategory() {
 			return dataType.getRawTypeDescriptor().getCategory();
+//			JmDomain resolve = resolver.resolve(this);
+//			return resolve.getDataType().getRawTypeDescriptor().getCategory();
 		}
 		
 		/**
@@ -192,6 +216,8 @@ public final class SimpleJmDomain extends SimpleDbObject implements JmDomain {
 		 */
 		public <T>T getParam(TypeParameterKey<T> key) {
 			return dataType.getParam(key);
+//			JmDomain resolve = resolver.resolve(this);
+//			return resolve.getDataType().getParam(key);
 		}
 		
 		/**
@@ -201,10 +227,14 @@ public final class SimpleJmDomain extends SimpleDbObject implements JmDomain {
 		 */
 		public ParameterMap getParams() {
 			return dataType.getParams();
+//			JmDomain resolve = resolver.resolve(this);
+//			return resolve.getDataType().getParams();
 		}
 		
 		public String getTypeName() {
 			return dataType.getRawTypeDescriptor().getTypeName();
+//			JmDomain resolve = resolver.resolve(this);
+//			return resolve.getDataType().getRawTypeDescriptor().getTypeName();
 		}
 		
 		/**
@@ -214,6 +244,8 @@ public final class SimpleJmDomain extends SimpleDbObject implements JmDomain {
 		 */
 		public RawTypeDescriptor getTypeReference() {
 			return dataType.getRawTypeDescriptor();
+//			JmDomain resolve = resolver.resolve(this);
+//			return resolve.getDataType().getRawTypeDescriptor();
 		}
 	}
 }

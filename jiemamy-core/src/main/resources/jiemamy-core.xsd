@@ -113,8 +113,18 @@
         <xs:extension base="dbObjectType">
           <xs:sequence>
             <xs:element ref="dataType" />
-            <xs:element name="notNull" type="xs:boolean" minOccurs="0"/>
-            <xs:element ref="check" minOccurs="0"/>
+            <xs:element name="constraints">
+              <xs:annotation>
+                <xs:documentation xml:lang="en">Constraint definition</xs:documentation>
+                <xs:documentation xml:lang="ja-JP">制約定義部</xs:documentation> 
+              </xs:annotation>
+              <xs:complexType>
+                <xs:choice minOccurs="0" maxOccurs="unbounded">
+                  <xs:element name="notNull" type="xs:boolean" minOccurs="0"/>
+                  <xs:element ref="check" minOccurs="0" maxOccurs="unbounded" />
+                </xs:choice>
+              </xs:complexType>
+            </xs:element>
             <xs:element ref="parameters" minOccurs="0"/>
           </xs:sequence>
           <xs:attribute name="id" type="uuidType" use="required"/>
@@ -575,7 +585,7 @@
       <xs:documentation xml:lang="ja-JP">完全修飾クラス名型</xs:documentation>
     </xs:annotation>
     <xs:restriction base="xs:string">
-      <xs:pattern value="([A-Za-z][A-Za-z0-9]*\.)*[A-Za-z][A-Za-z0-9]*"/>
+      <xs:pattern value="([A-Za-z][A-Za-z0-9]*(\.|$))*[A-Za-z][A-Za-z0-9]*"/>
     </xs:restriction>
   </xs:simpleType>
 
