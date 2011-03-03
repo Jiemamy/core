@@ -49,8 +49,6 @@ public final class SimpleJmDomain extends SimpleDbObject implements JmDomain {
 	
 	private boolean notNull;
 	
-	private ParameterMap params = new ParameterMap();
-	
 
 	/**
 	 * インスタンスを生成する。
