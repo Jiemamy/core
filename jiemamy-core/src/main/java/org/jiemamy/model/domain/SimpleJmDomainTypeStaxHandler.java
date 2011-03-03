@@ -70,9 +70,10 @@ public final class SimpleJmDomainTypeStaxHandler extends StaxHandler<SimpleJmDom
 			UUID refid = dctx.getContext().toUUID(idStr);
 			
 			JiemamyContext context = dctx.getContext();
-			SimpleJmDomain domain = (SimpleJmDomain) context.resolve(refid);
+			SimpleJmDomain domain = (SimpleJmDomain) context.resolve(refid); // 解決出来ない場合EntityNotFoundException
 			
-			// THINK このキャストは...
+			// Handlerのインタフェース縛りなので仕方なくキャスト
+			// いい対処方法があったら教えてください
 			return (DomainType) domain.asType();
 		} catch (XMLStreamException e) {
 			throw new SerializationException(e);
@@ -89,24 +90,6 @@ public final class SimpleJmDomainTypeStaxHandler extends StaxHandler<SimpleJmDom
 			JiemamyOutputElement element = parent.addElement(CoreQName.TYPE_DESC);
 			element.addAttribute(CoreQName.CLASS, model.getClass());
 			element.addAttribute(CoreQName.REF, model.getReferentId());
-			
-//			ParameterMap params = model.getParams();
-//			if (params.size() > 0) {
-//				JiemamyOutputElement paramesElement = element.addElement(CoreQName.PARAMETERS);
-//				ArrayList<Entry<String, String>> paramList = Lists.newArrayList(params);
-//				Collections.sort(paramList, new Comparator<Entry<String, String>>() {
-//					
-//					public int compare(Entry<String, String> e1, Entry<String, String> e2) {
-//						return e1.getKey().compareTo(e2.getKey());
-//					}
-//					
-//				});
-//				for (Entry<String, String> param : paramList) {
-//					JiemamyOutputElement paramElement = paramesElement.addElement(CoreQName.PARAMETER);
-//					paramElement.addAttribute(CoreQName.PARAMETER_KEY, param.getKey());
-//					paramElement.addCharacters(param.getValue());
-//				}
-//			}
 		} catch (XMLStreamException e) {
 			throw new SerializationException(e);
 		}
