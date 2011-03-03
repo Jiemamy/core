@@ -18,9 +18,12 @@
  */
 package org.jiemamy.model.domain;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.UUID;
 
 import javax.xml.stream.XMLStreamException;
@@ -35,6 +38,7 @@ import org.slf4j.LoggerFactory;
 import org.jiemamy.model.constraint.JmCheckConstraint;
 import org.jiemamy.model.constraint.JmConstraint;
 import org.jiemamy.model.datatype.DataType;
+import org.jiemamy.model.parameter.ParameterMap;
 import org.jiemamy.serializer.SerializationException;
 import org.jiemamy.serializer.stax.DeserializationContext;
 import org.jiemamy.serializer.stax.JiemamyCursor;
@@ -116,17 +120,17 @@ public final class SimpleJmDomainStaxHandler extends StaxHandler<SimpleJmDomain>
 								logger.warn("UNKNOWN ELEMENT: {}", constraintsCursor.getQName().toString());
 							}
 						}
-//					} else if (childCursor.isQName(CoreQName.PARAMETERS)) {
-//						JiemamyCursor parameterCursor = childCursor.childElementCursor();
-//						ParameterMap params = domain.breachEncapsulationOfParams();
-//						while (parameterCursor.getNext() != null) {
-//							if (parameterCursor.isQName(CoreQName.PARAMETER) == false) {
-//								logger.warn("unexpected: " + parameterCursor.getQName());
-//								continue;
-//							}
-//							params.put(parameterCursor.getAttrValue(CoreQName.PARAMETER_KEY),
-//									parameterCursor.collectDescendantText(false));
-//						}
+					} else if (childCursor.isQName(CoreQName.PARAMETERS)) {
+						JiemamyCursor parameterCursor = childCursor.childElementCursor();
+						ParameterMap params = domain.breachEncapsulationOfParams();
+						while (parameterCursor.getNext() != null) {
+							if (parameterCursor.isQName(CoreQName.PARAMETER) == false) {
+								logger.warn("unexpected: " + parameterCursor.getQName());
+								continue;
+							}
+							params.put(parameterCursor.getAttrValue(CoreQName.PARAMETER_KEY),
+									parameterCursor.collectDescendantText(false));
+						}
 					} else {
 						logger.warn("UNKNOWN ELEMENT: {}", childCursor.getQName().toString());
 					}
@@ -176,23 +180,23 @@ public final class SimpleJmDomainStaxHandler extends StaxHandler<SimpleJmDomain>
 			}
 			sctx.pop();
 			
-//			ParameterMap params = model.getParams();
-//			if (params.size() > 0) {
-//				JiemamyOutputElement paramesElement = element.addElement(CoreQName.PARAMETERS);
-//				ArrayList<Entry<String, String>> paramList = Lists.newArrayList(params);
-//				Collections.sort(paramList, new Comparator<Entry<String, String>>() {
-//					
-//					public int compare(Entry<String, String> e1, Entry<String, String> e2) {
-//						return e1.getKey().compareTo(e2.getKey());
-//					}
-//					
-//				});
-//				for (Entry<String, String> entry : paramList) {
-//					JiemamyOutputElement paramElement = paramesElement.addElement(CoreQName.PARAMETER);
-//					paramElement.addAttribute(CoreQName.PARAMETER_KEY, entry.getKey());
-//					paramElement.addCharacters(entry.getValue());
-//				}
-//			}
+			ParameterMap params = model.getParams();
+			if (params.size() > 0) {
+				JiemamyOutputElement paramesElement = element.addElement(CoreQName.PARAMETERS);
+				ArrayList<Entry<String, String>> paramList = Lists.newArrayList(params);
+				Collections.sort(paramList, new Comparator<Entry<String, String>>() {
+					
+					public int compare(Entry<String, String> e1, Entry<String, String> e2) {
+						return e1.getKey().compareTo(e2.getKey());
+					}
+					
+				});
+				for (Entry<String, String> entry : paramList) {
+					JiemamyOutputElement paramElement = paramesElement.addElement(CoreQName.PARAMETER);
+					paramElement.addAttribute(CoreQName.PARAMETER_KEY, entry.getKey());
+					paramElement.addCharacters(entry.getValue());
+				}
+			}
 		} catch (XMLStreamException e) {
 			throw new SerializationException(e);
 		}
