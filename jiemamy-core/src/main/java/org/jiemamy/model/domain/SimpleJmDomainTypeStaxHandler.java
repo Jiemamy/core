@@ -74,7 +74,7 @@ public final class SimpleJmDomainTypeStaxHandler extends StaxHandler<SimpleJmDom
 			
 			// Handlerのインタフェース縛りなので仕方なくキャスト
 			// いい対処方法があったら教えてください
-			return (DomainType) domain.asType();
+			return (DomainType) domain.asType(context);
 		} catch (XMLStreamException e) {
 			throw new SerializationException(e);
 		}

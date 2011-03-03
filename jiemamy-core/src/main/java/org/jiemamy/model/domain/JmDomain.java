@@ -21,6 +21,7 @@ package org.jiemamy.model.domain;
 import java.util.Collection;
 
 import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.EntityResolver;
 import org.jiemamy.model.DbObject;
 import org.jiemamy.model.constraint.JmCheckConstraint;
 import org.jiemamy.model.datatype.DataType;
@@ -43,8 +44,19 @@ public interface JmDomain extends DbObject {
 	 * 
 	 * @return ドメインを指す型記述子
 	 * @since 0.3
+	 * @deprecated use {@link #asType(EntityResolver)}
 	 */
+	@Deprecated
 	RawTypeDescriptor asType();
+	
+	/**
+	 * ドメインを指す型記述子を取得する。
+	 * 
+	 * @param resolver {@link JmDomain} を解決する {@code resolver}
+	 * @return ドメインを指す型記述子
+	 * @since 0.3.1
+	 */
+	RawTypeDescriptor asType(EntityResolver resolver);
 	
 	JmDomain clone();
 	

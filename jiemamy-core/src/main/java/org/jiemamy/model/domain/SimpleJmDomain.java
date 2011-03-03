@@ -26,7 +26,9 @@ import org.apache.commons.lang.Validate;
 
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.EntityResolver;
 import org.jiemamy.dddbase.OnMemoryRepository;
+import org.jiemamy.dddbase.RepositoryException;
 import org.jiemamy.model.SimpleDbObject;
 import org.jiemamy.model.constraint.JmCheckConstraint;
 import org.jiemamy.model.datatype.DataType;
@@ -82,8 +84,11 @@ public final class SimpleJmDomain extends SimpleDbObject implements JmDomain {
 	}
 	
 	public RawTypeDescriptor asType() {
-		return new DomainType();
-//		return new DomainType(this, THINK ここでContext引っ張れないよな...コンストラクタでContextもつ？うーん);
+		throw new UnsupportedOperationException();
+	}
+	
+	public RawTypeDescriptor asType(EntityResolver resolver) {
+		return new DomainType(this, resolver);
 	}
 	
 	@Override
@@ -176,32 +181,29 @@ public final class SimpleJmDomain extends SimpleDbObject implements JmDomain {
 	 * @version $Id$
 	 * @author daisuke
 	 */
-	public/*static*/final class DomainType extends DefaultEntityRef<JmDomain> implements RawTypeDescriptor {
+	public static final class DomainType extends DefaultEntityRef<JmDomain> implements RawTypeDescriptor {
 		
-//		private final OnMemoryEntityResolver<? extends JmDomain> resolver;
+		private final EntityResolver resolver;
 		
+
 		/**
 		 * インスタンスを生成する。
+		 * 
+		 * @param domain 参照するドメイン
+		 * @param resolver 参照のドメインをインスタンスを解決する {@code resolver}
 		 */
-		DomainType() {
-			super(SimpleJmDomain.this);
+		DomainType(SimpleJmDomain domain, EntityResolver resolver) {
+			super(domain);
+			Validate.notNull(resolver);
+			this.resolver = resolver;
 		}
-		
-//		DomainType(SimpleJmDomain domain, OnMemoryEntityResolver<? extends SimpleJmDomain> resolver) {
-//			super(domain);
-//			
-//			Validate.notNull(resolver);
-//			this.resolver = resolver;
-//		}
 		
 		public Collection<String> getAliasTypeNames() {
 			return Collections.emptyList();
 		}
 		
 		public RawTypeCategory getCategory() {
-			return dataType.getRawTypeDescriptor().getCategory();
-//			JmDomain resolve = resolver.resolve(this);
-//			return resolve.getDataType().getRawTypeDescriptor().getCategory();
+			return resolveRef().getDataType().getRawTypeDescriptor().getCategory();
 		}
 		
 		/**
@@ -213,9 +215,7 @@ public final class SimpleJmDomain extends SimpleDbObject implements JmDomain {
 		 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 		 */
 		public <T>T getParam(TypeParameterKey<T> key) {
-			return dataType.getParam(key);
-//			JmDomain resolve = resolver.resolve(this);
-//			return resolve.getDataType().getParam(key);
+			return resolveRef().getDataType().getParam(key);
 		}
 		
 		/**
@@ -224,15 +224,11 @@ public final class SimpleJmDomain extends SimpleDbObject implements JmDomain {
 		 * @return カラムが持つ全パラメータ
 		 */
 		public ParameterMap getParams() {
-			return dataType.getParams();
-//			JmDomain resolve = resolver.resolve(this);
-//			return resolve.getDataType().getParams();
+			return resolveRef().getDataType().getParams();
 		}
 		
 		public String getTypeName() {
-			return dataType.getRawTypeDescriptor().getTypeName();
-//			JmDomain resolve = resolver.resolve(this);
-//			return resolve.getDataType().getRawTypeDescriptor().getTypeName();
+			return resolveRef().getDataType().getRawTypeDescriptor().getTypeName();
 		}
 		
 		/**
@@ -241,9 +237,16 @@ public final class SimpleJmDomain extends SimpleDbObject implements JmDomain {
 		 * @return 型記述子
 		 */
 		public RawTypeDescriptor getTypeReference() {
-			return dataType.getRawTypeDescriptor();
-//			JmDomain resolve = resolver.resolve(this);
-//			return resolve.getDataType().getRawTypeDescriptor();
+			return resolveRef().getDataType().getRawTypeDescriptor();
+		}
+		
+		private JmDomain resolveRef() {
+			try {
+				return resolver.resolve(this);
+			} catch (RepositoryException e) {
+				throw new IllegalStateException("can not resolve JmDomain Ref " + getReferentId(), e);
+			}
 		}
 	}
+	
 }
