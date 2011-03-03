@@ -80,10 +80,11 @@ public class SimpleJmDomainStaxHandlerTest {
 		domain.setDataType(varchar32);
 		domain.setNotNull(true);
 		domain.addCheckConstraint(SimpleJmCheckConstraint.of("check", "name"));
+		domain.putParam(TypeParameterKey.SIZE, 10);
 		context.store(domain);
 		
 		// ドメインモデルを持つカラムとそのテーブルを作成
-		SimpleDataType hasDomainDataType = new SimpleDataType(domain.asType());
+		SimpleDataType hasDomainDataType = new SimpleDataType(domain.asType(context));
 		// FORMAT-OFF
 		JmTable t1 = new JmTableBuilder().name("ONE")
 				.with(new JmColumnBuilder().name("A").type(hasDomainDataType).build())

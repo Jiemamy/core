@@ -62,7 +62,7 @@ public class SimpleJmDomainTest {
 		domain.setDataType(varchar32);
 		context.store(domain);
 		
-		SimpleDataType domainType = new SimpleDataType(domain.asType());
+		SimpleDataType domainType = new SimpleDataType(domain.asType(context));
 		
 		// FORMAT-OFF
 		SimpleJmTable table = new JmTableBuilder("FOO")
