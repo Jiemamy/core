@@ -181,6 +181,7 @@ public final class SimpleJmDomain extends SimpleDbObject implements JmDomain {
 	 * @version $Id$
 	 * @author daisuke
 	 */
+	// FindBugsの警告は無視。このクラスでのequalsメソッドは独自に定義する必要がなくDefaultEntityRefのequalsメソッドと動作が同じため。
 	public static final class DomainType extends DefaultEntityRef<JmDomain> implements RawTypeDescriptor {
 		
 		private final EntityResolver resolver;
