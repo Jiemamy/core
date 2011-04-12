@@ -18,6 +18,9 @@
  */
 package org.jiemamy.model.domain;
 
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
+
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +28,7 @@ import org.slf4j.LoggerFactory;
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.model.column.JmColumnBuilder;
 import org.jiemamy.model.constraint.SimpleJmPrimaryKeyConstraint;
+import org.jiemamy.model.datatype.DataType;
 import org.jiemamy.model.datatype.RawTypeCategory;
 import org.jiemamy.model.datatype.SimpleDataType;
 import org.jiemamy.model.datatype.SimpleRawTypeDescriptor;
@@ -44,6 +48,35 @@ public class SimpleJmDomainTest {
 	private static Logger logger = LoggerFactory.getLogger(SimpleJmDomainTest.class);
 	
 
+	/**
+	 * CORE-203実証テスト
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test_core203() throws Exception {
+		JiemamyContext context = new JiemamyContext();
+		
+		SimpleJmDomain domain = new SimpleJmDomain();
+		domain.setName("NAME");
+		SimpleDataType t = SimpleDataType.of(RawTypeCategory.VARCHAR);
+		t.putParam(TypeParameterKey.SIZE, 32);
+		domain.setDataType(t);
+		context.store(domain);
+		
+		// FORMAT-OFF
+		SimpleJmTable table = new JmTableBuilder("HOGE")
+			.with(new JmColumnBuilder("FOO").type(new SimpleDataType(domain.asType(context))).build())
+			.build();
+		// FORMAT-ON
+		context.store(table);
+		
+		DataType type = table.getColumn("FOO").getDataType();
+		assertThat(type.getRawTypeDescriptor().getCategory(), is(RawTypeCategory.VARCHAR));
+		assertThat(type.getParam(TypeParameterKey.SIZE), is(32));
+		
+	}
+	
 	/**
 	 * {@link JmDomain}を定義し、それをデータ型として使って見る。
 	 * 

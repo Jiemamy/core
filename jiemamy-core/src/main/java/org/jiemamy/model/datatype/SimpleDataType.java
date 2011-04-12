@@ -20,6 +20,7 @@ package org.jiemamy.model.datatype;
 
 import org.apache.commons.lang.Validate;
 
+import org.jiemamy.model.domain.SimpleJmDomain.DomainType;
 import org.jiemamy.model.parameter.ParameterMap;
 
 /**
@@ -94,7 +95,12 @@ public final class SimpleDataType implements DataType {
 	}
 	
 	public <T>T getParam(TypeParameterKey<T> key) {
-		return params.get(key);
+		T result = params.get(key);
+		if (result == null && rawTypeDescriptor instanceof DomainType) {
+			DomainType domainType = (DomainType) rawTypeDescriptor;
+			result = domainType.getParam(key);
+		}
+		return result;
 	}
 	
 	public ParameterMap getParams() {
