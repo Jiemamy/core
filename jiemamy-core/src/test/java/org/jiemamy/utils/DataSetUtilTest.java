@@ -72,13 +72,13 @@ public class DataSetUtilTest {
 	
 	/**
 	 * Core-196に対応する。インポートするCSVの1行目がカラム名にあっていない時に
-	 * 例外が出ないようにしたい
+	 * IOExceptionが出るようにしたい
 	 * 
 	 * TODO for s.tonouchi
 	 * 
 	 * @throws Exception 想定外の例外
 	 */
-	@Test
+	@Test(expected = IOException.class)
 	public void test_core196() throws Exception {
 		JiemamySerializer serializer = JiemamyContext.findSerializer();
 		InputStream inJiemamy = null;
@@ -92,8 +92,6 @@ public class DataSetUtilTest {
 			JmTable table = context.getTable("TABLE_1");
 			DataSetUtil.importFromCsv(dataSet, table, inCsv);
 			fail("このメソッドは無事に通過してはいけない");
-			
-		} catch (IOException ex) {
 			
 		} finally {
 			IOUtils.closeQuietly(inJiemamy);
