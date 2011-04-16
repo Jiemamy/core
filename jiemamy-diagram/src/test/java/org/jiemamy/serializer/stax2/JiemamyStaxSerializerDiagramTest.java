@@ -228,7 +228,7 @@ public class JiemamyStaxSerializerDiagramTest {
 			FileUtils.write(file1, first);
 			
 			// そのXMLをデシリアライズしてみる
-			ByteArrayInputStream bais = new ByteArrayInputStream(first.getBytes());
+			ByteArrayInputStream bais = new ByteArrayInputStream(first.getBytes(CharEncoding.UTF_8));
 			JiemamyContext deserialized = serializer.deserialize(bais, DiagramFacet.PROVIDER);
 			assertThat(deserialized, is(notNullValue()));
 			

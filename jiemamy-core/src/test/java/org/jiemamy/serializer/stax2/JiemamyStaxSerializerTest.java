@@ -414,7 +414,7 @@ public class JiemamyStaxSerializerTest {
 			FileUtils.write(file1, first);
 			
 			// そのXMLをデシリアライズしてみる
-			ByteArrayInputStream bais = new ByteArrayInputStream(first.getBytes());
+			ByteArrayInputStream bais = new ByteArrayInputStream(first.getBytes(CharEncoding.UTF_8));
 			JiemamyContext deserialized = serializer.deserialize(bais);
 			assertThat(deserialized, is(notNullValue()));
 			

@@ -97,7 +97,7 @@ public class SimpleJmDomainStaxHandlerTest {
 		String first = baos.toString(CharEncoding.UTF_8);
 		
 		// そのXMLをデシリアライズしてみる
-		ByteArrayInputStream bais = new ByteArrayInputStream(first.getBytes());
+		ByteArrayInputStream bais = new ByteArrayInputStream(first.getBytes(CharEncoding.UTF_8));
 		JiemamyContext deserialized = serializer.deserialize(bais);
 		assertThat(deserialized, is(notNullValue()));
 		
