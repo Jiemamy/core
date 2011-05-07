@@ -10,7 +10,7 @@
   <artifactId>jiemamy-artemis-parent</artifactId>
   <packaging>pom</packaging>
   <name>Jiemamy APIs</name>
-  <version>0.3.2-SNAPSHOT</version>
+  <version>0.3.1-SNAPSHOT</version>
   <inceptionYear>2007</inceptionYear>
   <modules>
     <module>../jiemamy-core</module>
