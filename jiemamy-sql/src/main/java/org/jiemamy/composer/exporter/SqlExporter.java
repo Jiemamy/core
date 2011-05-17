@@ -77,7 +77,9 @@ public class SqlExporter extends FileExporter<SqlExportConfig> {
 	public boolean exportModel(JiemamyContext context, SqlExportConfig config) throws ExportException {
 		Validate.notNull(context);
 		Validate.notNull(config);
-		Validate.isTrue(config.getDataSetIndex() < context.getDataSets().size());
+		Validate.isTrue(config.getDataSetIndex() < context.getDataSets().size(),
+				"DataSetIndex must be greater than DataSet size of the context: ",
+				String.format("%d (%d)", config.getDataSetIndex(), context.getDataSets().size()));
 		
 		Writer writer = null;
 		try {
