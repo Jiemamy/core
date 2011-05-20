@@ -65,7 +65,7 @@ public abstract class AbstractDatabaseTest {
 		try {
 			in = AbstractDatabaseTest.class.getResourceAsStream(getPropertiesFilePath(hostName));
 			if (in == null) {
-				if (hostName.equals("griffon.jiemamy.org")) {
+				if (hostName.equals("phoenix.jiemamy.org")) {
 					throw new AssertionError();
 				}
 				logger.warn("Database Properties ... NOT READY");
