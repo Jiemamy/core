@@ -41,7 +41,6 @@ import org.apache.commons.lang.CharEncoding;
 import org.custommonkey.xmlunit.DetailedDiff;
 import org.custommonkey.xmlunit.Diff;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -397,7 +396,6 @@ public class JiemamyStaxSerializerTest {
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	@Ignore
 	public void test17_CORE207() throws Exception {
 		JiemamyContext ctx = new JiemamyContext();
 		

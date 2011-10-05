@@ -53,7 +53,7 @@ public final class SimpleJmForeignKeyConstraintStaxHandler extends StaxHandler<S
 	
 	private static Logger logger = LoggerFactory.getLogger(SimpleJmForeignKeyConstraintStaxHandler.class);
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 
@@ -100,7 +100,7 @@ public final class SimpleJmForeignKeyConstraintStaxHandler extends StaxHandler<S
 						fk.setOnDelete(ReferentialAction.valueOf(text));
 					} else if (childCursor.isQName(CoreQName.ON_UPDATE)) {
 						String text = childCursor.collectDescendantText(false);
-						fk.setOnDelete(ReferentialAction.valueOf(text));
+						fk.setOnUpdate(ReferentialAction.valueOf(text));
 					} else if (childCursor.isQName(CoreQName.KEY_COLUMNS)) {
 						JiemamyCursor keyColumnsCursor = childCursor.childElementCursor();
 						while (keyColumnsCursor.getNext() != null) {
