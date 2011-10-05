@@ -53,7 +53,7 @@ public final class SimpleJmForeignKeyConstraint extends SimpleJmKeyConstraint im
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @throws IllegalArgumentException 引数{@code keyColumns}と{@code referenceColumns}のサイズが一致していない場合
 	 */
-	public static JmForeignKeyConstraint of(JmColumn keyColumn, JmColumn referenceColumn) {
+	public static SimpleJmForeignKeyConstraint of(JmColumn keyColumn, JmColumn referenceColumn) {
 		Validate.notNull(keyColumn);
 		Validate.notNull(referenceColumn);
 		SimpleJmForeignKeyConstraint fk = new SimpleJmForeignKeyConstraint();
@@ -61,7 +61,7 @@ public final class SimpleJmForeignKeyConstraint extends SimpleJmKeyConstraint im
 		return fk;
 	}
 	
-
+	
 	/** 制約の根拠となるカラムのリスト */
 	private List<EntityRef<? extends JmColumn>> referenceColumns = Lists.newArrayList();
 	
@@ -74,7 +74,7 @@ public final class SimpleJmForeignKeyConstraint extends SimpleJmKeyConstraint im
 	/** マッチ型 */
 	private MatchType matchType;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

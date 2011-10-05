@@ -18,6 +18,7 @@
  */
 package org.jiemamy.serializer.stax2;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
@@ -40,6 +41,7 @@ import org.apache.commons.lang.CharEncoding;
 import org.custommonkey.xmlunit.DetailedDiff;
 import org.custommonkey.xmlunit.Diff;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,11 +50,17 @@ import org.jiemamy.JiemamyContext;
 import org.jiemamy.JiemamyContextTest;
 import org.jiemamy.SimpleJmMetadata;
 import org.jiemamy.model.column.JmColumn;
+import org.jiemamy.model.column.JmColumnBuilder;
 import org.jiemamy.model.column.SimpleJmColumn;
 import org.jiemamy.model.constraint.JmForeignKeyConstraint;
+import org.jiemamy.model.constraint.JmForeignKeyConstraint.ReferentialAction;
+import org.jiemamy.model.constraint.SimpleJmForeignKeyConstraint;
+import org.jiemamy.model.constraint.SimpleJmPrimaryKeyConstraint;
 import org.jiemamy.model.datatype.RawTypeCategory;
 import org.jiemamy.model.datatype.SimpleDataType;
+import org.jiemamy.model.datatype.SimpleRawTypeDescriptor;
 import org.jiemamy.model.table.JmTable;
+import org.jiemamy.model.table.JmTableBuilder;
 import org.jiemamy.model.table.SimpleJmTable;
 import org.jiemamy.serializer.stax.JiemamyStaxSerializer;
 
@@ -68,7 +76,7 @@ public class JiemamyStaxSerializerTest {
 	
 	private JiemamyStaxSerializer serializer;
 	
-
+	
 	/**
 	 * テストを初期化する。
 	 * 
@@ -372,7 +380,7 @@ public class JiemamyStaxSerializerTest {
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test16() throws Exception {
+	public void test16_シンボリックIDが利用できることを確認() throws Exception {
 		String xml = getXml("symbolicid.jiemamy");
 		ByteArrayInputStream bais = new ByteArrayInputStream(xml.getBytes(CharEncoding.UTF_8));
 		JiemamyContext deserialized = serializer.deserialize(bais);
@@ -381,6 +389,62 @@ public class JiemamyStaxSerializerTest {
 		JmTable t1 = fk.findReferenceTable(deserialized.getTables());
 		
 		assertThat(t1.getName(), is("TABLE_1"));
+	}
+	
+	/**
+	 * CORE-207の再現テスト。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	@Ignore
+	public void test17_CORE207() throws Exception {
+		JiemamyContext ctx = new JiemamyContext();
+		
+		// FORMAT-OFF
+		SimpleJmColumn foocolpk = new JmColumnBuilder("FOO1")
+			.type(new SimpleDataType(new SimpleRawTypeDescriptor(RawTypeCategory.INTEGER)))
+		.build();
+		SimpleJmColumn barcolpk = new JmColumnBuilder("BAR1")
+			.type(new SimpleDataType(new SimpleRawTypeDescriptor(RawTypeCategory.INTEGER)))
+		.build();
+		SimpleJmColumn barcolfk = new JmColumnBuilder("BAR2")
+			.type(new SimpleDataType(new SimpleRawTypeDescriptor(RawTypeCategory.INTEGER)))
+		.build();
+		
+		SimpleJmForeignKeyConstraint fk = SimpleJmForeignKeyConstraint.of(barcolfk, foocolpk);
+		fk.setOnDelete(ReferentialAction.RESTRICT);
+		fk.setOnUpdate(ReferentialAction.CASCADE);
+		
+		SimpleJmTable foo = new JmTableBuilder("FOO")
+			.with(foocolpk)
+			.with(SimpleJmPrimaryKeyConstraint.of(foocolpk))
+		.build();
+		SimpleJmTable bar = new JmTableBuilder("BAR")
+			.with(barcolpk)
+			.with(barcolfk)
+			.with(SimpleJmPrimaryKeyConstraint.of(barcolpk))
+			.with(fk)
+		.build();
+		// FORMAT-ON
+		ctx.store(foo);
+		ctx.store(bar);
+		
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		serializer.serialize(ctx, baos);
+		JiemamyContext ctx2 = serializer.deserialize(new ByteArrayInputStream(baos.toByteArray()));
+		
+		String xml = new String(baos.toByteArray());
+		logger.info(xml);
+		assertThat(xml, containsString("<onDelete>RESTRICT</onDelete>"));
+		assertThat(xml, containsString("<onUpdate>CASCADE</onUpdate>"));
+		
+		JmTable bar2 = ctx2.getTable("BAR");
+		SimpleJmForeignKeyConstraint fk2 =
+				Iterables.getOnlyElement(bar2.getConstraints(SimpleJmForeignKeyConstraint.class));
+		
+		assertThat(fk2.getOnDelete(), is(ReferentialAction.RESTRICT));
+		assertThat(fk2.getOnUpdate(), is(ReferentialAction.CASCADE));
 	}
 	
 	/**
