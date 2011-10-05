@@ -432,12 +432,13 @@ public class JiemamyStaxSerializerTest {
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		serializer.serialize(ctx, baos);
-		JiemamyContext ctx2 = serializer.deserialize(new ByteArrayInputStream(baos.toByteArray()));
 		
 		String xml = new String(baos.toByteArray());
 		logger.info(xml);
 		assertThat(xml, containsString("<onDelete>RESTRICT</onDelete>"));
 		assertThat(xml, containsString("<onUpdate>CASCADE</onUpdate>"));
+		
+		JiemamyContext ctx2 = serializer.deserialize(new ByteArrayInputStream(baos.toByteArray()));
 		
 		JmTable bar2 = ctx2.getTable("BAR");
 		SimpleJmForeignKeyConstraint fk2 =
