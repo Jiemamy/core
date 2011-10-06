@@ -28,9 +28,9 @@ import org.apache.commons.lang.Validate;
  */
 public class Version {
 	
-	static final Version INSTANCE = new Version(0, 3, 2, false);
+	static final Version INSTANCE = new Version(0, 3, 3, false);
 	
-
+	
 	/**
 	 * 文字列をパースして、バージョンオブジェクトを生成する。
 	 * 
@@ -71,7 +71,7 @@ public class Version {
 		return new Version(major, minor, release, snapshot);
 	}
 	
-
+	
 	private final int major;
 	
 	private final int minor;
@@ -80,7 +80,7 @@ public class Version {
 	
 	private final boolean snapshot;
 	
-
+	
 	Version(int major, int minor, int release, boolean snapshot) {
 		this.major = major;
 		this.minor = minor;
