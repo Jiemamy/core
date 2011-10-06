@@ -3,13 +3,13 @@
   <parent>
     <groupId>org.jiemamy</groupId>
     <artifactId>jiemamy-master</artifactId>
-    <version>1.7.2</version>
+    <version>1.7.1</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>jiemamy-artemis-parent</artifactId>
   <packaging>pom</packaging>
   <name>Jiemamy APIs</name>
-  <version>0.3.3-SNAPSHOT</version>
+  <version>0.3.2-SNAPSHOT</version>
   <inceptionYear>2007</inceptionYear>
   <modules>
     <module>../jiemamy-core</module>
