@@ -4,11 +4,11 @@
   <parent>
     <groupId>org.jiemamy</groupId>
     <artifactId>jiemamy-master</artifactId>
-    <version>1.7.2</version>
+    <version>1.7.1</version>
   </parent>
   <artifactId>jiemamy-sql</artifactId>
   <name>Jiemamy SQL domain APIs</name>
-  <version>0.3.3-SNAPSHOT</version>
+  <version>0.3.2-SNAPSHOT</version>
   <description><![CDATA[JiemamyのSQL生成機能を提供するコンポーネント]]></description>
   <issueManagement>
     <system>JIRA</system>

@@ -5,7 +5,7 @@
   <artifactId>artemis</artifactId>
   <packaging>pom</packaging>
   <name>Jiemamy core domain APIs - Root</name>
-  <version>0.3.3-SNAPSHOT</version>
+  <version>0.3.2-SNAPSHOT</version>
   <inceptionYear>2007</inceptionYear>
   <scm>
     <connection>scm:svn:http://svn.jiemamy.org/products/artemis/trunk</connection>
