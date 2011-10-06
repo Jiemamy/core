@@ -64,7 +64,7 @@ public class SqlExporter extends FileExporter<SqlExportConfig> {
 	/** COnfigKey: DROP文を出力するかどうか (Boolean) */
 	public static final String SCHEMA = "emitCreateSchemaStatement";
 	
-
+	
 	/**
 	 * {@inheritDoc}
 	 * 
@@ -102,7 +102,7 @@ public class SqlExporter extends FileExporter<SqlExportConfig> {
 			
 			File parentDir = outputFile.getParentFile();
 			if (parentDir != null && parentDir.exists() == false) {
-				boolean mkdirResult = parentDir.mkdir();
+				boolean mkdirResult = parentDir.mkdirs();
 				if (mkdirResult == false) {
 					throw new ExportException("Cannot create directory: " + parentDir.getAbsolutePath());
 				}
