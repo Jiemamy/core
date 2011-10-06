@@ -8,7 +8,7 @@
   </parent>
   <artifactId>jiemamy-core</artifactId>
   <name>Jiemamy core domain APIs</name>
-  <version>0.3.3-SNAPSHOT</version>
+  <version>0.3.2-SNAPSHOT</version>
   <description><![CDATA[Jiemamyのコア機能を提供するコンポーネント]]></description>
   <issueManagement>
     <system>JIRA</system>
