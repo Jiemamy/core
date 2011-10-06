@@ -48,7 +48,6 @@ import org.jiemamy.model.dataset.JmDataSet;
 import org.jiemamy.model.dataset.JmRecord;
 import org.jiemamy.model.datatype.DataType;
 import org.jiemamy.model.datatype.LiteralType;
-import org.jiemamy.model.datatype.RawTypeCategory;
 import org.jiemamy.model.index.JmIndex;
 import org.jiemamy.model.index.JmIndexColumn;
 import org.jiemamy.model.index.JmIndexColumn.SortOrder;
@@ -81,7 +80,7 @@ public class DefaultSqlEmitter implements SqlEmitter {
 	
 	private static Logger logger = LoggerFactory.getLogger(DefaultSqlEmitter.class);
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 
@@ -206,9 +205,8 @@ public class DefaultSqlEmitter implements SqlEmitter {
 		tokens.addAll(tokenResolver.resolve(column.getDataType()));
 		
 		if (StringUtils.isEmpty(column.getDefaultValue()) == false) {
-			RawTypeCategory category = column.getDataType().getRawTypeDescriptor().getCategory();
 			tokens.add(Keyword.DEFAULT);
-			tokens.add(Literal.of(column.getDefaultValue(), category.getLiteralType()));
+			tokens.add(Literal.of(column.getDefaultValue(), LiteralType.FRAGMENT));
 		}
 		
 		JmNotNullConstraint nn = table.getNotNullConstraintFor(column.toReference());
@@ -487,7 +485,7 @@ public class DefaultSqlEmitter implements SqlEmitter {
 		}
 	}
 	
-
+	
 	/**
 	 * 制約の出力戦略列挙型。
 	 * 
@@ -630,10 +628,10 @@ public class DefaultSqlEmitter implements SqlEmitter {
 			}
 		}
 		
-
+		
 		private final Class<? extends JmConstraint> clazz;
 		
-
+		
 		ConstraintEmitStrategy(Class<? extends JmConstraint> clazz) {
 			this.clazz = clazz;
 		}
@@ -748,10 +746,10 @@ public class DefaultSqlEmitter implements SqlEmitter {
 			return null;
 		}
 		
-
+		
 		private final Class<? extends DbObject> clazz;
 		
-
+		
 		DbObjectEmitStrategy(Class<? extends DbObject> clazz) {
 			this.clazz = clazz;
 		}

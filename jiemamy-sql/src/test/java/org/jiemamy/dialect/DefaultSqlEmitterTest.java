@@ -82,7 +82,7 @@ public class DefaultSqlEmitterTest {
 	
 	private JiemamyContext context;
 	
-
+	
 	/**
 	 * テストを初期化する。
 	 * 
@@ -374,5 +374,35 @@ public class DefaultSqlEmitterTest {
 		assertThat(statements2.get(5).toString(),
 				is("INSERT INTO T_HOGE(FOO, BAR, BAZ)VALUES(5, 'five', TIMESTAMP '2011-02-17 10:55:59');"));
 		assertThat(statements2.get(6).toString(), is("COMMIT;"));
+	}
+	
+	@Test
+	@SuppressWarnings("javadoc")
+	public void test07_default句() {
+		SimpleDataType varchar32 = new SimpleDataType(VARCHAR);
+		varchar32.putParam(TypeParameterKey.SIZE, 32);
+		
+		SimpleJmColumn hoge = new JmColumnBuilder("HOGE").type(new SimpleDataType(INTEGER)).build();
+		SimpleJmColumn fuga = new JmColumnBuilder("FUGA").type(varchar32).build();
+		fuga.setDefaultValue("'fuga'");
+		SimpleJmColumn piyo = new JmColumnBuilder("PIYO").type(new SimpleDataType(TIMESTAMP)).build();
+		piyo.setDefaultValue("now()");
+		// FORMAT-OFF
+		SimpleJmTable table = new JmTableBuilder("T_FOO")
+				.with(hoge, fuga, piyo)
+				.with(SimpleJmPrimaryKeyConstraint.of(hoge))
+				.build();
+		// FORMAT-ON
+		context.store(table);
+		
+		List<SqlStatement> statements = emitter.emit(context, config);
+		for (SqlStatement statement : statements) {
+			logger.info(statement.toString());
+		}
+		assertThat(statements.size(), is(2));
+		assertThat(statements.get(0).toString(), is("DROP TABLE T_FOO;"));
+		assertThat(statements.get(1).toString(), is("CREATE TABLE T_FOO("
+				+ "HOGE INTEGER, FUGA VARCHAR(32)DEFAULT 'fuga', PIYO TIMESTAMP DEFAULT now()"
+				+ ", PRIMARY KEY(HOGE));"));
 	}
 }
