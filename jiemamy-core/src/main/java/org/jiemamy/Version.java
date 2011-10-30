@@ -28,7 +28,7 @@ import org.apache.commons.lang.Validate;
  */
 public class Version {
 	
-	static final Version INSTANCE = new Version(0, 3, 3, false);
+	static final Version INSTANCE = new Version(0, 3, 4, false);
 	
 	
 	/**
