@@ -38,6 +38,8 @@ import org.codehaus.staxmate.SMOutputFactory;
 import org.codehaus.staxmate.in.SMHierarchicCursor;
 import org.codehaus.staxmate.out.SMOutputContext;
 import org.codehaus.staxmate.out.SMOutputDocument;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.jiemamy.FacetProvider;
 import org.jiemamy.JiemamyContext;
@@ -55,7 +57,9 @@ public class JiemamyStaxSerializer implements JiemamySerializer {
 	
 	private boolean validate = true;
 	
-
+	private static Logger logger = LoggerFactory.getLogger(JiemamyStaxSerializer.class);
+	
+	
 	public JiemamyContext deserialize(InputStream in, FacetProvider... facetProviders) throws SerializationException {
 		Validate.notNull(in);
 		Validate.noNullElements(facetProviders);
@@ -128,6 +132,7 @@ public class JiemamyStaxSerializer implements JiemamySerializer {
 	
 	/**
 	 * シリアライズ・デシリアライズ時にXMLSchemaバリデーションを行うかどうかを設定する。
+	 * 
 	 * @param validate バリデーションを行う場合は{@code true}、そうでない場合は{@code false}
 	 */
 	public void setValidate(boolean validate) {
@@ -145,10 +150,15 @@ public class JiemamyStaxSerializer implements JiemamySerializer {
 		for (JiemamyFacet facet : facets) {
 			URL schema = facet.getSchema();
 			if (schema != null) {
-				XMLValidationSchema fvs = sf.createSchema(schema);
-				validatable.validateAgainst(fvs);
+				try {
+					XMLValidationSchema fvs = sf.createSchema(schema);
+					validatable.validateAgainst(fvs);
+				} catch (XMLStreamException e) {
+					// schema.jiemamy.org に接続できない時はここに来る。
+					// jiemamy-diagram.xsdから、jiemamy-core.xsdを参照しているからなぁ。
+					logger.warn(e.getMessage());
+				}
 			}
 		}
 	}
-	
 }
