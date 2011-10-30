@@ -51,7 +51,7 @@ public final class SimpleJmDomain extends SimpleDbObject implements JmDomain {
 	
 	private boolean notNull;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 
@@ -83,6 +83,7 @@ public final class SimpleJmDomain extends SimpleDbObject implements JmDomain {
 		checkConstraints.store(checkConstraint);
 	}
 	
+	@Deprecated
 	public RawTypeDescriptor asType() {
 		throw new UnsupportedOperationException();
 	}
@@ -174,7 +175,7 @@ public final class SimpleJmDomain extends SimpleDbObject implements JmDomain {
 		return params;
 	}
 	
-
+	
 	/**
 	 * ドメイン型の{@link RawTypeDescriptor}実装クラス。
 	 * 
@@ -186,7 +187,7 @@ public final class SimpleJmDomain extends SimpleDbObject implements JmDomain {
 		
 		private final EntityResolver resolver;
 		
-
+		
 		/**
 		 * インスタンスを生成する。
 		 * 
