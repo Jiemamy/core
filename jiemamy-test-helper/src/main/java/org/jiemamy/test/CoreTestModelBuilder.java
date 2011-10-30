@@ -142,7 +142,7 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 	
 	private SimpleJmIndex empNameIndex;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 */
@@ -593,7 +593,7 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		if (instruction.supressUseDomain) {
 			deptId.setDataType(ModelUtil.createDataType(context, RawTypeCategory.INTEGER));
 		} else {
-			deptId.setDataType(new SimpleDataType(domainId.asType()));
+			deptId.setDataType(new SimpleDataType(domainId.asType(context)));
 		}
 		deptId.setLogicalName("部署ID");
 		tableDept.store(deptId);
@@ -651,7 +651,7 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		if (instruction.supressUseDomain) {
 			empId.setDataType(ModelUtil.createDataType(context, RawTypeCategory.INTEGER));
 		} else {
-			empId.setDataType(new SimpleDataType(domainId.asType()));
+			empId.setDataType(new SimpleDataType(domainId.asType(context)));
 		}
 		empId.setLogicalName("従業員ID");
 		tableEmp.store(empId);
@@ -675,7 +675,7 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 			dataType.putParam(TypeParameterKey.SIZE, 32); // CHECKSTYLE IGNORE THIS LINE
 			empEmpName.setDataType(dataType);
 		} else {
-			empEmpName.setDataType(new SimpleDataType(domainName.asType()));
+			empEmpName.setDataType(new SimpleDataType(domainName.asType(context)));
 		}
 		empEmpName.setLogicalName("従業員名");
 		empEmpName.setDefaultValue("no name");
