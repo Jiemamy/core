@@ -140,24 +140,7 @@ public class DefaultSqlEmitter implements SqlEmitter {
 			}
 			
 			emitScript(context, dbObject, Position.BEGIN, result);
-			
 			result.add(emitCreateDbObjectStatement(context, dbObject));
-			
-//			if (dom instanceof JmTable) {
-//				JmTable table = (JmTable) dbObject;
-//				for (JmIndex index : table.getIndexes()) {
-//					if (index.hasAdapter(Disablable.class)
-//							&& Boolean.TRUE.equals(index.getAdapter(Disablable.class).isDisabled())) {
-//						continue;
-//					}
-//					if (config.emitDropStatements()) {
-//						result.add(emitDropIndexStatement(index));
-//					}
-//					
-//					result.add(emitCreateIndexStatement(context, table, index));
-//				}
-//			}
-			
 			emitScript(context, dbObject, Position.END, result);
 		}
 		
@@ -718,7 +701,13 @@ public class DefaultSqlEmitter implements SqlEmitter {
 				tokens.add(Keyword.VIEW);
 				tokens.add(Identifier.of(view.getName()));
 				tokens.add(Keyword.AS);
-				tokens.add(Literal.of(view.getDefinition(), LiteralType.FRAGMENT));
+				if (view.getDefinition().trim().endsWith(";")) {
+					String definition = view.getDefinition().trim();
+					definition = definition.substring(0, definition.length() - 1);
+					tokens.add(Literal.of(definition, LiteralType.FRAGMENT));
+				} else {
+					tokens.add(Literal.of(view.getDefinition(), LiteralType.FRAGMENT));
+				}
 				tokens.add(Separator.SEMICOLON);
 				return new SimpleSqlStatement(tokens);
 			}
