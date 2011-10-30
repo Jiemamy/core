@@ -34,7 +34,9 @@ public class JmColumnBuilder extends AbstractEntityFactory<SimpleJmColumn> {
 	
 	DataType type;
 	
-
+	private String defaultValue;
+	
+	
 	/**
 	 * インスタンスを生成する。
 	 */
@@ -55,14 +57,26 @@ public class JmColumnBuilder extends AbstractEntityFactory<SimpleJmColumn> {
 		SimpleJmColumn column = new SimpleJmColumn(id);
 		column.setName(name);
 		column.setDataType(type);
+		column.setDefaultValue(defaultValue);
 		return column;
+	}
+	
+	/**
+	 * デフォルト値を設定する。
+	 * 
+	 * @param defaultValue
+	 * @return {@code this}
+	 */
+	public JmColumnBuilder defaultValue(String defaultValue) {
+		this.defaultValue = defaultValue;
+		return this;
 	}
 	
 	/**
 	 * カラム名を設定する。
 	 * 
 	 * @param name カラム名
-	 * @return this
+	 * @return {@code this}
 	 */
 	public JmColumnBuilder name(String name) {
 		this.name = name;
@@ -73,11 +87,10 @@ public class JmColumnBuilder extends AbstractEntityFactory<SimpleJmColumn> {
 	 * カラムのデータ型を設定する。
 	 * 
 	 * @param type データ型
-	 * @return this
+	 * @return {@code this}
 	 */
 	public JmColumnBuilder type(DataType type) {
 		this.type = type;
 		return this;
 	}
-	
 }
