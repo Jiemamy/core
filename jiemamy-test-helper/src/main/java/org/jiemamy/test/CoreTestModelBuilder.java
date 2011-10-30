@@ -736,7 +736,7 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 	private void createViewHighSal() {
 		viewHighSal = new SimpleJmView(uuid.get("516f7961-cb7b-48e2-990b-7fb0c750c3a4"));
 		viewHighSal.setName("V_HIGH_SAL_EMP");
-		viewHighSal.setDefinition("SELECT * FROM T_EMP WHERE SAL > 2000;");
+		viewHighSal.setDefinition("SELECT * FROM T_EMP WHERE SAL > 2000");
 		viewHighSal.setLogicalName("高給取り");
 	}
 }
