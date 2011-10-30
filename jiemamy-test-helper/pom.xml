@@ -9,7 +9,7 @@
   <groupId>org.jiemamy.test</groupId>
   <artifactId>jiemamy-test-helper</artifactId>
   <name>Jiemamy Test Helper</name>
-  <version>0.3.3</version>
+  <version>0.3.4-SNAPSHOT</version>
   <issueManagement>
     <system>JIRA</system>
     <url>http://jira.jiemamy.org/browse/CORE</url>
@@ -37,9 +37,9 @@
     </developer>
   </developers>
   <scm>
-    <connection>scm:svn:http://svn.jiemamy.org/products/artemis/tags/artemis-0.3.3/jiemamy-test-helper</connection>
-    <developerConnection>scm:svn:http://svn.jiemamy.org/products/artemis/tags/artemis-0.3.3/jiemamy-test-helper</developerConnection>
-    <url>http://fisheye.jiemamy.org/browse/artemis/tags/artemis-0.3.3/jiemamy-test-helper</url>
+    <connection>scm:svn:http://svn.jiemamy.org/products/artemis/trunk/jiemamy-test-helper</connection>
+    <developerConnection>scm:svn:http://svn.jiemamy.org/products/artemis/trunk/jiemamy-test-helper</developerConnection>
+    <url>http://fisheye.jiemamy.org/browse/artemis/trunk/jiemamy-test-helper</url>
   </scm>
   <dependencies>
     <dependency>

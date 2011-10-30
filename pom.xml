@@ -9,12 +9,12 @@
   <artifactId>artemis</artifactId>
   <packaging>pom</packaging>
   <name>Jiemamy core domain APIs - Root</name>
-  <version>0.3.3</version>
+  <version>0.3.4-SNAPSHOT</version>
   <inceptionYear>2007</inceptionYear>
   <scm>
-    <connection>scm:svn:http://svn.jiemamy.org/products/artemis/tags/artemis-0.3.3</connection>
-    <developerConnection>scm:svn:http://svn.jiemamy.org/products/artemis/tags/artemis-0.3.3</developerConnection>
-    <url>http://fisheye.jiemamy.org/browse/artemis/tags/artemis-0.3.3</url>
+    <connection>scm:svn:http://svn.jiemamy.org/products/artemis/trunk</connection>
+    <developerConnection>scm:svn:http://svn.jiemamy.org/products/artemis/trunk</developerConnection>
+    <url>http://fisheye.jiemamy.org/browse/artemis/trunk</url>
   </scm>
   <modules>
     <module>jiemamy-artemis-parent</module>
