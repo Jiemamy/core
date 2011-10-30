@@ -623,7 +623,7 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		deptLocDataType.putParam(TypeParameterKey.SIZE, 20);
 		deptLoc.setDataType(deptLocDataType);
 		deptLoc.setLogicalName("ロケーション");
-		deptLoc.setDefaultValue("secret");
+		deptLoc.setDefaultValue("'secret'");
 		tableDept.store(deptLoc);
 		
 		Map<UUID, UUID> columnNotNullMap = Maps.newHashMap();
@@ -678,7 +678,7 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 			empEmpName.setDataType(new SimpleDataType(domainName.asType(context)));
 		}
 		empEmpName.setLogicalName("従業員名");
-		empEmpName.setDefaultValue("no name");
+		empEmpName.setDefaultValue("'no name'");
 		tableEmp.store(empEmpName);
 		
 		empMgrId = new SimpleJmColumn(uuid.get("3d21a85a-72de-41b3-99dd-f4cb94e58d84"));

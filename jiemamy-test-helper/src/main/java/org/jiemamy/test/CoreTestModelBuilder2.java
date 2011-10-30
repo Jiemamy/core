@@ -154,7 +154,7 @@ public class CoreTestModelBuilder2 extends AbstractTestModelBuilder {
 	/** 生成したモデル */
 	public SimpleJmForeignKeyConstraint fkOrderUser;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 */
@@ -799,7 +799,7 @@ public class CoreTestModelBuilder2 extends AbstractTestModelBuilder {
 			userName.setDataType(new SimpleDataType(nameDomain.asType()));
 		}
 		userName.setLogicalName("ユーザ名");
-		userName.setDefaultValue("no name");
+		userName.setDefaultValue("'no name'");
 		tableUser.store(userName);
 		
 		userPk = new SimpleJmPrimaryKeyConstraint(uuid.get("dac295e3-c390-46ee-9a5b-e89636ab9d7e"));

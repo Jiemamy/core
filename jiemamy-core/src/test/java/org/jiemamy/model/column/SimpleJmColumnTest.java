@@ -86,10 +86,10 @@ public class SimpleJmColumnTest {
 		return model;
 	}
 	
-
+	
 	private SimpleJmColumn column;
 	
-
+	
 	/**
 	 * テストを初期化する。
 	 * 
@@ -130,13 +130,13 @@ public class SimpleJmColumnTest {
 		column.setName("name");
 		column.setLogicalName("logicalName");
 		column.setDataType(type);
-		column.setDefaultValue("defaultValue");
+		column.setDefaultValue("'defaultValue'");
 		column.setDescription("description");
 		
 		assertThat(column.getName(), is("name"));
 		assertThat(column.getLogicalName(), is("logicalName"));
 		assertThat(column.getDataType(), is(type));
-		assertThat(column.getDefaultValue(), is("defaultValue"));
+		assertThat(column.getDefaultValue(), is("'defaultValue'"));
 		assertThat(column.getDescription(), is("description"));
 	}
 	
