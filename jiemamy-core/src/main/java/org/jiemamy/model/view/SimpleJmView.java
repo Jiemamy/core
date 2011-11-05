@@ -23,8 +23,8 @@ import java.util.UUID;
 
 import com.google.common.collect.Sets;
 
-import org.jiemamy.dddbase.DefaultEntityRef;
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.DefaultUUIDEntityRef;
+import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.model.DbObject;
 import org.jiemamy.model.SimpleDbObject;
 import org.jiemamy.model.table.JmTable;
@@ -117,7 +117,7 @@ public final class SimpleJmView extends SimpleDbObject implements JmView {
 	}
 	
 	@Override
-	public EntityRef<? extends SimpleJmView> toReference() {
-		return new DefaultEntityRef<SimpleJmView>(this);
+	public UUIDEntityRef<? extends SimpleJmView> toReference() {
+		return new DefaultUUIDEntityRef<SimpleJmView>(this);
 	}
 }

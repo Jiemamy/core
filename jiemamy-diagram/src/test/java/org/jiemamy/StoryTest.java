@@ -31,18 +31,12 @@ import org.jiemamy.model.geometory.JmRectangle;
 import org.jiemamy.model.table.SimpleJmTable;
 import org.jiemamy.utils.UUIDUtil;
 
-/**
- * TODO for daisuke
- * 
- * @since TODO for daisuke
- * @version $Id$
- * @author daisuke
- */
+@SuppressWarnings("javadoc")
 public class StoryTest {
 	
 	private JiemamyContext ctx;
 	
-
+	
 	/**
 	 * テストを初期化する。
 	 * 
@@ -63,13 +57,8 @@ public class StoryTest {
 		UUIDUtil.clear();
 	}
 	
-	/**
-	 * TODO for daisuke
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
 	@Test
-	public void testname() throws Exception {
+	public void testname() {
 		SimpleJmTable table = new SimpleJmTable(UUIDUtil.valueOfOrRandom("table"));
 		SimpleDbObjectNode node = new SimpleDbObjectNode(UUIDUtil.valueOfOrRandom("node"), table.toReference());
 		SimpleDbObjectNode node2 = new SimpleDbObjectNode(UUIDUtil.valueOfOrRandom("node2"), table.toReference());

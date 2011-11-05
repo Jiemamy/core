@@ -22,8 +22,8 @@ import java.util.UUID;
 
 import org.apache.commons.lang.Validate;
 
-import org.jiemamy.dddbase.DefaultEntityRef;
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.DefaultUUIDEntityRef;
+import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.model.column.JmColumn;
 
 /**
@@ -49,7 +49,7 @@ public final class SimpleJmNotNullConstraint extends SimpleJmValueConstraint imp
 	
 
 	/** 対象カラム参照 */
-	private EntityRef<? extends JmColumn> column;
+	private UUIDEntityRef<? extends JmColumn> column;
 	
 
 	/**
@@ -77,7 +77,7 @@ public final class SimpleJmNotNullConstraint extends SimpleJmValueConstraint imp
 		return clone;
 	}
 	
-	public EntityRef<? extends JmColumn> getColumn() {
+	public UUIDEntityRef<? extends JmColumn> getColumn() {
 		return column;
 	}
 	
@@ -87,14 +87,14 @@ public final class SimpleJmNotNullConstraint extends SimpleJmValueConstraint imp
 	 * @param column 対象カラム参照
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public void setColumn(EntityRef<? extends JmColumn> column) {
+	public void setColumn(UUIDEntityRef<? extends JmColumn> column) {
 		Validate.notNull(column);
 		this.column = column;
 	}
 	
 	@Override
-	public EntityRef<? extends SimpleJmNotNullConstraint> toReference() {
-		return new DefaultEntityRef<SimpleJmNotNullConstraint>(this);
+	public UUIDEntityRef<? extends SimpleJmNotNullConstraint> toReference() {
+		return new DefaultUUIDEntityRef<SimpleJmNotNullConstraint>(this);
 	}
 	
 	@Override

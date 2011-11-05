@@ -38,7 +38,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.model.datatype.DataType;
 import org.jiemamy.model.datatype.RawTypeCategory;
 import org.jiemamy.model.datatype.SimpleDataType;
@@ -125,7 +125,6 @@ public class SimpleJmColumnTest {
 		assertThat(column.getDefaultValue(), is(nullValue()));
 		assertThat(column.getDescription(), is(nullValue()));
 		assertThat(column.getId(), is(UUIDUtil.valueOfOrRandom("a")));
-		assertThat(column.getSubEntities().size(), is(0));
 		
 		column.setName("name");
 		column.setLogicalName("logicalName");
@@ -147,7 +146,7 @@ public class SimpleJmColumnTest {
 	 */
 	@Test
 	public void test02_toReference() throws Exception {
-		EntityRef<? extends JmColumn> columnRef = column.toReference();
+		UUIDEntityRef<? extends JmColumn> columnRef = column.toReference();
 		assertThat(columnRef, is(notNullValue()));
 		assertThat(columnRef.getReferentId(), is(UUIDUtil.valueOfOrRandom("a")));
 	}

@@ -35,13 +35,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.dddbase.DefaultEntityRef;
+import org.jiemamy.dddbase.DefaultUUIDEntityRef;
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityNotFoundException;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.OnMemoryCompositeEntityResolver;
+import org.jiemamy.dddbase.OnMemoryEntityResolver;
 import org.jiemamy.dddbase.OnMemoryRepository;
 import org.jiemamy.dddbase.OrderedOnMemoryRepository;
+import org.jiemamy.dddbase.UUIDEntity;
+import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.dddbase.utils.MutationMonitor;
 import org.jiemamy.model.DbObject;
 import org.jiemamy.model.SimpleDbObject;
@@ -68,14 +71,14 @@ public/*final*/class SimpleJmTable extends SimpleDbObject implements JmTable {
 	private static Logger logger = LoggerFactory.getLogger(SimpleJmTable.class);
 	
 	/** カラムのリスト */
-	private OrderedOnMemoryRepository<JmColumn> columns = new OrderedOnMemoryRepository<JmColumn>();
+	private OrderedOnMemoryRepository<JmColumn, UUID> columns = new OrderedOnMemoryRepository<JmColumn, UUID>();
 	
 	/** 制約のリスト */
-	private OnMemoryRepository<JmConstraint> constraints = new OnMemoryRepository<JmConstraint>();
+	private OnMemoryRepository<JmConstraint, UUID> constraints = new OnMemoryRepository<JmConstraint, UUID>();
 	
 	private final EventBroker eventBroker = new EventBrokerImpl();
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 
@@ -103,13 +106,18 @@ public/*final*/class SimpleJmTable extends SimpleDbObject implements JmTable {
 		return clone;
 	}
 	
-	public boolean contains(EntityRef<?> reference) {
+	public boolean contains(EntityRef<?, UUID> reference) {
 		Validate.notNull(reference);
 		return contains(reference.getReferentId());
 	}
 	
 	public boolean contains(UUID id) {
-		return new OnMemoryCompositeEntityResolver(columns, constraints).contains(id);
+		Collection<OnMemoryEntityResolver<? extends UUIDEntity, UUID>> resolvers = Lists.newArrayList();
+		resolvers.add(columns);
+		resolvers.add(constraints);
+		OnMemoryCompositeEntityResolver<UUIDEntity, UUID> resolver =
+				new OnMemoryCompositeEntityResolver<UUIDEntity, UUID>(resolvers);
+		return resolver.contains(id);
 	}
 	
 	/**
@@ -120,7 +128,7 @@ public/*final*/class SimpleJmTable extends SimpleDbObject implements JmTable {
 	 * @throws EntityNotFoundException このテーブルが指定したカラムを管理していない場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public JmColumn deleteColumn(EntityRef<? extends JmColumn> reference) {
+	public JmColumn deleteColumn(UUIDEntityRef<? extends JmColumn> reference) {
 		Validate.notNull(reference);
 		JmColumn deleted = columns.delete(reference);
 		logger.info("column deleted: " + deleted);
@@ -136,7 +144,7 @@ public/*final*/class SimpleJmTable extends SimpleDbObject implements JmTable {
 	 * @throws EntityNotFoundException このテーブルが指定した制約を管理していない場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public JmConstraint deleteConstraint(EntityRef<? extends JmConstraint> reference) {
+	public JmConstraint deleteConstraint(UUIDEntityRef<? extends JmConstraint> reference) {
 		Validate.notNull(reference);
 		JmConstraint deleted = constraints.delete(reference);
 		logger.info("constraint deleted: " + deleted);
@@ -174,11 +182,6 @@ public/*final*/class SimpleJmTable extends SimpleDbObject implements JmTable {
 		return results;
 	}
 	
-	public JmColumn getColumn(EntityRef<? extends JmColumn> reference) {
-		Validate.notNull(reference);
-		return resolve(reference);
-	}
-	
 	public JmColumn getColumn(final String name) {
 		assert columns != null;
 		Collection<JmColumn> c = Collections2.filter(columns.getEntitiesAsList(), new Predicate<JmColumn>() {
@@ -195,6 +198,11 @@ public/*final*/class SimpleJmTable extends SimpleDbObject implements JmTable {
 		} catch (IllegalArgumentException e) {
 			throw new TooManyColumnsFoundException(c);
 		}
+	}
+	
+	public JmColumn getColumn(UUIDEntityRef<? extends JmColumn> reference) {
+		Validate.notNull(reference);
+		return resolve(reference);
 	}
 	
 	public List<JmColumn> getColumns() {
@@ -235,10 +243,10 @@ public/*final*/class SimpleJmTable extends SimpleDbObject implements JmTable {
 		return getConstraints(JmKeyConstraint.class);
 	}
 	
-	public JmNotNullConstraint getNotNullConstraintFor(EntityRef<? extends JmColumn> reference) {
+	public JmNotNullConstraint getNotNullConstraintFor(UUIDEntityRef<? extends JmColumn> reference) {
 		Validate.notNull(reference);
 		for (JmNotNullConstraint nn : getConstraints(JmNotNullConstraint.class)) {
-			EntityRef<? extends JmColumn> columnRef = nn.getColumn();
+			UUIDEntityRef<? extends JmColumn> columnRef = nn.getColumn();
 			if (columnRef == null) {
 				logger.warn("target column of NOT NULL is null: " + UUIDUtil.toShortString(nn.getId()));
 				continue;
@@ -265,15 +273,14 @@ public/*final*/class SimpleJmTable extends SimpleDbObject implements JmTable {
 		return null;
 	}
 	
-	@Override
-	public Collection<? extends Entity> getSubEntities() {
+	public Collection<? extends Entity<UUID>> getSubEntities() {
 		return Lists.newArrayList(Iterables.concat(getColumns(), getConstraints()));
 	}
 	
-	public boolean isNotNullColumn(EntityRef<? extends JmColumn> columnRef) {
+	public boolean isNotNullColumn(UUIDEntityRef<? extends JmColumn> columnRef) {
 		Collection<JmNotNullConstraint> nns = getConstraints(JmNotNullConstraint.class);
 		for (JmNotNullConstraint nn : nns) {
-			EntityRef<? extends JmColumn> nnTargetColumnRef = nn.getColumn();
+			UUIDEntityRef<? extends JmColumn> nnTargetColumnRef = nn.getColumn();
 			if (nnTargetColumnRef != null && nnTargetColumnRef.equals(columnRef)) {
 				return true;
 			}
@@ -281,7 +288,7 @@ public/*final*/class SimpleJmTable extends SimpleDbObject implements JmTable {
 		return false;
 	}
 	
-	public boolean isPrimaryKeyColumn(EntityRef<? extends JmColumn> reference) {
+	public boolean isPrimaryKeyColumn(UUIDEntityRef<? extends JmColumn> reference) {
 		JmPrimaryKeyConstraint primaryKey = getPrimaryKey();
 		if (primaryKey == null) {
 			return false;
@@ -298,7 +305,7 @@ public/*final*/class SimpleJmTable extends SimpleDbObject implements JmTable {
 			if (foreignKey.getReferenceColumns().size() == 0) {
 				continue;
 			}
-			EntityRef<? extends JmColumn> columnRef = foreignKey.getReferenceColumns().get(0);
+			UUIDEntityRef<? extends JmColumn> columnRef = foreignKey.getReferenceColumns().get(0);
 			JmTable referenceTable = context.resolve(columnRef).findDeclaringTable(tables);
 			if (referenceTable.equals(target)) {
 				return true;
@@ -329,20 +336,26 @@ public/*final*/class SimpleJmTable extends SimpleDbObject implements JmTable {
 	}
 	
 	/**
-	 * {@link EntityRef}から、{@link Entity}を引き当てる。
+	 * {@link UUIDEntityRef}から、{@link Entity}を引き当てる。
 	 * 
 	 * <p>リポジトリは、この実体のクローンを返す。従って、取得した {@link Entity}に対して
 	 * ミューテーションを起こしても、ストアした実体には影響を及ぼさない。</p>
 	 * 
 	 * <p>検索対象は子{@link Entity}も含む。</p>
 	 * 
-	 * @param <T> {@link Entity}の型
-	 * @param reference {@link EntityRef}
+	 * @param <E> {@link Entity}の型
+	 * @param reference {@link UUIDEntityRef}
 	 * @return {@link Entity}
 	 * @throws EntityNotFoundException 参照で示す{@link Entity}が見つからなかった場合
 	 */
-	public <T extends Entity>T resolve(EntityRef<T> reference) {
-		return new OnMemoryCompositeEntityResolver(columns, constraints).resolve(reference);
+	public <E extends Entity<UUID>>E resolve(EntityRef<E, UUID> reference) {
+		Collection<OnMemoryEntityResolver<? extends UUIDEntity, UUID>> resolvers = Lists.newArrayList();
+		resolvers.add(columns);
+		resolvers.add(constraints);
+		OnMemoryCompositeEntityResolver<UUIDEntity, UUID> resolver =
+				new OnMemoryCompositeEntityResolver<UUIDEntity, UUID>(resolvers);
+		E resolved = resolver.resolve(reference);
+		return resolved;
 	}
 	
 	/**
@@ -358,8 +371,14 @@ public/*final*/class SimpleJmTable extends SimpleDbObject implements JmTable {
 	 * @throws EntityNotFoundException 参照で示す{@link Entity}が見つからなかった場合
 	 * @since 1.0.0
 	 */
-	public Entity resolve(UUID id) {
-		return new OnMemoryCompositeEntityResolver(columns, constraints).resolve(id);
+	public UUIDEntity resolve(UUID id) {
+		Collection<OnMemoryEntityResolver<? extends UUIDEntity, UUID>> resolvers = Lists.newArrayList();
+		resolvers.add(columns);
+		resolvers.add(constraints);
+		OnMemoryCompositeEntityResolver<UUIDEntity, UUID> resolver =
+				new OnMemoryCompositeEntityResolver<UUIDEntity, UUID>(resolvers);
+		Entity<UUID> resolved = resolver.resolve(id);
+		return (UUIDEntity) resolved;
 	}
 	
 	/**
@@ -414,8 +433,8 @@ public/*final*/class SimpleJmTable extends SimpleDbObject implements JmTable {
 	}
 	
 	@Override
-	public EntityRef<? extends SimpleJmTable> toReference() {
-		return new DefaultEntityRef<SimpleJmTable>(this);
+	public UUIDEntityRef<? extends SimpleJmTable> toReference() {
+		return new DefaultUUIDEntityRef<SimpleJmTable>(this);
 	}
 	
 	/**

@@ -18,7 +18,7 @@
  */
 package org.jiemamy.model.constraint;
 
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.model.column.JmColumn;
 
 /**
@@ -38,7 +38,7 @@ public interface JmNotNullConstraint extends JmValueConstraint {
 	* 
 	* @return 対象カラム参照、未設定の場合{@code null}
 	*/
-	EntityRef<? extends JmColumn> getColumn();
+	UUIDEntityRef<? extends JmColumn> getColumn();
 	
-	EntityRef<? extends JmNotNullConstraint> toReference();
+	UUIDEntityRef<? extends JmNotNullConstraint> toReference();
 }

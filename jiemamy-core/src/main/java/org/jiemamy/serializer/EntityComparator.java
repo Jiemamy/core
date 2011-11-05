@@ -18,26 +18,29 @@
  */
 package org.jiemamy.serializer;
 
+import java.io.Serializable;
 import java.util.Comparator;
+import java.util.UUID;
 
 import org.jiemamy.dddbase.Entity;
 
 /**
  * {@link Entity}をID順に並べるコンパレータ。
  * 
+ * @param <ID> IDの型
  * @version $Id$
  * @author daisuke
  */
-public class EntityComparator implements Comparator<Entity> {
+public class EntityComparator<ID extends Comparable<ID> & Serializable> implements Comparator<Entity<ID>> {
 	
 	/** singleton instance */
-	public static final EntityComparator INSTANCE = new EntityComparator();
+	public static final EntityComparator<UUID> INSTANCE = new EntityComparator<UUID>();
 	
-
+	
 	private EntityComparator() {
 	}
 	
-	public int compare(Entity o1, Entity o2) {
+	public int compare(Entity<ID> o1, Entity<ID> o2) {
 		return o1.getId().compareTo(o2.getId());
 	}
 	

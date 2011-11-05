@@ -18,7 +18,7 @@
  */
 package org.jiemamy.model.view;
 
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.model.DbObject;
 import org.jiemamy.model.parameter.ParameterMap;
 
@@ -59,5 +59,5 @@ public interface JmView extends DbObject {
 	 */
 	ParameterMap getParams();
 	
-	EntityRef<? extends JmView> toReference();
+	UUIDEntityRef<? extends JmView> toReference();
 }

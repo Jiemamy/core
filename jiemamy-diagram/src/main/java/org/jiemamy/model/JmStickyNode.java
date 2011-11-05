@@ -20,8 +20,8 @@ package org.jiemamy.model;
 
 import java.util.UUID;
 
-import org.jiemamy.dddbase.DefaultEntityRef;
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.DefaultUUIDEntityRef;
+import org.jiemamy.dddbase.UUIDEntityRef;
 
 /**
  * ダイアグラムにおける「付箋（注釈）」を表すモデルインターフェイス。
@@ -34,7 +34,7 @@ public final class JmStickyNode extends SimpleJmNode {
 	/** 内容文 */
 	private String contents;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 
@@ -82,8 +82,8 @@ public final class JmStickyNode extends SimpleJmNode {
 	}
 	
 	@Override
-	public EntityRef<? extends JmStickyNode> toReference() {
-		return new DefaultEntityRef<JmStickyNode>(this);
+	public UUIDEntityRef<? extends JmStickyNode> toReference() {
+		return new DefaultUUIDEntityRef<JmStickyNode>(this);
 	}
 	
 	@Override

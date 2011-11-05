@@ -20,7 +20,7 @@ package org.jiemamy.model.constraint;
 
 import java.util.List;
 
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.model.column.JmColumn;
 
 /**
@@ -42,8 +42,8 @@ public interface JmKeyConstraint extends JmConstraint {
 	* @return キーを構成するカラムのリスト
 	* @since 0.3
 	*/
-	List<EntityRef<? extends JmColumn>> getKeyColumns();
+	List<UUIDEntityRef<? extends JmColumn>> getKeyColumns();
 	
-	EntityRef<? extends JmKeyConstraint> toReference();
+	UUIDEntityRef<? extends JmKeyConstraint> toReference();
 	
 }

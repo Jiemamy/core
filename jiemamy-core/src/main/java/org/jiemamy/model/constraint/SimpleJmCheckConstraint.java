@@ -20,8 +20,8 @@ package org.jiemamy.model.constraint;
 
 import java.util.UUID;
 
-import org.jiemamy.dddbase.DefaultEntityRef;
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.DefaultUUIDEntityRef;
+import org.jiemamy.dddbase.UUIDEntityRef;
 
 /**
  * {@link JmCheckConstraint}のデフォルト実装クラス。
@@ -56,11 +56,11 @@ public final class SimpleJmCheckConstraint extends SimpleJmValueConstraint imple
 		return model;
 	}
 	
-
+	
 	/** CHEKC制約定義式 */
 	private String expression;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 
@@ -100,8 +100,8 @@ public final class SimpleJmCheckConstraint extends SimpleJmValueConstraint imple
 	}
 	
 	@Override
-	public EntityRef<? extends SimpleJmCheckConstraint> toReference() {
-		return new DefaultEntityRef<SimpleJmCheckConstraint>(this);
+	public UUIDEntityRef<? extends SimpleJmCheckConstraint> toReference() {
+		return new DefaultUUIDEntityRef<SimpleJmCheckConstraint>(this);
 	}
 	
 	@Override

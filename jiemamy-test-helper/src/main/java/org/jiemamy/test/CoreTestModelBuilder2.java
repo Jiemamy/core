@@ -658,7 +658,7 @@ public class CoreTestModelBuilder2 extends AbstractTestModelBuilder {
 		if (instruction.supressUseDomain) {
 			detailId.setDataType(ModelUtil.createDataType(jiemamy, RawTypeCategory.INTEGER));
 		} else {
-			detailId.setDataType(new SimpleDataType(idDomain.asType()));
+			detailId.setDataType(new SimpleDataType(idDomain.asType(jiemamy)));
 		}
 		detailId.setLogicalName("ユーザID");
 		tableDetail.store(detailId);
@@ -703,7 +703,7 @@ public class CoreTestModelBuilder2 extends AbstractTestModelBuilder {
 		if (instruction.supressUseDomain) {
 			itemId.setDataType(ModelUtil.createDataType(jiemamy, RawTypeCategory.INTEGER));
 		} else {
-			itemId.setDataType(new SimpleDataType(idDomain.asType()));
+			itemId.setDataType(new SimpleDataType(idDomain.asType(jiemamy)));
 		}
 		itemId.setLogicalName("商品ID");
 		tableItem.store(itemId);
@@ -746,7 +746,7 @@ public class CoreTestModelBuilder2 extends AbstractTestModelBuilder {
 		if (instruction.supressUseDomain) {
 			orderId.setDataType(ModelUtil.createDataType(jiemamy, RawTypeCategory.INTEGER));
 		} else {
-			orderId.setDataType(new SimpleDataType(idDomain.asType()));
+			orderId.setDataType(new SimpleDataType(idDomain.asType(jiemamy)));
 		}
 		orderId.setLogicalName("注文ID");
 		tableOrder.store(orderId);
@@ -784,7 +784,7 @@ public class CoreTestModelBuilder2 extends AbstractTestModelBuilder {
 		if (instruction.supressUseDomain) {
 			userId.setDataType(ModelUtil.createDataType(jiemamy, RawTypeCategory.INTEGER));
 		} else {
-			userId.setDataType(new SimpleDataType(idDomain.asType()));
+			userId.setDataType(new SimpleDataType(idDomain.asType(jiemamy)));
 		}
 		userId.setLogicalName("ユーザID");
 		tableUser.store(userId);
@@ -796,7 +796,7 @@ public class CoreTestModelBuilder2 extends AbstractTestModelBuilder {
 			dataType.putParam(TypeParameterKey.SIZE, 32); // CHECKSTYLE IGNORE THIS LINE
 			userName.setDataType(dataType);
 		} else {
-			userName.setDataType(new SimpleDataType(nameDomain.asType()));
+			userName.setDataType(new SimpleDataType(nameDomain.asType(jiemamy)));
 		}
 		userName.setLogicalName("ユーザ名");
 		userName.setDefaultValue("'no name'");

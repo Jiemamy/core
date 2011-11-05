@@ -18,7 +18,7 @@
  */
 package org.jiemamy.model.constraint;
 
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.UUIDEntityRef;
 
 /**
  * UNIQUE制約を表すモデルインターフェイス。
@@ -32,6 +32,6 @@ public interface JmUniqueKeyConstraint extends JmLocalKeyConstraint {
 	
 	JmUniqueKeyConstraint clone();
 	
-	EntityRef<? extends JmUniqueKeyConstraint> toReference();
+	UUIDEntityRef<? extends JmUniqueKeyConstraint> toReference();
 	
 }

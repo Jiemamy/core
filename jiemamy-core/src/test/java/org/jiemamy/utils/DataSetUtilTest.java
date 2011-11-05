@@ -42,12 +42,8 @@ import org.jiemamy.serializer.JiemamySerializer;
  */
 public class DataSetUtilTest {
 	
-	/**
-	 * TODO for daisuke
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
 	@Test
+	@SuppressWarnings("javadoc")
 	public void test_core195() throws Exception {
 		JiemamySerializer serializer = JiemamyContext.findSerializer();
 		InputStream inJiemamy = null;

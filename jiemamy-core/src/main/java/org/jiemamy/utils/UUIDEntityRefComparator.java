@@ -20,26 +20,25 @@ package org.jiemamy.utils;
 
 import java.util.Comparator;
 
-import org.jiemamy.dddbase.Entity;
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.UUIDEntity;
+import org.jiemamy.dddbase.UUIDEntityRef;
 
 /**
- * {@link EntityRef}をreferentのID順にするコンパレータ。
+ * {@link UUIDEntityRef}をreferentのID順にするコンパレータ。
  * 
  * @version $Id$
  * @author daisuke
  */
-public class EntityRefComparator implements Comparator<EntityRef<? extends Entity>> {
+public class UUIDEntityRefComparator implements Comparator<UUIDEntityRef<? extends UUIDEntity>> {
 	
 	/** singleton instance */
-	public static final EntityRefComparator INSTANCE = new EntityRefComparator();
+	public static final UUIDEntityRefComparator INSTANCE = new UUIDEntityRefComparator();
 	
-
-	private EntityRefComparator() {
+	
+	private UUIDEntityRefComparator() {
 	}
 	
-	public int compare(EntityRef<? extends Entity> o1, EntityRef<? extends Entity> o2) {
+	public int compare(UUIDEntityRef<? extends UUIDEntity> o1, UUIDEntityRef<? extends UUIDEntity> o2) {
 		return o1.getReferentId().compareTo(o2.getReferentId());
 	}
-	
 }

@@ -26,7 +26,7 @@ import com.google.common.collect.Lists;
 import org.apache.commons.lang.StringUtils;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.model.column.JmColumn;
 import org.jiemamy.model.index.JmIndex;
 import org.jiemamy.model.index.JmIndexColumn;
@@ -59,7 +59,7 @@ public class IndexValidator extends AbstractValidator {
 				result.add(new NoIndexColumnProblem(index));
 			}
 			for (JmIndexColumn indexColumn : index.getIndexColumns()) {
-				EntityRef<? extends JmColumn> columnRef = indexColumn.getColumnRef();
+				UUIDEntityRef<? extends JmColumn> columnRef = indexColumn.getColumnRef();
 				if (referenceColumnIds.contains(columnRef.getReferentId())) {
 					JmColumn column = context.resolve(columnRef);
 					result.add(new DuplicatedIndexColumnsProblem(index, column));

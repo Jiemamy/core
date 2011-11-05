@@ -28,6 +28,7 @@ import org.apache.commons.lang.Validate;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.dddbase.Entity;
+import org.jiemamy.dddbase.UUIDEntity;
 
 /**
  * {@link Problem}の骨格実装クラス。
@@ -46,7 +47,7 @@ public abstract class AbstractProblem implements Problem {
 	
 	private final UUID targetId;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 
@@ -54,7 +55,7 @@ public abstract class AbstractProblem implements Problem {
 	 * @param errorCode エラーコード
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public AbstractProblem(Entity target, String errorCode) {
+	public AbstractProblem(UUIDEntity target, String errorCode) {
 		this(target, errorCode, BUNDLE_NAME, ArrayUtils.EMPTY_OBJECT_ARRAY);
 	}
 	
@@ -66,7 +67,7 @@ public abstract class AbstractProblem implements Problem {
 	 * @param arguments メッセージ引数の配列
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public AbstractProblem(Entity target, String errorCode, Object[] arguments) {
+	public AbstractProblem(UUIDEntity target, String errorCode, Object[] arguments) {
 		this(target, errorCode, BUNDLE_NAME, arguments);
 	}
 	
@@ -79,7 +80,7 @@ public abstract class AbstractProblem implements Problem {
 	 * @param arguments メッセージ引数の配列
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	AbstractProblem(Entity target, String errorCode, String baseName, Object[] arguments) {
+	AbstractProblem(UUIDEntity target, String errorCode, String baseName, Object[] arguments) {
 		Validate.notNull(errorCode);
 		Validate.notNull(baseName);
 		targetId = target == null ? null : target.getId();

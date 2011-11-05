@@ -28,6 +28,7 @@ import org.apache.commons.lang.Validate;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.dddbase.Entity;
+import org.jiemamy.dddbase.UUIDEntity;
 import org.jiemamy.dialect.ReservedWordsChecker;
 import org.jiemamy.model.DbObject;
 import org.jiemamy.model.column.JmColumn;
@@ -50,7 +51,7 @@ public abstract class AbstractIdentifierValidator extends AbstractValidator {
 	/** 予約語チェッカー */
 	private ReservedWordsChecker reservedWords;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 
@@ -85,7 +86,7 @@ public abstract class AbstractIdentifierValidator extends AbstractValidator {
 		return problems;
 	}
 	
-	int collectProblem(Entity entity, String name, Collection<Problem> result, boolean emptyValid) {
+	int collectProblem(UUIDEntity entity, String name, Collection<Problem> result, boolean emptyValid) {
 		int before = result.size();
 		if (StringUtils.isEmpty(name)) {
 			if (emptyValid) {
@@ -105,7 +106,7 @@ public abstract class AbstractIdentifierValidator extends AbstractValidator {
 		return result.size() - before;
 	}
 	
-
+	
 	static class EmptyNameProblem extends AbstractProblem {
 		
 		/**
@@ -113,7 +114,7 @@ public abstract class AbstractIdentifierValidator extends AbstractValidator {
 		 * 
 		 * @param target 空の名前を持つ{@link DbObject}
 		 */
-		public EmptyNameProblem(Entity target) {
+		public EmptyNameProblem(UUIDEntity target) {
 			super(target, "E0011");
 		}
 	}
@@ -127,7 +128,7 @@ public abstract class AbstractIdentifierValidator extends AbstractValidator {
 		 * @param name 識別子名
 		 * @param pattern 識別子が満たすべき正規表現パターン
 		 */
-		public InvalidNameProblem(Entity target, String name, Pattern pattern) {
+		public InvalidNameProblem(UUIDEntity target, String name, Pattern pattern) {
 			super(target, "E0010", new Object[] {
 				name,
 				pattern.pattern()
@@ -143,7 +144,7 @@ public abstract class AbstractIdentifierValidator extends AbstractValidator {
 		 * @param target 不正な名前を持つ{@link Entity}
 		 * @param name 識別子名
 		 */
-		public ReservedWordProblem(Entity target, String name) {
+		public ReservedWordProblem(UUIDEntity target, String name) {
 			super(target, "E0020", new Object[] {
 				name
 			});

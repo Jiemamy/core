@@ -22,7 +22,7 @@ import java.util.UUID;
 
 import com.google.common.collect.Lists;
 
-import org.jiemamy.dddbase.AbstractEntityFactory;
+import org.jiemamy.dddbase.UUIDEntityFactory;
 import org.jiemamy.model.column.JmColumn;
 import org.jiemamy.model.constraint.JmConstraint;
 
@@ -32,7 +32,7 @@ import org.jiemamy.model.constraint.JmConstraint;
  * @version $Id$
  * @author daisuke
  */
-public class JmTableBuilder extends AbstractEntityFactory<SimpleJmTable> {
+public class JmTableBuilder extends UUIDEntityFactory<SimpleJmTable> {
 	
 	List<JmColumn> columns = Lists.newArrayList();
 	
@@ -40,7 +40,7 @@ public class JmTableBuilder extends AbstractEntityFactory<SimpleJmTable> {
 	
 	String name;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 */

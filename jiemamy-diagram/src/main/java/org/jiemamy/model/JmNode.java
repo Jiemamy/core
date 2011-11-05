@@ -18,8 +18,8 @@
  */
 package org.jiemamy.model;
 
-import org.jiemamy.dddbase.Entity;
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.UUIDEntity;
+import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.model.geometory.JmColor;
 import org.jiemamy.model.geometory.JmRectangle;
 
@@ -31,7 +31,7 @@ import org.jiemamy.model.geometory.JmRectangle;
  * @since 0.3
  * @author daisuke
  */
-public interface JmNode extends Entity {
+public interface JmNode extends UUIDEntity {
 	
 	JmNode clone();
 	
@@ -51,5 +51,5 @@ public interface JmNode extends Entity {
 	 */
 	JmColor getColor();
 	
-	EntityRef<? extends JmNode> toReference();
+	UUIDEntityRef<? extends JmNode> toReference();
 }

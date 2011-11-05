@@ -238,7 +238,7 @@ public class SimpleJmTableTest {
 	}
 	
 	/**
-	 * {@link SimpleJmTable#getColumn(org.jiemamy.dddbase.EntityRef)}のテスト。
+	 * {@link SimpleJmTable#getColumn(org.jiemamy.dddbase.UUIDEntityRef)}のテスト。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */

@@ -20,8 +20,8 @@ import java.util.UUID;
 
 import org.apache.commons.lang.Validate;
 
-import org.jiemamy.dddbase.DefaultEntityRef;
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.DefaultUUIDEntityRef;
+import org.jiemamy.dddbase.UUIDEntityRef;
 
 /**
  * {@link JmNode}のデフォルト実装クラス。
@@ -32,20 +32,8 @@ import org.jiemamy.dddbase.EntityRef;
  */
 public final class SimpleDbObjectNode extends SimpleJmNode implements DbObjectNode {
 	
-	private final EntityRef<? extends DbObject> coreModelRef;
+	private final UUIDEntityRef<? extends DbObject> coreModelRef;
 	
-
-	/**
-	 * インスタンスを生成する。
-	 * 
-	 * <p>ENTITY IDは{@code UUID.randomUUID()}を用いて自動生成する。</p>
-	 * 
-	 * @param coreModelRef コアモデルへの参照
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 */
-	public SimpleDbObjectNode(EntityRef<? extends DbObject> coreModelRef) {
-		this(UUID.randomUUID(), coreModelRef);
-	}
 	
 	/**
 	 * インスタンスを生成する。
@@ -54,10 +42,22 @@ public final class SimpleDbObjectNode extends SimpleJmNode implements DbObjectNo
 	 * @param coreModelRef コアモデルへの参照
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public SimpleDbObjectNode(UUID id, EntityRef<? extends DbObject> coreModelRef) {
+	public SimpleDbObjectNode(UUID id, UUIDEntityRef<? extends DbObject> coreModelRef) {
 		super(id);
 		Validate.notNull(coreModelRef);
 		this.coreModelRef = coreModelRef;
+	}
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * <p>ENTITY IDは{@code UUID.randomUUID()}を用いて自動生成する。</p>
+	 * 
+	 * @param coreModelRef コアモデルへの参照
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public SimpleDbObjectNode(UUIDEntityRef<? extends DbObject> coreModelRef) {
+		this(UUID.randomUUID(), coreModelRef);
 	}
 	
 	@Override
@@ -66,13 +66,13 @@ public final class SimpleDbObjectNode extends SimpleJmNode implements DbObjectNo
 		return clone;
 	}
 	
-	public EntityRef<? extends DbObject> getCoreModelRef() {
+	public UUIDEntityRef<? extends DbObject> getCoreModelRef() {
 		return coreModelRef;
 	}
 	
 	@Override
-	public EntityRef<? extends SimpleDbObjectNode> toReference() {
-		return new DefaultEntityRef<SimpleDbObjectNode>(this);
+	public UUIDEntityRef<? extends SimpleDbObjectNode> toReference() {
+		return new DefaultUUIDEntityRef<SimpleDbObjectNode>(this);
 	}
 	
 	@Override

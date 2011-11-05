@@ -27,9 +27,10 @@ import com.google.common.collect.Lists;
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.dddbase.DefaultEntityRef;
+import org.jiemamy.dddbase.DefaultUUIDEntityRef;
 import org.jiemamy.dddbase.Entity;
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.HierarchicalEntity;
+import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.dddbase.utils.CloneUtil;
 import org.jiemamy.dddbase.utils.MutationMonitor;
 import org.jiemamy.model.DbObject;
@@ -63,7 +64,7 @@ public final class SimpleJmForeignKeyConstraint extends SimpleJmKeyConstraint im
 	
 	
 	/** 制約の根拠となるカラムのリスト */
-	private List<EntityRef<? extends JmColumn>> referenceColumns = Lists.newArrayList();
+	private List<UUIDEntityRef<? extends JmColumn>> referenceColumns = Lists.newArrayList();
 	
 	/** 削除時アクション */
 	private ReferentialAction onDelete;
@@ -97,13 +98,13 @@ public final class SimpleJmForeignKeyConstraint extends SimpleJmKeyConstraint im
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * <p>この実装では、このメソッドは必ず {@link #addReferenceColumn(EntityRef)}と
+	 * <p>この実装では、このメソッドは必ず {@link #addReferenceColumn(UUIDEntityRef)}と
 	 * ペアで利用し、それぞれのカラム数が一致するように注意しなければならない。
 	 * この契約に違反しないために、基本的にこのメソッドの利用は推奨せず、代わりに
-	 * {@link #addReferencing(EntityRef, EntityRef)}を利用すべきである。</p>
+	 * {@link #addReferencing(UUIDEntityRef, UUIDEntityRef)}を利用すべきである。</p>
 	 */
 	@Override
-	public void addKeyColumn(EntityRef<? extends JmColumn> keyColumn) {
+	public void addKeyColumn(UUIDEntityRef<? extends JmColumn> keyColumn) {
 		// javadocのためにオーバーライドし、FindBugs警告を消すためにnullチェックした
 		Validate.notNull(keyColumn);
 		super.addKeyColumn(keyColumn);
@@ -112,15 +113,15 @@ public final class SimpleJmForeignKeyConstraint extends SimpleJmKeyConstraint im
 	/**
 	 * 参照カラムを追加する。
 	 * 
-	 * <p>この実装では、このメソッドは必ず {@link #addKeyColumn(EntityRef)}と
+	 * <p>この実装では、このメソッドは必ず {@link #addKeyColumn(UUIDEntityRef)}と
 	 * ペアで利用し、それぞれのカラム数が一致するように注意しなければならない。
 	 * この契約に違反しないために、基本的にこのメソッドの利用は推奨せず、代わりに
-	 * {@link #addReferencing(EntityRef, EntityRef)}を利用すべきである。</p>
+	 * {@link #addReferencing(UUIDEntityRef, UUIDEntityRef)}を利用すべきである。</p>
 	 * 
 	 * @param referenceColumn 参照カラム
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public void addReferenceColumn(EntityRef<? extends JmColumn> referenceColumn) {
+	public void addReferenceColumn(UUIDEntityRef<? extends JmColumn> referenceColumn) {
 		Validate.notNull(referenceColumn);
 		referenceColumns.add(referenceColumn);
 	}
@@ -132,7 +133,8 @@ public final class SimpleJmForeignKeyConstraint extends SimpleJmKeyConstraint im
 	 * @param referenceColumn 参照カラム
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public void addReferencing(EntityRef<? extends JmColumn> keyColumn, EntityRef<? extends JmColumn> referenceColumn) {
+	public void addReferencing(UUIDEntityRef<? extends JmColumn> keyColumn,
+			UUIDEntityRef<? extends JmColumn> referenceColumn) {
 		Validate.notNull(keyColumn);
 		Validate.notNull(referenceColumn);
 		addKeyColumn(keyColumn);
@@ -155,18 +157,22 @@ public final class SimpleJmForeignKeyConstraint extends SimpleJmKeyConstraint im
 	public JmKeyConstraint findReferencedKeyConstraint(Iterable<? extends DbObject> dbObjects) {
 		Validate.notNull(dbObjects);
 		
-		List<EntityRef<? extends JmColumn>> referenceColumns = getReferenceColumns();
+		List<UUIDEntityRef<? extends JmColumn>> referenceColumns = getReferenceColumns();
 		if (referenceColumns.size() == 0) {
 			throw new ModelConsistencyException();
 		}
-		EntityRef<? extends JmColumn> columnRef = referenceColumns.get(0);
+		UUIDEntityRef<? extends JmColumn> columnRef = referenceColumns.get(0);
 		
 		for (DbObject dbObject : dbObjects) {
 			Validate.notNull(dbObject);
-			for (Entity subEntity : dbObject.getSubEntities()) {
-				if (columnRef.isReferenceOf(subEntity)) {
-					JmTable table = (JmTable) dbObject;
-					return table.findReferencedKeyConstraint(this);
+			if (dbObject instanceof HierarchicalEntity) {
+				@SuppressWarnings("unchecked")
+				HierarchicalEntity<UUID> he = (HierarchicalEntity<UUID>) dbObject;
+				for (Entity<UUID> subEntity : he.getSubEntities()) {
+					if (columnRef.isReferenceOf(subEntity)) {
+						JmTable table = (JmTable) dbObject;
+						return table.findReferencedKeyConstraint(this);
+					}
 				}
 			}
 		}
@@ -194,7 +200,7 @@ public final class SimpleJmForeignKeyConstraint extends SimpleJmKeyConstraint im
 		return onUpdate;
 	}
 	
-	public List<EntityRef<? extends JmColumn>> getReferenceColumns() {
+	public List<UUIDEntityRef<? extends JmColumn>> getReferenceColumns() {
 		return MutationMonitor.monitor(Lists.newArrayList(referenceColumns));
 	}
 	
@@ -235,8 +241,8 @@ public final class SimpleJmForeignKeyConstraint extends SimpleJmKeyConstraint im
 	}
 	
 	@Override
-	public EntityRef<? extends SimpleJmForeignKeyConstraint> toReference() {
-		return new DefaultEntityRef<SimpleJmForeignKeyConstraint>(this);
+	public UUIDEntityRef<? extends SimpleJmForeignKeyConstraint> toReference() {
+		return new DefaultUUIDEntityRef<SimpleJmForeignKeyConstraint>(this);
 	}
 	
 	@Override

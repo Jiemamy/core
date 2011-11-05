@@ -18,8 +18,8 @@
  */
 package org.jiemamy.model.constraint;
 
-import org.jiemamy.dddbase.Entity;
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.UUIDEntity;
+import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.model.table.JmTable;
 import org.jiemamy.model.table.TableNotFoundException;
 import org.jiemamy.model.table.TooManyTablesFoundException;
@@ -31,7 +31,7 @@ import org.jiemamy.model.table.TooManyTablesFoundException;
  * 
  * @author daisuke
  */
-public interface JmConstraint extends Entity {
+public interface JmConstraint extends UUIDEntity {
 	
 	JmConstraint clone();
 	
@@ -76,6 +76,6 @@ public interface JmConstraint extends Entity {
 	 */
 	String getName();
 	
-	EntityRef<? extends JmConstraint> toReference();
+	UUIDEntityRef<? extends JmConstraint> toReference();
 	
 }

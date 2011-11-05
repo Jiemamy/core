@@ -20,9 +20,11 @@ package org.jiemamy;
 
 import java.net.URL;
 import java.util.Set;
+import java.util.UUID;
 
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.OnMemoryEntityResolver;
+import org.jiemamy.dddbase.UUIDEntity;
 import org.jiemamy.serializer.stax.StaxDirector;
 import org.jiemamy.serializer.stax.StaxHandler;
 import org.jiemamy.xml.JiemamyNamespace;
@@ -42,7 +44,7 @@ public interface JiemamyFacet {
 	 * 
 	 * @return {@link Entity}の集合
 	 */
-	Set<? extends Entity> getEntities();
+	Set<? extends UUIDEntity> getEntities();
 	
 	/**
 	 * このファセットが利用する全ての名前空間を取得する。
@@ -56,7 +58,7 @@ public interface JiemamyFacet {
 	 * 
 	 * @return リゾルバ
 	 */
-	OnMemoryEntityResolver<?> getResolver();
+	OnMemoryEntityResolver<? extends UUIDEntity, UUID> getResolver();
 	
 	/**
 	 * このファセットが定義するXMLスキーマのロケーションを返す。

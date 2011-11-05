@@ -30,8 +30,8 @@ import org.codehaus.staxmate.in.SMEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.jiemamy.dddbase.DefaultEntityRef;
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.DefaultUUIDEntityRef;
+import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.model.constraint.JmForeignKeyConstraint;
 import org.jiemamy.model.geometory.JmColor;
 import org.jiemamy.model.geometory.JmPoint;
@@ -57,7 +57,7 @@ public final class SimpleJmConnectionStaxHandler extends StaxHandler<SimpleJmCon
 	
 	private static Logger logger = LoggerFactory.getLogger(SimpleJmConnectionStaxHandler.class);
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 
@@ -80,9 +80,9 @@ public final class SimpleJmConnectionStaxHandler extends StaxHandler<SimpleJmCon
 			String idString = cursor.getAttrValue(CoreQName.ID);
 			UUID id = dctx.getContext().toUUID(idString);
 			
-			EntityRef<? extends JmForeignKeyConstraint> core = null;
-			EntityRef<? extends JmNode> source = null;
-			EntityRef<? extends JmNode> target = null;
+			UUIDEntityRef<? extends JmForeignKeyConstraint> core = null;
+			UUIDEntityRef<? extends JmNode> source = null;
+			UUIDEntityRef<? extends JmNode> target = null;
 			List<JmPoint> points = Lists.newArrayList();
 			JmColor color = null;
 			
@@ -94,15 +94,15 @@ public final class SimpleJmConnectionStaxHandler extends StaxHandler<SimpleJmCon
 					if (childCursor.isQName(DiagramQName.CORE)) {
 						String coreIdString = childCursor.getAttrValue(CoreQName.REF);
 						UUID coreId = UUIDUtil.valueOfOrRandom(coreIdString);
-						core = DefaultEntityRef.of(coreId);
+						core = DefaultUUIDEntityRef.of(coreId);
 					} else if (childCursor.isQName(DiagramQName.SOURCE)) {
 						String sourceIdString = childCursor.getAttrValue(CoreQName.REF);
 						UUID sourceId = UUIDUtil.valueOfOrRandom(sourceIdString);
-						source = DefaultEntityRef.of(sourceId);
+						source = DefaultUUIDEntityRef.of(sourceId);
 					} else if (childCursor.isQName(DiagramQName.TARGET)) {
 						String targetIdString = childCursor.getAttrValue(CoreQName.REF);
 						UUID targetId = UUIDUtil.valueOfOrRandom(targetIdString);
-						target = DefaultEntityRef.of(targetId);
+						target = DefaultUUIDEntityRef.of(targetId);
 					} else if (childCursor.isQName(DiagramQName.BENDPOINTS)) {
 						JiemamyCursor bendpointCursor = childCursor.childElementCursor();
 						while (bendpointCursor.getNext() != null) {

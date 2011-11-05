@@ -27,8 +27,8 @@ import org.codehaus.staxmate.in.SMEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.jiemamy.dddbase.DefaultEntityRef;
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.DefaultUUIDEntityRef;
+import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.model.column.JmColumn;
 import org.jiemamy.model.constraint.JmForeignKeyConstraint.MatchType;
 import org.jiemamy.model.constraint.JmForeignKeyConstraint.ReferentialAction;
@@ -106,7 +106,7 @@ public final class SimpleJmForeignKeyConstraintStaxHandler extends StaxHandler<S
 						while (keyColumnsCursor.getNext() != null) {
 							String idStr = keyColumnsCursor.getAttrValue(CoreQName.REF);
 							UUID referenceId = dctx.getContext().toUUID(idStr);
-							EntityRef<JmColumn> columnRef = DefaultEntityRef.of(referenceId);
+							UUIDEntityRef<JmColumn> columnRef = DefaultUUIDEntityRef.of(referenceId);
 							fk.addKeyColumn(columnRef);
 						}
 					} else if (childCursor.isQName(CoreQName.REF_COLUMNS)) {
@@ -114,7 +114,7 @@ public final class SimpleJmForeignKeyConstraintStaxHandler extends StaxHandler<S
 						while (refColumnsCursor.getNext() != null) {
 							String idStr = refColumnsCursor.getAttrValue(CoreQName.REF);
 							UUID refid = dctx.getContext().toUUID(idStr);
-							EntityRef<JmColumn> columnRef = DefaultEntityRef.of(refid);
+							UUIDEntityRef<JmColumn> columnRef = DefaultUUIDEntityRef.of(refid);
 							fk.addReferenceColumn(columnRef);
 						}
 					} else {
@@ -149,13 +149,13 @@ public final class SimpleJmForeignKeyConstraintStaxHandler extends StaxHandler<S
 			element.addElementAndCharacters(CoreQName.DESCRIPTION, model.getDescription());
 			
 			JiemamyOutputElement keyColumnsElement = element.addElement(CoreQName.KEY_COLUMNS);
-			for (EntityRef<? extends JmColumn> columnRef : model.getKeyColumns()) {
+			for (UUIDEntityRef<? extends JmColumn> columnRef : model.getKeyColumns()) {
 				keyColumnsElement.addElement(CoreQName.COLUMN_REF).addAttribute(CoreQName.REF,
 						columnRef.getReferentId());
 			}
 			
 			JiemamyOutputElement refColumnsElement = element.addElement(CoreQName.REF_COLUMNS);
-			for (EntityRef<? extends JmColumn> columnRef : model.getReferenceColumns()) {
+			for (UUIDEntityRef<? extends JmColumn> columnRef : model.getReferenceColumns()) {
 				refColumnsElement.addElement(CoreQName.COLUMN_REF).addAttribute(CoreQName.REF,
 						columnRef.getReferentId());
 			}

@@ -19,7 +19,8 @@
 package org.jiemamy.validator.impl;
 
 import org.jiemamy.dddbase.Entity;
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.UUIDEntity;
+import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.model.column.JmColumn;
 import org.jiemamy.validator.AbstractProblem;
 
@@ -31,7 +32,7 @@ class ReferenceProblem extends AbstractProblem {
 	 * @param target {@code reference}を持っている {@link Entity}
 	 * @param reference 参照の切れた参照オブジェクト
 	 */
-	ReferenceProblem(Entity target, EntityRef<? extends JmColumn> reference) {
+	ReferenceProblem(UUIDEntity target, UUIDEntityRef<? extends JmColumn> reference) {
 		super(target, "F0190", new Object[] {
 			reference.getReferentId().toString()
 		});
@@ -43,7 +44,7 @@ class ReferenceProblem extends AbstractProblem {
 	 * @param elementReference 参照の切れた参照オブジェクト
 	 */
 	@Deprecated
-	ReferenceProblem(EntityRef<?> elementReference, String pos) {
+	ReferenceProblem(UUIDEntityRef<?> elementReference, String pos) {
 		super(null, "F0190", new Object[] {
 			pos,
 			elementReference.getReferentId().toString()

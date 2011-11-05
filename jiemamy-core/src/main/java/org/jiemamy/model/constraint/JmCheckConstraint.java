@@ -18,7 +18,7 @@
  */
 package org.jiemamy.model.constraint;
 
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.UUIDEntityRef;
 
 /**
  * チェック制約を表すモデルインターフェイス。
@@ -39,5 +39,5 @@ public interface JmCheckConstraint extends JmValueConstraint {
 	*/
 	String getExpression();
 	
-	EntityRef<? extends JmCheckConstraint> toReference();
+	UUIDEntityRef<? extends JmCheckConstraint> toReference();
 }

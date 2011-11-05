@@ -23,8 +23,8 @@ import java.util.UUID;
 
 import org.apache.commons.lang.Validate;
 
-import org.jiemamy.dddbase.DefaultEntityRef;
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.DefaultUUIDEntityRef;
+import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.model.column.JmColumn;
 
 /**
@@ -57,10 +57,10 @@ public final class SimpleJmPrimaryKeyConstraint extends SimpleJmLocalKeyConstrai
 	 * @return {@link SimpleJmPrimaryKeyConstraint}
 	 * @throws IllegalArgumentException 引数に{@code null}または{@code null}要素を与えた場合
 	 */
-	public static SimpleJmPrimaryKeyConstraint of(List<EntityRef<? extends JmColumn>> columnRefs) {
+	public static SimpleJmPrimaryKeyConstraint of(List<UUIDEntityRef<? extends JmColumn>> columnRefs) {
 		Validate.noNullElements(columnRefs);
 		SimpleJmPrimaryKeyConstraint model = new SimpleJmPrimaryKeyConstraint();
-		for (EntityRef<? extends JmColumn> columnRef : columnRefs) {
+		for (UUIDEntityRef<? extends JmColumn> columnRef : columnRefs) {
 			model.addKeyColumn(columnRef);
 		}
 		return model;
@@ -106,8 +106,8 @@ public final class SimpleJmPrimaryKeyConstraint extends SimpleJmLocalKeyConstrai
 	}
 	
 	@Override
-	public EntityRef<? extends SimpleJmPrimaryKeyConstraint> toReference() {
-		return new DefaultEntityRef<SimpleJmPrimaryKeyConstraint>(this);
+	public UUIDEntityRef<? extends SimpleJmPrimaryKeyConstraint> toReference() {
+		return new DefaultUUIDEntityRef<SimpleJmPrimaryKeyConstraint>(this);
 	}
 	
 	@Override

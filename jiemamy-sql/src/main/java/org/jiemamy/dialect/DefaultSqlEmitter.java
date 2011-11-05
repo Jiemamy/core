@@ -33,7 +33,7 @@ import org.slf4j.LoggerFactory;
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.JmMetadata;
 import org.jiemamy.SqlFacet;
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.model.DbObject;
 import org.jiemamy.model.column.ColumnParameterKey;
 import org.jiemamy.model.column.JmColumn;
@@ -341,7 +341,7 @@ public class DefaultSqlEmitter implements SqlEmitter {
 		Validate.notNull(context);
 		Validate.notNull(indexColumn);
 		List<Token> tokens = Lists.newArrayList();
-		EntityRef<? extends JmColumn> columnRef = indexColumn.getColumnRef();
+		UUIDEntityRef<? extends JmColumn> columnRef = indexColumn.getColumnRef();
 		JmColumn column = context.resolve(columnRef);
 		tokens.add(Identifier.of(column.getName()));
 		SortOrder sortOrder = indexColumn.getSortOrder();
@@ -590,9 +590,9 @@ public class DefaultSqlEmitter implements SqlEmitter {
 		}
 		
 		private static void addColumnList(JiemamyContext context, List<Token> tokens,
-				List<EntityRef<? extends JmColumn>> columnRefs) {
+				List<UUIDEntityRef<? extends JmColumn>> columnRefs) {
 			tokens.add(Separator.LEFT_PAREN);
-			for (EntityRef<? extends JmColumn> columnRef : columnRefs) {
+			for (UUIDEntityRef<? extends JmColumn> columnRef : columnRefs) {
 				JmColumn column = context.resolve(columnRef);
 				tokens.add(Identifier.of(column.getName()));
 				tokens.add(Separator.COMMA);

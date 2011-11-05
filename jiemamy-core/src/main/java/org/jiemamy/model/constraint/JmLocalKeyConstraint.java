@@ -18,7 +18,7 @@
  */
 package org.jiemamy.model.constraint;
 
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.UUIDEntityRef;
 
 /**
  * 内部キー制約を表すインターフェイス。
@@ -34,6 +34,6 @@ public interface JmLocalKeyConstraint extends JmKeyConstraint {
 	
 	JmLocalKeyConstraint clone();
 	
-	EntityRef<? extends JmLocalKeyConstraint> toReference();
+	UUIDEntityRef<? extends JmLocalKeyConstraint> toReference();
 	
 }

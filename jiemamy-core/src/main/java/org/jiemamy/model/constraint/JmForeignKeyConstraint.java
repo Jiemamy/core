@@ -21,7 +21,7 @@ package org.jiemamy.model.constraint;
 import java.util.List;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.model.DbObject;
 import org.jiemamy.model.ModelConsistencyException;
 import org.jiemamy.model.column.JmColumn;
@@ -90,7 +90,7 @@ public interface JmForeignKeyConstraint extends JmKeyConstraint {
 	 * @return 参照カラムのリスト
 	 * @since 0.3
 	 */
-	List<EntityRef<? extends JmColumn>> getReferenceColumns();
+	List<UUIDEntityRef<? extends JmColumn>> getReferenceColumns();
 	
 	/**
 	 * この外部キーが自己参照外部キーであるかどうかを調べる。
@@ -101,7 +101,7 @@ public interface JmForeignKeyConstraint extends JmKeyConstraint {
 	 */
 	boolean isSelfReference(JiemamyContext context);
 	
-	EntityRef<? extends JmForeignKeyConstraint> toReference();
+	UUIDEntityRef<? extends JmForeignKeyConstraint> toReference();
 	
 
 	/**

@@ -23,7 +23,7 @@ import com.google.common.collect.Iterables;
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.model.column.JmColumn;
 import org.jiemamy.model.constraint.JmLocalKeyConstraint;
 import org.jiemamy.model.constraint.SimpleJmForeignKeyConstraint;
@@ -87,7 +87,7 @@ public final class ForeignKeyFactory {
 		fk.clearKeyColumns();
 		
 		int index = 0;
-		for (EntityRef<? extends JmColumn> referenceColumnRef : key.getKeyColumns()) {
+		for (UUIDEntityRef<? extends JmColumn> referenceColumnRef : key.getKeyColumns()) {
 			JmColumn referenceColumn = context.resolve(referenceColumnRef);
 			
 			JmColumn keyColumn =

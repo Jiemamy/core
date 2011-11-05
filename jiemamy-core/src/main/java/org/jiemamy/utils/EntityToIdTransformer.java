@@ -30,16 +30,16 @@ import org.jiemamy.dddbase.Entity;
  * @version $Id$
  * @author daisuke
  */
-public class EntityToIdTransformer implements Function<Entity, UUID> {
+public class EntityToIdTransformer implements Function<Entity<UUID>, UUID> {
 	
 	/** singleton instance */
 	public static final EntityToIdTransformer INSTANCE = new EntityToIdTransformer();
 	
-
+	
 	private EntityToIdTransformer() {
 	}
 	
-	public UUID apply(Entity from) {
+	public UUID apply(Entity<UUID> from) {
 		return from.getId();
 	}
 	

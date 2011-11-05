@@ -32,9 +32,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.dddbase.DefaultEntityRef;
+import org.jiemamy.dddbase.DefaultUUIDEntityRef;
 import org.jiemamy.dddbase.EntityNotFoundException;
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.model.table.JmTable;
 import org.jiemamy.serializer.SerializationException;
 import org.jiemamy.serializer.stax.DeserializationContext;
@@ -98,7 +98,7 @@ public final class SimpleJmDataSetStaxHandler extends StaxHandler<SimpleJmDataSe
 							String strRef = tableRecordsCursor.getAttrValue(CoreQName.REF);
 							assert strRef != null;
 							UUID referenceId = dctx.getContext().toUUID(strRef);
-							EntityRef<JmTable> tableRef = DefaultEntityRef.of(referenceId);
+							UUIDEntityRef<JmTable> tableRef = DefaultUUIDEntityRef.of(referenceId);
 							
 							JiemamyCursor recordsCursor = tableRecordsCursor.childElementCursor();
 							List<JmRecord> records = Lists.newArrayList();
@@ -151,8 +151,8 @@ public final class SimpleJmDataSetStaxHandler extends StaxHandler<SimpleJmDataSe
 			
 			JiemamyContext context = sctx.getContext();
 			
-			for (Entry<EntityRef<? extends JmTable>, List<JmRecord>> entry : model.getRecords().entrySet()) {
-				EntityRef<? extends JmTable> tableRef = entry.getKey();
+			for (Entry<UUIDEntityRef<? extends JmTable>, List<JmRecord>> entry : model.getRecords().entrySet()) {
+				UUIDEntityRef<? extends JmTable> tableRef = entry.getKey();
 				JiemamyOutputElement tableRecordElement = tableRecordsElement.addElement(CoreQName.TABLE_RECORD);
 				tableRecordElement.addAttribute(CoreQName.REF, tableRef.getReferentId());
 				if (JiemamyContext.isDebug()) {

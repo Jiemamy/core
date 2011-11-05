@@ -31,7 +31,7 @@ import com.google.common.collect.Maps;
 
 import org.junit.Test;
 
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.model.column.JmColumn;
 import org.jiemamy.script.PlainScriptEngine;
 import org.jiemamy.script.ScriptString;
@@ -51,7 +51,7 @@ public class SimpleJmRecordTest {
 	 * @return {@link SimpleJmRecord}
 	 */
 	public static SimpleJmRecord random(List<JmColumn> columns) {
-		Map<EntityRef<? extends JmColumn>, ScriptString> values = Maps.newHashMap();
+		Map<UUIDEntityRef<? extends JmColumn>, ScriptString> values = Maps.newHashMap();
 		
 		for (JmColumn column : columns) {
 			if (bool()) {
@@ -70,16 +70,16 @@ public class SimpleJmRecordTest {
 	@Test
 	@SuppressWarnings("unchecked")
 	public void test01_mapがしっかりcloneされてるかチェック() throws Exception {
-		Map<EntityRef<? extends JmColumn>, ScriptString> map = Maps.newHashMap();
-		map.put(mock(EntityRef.class), new ScriptString("a"));
-		map.put(mock(EntityRef.class), new ScriptString("b"));
-		map.put(mock(EntityRef.class), new ScriptString("c"));
+		Map<UUIDEntityRef<? extends JmColumn>, ScriptString> map = Maps.newHashMap();
+		map.put(mock(UUIDEntityRef.class), new ScriptString("a"));
+		map.put(mock(UUIDEntityRef.class), new ScriptString("b"));
+		map.put(mock(UUIDEntityRef.class), new ScriptString("c"));
 		SimpleJmRecord model1 = new SimpleJmRecord(map);
 		
 		assertThat(model1.getValues().size(), is(3));
 		
-		map.put(mock(EntityRef.class), new ScriptString("d")); // model1に影響しないはず
-		model1.getValues().put(mock(EntityRef.class), new ScriptString("e")); // これもclone返ししているので影響しないはず
+		map.put(mock(UUIDEntityRef.class), new ScriptString("d")); // model1に影響しないはず
+		model1.getValues().put(mock(UUIDEntityRef.class), new ScriptString("e")); // これもclone返ししているので影響しないはず
 		
 		assertThat(model1.getValues().size(), is(3));
 		assertThat(model1.getValues().containsValue(new ScriptString("a")), is(true));
@@ -96,14 +96,14 @@ public class SimpleJmRecordTest {
 	@Test
 	@SuppressWarnings("unchecked")
 	public void test02_equals() throws Exception {
-		Map<EntityRef<? extends JmColumn>, ScriptString> map = Maps.newHashMap();
-		map.put(mock(EntityRef.class), new ScriptString("a"));
-		map.put(mock(EntityRef.class), new ScriptString("b"));
-		map.put(mock(EntityRef.class), new ScriptString("c"));
+		Map<UUIDEntityRef<? extends JmColumn>, ScriptString> map = Maps.newHashMap();
+		map.put(mock(UUIDEntityRef.class), new ScriptString("a"));
+		map.put(mock(UUIDEntityRef.class), new ScriptString("b"));
+		map.put(mock(UUIDEntityRef.class), new ScriptString("c"));
 		SimpleJmRecord model1 = new SimpleJmRecord(map);
 		SimpleJmRecord model2 = new SimpleJmRecord(map);
 		
-		map.put(mock(EntityRef.class), new ScriptString("d"));
+		map.put(mock(UUIDEntityRef.class), new ScriptString("d"));
 		
 		SimpleJmRecord model3 = new SimpleJmRecord(map);
 		

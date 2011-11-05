@@ -33,7 +33,7 @@ import com.google.common.collect.Maps;
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.model.DbObject;
 import org.jiemamy.model.column.JmColumn;
 import org.jiemamy.model.dataset.SimpleJmDataSet;
@@ -115,7 +115,7 @@ public class DefaultDatabaseMetadataParser implements DatabaseMetadataParser {
 					
 					public void handleResultSet(String sql, ResultSet rs) throws SQLException {
 						while (rs.next()) {
-							Map<EntityRef<? extends JmColumn>, ScriptString> map = Maps.newHashMap();
+							Map<UUIDEntityRef<? extends JmColumn>, ScriptString> map = Maps.newHashMap();
 							for (JmColumn col : table.getColumns()) {
 								String data = rs.getString(col.getName());
 								map.put(col.toReference(), new ScriptString(data));

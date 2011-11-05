@@ -25,8 +25,8 @@ import com.google.common.collect.Lists;
 
 import org.apache.commons.lang.Validate;
 
-import org.jiemamy.dddbase.DefaultEntityRef;
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.DefaultUUIDEntityRef;
+import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.dddbase.utils.CloneUtil;
 import org.jiemamy.dddbase.utils.MutationMonitor;
 import org.jiemamy.model.SimpleDbObject;
@@ -112,7 +112,7 @@ public final class SimpleJmIndex extends SimpleDbObject implements JmIndex {
 	}
 	
 	@Override
-	public EntityRef<? extends SimpleJmIndex> toReference() {
-		return new DefaultEntityRef<SimpleJmIndex>(this);
+	public UUIDEntityRef<? extends SimpleJmIndex> toReference() {
+		return new DefaultUUIDEntityRef<SimpleJmIndex>(this);
 	}
 }

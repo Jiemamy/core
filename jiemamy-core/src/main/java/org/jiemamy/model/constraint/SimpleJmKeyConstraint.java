@@ -25,8 +25,8 @@ import com.google.common.collect.Lists;
 
 import org.apache.commons.lang.Validate;
 
-import org.jiemamy.dddbase.DefaultEntityRef;
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.DefaultUUIDEntityRef;
+import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.dddbase.utils.CloneUtil;
 import org.jiemamy.dddbase.utils.MutationMonitor;
 import org.jiemamy.model.column.JmColumn;
@@ -39,7 +39,7 @@ import org.jiemamy.model.column.JmColumn;
 public abstract class SimpleJmKeyConstraint extends SimpleJmConstraint implements JmKeyConstraint {
 	
 	/** キー制約を構成するカラムのリスト */
-	private List<EntityRef<? extends JmColumn>> keyColumns = Lists.newArrayList();
+	private List<UUIDEntityRef<? extends JmColumn>> keyColumns = Lists.newArrayList();
 	
 
 	/**
@@ -58,7 +58,7 @@ public abstract class SimpleJmKeyConstraint extends SimpleJmConstraint implement
 	 * @param keyColumn キーカラム参照
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public void addKeyColumn(EntityRef<? extends JmColumn> keyColumn) {
+	public void addKeyColumn(UUIDEntityRef<? extends JmColumn> keyColumn) {
 		Validate.notNull(keyColumn);
 		keyColumns.add(keyColumn);
 	}
@@ -77,7 +77,7 @@ public abstract class SimpleJmKeyConstraint extends SimpleJmConstraint implement
 		return clone;
 	}
 	
-	public List<EntityRef<? extends JmColumn>> getKeyColumns() {
+	public List<UUIDEntityRef<? extends JmColumn>> getKeyColumns() {
 		return MutationMonitor.monitor(Lists.newArrayList(keyColumns));
 	}
 	
@@ -89,14 +89,14 @@ public abstract class SimpleJmKeyConstraint extends SimpleJmConstraint implement
 	 * @param keyColumn キーカラム参照
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public void removeKeyColumn(EntityRef<? extends JmColumn> keyColumn) {
+	public void removeKeyColumn(UUIDEntityRef<? extends JmColumn> keyColumn) {
 		Validate.notNull(keyColumn);
 		keyColumns.remove(keyColumn);
 	}
 	
 	@Override
-	public EntityRef<? extends SimpleJmKeyConstraint> toReference() {
-		return new DefaultEntityRef<SimpleJmKeyConstraint>(this);
+	public UUIDEntityRef<? extends SimpleJmKeyConstraint> toReference() {
+		return new DefaultUUIDEntityRef<SimpleJmKeyConstraint>(this);
 	}
 	
 	@Override

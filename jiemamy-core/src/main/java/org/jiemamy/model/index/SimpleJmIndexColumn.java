@@ -22,7 +22,7 @@ import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.model.column.JmColumn;
 
 /**
@@ -59,7 +59,7 @@ public final class SimpleJmIndexColumn implements JmIndexColumn {
 	
 
 	/** インデックス対象カラム */
-	private final EntityRef<? extends JmColumn> columnRef;
+	private final UUIDEntityRef<? extends JmColumn> columnRef;
 	
 	/** カラムソート方式 */
 	private final SortOrder sortOrder;
@@ -71,7 +71,7 @@ public final class SimpleJmIndexColumn implements JmIndexColumn {
 	 * @param columnRef インデックス対象カラム
 	 * @throws IllegalArgumentException 引数{@code columnRef}に{@code null}を与えた場合
 	 */
-	public SimpleJmIndexColumn(EntityRef<? extends JmColumn> columnRef) {
+	public SimpleJmIndexColumn(UUIDEntityRef<? extends JmColumn> columnRef) {
 		this(columnRef, null);
 	}
 	
@@ -82,7 +82,7 @@ public final class SimpleJmIndexColumn implements JmIndexColumn {
 	 * @param sortOrder カラムソート方式。無指定の場合は{@code null}
 	 * @throws IllegalArgumentException 引数{@code columnRef}に{@code null}を与えた場合
 	 */
-	public SimpleJmIndexColumn(EntityRef<? extends JmColumn> columnRef, SortOrder sortOrder) {
+	public SimpleJmIndexColumn(UUIDEntityRef<? extends JmColumn> columnRef, SortOrder sortOrder) {
 		Validate.notNull(columnRef);
 		this.columnRef = columnRef;
 		this.sortOrder = sortOrder;
@@ -113,7 +113,7 @@ public final class SimpleJmIndexColumn implements JmIndexColumn {
 		return true;
 	}
 	
-	public EntityRef<? extends JmColumn> getColumnRef() {
+	public UUIDEntityRef<? extends JmColumn> getColumnRef() {
 		assert columnRef != null;
 		return columnRef;
 	}

@@ -20,7 +20,7 @@ package org.jiemamy.model.index;
 
 import java.util.List;
 
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.model.DbObject;
 
 /**
@@ -59,5 +59,5 @@ public interface JmIndex extends DbObject {
 	 */
 	boolean isUnique();
 	
-	EntityRef<? extends JmIndex> toReference();
+	UUIDEntityRef<? extends JmIndex> toReference();
 }

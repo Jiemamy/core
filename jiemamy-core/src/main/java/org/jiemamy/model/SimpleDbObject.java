@@ -28,8 +28,8 @@ import org.apache.commons.lang.Validate;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.dddbase.AbstractEntity;
-import org.jiemamy.dddbase.DefaultEntityRef;
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.DefaultUUIDEntityRef;
+import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.model.parameter.ParameterKey;
 import org.jiemamy.model.parameter.ParameterMap;
 
@@ -38,7 +38,7 @@ import org.jiemamy.model.parameter.ParameterMap;
  * 
  * @author daisuke
  */
-public abstract class SimpleDbObject extends AbstractEntity implements DbObject {
+public abstract class SimpleDbObject extends AbstractEntity<UUID> implements DbObject {
 	
 	/** 物理名 */
 	private String name;
@@ -52,7 +52,7 @@ public abstract class SimpleDbObject extends AbstractEntity implements DbObject 
 	/** パラメータの一覧 */
 	protected ParameterMap params = new ParameterMap();
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 
@@ -158,8 +158,8 @@ public abstract class SimpleDbObject extends AbstractEntity implements DbObject 
 	}
 	
 	@Override
-	public EntityRef<? extends SimpleDbObject> toReference() {
-		return new DefaultEntityRef<SimpleDbObject>(this);
+	public UUIDEntityRef<? extends SimpleDbObject> toReference() {
+		return new DefaultUUIDEntityRef<SimpleDbObject>(this);
 	}
 	
 	@Override

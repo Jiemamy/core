@@ -18,7 +18,7 @@
  */
 package org.jiemamy.model.index;
 
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.dddbase.ValueObject;
 import org.jiemamy.model.column.JmColumn;
 
@@ -36,7 +36,7 @@ public interface JmIndexColumn extends ValueObject {
 	 * @return インデックス対象カラム
 	 * @since 0.3
 	 */
-	EntityRef<? extends JmColumn> getColumnRef();
+	UUIDEntityRef<? extends JmColumn> getColumnRef();
 	
 	/**
 	 * カラムソート方式を取得する。

@@ -19,9 +19,11 @@
 package org.jiemamy.transaction;
 
 import java.util.EventObject;
+import java.util.UUID;
 
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.Repository;
+import org.jiemamy.dddbase.UUIDEntity;
 
 /**
  * リポジトリの {@link Entity} が追加・変更・削除されたことを表すイベント。
@@ -35,13 +37,13 @@ import org.jiemamy.dddbase.Repository;
  * @author shin1ogawa
  */
 @SuppressWarnings("serial")
-public class StoredEvent<T extends Entity> extends EventObject {
+public class StoredEvent<T extends UUIDEntity> extends EventObject {
 	
 	private final T before;
 	
 	private final T after;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 
@@ -49,7 +51,7 @@ public class StoredEvent<T extends Entity> extends EventObject {
 	 * @param before 変更前の{@link Entity}（新規の場合は {@code null}）
 	 * @param after 変更後の{@link Entity}（削除の場合は {@code null}）
 	 */
-	public StoredEvent(Repository<T> source, T before, T after) {
+	public StoredEvent(Repository<T, UUID> source, T before, T after) {
 		super(source);
 		this.before = before;
 		this.after = after;
@@ -75,13 +77,12 @@ public class StoredEvent<T extends Entity> extends EventObject {
 	
 	@Override
 	@SuppressWarnings("unchecked")
-	public Repository<T> getSource() {
-		return (Repository<T>) super.getSource();
+	public Repository<T, UUID> getSource() {
+		return (Repository<T, UUID>) super.getSource();
 	}
 	
 	@Override
 	public String toString() {
 		return getClass().getName() + "[source=" + getSource().getClass() + "]";
 	}
-	
 }

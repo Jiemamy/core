@@ -22,8 +22,8 @@ import java.util.UUID;
 
 import org.apache.commons.lang.Validate;
 
-import org.jiemamy.dddbase.DefaultEntityRef;
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.DefaultUUIDEntityRef;
+import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.model.column.JmColumn;
 
 /**
@@ -75,8 +75,8 @@ public final class SimpleJmUniqueKeyConstraint extends SimpleJmLocalKeyConstrain
 	}
 	
 	@Override
-	public EntityRef<? extends SimpleJmUniqueKeyConstraint> toReference() {
-		return new DefaultEntityRef<SimpleJmUniqueKeyConstraint>(this);
+	public UUIDEntityRef<? extends SimpleJmUniqueKeyConstraint> toReference() {
+		return new DefaultUUIDEntityRef<SimpleJmUniqueKeyConstraint>(this);
 	}
 	
 	@Override

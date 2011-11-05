@@ -3,7 +3,7 @@
  * 
  * @author daisuke
  * @see org.jiemamy.dddbase.Entity
- * @see org.jiemamy.dddbase.EntityRef
+ * @see org.jiemamy.dddbase.UUIDEntityRef
  */
 package org.jiemamy.model.datatype;
 

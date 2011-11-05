@@ -43,10 +43,10 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.jiemamy.dddbase.DefaultEntityRef;
+import org.jiemamy.dddbase.DefaultUUIDEntityRef;
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityNotFoundException;
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.dialect.MockDialect;
 import org.jiemamy.model.DbObject;
 import org.jiemamy.model.column.JmColumn;
@@ -86,7 +86,7 @@ public class JiemamyContextTest {
 	
 	private static final UUID CID3 = UUIDUtil.valueOfOrRandom("cid3");
 	
-
+	
 	/**
 	 * 適当な {@link JiemamyContext} のインスタンスを作る。
 	 * 
@@ -134,7 +134,7 @@ public class JiemamyContextTest {
 		UUIDUtil.clear();
 	}
 	
-
+	
 	private JiemamyContext ctx1;
 	
 	private JiemamyContext ctx2;
@@ -155,7 +155,7 @@ public class JiemamyContextTest {
 	
 	private SimpleJmColumn c3;
 	
-
+	
 	/**
 	 * テストを初期化する。
 	 * 
@@ -538,21 +538,17 @@ public class JiemamyContextTest {
 		}
 	}
 	
-	/**
-	 * TODO for daisuke
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
 	@Test
-	public void test20b() throws Exception {
+	@SuppressWarnings("javadoc")
+	public void test20b() {
 		t1a.store(c1a);
 		t2.store(c2);
 		t3.store(c3);
 		
 		ctx1.store(t1a);
 		
-		assertThat(ctx1.resolve(TID1), is((Entity) t1a));
-		assertThat(ctx1.resolve(CID1), is((Entity) c1a));
+		assertThat(ctx1.resolve(TID1), is((Entity<UUID>) t1a));
+		assertThat(ctx1.resolve(CID1), is((Entity<UUID>) c1a));
 		
 		try {
 			ctx1.resolve(TID2);
@@ -580,13 +576,9 @@ public class JiemamyContextTest {
 		}
 	}
 	
-	/**
-	 * TODO for daisuke
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
 	@Test
-	public void test20c() throws Exception {
+	@SuppressWarnings("javadoc")
+	public void test20c() {
 		t1a.store(c1a);
 		t2.store(c2);
 		t3.store(c3);
@@ -632,12 +624,8 @@ public class JiemamyContextTest {
 		}
 	}
 	
-	/**
-	 * TODO for daisuke
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
 	@Test
+	@SuppressWarnings("javadoc")
 	public void test21() throws Exception {
 		SimpleJmMetadata meta = new SimpleJmMetadata();
 		meta.setDialectClassName(MockDialect.class.getName());
@@ -645,13 +633,9 @@ public class JiemamyContextTest {
 		assertThat(ctx1.findDialect(), is(instanceOf(MockDialect.class)));
 	}
 	
-	/**
-	 * TODO for daisuke
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
 	@Test
-	public void test31_double_add() throws Exception {
+	@SuppressWarnings("javadoc")
+	public void test31_double_add() {
 		JmTable table = spy(new SimpleJmTable());
 		
 		ctx1.store(table);
@@ -668,13 +652,9 @@ public class JiemamyContextTest {
 		}
 	}
 	
-	/**
-	 * TODO for daisuke
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
 	@Test
-	public void test32_double_add() throws Exception {
+	@SuppressWarnings("javadoc")
+	public void test32_double_add() {
 		JmTable table1 = new SimpleJmTable(ctx1.toUUID("a"));
 		JmTable table2 = new SimpleJmTable(ctx1.toUUID("a"));
 		
@@ -701,15 +681,11 @@ public class JiemamyContextTest {
 		}
 	}
 	
-	/**
-	 * TODO for daisuke
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
 	@Test
-	public void test34_get() throws Exception {
+	@SuppressWarnings("javadoc")
+	public void test34_get() {
 		UUID id = UUID.randomUUID();
-		DefaultEntityRef<JmTable> tableRef = new DefaultEntityRef<JmTable>(id);
+		DefaultUUIDEntityRef<JmTable> tableRef = new DefaultUUIDEntityRef<JmTable>(id);
 		
 		try {
 			ctx1.resolve(id);
@@ -728,17 +704,13 @@ public class JiemamyContextTest {
 		JmTable table = new SimpleJmTable(id);
 		ctx1.store(table);
 		
-		assertThat(ctx1.resolve(id), is((Entity) table));
-		assertThat(ctx1.resolve(tableRef), is((Entity) table));
+		assertThat(ctx1.resolve(id), is((Entity<UUID>) table));
+		assertThat(ctx1.resolve(tableRef), is((Entity<UUID>) table));
 	}
 	
-	/**
-	 * TODO for daisuke
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
 	@Test
-	public void test37_query() throws Exception {
+	@SuppressWarnings("javadoc")
+	public void test37_query() {
 		JmColumn b;
 		JmColumn c;
 		JmColumn d;
@@ -792,20 +764,16 @@ public class JiemamyContextTest {
 		// FORMAT-ON
 	}
 	
-	/**
-	 * TODO for daisuke
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
 	@Test
-	public void test38_() throws Exception {
+	@SuppressWarnings("javadoc")
+	public void test38_() {
 		SimpleJmColumn col1 = new JmColumnBuilder().name("KEY").build();
 		SimpleJmColumn col2 = new JmColumnBuilder().name("VALUE").build();
 		
 		SimpleJmTable table = new JmTableBuilder().name("T_PROPERTY").build();
 		table.store(col1);
 		table.store(col2);
-		List<EntityRef<? extends JmColumn>> pk = new ArrayList<EntityRef<? extends JmColumn>>();
+		List<UUIDEntityRef<? extends JmColumn>> pk = new ArrayList<UUIDEntityRef<? extends JmColumn>>();
 		pk.add(col1.toReference());
 		table.store(SimpleJmPrimaryKeyConstraint.of(pk));
 		ctx1.store(table);
@@ -814,13 +782,9 @@ public class JiemamyContextTest {
 		assertThat(table.getConstraints().size(), is(1));
 	}
 	
-	/**
-	 * TODO for daisuke
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
 	@Test
-	public void test39_() throws Exception {
+	@SuppressWarnings("javadoc")
+	public void test39_() {
 		JmColumn pkColumn;
 		// FORMAT-OFF
 		SimpleJmTable table = new JmTableBuilder().name("T_PROPERTY")
@@ -835,13 +799,9 @@ public class JiemamyContextTest {
 		assertThat(table.getConstraints().size(), is(1));
 	}
 	
-	/**
-	 * TODO for daisuke
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
 	@Test
-	public void test40_() throws Exception {
+	@SuppressWarnings("javadoc")
+	public void test40_() {
 		JmColumn pkColumn;
 		JmColumn fkColumn1;
 		JmColumn fkColumn2;
@@ -872,13 +832,9 @@ public class JiemamyContextTest {
 		assertThat(emp.getConstraints().size(), is(3));
 	}
 	
-	/**
-	 * TODO for daisuke
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
 	@Test
-	public void test41() throws Exception {
+	@SuppressWarnings("javadoc")
+	public void test41() {
 		SimpleJmTable t1 = new SimpleJmTable();
 		t1.setName("TBL");
 		ctx1.store(t1);
@@ -918,24 +874,16 @@ public class JiemamyContextTest {
 		assertThat(JiemamyContext.isDebug(), is(false));
 	}
 	
-	/**
-	 * TODO for daisuke
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
 	@Test
-	public void test43_toString() throws Exception {
+	@SuppressWarnings("javadoc")
+	public void test43_toString() {
 		assertThat(ctx1, hasToString(is("JiemamyContext@" + Integer.toHexString(System.identityHashCode(ctx1)))));
 		assertThat(ctx2, hasToString(is("JiemamyContext@" + Integer.toHexString(System.identityHashCode(ctx2)))));
 	}
 	
-	/**
-	 * TODO for daisuke
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
 	@Test
-	public void test44_uuid() throws Exception {
+	@SuppressWarnings("javadoc")
+	public void test44_uuid() {
 		// UUID化できるStringを与えた場合 → fromString生成
 		UUID uuid1 = ctx1.toUUID("ffffffff-ffff-ffff-ffff-ffffffffffff");
 		assertThat(uuid1, is(UUID.fromString("ffffffff-ffff-ffff-ffff-ffffffffffff")));
@@ -979,7 +927,6 @@ public class JiemamyContextTest {
 		JiemamySerializer serializer = JiemamyContext.findSerializer();
 		assertThat(serializer, is(instanceOf(JiemamyStaxSerializer.class)));
 		
-		// TODO
 //		String backup = JiemamyContext.getSerializerName();
 		try {
 			JiemamyContext.setSerializerName("xxx");

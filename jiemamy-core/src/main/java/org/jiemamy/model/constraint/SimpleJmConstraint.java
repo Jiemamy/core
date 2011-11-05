@@ -27,8 +27,8 @@ import com.google.common.collect.Iterables;
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.dddbase.AbstractEntity;
-import org.jiemamy.dddbase.DefaultEntityRef;
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.DefaultUUIDEntityRef;
+import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.model.table.JmTable;
 import org.jiemamy.model.table.TableNotFoundException;
 import org.jiemamy.model.table.TooManyTablesFoundException;
@@ -38,7 +38,7 @@ import org.jiemamy.model.table.TooManyTablesFoundException;
  * 
  * @author daisuke
  */
-public abstract class SimpleJmConstraint extends AbstractEntity implements JmConstraint {
+public abstract class SimpleJmConstraint extends AbstractEntity<UUID> implements JmConstraint {
 	
 	/** 物理名 */
 	private String name;
@@ -52,7 +52,7 @@ public abstract class SimpleJmConstraint extends AbstractEntity implements JmCon
 	/** 遅延評価可能性モデル */
 	private JmDeferrability deferrability;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 
@@ -141,8 +141,8 @@ public abstract class SimpleJmConstraint extends AbstractEntity implements JmCon
 	}
 	
 	@Override
-	public EntityRef<? extends SimpleJmConstraint> toReference() {
-		return new DefaultEntityRef<SimpleJmConstraint>(this);
+	public UUIDEntityRef<? extends SimpleJmConstraint> toReference() {
+		return new DefaultUUIDEntityRef<SimpleJmConstraint>(this);
 	}
 	
 	@Override

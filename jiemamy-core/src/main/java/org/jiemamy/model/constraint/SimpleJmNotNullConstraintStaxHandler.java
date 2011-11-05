@@ -27,8 +27,8 @@ import org.codehaus.staxmate.in.SMEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.jiemamy.dddbase.DefaultEntityRef;
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.DefaultUUIDEntityRef;
+import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.model.column.JmColumn;
 import org.jiemamy.model.table.SimpleJmTable;
 import org.jiemamy.serializer.SerializationException;
@@ -93,7 +93,7 @@ public final class SimpleJmNotNullConstraintStaxHandler extends StaxHandler<Simp
 						String strReferentId = childCursor.getAttrValue(CoreQName.REF);
 						assert strReferentId != null;
 						UUID referentId = dctx.getContext().toUUID(strReferentId);
-						EntityRef<JmColumn> columnRef = DefaultEntityRef.of(referentId);
+						UUIDEntityRef<JmColumn> columnRef = DefaultUUIDEntityRef.of(referentId);
 						notNull.setColumn(columnRef);
 					} else {
 						logger.warn("UNKNOWN ELEMENT: {}", childCursor.getQName().toString());
@@ -133,7 +133,7 @@ public final class SimpleJmNotNullConstraintStaxHandler extends StaxHandler<Simp
 			sctx.pop();
 			
 			JiemamyOutputElement colRefElement = element.addElement(CoreQName.COLUMN_REF);
-			EntityRef<? extends JmColumn> colRef = model.getColumn();
+			UUIDEntityRef<? extends JmColumn> colRef = model.getColumn();
 			if (colRef != null) {
 				colRefElement.addAttribute(CoreQName.REF, colRef.getReferentId());
 			} else {

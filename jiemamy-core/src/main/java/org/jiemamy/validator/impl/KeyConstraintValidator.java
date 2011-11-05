@@ -26,7 +26,7 @@ import com.google.common.collect.Lists;
 import org.apache.commons.lang.StringUtils;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.model.column.JmColumn;
 import org.jiemamy.model.constraint.JmKeyConstraint;
 import org.jiemamy.model.table.JmTable;
@@ -54,7 +54,7 @@ public class KeyConstraintValidator extends AbstractValidator {
 				if (keyConstraint.getKeyColumns().size() < 1) {
 					problems.add(new NoKeyColumnProblem(table, keyConstraint));
 				}
-				for (EntityRef<? extends JmColumn> columnRef : keyConstraint.getKeyColumns()) {
+				for (UUIDEntityRef<? extends JmColumn> columnRef : keyConstraint.getKeyColumns()) {
 					if (columnIds.contains(columnRef.getReferentId()) == false) {
 						problems.add(new IllegalKeyColumnRefProblem(columnRef, keyConstraint, table));
 					}
@@ -74,7 +74,7 @@ public class KeyConstraintValidator extends AbstractValidator {
 		 * @param keyConstraint 参照オブジェクトを保持するキー
 		 * @param table キーを保持するテーブル
 		 */
-		IllegalKeyColumnRefProblem(EntityRef<? extends JmColumn> columnRef, JmKeyConstraint keyConstraint, JmTable table) {
+		IllegalKeyColumnRefProblem(UUIDEntityRef<? extends JmColumn> columnRef, JmKeyConstraint keyConstraint, JmTable table) {
 			super(keyConstraint, "F0130", new Object[] {
 				table.getName(),
 				table.getId().toString(),

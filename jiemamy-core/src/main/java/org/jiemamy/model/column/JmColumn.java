@@ -18,8 +18,11 @@
  */
 package org.jiemamy.model.column;
 
-import org.jiemamy.dddbase.EntityRef;
+import java.util.UUID;
+
 import org.jiemamy.dddbase.OrderedEntity;
+import org.jiemamy.dddbase.UUIDEntity;
+import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.model.datatype.DataType;
 import org.jiemamy.model.parameter.ParameterMap;
 import org.jiemamy.model.table.JmTable;
@@ -34,7 +37,7 @@ import org.jiemamy.model.table.TooManyTablesFoundException;
  * @since 0.3
  * @author daisuke
  */
-public interface JmColumn extends OrderedEntity {
+public interface JmColumn extends OrderedEntity<UUID>, UUIDEntity {
 	
 	JmColumn clone();
 	
@@ -106,6 +109,6 @@ public interface JmColumn extends OrderedEntity {
 	 */
 	ParameterMap getParams();
 	
-	EntityRef<? extends JmColumn> toReference();
+	UUIDEntityRef<? extends JmColumn> toReference();
 	
 }

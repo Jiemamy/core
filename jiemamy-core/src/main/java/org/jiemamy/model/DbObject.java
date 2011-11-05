@@ -21,8 +21,8 @@ package org.jiemamy.model;
 import java.util.Set;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.dddbase.Entity;
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.UUIDEntity;
+import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.model.parameter.ParameterKey;
 import org.jiemamy.model.parameter.ParameterMap;
 
@@ -34,7 +34,7 @@ import org.jiemamy.model.parameter.ParameterMap;
  * @since 0.3
  * @author daisuke
  */
-public interface DbObject extends Entity {
+public interface DbObject extends UUIDEntity {
 	
 	DbObject clone();
 	
@@ -107,5 +107,5 @@ public interface DbObject extends Entity {
 	 */
 	boolean isSubDbObjectsNonRecursiveOf(DbObject target, JiemamyContext context);
 	
-	EntityRef<? extends DbObject> toReference();
+	UUIDEntityRef<? extends DbObject> toReference();
 }

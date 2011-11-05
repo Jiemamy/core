@@ -27,8 +27,8 @@ import com.google.common.collect.Iterables;
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.dddbase.AbstractOrderedEntity;
-import org.jiemamy.dddbase.DefaultEntityRef;
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.DefaultUUIDEntityRef;
+import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.model.datatype.DataType;
 import org.jiemamy.model.parameter.ParameterMap;
 import org.jiemamy.model.table.JmTable;
@@ -40,7 +40,7 @@ import org.jiemamy.model.table.TooManyTablesFoundException;
  * 
  * @author daisuke
  */
-public final class SimpleJmColumn extends AbstractOrderedEntity implements JmColumn {
+public final class SimpleJmColumn extends AbstractOrderedEntity<UUID> implements JmColumn {
 	
 	/** 物理名 */
 	private String name;
@@ -59,7 +59,7 @@ public final class SimpleJmColumn extends AbstractOrderedEntity implements JmCol
 	
 	private ParameterMap params = new ParameterMap();
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 
@@ -209,8 +209,8 @@ public final class SimpleJmColumn extends AbstractOrderedEntity implements JmCol
 	}
 	
 	@Override
-	public EntityRef<? extends SimpleJmColumn> toReference() {
-		return new DefaultEntityRef<SimpleJmColumn>(this);
+	public UUIDEntityRef<? extends SimpleJmColumn> toReference() {
+		return new DefaultUUIDEntityRef<SimpleJmColumn>(this);
 	}
 	
 	@Override

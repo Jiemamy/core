@@ -24,11 +24,12 @@ import java.util.UUID;
 
 import org.apache.commons.lang.Validate;
 
-import org.jiemamy.dddbase.DefaultEntityRef;
+import org.jiemamy.dddbase.DefaultUUIDEntityRef;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.EntityResolver;
 import org.jiemamy.dddbase.OnMemoryRepository;
 import org.jiemamy.dddbase.RepositoryException;
+import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.model.SimpleDbObject;
 import org.jiemamy.model.constraint.JmCheckConstraint;
 import org.jiemamy.model.datatype.DataType;
@@ -47,7 +48,8 @@ public final class SimpleJmDomain extends SimpleDbObject implements JmDomain {
 	/** ドメインとして定義された型記述子 */
 	private DataType dataType;
 	
-	private OnMemoryRepository<JmCheckConstraint> checkConstraints = new OnMemoryRepository<JmCheckConstraint>();
+	private OnMemoryRepository<JmCheckConstraint, UUID> checkConstraints =
+			new OnMemoryRepository<JmCheckConstraint, UUID>();
 	
 	private boolean notNull;
 	
@@ -88,7 +90,7 @@ public final class SimpleJmDomain extends SimpleDbObject implements JmDomain {
 		throw new UnsupportedOperationException();
 	}
 	
-	public RawTypeDescriptor asType(EntityResolver resolver) {
+	public RawTypeDescriptor asType(EntityResolver<UUID> resolver) {
 		return new DomainType(this, resolver);
 	}
 	
@@ -159,8 +161,8 @@ public final class SimpleJmDomain extends SimpleDbObject implements JmDomain {
 	}
 	
 	@Override
-	public EntityRef<? extends SimpleJmDomain> toReference() {
-		return new DefaultEntityRef<SimpleJmDomain>(this);
+	public UUIDEntityRef<? extends SimpleJmDomain> toReference() {
+		return new DefaultUUIDEntityRef<SimpleJmDomain>(this);
 	}
 	
 	/**
@@ -182,10 +184,9 @@ public final class SimpleJmDomain extends SimpleDbObject implements JmDomain {
 	 * @version $Id$
 	 * @author daisuke
 	 */
-	// FindBugsの警告は無視。このクラスでのequalsメソッドは独自に定義する必要がなくDefaultEntityRefのequalsメソッドと動作が同じため。
-	public static final class DomainType extends DefaultEntityRef<JmDomain> implements RawTypeDescriptor {
+	public static final class DomainType extends DefaultUUIDEntityRef<JmDomain> implements RawTypeDescriptor {
 		
-		private final EntityResolver resolver;
+		private final EntityResolver<UUID> resolver;
 		
 		
 		/**
@@ -193,11 +194,27 @@ public final class SimpleJmDomain extends SimpleDbObject implements JmDomain {
 		 * 
 		 * @param domain 参照するドメイン
 		 * @param resolver 参照のドメインをインスタンスを解決する {@code resolver}
+		 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 		 */
-		DomainType(SimpleJmDomain domain, EntityResolver resolver) {
+		DomainType(SimpleJmDomain domain, EntityResolver<UUID> resolver) {
 			super(domain);
 			Validate.notNull(resolver);
 			this.resolver = resolver;
+		}
+		
+		@Override
+		@SuppressWarnings("unchecked")
+		public boolean equals(Object obj) {
+			if (this == obj) {
+				return true;
+			}
+			if (obj == null) {
+				return false;
+			}
+			if (obj instanceof EntityRef == false) {
+				return false;
+			}
+			return getReferentId().equals(((EntityRef<JmDomain, UUID>) obj).getReferentId());
 		}
 		
 		public Collection<String> getAliasTypeNames() {
@@ -242,13 +259,18 @@ public final class SimpleJmDomain extends SimpleDbObject implements JmDomain {
 			return resolveRef().getDataType().getRawTypeDescriptor();
 		}
 		
+		@Override
+		public int hashCode() {
+			return getReferentId().hashCode();
+		}
+		
 		private JmDomain resolveRef() {
 			try {
-				return resolver.resolve(this);
+				JmDomain resolved = resolver.resolve(this);
+				return resolved;
 			} catch (RepositoryException e) {
 				throw new IllegalStateException("can not resolve JmDomain Ref " + getReferentId(), e);
 			}
 		}
 	}
-	
 }

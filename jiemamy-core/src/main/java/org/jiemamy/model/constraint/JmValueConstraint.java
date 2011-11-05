@@ -18,7 +18,7 @@
  */
 package org.jiemamy.model.constraint;
 
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.UUIDEntityRef;
 
 /**
  * 値に対する単純な制約を表す制約モデル。
@@ -34,6 +34,6 @@ public interface JmValueConstraint extends JmConstraint {
 	
 	JmValueConstraint clone();
 	
-	EntityRef<? extends JmValueConstraint> toReference();
+	UUIDEntityRef<? extends JmValueConstraint> toReference();
 	
 }

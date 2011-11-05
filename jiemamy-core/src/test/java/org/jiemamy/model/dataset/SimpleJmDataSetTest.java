@@ -35,7 +35,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.model.column.JmColumn;
 import org.jiemamy.model.column.JmColumnBuilder;
 import org.jiemamy.model.datatype.RawTypeCategory;
@@ -110,7 +110,7 @@ public class SimpleJmDataSetTest {
 	@Test
 	public void test01_データを追加して維持されていることを確認() throws Exception {
 		SimpleJmDataSet dataSet = new SimpleJmDataSet();
-		Map<EntityRef<? extends JmColumn>, ScriptString> map = Maps.newHashMap();
+		Map<UUIDEntityRef<? extends JmColumn>, ScriptString> map = Maps.newHashMap();
 		dataSet.setName("hogehoge");
 		
 		assertThat(dataSet.getRecords().size(), is(0));

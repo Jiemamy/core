@@ -20,8 +20,8 @@ package org.jiemamy.model.constraint;
 
 import java.util.UUID;
 
-import org.jiemamy.dddbase.DefaultEntityRef;
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.DefaultUUIDEntityRef;
+import org.jiemamy.dddbase.UUIDEntityRef;
 
 /**
  * {@link JmLocalKeyConstraint}のデフォルト抽象実装クラス。
@@ -48,7 +48,7 @@ public abstract class SimpleJmLocalKeyConstraint extends SimpleJmKeyConstraint i
 	}
 	
 	@Override
-	public EntityRef<? extends SimpleJmLocalKeyConstraint> toReference() {
-		return new DefaultEntityRef<SimpleJmLocalKeyConstraint>(this);
+	public UUIDEntityRef<? extends SimpleJmLocalKeyConstraint> toReference() {
+		return new DefaultUUIDEntityRef<SimpleJmLocalKeyConstraint>(this);
 	}
 }

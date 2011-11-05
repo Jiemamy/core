@@ -20,8 +20,8 @@ package org.jiemamy.model.constraint;
 
 import java.util.UUID;
 
-import org.jiemamy.dddbase.DefaultEntityRef;
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.DefaultUUIDEntityRef;
+import org.jiemamy.dddbase.UUIDEntityRef;
 
 /**
  * {@link JmValueConstraint}のデフォルト抽象実装クラス。
@@ -48,7 +48,7 @@ public abstract class SimpleJmValueConstraint extends SimpleJmConstraint impleme
 	}
 	
 	@Override
-	public EntityRef<? extends SimpleJmValueConstraint> toReference() {
-		return new DefaultEntityRef<SimpleJmValueConstraint>(this);
+	public UUIDEntityRef<? extends SimpleJmValueConstraint> toReference() {
+		return new DefaultUUIDEntityRef<SimpleJmValueConstraint>(this);
 	}
 }

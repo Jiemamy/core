@@ -39,7 +39,7 @@ import org.slf4j.LoggerFactory;
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.SqlFacet;
 import org.jiemamy.composer.exporter.SimpleSqlExportConfig;
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.model.column.JmColumn;
 import org.jiemamy.model.column.JmColumnBuilder;
 import org.jiemamy.model.column.SimpleJmColumn;
@@ -305,7 +305,7 @@ public class DefaultSqlEmitterTest {
 		SimpleJmDataSet dataSet1 = new SimpleJmDataSet();
 		dataSet1.setName("type-1");
 		List<JmRecord> records1 = Lists.newArrayList();
-		Map<EntityRef<? extends JmColumn>, ScriptString> values1 = Maps.newHashMap();
+		Map<UUIDEntityRef<? extends JmColumn>, ScriptString> values1 = Maps.newHashMap();
 		values1.put(colFoo.toReference(), new ScriptString("1"));
 		values1.put(colBar.toReference(), new ScriptString("one"));
 		values1.put(colBaz.toReference(), new ScriptString("2011-01-25 09:22:01"));
@@ -320,7 +320,7 @@ public class DefaultSqlEmitterTest {
 		SimpleJmDataSet dataSet2 = new SimpleJmDataSet();
 		dataSet2.setName("type-2");
 		List<JmRecord> records2 = Lists.newArrayList();
-		Map<EntityRef<? extends JmColumn>, ScriptString> values2 = Maps.newHashMap();
+		Map<UUIDEntityRef<? extends JmColumn>, ScriptString> values2 = Maps.newHashMap();
 		values2.put(colFoo.toReference(), new ScriptString("3"));
 		values2.put(colBar.toReference(), new ScriptString("three"));
 		values2.put(colBaz.toReference(), new ScriptString("2011-02-17 09:34:40"));

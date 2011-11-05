@@ -28,8 +28,8 @@ import org.codehaus.staxmate.in.SMEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.jiemamy.dddbase.DefaultEntityRef;
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.DefaultUUIDEntityRef;
+import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.model.DbObject;
 import org.jiemamy.script.PlainScriptEngine;
 import org.jiemamy.script.ScriptString;
@@ -55,7 +55,7 @@ public final class SimpleJmAroundScriptStaxHandler extends StaxHandler<SimpleJmA
 	
 	private static Logger logger = LoggerFactory.getLogger(SimpleJmAroundScriptStaxHandler.class);
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 
@@ -88,7 +88,7 @@ public final class SimpleJmAroundScriptStaxHandler extends StaxHandler<SimpleJmA
 					if (childCursor.isQName(SqlQName.CORE)) {
 						String coreIdString = childCursor.getAttrValue(CoreQName.REF);
 						UUID coreId = UUIDUtil.valueOfOrRandom(coreIdString);
-						EntityRef<? extends DbObject> core = DefaultEntityRef.of(coreId);
+						UUIDEntityRef<? extends DbObject> core = DefaultUUIDEntityRef.of(coreId);
 						aroundScript.setCoreModelRef(core);
 					} else if (childCursor.isQName(SqlQName.SCRIPT)) {
 						Position position = childCursor.getAttrEnumValue(SqlQName.POSITION, Position.class);

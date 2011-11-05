@@ -26,6 +26,9 @@ import java.util.UUID;
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.EntityResolver;
+import org.jiemamy.dddbase.HierarchicalEntity;
+import org.jiemamy.dddbase.UUIDEntity;
+import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.model.DbObject;
 import org.jiemamy.model.column.JmColumn;
 import org.jiemamy.model.constraint.JmConstraint;
@@ -42,7 +45,7 @@ import org.jiemamy.model.parameter.ParameterMap;
  * 
  * @author daisuke
  */
-public interface JmTable extends DbObject, EntityResolver {
+public interface JmTable extends DbObject, HierarchicalEntity<UUID>, EntityResolver<UUID> {
 	
 	JmTable clone();
 	
@@ -56,16 +59,6 @@ public interface JmTable extends DbObject, EntityResolver {
 	JmKeyConstraint findReferencedKeyConstraint(JmForeignKeyConstraint foreignKey);
 	
 	/**
-	 * このテーブルのカラムのうち、{@code reference}で示したカラムを返す。
-	 * 
-	 * @param reference カラム参照
-	 * @return カラム
-	 * @throws ColumnNotFoundException カラムが見つからなかった場合
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 */
-	JmColumn getColumn(EntityRef<? extends JmColumn> reference);
-	
-	/**
 	 * このテーブルのカラムのうち、{@code name}で示した名前を持つカラムを返す。
 	 * 
 	 * @param name カラム名
@@ -73,6 +66,16 @@ public interface JmTable extends DbObject, EntityResolver {
 	 * @throws ColumnNotFoundException カラムが見つからなかった場合
 	 */
 	JmColumn getColumn(String name);
+	
+	/**
+	 * このテーブルのカラムのうち、{@code reference}で示したカラムを返す。
+	 * 
+	 * @param reference カラム参照
+	 * @return カラム
+	 * @throws ColumnNotFoundException カラムが見つからなかった場合
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	JmColumn getColumn(UUIDEntityRef<? extends JmColumn> reference);
 	
 	/**
 	 * このテーブルが持つカラムの {@link List} を返す。
@@ -130,7 +133,7 @@ public interface JmTable extends DbObject, EntityResolver {
 	 * @return NOT NULL制約。無い場合は{@code null}
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	JmNotNullConstraint getNotNullConstraintFor(EntityRef<? extends JmColumn> reference);
+	JmNotNullConstraint getNotNullConstraintFor(UUIDEntityRef<? extends JmColumn> reference);
 	
 	/**
 	 * キーに対応するパラメータの値を取得する。
@@ -164,7 +167,7 @@ public interface JmTable extends DbObject, EntityResolver {
 	 * @param reference カラム参照
 	 * @return 制約を受けている場合は{@code true}、そうでない場合は{@code false}
 	 */
-	boolean isNotNullColumn(EntityRef<? extends JmColumn> reference);
+	boolean isNotNullColumn(UUIDEntityRef<? extends JmColumn> reference);
 	
 	/**
 	 * 指定したカラムがこのテーブルの主キーカラムを構成しているかどうか調べる。
@@ -174,12 +177,12 @@ public interface JmTable extends DbObject, EntityResolver {
 	 * @param reference カラム参照
 	 * @return このテーブルの主キーカラムを構成している場合は{@code true}、そうでない場合は{@code false}
 	 */
-	boolean isPrimaryKeyColumn(EntityRef<? extends JmColumn> reference);
+	boolean isPrimaryKeyColumn(UUIDEntityRef<? extends JmColumn> reference);
 	
-	<E extends Entity>E resolve(EntityRef<E> reference);
+	<E extends Entity<UUID>>E resolve(EntityRef<E, UUID> ref);
 	
-	Entity resolve(UUID id);
+	UUIDEntity resolve(UUID id);
 	
-	EntityRef<? extends JmTable> toReference();
+	UUIDEntityRef<? extends JmTable> toReference();
 	
 }

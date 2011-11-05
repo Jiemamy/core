@@ -19,8 +19,8 @@ package org.jiemamy.model;
 import java.util.UUID;
 
 import org.jiemamy.dddbase.AbstractEntity;
-import org.jiemamy.dddbase.DefaultEntityRef;
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.DefaultUUIDEntityRef;
+import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.model.geometory.JmColor;
 import org.jiemamy.model.geometory.JmRectangle;
 
@@ -31,13 +31,13 @@ import org.jiemamy.model.geometory.JmRectangle;
  * @version $Id$
  * @author daisuke
  */
-public abstract class SimpleJmNode extends AbstractEntity implements JmNode {
+public abstract class SimpleJmNode extends AbstractEntity<UUID> implements JmNode {
 	
 	private JmRectangle boundary;
 	
 	private JmColor color;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 
@@ -80,8 +80,8 @@ public abstract class SimpleJmNode extends AbstractEntity implements JmNode {
 	}
 	
 	@Override
-	public EntityRef<? extends SimpleJmNode> toReference() {
-		return new DefaultEntityRef<SimpleJmNode>(this);
+	public UUIDEntityRef<? extends SimpleJmNode> toReference() {
+		return new DefaultUUIDEntityRef<SimpleJmNode>(this);
 	}
 	
 	@Override

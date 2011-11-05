@@ -26,6 +26,8 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertThat;
 
+import java.util.UUID;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -50,7 +52,7 @@ public class SqlFacetTest {
 	
 	private SqlFacet facet;
 	
-
+	
 	/**
 	 * テストを初期化する。
 	 * 
@@ -111,16 +113,16 @@ public class SqlFacetTest {
 		
 		assertThat(facet.getAroundScriptFor(table2.toReference()), is(nullValue()));
 		
-		// SqlFacet#resolve(EntityRef) で取り出せる
+		// SqlFacet#resolve(UUIDEntityRef) で取り出せる
 		SimpleJmAroundScript asm3 = facet.resolve(asm.toReference());
 		assertThat(asm3, is(equalTo((JmAroundScript) asm)));
 		assertThat(asm3, is(not(sameInstance((JmAroundScript) asm))));
 		assertThat(asm3, is(not(sameInstance(asm2))));
 		
 		// SqlFacet#resolve(UUID) で取り出せる
-		Entity asm4 = facet.resolve(asm.getId());
-		assertThat(asm4, is(equalTo((Entity) asm)));
-		assertThat(asm4, is(not(sameInstance((Entity) asm))));
+		Entity<UUID> asm4 = facet.resolve(asm.getId());
+		assertThat(asm4, is(equalTo((Entity<UUID>) asm)));
+		assertThat(asm4, is(not(sameInstance((Entity<UUID>) asm))));
 		
 		assertThat(facet.getAroundScripts().size(), is(1));
 		facet.deleteScript(asm.toReference());

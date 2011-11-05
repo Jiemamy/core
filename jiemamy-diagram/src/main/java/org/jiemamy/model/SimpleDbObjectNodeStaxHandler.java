@@ -27,8 +27,8 @@ import org.codehaus.staxmate.in.SMEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.jiemamy.dddbase.DefaultEntityRef;
-import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.DefaultUUIDEntityRef;
+import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.model.geometory.JmColor;
 import org.jiemamy.model.geometory.JmRectangle;
 import org.jiemamy.serializer.SerializationException;
@@ -53,7 +53,7 @@ public final class SimpleDbObjectNodeStaxHandler extends StaxHandler<SimpleDbObj
 	
 	private static Logger logger = LoggerFactory.getLogger(SimpleDbObjectNodeStaxHandler.class);
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 
@@ -75,7 +75,7 @@ public final class SimpleDbObjectNodeStaxHandler extends StaxHandler<SimpleDbObj
 			
 			String idString = cursor.getAttrValue(CoreQName.ID);
 			UUID id = dctx.getContext().toUUID(idString);
-			EntityRef<? extends DbObject> core = null;
+			UUIDEntityRef<? extends DbObject> core = null;
 			JmRectangle boundary = null;
 			JmColor color = null;
 			
@@ -87,7 +87,7 @@ public final class SimpleDbObjectNodeStaxHandler extends StaxHandler<SimpleDbObj
 					if (childCursor.isQName(DiagramQName.CORE)) {
 						String coreIdString = childCursor.getAttrValue(CoreQName.REF);
 						UUID coreId = UUIDUtil.valueOfOrRandom(coreIdString);
-						core = DefaultEntityRef.of(coreId);
+						core = DefaultUUIDEntityRef.of(coreId);
 					} else if (childCursor.isQName(DiagramQName.BOUNDARY)) {
 						boundary = getDirector().direct(dctx);
 					} else if (childCursor.isQName(DiagramQName.COLOR)) {
