@@ -43,7 +43,7 @@ public interface JmDeferrability extends ValueObject {
 	 */
 	boolean isDeferrable();
 	
-
+	
 	/**
 	 * 制約検査を行うデフォルトの時期。
 	 * 
@@ -54,7 +54,7 @@ public interface JmDeferrability extends ValueObject {
 		
 		/** 各文の実行後に検査 */
 		IMMEDIATE,
-
+		
 		/** トランザクションの終了時にのみ検査 */
 		DEFERRED;
 	}

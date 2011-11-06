@@ -32,7 +32,7 @@ public class DefaultSqlFormatter implements SqlFormatter {
 	/** 空白文字 */
 	public static final String WHITESPACE = " ";
 	
-
+	
 	/**
 	 * トークンがセパレータかどうか調べる。{@code null}だった場合は無条件で{@code true}を返す。
 	 * 

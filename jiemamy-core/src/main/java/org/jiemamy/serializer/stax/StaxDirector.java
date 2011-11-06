@@ -83,7 +83,7 @@ public class StaxDirector {
 	
 	final DummyHandler dummy;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

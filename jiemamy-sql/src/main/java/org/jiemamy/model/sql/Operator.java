@@ -31,14 +31,14 @@ public enum Operator implements Token {
 	
 	/** IS 演算子 */
 	IS("IS"),
-
+	
 	/** NOT 演算子 */
 	NOT("NOT");
 	
 	/** 演算子の文字列表現 */
 	private final String string;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

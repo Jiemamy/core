@@ -61,7 +61,7 @@ public class ConstraintComparator implements Comparator<JmConstraint> {
 		ORDER = ImmutableList.copyOf(order);
 	}
 	
-
+	
 	private static int getOrder(Class<?>[] interfaces) {
 		for (Class<?> interf : interfaces) {
 			int index = ORDER.indexOf(interf);

@@ -58,7 +58,7 @@ public final class JmRectangle implements Serializable {
 	 */
 	public final int height;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

@@ -64,7 +64,7 @@ public class KeyConstraintValidator extends AbstractValidator {
 		return problems;
 	}
 	
-
+	
 	static class IllegalKeyColumnRefProblem extends AbstractProblem {
 		
 		/**
@@ -74,7 +74,8 @@ public class KeyConstraintValidator extends AbstractValidator {
 		 * @param keyConstraint 参照オブジェクトを保持するキー
 		 * @param table キーを保持するテーブル
 		 */
-		IllegalKeyColumnRefProblem(UUIDEntityRef<? extends JmColumn> columnRef, JmKeyConstraint keyConstraint, JmTable table) {
+		IllegalKeyColumnRefProblem(UUIDEntityRef<? extends JmColumn> columnRef, JmKeyConstraint keyConstraint,
+				JmTable table) {
 			super(keyConstraint, "F0130", new Object[] {
 				table.getName(),
 				table.getId().toString(),

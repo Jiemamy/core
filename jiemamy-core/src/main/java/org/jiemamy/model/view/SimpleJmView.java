@@ -39,7 +39,7 @@ public final class SimpleJmView extends SimpleDbObject implements JmView {
 	/** VIEW定義SELECT文 */
 	private String definition;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

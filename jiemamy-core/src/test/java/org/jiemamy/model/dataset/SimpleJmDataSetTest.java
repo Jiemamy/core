@@ -74,12 +74,12 @@ public class SimpleJmDataSetTest {
 		return model;
 	}
 	
-
+	
 	private SimpleJmTable hoge;
 	
 	private SimpleJmTable fuga;
 	
-
+	
 	/**
 	 * テストを初期化する。
 	 * 

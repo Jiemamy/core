@@ -42,7 +42,7 @@ public class DiagramTestModelBuilder extends CoreTestModelBuilder {
 	
 	private static final int OFFSET = 50;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 */

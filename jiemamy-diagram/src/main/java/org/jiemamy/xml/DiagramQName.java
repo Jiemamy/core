@@ -30,58 +30,58 @@ public enum DiagramQName implements JiemamyQName {
 	
 	/***/
 	DIAGRAMS(DiagramNamespace.NS_DIAGRAM, "diagrams"),
-
+	
 	/***/
 	DIAGRAM(DiagramNamespace.NS_DIAGRAM, "diagram"),
-
+	
 	/***/
 	NAME(DiagramNamespace.NS_DIAGRAM, "name"),
-
+	
 	/***/
 	NODE(DiagramNamespace.NS_DIAGRAM, "node"),
-
+	
 	/***/
 	BOUNDARY(DiagramNamespace.NS_DIAGRAM, "boundary"),
-
+	
 	/***/
 	HEIGHT(DiagramNamespace.NONE, "height"),
-
+	
 	/***/
 	WIDTH(DiagramNamespace.NONE, "width"),
-
+	
 	/***/
 	X(DiagramNamespace.NONE, "x"),
-
+	
 	/***/
 	Y(DiagramNamespace.NONE, "y"),
-
+	
 	/***/
 	COLOR(DiagramNamespace.NS_DIAGRAM, "color"),
-
+	
 	/***/
 	R(DiagramNamespace.NONE, "red"),
-
+	
 	/***/
 	G(DiagramNamespace.NONE, "green"),
-
+	
 	/***/
 	B(DiagramNamespace.NONE, "blue"),
-
+	
 	/***/
 	CORE(DiagramNamespace.NS_DIAGRAM, "core"),
-
+	
 	/***/
 	CONNECTION(DiagramNamespace.NS_DIAGRAM, "connection"),
-
+	
 	/***/
 	SOURCE(DiagramNamespace.NS_DIAGRAM, "source"),
-
+	
 	/***/
 	TARGET(DiagramNamespace.NS_DIAGRAM, "target"),
-
+	
 	/***/
 	NODES(DiagramNamespace.NS_DIAGRAM, "nodes"),
-
+	
 	/***/
 	CONNECTIONS(DiagramNamespace.NS_DIAGRAM, "connections"),
 //
@@ -99,7 +99,7 @@ public enum DiagramQName implements JiemamyQName {
 	
 	/***/
 	CONTENTS(DiagramNamespace.NS_DIAGRAM, "contents"),
-
+	
 //	/***/
 //	CONNECTION_PROFILES(DiagramNamespace.NS_DIAGRAM, "connectionProfiles"),
 //
@@ -111,20 +111,20 @@ public enum DiagramQName implements JiemamyQName {
 	
 	/***/
 	BENDPOINTS(DiagramNamespace.NS_DIAGRAM, "bendpoints"),
-
+	
 	/***/
 	BENDPOINT(DiagramNamespace.NS_DIAGRAM, "bendpoint"),
-
+	
 	/***/
 	MODE(DiagramNamespace.NS_DIAGRAM, "mode"),
-
+	
 	/***/
 	LEVEL(DiagramNamespace.NS_DIAGRAM, "level");
 	
 	/** XML仕様における完全修飾名 */
 	private final QName qName;
 	
-
+	
 	DiagramQName(JiemamyNamespace namespace, String localPart) {
 		qName = new QName(namespace.getNamespaceURI().toString(), localPart, namespace.getPrefix());
 	}

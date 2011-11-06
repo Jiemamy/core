@@ -65,7 +65,7 @@ public class NotNullConstraintValidator extends AbstractValidator {
 		return problems;
 	}
 	
-
+	
 	static class NullTargetProblem extends AbstractProblem {
 		
 		/**

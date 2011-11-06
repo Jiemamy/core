@@ -43,7 +43,7 @@ public class JiemamyOutputContainer {
 	
 	final SMOutputContainer container;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

@@ -76,7 +76,7 @@ public class DbImporter extends AbstractImporter<DbImportConfig> {
 	/** ConfigKey: importするエンティティの種類 (String[]) */
 	public static final String ENTITY_TYPES = "entityTypes";
 	
-
+	
 	public String getName() {
 		return "Database Importer (core)";
 	}

@@ -49,7 +49,7 @@ public class DbObjectNameCollisionValidatorTest {
 	/** テスト対象の問題 */
 	private DbObjectNameCollisionValidator.DbObjectNameCollisionProblem problem;
 	
-
+	
 	/**
 	 * テストを初期化する。
 	 * 

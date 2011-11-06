@@ -47,7 +47,7 @@ public class DefaultForeignKeyImportVisitor extends AbstractCollectionVisitor<Ke
 	
 	private Map<String, SimpleJmForeignKeyConstraint> importedForeignKeys = Maps.newHashMap();
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

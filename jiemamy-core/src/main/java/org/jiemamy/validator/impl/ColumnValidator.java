@@ -61,7 +61,7 @@ public class ColumnValidator extends AbstractValidator {
 		return problems;
 	}
 	
-
+	
 	static class EmptyColumnNameProblem extends AbstractProblem {
 		
 		/**

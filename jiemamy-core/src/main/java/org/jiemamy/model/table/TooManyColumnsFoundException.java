@@ -35,7 +35,7 @@ public class TooManyColumnsFoundException extends ModelConsistencyException {
 	
 	private final Collection<JmColumn> columns;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

@@ -47,11 +47,11 @@ public final class SimpleJmNotNullConstraint extends SimpleJmValueConstraint imp
 		return model;
 	}
 	
-
+	
 	/** 対象カラム参照 */
 	private UUIDEntityRef<? extends JmColumn> column;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

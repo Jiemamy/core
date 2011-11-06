@@ -53,7 +53,7 @@ public final class SimpleJmDiagramStaxHandler extends StaxHandler<SimpleJmDiagra
 	
 	private static Logger logger = LoggerFactory.getLogger(SimpleJmDiagramStaxHandler.class);
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

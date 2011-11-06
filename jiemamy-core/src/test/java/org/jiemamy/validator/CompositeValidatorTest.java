@@ -44,7 +44,7 @@ public class CompositeValidatorTest {
 	
 	private CompositeValidator validator;
 	
-
+	
 	/**
 	 * テストを初期化する。
 	 * 
@@ -87,7 +87,7 @@ public class CompositeValidatorTest {
 		assertThat(m.get(Severity.WARN).size(), is(2));
 	}
 	
-
+	
 	private static class MockProblem1 extends AbstractProblem {
 		
 		MockProblem1(String string) {

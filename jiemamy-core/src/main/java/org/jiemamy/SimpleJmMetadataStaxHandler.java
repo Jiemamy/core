@@ -45,7 +45,7 @@ public final class SimpleJmMetadataStaxHandler extends StaxHandler<SimpleJmMetad
 	
 	private static Logger logger = LoggerFactory.getLogger(SimpleJmMetadataStaxHandler.class);
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

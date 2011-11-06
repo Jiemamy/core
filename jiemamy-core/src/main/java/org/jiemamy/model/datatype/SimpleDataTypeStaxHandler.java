@@ -55,7 +55,7 @@ public final class SimpleDataTypeStaxHandler extends StaxHandler<SimpleDataType>
 	
 	private static Logger logger = LoggerFactory.getLogger(SimpleDataTypeStaxHandler.class);
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

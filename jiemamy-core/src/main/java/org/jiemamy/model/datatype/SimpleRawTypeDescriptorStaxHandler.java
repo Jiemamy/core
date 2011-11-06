@@ -50,7 +50,7 @@ public final class SimpleRawTypeDescriptorStaxHandler extends StaxHandler<Simple
 	
 	private static Logger logger = LoggerFactory.getLogger(SimpleRawTypeDescriptorStaxHandler.class);
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

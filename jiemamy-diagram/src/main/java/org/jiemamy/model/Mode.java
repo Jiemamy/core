@@ -28,7 +28,7 @@ public enum Mode {
 	
 	/**　物理モデルモード　*/
 	PHYSICAL,
-
+	
 	/** 論理モデルモード */
 	LOGICAL,
 	

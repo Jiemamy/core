@@ -61,7 +61,7 @@ public class ForeignKeyValidator extends AbstractValidator {
 		return problems;
 	}
 	
-
+	
 	static class ReferenceKeyProblem extends AbstractProblem {
 		
 		/**

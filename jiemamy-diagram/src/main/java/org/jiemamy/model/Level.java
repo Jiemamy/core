@@ -28,13 +28,13 @@ public enum Level {
 	
 	/** エンティティレベル */
 	ENTITY,
-
+	
 	/** 識別子レベル */
 	KEY,
-
+	
 	/** 属性レベル */
 	ATTR,
-
+	
 	/** 属性+型レベル */
 	ATTRTYPE
 }

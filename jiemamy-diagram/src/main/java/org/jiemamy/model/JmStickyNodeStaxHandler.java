@@ -50,7 +50,7 @@ public final class JmStickyNodeStaxHandler extends StaxHandler<JmStickyNode> {
 	
 	private static Logger logger = LoggerFactory.getLogger(JmStickyNodeStaxHandler.class);
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

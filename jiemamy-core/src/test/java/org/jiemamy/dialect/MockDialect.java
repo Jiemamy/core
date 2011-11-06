@@ -71,7 +71,7 @@ public class MockDialect extends AbstractDialect {
 	
 	private Validator validator = new StandardValidator();
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 */

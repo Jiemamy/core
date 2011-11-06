@@ -65,10 +65,10 @@ public class SimpleDataTypeTest {
 		return typeVariant;
 	}
 	
-
+	
 	private SimpleDataType typeVariant;
 	
-
+	
 	/**
 	 * テストを初期化する。
 	 * 

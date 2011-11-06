@@ -172,12 +172,12 @@ public class VersionTest {
 		}
 	}
 	
-
+	
 	private static final class OtherVersionImpl extends Version {
 		
 		Version delegate;
 		
-
+		
 		OtherVersionImpl(int major, int minor, int release, boolean snapshot) {
 			super(0, 0, 0, false);
 			delegate = new Version(major, minor, release, snapshot);

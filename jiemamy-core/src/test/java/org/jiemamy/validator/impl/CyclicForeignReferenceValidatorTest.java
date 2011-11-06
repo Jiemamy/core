@@ -61,7 +61,7 @@ public class CyclicForeignReferenceValidatorTest {
 	
 	private CyclicForeignReferenceValidator validator;
 	
-
+	
 	/**
 	 * テストを初期化する。
 	 * 

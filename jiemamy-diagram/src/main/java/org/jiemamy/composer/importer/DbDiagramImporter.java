@@ -52,7 +52,7 @@ public class DbDiagramImporter extends DbImporter {
 	
 	private static Logger logger = LoggerFactory.getLogger(DbDiagramImporter.class);
 	
-
+	
 	@Override
 	public String getName() {
 		return "Database Importer";
@@ -76,7 +76,7 @@ public class DbDiagramImporter extends DbImporter {
 		return importCompleted;
 	}
 	
-
+	
 	private static class StoredEventListenerImpl implements StoredEventListener {
 		
 		private static final int DELTA = 50;
@@ -89,7 +89,7 @@ public class DbDiagramImporter extends DbImporter {
 		
 		private Collection<JmForeignKeyConstraint> fks = Sets.newHashSet();
 		
-
+		
 		StoredEventListenerImpl(JiemamyContext context) {
 			Validate.notNull(context);
 			this.context = context;

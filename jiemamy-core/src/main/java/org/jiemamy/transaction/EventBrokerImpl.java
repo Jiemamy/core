@@ -48,7 +48,7 @@ public class EventBrokerImpl implements EventBroker {
 	
 	private Map<StoredEventListener, DispatchStrategy> strategies = Maps.newHashMap();
 	
-
+	
 	public void addListener(StoredEventListener listener) {
 		Validate.notNull(listener);
 		listeners.add(listener);
@@ -110,7 +110,7 @@ public class EventBrokerImpl implements EventBroker {
 		this.strategy = strategy;
 	}
 	
-
+	
 	static class DefaultDispatchStrategy implements DispatchStrategy {
 		
 		public boolean needToDispatch(StoredEventListener listener, StoredEvent<?> command) {

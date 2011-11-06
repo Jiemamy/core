@@ -34,7 +34,7 @@ public class IntegerConverterTest {
 	
 	private IntegerConverter converter;
 	
-
+	
 	/**
 	 * テストを初期化する。
 	 * 

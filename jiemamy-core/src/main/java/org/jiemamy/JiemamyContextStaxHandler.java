@@ -56,7 +56,7 @@ public final class JiemamyContextStaxHandler extends StaxHandler<JiemamyContext>
 	
 	private static Logger logger = LoggerFactory.getLogger(JiemamyContextStaxHandler.class);
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

@@ -30,7 +30,7 @@ public abstract class AbstractTestModelBuilder implements TestModelBuilder {
 	
 	private static final String DIALECT_CLASS_NAME = GenericDialect.class.getName();
 	
-
+	
 	public JiemamyContext build() {
 		return build(DIALECT_CLASS_NAME);
 	}

@@ -123,10 +123,10 @@ public class SimpleJmTableTest {
 		return model;
 	}
 	
-
+	
 	private JiemamyContext ctx;
 	
-
+	
 	/**
 	 * テストを初期化する。
 	 * 

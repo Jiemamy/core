@@ -58,7 +58,7 @@ public class SimpleJmTableStaxHandlerTest extends AbstractStaxHandlerTest {
 	
 	private SimpleJmTableStaxHandler handler;
 	
-
+	
 	/**
 	 * テストを初期化する。
 	 * 

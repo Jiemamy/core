@@ -44,7 +44,7 @@ public final class ParameterMap implements Iterable<Map.Entry<String, String>>, 
 	
 	/* final */HashMap<String, String> map = Maps.newHashMap();
 	
-
+	
 	@Override
 	public ParameterMap clone() {
 		try {

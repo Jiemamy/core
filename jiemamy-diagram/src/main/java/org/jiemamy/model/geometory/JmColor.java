@@ -35,7 +35,7 @@ public final class JmColor implements Serializable {
 	
 	private static final int MIN = 0;
 	
-
+	
 	/**
 	 * 文字列から{@link JmColor}を取得する。
 	 * 
@@ -56,7 +56,7 @@ public final class JmColor implements Serializable {
 		return new JmColor(red, green, blue);
 	}
 	
-
+	
 	/** 赤 */
 	public final int red;
 	
@@ -66,7 +66,7 @@ public final class JmColor implements Serializable {
 	/** 青 */
 	public final int blue;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

@@ -37,14 +37,14 @@ public enum CoreNamespace implements JiemamyNamespace {
 	
 	/** XML Schema */
 	NS_XSD("xsd", "http://www.w3.org/2001/XMLSchema", ""),
-
+	
 	/** XML Schema instance */
 	NS_XSI("xsi", "http://www.w3.org/2001/XMLSchema-instance", ""),
-
+	
 	/** Jiemamy core specifications */
 	NS_CORE("", "http://jiemamy.org/xml/ns/core", "http://schema.jiemamy.org/xml/"
 			+ JiemamyContext.getVersion().toString() + "/jiemamy-core.xsd"),
-
+	
 	/**  */
 	NONE("", "", "");
 	
@@ -56,7 +56,7 @@ public enum CoreNamespace implements JiemamyNamespace {
 	
 	private final String xmlSchemaLocation;
 	
-
+	
 	CoreNamespace(String prefix, String namespaceURI, String xmlSchemaLocation) {
 		this.prefix = prefix;
 		try {

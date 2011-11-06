@@ -153,7 +153,7 @@ public class Keyword implements Token {
 	/** WHERE */
 	public static final Keyword WHERE = new Keyword("WHERE");
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 
@@ -164,11 +164,11 @@ public class Keyword implements Token {
 		return new Keyword(keyword);
 	}
 	
-
+	
 	/** キーワード文字列 */
 	private final String string;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

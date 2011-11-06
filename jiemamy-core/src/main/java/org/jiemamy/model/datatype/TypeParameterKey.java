@@ -48,7 +48,7 @@ public class TypeParameterKey<T> extends ParameterKey<T> {
 	public static final TypeParameterKey<Boolean> WITH_TIMEZONE = new TypeParameterKey<Boolean>(Converters.BOOLEAN,
 			"with_timezone");
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

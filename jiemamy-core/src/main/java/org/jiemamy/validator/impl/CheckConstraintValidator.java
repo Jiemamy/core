@@ -76,7 +76,7 @@ public class CheckConstraintValidator extends AbstractValidator {
 		}
 	}
 	
-
+	
 	static class EmptyExpressionProblem extends AbstractProblem {
 		
 		/**

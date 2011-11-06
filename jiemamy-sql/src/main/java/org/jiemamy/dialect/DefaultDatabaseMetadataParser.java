@@ -59,7 +59,7 @@ public class DefaultDatabaseMetadataParser implements DatabaseMetadataParser {
 	/** DBから外部キー情報をインポートするビジター */
 	private final ForeignKeyImportVisitor foreignKeyImportVisitor;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

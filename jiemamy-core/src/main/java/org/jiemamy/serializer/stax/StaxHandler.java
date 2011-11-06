@@ -35,7 +35,7 @@ public abstract class StaxHandler<T> {
 	
 	private final StaxDirector director;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

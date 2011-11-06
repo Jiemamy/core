@@ -48,7 +48,7 @@ public final class DiagramFacetStaxHandler extends StaxHandler<DiagramFacet> {
 	
 	private static Logger logger = LoggerFactory.getLogger(DiagramFacetStaxHandler.class);
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

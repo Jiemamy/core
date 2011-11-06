@@ -42,7 +42,7 @@ public class SimpleJmForeignKeyConstraintTest {
 	
 	private JiemamyContext ctx;
 	
-
+	
 	/**
 	 * テストを初期化する。
 	 * 

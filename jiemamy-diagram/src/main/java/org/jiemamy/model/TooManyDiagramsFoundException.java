@@ -29,7 +29,7 @@ public class TooManyDiagramsFoundException extends ModelConsistencyException {
 	
 	private final Iterable<JmDiagram> diagrams;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

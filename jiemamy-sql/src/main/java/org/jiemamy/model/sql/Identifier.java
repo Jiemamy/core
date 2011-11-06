@@ -37,11 +37,11 @@ public class Identifier implements Token {
 		return new Identifier(string);
 	}
 	
-
+	
 	/** 識別子文字列 */
 	private final String identifier;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

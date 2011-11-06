@@ -42,7 +42,7 @@ public final class DbObjectDependencyCalculator {
 	
 	private static final Validator VALIDATOR = new CyclicForeignReferenceValidator();
 	
-
+	
 	/**
 	 * {@link DbObject}を、依存度の低い順に並べ替えたリストを取得します。
 	 * 

@@ -90,7 +90,8 @@ public final class SimpleJmDataSet extends AbstractOrderedEntity<UUID> implement
 	public synchronized SimpleJmDataSet clone() {
 		SimpleJmDataSet clone = (SimpleJmDataSet) super.clone();
 		
-		Map<UUIDEntityRef<? extends JmTable>, List<JmRecord>> cloneMap = Maps.newHashMapWithExpectedSize(records.size());
+		Map<UUIDEntityRef<? extends JmTable>, List<JmRecord>> cloneMap =
+				Maps.newHashMapWithExpectedSize(records.size());
 		for (Entry<UUIDEntityRef<? extends JmTable>, List<JmRecord>> entry : records.entrySet()) {
 			List<JmRecord> value = entry.getValue();
 			cloneMap.put(entry.getKey(), CloneUtil.cloneValueArrayList(value));

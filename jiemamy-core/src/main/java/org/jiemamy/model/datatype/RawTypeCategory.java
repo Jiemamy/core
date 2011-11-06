@@ -29,61 +29,61 @@ public enum RawTypeCategory {
 	
 	/** CHARACTER型 */
 	CHARACTER(Types.CHAR, LiteralType.CHARACTER),
-
+	
 	/** VARCHAR型 */
 	VARCHAR(Types.VARCHAR, LiteralType.CHARACTER),
-
+	
 	/** CLOB型 */
 	CLOB(Types.CLOB, LiteralType.CHARACTER),
-
+	
 	/** BLOB型 */
 	BLOB(Types.BLOB, LiteralType.CHARACTER),
-
+	
 	/** BIT型 */
 	BIT(Types.BIT, LiteralType.CHARACTER),
-
+	
 	/** VARBIT型 */
 	VARBIT(Types.OTHER, LiteralType.CHARACTER),
-
+	
 	/** NUMERIC型 */
 	NUMERIC(Types.NUMERIC, LiteralType.NUMERIC),
-
+	
 	/** DECIMAL型 */
 	DECIMAL(Types.DECIMAL, LiteralType.NUMERIC),
-
+	
 	/** INTEGER型 */
 	INTEGER(Types.INTEGER, LiteralType.NUMERIC),
-
+	
 	/** SMALLINT型 */
 	SMALLINT(Types.SMALLINT, LiteralType.NUMERIC),
-
+	
 	/** FLOAT型 */
 	FLOAT(Types.FLOAT, LiteralType.NUMERIC),
-
+	
 	/** REAL型 */
 	REAL(Types.REAL, LiteralType.NUMERIC),
-
+	
 	/** DOUBLE型 */
 	DOUBLE(Types.DOUBLE, LiteralType.NUMERIC),
-
+	
 	/** BOOLEAN型 */
 	BOOLEAN(Types.BOOLEAN, LiteralType.BOOLEAN),
-
+	
 	/** DATE型 */
 	DATE(Types.DATE, LiteralType.DATE),
-
+	
 	/** TIME型 */
 	TIME(Types.TIME, LiteralType.TIME),
-
+	
 	/** TIMESTAMP型 */
 	TIMESTAMP(Types.TIMESTAMP, LiteralType.TIMESTAMP),
-
+	
 	/** INTERVAL型 */
 	INTERVAL(Types.OTHER, LiteralType.INTERVAL),
-
+	
 	/** その他型 */
 	OTHER(Types.OTHER, LiteralType.CHARACTER),
-
+	
 	/***/
 	UNKNOWN(Types.OTHER, LiteralType.NULL);
 	
@@ -103,12 +103,12 @@ public enum RawTypeCategory {
 		return OTHER;
 	}
 	
-
+	
 	private LiteralType literalType;
 	
 	private final int sqlType;
 	
-
+	
 	RawTypeCategory(int sqlType, LiteralType literalType) {
 		assert literalType != null;
 		this.sqlType = sqlType;

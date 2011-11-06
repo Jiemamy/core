@@ -66,7 +66,7 @@ final class ModelUtil {
 	private ModelUtil() {
 	}
 	
-
+	
 	/**
 	 * {@link SimpleJmRecord}インスタンスのビルダクラス。
 	 * 
@@ -77,7 +77,7 @@ final class ModelUtil {
 		
 		private HashMap<UUIDEntityRef<? extends JmColumn>, ScriptString> map;
 		
-
+		
 		private RecordBuilder() {
 			map = Maps.newHashMap();
 		}

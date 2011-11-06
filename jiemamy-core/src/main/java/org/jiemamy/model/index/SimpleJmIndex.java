@@ -44,7 +44,7 @@ public final class SimpleJmIndex extends SimpleDbObject implements JmIndex {
 	/** インデックスカラムのリスト */
 	private List<JmIndexColumn> indexColumns = Lists.newArrayList();
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

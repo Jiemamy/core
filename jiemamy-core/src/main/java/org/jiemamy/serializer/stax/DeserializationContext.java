@@ -37,7 +37,7 @@ public class DeserializationContext {
 	
 	private final JiemamyContext context;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

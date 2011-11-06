@@ -28,7 +28,7 @@ public enum Position {
 	
 	/** 開始スクリプト */
 	BEGIN,
-
+	
 	/** 終了スクリプト */
 	END
 }

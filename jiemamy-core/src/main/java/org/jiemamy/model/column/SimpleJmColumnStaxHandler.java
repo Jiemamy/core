@@ -55,7 +55,7 @@ public final class SimpleJmColumnStaxHandler extends StaxHandler<SimpleJmColumn>
 	
 	private static Logger logger = LoggerFactory.getLogger(SimpleJmColumnStaxHandler.class);
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

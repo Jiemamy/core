@@ -27,22 +27,22 @@ public enum Separator implements Token {
 	
 	/** セミコロン */
 	SEMICOLON(";"),
-
+	
 	/** カンマ */
 	COMMA(","),
-
+	
 	/** 左括弧 */
 	LEFT_PAREN("("),
-
+	
 	/** 右括弧 */
 	RIGHT_PAREN(")"),
-
+	
 	/** イコール */
 	EQUAL("=");
 	
 	private final String string;
 	
-
+	
 	Separator(String string) {
 		this.string = string;
 	}

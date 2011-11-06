@@ -30,23 +30,23 @@ public enum SqlQName implements JiemamyQName {
 	
 	/***/
 	SQLS(SqlNamespace.NS_SQL, "sqls"),
-
+	
 	/***/
 	AROUND_SCRIPT(SqlNamespace.NS_SQL, "aroundScript"),
-
+	
 	/***/
 	CORE(SqlNamespace.NS_SQL, "core"),
-
+	
 	/***/
 	SCRIPT(SqlNamespace.NS_SQL, "script"),
-
+	
 	/***/
 	POSITION(SqlNamespace.NONE, "position");
 	
 	/** XML仕様における完全修飾名 */
 	private final QName qName;
 	
-
+	
 	SqlQName(JiemamyNamespace namespace, String localPart) {
 		qName = new QName(namespace.getNamespaceURI().toString(), localPart, namespace.getPrefix());
 	}

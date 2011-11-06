@@ -59,7 +59,7 @@ public final class SimpleJmTableStaxHandler extends StaxHandler<SimpleJmTable> {
 	
 	private static Logger logger = LoggerFactory.getLogger(SimpleJmTableStaxHandler.class);
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

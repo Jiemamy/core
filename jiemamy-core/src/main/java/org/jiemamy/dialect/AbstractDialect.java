@@ -50,7 +50,7 @@ public abstract class AbstractDialect implements Dialect {
 	
 	private final List<Entry> typeEntries;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 
@@ -140,7 +140,7 @@ public abstract class AbstractDialect implements Dialect {
 		return SimpleRawTypeDescriptor.UNKNOWN;
 	}
 	
-
+	
 	/**
 	 * 型エントリ。
 	 * 
@@ -153,7 +153,7 @@ public abstract class AbstractDialect implements Dialect {
 		
 		private final Map<TypeParameterKey<?>, Necessity> typeParameterSpecs;
 		
-
+		
 		/**
 		 * インスタンスを生成する。
 		 * 

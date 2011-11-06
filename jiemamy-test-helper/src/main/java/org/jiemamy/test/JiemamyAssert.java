@@ -33,7 +33,7 @@ public class JiemamyAssert {
 	
 	private static final int ALLOCATE_SIZE = 65536;
 	
-
+	
 	/**
 	 * GCを発生させ、指定した弱参照が解放されることを表明する。
 	 * 

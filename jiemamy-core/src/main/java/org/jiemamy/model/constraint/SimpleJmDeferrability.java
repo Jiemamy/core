@@ -30,13 +30,13 @@ public enum SimpleJmDeferrability implements JmDeferrability {
 	
 	/** 遅延評価不可であることを表す */
 	INDEFERRABLE(false, null),
-
+	
 	/** 遅延評価可能であることを表す */
 	DEFERRABLE(true, null),
-
+	
 	/** 遅延評価可能であるが、基本的に即時評価であることを表す */
 	DEFERRABLE_IMMEDIATE(true, InitiallyCheckTime.IMMEDIATE),
-
+	
 	/** 遅延評価可能であり、基本的に遅延評価であることを表す。 */
 	DEFERRABLE_DEFERRED(true, InitiallyCheckTime.DEFERRED);
 	
@@ -80,7 +80,7 @@ public enum SimpleJmDeferrability implements JmDeferrability {
 		return INDEFERRABLE;
 	}
 	
-
+	
 	/**
 	 * 遅延評価可能性
 	 * 
@@ -96,7 +96,7 @@ public enum SimpleJmDeferrability implements JmDeferrability {
 	 */
 	private final InitiallyCheckTime initiallyCheckTime;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

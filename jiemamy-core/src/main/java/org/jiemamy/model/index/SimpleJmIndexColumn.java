@@ -57,14 +57,14 @@ public final class SimpleJmIndexColumn implements JmIndexColumn {
 		return new SimpleJmIndexColumn(column.toReference(), sortOrder);
 	}
 	
-
+	
 	/** インデックス対象カラム */
 	private final UUIDEntityRef<? extends JmColumn> columnRef;
 	
 	/** カラムソート方式 */
 	private final SortOrder sortOrder;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

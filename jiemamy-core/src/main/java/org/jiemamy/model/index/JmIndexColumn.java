@@ -46,7 +46,7 @@ public interface JmIndexColumn extends ValueObject {
 	 */
 	SortOrder getSortOrder();
 	
-
+	
 	/**
 	 * ソート順を表す列挙型。
 	 * 
@@ -57,7 +57,7 @@ public interface JmIndexColumn extends ValueObject {
 		
 		/** 昇順ソート */
 		ASC,
-
+		
 		/** 降順ソート */
 		DESC
 	}

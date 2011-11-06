@@ -35,7 +35,7 @@ public class DbObjectParameter<T> extends ParameterKey<T> {
 	public static final DbObjectParameter<Boolean> DISABLED = new DbObjectParameter<Boolean>(Converters.BOOLEAN,
 			"disabled");
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

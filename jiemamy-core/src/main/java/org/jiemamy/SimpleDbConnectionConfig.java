@@ -42,7 +42,7 @@ public class SimpleDbConnectionConfig implements DbConnectionConfig {
 	/** 接続ユーザ名 */
 	private String username;
 	
-
+	
 	public String getDriverClassName() {
 		return driverClassName;
 	}

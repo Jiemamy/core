@@ -38,7 +38,7 @@ public abstract class AbstractFileExportConfig implements FileExportConfig {
 	/** 出力先ファイルが既に存在した場合、上書きするかどうか */
 	private boolean overwrite;
 	
-
+	
 	public File getOutputFile() {
 		return outputFile;
 	}

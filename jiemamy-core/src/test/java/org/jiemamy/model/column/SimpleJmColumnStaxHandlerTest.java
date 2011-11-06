@@ -54,7 +54,7 @@ public class SimpleJmColumnStaxHandlerTest extends AbstractStaxHandlerTest {
 	
 	private SimpleJmColumnStaxHandler handler;
 	
-
+	
 	/**
 	 * テストを初期化する。
 	 * 

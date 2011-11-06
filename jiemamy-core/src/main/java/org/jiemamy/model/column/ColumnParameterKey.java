@@ -35,7 +35,7 @@ public final class ColumnParameterKey<T> extends ParameterKey<T> {
 	public static final ColumnParameterKey<Boolean> DISABLED = new ColumnParameterKey<Boolean>(Converters.BOOLEAN,
 			"disabled");
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

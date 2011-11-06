@@ -65,7 +65,7 @@ public class JiemamyStaxSerializerSqlTest {
 	
 	private static Logger logger = LoggerFactory.getLogger(JiemamyStaxSerializerSqlTest.class);
 	
-
+	
 	/**
 	 * テストを初期化する。
 	 * 

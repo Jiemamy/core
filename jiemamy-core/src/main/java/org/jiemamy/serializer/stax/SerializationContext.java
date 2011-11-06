@@ -43,7 +43,7 @@ public class SerializationContext {
 	
 	private UUIDEntityRef<? extends JmTable> currentTableRef;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

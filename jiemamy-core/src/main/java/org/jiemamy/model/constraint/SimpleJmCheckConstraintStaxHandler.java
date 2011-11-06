@@ -47,7 +47,7 @@ public class SimpleJmCheckConstraintStaxHandler extends StaxHandler<SimpleJmChec
 	
 	private static Logger logger = LoggerFactory.getLogger(SimpleJmCheckConstraintStaxHandler.class);
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

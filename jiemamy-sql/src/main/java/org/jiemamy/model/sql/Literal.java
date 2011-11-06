@@ -40,7 +40,7 @@ public class Literal implements Token {
 	/** FALSE */
 	public static final Literal FALSE = new Literal(false);
 	
-
+	
 	/**
 	 * リテラルインスタンスを取得する。
 	 * 
@@ -91,11 +91,11 @@ public class Literal implements Token {
 		return new Literal(string, type);
 	}
 	
-
+	
 	/** 必要な場合クオートも含んだ文字列 */
 	private final String string;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

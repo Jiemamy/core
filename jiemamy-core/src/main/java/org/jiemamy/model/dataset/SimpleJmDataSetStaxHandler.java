@@ -56,7 +56,7 @@ public final class SimpleJmDataSetStaxHandler extends StaxHandler<SimpleJmDataSe
 	
 	private static Logger logger = LoggerFactory.getLogger(SimpleJmDataSetStaxHandler.class);
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

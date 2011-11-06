@@ -92,7 +92,7 @@ public final class Validators {
 		TableValidator
 	};
 	
-
+	
 	// CHECKSTYLE:ON
 	
 	/**

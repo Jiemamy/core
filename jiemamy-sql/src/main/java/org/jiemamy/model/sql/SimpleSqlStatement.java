@@ -35,7 +35,7 @@ public class SimpleSqlStatement implements SqlStatement {
 	/** トークンのリスト */
 	private final List<Token> tokens;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

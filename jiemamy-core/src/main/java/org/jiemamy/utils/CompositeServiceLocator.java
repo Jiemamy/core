@@ -32,7 +32,7 @@ public class CompositeServiceLocator implements ServiceLocator {
 	
 	private final ServiceLocator[] locators;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

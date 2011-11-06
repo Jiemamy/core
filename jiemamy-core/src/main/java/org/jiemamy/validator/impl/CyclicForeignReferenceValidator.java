@@ -58,7 +58,7 @@ public class CyclicForeignReferenceValidator extends AbstractValidator {
 		return problems;
 	}
 	
-
+	
 	static class CyclicForeignReferenceProblem extends AbstractProblem {
 		
 		/**

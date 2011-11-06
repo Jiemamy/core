@@ -34,7 +34,7 @@ public class JiemamyNamespaceContext implements NamespaceContext {
 	
 	private JiemamyNamespace[] namespaces;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

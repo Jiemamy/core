@@ -70,7 +70,7 @@ public class IndexValidator extends AbstractValidator {
 		return result;
 	}
 	
-
+	
 	static class DuplicatedIndexColumnsProblem extends AbstractProblem {
 		
 		/**

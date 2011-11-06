@@ -40,7 +40,7 @@ public class AbstractIdentifierValidatorTest {
 	
 	private AbstractIdentifierValidator validator;
 	
-
+	
 	/**
 	 * テストを初期化する。
 	 * 
@@ -82,7 +82,7 @@ public class AbstractIdentifierValidatorTest {
 		assertThat(validator.collectProblem(null, "RESERVED3", new ArrayList<Problem>(), false), is(0));
 	}
 	
-
+	
 	private static class IdentifierValidatorMock extends AbstractIdentifierValidator {
 		
 		/**
@@ -96,7 +96,7 @@ public class AbstractIdentifierValidatorTest {
 					"RESERVED2"
 				};
 				
-
+				
 				public boolean isReserved(String name) {
 					return ArrayUtils.contains(array, name);
 				}

@@ -42,7 +42,7 @@ public final class ScriptString {
 	
 	private ScriptEngine scriptEngine;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

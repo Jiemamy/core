@@ -43,7 +43,7 @@ public class SimpleDbImportConfig extends SimpleDbConnectionConfig implements Db
 	/** テーブルのコンテンツをデータセットとしてインポートするかどうか */
 	private boolean importDataSet;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 */

@@ -40,7 +40,7 @@ public class NamingUtilTest {
 	
 	private SimpleJmTable t1;
 	
-
+	
 	/**
 	 * テストを初期化する。
 	 * 

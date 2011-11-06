@@ -41,7 +41,7 @@ public class SimpleDbImportConfigTest {
 	
 	private SimpleDbImportConfig config;
 	
-
+	
 	/**
 	 * テストを初期化する。
 	 * 

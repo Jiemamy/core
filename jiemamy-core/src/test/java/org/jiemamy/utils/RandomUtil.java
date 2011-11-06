@@ -49,7 +49,7 @@ public final class RandomUtil {
 		"thud"
 	};
 	
-
+	
 	/**
 	 * 乱数を用いて {@link Boolean} を生成する。
 	 * 

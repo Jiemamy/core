@@ -40,7 +40,7 @@ public class SimpleSqlExportConfigTest {
 	
 	private SimpleSqlExportConfig config;
 	
-
+	
 	/**
 	 * テストを初期化する。
 	 * 

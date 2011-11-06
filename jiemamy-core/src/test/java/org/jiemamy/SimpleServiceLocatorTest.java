@@ -45,7 +45,7 @@ public class SimpleServiceLocatorTest {
 	
 	private SimpleServiceLocator serviceLocator;
 	
-
+	
 	/**
 	 * テストを初期化する。
 	 * 

@@ -46,7 +46,7 @@ public final class SimpleJmRecord implements JmRecord {
 	/** カラムに対応するデータ */
 	private final Map<UUIDEntityRef<? extends JmColumn>, ScriptString> values;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 
@@ -91,7 +91,8 @@ public final class SimpleJmRecord implements JmRecord {
 		Validate.notNull(context);
 		Validate.notNull(tableRef);
 		final JmTable table = context.resolve(tableRef);
-		Map<UUIDEntityRef<? extends JmColumn>, ScriptString> sortedMap = Maps.newTreeMap(new ColumnOrderComparator(table));
+		Map<UUIDEntityRef<? extends JmColumn>, ScriptString> sortedMap =
+				Maps.newTreeMap(new ColumnOrderComparator(table));
 		sortedMap.putAll(values);
 		return sortedMap.entrySet();
 	}
@@ -101,12 +102,12 @@ public final class SimpleJmRecord implements JmRecord {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 	
-
+	
 	private static class ColumnOrderComparator implements Comparator<UUIDEntityRef<? extends JmColumn>> {
 		
 		private final JmTable table;
 		
-
+		
 		/**
 		 * インスタンスを生成する。
 		 * 

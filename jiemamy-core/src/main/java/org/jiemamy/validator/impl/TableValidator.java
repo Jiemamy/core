@@ -58,7 +58,7 @@ public class TableValidator extends AbstractValidator {
 		return problems;
 	}
 	
-
+	
 	static class EmptyTableNameProblem extends AbstractProblem {
 		
 		/**

@@ -38,7 +38,7 @@ public class SimpleDbConnectionConfigTest {
 	
 	private SimpleDbConnectionConfig config;
 	
-
+	
 	/**
 	 * テストを初期化する。
 	 * 

@@ -67,7 +67,7 @@ public final class GenericDialect extends AbstractDialect {
 	
 	private Validator validator = new StandardValidator();
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 */

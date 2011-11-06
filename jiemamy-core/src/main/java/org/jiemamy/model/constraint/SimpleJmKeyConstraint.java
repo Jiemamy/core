@@ -41,7 +41,7 @@ public abstract class SimpleJmKeyConstraint extends SimpleJmConstraint implement
 	/** キー制約を構成するカラムのリスト */
 	private List<UUIDEntityRef<? extends JmColumn>> keyColumns = Lists.newArrayList();
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

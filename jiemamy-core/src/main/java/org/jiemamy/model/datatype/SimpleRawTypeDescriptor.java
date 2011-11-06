@@ -59,20 +59,20 @@ public final class SimpleRawTypeDescriptor implements RawTypeDescriptor {
 		}
 	};
 	
-
+	
 	private static <T>T notNull(T object) {
 		Validate.notNull(object);
 		return object;
 	}
 	
-
+	
 	private String typeName;
 	
 	private RawTypeCategory category;
 	
 	private final String[] aliasTypeNames;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

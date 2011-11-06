@@ -32,7 +32,7 @@ public class DummyHandler extends StaxHandler<Object> {
 	
 	private static Logger logger = LoggerFactory.getLogger(DummyHandler.class);
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

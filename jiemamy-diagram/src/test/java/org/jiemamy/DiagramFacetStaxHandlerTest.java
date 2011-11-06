@@ -58,7 +58,7 @@ public class DiagramFacetStaxHandlerTest extends AbstractStaxHandlerTest {
 	
 	private JiemamyContext context;
 	
-
+	
 	/**
 	 * テストを初期化する。
 	 * 

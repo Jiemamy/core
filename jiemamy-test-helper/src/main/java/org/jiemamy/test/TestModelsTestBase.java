@@ -31,7 +31,7 @@ public abstract class TestModelsTestBase {
 	
 	private static Logger logger = LoggerFactory.getLogger(TestModelsTestBase.class);
 	
-
+	
 	/**
 	 * テストを行う。
 	 * 

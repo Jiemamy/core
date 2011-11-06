@@ -47,7 +47,7 @@ public class SimpleJmDomainTest {
 	@SuppressWarnings("unused")
 	private static Logger logger = LoggerFactory.getLogger(SimpleJmDomainTest.class);
 	
-
+	
 	/**
 	 * CORE-203実証テスト
 	 * 

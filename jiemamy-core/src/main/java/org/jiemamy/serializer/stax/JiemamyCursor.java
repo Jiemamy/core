@@ -50,7 +50,7 @@ public class JiemamyCursor {
 	
 	final SMInputCursor cursor;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

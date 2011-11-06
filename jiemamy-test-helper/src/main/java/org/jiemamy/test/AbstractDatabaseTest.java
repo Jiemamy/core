@@ -51,7 +51,7 @@ public abstract class AbstractDatabaseTest {
 	
 	private Properties props;
 	
-
+	
 	/**
 	 * テストを初期化する。
 	 * 

@@ -48,7 +48,7 @@ public interface JiemamySerializer {
 	/** ファイル拡張子 */
 	String FILE_EXT = "jiemamy";
 	
-
+	
 	/**
 	 * {@link InputStream} から {@link JiemamyContext} にデシリアライズする。
 	 * 

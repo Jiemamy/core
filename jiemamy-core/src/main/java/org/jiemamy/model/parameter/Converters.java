@@ -35,7 +35,7 @@ public final class Converters {
 	/** {@link String}型のコンバータ */
 	public static final Converter<String> STRING = new StringConverter();
 	
-
+	
 	private Converters() {
 	}
 	

@@ -35,7 +35,7 @@ public enum DiagramNamespace implements JiemamyNamespace {
 	/** Jiemamy diagram specifications */
 	NS_DIAGRAM("diagram", "http://jiemamy.org/xml/ns/diagram", "http://schema.jiemamy.org/xml/"
 			+ JiemamyContext.getVersion().toString() + "/jiemamy-diagram.xsd"),
-
+	
 	/**  */
 	NONE("", "", "");
 	
@@ -47,7 +47,7 @@ public enum DiagramNamespace implements JiemamyNamespace {
 	
 	private final String xmlSchemaLocation;
 	
-
+	
 	DiagramNamespace(String prefix, String namespaceURI, String xmlSchemaLocation) {
 		this.prefix = prefix;
 		try {

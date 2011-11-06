@@ -52,7 +52,7 @@ public class DefaultSqlFormatterTest {
 	
 	private static Logger logger = LoggerFactory.getLogger(DefaultSqlFormatterTest.class);
 	
-
+	
 	/**
 	 * テストを初期化する。
 	 * 

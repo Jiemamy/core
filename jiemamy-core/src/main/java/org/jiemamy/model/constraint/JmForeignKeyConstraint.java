@@ -103,7 +103,7 @@ public interface JmForeignKeyConstraint extends JmKeyConstraint {
 	
 	UUIDEntityRef<? extends JmForeignKeyConstraint> toReference();
 	
-
+	
 	/**
 	 * 参照列に挿入された値は、被参照テーブルと被参照列の値に対して、指定した照合型で照会される。
 	 * 
@@ -116,10 +116,10 @@ public interface JmForeignKeyConstraint extends JmKeyConstraint {
 		
 		/** 外部キーの他の部分がNULLでない限り、外部キーの一部をNULLとなることを許可する。 */
 		SIMPLE,
-
+		
 		/** 全ての外部キー列がNULLとなる場合を除き、複数列外部キーのある列がNULLとなることを許可しない。 */
 		FULL,
-
+		
 		/** まだ実装されていない。 */
 		PARTIAL;
 	}
@@ -133,16 +133,16 @@ public interface JmForeignKeyConstraint extends JmKeyConstraint {
 		
 		/** 連鎖的に修正する */
 		CASCADE,
-
+		
 		/** NULLを設定する */
 		SET_NULL,
-
+		
 		/** デフォルト値を設定する */
 		SET_DEFAULT,
-
+		
 		/** 削除/変更を許可しない */
 		RESTRICT,
-
+		
 		/** 特に何も行わない */
 		NO_ACTION;
 	}

@@ -34,7 +34,7 @@ public class DbImporterTest {
 	
 	private DbImporter importer;
 	
-
+	
 	/**
 	 * テストを初期化する。
 	 * 

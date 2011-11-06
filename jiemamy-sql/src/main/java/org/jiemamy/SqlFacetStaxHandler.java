@@ -54,7 +54,7 @@ public final class SqlFacetStaxHandler extends StaxHandler<SqlFacet> {
 	
 	private static Logger logger = LoggerFactory.getLogger(SqlFacetStaxHandler.class);
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

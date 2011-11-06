@@ -35,7 +35,7 @@ public enum SqlNamespace implements JiemamyNamespace {
 	/** Jiemamy sql specifications */
 	NS_SQL("sql", "http://jiemamy.org/xml/ns/sql", "http://schema.jiemamy.org/xml/"
 			+ JiemamyContext.getVersion().toString() + "/jiemamy-sql.xsd"),
-
+	
 	/**  */
 	NONE("", "", "");
 	
@@ -47,7 +47,7 @@ public enum SqlNamespace implements JiemamyNamespace {
 	
 	private final String xmlSchemaLocation;
 	
-
+	
 	SqlNamespace(String prefix, String namespaceURI, String xmlSchemaLocation) {
 		this.prefix = prefix;
 		try {

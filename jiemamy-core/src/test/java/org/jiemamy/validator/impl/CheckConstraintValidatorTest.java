@@ -47,7 +47,7 @@ public class CheckConstraintValidatorTest {
 	/** テスト対象のバリデータ */
 	private CheckConstraintValidator validator;
 	
-
+	
 	/**
 	 * テストを初期化する。
 	 * 

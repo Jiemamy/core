@@ -31,7 +31,7 @@ public class TooManyTablesFoundException extends ModelConsistencyException {
 	
 	private final Iterable<? extends JmTable> tables;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

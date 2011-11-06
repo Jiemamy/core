@@ -34,7 +34,7 @@ public class DiagramFacetTest {
 	
 	private JiemamyContext context;
 	
-
+	
 	/**
 	 * テストを初期化する。
 	 * 

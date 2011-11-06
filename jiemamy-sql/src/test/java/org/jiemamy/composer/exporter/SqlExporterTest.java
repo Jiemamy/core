@@ -70,7 +70,7 @@ public class SqlExporterTest {
 	/** テスト対象のエクスポータ */
 	private Exporter<SqlExportConfig> exporter = new SqlExporter();
 	
-
+	
 	/**
 	 * CORE-197検証コード。
 	 * 

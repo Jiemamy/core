@@ -97,7 +97,7 @@ public class DefaultDbObjectImportVisitor extends AbstractCollectionVisitor<Tabl
 	
 	private final Dialect dialect;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 
@@ -238,12 +238,12 @@ public class DefaultDbObjectImportVisitor extends AbstractCollectionVisitor<Tabl
 		}
 	}
 	
-
+	
 	private class ColumnMetaVisitor extends AbstractTypeSafeResultSetVisitor<ColumnMeta, List<JmColumn>, SQLException> {
 		
 		private final SimpleJmTable table;
 		
-
+		
 		/**
 		 * インスタンスを生成する。
 		 * 
@@ -304,7 +304,7 @@ public class DefaultDbObjectImportVisitor extends AbstractCollectionVisitor<Tabl
 		
 		private final SimpleJmTable table;
 		
-
+		
 		/**
 		 * インスタンスを生成する。
 		 * 

@@ -56,7 +56,7 @@ public class JmRectangleStaxHandlerTest extends AbstractStaxHandlerTest {
 	
 	private JmRectangleStaxHandler handler;
 	
-
+	
 	/**
 	 * テストを初期化する。
 	 * 

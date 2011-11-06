@@ -113,7 +113,7 @@ public class ConstraintComparatorTest {
 		assertThat(constraints.get(2).getId().compareTo(constraints.get(3).getId()), is(-1));
 	}
 	
-
+	
 	static class SampleAaaConstraint extends SimpleJmValueConstraint {
 		
 		/**

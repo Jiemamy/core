@@ -63,7 +63,7 @@ public class DbObjectNameCollisionValidator extends AbstractValidator {
 		return problems;
 	}
 	
-
+	
 	/**
 	 * {@link DbObject}の名前が衝突していることを示す{@link Problem}オブジェクト。
 	 * 

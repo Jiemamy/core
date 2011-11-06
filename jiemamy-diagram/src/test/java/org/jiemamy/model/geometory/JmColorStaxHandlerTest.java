@@ -56,7 +56,7 @@ public class JmColorStaxHandlerTest extends AbstractStaxHandlerTest {
 	
 	private JmColorStaxHandler handler;
 	
-
+	
 	/**
 	 * テストを初期化する。
 	 * 

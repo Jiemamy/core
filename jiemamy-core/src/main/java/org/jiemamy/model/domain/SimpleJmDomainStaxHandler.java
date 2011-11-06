@@ -60,7 +60,7 @@ public final class SimpleJmDomainStaxHandler extends StaxHandler<SimpleJmDomain>
 	
 	private static Logger logger = LoggerFactory.getLogger(SimpleJmDomainStaxHandler.class);
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

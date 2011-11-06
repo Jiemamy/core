@@ -101,7 +101,7 @@ public interface Problem {
 	 */
 	void quickFix(JiemamyContext context);
 	
-
+	
 	/**
 	 * 問題の重要度を表す列挙型。
 	 * 
@@ -112,16 +112,16 @@ public interface Problem {
 		
 		/** 致命的なエラー: 正常にモデルをパースできない・SQLに変換できない状態 */
 		FATAL(5),
-
+		
 		/** 一般的なエラー: このままSQL化してもDBがsyntax error等を出すであろう状態 */
 		ERROR(4),
-
+		
 		/** 警告: SQL化してDBに適用可能だが、RDB理論的に望ましくない状態 */
 		WARN(3),
-
+		
 		/** 通知: RDB理論的に問題はないけど実務的にアレだよね系の状態 */
 		NOTICE(2),
-
+		
 		/** 情報: 問題でなないが、何かしらの情報を表現したい場合 */
 		INFO(1);
 		
@@ -144,11 +144,11 @@ public interface Problem {
 			return null;
 		}
 		
-
+		
 		/** 重要度を数値化した値 */
 		private final int value;
 		
-
+		
 		Severity(int value) {
 			this.value = value;
 		}

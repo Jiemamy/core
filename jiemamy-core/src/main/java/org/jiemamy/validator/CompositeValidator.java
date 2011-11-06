@@ -36,7 +36,7 @@ public class CompositeValidator extends AbstractValidator {
 	/** 内蔵されたバリデータのリスト */
 	private List<Validator> validators = Lists.newArrayList();
 	
-
+	
 	/**
 	 * 内蔵されたバリデータのリストを取得する。
 	 * 

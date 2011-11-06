@@ -39,7 +39,7 @@ public class JiemamyOutputElement extends JiemamyOutputContainer {
 	
 	final SMOutputElement element;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

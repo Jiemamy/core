@@ -55,7 +55,7 @@ public class PrimaryKeyValidator extends AbstractValidator {
 		return result;
 	}
 	
-
+	
 	static class MultiplePrimaryKeyProblem extends AbstractProblem {
 		
 		/**

@@ -63,7 +63,7 @@ public class JiemamyCoreReleaseTest {
 		}
 	}
 	
-
+	
 	/**
 	 * fixmeレベルのタスクタグが残っていないこと。
 	 * 

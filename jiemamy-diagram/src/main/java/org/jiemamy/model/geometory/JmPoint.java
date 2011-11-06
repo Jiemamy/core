@@ -37,7 +37,7 @@ public final class JmPoint implements Serializable {
 	/** Y座標 */
 	public final int y;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

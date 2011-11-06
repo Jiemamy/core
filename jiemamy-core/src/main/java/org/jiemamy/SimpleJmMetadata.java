@@ -32,7 +32,7 @@ public final class SimpleJmMetadata implements JmMetadata {
 	
 	private String schemaName;
 	
-
+	
 	@Override
 	public SimpleJmMetadata clone() {
 		try {

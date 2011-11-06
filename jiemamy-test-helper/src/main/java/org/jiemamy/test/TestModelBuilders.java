@@ -35,7 +35,7 @@ public enum TestModelBuilders {
 	
 	/**  */
 	EMP_DEPT(new CoreTestModelBuilder(newJiemamy()), getXml("/sample.jiemamy")),
-
+	
 	/**  */
 	ORDER(new CoreTestModelBuilder2(newJiemamy()), getXml("/sample.jiemamy"));
 	
@@ -54,12 +54,12 @@ public enum TestModelBuilders {
 		return new JiemamyContext(SqlFacet.PROVIDER);
 	}
 	
-
+	
 	private final TestModelBuilder builder;
 	
 	private final String xml;
 	
-
+	
 	TestModelBuilders(TestModelBuilder builder, String xml) {
 		this.builder = builder;
 		this.xml = xml;

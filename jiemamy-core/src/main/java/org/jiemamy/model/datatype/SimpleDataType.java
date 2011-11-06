@@ -45,12 +45,12 @@ public final class SimpleDataType implements DataType {
 		return new SimpleDataType(new SimpleRawTypeDescriptor(category));
 	}
 	
-
+	
 	private ParameterMap params = new ParameterMap();
 	
 	private RawTypeDescriptor rawTypeDescriptor;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

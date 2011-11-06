@@ -50,7 +50,7 @@ public final class SimpleJmUniqueKeyConstraintStaxHandler extends StaxHandler<Si
 	
 	private static Logger logger = LoggerFactory.getLogger(SimpleJmUniqueKeyConstraintStaxHandler.class);
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

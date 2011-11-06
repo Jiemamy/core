@@ -50,7 +50,7 @@ public class DefaultTokenResolver implements TokenResolver {
 	
 	private static Logger logger = LoggerFactory.getLogger(DefaultTokenResolver.class);
 	
-
+	
 	public List<Token> resolve(Object value) {
 		List<Token> tokens = Lists.newArrayListWithExpectedSize(5);
 		if (value instanceof InitiallyCheckTime) {

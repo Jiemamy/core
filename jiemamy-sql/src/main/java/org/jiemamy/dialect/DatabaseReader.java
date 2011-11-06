@@ -60,7 +60,7 @@ class DatabaseReader {
 	
 	private final TypeSafeDatabaseMetaData metaData;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 
@@ -129,7 +129,7 @@ class DatabaseReader {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 	
-
+	
 	/**
 	 * {@link Entity}名のリストを取得するビジター。
 	 * 

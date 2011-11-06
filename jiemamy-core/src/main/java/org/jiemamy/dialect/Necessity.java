@@ -29,7 +29,7 @@ public enum Necessity {
 	
 	/** 必須パラメータ */
 	REQUIRED,
-
+	
 	/** 任意パラメータ */
 	OPTIONAL
 }

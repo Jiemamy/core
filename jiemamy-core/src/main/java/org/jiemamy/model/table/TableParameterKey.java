@@ -35,7 +35,7 @@ public final class TableParameterKey<T> extends ParameterKey<T> {
 	public static final TableParameterKey<Boolean> DISABLED = new TableParameterKey<Boolean>(Converters.BOOLEAN,
 			"disabled");
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

@@ -49,7 +49,7 @@ public final class SimpleJmViewStaxHandler extends StaxHandler<SimpleJmView> {
 	
 	private static Logger logger = LoggerFactory.getLogger(SimpleJmViewStaxHandler.class);
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

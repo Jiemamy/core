@@ -48,7 +48,7 @@ public abstract class AbstractStaxHandlerTest {
 	
 	private static final SMInputFactory IN_FACTORY = new SMInputFactory(XMLInputFactory.newInstance());
 	
-
+	
 	/**
 	 * ルート要素のカーソルを取得する。
 	 * 

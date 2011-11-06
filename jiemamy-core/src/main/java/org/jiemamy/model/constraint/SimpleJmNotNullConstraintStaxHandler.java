@@ -51,7 +51,7 @@ public final class SimpleJmNotNullConstraintStaxHandler extends StaxHandler<Simp
 	
 	private static Logger logger = LoggerFactory.getLogger(SimpleJmNotNullConstraintStaxHandler.class);
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

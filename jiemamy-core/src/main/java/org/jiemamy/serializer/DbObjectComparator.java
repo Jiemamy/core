@@ -33,7 +33,7 @@ public class DbObjectComparator implements Comparator<DbObject> {
 	/** singleton instance */
 	public static final DbObjectComparator INSTANCE = new DbObjectComparator();
 	
-
+	
 	private DbObjectComparator() {
 	}
 	

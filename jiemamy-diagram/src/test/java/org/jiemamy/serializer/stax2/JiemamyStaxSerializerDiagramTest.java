@@ -70,7 +70,7 @@ public class JiemamyStaxSerializerDiagramTest {
 	
 	private static Logger logger = LoggerFactory.getLogger(JiemamyStaxSerializerDiagramTest.class);
 	
-
+	
 	/**
 	 * テストを初期化する。
 	 * 

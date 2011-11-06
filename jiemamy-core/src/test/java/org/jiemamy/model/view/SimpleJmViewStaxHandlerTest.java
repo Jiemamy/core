@@ -59,7 +59,7 @@ public class SimpleJmViewStaxHandlerTest extends AbstractStaxHandlerTest {
 	
 	private SimpleJmViewStaxHandler handler;
 	
-
+	
 	/**
 	 * テストを初期化する。
 	 * 

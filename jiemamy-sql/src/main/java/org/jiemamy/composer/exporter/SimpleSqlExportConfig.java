@@ -34,7 +34,7 @@ public final class SimpleSqlExportConfig extends AbstractFileExportConfig implem
 	/** 出力するデータセットのインデックス */
 	private int dataSetIndex = -1;
 	
-
+	
 	public boolean emitCreateSchemaStatement() {
 		return emitCreateSchema;
 	}
