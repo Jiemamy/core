@@ -1,5 +1,5 @@
 /*
- * Copyright 2007-2011 Jiemamy Project and the Others.
+ * Copyright 2007-2012 Jiemamy Project and the Others.
  * Created on 2010/12/07
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
