@@ -9,7 +9,7 @@
   <artifactId>jiemamy-artemis-parent</artifactId>
   <packaging>pom</packaging>
   <name>Jiemamy APIs</name>
-  <version>0.3.6</version>
+  <version>0.3.7-SNAPSHOT</version>
   <inceptionYear>2007</inceptionYear>
   <modules>
     <module>../jiemamy-core</module>
@@ -36,10 +36,4 @@
       <url>http://maven.jiemamy.org/release/</url>
     </repository>
   </repositories>
-
-  <scm>
-    <connection>scm:svn:http://svn.jiemamy.org/products/leto/jiemamy-master/tags/artemis-0.3.6/jiemamy-artemis-parent</connection>
-    <developerConnection>scm:svn:http://svn.jiemamy.org/products/leto/jiemamy-master/tags/artemis-0.3.6/jiemamy-artemis-parent</developerConnection>
-    <url>http://fisheye.jiemamy.org/browse/leto/jiemamy-master/tags/artemis-0.3.6/jiemamy-artemis-parent</url>
-  </scm>
 </project>

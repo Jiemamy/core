@@ -8,7 +8,7 @@
   </parent>
   <artifactId>jiemamy-sql</artifactId>
   <name>Jiemamy SQL domain APIs</name>
-  <version>0.3.6</version>
+  <version>0.3.7-SNAPSHOT</version>
   <description><![CDATA[JiemamyのSQL生成機能を提供するコンポーネント]]></description>
   <issueManagement>
     <system>JIRA</system>
@@ -37,9 +37,9 @@
     </developer>
   </developers>
   <scm>
-    <connection>scm:svn:http://svn.jiemamy.org/products/artemis/tags/artemis-0.3.6/jiemamy-sql</connection>
-    <developerConnection>scm:svn:http://svn.jiemamy.org/products/artemis/tags/artemis-0.3.6/jiemamy-sql</developerConnection>
-    <url>http://fisheye.jiemamy.org/browse/artemis/tags/artemis-0.3.6/jiemamy-sql</url>
+    <connection>scm:svn:http://svn.jiemamy.org/products/artemis/trunk/jiemamy-sql</connection>
+    <developerConnection>scm:svn:http://svn.jiemamy.org/products/artemis/trunk/jiemamy-sql</developerConnection>
+    <url>http://fisheye.jiemamy.org/browse/artemis/trunk/jiemamy-sql</url>
   </scm>
   <dependencies>
     <dependency>
