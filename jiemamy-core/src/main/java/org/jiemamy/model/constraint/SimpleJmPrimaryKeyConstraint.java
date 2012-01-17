@@ -18,14 +18,18 @@
  */
 package org.jiemamy.model.constraint;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.dddbase.DefaultUUIDEntityRef;
 import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.model.column.JmColumn;
+import org.jiemamy.model.table.ColumnNotFoundException;
+import org.jiemamy.model.table.JmTableBuilder;
 
 /**
  * PRIMARY KEY制約モデル。
@@ -87,6 +91,30 @@ public final class SimpleJmPrimaryKeyConstraint extends SimpleJmLocalKeyConstrai
 	 */
 	public SimpleJmPrimaryKeyConstraint() {
 		this(UUID.randomUUID());
+	}
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * <p>構築中のビルダからカラムを検索し、
+	 * 
+	 * @param builder 構築中のビルダ
+	 * @param names カラム名
+	 * @throws ColumnNotFoundException 引数に指定したカラムの何れかがビルダ内から見つからなかった場合
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public SimpleJmPrimaryKeyConstraint(JmTableBuilder builder, String... names) {
+		this(UUID.randomUUID());
+		Validate.notNull(builder);
+		Validate.noNullElements(names);
+		for (JmColumn column : builder.getColumns()) {
+			if (ArrayUtils.contains(names, column.getName())) {
+				addKeyColumn(column.toReference());
+			}
+		}
+		if (names.length != getKeyColumns().size()) {
+			throw new ColumnNotFoundException("some column is not found: " + Arrays.toString(names));
+		}
 	}
 	
 	/**

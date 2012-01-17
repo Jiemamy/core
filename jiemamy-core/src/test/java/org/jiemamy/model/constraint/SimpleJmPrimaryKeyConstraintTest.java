@@ -18,17 +18,27 @@
  */
 package org.jiemamy.model.constraint;
 
+import static org.hamcrest.Matchers.is;
 import static org.jiemamy.utils.RandomUtil.bool;
 import static org.jiemamy.utils.RandomUtil.enumeNullable;
 import static org.jiemamy.utils.RandomUtil.str;
 import static org.jiemamy.utils.RandomUtil.strNullable;
+import static org.junit.Assert.assertThat;
 
 import java.util.List;
 
+import com.google.common.collect.Iterables;
+
 import org.junit.Test;
 
+import org.jiemamy.JiemamyContext;
 import org.jiemamy.model.column.JmColumn;
+import org.jiemamy.model.column.JmColumnBuilder;
+import org.jiemamy.model.datatype.RawTypeCategory;
+import org.jiemamy.model.datatype.SimpleDataType;
+import org.jiemamy.model.datatype.SimpleRawTypeDescriptor;
 import org.jiemamy.model.table.JmTable;
+import org.jiemamy.model.table.JmTableBuilder;
 
 /**
  * {@link SimpleJmPrimaryKeyConstraint}のテストクラス。
@@ -60,11 +70,26 @@ public class SimpleJmPrimaryKeyConstraintTest {
 	}
 	
 	/**
-	 * 特にまだテストしたいことはないけどテストメソッドが1つもないとエラーが発生するので仕方なく置いてやってるメソッド。
+	 * {@link SimpleJmPrimaryKeyConstraint#SimpleJmPrimaryKeyConstraint(JmTableBuilder, String...)}のテスト。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void testname() throws Exception {
+	public void test01_builderConstructor() throws Exception {
+		JiemamyContext ctx = new JiemamyContext();
+		JmTableBuilder builder = new JmTableBuilder("TTTT");
+		ctx.store(builder
+			.with(new JmColumnBuilder("CCCC_PK").type(
+					new SimpleDataType(new SimpleRawTypeDescriptor(RawTypeCategory.INTEGER, "BIGINT"))).build())
+			.with(new JmColumnBuilder("CCCC_NORMAL").type(
+					new SimpleDataType(new SimpleRawTypeDescriptor(RawTypeCategory.CLOB, "TEXT"))).build())
+			.with(new SimpleJmPrimaryKeyConstraint(builder, "CCCC_PK")).build());
+		
+		JmTable t = ctx.getTable("TTTT");
+		assertThat(t.getColumns().size(), is(2));
+		assertThat(t.getColumns().get(0).getName(), is("CCCC_PK"));
+		assertThat(t.getColumns().get(1).getName(), is("CCCC_NORMAL"));
+		JmPrimaryKeyConstraint pk = t.getPrimaryKey();
+		assertThat(Iterables.getOnlyElement(pk.getKeyColumns()).isReferenceOf(t.getColumns().get(0)), is(true));
 	}
 }

@@ -77,6 +77,15 @@ public class JmTableBuilder extends UUIDEntityFactory<SimpleJmTable> {
 	}
 	
 	/**
+	 * 現在までに設定されたカラムのリストを返す。
+	 * 
+	 * @return カラムのリスト
+	 */
+	public List<JmColumn> getColumns() {
+		return columns;
+	}
+	
+	/**
 	 * テーブル名を設定する。
 	 * 
 	 * @param name テーブル名
