@@ -8,7 +8,7 @@
   </parent>
   <artifactId>jiemamy-diagram</artifactId>
   <name>Jiemamy diagram domain APIs</name>
-  <version>0.3.7-SNAPSHOT</version>
+  <version>0.3.7</version>
   <description><![CDATA[Jiemamyのダイアグラム表現機能を提供するコンポーネント]]></description>
   <issueManagement>
     <system>JIRA</system>
@@ -37,9 +37,9 @@
     </developer>
   </developers>
   <scm>
-    <connection>scm:svn:http://svn.jiemamy.org/products/artemis/trunk/jiemamy-diagram</connection>
-    <developerConnection>scm:svn:http://svn.jiemamy.org/products/artemis/trunk/jiemamy-diagram</developerConnection>
-    <url>http://fisheye.jiemamy.org/browse/artemis/trunk/jiemamy-diagram</url>
+    <connection>scm:svn:http://svn.jiemamy.org/products/artemis/tags/artemis-0.3.7/jiemamy-diagram</connection>
+    <developerConnection>scm:svn:http://svn.jiemamy.org/products/artemis/tags/artemis-0.3.7/jiemamy-diagram</developerConnection>
+    <url>http://fisheye.jiemamy.org/browse/artemis/tags/artemis-0.3.7/jiemamy-diagram</url>
   </scm>
   <dependencies>
     <dependency>
