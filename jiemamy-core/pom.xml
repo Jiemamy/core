@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.jiemamy</groupId>
     <artifactId>jiemamy-master</artifactId>
-    <version>1.7.2</version>
+    <version>1.7.3</version>
   </parent>
   <artifactId>jiemamy-core</artifactId>
   <name>Jiemamy core domain APIs</name>
@@ -60,8 +60,14 @@
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
+      <artifactId>junit-dep</artifactId>
       <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.hamcrest</groupId>
+          <artifactId>hamcrest-core</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.hamcrest</groupId>
@@ -120,8 +126,8 @@
       </exclusions>
     </dependency>
     <dependency>
-      <groupId>com.google.collections</groupId>
-      <artifactId>google-collections</artifactId>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
     </dependency>
     <dependency>
       <groupId>org.codehaus.woodstox</groupId>
@@ -156,12 +162,12 @@
     <dependency>
       <groupId>org.jiemamy</groupId>
       <artifactId>jiemamy-commons</artifactId>
-      <version>0.1.6</version>
+      <version>0.1.7</version>
     </dependency>
     <dependency>
       <groupId>org.jiemamy</groupId>
       <artifactId>dddbase</artifactId>
-      <version>1.4.0</version>
+      <version>1.4.1</version>
     </dependency>
   </dependencies>
   <repositories>
