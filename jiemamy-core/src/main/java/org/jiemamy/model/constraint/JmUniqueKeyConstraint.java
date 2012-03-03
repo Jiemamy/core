@@ -1,6 +1,6 @@
 /*
  * Copyright 2007-2012 Jiemamy Project and the Others.
- * Created on 2008/09/18
+ * Created on 2008/06/09
  *
  * This file is part of Jiemamy.
  *
@@ -18,7 +18,12 @@
  */
 package org.jiemamy.model.constraint;
 
-import org.jiemamy.dddbase.UUIDEntityRef;
+import java.util.UUID;
+
+import org.apache.commons.lang.Validate;
+
+import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.model.column.JmColumn;
 
 /**
  * UNIQUE制約を表すモデルインターフェイス。
@@ -28,10 +33,56 @@ import org.jiemamy.dddbase.UUIDEntityRef;
  * @since 0.3
  * @author daisuke
  */
-public interface JmUniqueKeyConstraint extends JmLocalKeyConstraint {
+public class JmUniqueKeyConstraint extends JmLocalKeyConstraint {
 	
-	JmUniqueKeyConstraint clone();
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param columns 対象カラム
+	 * @return {@link JmUniqueKeyConstraint}
+	 * @throws IllegalArgumentException 引数に{@code null}または{@code null}要素を含むコレクションを与えた場合
+	 */
+	public static JmUniqueKeyConstraint of(JmColumn... columns) {
+		Validate.noNullElements(columns);
+		JmUniqueKeyConstraint model = new JmUniqueKeyConstraint();
+		for (JmColumn column : columns) {
+			model.addKeyColumn(column.toReference());
+		}
+		return model;
+	}
 	
-	UUIDEntityRef<? extends JmUniqueKeyConstraint> toReference();
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * <p>ENTITY IDは{@code UUID.randomUUID()}を用いて自動生成する。</p>
+	 */
+	public JmUniqueKeyConstraint() {
+		this(UUID.randomUUID());
+	}
 	
+	/**
+	* インスタンスを生成する。
+	* 
+	* @param id ENTITY ID
+	* @throws IllegalArgumentException 引数{@code id}に{@code null}を与えた場合
+	*/
+	public JmUniqueKeyConstraint(UUID id) {
+		super(id);
+	}
+	
+	@Override
+	public JmUniqueKeyConstraint clone() {
+		JmUniqueKeyConstraint clone = (JmUniqueKeyConstraint) super.clone();
+		return clone;
+	}
+	
+	@Override
+	public EntityRef<? extends JmUniqueKeyConstraint> toReference() {
+		return new EntityRef<JmUniqueKeyConstraint>(this);
+	}
+	
+	@Override
+	public String toString() {
+		return "UK[" + getKeyColumns() + "]";
+	}
 }

@@ -33,7 +33,7 @@ import org.jiemamy.JiemamyContext;
 import org.jiemamy.JiemamyFacet;
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.HierarchicalEntity;
-import org.jiemamy.dddbase.UUIDEntity;
+import org.jiemamy.dddbase.Entity;
 import org.jiemamy.validator.AbstractProblem;
 import org.jiemamy.validator.AbstractValidator;
 import org.jiemamy.validator.Problem;
@@ -56,30 +56,30 @@ public class IdCollisionValidator extends AbstractValidator {
 		Set<UUID> uuid = Sets.newHashSet();
 		Validate.notNull(context);
 		Collection<Problem> problems = Lists.newArrayList();
-		Collection<UUIDEntity> entities = Lists.newArrayList();
+		Collection<Entity> entities = Lists.newArrayList();
 		
 		entities.addAll(context.getDbObjects());
 		entities.addAll(context.getDataSets());
 		for (JiemamyFacet facet : context.getFacets()) {
 			entities.addAll(facet.getEntities());
 		}
-		for (UUIDEntity entity : entities) {
+		for (Entity entity : entities) {
 			check(entity, uuid, problems);
 		}
 		return problems;
 	}
 	
-	void check(Entity<UUID> entity, Set<UUID> uuid, Collection<Problem> problems) {
+	void check(Entity entity, Set<UUID> uuid, Collection<Problem> problems) {
 		check0(entity, uuid, problems);
 		if (entity instanceof HierarchicalEntity) {
-			Collection<? extends Entity<UUID>> subEntities = ((HierarchicalEntity<UUID>) entity).getSubEntities();
-			for (Entity<UUID> subEntity : subEntities) {
+			Collection<? extends Entity> subEntities = ((HierarchicalEntity) entity).getSubEntities();
+			for (Entity subEntity : subEntities) {
 				check(subEntity, uuid, problems);
 			}
 		}
 	}
 	
-	void check0(Entity<UUID> entity, Set<UUID> uuid, Collection<Problem> problems) {
+	void check0(Entity entity, Set<UUID> uuid, Collection<Problem> problems) {
 		if (uuid.contains(entity.getId())) {
 			problems.add(new IdCollisionProblem(entity));
 			logger.warn("collision : " + entity.getId());
@@ -100,7 +100,7 @@ public class IdCollisionValidator extends AbstractValidator {
 		 * 
 		 * @param entity 衝突したentity
 		 */
-		IdCollisionProblem(Entity<UUID> entity) {
+		IdCollisionProblem(Entity entity) {
 			super(null, "F0110", new Object[] {
 				entity.getId(),
 				entity.toString(),

@@ -28,15 +28,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.jiemamy.dddbase.AbstractOrderedEntity;
-import org.jiemamy.dddbase.DefaultUUIDEntityRef;
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityNotFoundException;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.OnMemoryCompositeEntityResolver;
 import org.jiemamy.dddbase.OnMemoryEntityResolver;
 import org.jiemamy.dddbase.OnMemoryRepository;
-import org.jiemamy.dddbase.UUIDEntity;
-import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.model.constraint.JmForeignKeyConstraint;
 import org.jiemamy.model.geometory.JmPoint;
 import org.jiemamy.model.geometory.JmRectangle;
@@ -49,7 +46,7 @@ import org.jiemamy.utils.LogMarker;
  * @version $Id$
  * @author daisuke
  */
-public final class SimpleJmDiagram extends AbstractOrderedEntity<UUID> implements JmDiagram {
+public final class SimpleJmDiagram extends AbstractOrderedEntity implements JmDiagram {
 	
 	private static Logger logger = LoggerFactory.getLogger(SimpleJmDiagram.class);
 	
@@ -61,9 +58,9 @@ public final class SimpleJmDiagram extends AbstractOrderedEntity<UUID> implement
 	
 	private Mode mode = Mode.PHYSICAL;
 	
-	private OnMemoryRepository<JmNode, UUID> nodes = new OnMemoryRepository<JmNode, UUID>();
+	private OnMemoryRepository<JmNode> nodes = new OnMemoryRepository<JmNode>();
 	
-	private OnMemoryRepository<JmConnection, UUID> connections = new OnMemoryRepository<JmConnection, UUID>();
+	private OnMemoryRepository<JmConnection> connections = new OnMemoryRepository<JmConnection>();
 	
 	
 	/**
@@ -92,17 +89,16 @@ public final class SimpleJmDiagram extends AbstractOrderedEntity<UUID> implement
 		return clone;
 	}
 	
-	public boolean contains(EntityRef<?, UUID> reference) {
+	public boolean contains(EntityRef<?> reference) {
 		Validate.notNull(reference);
 		return contains(reference.getReferentId());
 	}
 	
 	public boolean contains(UUID id) {
-		Collection<OnMemoryEntityResolver<? extends UUIDEntity, UUID>> resolvers = Lists.newArrayList();
+		Collection<OnMemoryEntityResolver<? extends Entity>> resolvers = Lists.newArrayList();
 		resolvers.add(nodes);
 		resolvers.add(connections);
-		OnMemoryCompositeEntityResolver<UUIDEntity, UUID> resolver =
-				new OnMemoryCompositeEntityResolver<UUIDEntity, UUID>(resolvers);
+		OnMemoryCompositeEntityResolver<Entity> resolver = new OnMemoryCompositeEntityResolver<Entity>(resolvers);
 		return resolver.contains(id);
 	}
 	
@@ -113,7 +109,7 @@ public final class SimpleJmDiagram extends AbstractOrderedEntity<UUID> implement
 	 * @return 削除したモデル
 	 * @throws EntityNotFoundException このダイアグラムが指定したノードを管理していない場合
 	 */
-	public JmConnection deleteConnection(UUIDEntityRef<? extends JmConnection> reference) {
+	public JmConnection deleteConnection(EntityRef<? extends JmConnection> reference) {
 		JmConnection deleted = connections.delete(reference);
 		logger.info("connection deleted: " + deleted);
 		return deleted;
@@ -127,7 +123,7 @@ public final class SimpleJmDiagram extends AbstractOrderedEntity<UUID> implement
 	 * @throws ModelConsistencyException ノードに関連付くコネクションがある場合
 	 * @throws EntityNotFoundException このダイアグラムが指定したノードを管理していない場合
 	 */
-	public JmNode deleteNode(UUIDEntityRef<? extends JmNode> reference) {
+	public JmNode deleteNode(EntityRef<? extends JmNode> reference) {
 		Collection<? extends JmConnection> sourceConnections = getSourceConnectionsFor(reference);
 		if (sourceConnections.size() > 0) {
 			throw new ModelConsistencyException("node has source connections: " + sourceConnections);
@@ -141,7 +137,7 @@ public final class SimpleJmDiagram extends AbstractOrderedEntity<UUID> implement
 		return deleted;
 	}
 	
-	public JmConnection getConnectionFor(UUIDEntityRef<? extends JmForeignKeyConstraint> reference) {
+	public JmConnection getConnectionFor(EntityRef<? extends JmForeignKeyConstraint> reference) {
 		Validate.notNull(reference);
 		for (JmConnection connection : connections.getEntitiesAsSet()) {
 			if (reference.equals(connection.getCoreModelRef())) {
@@ -168,7 +164,7 @@ public final class SimpleJmDiagram extends AbstractOrderedEntity<UUID> implement
 		return name;
 	}
 	
-	public JmNode getNodeFor(UUIDEntityRef<? extends DbObject> reference) {
+	public JmNode getNodeFor(EntityRef<? extends DbObject> reference) {
 		Validate.notNull(reference);
 		for (JmNode node : nodes.getEntitiesAsSet()) {
 			if (node instanceof DbObjectNode) {
@@ -186,7 +182,7 @@ public final class SimpleJmDiagram extends AbstractOrderedEntity<UUID> implement
 		return nodes.getEntitiesAsSet();
 	}
 	
-	public Collection<? extends JmConnection> getSourceConnectionsFor(UUIDEntityRef<? extends JmNode> reference) {
+	public Collection<? extends JmConnection> getSourceConnectionsFor(EntityRef<? extends JmNode> reference) {
 		Validate.notNull(reference);
 		Validate.isTrue(nodes.contains(reference));
 		Collection<JmConnection> result = Lists.newArrayList();
@@ -198,11 +194,11 @@ public final class SimpleJmDiagram extends AbstractOrderedEntity<UUID> implement
 		return result;
 	}
 	
-	public Collection<? extends Entity<UUID>> getSubEntities() {
+	public Collection<? extends Entity> getSubEntities() {
 		return Lists.newArrayList(Iterables.concat(getNodes(), getConnections()));
 	}
 	
-	public Collection<? extends JmConnection> getTargetConnectionsFor(UUIDEntityRef<? extends JmNode> reference) {
+	public Collection<? extends JmConnection> getTargetConnectionsFor(EntityRef<? extends JmNode> reference) {
 		Validate.notNull(reference);
 		Validate.isTrue(nodes.contains(reference));
 		Collection<JmConnection> result = Lists.newArrayList();
@@ -215,7 +211,7 @@ public final class SimpleJmDiagram extends AbstractOrderedEntity<UUID> implement
 	}
 	
 	/**
-	 * {@link UUIDEntityRef}から、{@link Entity}を引き当てる。
+	 * {@link EntityRef}から、{@link Entity}を引き当てる。
 	 * 
 	 * <p>リポジトリは、この実体のクローンを返す。従って、取得した {@link Entity}に対して
 	 * ミューテーションを起こしても、ストアした実体には影響を及ぼさない。</p>
@@ -223,17 +219,16 @@ public final class SimpleJmDiagram extends AbstractOrderedEntity<UUID> implement
 	 * <p>検索対象は子{@link Entity}も含む。</p>
 	 * 
 	 * @param <E> {@link Entity}の型
-	 * @param reference {@link UUIDEntityRef}
+	 * @param reference {@link EntityRef}
 	 * @return {@link Entity}
 	 * @throws EntityNotFoundException 参照で示す{@link Entity}が見つからなかった場合
 	 */
-	public <E extends Entity<UUID>>E resolve(EntityRef<E, UUID> reference) {
-		Collection<OnMemoryEntityResolver<? extends UUIDEntity, UUID>> resolvers = Lists.newArrayList();
+	public <E extends Entity>E resolve(EntityRef<E> reference) {
+		Collection<OnMemoryEntityResolver<? extends Entity>> resolvers = Lists.newArrayList();
 		resolvers.add(nodes);
 		resolvers.add(connections);
 		
-		OnMemoryCompositeEntityResolver<UUIDEntity, UUID> resolver =
-				new OnMemoryCompositeEntityResolver<UUIDEntity, UUID>(resolvers);
+		OnMemoryCompositeEntityResolver<Entity> resolver = new OnMemoryCompositeEntityResolver<Entity>(resolvers);
 		E resolved = resolver.resolve(reference);
 		return resolved;
 	}
@@ -251,15 +246,14 @@ public final class SimpleJmDiagram extends AbstractOrderedEntity<UUID> implement
 	 * @throws EntityNotFoundException 参照で示す{@link Entity}が見つからなかった場合
 	 * @since 1.0.0
 	 */
-	public UUIDEntity resolve(UUID id) {
-		Collection<OnMemoryEntityResolver<? extends UUIDEntity, UUID>> resolvers = Lists.newArrayList();
+	public Entity resolve(UUID id) {
+		Collection<OnMemoryEntityResolver<? extends Entity>> resolvers = Lists.newArrayList();
 		resolvers.add(nodes);
 		resolvers.add(connections);
 		
-		OnMemoryCompositeEntityResolver<UUIDEntity, UUID> resolver =
-				new OnMemoryCompositeEntityResolver<UUIDEntity, UUID>(resolvers);
-		Entity<UUID> resolved = resolver.resolve(id);
-		return (UUIDEntity) resolved;
+		OnMemoryCompositeEntityResolver<Entity> resolver = new OnMemoryCompositeEntityResolver<Entity>(resolvers);
+		Entity resolved = resolver.resolve(id);
+		return resolved;
 	}
 	
 	/**
@@ -346,8 +340,8 @@ public final class SimpleJmDiagram extends AbstractOrderedEntity<UUID> implement
 	}
 	
 	@Override
-	public UUIDEntityRef<? extends SimpleJmDiagram> toReference() {
-		return new DefaultUUIDEntityRef<SimpleJmDiagram>(this);
+	public EntityRef<? extends SimpleJmDiagram> toReference() {
+		return new EntityRef<SimpleJmDiagram>(this);
 	}
 	
 	@Override

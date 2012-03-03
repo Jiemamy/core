@@ -18,27 +18,93 @@
  */
 package org.jiemamy.model.constraint;
 
-import org.jiemamy.dddbase.UUIDEntityRef;
+import java.util.UUID;
+
+import org.apache.commons.lang.Validate;
+
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.column.JmColumn;
 
 /**
- * NOT NULL制約を表すモデルインターフェイス。
+ * {@link JmNotNullConstraint}のデフォルト実装クラス。
  * 
- * <p>このインターフェイスで定義する全てのメソッドは冪等でなければならない(must)。</p>
- * 
- * @since 0.3
  * @author daisuke
  */
-public interface JmNotNullConstraint extends JmValueConstraint {
-	
-	JmNotNullConstraint clone();
+public class JmNotNullConstraint extends JmValueConstraint {
 	
 	/**
-	* 対象カラム参照を取得する。
-	* 
-	* @return 対象カラム参照、未設定の場合{@code null}
-	*/
-	UUIDEntityRef<? extends JmColumn> getColumn();
+	 * インスタンスを生成する。
+	 * 
+	 * @param column 対象カラム
+	 * @return {@link JmNotNullConstraint}
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public static JmNotNullConstraint of(JmColumn column) {
+		Validate.notNull(column);
+		JmNotNullConstraint model = new JmNotNullConstraint();
+		model.setColumn(column.toReference());
+		return model;
+	}
 	
-	UUIDEntityRef<? extends JmNotNullConstraint> toReference();
+	
+	/** 対象カラム参照 */
+	private EntityRef<? extends JmColumn> column;
+	
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * <p>ENTITY IDは{@code UUID.randomUUID()}を用いて自動生成する。</p>
+	 */
+	public JmNotNullConstraint() {
+		this(UUID.randomUUID());
+	}
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param id ENTITY ID
+	 * @throws IllegalArgumentException 引数{@code id}に{@code null}を与えた場合
+	 */
+	public JmNotNullConstraint(UUID id) {
+		super(id);
+	}
+	
+	@Override
+	public JmNotNullConstraint clone() {
+		JmNotNullConstraint clone = (JmNotNullConstraint) super.clone();
+		return clone;
+	}
+	
+	/**
+	 * 対象カラム参照を取得する。
+	 * 
+	 * @return 対象カラム参照、未設定の場合{@code null}
+	 */
+	public EntityRef<? extends JmColumn> getColumn() {
+		return column;
+	}
+	
+	/**
+	 * 対象カラム参照を設定する。
+	 * 
+	 * @param column 対象カラム参照
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public void setColumn(EntityRef<? extends JmColumn> column) {
+		Validate.notNull(column);
+		this.column = column;
+	}
+	
+	@Override
+	public EntityRef<? extends JmNotNullConstraint> toReference() {
+		return new EntityRef<JmNotNullConstraint>(this);
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder(super.toString());
+		sb.insert(sb.length() - 1, ", target=" + column);
+		return sb.toString();
+	}
 }

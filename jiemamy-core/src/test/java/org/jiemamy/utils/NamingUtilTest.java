@@ -26,7 +26,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.model.table.SimpleJmTable;
+import org.jiemamy.model.table.JmTable;
 
 /**
  * {@link NamingUtil}のテストクラス。
@@ -38,7 +38,7 @@ public class NamingUtilTest {
 	
 	private JiemamyContext context;
 	
-	private SimpleJmTable t1;
+	private JmTable t1;
 	
 	
 	/**
@@ -49,7 +49,7 @@ public class NamingUtilTest {
 	@Before
 	public void setUp() throws Exception {
 		context = new JiemamyContext();
-		t1 = new SimpleJmTable();
+		t1 = new JmTable();
 		t1.setName("TABLE_1");
 		context.store(t1);
 	}
@@ -61,13 +61,13 @@ public class NamingUtilTest {
 	 */
 	@Test
 	public void test01_autoNameで適切な自動命名が行われる() throws Exception {
-		SimpleJmTable t2 = new SimpleJmTable();
+		JmTable t2 = new JmTable();
 		NamingUtil.autoName(t2, context);
 		
 		assertThat(t2.getName(), is(not("TABLE_1")));
 		context.store(t2);
 		
-		SimpleJmTable t3 = new SimpleJmTable();
+		JmTable t3 = new JmTable();
 		NamingUtil.autoName(t3, context);
 		
 		assertThat(t3.getName(), is(not("TABLE_1")));

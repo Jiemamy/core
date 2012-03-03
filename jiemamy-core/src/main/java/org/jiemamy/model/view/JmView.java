@@ -1,6 +1,6 @@
 /*
  * Copyright 2007-2012 Jiemamy Project and the Others.
- * Created on 2008/09/17
+ * Created on 2008/06/09
  *
  * This file is part of Jiemamy.
  *
@@ -18,21 +18,64 @@
  */
 package org.jiemamy.model.view;
 
-import org.jiemamy.dddbase.UUIDEntityRef;
+import java.util.Set;
+import java.util.UUID;
+
+import com.google.common.collect.Sets;
+
+import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.DbObject;
-import org.jiemamy.model.parameter.ParameterMap;
+import org.jiemamy.model.table.JmTable;
 
 /**
- * リレーショナルデータベースにおける「ビュー」を表すモデルインターフェイス。
+ * ビューモデル
  * 
- * <p>このインターフェイスで定義する全てのメソッドは冪等でなければならない(must)。</p>
- * 
- * @since 0.3
  * @author daisuke
  */
-public interface JmView extends DbObject {
+public final class JmView extends DbObject {
 	
-	JmView clone();
+	/** VIEW定義SELECT文 */
+	private String definition;
+	
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * <p>ENTITY IDは{@code UUID.randomUUID()}を用いて自動生成する。</p>
+	 */
+	public JmView() {
+		this(UUID.randomUUID());
+	}
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param id ENTITY ID
+	 * @throws IllegalArgumentException 引数{@code id}に{@code null}を与えた場合
+	 */
+	public JmView(UUID id) {
+		super(id);
+	}
+	
+	@Override
+	public JmView clone() {
+		JmView clone = (JmView) super.clone();
+		return clone;
+	}
+	
+	@Override
+	public Set<DbObject> findSuperDbObjectsNonRecursive(Set<DbObject> dbObjects) {
+		// TODO definitionのパースによって、依存テーブルを出すべき
+		// 現状は全てのテーブルに依存することになっている。
+		Set<DbObject> result = Sets.newHashSet();
+		for (DbObject dbObject : dbObjects) {
+			if (dbObject instanceof JmTable) {
+				result.add(dbObject);
+			}
+		}
+		return result;
+	}
 	
 	/**
 	 * VIEW定義SELECT文を取得する。
@@ -40,7 +83,9 @@ public interface JmView extends DbObject {
 	 * @return VIEW定義SELECT文. 未設定の場合は{@code null}
 	 * @since 0.3
 	 */
-	String getDefinition();
+	public String getDefinition() {
+		return definition;
+	}
 	
 	/**
 	 * キーに対応するパラメータの値を取得する。
@@ -50,14 +95,42 @@ public interface JmView extends DbObject {
 	 * @return パラメータの値
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	<T>T getParam(ViewParameterKey<T> key);
+	public <T>T getParam(ViewParameterKey<T> key) {
+		return super.getParam(key);
+	}
 	
 	/**
-	 * このモデルが持つ全パラメータを取得する。
+	 * パラメータを追加する。
 	 * 
-	 * @return カラムが持つ全パラメータ
+	 * @param key キー
+	 * @param value 値
+	 * @param <T> 値の型
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	ParameterMap getParams();
+	public <T>void putParam(ViewParameterKey<T> key, T value) {
+		super.putParam(key, value);
+	}
 	
-	UUIDEntityRef<? extends JmView> toReference();
+	/**
+	 * パラメータを削除する。
+	 * 
+	 * @param key キー
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public void removeParam(ViewParameterKey<?> key) {
+		super.removeParam(key);
+	}
+	
+	/**
+	 * VIEW定義SELECT文を設定する。 
+	 * @param definition VIEW定義SELECT文
+	 */
+	public void setDefinition(String definition) {
+		this.definition = definition;
+	}
+	
+	@Override
+	public EntityRef<? extends JmView> toReference() {
+		return new EntityRef<JmView>(this);
+	}
 }

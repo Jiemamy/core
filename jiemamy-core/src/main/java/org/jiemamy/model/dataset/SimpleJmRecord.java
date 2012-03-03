@@ -30,7 +30,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.dddbase.UUIDEntityRef;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.utils.MutationMonitor;
 import org.jiemamy.model.column.JmColumn;
 import org.jiemamy.model.table.JmTable;
@@ -44,7 +44,7 @@ import org.jiemamy.script.ScriptString;
 public final class SimpleJmRecord implements JmRecord {
 	
 	/** カラムに対応するデータ */
-	private final Map<UUIDEntityRef<? extends JmColumn>, ScriptString> values;
+	private final Map<EntityRef<? extends JmColumn>, ScriptString> values;
 	
 	
 	/**
@@ -54,7 +54,7 @@ public final class SimpleJmRecord implements JmRecord {
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @throws IllegalArgumentException 引数に{@code null}をキーに含む{@link Map}を与えた場合
 	 */
-	public SimpleJmRecord(Map<UUIDEntityRef<? extends JmColumn>, ScriptString> values) {
+	public SimpleJmRecord(Map<EntityRef<? extends JmColumn>, ScriptString> values) {
 		Validate.notNull(values);
 		Validate.noNullElements(values.keySet());
 		/* Validate.noNullElements(values.values()); */// valuesにはnullを含むことがある 
@@ -76,7 +76,7 @@ public final class SimpleJmRecord implements JmRecord {
 		return values.equals(other.values);
 	}
 	
-	public Map<UUIDEntityRef<? extends JmColumn>, ScriptString> getValues() {
+	public Map<EntityRef<? extends JmColumn>, ScriptString> getValues() {
 		assert values != null;
 		return MutationMonitor.monitor(Maps.newHashMap(values));
 	}
@@ -86,13 +86,12 @@ public final class SimpleJmRecord implements JmRecord {
 		return values.hashCode();
 	}
 	
-	public Iterable<Entry<UUIDEntityRef<? extends JmColumn>, ScriptString>> toIterable(JiemamyContext context,
-			UUIDEntityRef<? extends JmTable> tableRef) {
+	public Iterable<Entry<EntityRef<? extends JmColumn>, ScriptString>> toIterable(JiemamyContext context,
+			EntityRef<? extends JmTable> tableRef) {
 		Validate.notNull(context);
 		Validate.notNull(tableRef);
 		final JmTable table = context.resolve(tableRef);
-		Map<UUIDEntityRef<? extends JmColumn>, ScriptString> sortedMap =
-				Maps.newTreeMap(new ColumnOrderComparator(table));
+		Map<EntityRef<? extends JmColumn>, ScriptString> sortedMap = Maps.newTreeMap(new ColumnOrderComparator(table));
 		sortedMap.putAll(values);
 		return sortedMap.entrySet();
 	}
@@ -103,7 +102,7 @@ public final class SimpleJmRecord implements JmRecord {
 	}
 	
 	
-	private static class ColumnOrderComparator implements Comparator<UUIDEntityRef<? extends JmColumn>> {
+	private static class ColumnOrderComparator implements Comparator<EntityRef<? extends JmColumn>> {
 		
 		private final JmTable table;
 		
@@ -118,7 +117,7 @@ public final class SimpleJmRecord implements JmRecord {
 			this.table = table;
 		}
 		
-		public int compare(UUIDEntityRef<? extends JmColumn> o1, UUIDEntityRef<? extends JmColumn> o2) {
+		public int compare(EntityRef<? extends JmColumn> o1, EntityRef<? extends JmColumn> o2) {
 			int i1 = -1;
 			int i2 = -1;
 			List<JmColumn> columns = table.getColumns();

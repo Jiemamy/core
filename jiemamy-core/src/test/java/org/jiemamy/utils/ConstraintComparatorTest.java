@@ -21,7 +21,6 @@ package org.jiemamy.utils;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,6 +29,8 @@ import java.util.UUID;
 import com.google.common.collect.Lists;
 
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.jiemamy.model.constraint.JmCheckConstraint;
 import org.jiemamy.model.constraint.JmConstraint;
@@ -37,7 +38,7 @@ import org.jiemamy.model.constraint.JmForeignKeyConstraint;
 import org.jiemamy.model.constraint.JmNotNullConstraint;
 import org.jiemamy.model.constraint.JmPrimaryKeyConstraint;
 import org.jiemamy.model.constraint.JmUniqueKeyConstraint;
-import org.jiemamy.model.constraint.SimpleJmValueConstraint;
+import org.jiemamy.model.constraint.JmValueConstraint;
 
 /**
  * {@link ConstraintComparator}のテストクラス。
@@ -47,6 +48,9 @@ import org.jiemamy.model.constraint.SimpleJmValueConstraint;
  */
 public class ConstraintComparatorTest {
 	
+	private static Logger logger = LoggerFactory.getLogger(ConstraintComparatorTest.class);
+	
+	
 	/**
 	 * インターフェースの順でソートする。
 	 * 
@@ -54,22 +58,21 @@ public class ConstraintComparatorTest {
 	 */
 	@Test
 	public void test01_インターフェースの順でソートする() throws Exception {
-		JmPrimaryKeyConstraint pk = mock(JmPrimaryKeyConstraint.class);
-		JmUniqueKeyConstraint uk = mock(JmUniqueKeyConstraint.class);
-		JmForeignKeyConstraint fk = mock(JmForeignKeyConstraint.class);
-		JmNotNullConstraint nn = mock(JmNotNullConstraint.class);
-		JmCheckConstraint c = mock(JmCheckConstraint.class);
-		JmConstraint other = mock(JmConstraint.class);
+		JmPrimaryKeyConstraint pk = new JmPrimaryKeyConstraint();
+		JmUniqueKeyConstraint uk = new JmUniqueKeyConstraint();
+		JmForeignKeyConstraint fk = new JmForeignKeyConstraint();
+		JmNotNullConstraint nn = new JmNotNullConstraint();
+		JmCheckConstraint c = new JmCheckConstraint();
 		
-		ArrayList<JmConstraint> models = Lists.newArrayList(nn, uk, pk, other, c, fk); // 適当な順番で追加
+		ArrayList<JmConstraint> models = Lists.newArrayList(nn, uk, pk, c, fk); // 適当な順番で追加
 		Collections.sort(models, ConstraintComparator.INSTANCE);
 		
+		logger.info("order = {}", models);
 		assertThat(models.get(0), is(instanceOf(JmPrimaryKeyConstraint.class)));
 		assertThat(models.get(1), is(instanceOf(JmUniqueKeyConstraint.class)));
 		assertThat(models.get(2), is(instanceOf(JmForeignKeyConstraint.class)));
 		assertThat(models.get(3), is(instanceOf(JmNotNullConstraint.class)));
 		assertThat(models.get(4), is(instanceOf(JmCheckConstraint.class)));
-		assertThat(models.get(5), is(instanceOf(JmConstraint.class)));
 	}
 	
 	/**
@@ -114,7 +117,7 @@ public class ConstraintComparatorTest {
 	}
 	
 	
-	static class SampleAaaConstraint extends SimpleJmValueConstraint {
+	static class SampleAaaConstraint extends JmValueConstraint {
 		
 		/**
 		 * インスタンスを生成する。
@@ -125,7 +128,7 @@ public class ConstraintComparatorTest {
 		
 	}
 	
-	static class SampleBbbConstraint extends SimpleJmValueConstraint {
+	static class SampleBbbConstraint extends JmValueConstraint {
 		
 		/**
 		 * インスタンスを生成する。
@@ -136,7 +139,7 @@ public class ConstraintComparatorTest {
 		
 	}
 	
-	static class SampleCccConstraint extends SimpleJmValueConstraint {
+	static class SampleCccConstraint extends JmValueConstraint {
 		
 		/**
 		 * インスタンスを生成する。
@@ -147,7 +150,7 @@ public class ConstraintComparatorTest {
 		
 	}
 	
-	static class SampleDddConstraint extends SimpleJmValueConstraint {
+	static class SampleDddConstraint extends JmValueConstraint {
 		
 		/**
 		 * インスタンスを生成する。

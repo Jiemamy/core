@@ -19,8 +19,7 @@ package org.jiemamy.model;
 import java.util.UUID;
 
 import org.jiemamy.dddbase.AbstractEntity;
-import org.jiemamy.dddbase.DefaultUUIDEntityRef;
-import org.jiemamy.dddbase.UUIDEntityRef;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.geometory.JmColor;
 import org.jiemamy.model.geometory.JmRectangle;
 
@@ -31,7 +30,7 @@ import org.jiemamy.model.geometory.JmRectangle;
  * @version $Id$
  * @author daisuke
  */
-public abstract class SimpleJmNode extends AbstractEntity<UUID> implements JmNode {
+public abstract class SimpleJmNode extends AbstractEntity implements JmNode {
 	
 	private JmRectangle boundary;
 	
@@ -80,8 +79,8 @@ public abstract class SimpleJmNode extends AbstractEntity<UUID> implements JmNod
 	}
 	
 	@Override
-	public UUIDEntityRef<? extends SimpleJmNode> toReference() {
-		return new DefaultUUIDEntityRef<SimpleJmNode>(this);
+	public EntityRef<? extends SimpleJmNode> toReference() {
+		return new EntityRef<SimpleJmNode>(this);
 	}
 	
 	@Override

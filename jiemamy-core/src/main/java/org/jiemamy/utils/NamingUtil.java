@@ -22,7 +22,6 @@ import org.apache.commons.lang.Validate;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.model.DbObject;
-import org.jiemamy.model.SimpleDbObject;
 import org.jiemamy.model.domain.JmDomain;
 import org.jiemamy.model.index.JmIndex;
 import org.jiemamy.model.table.JmTable;
@@ -44,7 +43,7 @@ public final class NamingUtil {
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @throws IllegalArgumentException 名付けに対応していない {@link DbObject} を与えた場合
 	 */
-	public static void autoName(SimpleDbObject target, JiemamyContext context) {
+	public static void autoName(DbObject target, JiemamyContext context) {
 		Validate.notNull(target);
 		Validate.notNull(context);
 		

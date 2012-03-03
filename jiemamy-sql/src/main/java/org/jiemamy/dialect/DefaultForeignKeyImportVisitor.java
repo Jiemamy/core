@@ -27,10 +27,10 @@ import org.apache.commons.lang.Validate;
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.model.column.JmColumn;
 import org.jiemamy.model.constraint.JmDeferrability;
-import org.jiemamy.model.constraint.JmForeignKeyConstraint.ReferentialAction;
-import org.jiemamy.model.constraint.SimpleJmDeferrability;
-import org.jiemamy.model.constraint.SimpleJmForeignKeyConstraint;
-import org.jiemamy.model.table.SimpleJmTable;
+import org.jiemamy.model.constraint.JmDeferrability;
+import org.jiemamy.model.constraint.ReferentialAction;
+import org.jiemamy.model.constraint.JmForeignKeyConstraint;
+import org.jiemamy.model.table.JmTable;
 import org.jiemamy.utils.sql.metadata.KeyMeta;
 import org.jiemamy.utils.visitor.AbstractCollectionVisitor;
 
@@ -45,7 +45,7 @@ public class DefaultForeignKeyImportVisitor extends AbstractCollectionVisitor<Ke
 	/** 書き込み先モデル */
 	private JiemamyContext context;
 	
-	private Map<String, SimpleJmForeignKeyConstraint> importedForeignKeys = Maps.newHashMap();
+	private Map<String, JmForeignKeyConstraint> importedForeignKeys = Maps.newHashMap();
 	
 	
 	/**
@@ -67,13 +67,13 @@ public class DefaultForeignKeyImportVisitor extends AbstractCollectionVisitor<Ke
 	
 	public Void visit(KeyMeta keys) {
 		Validate.notNull(keys);
-		SimpleJmTable constrainedTable = (SimpleJmTable) context.getTable(keys.fkTableName);
-		SimpleJmTable referenceTable = (SimpleJmTable) context.getTable(keys.pkTableName);
+		JmTable constrainedTable = (JmTable) context.getTable(keys.fkTableName);
+		JmTable referenceTable = (JmTable) context.getTable(keys.pkTableName);
 		
 		if (constrainedTable != null && referenceTable != null) {
-			SimpleJmForeignKeyConstraint foreignKey = importedForeignKeys.get(keys.fkName);
+			JmForeignKeyConstraint foreignKey = importedForeignKeys.get(keys.fkName);
 			if (foreignKey == null) {
-				foreignKey = new SimpleJmForeignKeyConstraint();
+				foreignKey = new JmForeignKeyConstraint();
 				foreignKey.setName(keys.fkName);
 				importedForeignKeys.put(keys.fkName, foreignKey);
 			}
@@ -91,7 +91,7 @@ public class DefaultForeignKeyImportVisitor extends AbstractCollectionVisitor<Ke
 				foreignKey.setOnDelete(onDelete);
 			}
 			
-			JmDeferrability deferrability = SimpleJmDeferrability.fromDeferrability(keys.deferrability);
+			JmDeferrability deferrability = JmDeferrability.fromDeferrability(keys.deferrability);
 			foreignKey.setDeferrability(deferrability);
 			
 			constrainedTable.store(foreignKey);

@@ -20,7 +20,7 @@ package org.jiemamy.model.datatype;
 
 import org.apache.commons.lang.Validate;
 
-import org.jiemamy.model.domain.SimpleJmDomain.DomainType;
+import org.jiemamy.model.domain.JmDomain.DomainType;
 import org.jiemamy.model.parameter.ParameterMap;
 
 /**

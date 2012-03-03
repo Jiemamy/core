@@ -1,6 +1,6 @@
 /*
  * Copyright 2007-2012 Jiemamy Project and the Others.
- * Created on 2009/01/26
+ * Created on 2011/01/17
  *
  * This file is part of Jiemamy.
  *
@@ -18,7 +18,9 @@
  */
 package org.jiemamy.model.constraint;
 
-import org.jiemamy.dddbase.UUIDEntityRef;
+import java.util.UUID;
+
+import org.jiemamy.dddbase.EntityRef;
 
 /**
  * 値に対する単純な制約を表す制約モデル。
@@ -30,10 +32,26 @@ import org.jiemamy.dddbase.UUIDEntityRef;
  * @since 0.3
  * @author daisuke
  */
-public interface JmValueConstraint extends JmConstraint {
+public abstract class JmValueConstraint extends JmConstraint {
 	
-	JmValueConstraint clone();
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param id ENTITY ID
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public JmValueConstraint(UUID id) {
+		super(id);
+	}
 	
-	UUIDEntityRef<? extends JmValueConstraint> toReference();
+	@Override
+	public JmValueConstraint clone() {
+		JmValueConstraint clone = (JmValueConstraint) super.clone();
+		return clone;
+	}
 	
+	@Override
+	public EntityRef<? extends JmValueConstraint> toReference() {
+		return new EntityRef<JmValueConstraint>(this);
+	}
 }

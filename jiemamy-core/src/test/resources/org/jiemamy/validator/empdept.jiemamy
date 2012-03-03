@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <jiemamy xmlns="http://jiemamy.org/xml/ns/core" version="0.3">
-  <metadata class="org.jiemamy.SimpleJmMetadata"/>
+  <metadata class="org.jiemamy.JmMetadata"/>
   <dbobjects>
-    <table id="44b5ba8e-5663-4795-ba41-c3212a4e8c1a" class="org.jiemamy.model.table.SimpleJmTable">
+    <table id="44b5ba8e-5663-4795-ba41-c3212a4e8c1a" class="org.jiemamy.model.table.JmTable">
       <name>EMP</name>
       <columns>
-        <column id="e63cf5b7-846f-4485-aa1b-96bbf0a87ccd" class="org.jiemamy.model.column.SimpleJmColumn">
+        <column id="e63cf5b7-846f-4485-aa1b-96bbf0a87ccd" class="org.jiemamy.model.column.JmColumn">
           <name>ID</name>
           <dataType class="org.jiemamy.model.datatype.SimpleDataType">
             <typeDesc>
@@ -14,7 +14,7 @@
             </typeDesc>
           </dataType>
         </column>
-        <column id="e86f67b2-9ac6-4852-9594-3e3ac080202a" class="org.jiemamy.model.column.SimpleJmColumn">
+        <column id="e86f67b2-9ac6-4852-9594-3e3ac080202a" class="org.jiemamy.model.column.JmColumn">
           <name>NAME</name>
           <dataType class="org.jiemamy.model.datatype.SimpleDataType">
             <typeDesc>
@@ -26,7 +26,7 @@
             </parameters>
           </dataType>
         </column>
-        <column id="1228bdb3-0e16-4a4d-9b35-3096f82f1d91" class="org.jiemamy.model.column.SimpleJmColumn">
+        <column id="1228bdb3-0e16-4a4d-9b35-3096f82f1d91" class="org.jiemamy.model.column.JmColumn">
           <name>DEPT_ID</name>
           <dataType class="org.jiemamy.model.datatype.SimpleDataType">
             <typeDesc>
@@ -35,7 +35,7 @@
             </typeDesc>
           </dataType>
         </column>
-        <column id="0ddcd07f-528f-45ce-a4fc-02b32524eeda" class="org.jiemamy.model.column.SimpleJmColumn">
+        <column id="0ddcd07f-528f-45ce-a4fc-02b32524eeda" class="org.jiemamy.model.column.JmColumn">
           <name>MGR_ID</name>
           <dataType class="org.jiemamy.model.datatype.SimpleDataType">
             <typeDesc>
@@ -46,12 +46,12 @@
         </column>
       </columns>
       <constraints>
-        <primaryKey id="4a9ac712-21f7-439d-9e24-b7b8c80141ec" class="org.jiemamy.model.constraint.SimpleJmPrimaryKeyConstraint">
+        <primaryKey id="4a9ac712-21f7-439d-9e24-b7b8c80141ec" class="org.jiemamy.model.constraint.JmPrimaryKeyConstraint">
           <keyColumns>
             <columnRef ref="e63cf5b7-846f-4485-aa1b-96bbf0a87ccd"/>
           </keyColumns>
         </primaryKey>
-        <foreignKey id="c9634278-bdd5-4130-9217-96a3b9dfbcd0" class="org.jiemamy.model.constraint.SimpleJmForeignKeyConstraint">
+        <foreignKey id="c9634278-bdd5-4130-9217-96a3b9dfbcd0" class="org.jiemamy.model.constraint.JmForeignKeyConstraint">
           <keyColumns>
             <columnRef ref="1228bdb3-0e16-4a4d-9b35-3096f82f1d91"/>
           </keyColumns>
@@ -59,7 +59,7 @@
             <columnRef ref="804cd577-3d70-4771-acf9-39c321e4753f"/>
           </referenceColumns>
         </foreignKey>
-        <foreignKey id="2d5835fc-5584-4cce-9cb1-88bfd18e8402" class="org.jiemamy.model.constraint.SimpleJmForeignKeyConstraint">
+        <foreignKey id="2d5835fc-5584-4cce-9cb1-88bfd18e8402" class="org.jiemamy.model.constraint.JmForeignKeyConstraint">
           <keyColumns>
             <columnRef ref="0ddcd07f-528f-45ce-a4fc-02b32524eeda"/>
           </keyColumns>
@@ -67,15 +67,15 @@
             <columnRef ref="e63cf5b7-846f-4485-aa1b-96bbf0a87ccd"/>
           </referenceColumns>
         </foreignKey>
-        <notNull id="318780ef-4465-4f78-a434-c2c1cfdc44aa" class="org.jiemamy.model.constraint.SimpleJmNotNullConstraint">
+        <notNull id="318780ef-4465-4f78-a434-c2c1cfdc44aa" class="org.jiemamy.model.constraint.JmNotNullConstraint">
           <columnRef ref="e86f67b2-9ac6-4852-9594-3e3ac080202a"/>
         </notNull>
       </constraints>
     </table>
-    <table id="7eb81a66-5efc-4dae-ac62-a6e685a59c01" class="org.jiemamy.model.table.SimpleJmTable">
+    <table id="7eb81a66-5efc-4dae-ac62-a6e685a59c01" class="org.jiemamy.model.table.JmTable">
       <name>DEPT</name>
       <columns>
-        <column id="804cd577-3d70-4771-acf9-39c321e4753f" class="org.jiemamy.model.column.SimpleJmColumn">
+        <column id="804cd577-3d70-4771-acf9-39c321e4753f" class="org.jiemamy.model.column.JmColumn">
           <name>ID</name>
           <dataType class="org.jiemamy.model.datatype.SimpleDataType">
             <typeDesc>
@@ -84,7 +84,7 @@
             </typeDesc>
           </dataType>
         </column>
-        <column id="3e589b12-66c8-42ec-a02e-2842271fef57" class="org.jiemamy.model.column.SimpleJmColumn">
+        <column id="3e589b12-66c8-42ec-a02e-2842271fef57" class="org.jiemamy.model.column.JmColumn">
           <name>NAME</name>
           <dataType class="org.jiemamy.model.datatype.SimpleDataType">
             <typeDesc>
@@ -96,7 +96,7 @@
             </parameters>
           </dataType>
         </column>
-        <column id="e1aead7d-746b-4e77-a37c-15436a3d9a13" class="org.jiemamy.model.column.SimpleJmColumn">
+        <column id="e1aead7d-746b-4e77-a37c-15436a3d9a13" class="org.jiemamy.model.column.JmColumn">
           <name>LOC</name>
           <dataType class="org.jiemamy.model.datatype.SimpleDataType">
             <typeDesc>
@@ -110,12 +110,12 @@
         </column>
       </columns>
       <constraints>
-        <primaryKey id="027701b2-38bd-4dc5-a6e8-29ae1f9a2747" class="org.jiemamy.model.constraint.SimpleJmPrimaryKeyConstraint">
+        <primaryKey id="027701b2-38bd-4dc5-a6e8-29ae1f9a2747" class="org.jiemamy.model.constraint.JmPrimaryKeyConstraint">
           <keyColumns>
             <columnRef ref="804cd577-3d70-4771-acf9-39c321e4753f"/>
           </keyColumns>
         </primaryKey>
-        <notNull id="e0ea8e9c-bf5c-4f2b-8ad4-d53d19109a43" class="org.jiemamy.model.constraint.SimpleJmNotNullConstraint">
+        <notNull id="e0ea8e9c-bf5c-4f2b-8ad4-d53d19109a43" class="org.jiemamy.model.constraint.JmNotNullConstraint">
           <columnRef ref="3e589b12-66c8-42ec-a02e-2842271fef57"/>
         </notNull>
       </constraints>

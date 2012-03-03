@@ -18,7 +18,7 @@
  */
 package org.jiemamy.model;
 
-import org.jiemamy.dddbase.UUIDEntityRef;
+import org.jiemamy.dddbase.EntityRef;
 
 /**
  * {@link DbObject}に対応する、ダイアグラム上のノードを表すインターフェイス。
@@ -37,6 +37,6 @@ public interface DbObjectNode extends JmNode {
 	 * @return コアモデルへの参照。コアが無い場合は{@code null}
 	 * @since 0.3
 	 */
-	UUIDEntityRef<? extends DbObject> getCoreModelRef();
+	EntityRef<? extends DbObject> getCoreModelRef();
 	
 }

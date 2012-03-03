@@ -32,9 +32,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.dddbase.DefaultUUIDEntityRef;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.EntityNotFoundException;
-import org.jiemamy.dddbase.UUIDEntityRef;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.column.JmColumn;
 import org.jiemamy.script.PlainScriptEngine;
 import org.jiemamy.script.ScriptString;
@@ -78,7 +78,7 @@ public final class SimpleJmRecordStaxHandler extends StaxHandler<SimpleJmRecord>
 			
 			JiemamyCursor cursor = dctx.peek();
 			
-			Map<UUIDEntityRef<? extends JmColumn>, ScriptString> values = Maps.newHashMap();
+			Map<EntityRef<? extends JmColumn>, ScriptString> values = Maps.newHashMap();
 			
 			JiemamyCursor childCursor = cursor.childElementCursor();
 			dctx.push(childCursor);
@@ -89,7 +89,7 @@ public final class SimpleJmRecordStaxHandler extends StaxHandler<SimpleJmRecord>
 						String strRef = childCursor.getAttrValue(CoreQName.REF);
 						assert strRef != null;
 						UUID referenceId = dctx.getContext().toUUID(strRef);
-						UUIDEntityRef<? extends JmColumn> columnRef = DefaultUUIDEntityRef.of(referenceId);
+						EntityRef<? extends JmColumn> columnRef = EntityRef.of(referenceId);
 						String engine = PlainScriptEngine.class.getName();
 						if (childCursor.hasAttr(CoreQName.ENGINE)) {
 							engine = childCursor.getAttrValue(CoreQName.ENGINE);
@@ -125,10 +125,10 @@ public final class SimpleJmRecordStaxHandler extends StaxHandler<SimpleJmRecord>
 			
 			JiemamyContext context = sctx.getContext();
 			
-			Iterable<Entry<UUIDEntityRef<? extends JmColumn>, ScriptString>> values =
+			Iterable<Entry<EntityRef<? extends JmColumn>, ScriptString>> values =
 					model.toIterable(sctx.getContext(), sctx.getCurrentTableRef());
-			for (Entry<UUIDEntityRef<? extends JmColumn>, ScriptString> entry : values) {
-				UUIDEntityRef<? extends JmColumn> columnRef = entry.getKey();
+			for (Entry<EntityRef<? extends JmColumn>, ScriptString> entry : values) {
+				EntityRef<? extends JmColumn> columnRef = entry.getKey();
 				ScriptString value = entry.getValue();
 				if (JiemamyContext.isDebug()) {
 					try {

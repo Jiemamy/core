@@ -1,6 +1,6 @@
 /*
  * Copyright 2007-2012 Jiemamy Project and the Others.
- * Created on 2008/09/18
+ * Created on 2009/03/10
  *
  * This file is part of Jiemamy.
  *
@@ -18,26 +18,101 @@
  */
 package org.jiemamy.model.constraint;
 
-import org.jiemamy.dddbase.UUIDEntityRef;
+import java.util.UUID;
+
+import org.jiemamy.dddbase.EntityRef;
 
 /**
- * チェック制約を表すモデルインターフェイス。
- * 
- * <p>このインターフェイスで定義する全てのメソッドは冪等でなければならない(must)。</p>
+ * {@link JmCheckConstraint}のデフォルト実装クラス。
  * 
  * @author daisuke
  */
-public interface JmCheckConstraint extends JmValueConstraint {
-	
-	JmCheckConstraint clone();
+public class JmCheckConstraint extends JmValueConstraint {
 	
 	/**
-	* CHECK制約定義式を取得する。
-	* 
-	* @return CHECK制約定義式. 未設定の場合は{@code null}
-	* @since 0.3
-	*/
-	String getExpression();
+	 * インスタンスを生成する。
+	 * 
+	 * @param expression CHEKC制約定義式
+	 * @return {@link JmCheckConstraint}
+	 */
+	public static JmCheckConstraint of(String expression) {
+		JmCheckConstraint model = new JmCheckConstraint();
+		model.setExpression(expression);
+		return model;
+	}
 	
-	UUIDEntityRef<? extends JmCheckConstraint> toReference();
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param expression CHEKC制約定義式
+	 * @param name 物理名
+	 * @return {@link JmCheckConstraint}
+	 */
+	public static JmCheckConstraint of(String expression, String name) {
+		JmCheckConstraint model = new JmCheckConstraint();
+		model.setName(name);
+		model.setExpression(expression);
+		return model;
+	}
+	
+	
+	/** CHEKC制約定義式 */
+	private String expression;
+	
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * <p>ENTITY IDは{@code UUID.randomUUID()}を用いて自動生成する。</p>
+	 */
+	public JmCheckConstraint() {
+		this(UUID.randomUUID());
+	}
+	
+	/**
+	* インスタンスを生成する。
+	* 
+	* @param id ENTITY ID
+	* @throws IllegalArgumentException 引数{@code id}に{@code null}を与えた場合
+	*/
+	public JmCheckConstraint(UUID id) {
+		super(id);
+	}
+	
+	@Override
+	public JmCheckConstraint clone() {
+		JmCheckConstraint clone = (JmCheckConstraint) super.clone();
+		return clone;
+	}
+	
+	/**
+	 * CHECK制約定義式を取得する。
+	 * 
+	 * @return CHECK制約定義式. 未設定の場合は{@code null}
+	 * @since 0.3
+	 */
+	public String getExpression() {
+		return expression;
+	}
+	
+	/**
+	 * CHECK制約定義式を設定する。
+	 * 
+	 * @param expression CHECK制約定義式
+	 */
+	public void setExpression(String expression) {
+		this.expression = expression;
+	}
+	
+	@Override
+	public EntityRef<? extends JmCheckConstraint> toReference() {
+		return new EntityRef<JmCheckConstraint>(this);
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder(super.toString());
+		sb.insert(sb.length() - 1, ", exp=" + expression);
+		return sb.toString();
+	}
 }

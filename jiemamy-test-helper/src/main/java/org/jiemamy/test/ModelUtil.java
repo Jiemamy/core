@@ -25,7 +25,7 @@ import com.google.common.collect.Maps;
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.dddbase.UUIDEntityRef;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dialect.Dialect;
 import org.jiemamy.dialect.GenericDialect;
 import org.jiemamy.model.column.JmColumn;
@@ -75,7 +75,7 @@ final class ModelUtil {
 	 */
 	public static class RecordBuilder {
 		
-		private HashMap<UUIDEntityRef<? extends JmColumn>, ScriptString> map;
+		private HashMap<EntityRef<? extends JmColumn>, ScriptString> map;
 		
 		
 		private RecordBuilder() {

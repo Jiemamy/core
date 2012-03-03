@@ -23,8 +23,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.jiemamy.dddbase.OrderedEntity;
-import org.jiemamy.dddbase.UUIDEntity;
-import org.jiemamy.dddbase.UUIDEntityRef;
+import org.jiemamy.dddbase.Entity;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.table.JmTable;
 
 /**
@@ -35,7 +35,7 @@ import org.jiemamy.model.table.JmTable;
  * @since 0.3
  * @author daisuke
  */
-public interface JmDataSet extends OrderedEntity<UUID>, UUIDEntity {
+public interface JmDataSet extends OrderedEntity, Entity {
 	
 	JmDataSet clone();
 	
@@ -55,7 +55,7 @@ public interface JmDataSet extends OrderedEntity<UUID>, UUIDEntity {
 	 * @return レコード情報
 	 * @since 0.3
 	 */
-	Map<UUIDEntityRef<? extends JmTable>, List<JmRecord>> getRecords();
+	Map<EntityRef<? extends JmTable>, List<JmRecord>> getRecords();
 	
-	UUIDEntityRef<? extends JmDataSet> toReference();
+	EntityRef<? extends JmDataSet> toReference();
 }

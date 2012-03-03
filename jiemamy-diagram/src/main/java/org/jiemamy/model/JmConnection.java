@@ -20,8 +20,8 @@ package org.jiemamy.model;
 
 import java.util.List;
 
-import org.jiemamy.dddbase.UUIDEntity;
-import org.jiemamy.dddbase.UUIDEntityRef;
+import org.jiemamy.dddbase.Entity;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.constraint.JmForeignKeyConstraint;
 import org.jiemamy.model.geometory.JmColor;
 import org.jiemamy.model.geometory.JmPoint;
@@ -34,7 +34,7 @@ import org.jiemamy.model.geometory.JmPoint;
  * @since 0.3
  * @author daisuke
  */
-public interface JmConnection extends UUIDEntity {
+public interface JmConnection extends Entity {
 	
 	JmConnection clone();
 	
@@ -64,7 +64,7 @@ public interface JmConnection extends UUIDEntity {
 	 * @return コアモデルへの参照
 	 * @since 0.3
 	 */
-	UUIDEntityRef<? extends JmForeignKeyConstraint> getCoreModelRef();
+	EntityRef<? extends JmForeignKeyConstraint> getCoreModelRef();
 	
 	/**
 	 * 接続元ノードを取得する。
@@ -73,7 +73,7 @@ public interface JmConnection extends UUIDEntity {
 	 * @throws ModelConsistencyException モデルの不整合により、接続元ノードが不明な場合
 	 * @since 0.3
 	 */
-	UUIDEntityRef<? extends JmNode> getSource();
+	EntityRef<? extends JmNode> getSource();
 	
 	/**
 	 * 接続先ノードを取得する。 
@@ -82,7 +82,7 @@ public interface JmConnection extends UUIDEntity {
 	 * @throws ModelConsistencyException モデルの不整合により、接続先ノードが不明な場合
 	 * @since 0.3
 	 */
-	UUIDEntityRef<? extends JmNode> getTarget();
+	EntityRef<? extends JmNode> getTarget();
 	
 	/**
 	 * 自分同士を繋ぐコネクションであるかどうかを調べる。
@@ -93,5 +93,5 @@ public interface JmConnection extends UUIDEntity {
 	 */
 	boolean isSelfConnection();
 	
-	UUIDEntityRef<? extends JmConnection> toReference();
+	EntityRef<? extends JmConnection> toReference();
 }

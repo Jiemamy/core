@@ -19,16 +19,16 @@ package org.jiemamy.model.column;
 
 import java.util.UUID;
 
-import org.jiemamy.dddbase.UUIDEntityFactory;
+import org.jiemamy.dddbase.AbstractEntityFactory;
 import org.jiemamy.model.datatype.DataType;
 
 /**
- * {@link SimpleJmColumn}のファクトリクラス。
+ * {@link JmColumn}のファクトリクラス。
  * 
  * @version $Id$
  * @author daisuke
  */
-public class JmColumnBuilder extends UUIDEntityFactory<SimpleJmColumn> {
+public class JmColumnBuilder extends AbstractEntityFactory<JmColumn> {
 	
 	String name;
 	
@@ -53,8 +53,8 @@ public class JmColumnBuilder extends UUIDEntityFactory<SimpleJmColumn> {
 		this.name = name;
 	}
 	
-	public SimpleJmColumn build(UUID id) {
-		SimpleJmColumn column = new SimpleJmColumn(id);
+	public JmColumn build(UUID id) {
+		JmColumn column = new JmColumn(id);
 		column.setName(name);
 		column.setDataType(type);
 		column.setDefaultValue(defaultValue);

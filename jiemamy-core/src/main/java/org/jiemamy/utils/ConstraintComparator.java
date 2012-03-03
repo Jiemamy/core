@@ -52,12 +52,9 @@ public class ConstraintComparator implements Comparator<JmConstraint> {
 		List<Class<? extends JmConstraint>> order = Lists.newArrayList();
 		order.add(JmPrimaryKeyConstraint.class);
 		order.add(JmUniqueKeyConstraint.class);
-//		order.add(JmLocalKeyConstraint.class);
 		order.add(JmForeignKeyConstraint.class);
-//		order.add(JmKeyConstraint.class);
 		order.add(JmNotNullConstraint.class);
 		order.add(JmCheckConstraint.class);
-//		order.add(JmValueConstraint.class);
 		ORDER = ImmutableList.copyOf(order);
 	}
 	
@@ -110,6 +107,7 @@ public class ConstraintComparator implements Comparator<JmConstraint> {
 			return new Class<?>[0];
 		}
 		List<? super Class<?>> collector = Lists.newArrayList();
+		collector.add(clazz);
 		Class<?>[] interfaces = clazz.getInterfaces();
 		collector.addAll(Arrays.asList(interfaces));
 		for (Class<?> iface : interfaces) {

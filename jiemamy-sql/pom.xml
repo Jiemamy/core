@@ -8,7 +8,7 @@
   </parent>
   <artifactId>jiemamy-sql</artifactId>
   <name>Jiemamy SQL domain APIs</name>
-  <version>0.3.8-SNAPSHOT</version>
+  <version>1.0.0-SNAPSHOT</version>
   <description><![CDATA[JiemamyのSQL生成機能を提供するコンポーネント]]></description>
   <issueManagement>
     <system>JIRA</system>

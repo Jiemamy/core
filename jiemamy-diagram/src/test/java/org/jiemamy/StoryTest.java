@@ -28,7 +28,7 @@ import org.jiemamy.model.JmNode;
 import org.jiemamy.model.SimpleDbObjectNode;
 import org.jiemamy.model.SimpleJmDiagram;
 import org.jiemamy.model.geometory.JmRectangle;
-import org.jiemamy.model.table.SimpleJmTable;
+import org.jiemamy.model.table.JmTable;
 import org.jiemamy.utils.UUIDUtil;
 
 @SuppressWarnings("javadoc")
@@ -59,7 +59,7 @@ public class StoryTest {
 	
 	@Test
 	public void testname() {
-		SimpleJmTable table = new SimpleJmTable(UUIDUtil.valueOfOrRandom("table"));
+		JmTable table = new JmTable(UUIDUtil.valueOfOrRandom("table"));
 		SimpleDbObjectNode node = new SimpleDbObjectNode(UUIDUtil.valueOfOrRandom("node"), table.toReference());
 		SimpleDbObjectNode node2 = new SimpleDbObjectNode(UUIDUtil.valueOfOrRandom("node2"), table.toReference());
 		SimpleJmDiagram diagram = new SimpleJmDiagram(UUIDUtil.valueOfOrRandom("diagram"));

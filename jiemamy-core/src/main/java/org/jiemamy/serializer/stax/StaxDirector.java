@@ -34,20 +34,20 @@ import org.jiemamy.JiemamyContextStaxHandler;
 import org.jiemamy.JiemamyFacet;
 import org.jiemamy.SimpleJmMetadata;
 import org.jiemamy.SimpleJmMetadataStaxHandler;
-import org.jiemamy.model.column.SimpleJmColumn;
-import org.jiemamy.model.column.SimpleJmColumnStaxHandler;
-import org.jiemamy.model.constraint.SimpleJmCheckConstraint;
-import org.jiemamy.model.constraint.SimpleJmCheckConstraintStaxHandler;
-import org.jiemamy.model.constraint.SimpleJmDeferrability;
-import org.jiemamy.model.constraint.SimpleJmDeferrabilityStaxHandler;
-import org.jiemamy.model.constraint.SimpleJmForeignKeyConstraint;
-import org.jiemamy.model.constraint.SimpleJmForeignKeyConstraintStaxHandler;
-import org.jiemamy.model.constraint.SimpleJmNotNullConstraint;
-import org.jiemamy.model.constraint.SimpleJmNotNullConstraintStaxHandler;
-import org.jiemamy.model.constraint.SimpleJmPrimaryKeyConstraint;
-import org.jiemamy.model.constraint.SimpleJmPrimaryKeyConstraintStaxHandler;
-import org.jiemamy.model.constraint.SimpleJmUniqueKeyConstraint;
-import org.jiemamy.model.constraint.SimpleJmUniqueKeyConstraintStaxHandler;
+import org.jiemamy.model.column.JmColumn;
+import org.jiemamy.model.column.JmColumnStaxHandler;
+import org.jiemamy.model.constraint.JmCheckConstraint;
+import org.jiemamy.model.constraint.JmCheckConstraintStaxHandler;
+import org.jiemamy.model.constraint.JmDeferrability;
+import org.jiemamy.model.constraint.JmDeferrabilityStaxHandler;
+import org.jiemamy.model.constraint.JmForeignKeyConstraint;
+import org.jiemamy.model.constraint.JmForeignKeyConstraintStaxHandler;
+import org.jiemamy.model.constraint.JmNotNullConstraint;
+import org.jiemamy.model.constraint.JmNotNullConstraintStaxHandler;
+import org.jiemamy.model.constraint.JmPrimaryKeyConstraint;
+import org.jiemamy.model.constraint.JmPrimaryKeyConstraintStaxHandler;
+import org.jiemamy.model.constraint.JmUniqueKeyConstraint;
+import org.jiemamy.model.constraint.JmUniqueKeyConstraintStaxHandler;
 import org.jiemamy.model.dataset.SimpleJmDataSet;
 import org.jiemamy.model.dataset.SimpleJmDataSetStaxHandler;
 import org.jiemamy.model.dataset.SimpleJmRecord;
@@ -56,13 +56,13 @@ import org.jiemamy.model.datatype.SimpleDataType;
 import org.jiemamy.model.datatype.SimpleDataTypeStaxHandler;
 import org.jiemamy.model.datatype.SimpleRawTypeDescriptor;
 import org.jiemamy.model.datatype.SimpleRawTypeDescriptorStaxHandler;
-import org.jiemamy.model.domain.SimpleJmDomain;
-import org.jiemamy.model.domain.SimpleJmDomainStaxHandler;
+import org.jiemamy.model.domain.JmDomain;
+import org.jiemamy.model.domain.JmDomainStaxHandler;
 import org.jiemamy.model.domain.SimpleJmDomainTypeStaxHandler;
-import org.jiemamy.model.table.SimpleJmTable;
-import org.jiemamy.model.table.SimpleJmTableStaxHandler;
-import org.jiemamy.model.view.SimpleJmView;
-import org.jiemamy.model.view.SimpleJmViewStaxHandler;
+import org.jiemamy.model.table.JmTable;
+import org.jiemamy.model.table.JmTableStaxHandler;
+import org.jiemamy.model.view.JmView;
+import org.jiemamy.model.view.JmViewStaxHandler;
 import org.jiemamy.serializer.SerializationException;
 import org.jiemamy.xml.CoreQName;
 import org.jiemamy.xml.JiemamyQName;
@@ -98,27 +98,27 @@ public class StaxDirector {
 		addHandler(JiemamyContext.class, CoreQName.JIEMAMY, new JiemamyContextStaxHandler(this));
 		addHandler(SimpleJmMetadata.class, CoreQName.META, new SimpleJmMetadataStaxHandler(this));
 		
-		addHandler(SimpleJmView.class, CoreQName.VIEW, new SimpleJmViewStaxHandler(this));
-		addHandler(SimpleJmTable.class, CoreQName.TABLE, new SimpleJmTableStaxHandler(this));
-		addHandler(SimpleJmDomain.class, CoreQName.DOMAIN, new SimpleJmDomainStaxHandler(this));
+		addHandler(JmView.class, CoreQName.VIEW, new JmViewStaxHandler(this));
+		addHandler(JmTable.class, CoreQName.TABLE, new JmTableStaxHandler(this));
+		addHandler(JmDomain.class, CoreQName.DOMAIN, new JmDomainStaxHandler(this));
 		
-		addHandler(SimpleJmColumn.class, CoreQName.COLUMN, new SimpleJmColumnStaxHandler(this));
+		addHandler(JmColumn.class, CoreQName.COLUMN, new JmColumnStaxHandler(this));
 		
 		addHandler(SimpleDataType.class, CoreQName.DATA_TYPE, new SimpleDataTypeStaxHandler(this));
 		
 		// CoreQName.TYPE_DESCのデフォルトハンドラはSimpleRawTypeDescriptorの為、それを最後に登録すること
-		addHandler(SimpleJmDomain.DomainType.class, CoreQName.TYPE_DESC, new SimpleJmDomainTypeStaxHandler(this));
+		addHandler(JmDomain.DomainType.class, CoreQName.TYPE_DESC, new SimpleJmDomainTypeStaxHandler(this));
 		addHandler(SimpleRawTypeDescriptor.class, CoreQName.TYPE_DESC, new SimpleRawTypeDescriptorStaxHandler(this));
 		
-		addHandler(SimpleJmNotNullConstraint.class, CoreQName.NOT_NULL, new SimpleJmNotNullConstraintStaxHandler(this));
-		addHandler(SimpleJmPrimaryKeyConstraint.class, CoreQName.PRIMARY_KEY,
-				new SimpleJmPrimaryKeyConstraintStaxHandler(this));
-		addHandler(SimpleJmForeignKeyConstraint.class, CoreQName.FOREIGN_KEY,
-				new SimpleJmForeignKeyConstraintStaxHandler(this));
-		addHandler(SimpleJmUniqueKeyConstraint.class, CoreQName.UNIQUE_KEY, new SimpleJmUniqueKeyConstraintStaxHandler(
+		addHandler(JmNotNullConstraint.class, CoreQName.NOT_NULL, new JmNotNullConstraintStaxHandler(this));
+		addHandler(JmPrimaryKeyConstraint.class, CoreQName.PRIMARY_KEY,
+				new JmPrimaryKeyConstraintStaxHandler(this));
+		addHandler(JmForeignKeyConstraint.class, CoreQName.FOREIGN_KEY,
+				new JmForeignKeyConstraintStaxHandler(this));
+		addHandler(JmUniqueKeyConstraint.class, CoreQName.UNIQUE_KEY, new JmUniqueKeyConstraintStaxHandler(
 				this));
-		addHandler(SimpleJmCheckConstraint.class, CoreQName.CHECK, new SimpleJmCheckConstraintStaxHandler(this));
-		addHandler(SimpleJmDeferrability.class, CoreQName.DEFERRABILITY, new SimpleJmDeferrabilityStaxHandler(this));
+		addHandler(JmCheckConstraint.class, CoreQName.CHECK, new JmCheckConstraintStaxHandler(this));
+		addHandler(JmDeferrability.class, CoreQName.DEFERRABILITY, new JmDeferrabilityStaxHandler(this));
 		
 		addHandler(SimpleJmDataSet.class, CoreQName.DATASET, new SimpleJmDataSetStaxHandler(this));
 		addHandler(SimpleJmRecord.class, CoreQName.RECORDS, new SimpleJmRecordStaxHandler(this));

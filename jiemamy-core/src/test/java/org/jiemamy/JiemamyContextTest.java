@@ -43,25 +43,25 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.jiemamy.dddbase.DefaultUUIDEntityRef;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityNotFoundException;
-import org.jiemamy.dddbase.UUIDEntityRef;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dialect.MockDialect;
 import org.jiemamy.model.DbObject;
 import org.jiemamy.model.column.JmColumn;
 import org.jiemamy.model.column.JmColumnBuilder;
-import org.jiemamy.model.column.SimpleJmColumn;
-import org.jiemamy.model.constraint.SimpleJmForeignKeyConstraint;
-import org.jiemamy.model.constraint.SimpleJmPrimaryKeyConstraint;
+import org.jiemamy.model.column.JmColumn;
+import org.jiemamy.model.constraint.JmForeignKeyConstraint;
+import org.jiemamy.model.constraint.JmPrimaryKeyConstraint;
 import org.jiemamy.model.dataset.SimpleJmDataSetTest;
 import org.jiemamy.model.table.JmTable;
 import org.jiemamy.model.table.JmTableBuilder;
-import org.jiemamy.model.table.SimpleJmTable;
-import org.jiemamy.model.table.SimpleJmTableTest;
+import org.jiemamy.model.table.JmTable;
+import org.jiemamy.model.table.JmTableTest;
 import org.jiemamy.model.table.TableNotFoundException;
 import org.jiemamy.model.table.TooManyTablesFoundException;
-import org.jiemamy.model.view.SimpleJmViewTest;
+import org.jiemamy.model.view.JmViewTest;
 import org.jiemamy.serializer.JiemamySerializer;
 import org.jiemamy.serializer.stax.JiemamyStaxSerializer;
 import org.jiemamy.utils.UUIDUtil;
@@ -105,12 +105,12 @@ public class JiemamyContextTest {
 		// tableの生成
 		int size = integer(5) + 1;
 		for (int i = 0; i < size; i++) {
-			context.store(SimpleJmTableTest.random());
+			context.store(JmTableTest.random());
 		}
 		// viewの生成
 		size = integer(5) + 1;
 		for (int i = 0; i < size; i++) {
-			context.store(SimpleJmViewTest.random());
+			context.store(JmViewTest.random());
 		}
 		
 		// TODO domain, indexとかもstoreする
@@ -139,21 +139,21 @@ public class JiemamyContextTest {
 	
 	private JiemamyContext ctx2;
 	
-	private SimpleJmTable t1a;
+	private JmTable t1a;
 	
-	private SimpleJmTable t1b;
+	private JmTable t1b;
 	
-	private SimpleJmTable t2;
+	private JmTable t2;
 	
-	private SimpleJmTable t3;
+	private JmTable t3;
 	
-	private SimpleJmColumn c1a;
+	private JmColumn c1a;
 	
-	private SimpleJmColumn c1b;
+	private JmColumn c1b;
 	
-	private SimpleJmColumn c2;
+	private JmColumn c2;
 	
-	private SimpleJmColumn c3;
+	private JmColumn c3;
 	
 	
 	/**
@@ -167,15 +167,15 @@ public class JiemamyContextTest {
 		ctx2 = new JiemamyContext();
 		
 		// FORMAT-OFF
-		t1a = new SimpleJmTable(TID1); t1a.setName("A");
-		t1b = new SimpleJmTable(TID1); t1b.setName("B");
-		t2 = new SimpleJmTable(TID2);
-		t3 = new SimpleJmTable(TID3);
+		t1a = new JmTable(TID1); t1a.setName("A");
+		t1b = new JmTable(TID1); t1b.setName("B");
+		t2 = new JmTable(TID2);
+		t3 = new JmTable(TID3);
 		
-		c1a = new SimpleJmColumn(CID1); c1a.setName("A");
-		c1b = new SimpleJmColumn(CID1); c1b.setName("B");
-		c2 = new SimpleJmColumn(CID2);
-		c3 = new SimpleJmColumn(CID3);
+		c1a = new JmColumn(CID1); c1a.setName("A");
+		c1b = new JmColumn(CID1); c1b.setName("B");
+		c2 = new JmColumn(CID2);
+		c3 = new JmColumn(CID3);
 		// FORMAT-ON
 	}
 	
@@ -547,8 +547,8 @@ public class JiemamyContextTest {
 		
 		ctx1.store(t1a);
 		
-		assertThat(ctx1.resolve(TID1), is((Entity<UUID>) t1a));
-		assertThat(ctx1.resolve(CID1), is((Entity<UUID>) c1a));
+		assertThat(ctx1.resolve(TID1), is((Entity) t1a));
+		assertThat(ctx1.resolve(CID1), is((Entity) c1a));
 		
 		try {
 			ctx1.resolve(TID2);
@@ -636,7 +636,7 @@ public class JiemamyContextTest {
 	@Test
 	@SuppressWarnings("javadoc")
 	public void test31_double_add() {
-		JmTable table = spy(new SimpleJmTable());
+		JmTable table = spy(new JmTable());
 		
 		ctx1.store(table);
 		ctx1.store(table);
@@ -655,8 +655,8 @@ public class JiemamyContextTest {
 	@Test
 	@SuppressWarnings("javadoc")
 	public void test32_double_add() {
-		JmTable table1 = new SimpleJmTable(ctx1.toUUID("a"));
-		JmTable table2 = new SimpleJmTable(ctx1.toUUID("a"));
+		JmTable table1 = new JmTable(ctx1.toUUID("a"));
+		JmTable table2 = new JmTable(ctx1.toUUID("a"));
 		
 		ctx1.store(table1);
 		ctx1.store(table1);
@@ -685,7 +685,7 @@ public class JiemamyContextTest {
 	@SuppressWarnings("javadoc")
 	public void test34_get() {
 		UUID id = UUID.randomUUID();
-		DefaultUUIDEntityRef<JmTable> tableRef = new DefaultUUIDEntityRef<JmTable>(id);
+		EntityRef<JmTable> tableRef = new EntityRef<JmTable>(id);
 		
 		try {
 			ctx1.resolve(id);
@@ -701,11 +701,11 @@ public class JiemamyContextTest {
 			// success
 		}
 		
-		JmTable table = new SimpleJmTable(id);
+		JmTable table = new JmTable(id);
 		ctx1.store(table);
 		
-		assertThat(ctx1.resolve(id), is((Entity<UUID>) table));
-		assertThat(ctx1.resolve(tableRef), is((Entity<UUID>) table));
+		assertThat(ctx1.resolve(id), is((Entity) table));
+		assertThat(ctx1.resolve(tableRef), is((Entity) table));
 	}
 	
 	@Test
@@ -720,18 +720,18 @@ public class JiemamyContextTest {
 		JmTable t1 = new JmTableBuilder("ONE")
 				.with(new JmColumnBuilder("A").build())
 				.with(b = new JmColumnBuilder("B").build())
-				.with(SimpleJmPrimaryKeyConstraint.of(b))
+				.with(JmPrimaryKeyConstraint.of(b))
 				.build();
 		JmTable t2 = new JmTableBuilder("TWO")
 				.with(c = new JmColumnBuilder("C").build())
 				.with(d = new JmColumnBuilder("D").build())
-				.with(SimpleJmPrimaryKeyConstraint.of(d))
-				.with(SimpleJmForeignKeyConstraint.of(c, b))
+				.with(JmPrimaryKeyConstraint.of(d))
+				.with(JmForeignKeyConstraint.of(c, b))
 				.build();
 		JmTable t3 = new JmTableBuilder("THREE")
 				.with(e = new JmColumnBuilder("E").build())
 				.with(new JmColumnBuilder("F").build())
-				.with(SimpleJmForeignKeyConstraint.of(e, d))
+				.with(JmForeignKeyConstraint.of(e, d))
 				.build();
 		
 		ctx1.store(t1);
@@ -767,15 +767,15 @@ public class JiemamyContextTest {
 	@Test
 	@SuppressWarnings("javadoc")
 	public void test38_() {
-		SimpleJmColumn col1 = new JmColumnBuilder().name("KEY").build();
-		SimpleJmColumn col2 = new JmColumnBuilder().name("VALUE").build();
+		JmColumn col1 = new JmColumnBuilder().name("KEY").build();
+		JmColumn col2 = new JmColumnBuilder().name("VALUE").build();
 		
-		SimpleJmTable table = new JmTableBuilder().name("T_PROPERTY").build();
+		JmTable table = new JmTableBuilder().name("T_PROPERTY").build();
 		table.store(col1);
 		table.store(col2);
-		List<UUIDEntityRef<? extends JmColumn>> pk = new ArrayList<UUIDEntityRef<? extends JmColumn>>();
+		List<EntityRef<? extends JmColumn>> pk = new ArrayList<EntityRef<? extends JmColumn>>();
 		pk.add(col1.toReference());
-		table.store(SimpleJmPrimaryKeyConstraint.of(pk));
+		table.store(JmPrimaryKeyConstraint.of(pk));
 		ctx1.store(table);
 		
 		assertThat(table.getColumns().size(), is(2));
@@ -787,10 +787,10 @@ public class JiemamyContextTest {
 	public void test39_() {
 		JmColumn pkColumn;
 		// FORMAT-OFF
-		SimpleJmTable table = new JmTableBuilder().name("T_PROPERTY")
+		JmTable table = new JmTableBuilder().name("T_PROPERTY")
 				.with(pkColumn = new JmColumnBuilder().name("KEY").build())
 				.with(new JmColumnBuilder().name("VALUE").build())
-				.with(SimpleJmPrimaryKeyConstraint.of(pkColumn))
+				.with(JmPrimaryKeyConstraint.of(pkColumn))
 				.build();
 		// FORMAT-ON
 		ctx1.store(table);
@@ -807,20 +807,20 @@ public class JiemamyContextTest {
 		JmColumn fkColumn2;
 		JmColumn refColumn;
 		// FORMAT-OFF
-		SimpleJmTable dept = new JmTableBuilder().name("T_DEPT")
+		JmTable dept = new JmTableBuilder().name("T_DEPT")
 				.with(pkColumn = refColumn = new JmColumnBuilder().name("ID").build())
 				.with(new JmColumnBuilder().name("NAME").build())
 				.with(new JmColumnBuilder().name("LOC").build())
-				.with( SimpleJmPrimaryKeyConstraint.of(pkColumn))
+				.with( JmPrimaryKeyConstraint.of(pkColumn))
 				.build();
-		SimpleJmTable emp = new JmTableBuilder().name("T_EMP")
+		JmTable emp = new JmTableBuilder().name("T_EMP")
 				.with(pkColumn = new JmColumnBuilder().name("ID").build())
 				.with(new JmColumnBuilder().name("NAME").build())
 				.with(fkColumn1 = new JmColumnBuilder().name("DEPT_ID").build())
 				.with(fkColumn2 = new JmColumnBuilder().name("MGR_ID").build())
-				.with( SimpleJmPrimaryKeyConstraint.of(pkColumn))
-				.with(SimpleJmForeignKeyConstraint.of(fkColumn1,refColumn))
-				.with(SimpleJmForeignKeyConstraint.of(fkColumn2,pkColumn))
+				.with( JmPrimaryKeyConstraint.of(pkColumn))
+				.with(JmForeignKeyConstraint.of(fkColumn1,refColumn))
+				.with(JmForeignKeyConstraint.of(fkColumn2,pkColumn))
 				.build();
 		// FORMAT-ON
 		ctx1.store(dept);
@@ -835,10 +835,10 @@ public class JiemamyContextTest {
 	@Test
 	@SuppressWarnings("javadoc")
 	public void test41() {
-		SimpleJmTable t1 = new SimpleJmTable();
+		JmTable t1 = new JmTable();
 		t1.setName("TBL");
 		ctx1.store(t1);
-		SimpleJmTable t2 = new SimpleJmTable();
+		JmTable t2 = new JmTable();
 		t2.setName("TBL");
 		ctx1.store(t2);
 		

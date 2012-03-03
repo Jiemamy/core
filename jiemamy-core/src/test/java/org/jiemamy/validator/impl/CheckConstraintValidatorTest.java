@@ -31,9 +31,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.model.column.SimpleJmColumn;
-import org.jiemamy.model.constraint.SimpleJmCheckConstraint;
-import org.jiemamy.model.table.SimpleJmTable;
+import org.jiemamy.model.column.JmColumn;
+import org.jiemamy.model.constraint.JmCheckConstraint;
+import org.jiemamy.model.table.JmTable;
 import org.jiemamy.utils.UUIDUtil;
 import org.jiemamy.validator.Problem;
 
@@ -77,10 +77,10 @@ public class CheckConstraintValidatorTest {
 	public void test01_check制約のバリデーションが正常に行われる() throws Exception {
 		JiemamyContext context = new JiemamyContext();
 		
-		SimpleJmTable table1 = new SimpleJmTable(UUIDUtil.valueOfOrRandom("a"));
+		JmTable table1 = new JmTable(UUIDUtil.valueOfOrRandom("a"));
 		table1.setName("foo");
 		
-		SimpleJmColumn column = new SimpleJmColumn(UUIDUtil.valueOfOrRandom("b"));
+		JmColumn column = new JmColumn(UUIDUtil.valueOfOrRandom("b"));
 		column.setName("bar");
 //		column.setDataType(factory.newDataType(BuiltinDataTypeMold.UNKNOWN));
 		
@@ -90,7 +90,7 @@ public class CheckConstraintValidatorTest {
 		Collection<? extends Problem> result1 = validator.validate(context);
 		assertThat(result1.size(), is(0)); // 問題なし
 		
-		SimpleJmCheckConstraint checkConstraint = SimpleJmCheckConstraint.of("");
+		JmCheckConstraint checkConstraint = JmCheckConstraint.of("");
 		table1.store(checkConstraint);
 		context.store(table1);
 		
@@ -104,7 +104,7 @@ public class CheckConstraintValidatorTest {
 		
 		table1.deleteConstraint(checkConstraint.toReference());
 		
-		checkConstraint = SimpleJmCheckConstraint.of("", "cc");
+		checkConstraint = JmCheckConstraint.of("", "cc");
 		table1.store(checkConstraint);
 		context.store(table1);
 		
@@ -118,7 +118,7 @@ public class CheckConstraintValidatorTest {
 		
 		table1.deleteConstraint(checkConstraint.toReference());
 		
-		checkConstraint = SimpleJmCheckConstraint.of("bar > 0", "cc");
+		checkConstraint = JmCheckConstraint.of("bar > 0", "cc");
 		table1.store(checkConstraint);
 		context.store(table1);
 		

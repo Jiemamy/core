@@ -22,17 +22,17 @@ import java.util.UUID;
 
 import com.google.common.collect.Lists;
 
-import org.jiemamy.dddbase.UUIDEntityFactory;
+import org.jiemamy.dddbase.AbstractEntityFactory;
 import org.jiemamy.model.column.JmColumn;
 import org.jiemamy.model.constraint.JmConstraint;
 
 /**
- * {@link SimpleJmTable}のファクトリクラス。
+ * {@link JmTable}のファクトリクラス。
  * 
  * @version $Id$
  * @author daisuke
  */
-public class JmTableBuilder extends UUIDEntityFactory<SimpleJmTable> {
+public class JmTableBuilder extends AbstractEntityFactory<JmTable> {
 	
 	List<JmColumn> columns = Lists.newArrayList();
 	
@@ -58,14 +58,14 @@ public class JmTableBuilder extends UUIDEntityFactory<SimpleJmTable> {
 	}
 	
 	/**
-	 * ファクトリの状態に基づいて {@link SimpleJmTable}のインスタンスを生成する。
+	 * ファクトリの状態に基づいて {@link JmTable}のインスタンスを生成する。
 	 * 
 	 * @param id  ENTITY ID
-	 * @return 新しい {@link SimpleJmTable}のインスタンス
+	 * @return 新しい {@link JmTable}のインスタンス
 	 * @throws IllegalArgumentException 引数{@code id}に{@code null}を与えた場合
 	 */
-	public SimpleJmTable build(UUID id) {
-		SimpleJmTable table = new SimpleJmTable(id);
+	public JmTable build(UUID id) {
+		JmTable table = new JmTable(id);
 		table.setName(name);
 		for (JmColumn column : columns) {
 			table.store(column);

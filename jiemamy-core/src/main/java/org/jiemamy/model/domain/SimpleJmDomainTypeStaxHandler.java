@@ -26,7 +26,7 @@ import org.apache.commons.lang.Validate;
 import org.codehaus.staxmate.in.SMEvent;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.model.domain.SimpleJmDomain.DomainType;
+import org.jiemamy.model.domain.JmDomain.DomainType;
 import org.jiemamy.serializer.SerializationException;
 import org.jiemamy.serializer.stax.DeserializationContext;
 import org.jiemamy.serializer.stax.JiemamyCursor;
@@ -38,12 +38,12 @@ import org.jiemamy.serializer.stax.StaxHandler;
 import org.jiemamy.xml.CoreQName;
 
 /**
- * {@link SimpleJmDomain.DomainType}をシリアライズ/デシリアライズするハンドラ。
+ * {@link JmDomain.DomainType}をシリアライズ/デシリアライズするハンドラ。
  * 
  * @version $Id$
  * @author yamkazu
  */
-public final class SimpleJmDomainTypeStaxHandler extends StaxHandler<SimpleJmDomain.DomainType> {
+public final class SimpleJmDomainTypeStaxHandler extends StaxHandler<JmDomain.DomainType> {
 	
 //	private static Logger logger = LoggerFactory.getLogger(SimpleJmDomainTypeStaxHandler.class);
 	
@@ -58,7 +58,7 @@ public final class SimpleJmDomainTypeStaxHandler extends StaxHandler<SimpleJmDom
 	}
 	
 	@Override
-	public SimpleJmDomain.DomainType handleDeserialization(DeserializationContext dctx) throws SerializationException {
+	public JmDomain.DomainType handleDeserialization(DeserializationContext dctx) throws SerializationException {
 		Validate.notNull(dctx);
 		try {
 			Validate.isTrue(dctx.peek().getCurrEvent() == SMEvent.START_ELEMENT);
@@ -70,7 +70,7 @@ public final class SimpleJmDomainTypeStaxHandler extends StaxHandler<SimpleJmDom
 			UUID refid = dctx.getContext().toUUID(idStr);
 			
 			JiemamyContext context = dctx.getContext();
-			SimpleJmDomain domain = (SimpleJmDomain) context.resolve(refid); // 解決出来ない場合EntityNotFoundException
+			JmDomain domain = (JmDomain) context.resolve(refid); // 解決出来ない場合EntityNotFoundException
 			
 			// Handlerのインタフェース縛りなので仕方なくキャスト
 			// いい対処方法があったら教えてください
@@ -81,7 +81,7 @@ public final class SimpleJmDomainTypeStaxHandler extends StaxHandler<SimpleJmDom
 	}
 	
 	@Override
-	public void handleSerialization(SimpleJmDomain.DomainType model, SerializationContext sctx)
+	public void handleSerialization(JmDomain.DomainType model, SerializationContext sctx)
 			throws SerializationException {
 		Validate.notNull(model);
 		Validate.notNull(sctx);

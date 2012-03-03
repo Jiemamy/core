@@ -19,11 +19,11 @@ package org.jiemamy.model;
 import java.util.Collection;
 import java.util.UUID;
 
+import org.jiemamy.dddbase.Entity;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.EntityResolver;
 import org.jiemamy.dddbase.HierarchicalEntity;
 import org.jiemamy.dddbase.OrderedEntity;
-import org.jiemamy.dddbase.UUIDEntity;
-import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.model.constraint.JmForeignKeyConstraint;
 
 /**
@@ -35,7 +35,7 @@ import org.jiemamy.model.constraint.JmForeignKeyConstraint;
  * @version $Id$
  * @author daisuke
  */
-public interface JmDiagram extends OrderedEntity<UUID>, UUIDEntity, HierarchicalEntity<UUID>, EntityResolver<UUID> {
+public interface JmDiagram extends OrderedEntity, HierarchicalEntity, EntityResolver {
 	
 	JmDiagram clone();
 	
@@ -45,7 +45,7 @@ public interface JmDiagram extends OrderedEntity<UUID>, UUIDEntity, Hierarchical
 	 * @param reference {@link JmForeignKeyConstraint}の参照
 	 * @return 写像となる {@link JmConnection}、存在しない場合は{@code null} 
 	 */
-	JmConnection getConnectionFor(UUIDEntityRef<? extends JmForeignKeyConstraint> reference);
+	JmConnection getConnectionFor(EntityRef<? extends JmForeignKeyConstraint> reference);
 	
 	/**
 	 * このダイアグラムが持つ{@link JmConnection}の集合を取得する。
@@ -83,7 +83,7 @@ public interface JmDiagram extends OrderedEntity<UUID>, UUIDEntity, Hierarchical
 	 * @param reference {@link DbObject}の参照
 	 * @return 写像となる {@link JmNode}、存在しない場合は{@code null} 
 	 */
-	JmNode getNodeFor(UUIDEntityRef<? extends DbObject> reference);
+	JmNode getNodeFor(EntityRef<? extends DbObject> reference);
 	
 	/**
 	 * このダイアグラムが持つ{@link JmNode}の集合を取得する。
@@ -103,7 +103,7 @@ public interface JmDiagram extends OrderedEntity<UUID>, UUIDEntity, Hierarchical
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 0.3
 	 */
-	Collection<? extends JmConnection> getSourceConnectionsFor(UUIDEntityRef<? extends JmNode> nodeRef);
+	Collection<? extends JmConnection> getSourceConnectionsFor(EntityRef<? extends JmNode> nodeRef);
 	
 	/**
 	 * 指定したノードを接続先（終点）とするコネクションの集合を取得する。
@@ -116,9 +116,9 @@ public interface JmDiagram extends OrderedEntity<UUID>, UUIDEntity, Hierarchical
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 0.3
 	 */
-	Collection<? extends JmConnection> getTargetConnectionsFor(UUIDEntityRef<? extends JmNode> nodeRef);
+	Collection<? extends JmConnection> getTargetConnectionsFor(EntityRef<? extends JmNode> nodeRef);
 	
-	UUIDEntity resolve(UUID id);
+	Entity resolve(UUID id);
 	
-	UUIDEntityRef<? extends JmDiagram> toReference();
+	EntityRef<? extends JmDiagram> toReference();
 }

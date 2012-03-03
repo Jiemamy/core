@@ -21,12 +21,11 @@ package org.jiemamy.test.mock;
 import java.net.URL;
 import java.util.Collections;
 import java.util.Set;
-import java.util.UUID;
 
 import org.jiemamy.JiemamyFacet;
+import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.OnMemoryEntityResolver;
 import org.jiemamy.dddbase.OnMemoryRepository;
-import org.jiemamy.dddbase.UUIDEntity;
 import org.jiemamy.serializer.stax.StaxDirector;
 import org.jiemamy.xml.JiemamyNamespace;
 
@@ -38,7 +37,7 @@ import org.jiemamy.xml.JiemamyNamespace;
  */
 public final class MockFacet implements JiemamyFacet {
 	
-	public Set<? extends UUIDEntity> getEntities() {
+	public Set<? extends Entity> getEntities() {
 		return Collections.emptySet();
 	}
 	
@@ -46,8 +45,8 @@ public final class MockFacet implements JiemamyFacet {
 		return new JiemamyNamespace[0];
 	}
 	
-	public OnMemoryEntityResolver<UUIDEntity, UUID> getResolver() {
-		return new OnMemoryRepository<UUIDEntity, UUID>();
+	public OnMemoryEntityResolver<Entity> getResolver() {
+		return new OnMemoryRepository<Entity>();
 	}
 	
 	public URL getSchema() {

@@ -55,7 +55,6 @@ import org.jiemamy.model.SimpleDbObjectNode;
 import org.jiemamy.model.SimpleJmDiagram;
 import org.jiemamy.model.geometory.JmRectangle;
 import org.jiemamy.model.table.JmTable;
-import org.jiemamy.model.table.SimpleJmTable;
 import org.jiemamy.serializer.stax.JiemamyStaxSerializer;
 
 /**
@@ -94,7 +93,7 @@ public class JiemamyStaxSerializerDiagramTest {
 		
 		JiemamyContext context = new JiemamyContext(DiagramFacet.PROVIDER);
 		
-		SimpleJmTable table = new SimpleJmTable(tableId);
+		JmTable table = new JmTable(tableId);
 		table.setName("foo");
 		context.store(table);
 		

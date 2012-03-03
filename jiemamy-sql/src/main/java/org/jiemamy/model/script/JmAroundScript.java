@@ -19,8 +19,8 @@
 package org.jiemamy.model.script;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.dddbase.UUIDEntity;
-import org.jiemamy.dddbase.UUIDEntityRef;
+import org.jiemamy.dddbase.Entity;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.DbObject;
 import org.jiemamy.script.ScriptEngine;
 import org.jiemamy.script.ScriptException;
@@ -33,7 +33,7 @@ import org.jiemamy.script.ScriptException;
  * @since 0.3
  * @author daisuke
  */
-public interface JmAroundScript extends UUIDEntity {
+public interface JmAroundScript extends Entity {
 	
 	JmAroundScript clone();
 	
@@ -43,7 +43,7 @@ public interface JmAroundScript extends UUIDEntity {
 	 * @return コアモデルへの参照。コアが無い場合は{@code null}
 	 * @since 0.3
 	 */
-	UUIDEntityRef<? extends DbObject> getCoreModelRef();
+	EntityRef<? extends DbObject> getCoreModelRef();
 	
 	/**
 	 * スクリプトを取得する。
@@ -90,5 +90,5 @@ public interface JmAroundScript extends UUIDEntity {
 	String process(JiemamyContext context, Position position, Object target) throws ClassNotFoundException,
 			ScriptException;
 	
-	UUIDEntityRef<? extends JmAroundScript> toReference();
+	EntityRef<? extends JmAroundScript> toReference();
 }

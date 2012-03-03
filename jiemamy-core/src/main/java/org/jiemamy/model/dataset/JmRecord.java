@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.dddbase.UUIDEntityRef;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.ValueObject;
 import org.jiemamy.model.column.JmColumn;
 import org.jiemamy.model.table.JmTable;
@@ -76,7 +76,7 @@ public interface JmRecord extends ValueObject {
 	 * @return カラムに対応するデータ
 	 * @since 0.3
 	 */
-	Map<UUIDEntityRef<? extends JmColumn>, ScriptString> getValues();
+	Map<EntityRef<? extends JmColumn>, ScriptString> getValues();
 	
 	/**
 	 * 1レコード分の各カラムとそのカラムに対する値のセットを、テーブルに定義したカラム順に取得するための {@link Iterable} インスタンスを取得する。
@@ -86,6 +86,6 @@ public interface JmRecord extends ValueObject {
 	 * @return {@link Iterable}
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	Iterable<Entry<UUIDEntityRef<? extends JmColumn>, ScriptString>> toIterable(JiemamyContext context,
-			UUIDEntityRef<? extends JmTable> tableRef);
+	Iterable<Entry<EntityRef<? extends JmColumn>, ScriptString>> toIterable(JiemamyContext context,
+			EntityRef<? extends JmTable> tableRef);
 }

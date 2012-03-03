@@ -51,8 +51,6 @@ import org.jiemamy.dddbase.OnMemoryEntityResolver;
 import org.jiemamy.dddbase.OnMemoryRepository;
 import org.jiemamy.dddbase.OrderedOnMemoryRepository;
 import org.jiemamy.dddbase.Repository;
-import org.jiemamy.dddbase.UUIDEntity;
-import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.dddbase.utils.MutationMonitor;
 import org.jiemamy.dialect.Dialect;
 import org.jiemamy.model.DbObject;
@@ -82,7 +80,7 @@ import org.jiemamy.xml.JiemamyNamespaceContext;
  * @since 0.3
  * @author daisuke
  */
-public/*final*/class JiemamyContext implements EntityResolver<UUID> {
+public/*final*/class JiemamyContext implements EntityResolver {
 	
 	private static Logger logger = LoggerFactory.getLogger(JiemamyContext.class);
 	
@@ -176,10 +174,10 @@ public/*final*/class JiemamyContext implements EntityResolver<UUID> {
 	private Map<Class<? extends JiemamyFacet>, JiemamyFacet> facets = Maps.newHashMap();
 	
 	/** contextで管理する全ての {@link DbObject} を保持する {@link Repository} */
-	private OnMemoryRepository<DbObject, UUID> dbObjects = new OnMemoryRepository<DbObject, UUID>();
+	private OnMemoryRepository<DbObject> dbObjects = new OnMemoryRepository<DbObject>();
 	
 	/** contextで管理する全ての {@link JmDataSet} を保持する {@link Repository} */
-	private OrderedOnMemoryRepository<JmDataSet, UUID> dataSets = new OrderedOnMemoryRepository<JmDataSet, UUID>();
+	private OrderedOnMemoryRepository<JmDataSet> dataSets = new OrderedOnMemoryRepository<JmDataSet>();
 	
 	/** メタデータ */
 	private JmMetadata metadata = new SimpleJmMetadata();
@@ -212,7 +210,7 @@ public/*final*/class JiemamyContext implements EntityResolver<UUID> {
 		logger.trace(LogMarker.LIFECYCLE, "new context created (debug={})", isDebug());
 	}
 	
-	public boolean contains(EntityRef<?, UUID> reference) {
+	public boolean contains(EntityRef<?> reference) {
 		Validate.notNull(reference);
 		return contains(reference.getReferentId());
 	}
@@ -230,7 +228,7 @@ public/*final*/class JiemamyContext implements EntityResolver<UUID> {
 	 * @throws EntityNotFoundException このコンテキストが指定したデータセットを管理していない場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public JmDataSet deleteDataSet(UUIDEntityRef<? extends JmDataSet> reference) {
+	public JmDataSet deleteDataSet(EntityRef<? extends JmDataSet> reference) {
 		Validate.notNull(reference);
 		JmDataSet deleted = dataSets.delete(reference);
 		logger.debug(LogMarker.LIFECYCLE, "dataset deleted: " + deleted);
@@ -246,7 +244,7 @@ public/*final*/class JiemamyContext implements EntityResolver<UUID> {
 	 * @throws EntityNotFoundException このコンテキストが指定したデータベースオブジェクトを管理していない場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public DbObject deleteDbObject(UUIDEntityRef<? extends DbObject> reference) {
+	public DbObject deleteDbObject(EntityRef<? extends DbObject> reference) {
 		Validate.notNull(reference);
 		DbObject deleted = dbObjects.delete(reference);
 		logger.debug(LogMarker.LIFECYCLE, "dbObject deleted: " + deleted);
@@ -511,7 +509,7 @@ public/*final*/class JiemamyContext implements EntityResolver<UUID> {
 	}
 	
 	/**
-	 * {@link UUIDEntityRef}から、{@link Entity}を引き当てる。
+	 * {@link EntityRef}から、{@link Entity}を引き当てる。
 	 * 
 	 * <p>リポジトリは、この実体のクローンを返す。従って、取得した {@link Entity}に対して
 	 * ミューテーションを起こしても、ストアした実体には影響を及ぼさない。</p>
@@ -519,12 +517,12 @@ public/*final*/class JiemamyContext implements EntityResolver<UUID> {
 	 * <p>検索対象は子{@link Entity}も含む。</p>
 	 * 
 	 * @param <E> {@link Entity}の型
-	 * @param reference {@link UUIDEntityRef}
+	 * @param reference {@link EntityRef}
 	 * @return {@link Entity}
 	 * @throws EntityNotFoundException 参照で示す{@link Entity}が見つからなかった場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public <E extends Entity<UUID>>E resolve(EntityRef<E, UUID> reference) {
+	public <E extends Entity>E resolve(EntityRef<E> reference) {
 		Validate.notNull(reference);
 		return getCompositeResolver().resolve(reference);
 	}
@@ -542,10 +540,10 @@ public/*final*/class JiemamyContext implements EntityResolver<UUID> {
 	 * @throws EntityNotFoundException 参照で示す{@link Entity}が見つからなかった場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public Entity<UUID> resolve(UUID id) {
+	public Entity resolve(UUID id) {
 		Validate.notNull(id);
-		OnMemoryCompositeEntityResolver<UUIDEntity, UUID> resolver = getCompositeResolver();
-		Entity<UUID> resolved = resolver.resolve(id);
+		OnMemoryCompositeEntityResolver<Entity> resolver = getCompositeResolver();
+		Entity resolved = resolver.resolve(id);
 		return resolved;
 	}
 	
@@ -639,13 +637,13 @@ public/*final*/class JiemamyContext implements EntityResolver<UUID> {
 		return collector;
 	}
 	
-	private OnMemoryCompositeEntityResolver<UUIDEntity, UUID> getCompositeResolver() {
-		Collection<OnMemoryEntityResolver<? extends UUIDEntity, UUID>> c = Lists.newArrayList();
+	private OnMemoryCompositeEntityResolver<Entity> getCompositeResolver() {
+		Collection<OnMemoryEntityResolver<? extends Entity>> c = Lists.newArrayList();
 		c.add(dbObjects);
 		c.add(dataSets);
 		for (JiemamyFacet facet : facets.values()) {
 			c.add(facet.getResolver());
 		}
-		return new OnMemoryCompositeEntityResolver<UUIDEntity, UUID>(c);
+		return new OnMemoryCompositeEntityResolver<Entity>(c);
 	}
 }

@@ -35,19 +35,19 @@ import org.slf4j.LoggerFactory;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.model.DbObject;
-import org.jiemamy.model.SimpleDbObject;
+import org.jiemamy.model.DbObject;
 import org.jiemamy.model.column.JmColumn;
-import org.jiemamy.model.column.SimpleJmColumn;
-import org.jiemamy.model.constraint.SimpleJmNotNullConstraint;
-import org.jiemamy.model.constraint.SimpleJmPrimaryKeyConstraint;
+import org.jiemamy.model.column.JmColumn;
+import org.jiemamy.model.constraint.JmNotNullConstraint;
+import org.jiemamy.model.constraint.JmPrimaryKeyConstraint;
 import org.jiemamy.model.datatype.RawTypeCategory;
 import org.jiemamy.model.datatype.SimpleDataType;
 import org.jiemamy.model.datatype.SimpleRawTypeDescriptor;
 import org.jiemamy.model.datatype.TypeParameterKey;
 import org.jiemamy.model.table.JmTable;
-import org.jiemamy.model.table.SimpleJmTable;
+import org.jiemamy.model.table.JmTable;
 import org.jiemamy.model.view.JmView;
-import org.jiemamy.model.view.SimpleJmView;
+import org.jiemamy.model.view.JmView;
 import org.jiemamy.utils.sql.metadata.ColumnMeta;
 import org.jiemamy.utils.sql.metadata.ColumnMeta.Nullable;
 import org.jiemamy.utils.sql.metadata.PrimaryKeyMeta;
@@ -152,7 +152,7 @@ public class DefaultDbObjectImportVisitor extends AbstractCollectionVisitor<Tabl
 	 */
 	protected DbObject createDbObject(TableMeta tableMeta) throws SQLException {
 		Validate.notNull(tableMeta);
-		SimpleDbObject result = null;
+		DbObject result = null;
 		
 		logger.debug("type = " + tableMeta.tableType + "(" + tableMeta.tableName + ")");
 		if ("TABLE".equals(tableMeta.tableType)) {
@@ -179,10 +179,10 @@ public class DefaultDbObjectImportVisitor extends AbstractCollectionVisitor<Tabl
 	 * @throws SQLException SQLの実行に失敗した場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	protected SimpleJmTable createTable(String tableName) throws SQLException {
+	protected JmTable createTable(String tableName) throws SQLException {
 		Validate.notNull(tableName);
 		
-		SimpleJmTable table = new SimpleJmTable();
+		JmTable table = new JmTable();
 		table.setName(tableName);
 		
 		TypeSafeResultSet<ColumnMeta> columnsResult = null;
@@ -207,12 +207,12 @@ public class DefaultDbObjectImportVisitor extends AbstractCollectionVisitor<Tabl
 	 * @throws SQLException SQLの実行に失敗した場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	protected SimpleJmView createView(String viewName) throws SQLException {
+	protected JmView createView(String viewName) throws SQLException {
 		Validate.notNull(viewName);
 		// UNDONE ビューの定義SQLを取得する一般的な手段が分からない。
 		// v0.1, v0.2では実は実装できなかった所。
 		String definition = "VIEW DEFINITION (not implemented)";
-		SimpleJmView view = new SimpleJmView();
+		JmView view = new JmView();
 		view.setName(viewName);
 		view.setDefinition(definition);
 		
@@ -241,7 +241,7 @@ public class DefaultDbObjectImportVisitor extends AbstractCollectionVisitor<Tabl
 	
 	private class ColumnMetaVisitor extends AbstractTypeSafeResultSetVisitor<ColumnMeta, List<JmColumn>, SQLException> {
 		
-		private final SimpleJmTable table;
+		private final JmTable table;
 		
 		
 		/**
@@ -250,7 +250,7 @@ public class DefaultDbObjectImportVisitor extends AbstractCollectionVisitor<Tabl
 		 * @param table テーブル
 		 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 		 */
-		private ColumnMetaVisitor(SimpleJmTable table) {
+		private ColumnMetaVisitor(JmTable table) {
 			Validate.notNull(table);
 			this.table = table;
 		}
@@ -258,7 +258,7 @@ public class DefaultDbObjectImportVisitor extends AbstractCollectionVisitor<Tabl
 		public List<JmColumn> visit(ColumnMeta element) {
 			Validate.notNull(element);
 			
-			SimpleJmColumn column = new SimpleJmColumn();
+			JmColumn column = new JmColumn();
 			column.setName(element.columnName);
 			column.setDefaultValue(element.columnDef);
 			
@@ -280,7 +280,7 @@ public class DefaultDbObjectImportVisitor extends AbstractCollectionVisitor<Tabl
 			table.store(column);
 			
 			if (element.nullable == Nullable.NO_NULLS) {
-				SimpleJmNotNullConstraint notNullConstraint = new SimpleJmNotNullConstraint();
+				JmNotNullConstraint notNullConstraint = new JmNotNullConstraint();
 				notNullConstraint.setColumn(column.toReference());
 				table.store(notNullConstraint);
 			}
@@ -300,9 +300,9 @@ public class DefaultDbObjectImportVisitor extends AbstractCollectionVisitor<Tabl
 	private static class PrimaryKeyMetaVisitor extends
 			AbstractTypeSafeResultSetVisitor<PrimaryKeyMeta, Boolean, SQLException> {
 		
-		private SimpleJmPrimaryKeyConstraint primaryKey;
+		private JmPrimaryKeyConstraint primaryKey;
 		
-		private final SimpleJmTable table;
+		private final JmTable table;
 		
 		
 		/**
@@ -311,17 +311,17 @@ public class DefaultDbObjectImportVisitor extends AbstractCollectionVisitor<Tabl
 		 * @param table テーブル
 		 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 		 */
-		private PrimaryKeyMetaVisitor(SimpleJmTable table) {
+		private PrimaryKeyMetaVisitor(JmTable table) {
 			Validate.notNull(table);
 			this.table = table;
-			primaryKey = (SimpleJmPrimaryKeyConstraint) table.getPrimaryKey();
+			primaryKey = (JmPrimaryKeyConstraint) table.getPrimaryKey();
 		}
 		
 		public Boolean visit(PrimaryKeyMeta element) {
 			Validate.notNull(element);
 			
 			if (primaryKey == null) {
-				primaryKey = new SimpleJmPrimaryKeyConstraint();
+				primaryKey = new JmPrimaryKeyConstraint();
 			}
 			
 			for (JmColumn column : table.getColumns()) {

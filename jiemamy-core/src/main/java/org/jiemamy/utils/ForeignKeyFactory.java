@@ -23,16 +23,16 @@ import com.google.common.collect.Iterables;
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.dddbase.UUIDEntityRef;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.column.JmColumn;
 import org.jiemamy.model.constraint.JmLocalKeyConstraint;
-import org.jiemamy.model.constraint.SimpleJmForeignKeyConstraint;
+import org.jiemamy.model.constraint.JmForeignKeyConstraint;
 import org.jiemamy.model.table.ColumnNotFoundException;
 import org.jiemamy.model.table.JmTable;
 import org.jiemamy.model.table.TooManyColumnsFoundException;
 
 /**
- * {@link SimpleJmForeignKeyConstraint}に適切なデフォルト値を与えるファクトリ。
+ * {@link JmForeignKeyConstraint}に適切なデフォルト値を与えるファクトリ。
  * 
  * @version $Id$
  * @author daisuke
@@ -40,17 +40,17 @@ import org.jiemamy.model.table.TooManyColumnsFoundException;
 public final class ForeignKeyFactory {
 	
 	/**
-	 * 指定したテーブルからテーブルに貼られるデフォルト値を持った {@link SimpleJmForeignKeyConstraint} を生成して返す。
+	 * 指定したテーブルからテーブルに貼られるデフォルト値を持った {@link JmForeignKeyConstraint} を生成して返す。
 	 * 
 	 * @param context {@link JiemamyContext}
 	 * @param declaringTable 制約の定義先テーブル
 	 * @param referenceTable 制約が参照するテーブル
-	 * @return 新しい {@link SimpleJmForeignKeyConstraint}
+	 * @return 新しい {@link JmForeignKeyConstraint}
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public static SimpleJmForeignKeyConstraint create(JiemamyContext context, JmTable declaringTable,
+	public static JmForeignKeyConstraint create(JiemamyContext context, JmTable declaringTable,
 			JmTable referenceTable) {
-		return setup(new SimpleJmForeignKeyConstraint(), context, declaringTable, referenceTable);
+		return setup(new JmForeignKeyConstraint(), context, declaringTable, referenceTable);
 	}
 	
 	/**
@@ -63,7 +63,7 @@ public final class ForeignKeyFactory {
 	 * @return {@code fk}
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public static SimpleJmForeignKeyConstraint setup(SimpleJmForeignKeyConstraint fk, JiemamyContext context,
+	public static JmForeignKeyConstraint setup(JmForeignKeyConstraint fk, JiemamyContext context,
 			JmTable declaringTable, JmTable referenceTable) {
 		Validate.notNull(fk);
 		Validate.notNull(context);
@@ -87,7 +87,7 @@ public final class ForeignKeyFactory {
 		fk.clearKeyColumns();
 		
 		int index = 0;
-		for (UUIDEntityRef<? extends JmColumn> referenceColumnRef : key.getKeyColumns()) {
+		for (EntityRef<? extends JmColumn> referenceColumnRef : key.getKeyColumns()) {
 			JmColumn referenceColumn = context.resolve(referenceColumnRef);
 			
 			JmColumn keyColumn =

@@ -50,7 +50,7 @@ import org.jiemamy.SqlFacet;
 import org.jiemamy.model.script.JmAroundScript;
 import org.jiemamy.model.script.SimpleJmAroundScript;
 import org.jiemamy.model.table.JmTable;
-import org.jiemamy.model.table.SimpleJmTable;
+import org.jiemamy.model.table.JmTable;
 import org.jiemamy.serializer.stax.JiemamyStaxSerializer;
 
 /**
@@ -89,7 +89,7 @@ public class JiemamyStaxSerializerSqlTest {
 		
 		JiemamyContext context = new JiemamyContext(SqlFacet.PROVIDER);
 		
-		SimpleJmTable table = new SimpleJmTable(tableId);
+		JmTable table = new JmTable(tableId);
 		context.store(table);
 		
 		SimpleJmAroundScript aroundScript = new SimpleJmAroundScript(scriptId);

@@ -86,9 +86,9 @@ public class CyclicForeignReferenceValidatorTest {
 				in = CyclicForeignReferenceValidatorTest.class.getResourceAsStream(path);
 				JiemamyContext deserialized = JiemamyContext.findSerializer().deserialize(in);
 				Collection<Problem> problems = validator.validate(deserialized);
-				assertThat(problems.size(), is(1));
+				assertThat(path, problems.size(), is(1));
 				Problem problem = Iterables.getOnlyElement(problems);
-				assertThat(problem, is(instanceOf(CyclicForeignReferenceProblem.class)));
+				assertThat(path, problem, is(instanceOf(CyclicForeignReferenceProblem.class)));
 			} finally {
 				IOUtils.closeQuietly(in);
 			}

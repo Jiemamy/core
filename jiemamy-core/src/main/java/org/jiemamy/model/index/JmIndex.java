@@ -1,6 +1,6 @@
 /*
  * Copyright 2007-2012 Jiemamy Project and the Others.
- * Created on 2008/09/17
+ * Created on 2008/06/09
  *
  * This file is part of Jiemamy.
  *
@@ -19,21 +19,68 @@
 package org.jiemamy.model.index;
 
 import java.util.List;
+import java.util.UUID;
 
-import org.jiemamy.dddbase.UUIDEntityRef;
+import com.google.common.collect.Lists;
+
+import org.apache.commons.lang.Validate;
+
+import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.utils.CloneUtil;
+import org.jiemamy.dddbase.utils.MutationMonitor;
 import org.jiemamy.model.DbObject;
 
 /**
- * インデックスを表すモデルインターフェイス。
+ * インデックスモデル。
  * 
- * <p>このインターフェイスで定義する全てのメソッドは冪等でなければならない(must)。</p>
- * 
- * @since 0.3
  * @author daisuke
  */
-public interface JmIndex extends DbObject {
+public final class JmIndex extends DbObject {
 	
-	JmIndex clone();
+	/** ユニークインデックスか否か */
+	private boolean unique;
+	
+	/** インデックスカラムのリスト */
+	private List<JmIndexColumn> indexColumns = Lists.newArrayList();
+	
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * <p>ENTITY IDは{@code UUID.randomUUID()}を用いて自動生成する。</p>
+	 */
+	public JmIndex() {
+		this(UUID.randomUUID());
+	}
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param id ENTITY ID
+	 * @throws IllegalArgumentException 引数{@code id}に{@code null}を与えた場合
+	 */
+	public JmIndex(UUID id) {
+		super(id);
+	}
+	
+	/**
+	 * インデックスカラムを追加する。
+	 * 
+	 * @param indexColumn インデックスカラム
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public void addIndexColumn(JmIndexColumn indexColumn) {
+		Validate.notNull(indexColumn);
+		indexColumns.add(indexColumn);
+	}
+	
+	@Override
+	public JmIndex clone() {
+		JmIndex clone = (JmIndex) super.clone();
+		clone.indexColumns = CloneUtil.cloneValueArrayList(indexColumns);
+		return clone;
+	}
 	
 	/**
 	 * インデックスカラムのリストを取得する。
@@ -41,23 +88,37 @@ public interface JmIndex extends DbObject {
 	 * @return インデックスカラムのリスト
 	 * @since 0.3
 	 */
-	List<JmIndexColumn> getIndexColumns();
+	public List<JmIndexColumn> getIndexColumns() {
+		assert indexColumns != null;
+		return MutationMonitor.monitor(Lists.newArrayList(indexColumns));
+	}
+	
+	public boolean isUnique() {
+		return unique;
+	}
 	
 	/**
-	 * インデックス名を取得する。
+	 * インデックスカラムを削除する。
 	 * 
-	 * @return インデックス名. 未設定の場合は{@code null}
-	 * @since 0.3
+	 * @param indexColumn インデックスカラム
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	String getName();
+	public void reomveIndexColumn(JmIndexColumn indexColumn) {
+		Validate.notNull(indexColumn);
+		indexColumns.remove(indexColumn);
+	}
 	
 	/**
-	 * ユニークインデックスか否かを取得する。
+	 * ユニークインデックスか否かを設定する
 	 * 
-	 * @return ユニークインデックスか否か
-	 * @since 0.3
+	 * @param unique ユニークインデックスの場合は{@code true}、そうでない場合は{@code false}
 	 */
-	boolean isUnique();
+	public void setUnique(boolean unique) {
+		this.unique = unique;
+	}
 	
-	UUIDEntityRef<? extends JmIndex> toReference();
+	@Override
+	public EntityRef<? extends JmIndex> toReference() {
+		return new EntityRef<JmIndex>(this);
+	}
 }

@@ -32,7 +32,7 @@ import org.junit.Test;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.model.DbObject;
-import org.jiemamy.model.table.SimpleJmTable;
+import org.jiemamy.model.table.JmTable;
 import org.jiemamy.utils.UUIDUtil;
 import org.jiemamy.validator.Problem;
 
@@ -80,14 +80,14 @@ public class DbObjectNameCollisionValidatorTest {
 	public void test01_DbObject名の重複バリデーションが正常に行われる() throws Exception {
 		JiemamyContext context = new JiemamyContext();
 		
-		SimpleJmTable table1 = new SimpleJmTable(UUIDUtil.valueOfOrRandom("a"));
+		JmTable table1 = new JmTable(UUIDUtil.valueOfOrRandom("a"));
 		table1.setName("foo");
 		context.store(table1);
 		
 		Collection<? extends Problem> result1 = validator.validate(context);
 		assertThat(result1.size(), is(0)); // 問題なし
 		
-		SimpleJmTable table2 = new SimpleJmTable(UUIDUtil.valueOfOrRandom("b"));
+		JmTable table2 = new JmTable(UUIDUtil.valueOfOrRandom("b"));
 		table2.setName("foo");
 		context.store(table2);
 		
@@ -99,18 +99,18 @@ public class DbObjectNameCollisionValidatorTest {
 		assertThat(problem.getMessage(Locale.JAPAN), is("オブジェクト名 \"foo\" が重複しています。"));
 		assertThat(problem.getErrorCode(), is("E0070"));
 		
-		SimpleJmTable table3 = new SimpleJmTable(UUIDUtil.valueOfOrRandom("c"));
+		JmTable table3 = new JmTable(UUIDUtil.valueOfOrRandom("c"));
 		table3.setName("foo");
 		context.store(table3);
 		
 		Collection<? extends Problem> result3 = validator.validate(context);
 		assertThat(result3.size(), is(1)); // 3つ重なっていても、問題は1つ
 		
-		SimpleJmTable table4 = new SimpleJmTable(UUIDUtil.valueOfOrRandom("d"));
+		JmTable table4 = new JmTable(UUIDUtil.valueOfOrRandom("d"));
 		table4.setName("bar");
 		context.store(table4);
 		
-		SimpleJmTable table5 = new SimpleJmTable(UUIDUtil.valueOfOrRandom("e"));
+		JmTable table5 = new JmTable(UUIDUtil.valueOfOrRandom("e"));
 		table5.setName("bar");
 		context.store(table5);
 		

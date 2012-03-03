@@ -26,14 +26,14 @@ import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.jiemamy.model.constraint.JmDeferrability.InitiallyCheckTime;
-import org.jiemamy.model.constraint.JmForeignKeyConstraint.MatchType;
-import org.jiemamy.model.constraint.JmForeignKeyConstraint.ReferentialAction;
+import org.jiemamy.model.constraint.InitiallyCheckTime;
+import org.jiemamy.model.constraint.MatchType;
+import org.jiemamy.model.constraint.ReferentialAction;
 import org.jiemamy.model.datatype.DataType;
 import org.jiemamy.model.datatype.RawTypeDescriptor;
 import org.jiemamy.model.datatype.TypeParameterKey;
 import org.jiemamy.model.index.JmIndex;
-import org.jiemamy.model.index.JmIndexColumn.SortOrder;
+import org.jiemamy.model.index.SortOrder;
 import org.jiemamy.model.sql.Keyword;
 import org.jiemamy.model.sql.Literal;
 import org.jiemamy.model.sql.Separator;

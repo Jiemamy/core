@@ -24,8 +24,7 @@ import com.google.common.collect.Lists;
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.dddbase.AbstractEntity;
-import org.jiemamy.dddbase.DefaultUUIDEntityRef;
-import org.jiemamy.dddbase.UUIDEntityRef;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.utils.CloneUtil;
 import org.jiemamy.dddbase.utils.MutationMonitor;
 import org.jiemamy.model.constraint.JmForeignKeyConstraint;
@@ -39,30 +38,18 @@ import org.jiemamy.model.geometory.JmPoint;
  * @version $Id$
  * @author daisuke
  */
-public final class SimpleJmConnection extends AbstractEntity<UUID> implements JmConnection {
+public final class SimpleJmConnection extends AbstractEntity implements JmConnection {
 	
 	private List<JmPoint> bendpoints = Lists.newArrayList();
 	
 	private JmColor color;
 	
-	private UUIDEntityRef<? extends JmNode> source;
+	private EntityRef<? extends JmNode> source;
 	
-	private UUIDEntityRef<? extends JmNode> target;
+	private EntityRef<? extends JmNode> target;
 	
-	private final UUIDEntityRef<? extends JmForeignKeyConstraint> coreModelRef;
+	private final EntityRef<? extends JmForeignKeyConstraint> coreModelRef;
 	
-	
-	/**
-	 * インスタンスを生成する。
-	 * 
-	 * @param id ENTITY ID
-	 * @param coreModelRef CORE側の実体となる外部キーへの参照
-	 */
-	public SimpleJmConnection(UUID id, UUIDEntityRef<? extends JmForeignKeyConstraint> coreModelRef) {
-		super(id);
-		Validate.notNull(coreModelRef);
-		this.coreModelRef = coreModelRef;
-	}
 	
 	/**
 	 * インスタンスを生成する。
@@ -71,8 +58,20 @@ public final class SimpleJmConnection extends AbstractEntity<UUID> implements Jm
 	 * 
 	 * @param coreModelRef CORE側の実体となる外部キーへの参照
 	 */
-	public SimpleJmConnection(UUIDEntityRef<? extends JmForeignKeyConstraint> coreModelRef) {
+	public SimpleJmConnection(EntityRef<? extends JmForeignKeyConstraint> coreModelRef) {
 		this(UUID.randomUUID(), coreModelRef);
+	}
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param id ENTITY ID
+	 * @param coreModelRef CORE側の実体となる外部キーへの参照
+	 */
+	public SimpleJmConnection(UUID id, EntityRef<? extends JmForeignKeyConstraint> coreModelRef) {
+		super(id);
+		Validate.notNull(coreModelRef);
+		this.coreModelRef = coreModelRef;
 	}
 	
 	/**
@@ -103,15 +102,15 @@ public final class SimpleJmConnection extends AbstractEntity<UUID> implements Jm
 		return color;
 	}
 	
-	public UUIDEntityRef<? extends JmForeignKeyConstraint> getCoreModelRef() {
+	public EntityRef<? extends JmForeignKeyConstraint> getCoreModelRef() {
 		return coreModelRef;
 	}
 	
-	public UUIDEntityRef<? extends JmNode> getSource() {
+	public EntityRef<? extends JmNode> getSource() {
 		return source;
 	}
 	
-	public UUIDEntityRef<? extends JmNode> getTarget() {
+	public EntityRef<? extends JmNode> getTarget() {
 		return target;
 	}
 	
@@ -137,7 +136,7 @@ public final class SimpleJmConnection extends AbstractEntity<UUID> implements Jm
 	 * @param source 接続元ノード
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public void setSource(UUIDEntityRef<? extends JmNode> source) {
+	public void setSource(EntityRef<? extends JmNode> source) {
 		Validate.notNull(source);
 		this.source = source;
 	}
@@ -148,14 +147,14 @@ public final class SimpleJmConnection extends AbstractEntity<UUID> implements Jm
 	 * @param target 接続先ノード
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public void setTarget(UUIDEntityRef<? extends JmNode> target) {
+	public void setTarget(EntityRef<? extends JmNode> target) {
 		Validate.notNull(target);
 		this.target = target;
 	}
 	
 	@Override
-	public UUIDEntityRef<? extends SimpleJmConnection> toReference() {
-		return new DefaultUUIDEntityRef<SimpleJmConnection>(this);
+	public EntityRef<? extends SimpleJmConnection> toReference() {
+		return new EntityRef<SimpleJmConnection>(this);
 	}
 	
 	@Override

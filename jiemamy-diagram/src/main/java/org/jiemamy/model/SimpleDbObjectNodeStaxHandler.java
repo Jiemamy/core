@@ -27,8 +27,7 @@ import org.codehaus.staxmate.in.SMEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.jiemamy.dddbase.DefaultUUIDEntityRef;
-import org.jiemamy.dddbase.UUIDEntityRef;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.geometory.JmColor;
 import org.jiemamy.model.geometory.JmRectangle;
 import org.jiemamy.serializer.SerializationException;
@@ -75,7 +74,7 @@ public final class SimpleDbObjectNodeStaxHandler extends StaxHandler<SimpleDbObj
 			
 			String idString = cursor.getAttrValue(CoreQName.ID);
 			UUID id = dctx.getContext().toUUID(idString);
-			UUIDEntityRef<? extends DbObject> core = null;
+			EntityRef<? extends DbObject> core = null;
 			JmRectangle boundary = null;
 			JmColor color = null;
 			
@@ -87,7 +86,7 @@ public final class SimpleDbObjectNodeStaxHandler extends StaxHandler<SimpleDbObj
 					if (childCursor.isQName(DiagramQName.CORE)) {
 						String coreIdString = childCursor.getAttrValue(CoreQName.REF);
 						UUID coreId = UUIDUtil.valueOfOrRandom(coreIdString);
-						core = DefaultUUIDEntityRef.of(coreId);
+						core = EntityRef.of(coreId);
 					} else if (childCursor.isQName(DiagramQName.BOUNDARY)) {
 						boundary = getDirector().direct(dctx);
 					} else if (childCursor.isQName(DiagramQName.COLOR)) {

@@ -28,8 +28,7 @@ import org.apache.commons.lang.Validate;
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.ServiceLocator;
 import org.jiemamy.dddbase.AbstractEntity;
-import org.jiemamy.dddbase.DefaultUUIDEntityRef;
-import org.jiemamy.dddbase.UUIDEntityRef;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.utils.CloneUtil;
 import org.jiemamy.dddbase.utils.MutationMonitor;
 import org.jiemamy.model.DbObject;
@@ -42,11 +41,11 @@ import org.jiemamy.script.ScriptString;
  * 
  * @author daisuke
  */
-public final class SimpleJmAroundScript extends AbstractEntity<UUID> implements JmAroundScript {
+public final class SimpleJmAroundScript extends AbstractEntity implements JmAroundScript {
 	
 	private Map<Position, ScriptString> scripts = Maps.newHashMap();
 	
-	private UUIDEntityRef<? extends DbObject> coreModelRef;
+	private EntityRef<? extends DbObject> coreModelRef;
 	
 	
 	/**
@@ -74,7 +73,7 @@ public final class SimpleJmAroundScript extends AbstractEntity<UUID> implements 
 		return clone;
 	}
 	
-	public UUIDEntityRef<? extends DbObject> getCoreModelRef() {
+	public EntityRef<? extends DbObject> getCoreModelRef() {
 		return coreModelRef;
 	}
 	
@@ -121,7 +120,7 @@ public final class SimpleJmAroundScript extends AbstractEntity<UUID> implements 
 	 * @param coreModelRef 設定対象{@link DbObject}の参照
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public void setCoreModelRef(UUIDEntityRef<? extends DbObject> coreModelRef) {
+	public void setCoreModelRef(EntityRef<? extends DbObject> coreModelRef) {
 		Validate.notNull(coreModelRef);
 		this.coreModelRef = coreModelRef;
 	}
@@ -170,8 +169,8 @@ public final class SimpleJmAroundScript extends AbstractEntity<UUID> implements 
 	}
 	
 	@Override
-	public UUIDEntityRef<? extends SimpleJmAroundScript> toReference() {
-		return new DefaultUUIDEntityRef<SimpleJmAroundScript>(this);
+	public EntityRef<? extends SimpleJmAroundScript> toReference() {
+		return new EntityRef<SimpleJmAroundScript>(this);
 	}
 	
 	@Override

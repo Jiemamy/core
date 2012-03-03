@@ -39,13 +39,13 @@ import org.slf4j.LoggerFactory;
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.SqlFacet;
 import org.jiemamy.composer.exporter.SimpleSqlExportConfig;
-import org.jiemamy.dddbase.UUIDEntityRef;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.column.JmColumn;
 import org.jiemamy.model.column.JmColumnBuilder;
-import org.jiemamy.model.column.SimpleJmColumn;
-import org.jiemamy.model.constraint.SimpleJmForeignKeyConstraint;
-import org.jiemamy.model.constraint.SimpleJmNotNullConstraint;
-import org.jiemamy.model.constraint.SimpleJmPrimaryKeyConstraint;
+import org.jiemamy.model.column.JmColumn;
+import org.jiemamy.model.constraint.JmForeignKeyConstraint;
+import org.jiemamy.model.constraint.JmNotNullConstraint;
+import org.jiemamy.model.constraint.JmPrimaryKeyConstraint;
 import org.jiemamy.model.dataset.JmRecord;
 import org.jiemamy.model.dataset.SimpleJmDataSet;
 import org.jiemamy.model.dataset.SimpleJmRecord;
@@ -56,8 +56,8 @@ import org.jiemamy.model.datatype.SimpleRawTypeDescriptor;
 import org.jiemamy.model.datatype.TypeParameterKey;
 import org.jiemamy.model.sql.SqlStatement;
 import org.jiemamy.model.table.JmTableBuilder;
-import org.jiemamy.model.table.SimpleJmTable;
-import org.jiemamy.model.view.SimpleJmView;
+import org.jiemamy.model.table.JmTable;
+import org.jiemamy.model.view.JmView;
 import org.jiemamy.script.ScriptString;
 
 /**
@@ -122,7 +122,7 @@ public class DefaultSqlEmitterTest {
 		varchar32.putParam(TypeParameterKey.SIZE, 32);
 		
 		// FORMAT-OFF
-		SimpleJmTable table = new JmTableBuilder("T_FOO")
+		JmTable table = new JmTableBuilder("T_FOO")
 				.with(new JmColumnBuilder("HOGE").type(new SimpleDataType(INTEGER)).build())
 				.with(new JmColumnBuilder("FUGA").type(varchar32).build())
 				.with(new JmColumnBuilder("PIYO").type(new SimpleDataType(TIMESTAMP)).build())
@@ -151,7 +151,7 @@ public class DefaultSqlEmitterTest {
 		varchar32.putParam(TypeParameterKey.SIZE, 32);
 		
 		// FORMAT-OFF
-		SimpleJmTable table = new JmTableBuilder("T_FOO")
+		JmTable table = new JmTableBuilder("T_FOO")
 				.with(new JmColumnBuilder("HOGE").type(new SimpleDataType(INTEGER)).build())
 				.with(new JmColumnBuilder("FUGA").type(varchar32).build())
 				.with(new JmColumnBuilder("PIYO").type(new SimpleDataType(TIMESTAMP)).build())
@@ -183,29 +183,29 @@ public class DefaultSqlEmitterTest {
 		varchar16.putParam(TypeParameterKey.SIZE, 16);
 		
 		// FORMAT-OFF
-		SimpleJmColumn deptId = new JmColumnBuilder("ID").type(new SimpleDataType(INTEGER)).build();
-		SimpleJmColumn deptName = new JmColumnBuilder("NAME").type(varchar32).build();
-		SimpleJmTable dept = new JmTableBuilder("DEPT")
+		JmColumn deptId = new JmColumnBuilder("ID").type(new SimpleDataType(INTEGER)).build();
+		JmColumn deptName = new JmColumnBuilder("NAME").type(varchar32).build();
+		JmTable dept = new JmTableBuilder("DEPT")
 				.with(deptId)
 				.with(deptName)
 				.with(new JmColumnBuilder("LOC").type(varchar16).build())
-				.with(SimpleJmPrimaryKeyConstraint.of(deptId))
-				.with(SimpleJmNotNullConstraint.of(deptName))
+				.with(JmPrimaryKeyConstraint.of(deptId))
+				.with(JmNotNullConstraint.of(deptName))
 				.build();
 		
-		SimpleJmColumn empId = new JmColumnBuilder("ID").type(new SimpleDataType(INTEGER)).build();
-		SimpleJmColumn empName = new JmColumnBuilder("NAME").type(varchar32).build();
-		SimpleJmColumn empDeptId = new JmColumnBuilder("DEPT_ID").type(new SimpleDataType(INTEGER)).build();
-		SimpleJmColumn empMgrId = new JmColumnBuilder("MGR_ID").type(new SimpleDataType(INTEGER)).build();
-		SimpleJmTable emp = new JmTableBuilder("EMP")
+		JmColumn empId = new JmColumnBuilder("ID").type(new SimpleDataType(INTEGER)).build();
+		JmColumn empName = new JmColumnBuilder("NAME").type(varchar32).build();
+		JmColumn empDeptId = new JmColumnBuilder("DEPT_ID").type(new SimpleDataType(INTEGER)).build();
+		JmColumn empMgrId = new JmColumnBuilder("MGR_ID").type(new SimpleDataType(INTEGER)).build();
+		JmTable emp = new JmTableBuilder("EMP")
 				.with(empId)
 				.with(empName)
 				.with(empDeptId)
 				.with(empMgrId)
-				.with(SimpleJmPrimaryKeyConstraint.of(empId))
-				.with(SimpleJmNotNullConstraint.of(empName))
-				.with(SimpleJmForeignKeyConstraint.of(empDeptId, deptId))
-				.with(SimpleJmForeignKeyConstraint.of(empMgrId, empId))
+				.with(JmPrimaryKeyConstraint.of(empId))
+				.with(JmNotNullConstraint.of(empName))
+				.with(JmForeignKeyConstraint.of(empDeptId, deptId))
+				.with(JmForeignKeyConstraint.of(empMgrId, empId))
 				.build();
 		// FORMAT-ON
 		context.store(dept);
@@ -253,7 +253,7 @@ public class DefaultSqlEmitterTest {
 		varchar32.putParam(TypeParameterKey.SIZE, 32);
 		
 		// FORMAT-OFF
-		SimpleJmTable table = new JmTableBuilder("T_FOO")
+		JmTable table = new JmTableBuilder("T_FOO")
 				.with(new JmColumnBuilder("HOGE").type(new SimpleDataType(INTEGER)).build())
 				.with(new JmColumnBuilder("FUGA").type(varchar32).build())
 				.with(new JmColumnBuilder("PIYO").type(new SimpleDataType(TIMESTAMP)).build())
@@ -261,7 +261,7 @@ public class DefaultSqlEmitterTest {
 		// FORMAT-ON
 		context.store(table);
 		
-		SimpleJmView view = new SimpleJmView();
+		JmView view = new JmView();
 		view.setName("V_BAR");
 		view.setDefinition("SELECT * FROM T_FOO WHERE HOGE > 0");
 		context.store(view);
@@ -293,11 +293,11 @@ public class DefaultSqlEmitterTest {
 		JmColumn colFoo = new JmColumnBuilder("FOO").type(new SimpleDataType(INTEGER)).build();
 		JmColumn colBar = new JmColumnBuilder("BAR").type(varchar32).build();
 		JmColumn colBaz = new JmColumnBuilder("BAZ").type(new SimpleDataType(TIMESTAMP)).build();
-		SimpleJmTable table = new JmTableBuilder("T_HOGE")
+		JmTable table = new JmTableBuilder("T_HOGE")
 				.with(colFoo)
 				.with(colBar)
 				.with(colBaz)
-				.with(SimpleJmPrimaryKeyConstraint.of(colFoo))
+				.with(JmPrimaryKeyConstraint.of(colFoo))
 				.build();
 		// FORMAT-ON
 		context.store(table);
@@ -305,7 +305,7 @@ public class DefaultSqlEmitterTest {
 		SimpleJmDataSet dataSet1 = new SimpleJmDataSet();
 		dataSet1.setName("type-1");
 		List<JmRecord> records1 = Lists.newArrayList();
-		Map<UUIDEntityRef<? extends JmColumn>, ScriptString> values1 = Maps.newHashMap();
+		Map<EntityRef<? extends JmColumn>, ScriptString> values1 = Maps.newHashMap();
 		values1.put(colFoo.toReference(), new ScriptString("1"));
 		values1.put(colBar.toReference(), new ScriptString("one"));
 		values1.put(colBaz.toReference(), new ScriptString("2011-01-25 09:22:01"));
@@ -320,7 +320,7 @@ public class DefaultSqlEmitterTest {
 		SimpleJmDataSet dataSet2 = new SimpleJmDataSet();
 		dataSet2.setName("type-2");
 		List<JmRecord> records2 = Lists.newArrayList();
-		Map<UUIDEntityRef<? extends JmColumn>, ScriptString> values2 = Maps.newHashMap();
+		Map<EntityRef<? extends JmColumn>, ScriptString> values2 = Maps.newHashMap();
 		values2.put(colFoo.toReference(), new ScriptString("3"));
 		values2.put(colBar.toReference(), new ScriptString("three"));
 		values2.put(colBaz.toReference(), new ScriptString("2011-02-17 09:34:40"));
@@ -382,15 +382,15 @@ public class DefaultSqlEmitterTest {
 		SimpleDataType varchar32 = new SimpleDataType(VARCHAR);
 		varchar32.putParam(TypeParameterKey.SIZE, 32);
 		
-		SimpleJmColumn hoge = new JmColumnBuilder("HOGE").type(new SimpleDataType(INTEGER)).build();
-		SimpleJmColumn fuga = new JmColumnBuilder("FUGA").type(varchar32).build();
+		JmColumn hoge = new JmColumnBuilder("HOGE").type(new SimpleDataType(INTEGER)).build();
+		JmColumn fuga = new JmColumnBuilder("FUGA").type(varchar32).build();
 		fuga.setDefaultValue("'fuga'");
-		SimpleJmColumn piyo = new JmColumnBuilder("PIYO").type(new SimpleDataType(TIMESTAMP)).build();
+		JmColumn piyo = new JmColumnBuilder("PIYO").type(new SimpleDataType(TIMESTAMP)).build();
 		piyo.setDefaultValue("now()");
 		// FORMAT-OFF
-		SimpleJmTable table = new JmTableBuilder("T_FOO")
+		JmTable table = new JmTableBuilder("T_FOO")
 				.with(hoge, fuga, piyo)
-				.with(SimpleJmPrimaryKeyConstraint.of(hoge))
+				.with(JmPrimaryKeyConstraint.of(hoge))
 				.build();
 		// FORMAT-ON
 		context.store(table);

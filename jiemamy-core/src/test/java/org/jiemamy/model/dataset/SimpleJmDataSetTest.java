@@ -35,13 +35,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.dddbase.UUIDEntityRef;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.column.JmColumn;
 import org.jiemamy.model.column.JmColumnBuilder;
 import org.jiemamy.model.datatype.RawTypeCategory;
 import org.jiemamy.model.datatype.SimpleDataType;
 import org.jiemamy.model.table.JmTable;
-import org.jiemamy.model.table.SimpleJmTable;
+import org.jiemamy.model.table.JmTable;
 import org.jiemamy.script.ScriptString;
 
 /**
@@ -75,9 +75,9 @@ public class SimpleJmDataSetTest {
 	}
 	
 	
-	private SimpleJmTable hoge;
+	private JmTable hoge;
 	
-	private SimpleJmTable fuga;
+	private JmTable fuga;
 	
 	
 	/**
@@ -87,13 +87,13 @@ public class SimpleJmDataSetTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		hoge = new SimpleJmTable();
+		hoge = new JmTable();
 		hoge.setName("HOGE");
 		hoge.store(new JmColumnBuilder("FOO").type(SimpleDataType.of(RawTypeCategory.INTEGER)).build());
 		hoge.store(new JmColumnBuilder("BAR").type(SimpleDataType.of(RawTypeCategory.INTEGER)).build());
 		hoge.store(new JmColumnBuilder("BAZ").type(SimpleDataType.of(RawTypeCategory.INTEGER)).build());
 		
-		fuga = new SimpleJmTable();
+		fuga = new JmTable();
 		fuga.setName("FUGA");
 		fuga.store(new JmColumnBuilder("QUX").type(SimpleDataType.of(RawTypeCategory.INTEGER)).build());
 		fuga.store(new JmColumnBuilder("QUUX").type(SimpleDataType.of(RawTypeCategory.INTEGER)).build());
@@ -110,7 +110,7 @@ public class SimpleJmDataSetTest {
 	@Test
 	public void test01_データを追加して維持されていることを確認() throws Exception {
 		SimpleJmDataSet dataSet = new SimpleJmDataSet();
-		Map<UUIDEntityRef<? extends JmColumn>, ScriptString> map = Maps.newHashMap();
+		Map<EntityRef<? extends JmColumn>, ScriptString> map = Maps.newHashMap();
 		dataSet.setName("hogehoge");
 		
 		assertThat(dataSet.getRecords().size(), is(0));

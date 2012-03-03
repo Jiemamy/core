@@ -34,10 +34,9 @@ import org.slf4j.LoggerFactory;
 
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityNotFoundException;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.OnMemoryEntityResolver;
 import org.jiemamy.dddbase.OrderedOnMemoryRepository;
-import org.jiemamy.dddbase.UUIDEntity;
-import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.model.DiagramNotFoundException;
 import org.jiemamy.model.JmDiagram;
 import org.jiemamy.model.JmStickyNode;
@@ -83,7 +82,7 @@ public class DiagramFacet implements JiemamyFacet {
 		}
 	};
 	
-	private OrderedOnMemoryRepository<JmDiagram, UUID> diagrams = new OrderedOnMemoryRepository<JmDiagram, UUID>();
+	private OrderedOnMemoryRepository<JmDiagram> diagrams = new OrderedOnMemoryRepository<JmDiagram>();
 	
 	private final JiemamyContext context;
 	
@@ -109,7 +108,7 @@ public class DiagramFacet implements JiemamyFacet {
 	 * @throws EntityNotFoundException 参照で示す{@link Entity}が見つからなかった場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public JmDiagram deleteDiagram(UUIDEntityRef<? extends JmDiagram> reference) {
+	public JmDiagram deleteDiagram(EntityRef<? extends JmDiagram> reference) {
 		Validate.notNull(reference);
 		JmDiagram deleted = diagrams.delete(reference);
 		logger.info("diagram deleted: " + deleted);
@@ -151,7 +150,7 @@ public class DiagramFacet implements JiemamyFacet {
 		return diagrams.getEntitiesAsList();
 	}
 	
-	public Set<? extends UUIDEntity> getEntities() {
+	public Set<? extends Entity> getEntities() {
 		return diagrams.getEntitiesAsSet();
 	}
 	
@@ -159,7 +158,7 @@ public class DiagramFacet implements JiemamyFacet {
 		return DiagramNamespace.values();
 	}
 	
-	public OnMemoryEntityResolver<? extends UUIDEntity, UUID> getResolver() {
+	public OnMemoryEntityResolver<? extends Entity> getResolver() {
 		return diagrams;
 	}
 	
@@ -186,6 +185,20 @@ public class DiagramFacet implements JiemamyFacet {
 	}
 	
 	/**
+	 * {@link EntityRef}から、{@link Entity}を引き当てる。
+	 * 
+	 * @param <T> {@link Entity}の型
+	 * @param reference {@link EntityRef}
+	 * @return {@link Entity}
+	 * @throws EntityNotFoundException 参照で示す{@link Entity}が見つからなかった場合
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public <T extends Entity>T resolve(EntityRef<T> reference) {
+		Validate.notNull(reference);
+		return diagrams.resolve(reference);
+	}
+	
+	/**
 	 * IDから、{@link Entity}を引き当てる。
 	 * 
 	 * @param id ENTITY ID
@@ -193,23 +206,9 @@ public class DiagramFacet implements JiemamyFacet {
 	 * @throws EntityNotFoundException IDで示す{@link Entity}が見つからなかった場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public Entity<UUID> resolve(UUID id) {
+	public Entity resolve(UUID id) {
 		Validate.notNull(id);
 		return diagrams.resolve(id);
-	}
-	
-	/**
-	 * {@link UUIDEntityRef}から、{@link Entity}を引き当てる。
-	 * 
-	 * @param <T> {@link Entity}の型
-	 * @param reference {@link UUIDEntityRef}
-	 * @return {@link Entity}
-	 * @throws EntityNotFoundException 参照で示す{@link Entity}が見つからなかった場合
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 */
-	public <T extends UUIDEntity>T resolve(UUIDEntityRef<T> reference) {
-		Validate.notNull(reference);
-		return diagrams.resolve(reference);
 	}
 	
 	/**

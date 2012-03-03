@@ -35,7 +35,7 @@ import com.google.common.collect.Maps;
 import org.apache.commons.io.IOExceptionWithCause;
 import org.apache.commons.lang.Validate;
 
-import org.jiemamy.dddbase.UUIDEntityRef;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.column.JmColumn;
 import org.jiemamy.model.dataset.JmDataSet;
 import org.jiemamy.model.dataset.JmRecord;
@@ -127,7 +127,7 @@ public final class DataSetUtil {
 			
 			String[] dataElements;
 			while ((dataElements = reader.readNext()) != null) {
-				Map<UUIDEntityRef<? extends JmColumn>, ScriptString> values = Maps.newHashMap();
+				Map<EntityRef<? extends JmColumn>, ScriptString> values = Maps.newHashMap();
 				for (int i = 0; i < Math.min(columns.size(), dataElements.length); i++) {
 					values.put(columns.get(i).toReference(), new ScriptString(dataElements[i]));
 				}

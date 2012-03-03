@@ -31,7 +31,7 @@ import org.jiemamy.dddbase.Entity;
  * @version $Id$
  * @author daisuke
  */
-public class EntityComparator<ID extends Comparable<ID> & Serializable> implements Comparator<Entity<ID>> {
+public class EntityComparator<ID extends Comparable<ID> & Serializable> implements Comparator<Entity> {
 	
 	/** singleton instance */
 	public static final EntityComparator<UUID> INSTANCE = new EntityComparator<UUID>();
@@ -40,7 +40,7 @@ public class EntityComparator<ID extends Comparable<ID> & Serializable> implemen
 	private EntityComparator() {
 	}
 	
-	public int compare(Entity<ID> o1, Entity<ID> o2) {
+	public int compare(Entity o1, Entity o2) {
 		return o1.getId().compareTo(o2.getId());
 	}
 	

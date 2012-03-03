@@ -32,8 +32,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 import org.jiemamy.dddbase.AbstractOrderedEntity;
-import org.jiemamy.dddbase.DefaultUUIDEntityRef;
-import org.jiemamy.dddbase.UUIDEntityRef;
+import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.utils.CloneUtil;
 import org.jiemamy.dddbase.utils.MutationMonitor;
 import org.jiemamy.model.table.JmTable;
@@ -43,13 +43,13 @@ import org.jiemamy.model.table.JmTable;
  * 
  * @author daisuke
  */
-public final class SimpleJmDataSet extends AbstractOrderedEntity<UUID> implements JmDataSet {
+public final class SimpleJmDataSet extends AbstractOrderedEntity implements JmDataSet {
 	
 	/** データセット名 */
 	private String name;
 	
 	/** レコード情報 */
-	private Map<UUIDEntityRef<? extends JmTable>, List<JmRecord>> records = Maps.newHashMap();
+	private Map<EntityRef<? extends JmTable>, List<JmRecord>> records = Maps.newHashMap();
 	
 	
 	/**
@@ -77,7 +77,7 @@ public final class SimpleJmDataSet extends AbstractOrderedEntity<UUID> implement
 	 * @param record レコード
 	 * @throws IllegalArgumentException 引数{@code tableRef}に{@code null}を与えた場合
 	 */
-	public synchronized void addRecord(UUIDEntityRef<? extends JmTable> tableRef, JmRecord record) {
+	public synchronized void addRecord(EntityRef<? extends JmTable> tableRef, JmRecord record) {
 		Validate.notNull(tableRef);
 		Validate.notNull(record);
 		if (records.containsKey(tableRef) == false) {
@@ -90,9 +90,9 @@ public final class SimpleJmDataSet extends AbstractOrderedEntity<UUID> implement
 	public synchronized SimpleJmDataSet clone() {
 		SimpleJmDataSet clone = (SimpleJmDataSet) super.clone();
 		
-		Map<UUIDEntityRef<? extends JmTable>, List<JmRecord>> cloneMap =
+		Map<EntityRef<? extends JmTable>, List<JmRecord>> cloneMap =
 				Maps.newHashMapWithExpectedSize(records.size());
-		for (Entry<UUIDEntityRef<? extends JmTable>, List<JmRecord>> entry : records.entrySet()) {
+		for (Entry<EntityRef<? extends JmTable>, List<JmRecord>> entry : records.entrySet()) {
 			List<JmRecord> value = entry.getValue();
 			cloneMap.put(entry.getKey(), CloneUtil.cloneValueArrayList(value));
 		}
@@ -119,7 +119,7 @@ public final class SimpleJmDataSet extends AbstractOrderedEntity<UUID> implement
 	 * @return  レコードのリスト、レコードが存在しない場合は{@code null}
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public synchronized List<JmRecord> getRecord(UUIDEntityRef<? extends JmTable> tableRef) {
+	public synchronized List<JmRecord> getRecord(EntityRef<? extends JmTable> tableRef) {
 		Validate.notNull(tableRef);
 		return records.get(tableRef);
 	}
@@ -129,7 +129,7 @@ public final class SimpleJmDataSet extends AbstractOrderedEntity<UUID> implement
 	 * 
 	 * @return レコード情報
 	 */
-	public synchronized Map<UUIDEntityRef<? extends JmTable>, List<JmRecord>> getRecords() {
+	public synchronized Map<EntityRef<? extends JmTable>, List<JmRecord>> getRecords() {
 		return MutationMonitor.monitor(Maps.newHashMap(records));
 	}
 	
@@ -140,7 +140,7 @@ public final class SimpleJmDataSet extends AbstractOrderedEntity<UUID> implement
 	 * @param records レコードのリスト
 	 * @throws IllegalArgumentException 引数に{@code null}または{@code null}要素を与えた場合
 	 */
-	public synchronized void putRecord(UUIDEntityRef<? extends JmTable> tableRef, List<JmRecord> records) {
+	public synchronized void putRecord(EntityRef<? extends JmTable> tableRef, List<JmRecord> records) {
 		Validate.notNull(tableRef);
 		Validate.noNullElements(records);
 		this.records.put(tableRef, Lists.newArrayList(records));
@@ -152,7 +152,7 @@ public final class SimpleJmDataSet extends AbstractOrderedEntity<UUID> implement
 	 * @param tableRef テーブルの参照
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public synchronized void removeRecord(UUIDEntityRef<? extends JmTable> tableRef) {
+	public synchronized void removeRecord(EntityRef<? extends JmTable> tableRef) {
 		Validate.notNull(tableRef);
 		records.remove(tableRef);
 	}
@@ -167,8 +167,8 @@ public final class SimpleJmDataSet extends AbstractOrderedEntity<UUID> implement
 	}
 	
 	@Override
-	public UUIDEntityRef<? extends SimpleJmDataSet> toReference() {
-		return new DefaultUUIDEntityRef<SimpleJmDataSet>(this);
+	public EntityRef<? extends SimpleJmDataSet> toReference() {
+		return new EntityRef<SimpleJmDataSet>(this);
 	}
 	
 	@Override

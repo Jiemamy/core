@@ -1,6 +1,6 @@
 /*
  * Copyright 2007-2012 Jiemamy Project and the Others.
- * Created on 2008/09/17
+ * Created on 2008/06/09
  *
  * This file is part of Jiemamy.
  *
@@ -18,25 +18,55 @@
  */
 package org.jiemamy.model;
 
+import java.util.Collections;
 import java.util.Set;
+import java.util.UUID;
+
+import com.google.common.collect.Sets;
+
+import org.apache.commons.lang.Validate;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.dddbase.UUIDEntity;
-import org.jiemamy.dddbase.UUIDEntityRef;
+import org.jiemamy.dddbase.AbstractEntity;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.parameter.ParameterKey;
 import org.jiemamy.model.parameter.ParameterMap;
 
 /**
- * リレーショナルデータベースモデルにおける「CREATE対象」を表すモデルインターフェイス。
+ * データベースオブジェクト（TableやView）の抽象モデルクラス。
  * 
- * <p>このインターフェイスで定義する全てのメソッドは冪等でなければならない(must)。</p>
- * 
- * @since 0.3
  * @author daisuke
  */
-public interface DbObject extends UUIDEntity {
+public abstract class DbObject extends AbstractEntity {
 	
-	DbObject clone();
+	/** 物理名 */
+	private String name;
+	
+	/** 論理名 */
+	private String logicalName;
+	
+	/** 説明文 */
+	private String description;
+	
+	/** パラメータの一覧 */
+	protected ParameterMap params = new ParameterMap();
+	
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param id ENTITY ID
+	 * @throws IllegalArgumentException 引数{@code id}に{@code null}を与えた場合
+	 */
+	public DbObject(UUID id) {
+		super(id);
+	}
+	
+	@Override
+	public DbObject clone() {
+		DbObject clone = (DbObject) super.clone();
+		return clone;
+	}
 	
 	/**
 	 * 候補の中から、このモデルを直接参照するモデルの組を返す。
@@ -45,16 +75,27 @@ public interface DbObject extends UUIDEntity {
 	 * @return 、このモデルを直接参照するモデルの組
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	Set<DbObject> findSubDbObjectsNonRecursive(JiemamyContext context);
+	public Set<DbObject> findSubDbObjectsNonRecursive(JiemamyContext context) {
+		Set<DbObject> collecter = Sets.newHashSet();
+		for (DbObject dbObject : context.getDbObjects()) {
+			if (dbObject.isSubDbObjectsNonRecursiveOf(this, context)) {
+				collecter.add(dbObject);
+			}
+		}
+		return collecter;
+	}
 	
 	/**
 	 * 候補の中から、このモデルに直接参照されるモデルの組を返す。
 	 * 
-	 * @param candidates 候補
+	 * @param dbObjects 候補
 	 * @return このモデルに直接参照されるモデルの組
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	Set<DbObject> findSuperDbObjectsNonRecursive(Set<DbObject> candidates);
+	public Set<DbObject> findSuperDbObjectsNonRecursive(Set<DbObject> dbObjects) {
+		Validate.notNull(dbObjects);
+		return Collections.emptySet();
+	}
 	
 	/**
 	 * 説明文を取得する。
@@ -62,7 +103,9 @@ public interface DbObject extends UUIDEntity {
 	 * @return 説明文. 未設定の場合は{@code null}
 	 * @since 0.3
 	 */
-	String getDescription();
+	public String getDescription() {
+		return description;
+	}
 	
 	/**
 	 * 論理名を取得する。
@@ -70,7 +113,9 @@ public interface DbObject extends UUIDEntity {
 	 * @return 論理名. 未設定の場合は{@code null}
 	 * @since 0.3
 	 */
-	String getLogicalName();
+	public String getLogicalName() {
+		return logicalName;
+	}
 	
 	/**
 	 * {@link DbObject}名を取得する。
@@ -78,7 +123,9 @@ public interface DbObject extends UUIDEntity {
 	 * @return {@link DbObject}名. 未設定の場合は{@code null}
 	 * @since 0.3
 	 */
-	String getName();
+	public String getName() {
+		return name;
+	}
 	
 	/**
 	 * キーに対応するパラメータの値を取得する。
@@ -88,14 +135,18 @@ public interface DbObject extends UUIDEntity {
 	 * @return パラメータの値
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	<T>T getParam(ParameterKey<T> key);
+	public <T>T getParam(ParameterKey<T> key) {
+		return params.get(key);
+	}
 	
 	/**
 	 * このモデルが持つ全パラメータを取得する。
 	 * 
 	 * @return カラムが持つ全パラメータ
 	 */
-	ParameterMap getParams();
+	public ParameterMap getParams() {
+		return params.clone();
+	}
 	
 	/**
 	 * 自分が{@code target}に依存する{@link DbObject}かどうか調べる。
@@ -105,7 +156,66 @@ public interface DbObject extends UUIDEntity {
 	 * @return {@code target}に依存する場合は{@code true}、そうでない場合は{@code false}
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	boolean isSubDbObjectsNonRecursiveOf(DbObject target, JiemamyContext context);
+	public boolean isSubDbObjectsNonRecursiveOf(DbObject target, JiemamyContext context) {
+		return false;
+	}
 	
-	UUIDEntityRef<? extends DbObject> toReference();
+	/**
+	 * パラメータを追加する。
+	 * 
+	 * @param key キー
+	 * @param value 値
+	 * @param <T> 値の型
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public <T>void putParam(ParameterKey<T> key, T value) {
+		params.put(key, value);
+	}
+	
+	/**
+	 * パラメータを削除する。
+	 * 
+	 * @param key キー
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public void removeParam(ParameterKey<?> key) {
+		params.remove(key);
+	}
+	
+	/**
+	 * 説明文を設定する。
+	 * 
+	 * @param description 説明文
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
+	/**
+	 * 論理名を設定する。
+	 * 
+	 * @param logicalName 論理名
+	 */
+	public void setLogicalName(String logicalName) {
+		this.logicalName = logicalName;
+	}
+	
+	/**
+	 * 物理名を設定する。
+	 * 
+	 * @param name 物理名
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	@Override
+	public EntityRef<? extends DbObject> toReference() {
+		return new EntityRef<DbObject>(this);
+	}
+	
+	@Override
+	public String toString() {
+		return super.toString() + "[" + name + "]";
+	}
 }

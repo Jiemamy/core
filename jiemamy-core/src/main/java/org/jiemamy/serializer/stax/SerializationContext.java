@@ -22,7 +22,7 @@ import org.apache.commons.lang.Validate;
 import org.codehaus.staxmate.out.SMOutputDocument;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.dddbase.UUIDEntityRef;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.table.JmTable;
 import org.jiemamy.utils.collection.ArrayEssentialStack;
 import org.jiemamy.utils.collection.EssentialStack;
@@ -41,7 +41,7 @@ public class SerializationContext {
 	
 	private final JiemamyContext context;
 	
-	private UUIDEntityRef<? extends JmTable> currentTableRef;
+	private EntityRef<? extends JmTable> currentTableRef;
 	
 	
 	/**
@@ -71,7 +71,7 @@ public class SerializationContext {
 	 * 
 	 * @return 現在処理中のテーブルに対する参照
 	 */
-	public UUIDEntityRef<? extends JmTable> getCurrentTableRef() {
+	public EntityRef<? extends JmTable> getCurrentTableRef() {
 		return currentTableRef;
 	}
 	
@@ -109,7 +109,7 @@ public class SerializationContext {
 	 * 
 	 * @param currentTableRef 現在処理中のテーブルに対する参照
 	 */
-	public void setCurrentTableRef(UUIDEntityRef<? extends JmTable> currentTableRef) {
+	public void setCurrentTableRef(EntityRef<? extends JmTable> currentTableRef) {
 		this.currentTableRef = currentTableRef;
 	}
 }

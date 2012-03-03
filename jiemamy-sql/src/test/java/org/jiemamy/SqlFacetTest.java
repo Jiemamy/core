@@ -36,7 +36,7 @@ import org.jiemamy.dddbase.Entity;
 import org.jiemamy.model.script.JmAroundScript;
 import org.jiemamy.model.script.Position;
 import org.jiemamy.model.script.SimpleJmAroundScript;
-import org.jiemamy.model.table.SimpleJmTable;
+import org.jiemamy.model.table.JmTable;
 import org.jiemamy.script.PlainScriptEngine;
 import org.jiemamy.utils.UUIDUtil;
 
@@ -93,11 +93,11 @@ public class SqlFacetTest {
 	 */
 	@Test
 	public void test02_テーブルにASを定義したら_getAroundScriptForで取得できる() throws Exception {
-		SimpleJmTable table = new SimpleJmTable(UUIDUtil.valueOfOrRandom("a"));
+		JmTable table = new JmTable(UUIDUtil.valueOfOrRandom("a"));
 		table.setName("T_FOO");
 		context.store(table);
 		
-		SimpleJmTable table2 = new SimpleJmTable(UUIDUtil.valueOfOrRandom("b"));
+		JmTable table2 = new JmTable(UUIDUtil.valueOfOrRandom("b"));
 		table2.setName("T_BAR");
 		context.store(table2);
 		
@@ -113,16 +113,16 @@ public class SqlFacetTest {
 		
 		assertThat(facet.getAroundScriptFor(table2.toReference()), is(nullValue()));
 		
-		// SqlFacet#resolve(UUIDEntityRef) で取り出せる
+		// SqlFacet#resolve(EntityRef) で取り出せる
 		SimpleJmAroundScript asm3 = facet.resolve(asm.toReference());
 		assertThat(asm3, is(equalTo((JmAroundScript) asm)));
 		assertThat(asm3, is(not(sameInstance((JmAroundScript) asm))));
 		assertThat(asm3, is(not(sameInstance(asm2))));
 		
 		// SqlFacet#resolve(UUID) で取り出せる
-		Entity<UUID> asm4 = facet.resolve(asm.getId());
-		assertThat(asm4, is(equalTo((Entity<UUID>) asm)));
-		assertThat(asm4, is(not(sameInstance((Entity<UUID>) asm))));
+		Entity asm4 = facet.resolve(asm.getId());
+		assertThat(asm4, is(equalTo((Entity) asm)));
+		assertThat(asm4, is(not(sameInstance((Entity) asm))));
 		
 		assertThat(facet.getAroundScripts().size(), is(1));
 		facet.deleteScript(asm.toReference());

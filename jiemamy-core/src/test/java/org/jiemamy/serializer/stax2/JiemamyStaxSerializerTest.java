@@ -50,17 +50,17 @@ import org.jiemamy.JiemamyContextTest;
 import org.jiemamy.SimpleJmMetadata;
 import org.jiemamy.model.column.JmColumn;
 import org.jiemamy.model.column.JmColumnBuilder;
-import org.jiemamy.model.column.SimpleJmColumn;
+import org.jiemamy.model.column.JmColumn;
 import org.jiemamy.model.constraint.JmForeignKeyConstraint;
-import org.jiemamy.model.constraint.JmForeignKeyConstraint.ReferentialAction;
-import org.jiemamy.model.constraint.SimpleJmForeignKeyConstraint;
-import org.jiemamy.model.constraint.SimpleJmPrimaryKeyConstraint;
+import org.jiemamy.model.constraint.ReferentialAction;
+import org.jiemamy.model.constraint.JmForeignKeyConstraint;
+import org.jiemamy.model.constraint.JmPrimaryKeyConstraint;
 import org.jiemamy.model.datatype.RawTypeCategory;
 import org.jiemamy.model.datatype.SimpleDataType;
 import org.jiemamy.model.datatype.SimpleRawTypeDescriptor;
 import org.jiemamy.model.table.JmTable;
 import org.jiemamy.model.table.JmTableBuilder;
-import org.jiemamy.model.table.SimpleJmTable;
+import org.jiemamy.model.table.JmTable;
 import org.jiemamy.serializer.stax.JiemamyStaxSerializer;
 
 /**
@@ -122,7 +122,7 @@ public class JiemamyStaxSerializerTest {
 		context.setMetadata(meta);
 		
 		UUID tid = UUID.fromString("d23695f8-76dd-4f8c-b5a2-1e02087ba44d");
-		SimpleJmTable t = new SimpleJmTable(tid);
+		JmTable t = new JmTable(tid);
 		t.setName("foo");
 		context.store(t);
 		
@@ -155,11 +155,11 @@ public class JiemamyStaxSerializerTest {
 		context.setMetadata(meta);
 		
 		UUID tid = UUID.fromString("d23695f8-76dd-4f8c-b5a2-1e02087ba44d");
-		SimpleJmTable t = new SimpleJmTable(tid);
+		JmTable t = new JmTable(tid);
 		t.setName("foo");
 		
 		UUID cid = UUID.fromString("58a57dcc-7745-4718-b03d-0143eaaa8af3");
-		SimpleJmColumn c = new SimpleJmColumn(cid);
+		JmColumn c = new JmColumn(cid);
 		c.setName("bar");
 		c.setLogicalName("baz");
 		c.setDescription("");
@@ -192,12 +192,12 @@ public class JiemamyStaxSerializerTest {
 		JiemamyContext ctx = new JiemamyContext();
 		
 		UUID id1 = UUID.fromString("cbe160fd-e229-4ede-ae01-3a0ea44ae5d6");
-		SimpleJmTable t1 = new SimpleJmTable(id1);
+		JmTable t1 = new JmTable(id1);
 		t1.setName("FOO");
 		ctx.store(t1);
 		
 		UUID id2 = UUID.fromString("76d03b4d-c959-48e9-bd0e-d6c2f61ec54d");
-		SimpleJmTable t2 = new SimpleJmTable(id2);
+		JmTable t2 = new JmTable(id2);
 		t2.setName("BAR");
 		ctx.store(t2);
 		
@@ -224,17 +224,17 @@ public class JiemamyStaxSerializerTest {
 		JiemamyContext ctx = new JiemamyContext();
 		
 		UUID tid = UUID.fromString("0d7bf352-59c4-4683-ae59-2808f30e686e");
-		SimpleJmTable t = new SimpleJmTable(tid);
+		JmTable t = new JmTable(tid);
 		t.setName("TTTT");
 		
 		UUID cid1 = UUID.fromString("a4333846-1292-4b82-b68c-454762bf92a1");
-		SimpleJmColumn c1 = new SimpleJmColumn(cid1);
+		JmColumn c1 = new JmColumn(cid1);
 		c1.setName("CCCC1");
 		c1.setDataType(SimpleDataType.of(RawTypeCategory.INTEGER));
 		t.store(c1);
 		
 		UUID cid2 = UUID.fromString("7774052e-40ee-4796-b990-2411be64fb35");
-		SimpleJmColumn c2 = new SimpleJmColumn(cid2);
+		JmColumn c2 = new JmColumn(cid2);
 		c2.setName("CCCC2");
 		c2.setDataType(SimpleDataType.of(RawTypeCategory.INTEGER));
 		t.store(c2);
@@ -400,28 +400,28 @@ public class JiemamyStaxSerializerTest {
 		JiemamyContext ctx = new JiemamyContext();
 		
 		// FORMAT-OFF
-		SimpleJmColumn foocolpk = new JmColumnBuilder("FOO1")
+		JmColumn foocolpk = new JmColumnBuilder("FOO1")
 			.type(new SimpleDataType(new SimpleRawTypeDescriptor(RawTypeCategory.INTEGER)))
 		.build();
-		SimpleJmColumn barcolpk = new JmColumnBuilder("BAR1")
+		JmColumn barcolpk = new JmColumnBuilder("BAR1")
 			.type(new SimpleDataType(new SimpleRawTypeDescriptor(RawTypeCategory.INTEGER)))
 		.build();
-		SimpleJmColumn barcolfk = new JmColumnBuilder("BAR2")
+		JmColumn barcolfk = new JmColumnBuilder("BAR2")
 			.type(new SimpleDataType(new SimpleRawTypeDescriptor(RawTypeCategory.INTEGER)))
 		.build();
 		
-		SimpleJmForeignKeyConstraint fk = SimpleJmForeignKeyConstraint.of(barcolfk, foocolpk);
+		JmForeignKeyConstraint fk = JmForeignKeyConstraint.of(barcolfk, foocolpk);
 		fk.setOnDelete(ReferentialAction.RESTRICT);
 		fk.setOnUpdate(ReferentialAction.CASCADE);
 		
-		SimpleJmTable foo = new JmTableBuilder("FOO")
+		JmTable foo = new JmTableBuilder("FOO")
 			.with(foocolpk)
-			.with(SimpleJmPrimaryKeyConstraint.of(foocolpk))
+			.with(JmPrimaryKeyConstraint.of(foocolpk))
 		.build();
-		SimpleJmTable bar = new JmTableBuilder("BAR")
+		JmTable bar = new JmTableBuilder("BAR")
 			.with(barcolpk)
 			.with(barcolfk)
-			.with(SimpleJmPrimaryKeyConstraint.of(barcolpk))
+			.with(JmPrimaryKeyConstraint.of(barcolpk))
 			.with(fk)
 		.build();
 		// FORMAT-ON
@@ -439,8 +439,8 @@ public class JiemamyStaxSerializerTest {
 		JiemamyContext ctx2 = serializer.deserialize(new ByteArrayInputStream(baos.toByteArray()));
 		
 		JmTable bar2 = ctx2.getTable("BAR");
-		SimpleJmForeignKeyConstraint fk2 =
-				Iterables.getOnlyElement(bar2.getConstraints(SimpleJmForeignKeyConstraint.class));
+		JmForeignKeyConstraint fk2 =
+				Iterables.getOnlyElement(bar2.getConstraints(JmForeignKeyConstraint.class));
 		
 		assertThat(fk2.getOnDelete(), is(ReferentialAction.RESTRICT));
 		assertThat(fk2.getOnUpdate(), is(ReferentialAction.CASCADE));

@@ -33,12 +33,12 @@ import com.google.common.collect.Maps;
 import org.apache.commons.lang.Validate;
 
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.dddbase.UUIDEntityRef;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.DbObject;
 import org.jiemamy.model.column.JmColumn;
 import org.jiemamy.model.dataset.SimpleJmDataSet;
 import org.jiemamy.model.dataset.SimpleJmRecord;
-import org.jiemamy.model.table.SimpleJmTable;
+import org.jiemamy.model.table.JmTable;
 import org.jiemamy.script.ScriptString;
 import org.jiemamy.utils.DbObjectDependencyCalculator;
 import org.jiemamy.utils.sql.SqlExecutor;
@@ -105,17 +105,17 @@ public class DefaultDatabaseMetadataParser implements DatabaseMetadataParser {
 		
 		if (config.isImportDataSet()) {
 			List<DbObject> dbObjects = DbObjectDependencyCalculator.getSortedEntityList(context);
-			List<SimpleJmTable> tables = Lists.newArrayList(Iterables.filter(dbObjects, SimpleJmTable.class));
+			List<JmTable> tables = Lists.newArrayList(Iterables.filter(dbObjects, JmTable.class));
 			
 			final SimpleJmDataSet dataSet = new SimpleJmDataSet();
 			dataSet.setName("imported " + new Date().toString());
 			SqlExecutor ex = new SqlExecutor(connection);
-			for (final SimpleJmTable table : tables) {
+			for (final JmTable table : tables) {
 				ex.execute("SELECT * FROM " + table.getName() + ";", new SqlExecutorHandler() {
 					
 					public void handleResultSet(String sql, ResultSet rs) throws SQLException {
 						while (rs.next()) {
-							Map<UUIDEntityRef<? extends JmColumn>, ScriptString> map = Maps.newHashMap();
+							Map<EntityRef<? extends JmColumn>, ScriptString> map = Maps.newHashMap();
 							for (JmColumn col : table.getColumns()) {
 								String data = rs.getString(col.getName());
 								map.put(col.toReference(), new ScriptString(data));

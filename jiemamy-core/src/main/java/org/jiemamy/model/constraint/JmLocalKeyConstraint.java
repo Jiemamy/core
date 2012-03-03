@@ -1,6 +1,6 @@
 /*
  * Copyright 2007-2012 Jiemamy Project and the Others.
- * Created on 2009/01/26
+ * Created on 2011/01/17
  *
  * This file is part of Jiemamy.
  *
@@ -18,7 +18,9 @@
  */
 package org.jiemamy.model.constraint;
 
-import org.jiemamy.dddbase.UUIDEntityRef;
+import java.util.UUID;
+
+import org.jiemamy.dddbase.EntityRef;
 
 /**
  * 内部キー制約を表すインターフェイス。
@@ -30,10 +32,26 @@ import org.jiemamy.dddbase.UUIDEntityRef;
  * @since 0.3
  * @author daisuke
  */
-public interface JmLocalKeyConstraint extends JmKeyConstraint {
+public abstract class JmLocalKeyConstraint extends JmKeyConstraint {
 	
-	JmLocalKeyConstraint clone();
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param id ENTITY ID
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public JmLocalKeyConstraint(UUID id) {
+		super(id);
+	}
 	
-	UUIDEntityRef<? extends JmLocalKeyConstraint> toReference();
+	@Override
+	public JmLocalKeyConstraint clone() {
+		JmLocalKeyConstraint clone = (JmLocalKeyConstraint) super.clone();
+		return clone;
+	}
 	
+	@Override
+	public EntityRef<? extends JmLocalKeyConstraint> toReference() {
+		return new EntityRef<JmLocalKeyConstraint>(this);
+	}
 }

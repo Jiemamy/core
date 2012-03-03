@@ -27,10 +27,9 @@ import org.slf4j.LoggerFactory;
 
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityNotFoundException;
+import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.OnMemoryEntityResolver;
 import org.jiemamy.dddbase.OnMemoryRepository;
-import org.jiemamy.dddbase.UUIDEntity;
-import org.jiemamy.dddbase.UUIDEntityRef;
 import org.jiemamy.model.DbObject;
 import org.jiemamy.model.script.JmAroundScript;
 import org.jiemamy.model.script.SimpleJmAroundScript;
@@ -68,7 +67,7 @@ public class SqlFacet implements JiemamyFacet {
 	
 	private final JiemamyContext context;
 	
-	private OnMemoryRepository<JmAroundScript, UUID> scripts = new OnMemoryRepository<JmAroundScript, UUID>();
+	private OnMemoryRepository<JmAroundScript> scripts = new OnMemoryRepository<JmAroundScript>();
 	
 	private JmAroundScript universalAroundScript;
 	
@@ -91,7 +90,7 @@ public class SqlFacet implements JiemamyFacet {
 	 * @throws EntityNotFoundException 参照で示す{@link Entity}が見つからなかった場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public JmAroundScript deleteScript(UUIDEntityRef<? extends JmAroundScript> reference) {
+	public JmAroundScript deleteScript(EntityRef<? extends JmAroundScript> reference) {
 		JmAroundScript deleted = scripts.delete(reference);
 		logger.info("script deleted: " + deleted);
 		context.getEventBroker().fireEvent(new StoredEvent<JmAroundScript>(scripts, deleted, null));
@@ -104,7 +103,7 @@ public class SqlFacet implements JiemamyFacet {
 	 * @param reference {@link DbObject}の参照
 	 * @return 写像となる {@link JmAroundScript}、存在しない場合は{@code null}
 	 */
-	public JmAroundScript getAroundScriptFor(UUIDEntityRef<? extends DbObject> reference) {
+	public JmAroundScript getAroundScriptFor(EntityRef<? extends DbObject> reference) {
 		Validate.notNull(reference);
 		for (JmAroundScript aroundScript : scripts.getEntitiesAsSet()) {
 			if (reference.equals(aroundScript.getCoreModelRef())) {
@@ -124,7 +123,7 @@ public class SqlFacet implements JiemamyFacet {
 		return scripts.getEntitiesAsSet();
 	}
 	
-	public Set<? extends UUIDEntity> getEntities() {
+	public Set<? extends Entity> getEntities() {
 		return scripts.getEntitiesAsSet();
 	}
 	
@@ -132,7 +131,7 @@ public class SqlFacet implements JiemamyFacet {
 		return SqlNamespace.values();
 	}
 	
-	public OnMemoryEntityResolver<? extends UUIDEntity, UUID> getResolver() {
+	public OnMemoryEntityResolver<? extends Entity> getResolver() {
 		return scripts;
 	}
 	
@@ -161,6 +160,19 @@ public class SqlFacet implements JiemamyFacet {
 	}
 	
 	/**
+	 * {@link EntityRef}から、{@link Entity}を引き当てる。
+	 * 
+	 * @param <T> {@link Entity}の型
+	 * @param reference {@link EntityRef}
+	 * @return {@link Entity}
+	 * @throws EntityNotFoundException 参照で示す{@link Entity}が見つからなかった場合
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public <T extends Entity>T resolve(EntityRef<T> reference) {
+		return scripts.resolve(reference);
+	}
+	
+	/**
 	 * IDから、{@link Entity}を引き当てる。
 	 * 
 	 * @param id ENTITY ID
@@ -168,21 +180,8 @@ public class SqlFacet implements JiemamyFacet {
 	 * @throws EntityNotFoundException 参照で示す{@link Entity}が見つからなかった場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public Entity<UUID> resolve(UUID id) {
+	public Entity resolve(UUID id) {
 		return scripts.resolve(id);
-	}
-	
-	/**
-	 * {@link UUIDEntityRef}から、{@link Entity}を引き当てる。
-	 * 
-	 * @param <T> {@link Entity}の型
-	 * @param reference {@link UUIDEntityRef}
-	 * @return {@link Entity}
-	 * @throws EntityNotFoundException 参照で示す{@link Entity}が見つからなかった場合
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 */
-	public <T extends UUIDEntity>T resolve(UUIDEntityRef<T> reference) {
-		return scripts.resolve(reference);
 	}
 	
 	/**
