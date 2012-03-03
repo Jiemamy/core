@@ -37,7 +37,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -463,7 +463,7 @@ public/*final*/class JiemamyContext implements EntityResolver<UUID> {
 		Collection<JmTable> c = Collections2.filter(getTables(), new Predicate<JmTable>() {
 			
 			public boolean apply(JmTable input) {
-				return ObjectUtils.equals(input.getName(), name);
+				return StringUtils.equalsIgnoreCase(input.getName(), name);
 			}
 		});
 		try {
