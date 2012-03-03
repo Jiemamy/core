@@ -22,7 +22,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assume.assumeThat;
 
-import javax.xml.XMLConstants;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
@@ -50,7 +49,8 @@ public class SampleXmlDiagramTest {
 		assumeThat(System.getProperty("os.name").toLowerCase(), is(not("linux")));
 		
 		// XML Schemaオブジェクトを作る
-		SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+		SchemaFactory schemaFactory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema"
+		/*XMLConstants.W3C_XML_SCHEMA_NS_URI*/);
 		Schema schema = schemaFactory.newSchema(new Source[] {
 			new StreamSource(SampleXmlDiagramTest.class.getResourceAsStream("/jiemamy-core.xsd")),
 			new StreamSource(SampleXmlDiagramTest.class.getResourceAsStream("/jiemamy-diagram.xsd")),
