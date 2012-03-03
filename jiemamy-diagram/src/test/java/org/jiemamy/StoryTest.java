@@ -24,9 +24,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.jiemamy.model.JmNode;
 import org.jiemamy.model.DbObjectNode;
 import org.jiemamy.model.JmDiagram;
+import org.jiemamy.model.JmNode;
 import org.jiemamy.model.geometory.JmRectangle;
 import org.jiemamy.model.table.JmTable;
 import org.jiemamy.utils.UUIDUtil;

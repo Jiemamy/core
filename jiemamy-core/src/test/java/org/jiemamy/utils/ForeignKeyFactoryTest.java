@@ -30,8 +30,8 @@ import org.jiemamy.JiemamyContext;
 import org.jiemamy.model.column.JmColumnBuilder;
 import org.jiemamy.model.constraint.JmForeignKeyConstraint;
 import org.jiemamy.model.constraint.JmPrimaryKeyConstraint;
-import org.jiemamy.model.table.JmTableBuilder;
 import org.jiemamy.model.table.JmTable;
+import org.jiemamy.model.table.JmTableBuilder;
 
 /**
  * {@link ForeignKeyFactory}のテストクラス。

@@ -22,10 +22,10 @@ import java.util.List;
 
 import org.jiemamy.DiagramFacet;
 import org.jiemamy.JiemamyContext;
-import org.jiemamy.model.JmStickyNode;
 import org.jiemamy.model.DbObjectNode;
 import org.jiemamy.model.JmConnection;
 import org.jiemamy.model.JmDiagram;
+import org.jiemamy.model.JmStickyNode;
 import org.jiemamy.model.geometory.JmColor;
 import org.jiemamy.model.geometory.JmPoint;
 import org.jiemamy.model.geometory.JmRectangle;

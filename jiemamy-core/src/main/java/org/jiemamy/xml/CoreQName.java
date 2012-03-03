@@ -118,6 +118,9 @@ public enum CoreQName implements JiemamyQName {
 	DATA_TYPE(CoreNamespace.NS_CORE, "dataType"),
 	
 	/***/
+	NOT_NULL(CoreNamespace.NS_CORE, "notNull"),
+	
+	/***/
 	TYPE_DESC(CoreNamespace.NS_CORE, "typeDesc"),
 	
 	/***/
@@ -217,10 +220,7 @@ public enum CoreQName implements JiemamyQName {
 	CLASS(CoreNamespace.NONE, "class"),
 	
 	/***/
-	META(CoreNamespace.NS_CORE, "metadata"),
-	
-	/***/
-	NOT_NULL(CoreNamespace.NS_CORE, "notNull");
+	META(CoreNamespace.NS_CORE, "metadata");
 	
 	/** XML仕様における完全修飾名 */
 	private final QName qName;

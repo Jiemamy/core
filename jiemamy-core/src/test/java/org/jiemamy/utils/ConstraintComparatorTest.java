@@ -35,7 +35,6 @@ import org.slf4j.LoggerFactory;
 import org.jiemamy.model.constraint.JmCheckConstraint;
 import org.jiemamy.model.constraint.JmConstraint;
 import org.jiemamy.model.constraint.JmForeignKeyConstraint;
-import org.jiemamy.model.constraint.JmNotNullConstraint;
 import org.jiemamy.model.constraint.JmPrimaryKeyConstraint;
 import org.jiemamy.model.constraint.JmUniqueKeyConstraint;
 import org.jiemamy.model.constraint.JmValueConstraint;
@@ -61,18 +60,16 @@ public class ConstraintComparatorTest {
 		JmPrimaryKeyConstraint pk = new JmPrimaryKeyConstraint();
 		JmUniqueKeyConstraint uk = new JmUniqueKeyConstraint();
 		JmForeignKeyConstraint fk = new JmForeignKeyConstraint();
-		JmNotNullConstraint nn = new JmNotNullConstraint();
 		JmCheckConstraint c = new JmCheckConstraint();
 		
-		ArrayList<JmConstraint> models = Lists.newArrayList(nn, uk, pk, c, fk); // 適当な順番で追加
+		ArrayList<JmConstraint> models = Lists.newArrayList(uk, pk, c, fk); // 適当な順番で追加
 		Collections.sort(models, ConstraintComparator.INSTANCE);
 		
 		logger.info("order = {}", models);
 		assertThat(models.get(0), is(instanceOf(JmPrimaryKeyConstraint.class)));
 		assertThat(models.get(1), is(instanceOf(JmUniqueKeyConstraint.class)));
 		assertThat(models.get(2), is(instanceOf(JmForeignKeyConstraint.class)));
-		assertThat(models.get(3), is(instanceOf(JmNotNullConstraint.class)));
-		assertThat(models.get(4), is(instanceOf(JmCheckConstraint.class)));
+		assertThat(models.get(3), is(instanceOf(JmCheckConstraint.class)));
 	}
 	
 	/**

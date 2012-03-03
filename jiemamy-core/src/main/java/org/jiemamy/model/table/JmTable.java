@@ -50,14 +50,12 @@ import org.jiemamy.model.column.JmColumn;
 import org.jiemamy.model.constraint.JmConstraint;
 import org.jiemamy.model.constraint.JmForeignKeyConstraint;
 import org.jiemamy.model.constraint.JmKeyConstraint;
-import org.jiemamy.model.constraint.JmNotNullConstraint;
 import org.jiemamy.model.constraint.JmPrimaryKeyConstraint;
 import org.jiemamy.model.parameter.ParameterMap;
 import org.jiemamy.transaction.EventBroker;
 import org.jiemamy.transaction.EventBrokerImpl;
 import org.jiemamy.transaction.StoredEvent;
 import org.jiemamy.utils.LogMarker;
-import org.jiemamy.utils.UUIDUtil;
 
 /**
  * テーブルモデル。
@@ -235,19 +233,6 @@ public/*final*/class JmTable extends DbObject implements HierarchicalEntity, Ent
 	}
 	
 	/**
-	 * このテーブルが持つカラムのうち、指定した型を持つカラムのリストを返す。
-	 * 
-	 * @param <T> 型
-	 * @param clazz 型
-	 * @return 指定した型を持つカラムのリスト
-	 */
-	public <T extends JmColumn>List<T> getColumns(Class<T> clazz) {
-		Validate.notNull(clazz);
-		List<T> result = Lists.newArrayList(Iterables.filter(getColumns(), clazz));
-		return MutationMonitor.monitor(result);
-	}
-	
-	/**
 	 * このテーブルが持つ制約の集合を取得する。
 	 * 
 	 * @return このテーブルが持つ制約の集合
@@ -300,28 +285,6 @@ public/*final*/class JmTable extends DbObject implements HierarchicalEntity, Ent
 	}
 	
 	/**
-	 * 指定したカラム参照に対する NOT NULL 制約を取得する。
-	 * 
-	 * @param reference カラム参照
-	 * @return NOT NULL制約。無い場合は{@code null}
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 */
-	public JmNotNullConstraint getNotNullConstraintFor(EntityRef<? extends JmColumn> reference) {
-		Validate.notNull(reference);
-		for (JmNotNullConstraint nn : getConstraints(JmNotNullConstraint.class)) {
-			EntityRef<? extends JmColumn> columnRef = nn.getColumn();
-			if (columnRef == null) {
-				logger.warn("target column of NOT NULL is null: " + UUIDUtil.toShortString(nn.getId()));
-				continue;
-			}
-			if (columnRef.equals(reference)) {
-				return nn;
-			}
-		}
-		return null;
-	}
-	
-	/**
 	 * キーに対応するパラメータの値を取得する。
 	 * 
 	 * @param <T> 値の型
@@ -351,25 +314,6 @@ public/*final*/class JmTable extends DbObject implements HierarchicalEntity, Ent
 	
 	public Collection<? extends Entity> getSubEntities() {
 		return Lists.newArrayList(Iterables.concat(getColumns(), getConstraints()));
-	}
-	
-	/**
-	 * 指定したカラムがこのテーブルにおいて NOT NULL 制約を受けているかどうか調べる。
-	 * 
-	 * <p>但し、指定したカラムがこのテーブルのカラムでない場合は常に {@code false} を返すので注意すること。</p>
-	 * 
-	 * @param columnRef カラム参照
-	 * @return 制約を受けている場合は{@code true}、そうでない場合は{@code false}
-	 */
-	public boolean isNotNullColumn(EntityRef<? extends JmColumn> columnRef) {
-		Collection<JmNotNullConstraint> nns = getConstraints(JmNotNullConstraint.class);
-		for (JmNotNullConstraint nn : nns) {
-			EntityRef<? extends JmColumn> nnTargetColumnRef = nn.getColumn();
-			if (nnTargetColumnRef != null && nnTargetColumnRef.equals(columnRef)) {
-				return true;
-			}
-		}
-		return false;
 	}
 	
 	/**

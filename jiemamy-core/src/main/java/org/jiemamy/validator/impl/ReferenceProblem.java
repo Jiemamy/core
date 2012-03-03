@@ -19,7 +19,6 @@
 package org.jiemamy.validator.impl;
 
 import org.jiemamy.dddbase.Entity;
-import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.column.JmColumn;
 import org.jiemamy.validator.AbstractProblem;

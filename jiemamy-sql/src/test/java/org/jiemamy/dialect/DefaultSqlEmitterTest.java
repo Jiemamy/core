@@ -42,9 +42,7 @@ import org.jiemamy.composer.exporter.SimpleSqlExportConfig;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.column.JmColumn;
 import org.jiemamy.model.column.JmColumnBuilder;
-import org.jiemamy.model.column.JmColumn;
 import org.jiemamy.model.constraint.JmForeignKeyConstraint;
-import org.jiemamy.model.constraint.JmNotNullConstraint;
 import org.jiemamy.model.constraint.JmPrimaryKeyConstraint;
 import org.jiemamy.model.dataset.JmRecord;
 import org.jiemamy.model.dataset.SimpleJmDataSet;
@@ -55,8 +53,8 @@ import org.jiemamy.model.datatype.SimpleDataType;
 import org.jiemamy.model.datatype.SimpleRawTypeDescriptor;
 import org.jiemamy.model.datatype.TypeParameterKey;
 import org.jiemamy.model.sql.SqlStatement;
-import org.jiemamy.model.table.JmTableBuilder;
 import org.jiemamy.model.table.JmTable;
+import org.jiemamy.model.table.JmTableBuilder;
 import org.jiemamy.model.view.JmView;
 import org.jiemamy.script.ScriptString;
 
@@ -184,17 +182,16 @@ public class DefaultSqlEmitterTest {
 		
 		// FORMAT-OFF
 		JmColumn deptId = new JmColumnBuilder("ID").type(new SimpleDataType(INTEGER)).build();
-		JmColumn deptName = new JmColumnBuilder("NAME").type(varchar32).build();
+		JmColumn deptName = new JmColumnBuilder("NAME").type(varchar32).notNull().build();
 		JmTable dept = new JmTableBuilder("DEPT")
 				.with(deptId)
 				.with(deptName)
 				.with(new JmColumnBuilder("LOC").type(varchar16).build())
 				.with(JmPrimaryKeyConstraint.of(deptId))
-				.with(JmNotNullConstraint.of(deptName))
 				.build();
 		
 		JmColumn empId = new JmColumnBuilder("ID").type(new SimpleDataType(INTEGER)).build();
-		JmColumn empName = new JmColumnBuilder("NAME").type(varchar32).build();
+		JmColumn empName = new JmColumnBuilder("NAME").type(varchar32).notNull().build();
 		JmColumn empDeptId = new JmColumnBuilder("DEPT_ID").type(new SimpleDataType(INTEGER)).build();
 		JmColumn empMgrId = new JmColumnBuilder("MGR_ID").type(new SimpleDataType(INTEGER)).build();
 		JmTable emp = new JmTableBuilder("EMP")
@@ -203,7 +200,6 @@ public class DefaultSqlEmitterTest {
 				.with(empDeptId)
 				.with(empMgrId)
 				.with(JmPrimaryKeyConstraint.of(empId))
-				.with(JmNotNullConstraint.of(empName))
 				.with(JmForeignKeyConstraint.of(empDeptId, deptId))
 				.with(JmForeignKeyConstraint.of(empMgrId, empId))
 				.build();

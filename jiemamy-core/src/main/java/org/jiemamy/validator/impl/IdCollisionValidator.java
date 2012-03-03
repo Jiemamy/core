@@ -33,7 +33,6 @@ import org.jiemamy.JiemamyContext;
 import org.jiemamy.JiemamyFacet;
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.HierarchicalEntity;
-import org.jiemamy.dddbase.Entity;
 import org.jiemamy.validator.AbstractProblem;
 import org.jiemamy.validator.AbstractValidator;
 import org.jiemamy.validator.Problem;

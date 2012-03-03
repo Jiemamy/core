@@ -92,6 +92,9 @@ public final class JmColumnStaxHandler extends StaxHandler<JmColumn> {
 						column.setDescription(childCursor.collectDescendantText(false));
 					} else if (childCursor.isQName(CoreQName.DEFAULT_VALUE)) {
 						column.setDefaultValue(childCursor.collectDescendantText(false));
+					} else if (childCursor.isQName(CoreQName.NOT_NULL)) {
+						String value = childCursor.collectDescendantText(false);
+						column.setNotNull(Boolean.valueOf(value));
 					} else if (childCursor.isQName(CoreQName.DATA_TYPE)) {
 						DataType type = getDirector().direct(dctx);
 						if (type != null) {

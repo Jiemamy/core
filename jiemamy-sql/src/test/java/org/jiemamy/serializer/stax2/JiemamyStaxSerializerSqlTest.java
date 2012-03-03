@@ -50,7 +50,6 @@ import org.jiemamy.SqlFacet;
 import org.jiemamy.model.script.JmAroundScript;
 import org.jiemamy.model.script.SimpleJmAroundScript;
 import org.jiemamy.model.table.JmTable;
-import org.jiemamy.model.table.JmTable;
 import org.jiemamy.serializer.stax.JiemamyStaxSerializer;
 
 /**

@@ -35,18 +35,13 @@ import org.slf4j.LoggerFactory;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.model.DbObject;
-import org.jiemamy.model.DbObject;
 import org.jiemamy.model.column.JmColumn;
-import org.jiemamy.model.column.JmColumn;
-import org.jiemamy.model.constraint.JmNotNullConstraint;
 import org.jiemamy.model.constraint.JmPrimaryKeyConstraint;
 import org.jiemamy.model.datatype.RawTypeCategory;
 import org.jiemamy.model.datatype.SimpleDataType;
 import org.jiemamy.model.datatype.SimpleRawTypeDescriptor;
 import org.jiemamy.model.datatype.TypeParameterKey;
 import org.jiemamy.model.table.JmTable;
-import org.jiemamy.model.table.JmTable;
-import org.jiemamy.model.view.JmView;
 import org.jiemamy.model.view.JmView;
 import org.jiemamy.utils.sql.metadata.ColumnMeta;
 import org.jiemamy.utils.sql.metadata.ColumnMeta.Nullable;
@@ -277,13 +272,11 @@ public class DefaultDbObjectImportVisitor extends AbstractCollectionVisitor<Tabl
 			}
 			column.setDataType(dataType);
 			
-			table.store(column);
-			
 			if (element.nullable == Nullable.NO_NULLS) {
-				JmNotNullConstraint notNullConstraint = new JmNotNullConstraint();
-				notNullConstraint.setColumn(column.toReference());
-				table.store(notNullConstraint);
+				column.setNotNull(true);
 			}
+			
+			table.store(column);
 			
 			// TODO check制約のインポート
 			
@@ -314,7 +307,7 @@ public class DefaultDbObjectImportVisitor extends AbstractCollectionVisitor<Tabl
 		private PrimaryKeyMetaVisitor(JmTable table) {
 			Validate.notNull(table);
 			this.table = table;
-			primaryKey = (JmPrimaryKeyConstraint) table.getPrimaryKey();
+			primaryKey = table.getPrimaryKey();
 		}
 		
 		public Boolean visit(PrimaryKeyMeta element) {

@@ -33,8 +33,8 @@ import org.jiemamy.model.datatype.RawTypeCategory;
 import org.jiemamy.model.datatype.SimpleDataType;
 import org.jiemamy.model.datatype.SimpleRawTypeDescriptor;
 import org.jiemamy.model.datatype.TypeParameterKey;
-import org.jiemamy.model.table.JmTableBuilder;
 import org.jiemamy.model.table.JmTable;
+import org.jiemamy.model.table.JmTableBuilder;
 
 /**
  * {@link JmDomain}のテストクラス。

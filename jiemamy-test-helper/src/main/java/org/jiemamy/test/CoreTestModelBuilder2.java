@@ -29,10 +29,9 @@ import org.jiemamy.SimpleJmMetadata;
 import org.jiemamy.model.DbObject;
 import org.jiemamy.model.column.JmColumn;
 import org.jiemamy.model.constraint.JmDeferrability;
-import org.jiemamy.model.constraint.ReferentialAction;
 import org.jiemamy.model.constraint.JmForeignKeyConstraint;
-import org.jiemamy.model.constraint.JmNotNullConstraint;
 import org.jiemamy.model.constraint.JmPrimaryKeyConstraint;
+import org.jiemamy.model.constraint.ReferentialAction;
 import org.jiemamy.model.dataset.JmRecord;
 import org.jiemamy.model.dataset.SimpleJmDataSet;
 import org.jiemamy.model.datatype.RawTypeCategory;
@@ -683,9 +682,7 @@ public class CoreTestModelBuilder2 extends AbstractTestModelBuilder {
 		tableDetail.store(detailPk);
 		
 		for (JmColumn column : Arrays.asList(detailOrderId, detailItemId, detailQuantity)) {
-			JmNotNullConstraint notNull = new JmNotNullConstraint();
-			notNull.setColumn(column.toReference());
-			tableDetail.store(notNull);
+			column.setNotNull(true);
 		}
 	}
 	
@@ -729,9 +726,7 @@ public class CoreTestModelBuilder2 extends AbstractTestModelBuilder {
 		tableItem.store(itemPk);
 		
 		for (JmColumn column : Arrays.asList(itemName, itemPrice)) {
-			JmNotNullConstraint notNull = new JmNotNullConstraint();
-			notNull.setColumn(column.toReference());
-			tableItem.store(notNull);
+			column.setNotNull(true);
 		}
 	}
 	
@@ -767,9 +762,7 @@ public class CoreTestModelBuilder2 extends AbstractTestModelBuilder {
 		tableOrder.store(orderPk);
 		
 		for (JmColumn column : Arrays.asList(orderUserId, orderDate)) {
-			JmNotNullConstraint notNull = new JmNotNullConstraint();
-			notNull.setColumn(column.toReference());
-			tableOrder.store(notNull);
+			column.setNotNull(true);
 		}
 	}
 	
@@ -806,8 +799,6 @@ public class CoreTestModelBuilder2 extends AbstractTestModelBuilder {
 		userPk.addKeyColumn(userId.toReference());
 		tableUser.store(userPk);
 		
-		JmNotNullConstraint notNull = new JmNotNullConstraint();
-		notNull.setColumn(userName.toReference());
-		tableUser.store(notNull);
+		userName.setNotNull(true);
 	}
 }

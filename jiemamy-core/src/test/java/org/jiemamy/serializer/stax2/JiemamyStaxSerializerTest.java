@@ -50,17 +50,14 @@ import org.jiemamy.JiemamyContextTest;
 import org.jiemamy.SimpleJmMetadata;
 import org.jiemamy.model.column.JmColumn;
 import org.jiemamy.model.column.JmColumnBuilder;
-import org.jiemamy.model.column.JmColumn;
-import org.jiemamy.model.constraint.JmForeignKeyConstraint;
-import org.jiemamy.model.constraint.ReferentialAction;
 import org.jiemamy.model.constraint.JmForeignKeyConstraint;
 import org.jiemamy.model.constraint.JmPrimaryKeyConstraint;
+import org.jiemamy.model.constraint.ReferentialAction;
 import org.jiemamy.model.datatype.RawTypeCategory;
 import org.jiemamy.model.datatype.SimpleDataType;
 import org.jiemamy.model.datatype.SimpleRawTypeDescriptor;
 import org.jiemamy.model.table.JmTable;
 import org.jiemamy.model.table.JmTableBuilder;
-import org.jiemamy.model.table.JmTable;
 import org.jiemamy.serializer.stax.JiemamyStaxSerializer;
 
 /**

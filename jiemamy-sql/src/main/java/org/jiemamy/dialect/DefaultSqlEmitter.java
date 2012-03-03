@@ -41,7 +41,6 @@ import org.jiemamy.model.constraint.JmCheckConstraint;
 import org.jiemamy.model.constraint.JmConstraint;
 import org.jiemamy.model.constraint.JmDeferrability;
 import org.jiemamy.model.constraint.JmForeignKeyConstraint;
-import org.jiemamy.model.constraint.JmNotNullConstraint;
 import org.jiemamy.model.constraint.JmPrimaryKeyConstraint;
 import org.jiemamy.model.constraint.JmUniqueKeyConstraint;
 import org.jiemamy.model.dataset.JmDataSet;
@@ -192,12 +191,7 @@ public class DefaultSqlEmitter implements SqlEmitter {
 			tokens.add(Literal.of(column.getDefaultValue(), LiteralType.FRAGMENT));
 		}
 		
-		JmNotNullConstraint nn = table.getNotNullConstraintFor(column.toReference());
-		if (nn != null) {
-			if (StringUtils.isEmpty(nn.getName()) == false) {
-				tokens.add(Keyword.CONSTRAINT);
-				tokens.add(Identifier.of(nn.getName()));
-			}
+		if (column.isNotNull()) {
 			tokens.add(Keyword.NOT);
 			tokens.add(Keyword.NULL);
 		}

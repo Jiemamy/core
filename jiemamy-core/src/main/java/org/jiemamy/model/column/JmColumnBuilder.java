@@ -36,6 +36,8 @@ public class JmColumnBuilder extends AbstractEntityFactory<JmColumn> {
 	
 	private String defaultValue;
 	
+	private boolean notNull;
+	
 	
 	/**
 	 * インスタンスを生成する。
@@ -58,6 +60,7 @@ public class JmColumnBuilder extends AbstractEntityFactory<JmColumn> {
 		column.setName(name);
 		column.setDataType(type);
 		column.setDefaultValue(defaultValue);
+		column.setNotNull(notNull);
 		return column;
 	}
 	
@@ -80,6 +83,16 @@ public class JmColumnBuilder extends AbstractEntityFactory<JmColumn> {
 	 */
 	public JmColumnBuilder name(String name) {
 		this.name = name;
+		return this;
+	}
+	
+	/**
+	 * TODO for daisuke
+	 * 
+	 * @return
+	 */
+	public JmColumnBuilder notNull() {
+		notNull = true;
 		return this;
 	}
 	

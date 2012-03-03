@@ -27,7 +27,6 @@ import org.jiemamy.validator.impl.ForeignKeyValidator;
 import org.jiemamy.validator.impl.IdCollisionValidator;
 import org.jiemamy.validator.impl.IndexValidator;
 import org.jiemamy.validator.impl.KeyConstraintValidator;
-import org.jiemamy.validator.impl.NotNullConstraintValidator;
 import org.jiemamy.validator.impl.PrimaryKeyValidator;
 import org.jiemamy.validator.impl.TableValidator;
 
@@ -68,9 +67,6 @@ public final class Validators {
 	/** {@link KeyConstraintValidator} */
 	public static final Validator KeyConstraintValidator = new KeyConstraintValidator();
 	
-	/** {@link NotNullConstraintValidator} */
-	public static final Validator NotNullConstraintValidator = new NotNullConstraintValidator();
-	
 	/** {@link PrimaryKeyValidator} */
 	public static final Validator PrimaryKeyValidator = new PrimaryKeyValidator();
 	
@@ -87,7 +83,6 @@ public final class Validators {
 		IdCollisionValidator,
 		IndexValidator,
 		KeyConstraintValidator,
-		NotNullConstraintValidator,
 		PrimaryKeyValidator,
 		TableValidator
 	};

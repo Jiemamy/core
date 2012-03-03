@@ -24,7 +24,6 @@ import java.util.UUID;
 import com.google.common.collect.Sets;
 
 import org.jiemamy.dddbase.EntityRef;
-import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.model.DbObject;
 import org.jiemamy.model.table.JmTable;
 

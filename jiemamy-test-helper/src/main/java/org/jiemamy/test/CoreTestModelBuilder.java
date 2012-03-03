@@ -31,13 +31,11 @@ import org.jiemamy.JiemamyContext;
 import org.jiemamy.SimpleJmMetadata;
 import org.jiemamy.model.DbObject;
 import org.jiemamy.model.column.JmColumn;
-import org.jiemamy.model.column.JmColumn;
 import org.jiemamy.model.constraint.JmCheckConstraint;
 import org.jiemamy.model.constraint.JmDeferrability;
-import org.jiemamy.model.constraint.ReferentialAction;
 import org.jiemamy.model.constraint.JmForeignKeyConstraint;
-import org.jiemamy.model.constraint.JmNotNullConstraint;
 import org.jiemamy.model.constraint.JmPrimaryKeyConstraint;
+import org.jiemamy.model.constraint.ReferentialAction;
 import org.jiemamy.model.dataset.JmRecord;
 import org.jiemamy.model.dataset.SimpleJmDataSet;
 import org.jiemamy.model.dataset.SimpleJmRecord;
@@ -631,9 +629,8 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		columnNotNullMap.put(deptDeptName.getId(), uuid.get("fab2f883-0489-4661-bd57-f04286188eef"));
 		
 		for (JmColumn column : Arrays.asList(deptDeptNo, deptDeptName)) {
-			JmNotNullConstraint notNull = new JmNotNullConstraint(columnNotNullMap.get(column.getId()));
-			notNull.setColumn(column.toReference());
-			tableDept.store(notNull);
+			column.setNotNull(true);
+			tableDept.store(column);
 		}
 	}
 	
@@ -660,13 +657,8 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		empEmpNo.setName("EMP_NO");
 		empEmpNo.setDataType(ModelUtil.createDataType(context, RawTypeCategory.INTEGER));
 		empEmpNo.setLogicalName("従業員番号");
+		empEmpNo.setNotNull(true);
 		tableEmp.store(empEmpNo);
-		
-		JmNotNullConstraint notNullEmpEmpNo =
-				new JmNotNullConstraint(uuid.get("05ee4c06-d8b5-4599-a7e9-1cda036ea2c7"));
-//		notNullEmpEmpNo.getAdapter(Disablable.class).setDisabled(true);
-		notNullEmpEmpNo.setColumn(empEmpNo.toReference());
-		tableEmp.store(notNullEmpEmpNo);
 		
 		empEmpName = new JmColumn(uuid.get("0e51b6df-43ab-408c-90ef-de13c6aab881"));
 		empEmpName.setName("EMP_NAME");
@@ -700,8 +692,7 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		empSal.setDataType(dataType);
 		tableEmp.store(empSal);
 		
-		JmCheckConstraint checkConstraint =
-				new JmCheckConstraint(uuid.get("873f6660-7a61-4c2c-87a0-e922fa03b88c"));
+		JmCheckConstraint checkConstraint = new JmCheckConstraint(uuid.get("873f6660-7a61-4c2c-87a0-e922fa03b88c"));
 		checkConstraint.setName("positive_sal");
 		checkConstraint.setExpression("SAL >= 0");
 		tableEmp.store(checkConstraint);
@@ -723,8 +714,7 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		columnNotNullMap.put(empDeptId.getId(), uuid.get("b9a0fdce-a965-4118-ae71-5dc7150f6d4e"));
 		
 		for (JmColumn column : Arrays.asList(empEmpName, empHiredate, empSal, empDeptId)) {
-			JmNotNullConstraint notNull = new JmNotNullConstraint(columnNotNullMap.get(column.getId()));
-			notNull.setColumn(column.toReference());
+			column.setNotNull(true);
 		}
 		
 		empNameIndex = new JmIndex(uuid.get("9abc9e01-4cdb-42fe-a495-93b56af35a1d"));

@@ -38,10 +38,8 @@ import org.jiemamy.JiemamyContext;
 import org.jiemamy.model.column.ColumnParameterKey;
 import org.jiemamy.model.column.JmColumn;
 import org.jiemamy.model.column.JmColumnBuilder;
-import org.jiemamy.model.column.JmColumn;
 import org.jiemamy.model.column.JmColumnTest;
 import org.jiemamy.model.constraint.JmCheckConstraintTest;
-import org.jiemamy.model.constraint.JmNotNullConstraintTest;
 import org.jiemamy.model.constraint.JmPrimaryKeyConstraint;
 import org.jiemamy.model.constraint.JmPrimaryKeyConstraintTest;
 import org.jiemamy.model.constraint.JmUniqueKeyConstraint;
@@ -101,7 +99,8 @@ public class JmTableTest {
 		// NNをランダム追加
 		for (JmColumn column : model.getColumns()) {
 			if (bool()) {
-				model.store(JmNotNullConstraintTest.random(column));
+				column.setNotNull(true);
+				model.store(column);
 			}
 		}
 		

@@ -30,7 +30,6 @@ import org.apache.commons.lang.ArrayUtils;
 import org.jiemamy.model.constraint.JmCheckConstraint;
 import org.jiemamy.model.constraint.JmConstraint;
 import org.jiemamy.model.constraint.JmForeignKeyConstraint;
-import org.jiemamy.model.constraint.JmNotNullConstraint;
 import org.jiemamy.model.constraint.JmPrimaryKeyConstraint;
 import org.jiemamy.model.constraint.JmUniqueKeyConstraint;
 
@@ -53,7 +52,6 @@ public class ConstraintComparator implements Comparator<JmConstraint> {
 		order.add(JmPrimaryKeyConstraint.class);
 		order.add(JmUniqueKeyConstraint.class);
 		order.add(JmForeignKeyConstraint.class);
-		order.add(JmNotNullConstraint.class);
 		order.add(JmCheckConstraint.class);
 		ORDER = ImmutableList.copyOf(order);
 	}

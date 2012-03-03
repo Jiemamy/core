@@ -20,11 +20,10 @@ package org.jiemamy.model.dataset;
 
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
-import org.jiemamy.dddbase.OrderedEntity;
 import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.OrderedEntity;
 import org.jiemamy.model.table.JmTable;
 
 /**

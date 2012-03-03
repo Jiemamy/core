@@ -42,8 +42,6 @@ import org.jiemamy.model.constraint.JmDeferrability;
 import org.jiemamy.model.constraint.JmDeferrabilityStaxHandler;
 import org.jiemamy.model.constraint.JmForeignKeyConstraint;
 import org.jiemamy.model.constraint.JmForeignKeyConstraintStaxHandler;
-import org.jiemamy.model.constraint.JmNotNullConstraint;
-import org.jiemamy.model.constraint.JmNotNullConstraintStaxHandler;
 import org.jiemamy.model.constraint.JmPrimaryKeyConstraint;
 import org.jiemamy.model.constraint.JmPrimaryKeyConstraintStaxHandler;
 import org.jiemamy.model.constraint.JmUniqueKeyConstraint;
@@ -110,13 +108,9 @@ public class StaxDirector {
 		addHandler(JmDomain.DomainType.class, CoreQName.TYPE_DESC, new SimpleJmDomainTypeStaxHandler(this));
 		addHandler(SimpleRawTypeDescriptor.class, CoreQName.TYPE_DESC, new SimpleRawTypeDescriptorStaxHandler(this));
 		
-		addHandler(JmNotNullConstraint.class, CoreQName.NOT_NULL, new JmNotNullConstraintStaxHandler(this));
-		addHandler(JmPrimaryKeyConstraint.class, CoreQName.PRIMARY_KEY,
-				new JmPrimaryKeyConstraintStaxHandler(this));
-		addHandler(JmForeignKeyConstraint.class, CoreQName.FOREIGN_KEY,
-				new JmForeignKeyConstraintStaxHandler(this));
-		addHandler(JmUniqueKeyConstraint.class, CoreQName.UNIQUE_KEY, new JmUniqueKeyConstraintStaxHandler(
-				this));
+		addHandler(JmPrimaryKeyConstraint.class, CoreQName.PRIMARY_KEY, new JmPrimaryKeyConstraintStaxHandler(this));
+		addHandler(JmForeignKeyConstraint.class, CoreQName.FOREIGN_KEY, new JmForeignKeyConstraintStaxHandler(this));
+		addHandler(JmUniqueKeyConstraint.class, CoreQName.UNIQUE_KEY, new JmUniqueKeyConstraintStaxHandler(this));
 		addHandler(JmCheckConstraint.class, CoreQName.CHECK, new JmCheckConstraintStaxHandler(this));
 		addHandler(JmDeferrability.class, CoreQName.DEFERRABILITY, new JmDeferrabilityStaxHandler(this));
 		

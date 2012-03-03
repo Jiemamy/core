@@ -28,7 +28,6 @@ import org.apache.commons.lang.Validate;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.dddbase.Entity;
-import org.jiemamy.dddbase.Entity;
 
 /**
  * {@link Problem}の骨格実装クラス。

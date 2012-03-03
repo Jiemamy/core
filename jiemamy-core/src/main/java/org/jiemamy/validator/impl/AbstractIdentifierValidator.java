@@ -28,7 +28,6 @@ import org.apache.commons.lang.Validate;
 
 import org.jiemamy.JiemamyContext;
 import org.jiemamy.dddbase.Entity;
-import org.jiemamy.dddbase.Entity;
 import org.jiemamy.dialect.ReservedWordsChecker;
 import org.jiemamy.model.DbObject;
 import org.jiemamy.model.column.JmColumn;

@@ -56,6 +56,8 @@ public final class JmColumn extends AbstractOrderedEntity {
 	/** デフォルト値 */
 	private String defaultValue;
 	
+	private boolean notNull;
+	
 	private ParameterMap params = new ParameterMap();
 	
 	
@@ -183,6 +185,14 @@ public final class JmColumn extends AbstractOrderedEntity {
 	}
 	
 	/**
+	 * somethingを取得する。 TODO for daisuke
+	 * @return the notNull
+	 */
+	public boolean isNotNull() {
+		return notNull;
+	}
+	
+	/**
 	 * パラメータを追加する。
 	 * 
 	 * @param key キー
@@ -254,6 +264,14 @@ public final class JmColumn extends AbstractOrderedEntity {
 		this.name = name;
 	}
 	
+	/**
+	 * somethingを設定する。 TODO for daisuke
+	 * @param notNull the notNull to set
+	 */
+	public void setNotNull(boolean notNull) {
+		this.notNull = notNull;
+	}
+	
 	@Override
 	public EntityRef<? extends JmColumn> toReference() {
 		return new EntityRef<JmColumn>(this);
@@ -275,5 +293,4 @@ public final class JmColumn extends AbstractOrderedEntity {
 	ParameterMap breachEncapsulationOfParams() {
 		return params;
 	}
-	
 }
