@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.jiemamy</groupId>
     <artifactId>jiemamy-master</artifactId>
-    <version>1.7.3</version>
+    <version>2.0.0</version>
   </parent>
   <artifactId>jiemamy-sql</artifactId>
   <name>Jiemamy SQL domain APIs</name>
