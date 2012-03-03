@@ -47,5 +47,4 @@ public class TooManyDiagramsFoundException extends ModelConsistencyException {
 	public Iterable<JmDiagram> getDiagrams() {
 		return diagrams;
 	}
-	
 }

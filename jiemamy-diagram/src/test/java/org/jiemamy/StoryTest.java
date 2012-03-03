@@ -25,8 +25,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.jiemamy.model.JmNode;
-import org.jiemamy.model.SimpleDbObjectNode;
-import org.jiemamy.model.SimpleJmDiagram;
+import org.jiemamy.model.DbObjectNode;
+import org.jiemamy.model.JmDiagram;
 import org.jiemamy.model.geometory.JmRectangle;
 import org.jiemamy.model.table.JmTable;
 import org.jiemamy.utils.UUIDUtil;
@@ -60,10 +60,10 @@ public class StoryTest {
 	@Test
 	public void testname() {
 		JmTable table = new JmTable(UUIDUtil.valueOfOrRandom("table"));
-		SimpleDbObjectNode node = new SimpleDbObjectNode(UUIDUtil.valueOfOrRandom("node"), table.toReference());
-		SimpleDbObjectNode node2 = new SimpleDbObjectNode(UUIDUtil.valueOfOrRandom("node2"), table.toReference());
-		SimpleJmDiagram diagram = new SimpleJmDiagram(UUIDUtil.valueOfOrRandom("diagram"));
-		SimpleJmDiagram diagram2 = new SimpleJmDiagram(UUIDUtil.valueOfOrRandom("diagram2"));
+		DbObjectNode node = new DbObjectNode(UUIDUtil.valueOfOrRandom("node"), table.toReference());
+		DbObjectNode node2 = new DbObjectNode(UUIDUtil.valueOfOrRandom("node2"), table.toReference());
+		JmDiagram diagram = new JmDiagram(UUIDUtil.valueOfOrRandom("diagram"));
+		JmDiagram diagram2 = new JmDiagram(UUIDUtil.valueOfOrRandom("diagram2"));
 		
 		node.setBoundary(new JmRectangle(0, 0));
 		diagram.setName("diagram-1");

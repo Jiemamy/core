@@ -25,7 +25,7 @@ import org.jiemamy.model.geometory.JmColorTest;
 import org.jiemamy.model.geometory.JmRectangleTest;
 
 /**
- * {@link SimpleDbObjectNode}のテストクラス。
+ * {@link DbObjectNode}のテストクラス。
  * 
  * @version $Id$
  * @author daisuke
@@ -33,13 +33,13 @@ import org.jiemamy.model.geometory.JmRectangleTest;
 public class SimpleDbObjectNodeTest {
 	
 	/**
-	 * 適当な {@link SimpleDbObjectNode} のインスタンスを作る。
+	 * 適当な {@link DbObjectNode} のインスタンスを作る。
 	 * 
 	 * @param dbObject 対応する {@link DbObject}
 	 * @return {@link SimpleJmDataSet}
 	 */
-	public static SimpleDbObjectNode random(DbObject dbObject) {
-		SimpleDbObjectNode model = new SimpleDbObjectNode(dbObject.toReference());
+	public static DbObjectNode random(DbObject dbObject) {
+		DbObjectNode model = new DbObjectNode(dbObject.toReference());
 		model.setBoundary(JmRectangleTest.random());
 		model.setColor(JmColorTest.random());
 		return model;

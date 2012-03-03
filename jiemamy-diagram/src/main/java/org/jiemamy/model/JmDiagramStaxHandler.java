@@ -44,14 +44,14 @@ import org.jiemamy.xml.CoreQName;
 import org.jiemamy.xml.DiagramQName;
 
 /**
- * {@link SimpleJmDiagram}をシリアライズ/デシリアライズするハンドラ。
+ * {@link JmDiagram}をシリアライズ/デシリアライズするハンドラ。
  * 
  * @version $Id$
  * @author daisuke
  */
-public final class SimpleJmDiagramStaxHandler extends StaxHandler<SimpleJmDiagram> {
+public final class JmDiagramStaxHandler extends StaxHandler<JmDiagram> {
 	
-	private static Logger logger = LoggerFactory.getLogger(SimpleJmDiagramStaxHandler.class);
+	private static Logger logger = LoggerFactory.getLogger(JmDiagramStaxHandler.class);
 	
 	
 	/**
@@ -60,12 +60,12 @@ public final class SimpleJmDiagramStaxHandler extends StaxHandler<SimpleJmDiagra
 	 * @param director 親となるディレクタ
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public SimpleJmDiagramStaxHandler(StaxDirector director) {
+	public JmDiagramStaxHandler(StaxDirector director) {
 		super(director);
 	}
 	
 	@Override
-	public SimpleJmDiagram handleDeserialization(DeserializationContext dctx) throws SerializationException {
+	public JmDiagram handleDeserialization(DeserializationContext dctx) throws SerializationException {
 		Validate.notNull(dctx);
 		try {
 			Validate.isTrue(dctx.peek().getCurrEvent() == SMEvent.START_ELEMENT);
@@ -75,7 +75,7 @@ public final class SimpleJmDiagramStaxHandler extends StaxHandler<SimpleJmDiagra
 			
 			String idString = cursor.getAttrValue(CoreQName.ID);
 			UUID id = dctx.getContext().toUUID(idString);
-			SimpleJmDiagram diagram = new SimpleJmDiagram(id);
+			JmDiagram diagram = new JmDiagram(id);
 			
 			JiemamyCursor childCursor = cursor.childElementCursor();
 			dctx.push(childCursor);
@@ -106,7 +106,7 @@ public final class SimpleJmDiagramStaxHandler extends StaxHandler<SimpleJmDiagra
 						JiemamyCursor connectionsCursor = childCursor.childElementCursor();
 						while (connectionsCursor.getNext() != null) {
 							dctx.push(connectionsCursor);
-							SimpleJmConnection connection = getDirector().direct(dctx);
+							JmConnection connection = getDirector().direct(dctx);
 							if (connection != null) {
 								diagram.store(connection);
 							} else {
@@ -130,7 +130,7 @@ public final class SimpleJmDiagramStaxHandler extends StaxHandler<SimpleJmDiagra
 	}
 	
 	@Override
-	public void handleSerialization(SimpleJmDiagram model, SerializationContext sctx) throws SerializationException {
+	public void handleSerialization(JmDiagram model, SerializationContext sctx) throws SerializationException {
 		Validate.notNull(model);
 		Validate.notNull(sctx);
 		JiemamyOutputContainer parent = sctx.peek();

@@ -18,12 +18,9 @@
  */
 package org.jiemamy.model;
 
-import java.util.List;
 import java.util.UUID;
 
 import javax.xml.stream.XMLStreamException;
-
-import com.google.common.collect.Lists;
 
 import org.apache.commons.lang.Validate;
 import org.codehaus.staxmate.in.SMEvent;
@@ -31,9 +28,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.jiemamy.dddbase.EntityRef;
-import org.jiemamy.model.constraint.JmForeignKeyConstraint;
 import org.jiemamy.model.geometory.JmColor;
-import org.jiemamy.model.geometory.JmPoint;
+import org.jiemamy.model.geometory.JmRectangle;
 import org.jiemamy.serializer.SerializationException;
 import org.jiemamy.serializer.stax.DeserializationContext;
 import org.jiemamy.serializer.stax.JiemamyCursor;
@@ -47,14 +43,14 @@ import org.jiemamy.xml.CoreQName;
 import org.jiemamy.xml.DiagramQName;
 
 /**
- * {@link SimpleJmConnection}をシリアライズ/デシリアライズするハンドラ。
+ * {@link DbObjectNode}をシリアライズ/デシリアライズするハンドラ。
  * 
  * @version $Id$
  * @author daisuke
  */
-public final class SimpleJmConnectionStaxHandler extends StaxHandler<SimpleJmConnection> {
+public final class DbObjectNodeStaxHandler extends StaxHandler<DbObjectNode> {
 	
-	private static Logger logger = LoggerFactory.getLogger(SimpleJmConnectionStaxHandler.class);
+	private static Logger logger = LoggerFactory.getLogger(DbObjectNodeStaxHandler.class);
 	
 	
 	/**
@@ -63,26 +59,23 @@ public final class SimpleJmConnectionStaxHandler extends StaxHandler<SimpleJmCon
 	 * @param director 親となるディレクタ
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public SimpleJmConnectionStaxHandler(StaxDirector director) {
+	public DbObjectNodeStaxHandler(StaxDirector director) {
 		super(director);
 	}
 	
 	@Override
-	public SimpleJmConnection handleDeserialization(DeserializationContext dctx) throws SerializationException {
+	public DbObjectNode handleDeserialization(DeserializationContext dctx) throws SerializationException {
 		Validate.notNull(dctx);
 		try {
 			Validate.isTrue(dctx.peek().getCurrEvent() == SMEvent.START_ELEMENT);
-			Validate.isTrue(dctx.peek().isQName(DiagramQName.CONNECTION));
+			Validate.isTrue(dctx.peek().isQName(DiagramQName.NODE));
 			
 			JiemamyCursor cursor = dctx.peek();
 			
 			String idString = cursor.getAttrValue(CoreQName.ID);
 			UUID id = dctx.getContext().toUUID(idString);
-			
-			EntityRef<? extends JmForeignKeyConstraint> core = null;
-			EntityRef<? extends JmNode> source = null;
-			EntityRef<? extends JmNode> target = null;
-			List<JmPoint> points = Lists.newArrayList();
+			EntityRef<? extends DbObject> core = null;
+			JmRectangle boundary = null;
 			JmColor color = null;
 			
 			JiemamyCursor childCursor = cursor.childElementCursor();
@@ -94,26 +87,8 @@ public final class SimpleJmConnectionStaxHandler extends StaxHandler<SimpleJmCon
 						String coreIdString = childCursor.getAttrValue(CoreQName.REF);
 						UUID coreId = UUIDUtil.valueOfOrRandom(coreIdString);
 						core = EntityRef.of(coreId);
-					} else if (childCursor.isQName(DiagramQName.SOURCE)) {
-						String sourceIdString = childCursor.getAttrValue(CoreQName.REF);
-						UUID sourceId = UUIDUtil.valueOfOrRandom(sourceIdString);
-						source = EntityRef.of(sourceId);
-					} else if (childCursor.isQName(DiagramQName.TARGET)) {
-						String targetIdString = childCursor.getAttrValue(CoreQName.REF);
-						UUID targetId = UUIDUtil.valueOfOrRandom(targetIdString);
-						target = EntityRef.of(targetId);
-					} else if (childCursor.isQName(DiagramQName.BENDPOINTS)) {
-						JiemamyCursor bendpointCursor = childCursor.childElementCursor();
-						while (bendpointCursor.getNext() != null) {
-							dctx.push(bendpointCursor);
-							JmPoint point = getDirector().direct(dctx);
-							if (point != null) {
-								points.add(point);
-							} else {
-								logger.warn("null point");
-							}
-							dctx.pop();
-						}
+					} else if (childCursor.isQName(DiagramQName.BOUNDARY)) {
+						boundary = getDirector().direct(dctx);
 					} else if (childCursor.isQName(DiagramQName.COLOR)) {
 						color = getDirector().direct(dctx);
 					} else {
@@ -125,45 +100,35 @@ public final class SimpleJmConnectionStaxHandler extends StaxHandler<SimpleJmCon
 			} while (childCursor.getCurrEvent() != null);
 			dctx.pop();
 			
-			SimpleJmConnection connection = new SimpleJmConnection(id, core);
-			connection.setSource(source);
-			connection.setTarget(target);
-			connection.breachEncapsulationOfBendpoints().addAll(points);
-			connection.setColor(color);
-			
-			return connection;
+			DbObjectNode node = new DbObjectNode(id, core);
+			node.setBoundary(boundary);
+			node.setColor(color);
+			return node;
 		} catch (XMLStreamException e) {
 			throw new SerializationException(e);
 		}
 	}
 	
 	@Override
-	public void handleSerialization(SimpleJmConnection model, SerializationContext sctx) throws SerializationException {
+	public void handleSerialization(DbObjectNode model, SerializationContext sctx) throws SerializationException {
 		Validate.notNull(model);
 		Validate.notNull(sctx);
 		JiemamyOutputContainer parent = sctx.peek();
 		try {
-			JiemamyOutputElement connElement = parent.addElement(DiagramQName.CONNECTION);
-			connElement.addAttribute(CoreQName.ID, model.getId());
-//			connElement.addAttribute(CoreQName.CLASS, model.getClass());
-			sctx.push(connElement);
+			JiemamyOutputElement nodeElement = parent.addElement(DiagramQName.NODE);
+			nodeElement.addAttribute(CoreQName.ID, model.getId());
+//			nodeElement.addAttribute(CoreQName.CLASS, model.getClass());
+			sctx.push(nodeElement);
 			
-			connElement.addElement(DiagramQName.CORE).addAttribute(CoreQName.REF,
+			nodeElement.addElement(DiagramQName.CORE).addAttribute(CoreQName.REF,
 					model.getCoreModelRef().getReferentId());
-			
-			connElement.addElement(DiagramQName.SOURCE).addAttribute(CoreQName.REF, model.getSource().getReferentId());
-			connElement.addElement(DiagramQName.TARGET).addAttribute(CoreQName.REF, model.getTarget().getReferentId());
 			
 			if (model.getColor() != null) {
 				getDirector().direct(model.getColor(), sctx);
 			}
-			sctx.push(connElement.addElement(DiagramQName.BENDPOINTS));
-			for (JmPoint point : model.getBendpoints()) {
-				getDirector().direct(point, sctx);
-			}
-			sctx.pop(); // end of bendpoints
 			
-			sctx.pop(); // end of connection
+			getDirector().direct(model.getBoundary(), sctx);
+			sctx.pop();
 		} catch (XMLStreamException e) {
 			throw new SerializationException(e);
 		}

@@ -32,9 +32,9 @@ import org.jiemamy.composer.ImportException;
 import org.jiemamy.composer.Importer;
 import org.jiemamy.model.DbObject;
 import org.jiemamy.model.JmNode;
-import org.jiemamy.model.SimpleDbObjectNode;
-import org.jiemamy.model.SimpleJmConnection;
-import org.jiemamy.model.SimpleJmDiagram;
+import org.jiemamy.model.DbObjectNode;
+import org.jiemamy.model.JmConnection;
+import org.jiemamy.model.JmDiagram;
 import org.jiemamy.model.constraint.JmForeignKeyConstraint;
 import org.jiemamy.model.geometory.JmRectangle;
 import org.jiemamy.model.table.JmTable;
@@ -83,7 +83,7 @@ public class DbDiagramImporter extends DbImporter {
 		
 		private final JiemamyContext context;
 		
-		private final SimpleJmDiagram diagram;
+		private final JmDiagram diagram;
 		
 		private JmRectangle prev = new JmRectangle(0, 0);
 		
@@ -95,9 +95,9 @@ public class DbDiagramImporter extends DbImporter {
 			this.context = context;
 			DiagramFacet facet = context.getFacet(DiagramFacet.class);
 			if (facet.getDiagrams().isEmpty()) {
-				diagram = new SimpleJmDiagram();
+				diagram = new JmDiagram();
 			} else {
-				diagram = (SimpleJmDiagram) facet.getDiagrams().get(0);
+				diagram = (JmDiagram) facet.getDiagrams().get(0);
 			}
 		}
 		
@@ -110,7 +110,7 @@ public class DbDiagramImporter extends DbImporter {
 			if (object instanceof JmTable || object instanceof JmView) {
 				DbObject dbObject = (DbObject) object;
 				if (diagram.getNodeFor(dbObject.toReference()) == null) {
-					SimpleDbObjectNode node = new SimpleDbObjectNode(dbObject.toReference());
+					DbObjectNode node = new DbObjectNode(dbObject.toReference());
 					JmRectangle rect = new JmRectangle(prev.x + DELTA, prev.y + DELTA);
 					node.setBoundary(rect);
 					diagram.store(node);
@@ -126,7 +126,7 @@ public class DbDiagramImporter extends DbImporter {
 		void close() {
 			logger.debug("{} connections", fks.size());
 			for (JmForeignKeyConstraint fk : fks) {
-				SimpleJmConnection conn = new SimpleJmConnection(fk.toReference());
+				JmConnection conn = new JmConnection(fk.toReference());
 				JmTable declaringTable = fk.findDeclaringTable(context.getTables());
 				JmNode source = diagram.getNodeFor(declaringTable.toReference());
 				conn.setSource(source.toReference());
@@ -139,7 +139,7 @@ public class DbDiagramImporter extends DbImporter {
 			}
 		}
 		
-		SimpleJmDiagram getDiagram() {
+		JmDiagram getDiagram() {
 			return diagram;
 		}
 	}

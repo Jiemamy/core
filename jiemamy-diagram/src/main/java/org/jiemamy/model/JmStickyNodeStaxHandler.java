@@ -41,7 +41,7 @@ import org.jiemamy.xml.CoreQName;
 import org.jiemamy.xml.DiagramQName;
 
 /**
- * {@link SimpleDbObjectNode}をシリアライズ/デシリアライズするハンドラ。
+ * {@link DbObjectNode}をシリアライズ/デシリアライズするハンドラ。
  * 
  * @version $Id$
  * @author daisuke

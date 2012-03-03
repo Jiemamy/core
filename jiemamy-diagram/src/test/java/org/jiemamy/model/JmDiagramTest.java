@@ -30,21 +30,21 @@ import org.junit.Test;
 import org.jiemamy.model.table.JmTable;
 
 /**
- * {@link SimpleJmDiagram}のテストクラス。
+ * {@link JmDiagram}のテストクラス。
  * 
  * @version $Id$
  * @author daisuke
  */
-public class SimpleJmDiagramTest {
+public class JmDiagramTest {
 	
 	/**
-	 * 適当な {@link SimpleJmDiagram} のインスタンスを作る。
+	 * 適当な {@link JmDiagram} のインスタンスを作る。
 	 * 
 	 * @param tables 表示候補の {@link JmTable} の集合
-	 * @return {@link SimpleJmDiagram}
+	 * @return {@link JmDiagram}
 	 */
-	public static SimpleJmDiagram random(Collection<JmTable> tables) {
-		SimpleJmDiagram model = new SimpleJmDiagram();
+	public static JmDiagram random(Collection<JmTable> tables) {
+		JmDiagram model = new JmDiagram();
 		model.setLevel(enume(Level.class));
 		model.setMode(enume(Mode.class));
 		model.setName(strNullable());

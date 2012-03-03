@@ -41,12 +41,12 @@ import org.jiemamy.model.DiagramNotFoundException;
 import org.jiemamy.model.JmDiagram;
 import org.jiemamy.model.JmStickyNode;
 import org.jiemamy.model.JmStickyNodeStaxHandler;
-import org.jiemamy.model.SimpleDbObjectNode;
-import org.jiemamy.model.SimpleDbObjectNodeStaxHandler;
-import org.jiemamy.model.SimpleJmConnection;
-import org.jiemamy.model.SimpleJmConnectionStaxHandler;
-import org.jiemamy.model.SimpleJmDiagram;
-import org.jiemamy.model.SimpleJmDiagramStaxHandler;
+import org.jiemamy.model.DbObjectNode;
+import org.jiemamy.model.DbObjectNodeStaxHandler;
+import org.jiemamy.model.JmConnection;
+import org.jiemamy.model.JmConnectionStaxHandler;
+import org.jiemamy.model.JmDiagram;
+import org.jiemamy.model.JmDiagramStaxHandler;
 import org.jiemamy.model.TooManyDiagramsFoundException;
 import org.jiemamy.model.geometory.JmColor;
 import org.jiemamy.model.geometory.JmColorStaxHandler;
@@ -170,14 +170,14 @@ public class DiagramFacet implements JiemamyFacet {
 		Validate.notNull(director);
 		// FORMAT-OFF CHECKSTYLE:OFF
 		director.addHandler(DiagramFacet.class, DiagramQName.DIAGRAMS, new DiagramFacetStaxHandler(director));
-		director.addHandler(SimpleJmDiagram.class, DiagramQName.DIAGRAM, new SimpleJmDiagramStaxHandler(director));
+		director.addHandler(JmDiagram.class, DiagramQName.DIAGRAM, new JmDiagramStaxHandler(director));
 		
 		// THINK
 		// Nodeモデルのハンドラは必ず最後にSimpleDbObjectNodeを登録すること
 		// でないとHashマップのキーが上書きされてしまう。
 		director.addHandler(JmStickyNode.class, DiagramQName.NODE, new JmStickyNodeStaxHandler(director));
-		director.addHandler(SimpleDbObjectNode.class, DiagramQName.NODE, new SimpleDbObjectNodeStaxHandler(director));
-		director.addHandler(SimpleJmConnection.class, DiagramQName.CONNECTION, new SimpleJmConnectionStaxHandler(director));
+		director.addHandler(DbObjectNode.class, DiagramQName.NODE, new DbObjectNodeStaxHandler(director));
+		director.addHandler(JmConnection.class, DiagramQName.CONNECTION, new JmConnectionStaxHandler(director));
 		director.addHandler(JmColor.class, DiagramQName.COLOR, new JmColorStaxHandler(director));
 		director.addHandler(JmPoint.class, DiagramQName.BENDPOINT, new JmPointStaxHandler(director));
 		director.addHandler(JmRectangle.class, DiagramQName.BOUNDARY, new JmRectangleStaxHandler(director));

@@ -28,7 +28,7 @@ import org.jiemamy.dddbase.EntityRef;
  * @since 0.3
  * @author daisuke
  */
-public final class JmStickyNode extends SimpleJmNode {
+public final class JmStickyNode extends JmNode {
 	
 	/** 内容文 */
 	private String contents;

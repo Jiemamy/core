@@ -1,8 +1,6 @@
 /*
  * Copyright 2007-2012 Jiemamy Project and the Others.
- * Created on 2011/01/11
- *
- * This file is part of Jiemamy.
+ * Created on 2010/12/08
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,18 +16,54 @@
  */
 package org.jiemamy.model;
 
+import java.util.UUID;
+
+import org.apache.commons.lang.Validate;
+
 import org.jiemamy.dddbase.EntityRef;
 
 /**
- * {@link DbObject}に対応する、ダイアグラム上のノードを表すインターフェイス。
- * 
- * <p>このインターフェイスで定義する全てのメソッドは冪等でなければならない(must)。</p>
+ * {@link JmNode}のデフォルト実装クラス。
  * 
  * @since 0.3
  * @version $Id$
  * @author daisuke
  */
-public interface DbObjectNode extends JmNode {
+public final class DbObjectNode extends JmNode {
+	
+	private final EntityRef<? extends DbObject> coreModelRef;
+	
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * <p>ENTITY IDは{@code UUID.randomUUID()}を用いて自動生成する。</p>
+	 * 
+	 * @param coreModelRef コアモデルへの参照
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public DbObjectNode(EntityRef<? extends DbObject> coreModelRef) {
+		this(UUID.randomUUID(), coreModelRef);
+	}
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param id ENTITY ID
+	 * @param coreModelRef コアモデルへの参照
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public DbObjectNode(UUID id, EntityRef<? extends DbObject> coreModelRef) {
+		super(id);
+		Validate.notNull(coreModelRef);
+		this.coreModelRef = coreModelRef;
+	}
+	
+	@Override
+	public DbObjectNode clone() {
+		DbObjectNode clone = (DbObjectNode) super.clone();
+		return clone;
+	}
 	
 	/**
 	 * コアモデルへの参照を取得する。
@@ -37,6 +71,19 @@ public interface DbObjectNode extends JmNode {
 	 * @return コアモデルへの参照。コアが無い場合は{@code null}
 	 * @since 0.3
 	 */
-	EntityRef<? extends DbObject> getCoreModelRef();
+	public EntityRef<? extends DbObject> getCoreModelRef() {
+		return coreModelRef;
+	}
 	
+	@Override
+	public EntityRef<? extends DbObjectNode> toReference() {
+		return new EntityRef<DbObjectNode>(this);
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder(super.toString());
+		sb.insert(sb.length() - 1, ", " + coreModelRef);
+		return sb.toString();
+	}
 }
