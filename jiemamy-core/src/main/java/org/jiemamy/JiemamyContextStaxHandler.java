@@ -99,7 +99,7 @@ public final class JiemamyContextStaxHandler extends StaxHandler<JiemamyContext>
 							dctx.push(dbObjectsCursor);
 							DbObject dbObject = getDirector().direct(dctx);
 							if (dbObject != null) {
-								context.store(dbObject);
+								context.add(dbObject);
 							} else {
 								logger.warn("null dbObject");
 							}
@@ -111,7 +111,7 @@ public final class JiemamyContextStaxHandler extends StaxHandler<JiemamyContext>
 							dctx.push(dataSetsCursor);
 							JmDataSet dataSet = getDirector().direct(dctx);
 							if (dataSet != null) {
-								context.store(dataSet);
+								context.add(dataSet);
 							} else {
 								logger.warn("null dataSet");
 							}

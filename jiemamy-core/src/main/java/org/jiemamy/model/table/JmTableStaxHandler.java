@@ -100,7 +100,7 @@ public final class JmTableStaxHandler extends StaxHandler<JmTable> {
 							dctx.push(columnsCursor);
 							JmColumn column = getDirector().direct(dctx);
 							if (column != null) {
-								table.store(column);
+								table.add(column);
 							} else {
 								logger.warn("null column");
 							}
@@ -112,7 +112,7 @@ public final class JmTableStaxHandler extends StaxHandler<JmTable> {
 							dctx.push(constraintsCursor);
 							JmConstraint constraint = getDirector().direct(dctx);
 							if (constraint != null) {
-								table.store(constraint);
+								table.add(constraint);
 							} else {
 								logger.warn("null constraint");
 							}

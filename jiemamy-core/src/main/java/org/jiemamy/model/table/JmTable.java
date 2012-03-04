@@ -62,7 +62,7 @@ import org.jiemamy.utils.LogMarker;
  * 
  * @author daisuke
  */
-public/*final*/class JmTable extends DbObject implements HierarchicalEntity, EntityResolver {
+public class JmTable extends DbObject implements HierarchicalEntity, EntityResolver {
 	
 	private static Logger logger = LoggerFactory.getLogger(JmTable.class);
 	
@@ -94,6 +94,43 @@ public/*final*/class JmTable extends DbObject implements HierarchicalEntity, Ent
 		super(id);
 	}
 	
+	/**
+	 * テーブルにカラムを追加する。
+	 * 
+	 * @param column カラム
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public void add(JmColumn column) {
+		Validate.notNull(column);
+//		Validate.notNull(column.getName());
+		JmColumn old = columns.store(column);
+		if (old == null) {
+			logger.debug(LogMarker.LIFECYCLE, "column stored: " + column);
+		} else {
+			logger.debug(LogMarker.LIFECYCLE, "column updated: (old)" + old);
+			logger.debug(LogMarker.LIFECYCLE, "                (new)" + column);
+		}
+		eventBroker.fireEvent(new StoredEvent<JmColumn>(columns, old, column));
+	}
+	
+	/**
+	 * テーブルに制約を追加する。
+	 * 
+	 * @param constraint 追加する制約
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public void add(JmConstraint constraint) {
+		Validate.notNull(constraint);
+		JmConstraint old = constraints.store(constraint);
+		eventBroker.fireEvent(new StoredEvent<JmConstraint>(constraints, old, constraint));
+		if (old == null) {
+			logger.debug(LogMarker.LIFECYCLE, "constraint stored: " + constraint);
+		} else {
+			logger.debug(LogMarker.LIFECYCLE, "constraint updated: (old)" + old);
+			logger.debug(LogMarker.LIFECYCLE, "                    (new)" + constraint);
+		}
+	}
+	
 	@Override
 	public JmTable clone() {
 		JmTable clone = (JmTable) super.clone();
@@ -113,38 +150,6 @@ public/*final*/class JmTable extends DbObject implements HierarchicalEntity, Ent
 		resolvers.add(constraints);
 		OnMemoryCompositeEntityResolver<Entity> resolver = new OnMemoryCompositeEntityResolver<Entity>(resolvers);
 		return resolver.contains(id);
-	}
-	
-	/**
-	 * テーブルからカラムを削除する。
-	 * 
-	 * @param reference カラムへの参照
-	 * @return 削除したモデル
-	 * @throws EntityNotFoundException このテーブルが指定したカラムを管理していない場合
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 */
-	public JmColumn deleteColumn(EntityRef<? extends JmColumn> reference) {
-		Validate.notNull(reference);
-		JmColumn deleted = columns.delete(reference);
-		logger.info("column deleted: " + deleted);
-		eventBroker.fireEvent(new StoredEvent<JmColumn>(columns, deleted, null));
-		return deleted;
-	}
-	
-	/**
-	 * テーブルから制約を削除する。
-	 * 
-	 * @param reference 制約への参照
-	 * @return 削除したモデル
-	 * @throws EntityNotFoundException このテーブルが指定した制約を管理していない場合
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 */
-	public JmConstraint deleteConstraint(EntityRef<? extends JmConstraint> reference) {
-		Validate.notNull(reference);
-		JmConstraint deleted = constraints.delete(reference);
-		logger.info("constraint deleted: " + deleted);
-		eventBroker.fireEvent(new StoredEvent<JmConstraint>(constraints, deleted, null));
-		return deleted;
 	}
 	
 	/**
@@ -363,6 +368,64 @@ public/*final*/class JmTable extends DbObject implements HierarchicalEntity, Ent
 	}
 	
 	/**
+	 * テーブルからカラムを削除する。
+	 * 
+	 * @param reference 削除するカラムへの参照
+	 * @return 削除したモデル
+	 * @throws EntityNotFoundException このテーブルが指定したカラムを管理していない場合
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public JmColumn removeColumn(EntityRef<? extends JmColumn> reference) {
+		Validate.notNull(reference);
+		JmColumn deleted = columns.delete(reference);
+		logger.info("column deleted: " + deleted);
+		eventBroker.fireEvent(new StoredEvent<JmColumn>(columns, deleted, null));
+		return deleted;
+	}
+	
+	/**
+	 * テーブルからカラムを削除する。
+	 * 
+	 * @param column 削除するカラム
+	 * @return 削除したモデル
+	 * @throws EntityNotFoundException このテーブルが指定したカラムを管理していない場合
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public JmColumn removeColumn(JmColumn column) {
+		Validate.notNull(column);
+		return removeColumn(column.toReference());
+	}
+	
+	/**
+	 * テーブルから制約を削除する。
+	 * 
+	 * @param reference 削除する制約への参照
+	 * @return 削除したモデル
+	 * @throws EntityNotFoundException このテーブルが指定した制約を管理していない場合
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public JmConstraint removeConstraint(EntityRef<? extends JmConstraint> reference) {
+		Validate.notNull(reference);
+		JmConstraint deleted = constraints.delete(reference);
+		logger.info("constraint deleted: " + deleted);
+		eventBroker.fireEvent(new StoredEvent<JmConstraint>(constraints, deleted, null));
+		return deleted;
+	}
+	
+	/**
+	 * テーブルから制約を削除する。
+	 * 
+	 * @param constraint 削除する制約
+	 * @return 削除したモデル
+	 * @throws EntityNotFoundException このテーブルが指定した制約を管理していない場合
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public JmConstraint removeConstraint(JmConstraint constraint) {
+		Validate.notNull(constraint);
+		return removeConstraint(constraint.toReference());
+	}
+	
+	/**
 	 * パラメータを削除する。
 	 * 
 	 * @param key キー
@@ -413,43 +476,6 @@ public/*final*/class JmTable extends DbObject implements HierarchicalEntity, Ent
 		OnMemoryCompositeEntityResolver<Entity> resolver = new OnMemoryCompositeEntityResolver<Entity>(resolvers);
 		Entity resolved = resolver.resolve(id);
 		return resolved;
-	}
-	
-	/**
-	 * テーブルにカラムを追加する。
-	 * 
-	 * @param column カラム
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 */
-	public void store(JmColumn column) {
-		Validate.notNull(column);
-//		Validate.notNull(column.getName());
-		JmColumn old = columns.store(column);
-		if (old == null) {
-			logger.debug(LogMarker.LIFECYCLE, "column stored: " + column);
-		} else {
-			logger.debug(LogMarker.LIFECYCLE, "column updated: (old)" + old);
-			logger.debug(LogMarker.LIFECYCLE, "                (new)" + column);
-		}
-		eventBroker.fireEvent(new StoredEvent<JmColumn>(columns, old, column));
-	}
-	
-	/**
-	 * テーブルに制約を追加する。
-	 * 
-	 * @param constraint 追加する制約
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 */
-	public void store(JmConstraint constraint) {
-		Validate.notNull(constraint);
-		JmConstraint old = constraints.store(constraint);
-		eventBroker.fireEvent(new StoredEvent<JmConstraint>(constraints, old, constraint));
-		if (old == null) {
-			logger.debug(LogMarker.LIFECYCLE, "constraint stored: " + constraint);
-		} else {
-			logger.debug(LogMarker.LIFECYCLE, "constraint updated: (old)" + old);
-			logger.debug(LogMarker.LIFECYCLE, "                    (new)" + constraint);
-		}
 	}
 	
 	/**

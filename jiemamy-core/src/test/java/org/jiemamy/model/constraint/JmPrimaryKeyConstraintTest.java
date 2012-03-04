@@ -78,7 +78,7 @@ public class JmPrimaryKeyConstraintTest {
 	public void test01_builderConstructor() throws Exception {
 		JiemamyContext ctx = new JiemamyContext();
 		JmTableBuilder builder = new JmTableBuilder("TTTT");
-		ctx.store(builder
+		ctx.add(builder
 			.with(new JmColumnBuilder("CCCC_PK").type(
 					new SimpleDataType(new SimpleRawTypeDescriptor(RawTypeCategory.INTEGER, "BIGINT"))).build())
 			.with(new JmColumnBuilder("CCCC_NORMAL").type(

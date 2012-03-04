@@ -145,7 +145,7 @@ public abstract class DbObject extends AbstractEntity {
 	 * @return カラムが持つ全パラメータ
 	 */
 	public ParameterMap getParams() {
-		return params.clone();
+		return params;
 	}
 	
 	/**

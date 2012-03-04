@@ -131,7 +131,7 @@ public class DefaultDbObjectImportVisitor extends AbstractCollectionVisitor<Tabl
 				&& (selectedEntities == null || selectedEntities.contains(tableMeta.tableName))) {
 			DbObject dbObject = createDbObject(tableMeta);
 			if (dbObject != null) {
-				context.store(dbObject);
+				context.add(dbObject);
 			}
 		}
 		return null;
@@ -276,7 +276,7 @@ public class DefaultDbObjectImportVisitor extends AbstractCollectionVisitor<Tabl
 				column.setNotNull(true);
 			}
 			
-			table.store(column);
+			table.add(column);
 			
 			// TODO check制約のインポート
 			
@@ -323,7 +323,7 @@ public class DefaultDbObjectImportVisitor extends AbstractCollectionVisitor<Tabl
 					break;
 				}
 			}
-			table.store(primaryKey);
+			table.add(primaryKey);
 			return null;
 		}
 	}

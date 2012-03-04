@@ -56,8 +56,8 @@ public class ForeignKeyFactoryTest {
 				.with(new JmColumnBuilder("LOC").build())
 				.build();
 		// FORMAT-ON
-		reference.store(JmPrimaryKeyConstraint.of(reference.getColumn("ID")));
-		context.store(reference);
+		reference.add(JmPrimaryKeyConstraint.of(reference.getColumn("ID")));
+		context.add(reference);
 		
 		// FORMAT-OFF
 		JmTable declaring = new JmTableBuilder("EMP")
@@ -66,8 +66,8 @@ public class ForeignKeyFactoryTest {
 				.with(new JmColumnBuilder("DEPT_ID").build())
 				.build();
 		// FORMAT-ON
-		declaring.store(JmPrimaryKeyConstraint.of(declaring.getColumn("ID")));
-		context.store(declaring);
+		declaring.add(JmPrimaryKeyConstraint.of(declaring.getColumn("ID")));
+		context.add(declaring);
 		
 		JmForeignKeyConstraint fk = ForeignKeyFactory.create(context, declaring, reference);
 		
@@ -92,7 +92,7 @@ public class ForeignKeyFactoryTest {
 				.build();
 		// FORMAT-ON
 		// NO KEY
-		context.store(reference);
+		context.add(reference);
 		
 		// FORMAT-OFF
 		JmTable declaring = new JmTableBuilder("EMP")
@@ -101,8 +101,8 @@ public class ForeignKeyFactoryTest {
 				.with(new JmColumnBuilder("DEPT_ID").build())
 				.build();
 		// FORMAT-ON
-		declaring.store(JmPrimaryKeyConstraint.of(declaring.getColumn("ID")));
-		context.store(declaring);
+		declaring.add(JmPrimaryKeyConstraint.of(declaring.getColumn("ID")));
+		context.add(declaring);
 		
 		try {
 			ForeignKeyFactory.create(context, declaring, reference);
@@ -127,15 +127,15 @@ public class ForeignKeyFactoryTest {
 				.with(new JmColumnBuilder("LOC").build())
 				.build();
 		// FORMAT-ON
-		reference.store(JmPrimaryKeyConstraint.of(reference.getColumn("ID")));
-		context.store(reference);
+		reference.add(JmPrimaryKeyConstraint.of(reference.getColumn("ID")));
+		context.add(reference);
 		
 		// FORMAT-OFF
 		JmTable declaring = new JmTableBuilder("EMP")
 				// NO COLUMN
 				.build();
 		// FORMAT-ON
-		context.store(declaring);
+		context.add(declaring);
 		
 		try {
 			ForeignKeyFactory.create(context, declaring, reference);

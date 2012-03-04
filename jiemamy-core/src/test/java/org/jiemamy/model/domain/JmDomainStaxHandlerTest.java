@@ -81,7 +81,7 @@ public class JmDomainStaxHandlerTest {
 		domain.setNotNull(true);
 		domain.addCheckConstraint(JmCheckConstraint.of("check", "name"));
 		domain.putParam(TypeParameterKey.SIZE, 10);
-		context.store(domain);
+		context.add(domain);
 		
 		// ドメインモデルを持つカラムとそのテーブルを作成
 		SimpleDataType hasDomainDataType = new SimpleDataType(domain.asType(context));
@@ -90,7 +90,7 @@ public class JmDomainStaxHandlerTest {
 				.with(new JmColumnBuilder().name("A").type(hasDomainDataType).build())
 				.build();
 		// FORMAT-ON
-		context.store(t1);
+		context.add(t1);
 		
 		JiemamyStaxSerializer serializer = new JiemamyStaxSerializer();
 		serializer.serialize(context, baos);

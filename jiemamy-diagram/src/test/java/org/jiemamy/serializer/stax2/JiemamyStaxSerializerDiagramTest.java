@@ -93,7 +93,7 @@ public class JiemamyStaxSerializerDiagramTest {
 		
 		JmTable table = new JmTable(tableId);
 		table.setName("foo");
-		context.store(table);
+		context.add(table);
 		
 		DbObjectNode nnode = new DbObjectNode(nodeId, table.toReference());
 		nnode.setBoundary(new JmRectangle(100, 100));

@@ -210,6 +210,43 @@ public/*final*/class JiemamyContext implements EntityResolver {
 		logger.trace(LogMarker.LIFECYCLE, "new context created (debug={})", isDebug());
 	}
 	
+	/**
+	 * {@link DbObject}を保存する。
+	 * 
+	 * @param dbObject 保存したい{@link DbObject}
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public void add(DbObject dbObject) {
+		Validate.notNull(dbObject);
+//		Validate.notNull(dbObject.getName());
+		DbObject old = dbObjects.store(dbObject);
+		if (old == null) {
+			logger.debug(LogMarker.LIFECYCLE, "dbObject stored: " + dbObject);
+		} else {
+			logger.debug(LogMarker.LIFECYCLE, "dbObject updated: (old) " + old);
+			logger.debug(LogMarker.LIFECYCLE, "                  (new) " + dbObject);
+		}
+		eventBroker.fireEvent(new StoredEvent<DbObject>(dbObjects, old, dbObject));
+	}
+	
+	/**
+	 * {@link JmDataSet}を保存する。
+	 * 
+	 * @param dataSet 保存したい{@link JmDataSet}
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 */
+	public void add(JmDataSet dataSet) {
+		Validate.notNull(dataSet);
+		JmDataSet old = dataSets.store(dataSet);
+		if (old == null) {
+			logger.debug(LogMarker.LIFECYCLE, "dataset stored: " + dataSet);
+		} else {
+			logger.debug(LogMarker.LIFECYCLE, "dataset updated: (old) " + old);
+			logger.debug(LogMarker.LIFECYCLE, "                 (new) " + dataSet);
+		}
+		eventBroker.fireEvent(new StoredEvent<JmDataSet>(dataSets, old, dataSet));
+	}
+	
 	public boolean contains(EntityRef<?> reference) {
 		Validate.notNull(reference);
 		return contains(reference.getReferentId());
@@ -402,7 +439,7 @@ public/*final*/class JiemamyContext implements EntityResolver {
 	 * @return ファセットの{@link Set}
 	 */
 	public Set<JiemamyFacet> getFacets() {
-		return MutationMonitor.monitor(Sets.newHashSet(facets.values()));
+		return Sets.newHashSet(facets.values());
 	}
 	
 	/**
@@ -423,7 +460,7 @@ public/*final*/class JiemamyContext implements EntityResolver {
 	 * @return メタデータ
 	 */
 	public JmMetadata getMetadata() {
-		return metadata.clone();
+		return metadata;
 	}
 	
 	/**
@@ -555,44 +592,7 @@ public/*final*/class JiemamyContext implements EntityResolver {
 	 */
 	public void setMetadata(JmMetadata metadata) {
 		Validate.notNull(metadata);
-		this.metadata = metadata.clone();
-	}
-	
-	/**
-	 * {@link DbObject}を保存する。
-	 * 
-	 * @param dbObject 保存したい{@link DbObject}
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 */
-	public void store(DbObject dbObject) {
-		Validate.notNull(dbObject);
-//		Validate.notNull(dbObject.getName());
-		DbObject old = dbObjects.store(dbObject);
-		if (old == null) {
-			logger.debug(LogMarker.LIFECYCLE, "dbObject stored: " + dbObject);
-		} else {
-			logger.debug(LogMarker.LIFECYCLE, "dbObject updated: (old) " + old);
-			logger.debug(LogMarker.LIFECYCLE, "                  (new) " + dbObject);
-		}
-		eventBroker.fireEvent(new StoredEvent<DbObject>(dbObjects, old, dbObject));
-	}
-	
-	/**
-	 * {@link JmDataSet}を保存する。
-	 * 
-	 * @param dataSet 保存したい{@link JmDataSet}
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 */
-	public void store(JmDataSet dataSet) {
-		Validate.notNull(dataSet);
-		JmDataSet old = dataSets.store(dataSet);
-		if (old == null) {
-			logger.debug(LogMarker.LIFECYCLE, "dataset stored: " + dataSet);
-		} else {
-			logger.debug(LogMarker.LIFECYCLE, "dataset updated: (old) " + old);
-			logger.debug(LogMarker.LIFECYCLE, "                 (new) " + dataSet);
-		}
-		eventBroker.fireEvent(new StoredEvent<JmDataSet>(dataSets, old, dataSet));
+		this.metadata = metadata;
 	}
 	
 	/**

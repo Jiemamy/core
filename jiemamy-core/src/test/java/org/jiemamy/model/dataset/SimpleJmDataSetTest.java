@@ -88,16 +88,16 @@ public class SimpleJmDataSetTest {
 	public void setUp() throws Exception {
 		hoge = new JmTable();
 		hoge.setName("HOGE");
-		hoge.store(new JmColumnBuilder("FOO").type(SimpleDataType.of(RawTypeCategory.INTEGER)).build());
-		hoge.store(new JmColumnBuilder("BAR").type(SimpleDataType.of(RawTypeCategory.INTEGER)).build());
-		hoge.store(new JmColumnBuilder("BAZ").type(SimpleDataType.of(RawTypeCategory.INTEGER)).build());
+		hoge.add(new JmColumnBuilder("FOO").type(SimpleDataType.of(RawTypeCategory.INTEGER)).build());
+		hoge.add(new JmColumnBuilder("BAR").type(SimpleDataType.of(RawTypeCategory.INTEGER)).build());
+		hoge.add(new JmColumnBuilder("BAZ").type(SimpleDataType.of(RawTypeCategory.INTEGER)).build());
 		
 		fuga = new JmTable();
 		fuga.setName("FUGA");
-		fuga.store(new JmColumnBuilder("QUX").type(SimpleDataType.of(RawTypeCategory.INTEGER)).build());
-		fuga.store(new JmColumnBuilder("QUUX").type(SimpleDataType.of(RawTypeCategory.INTEGER)).build());
-		fuga.store(new JmColumnBuilder("CORGE").type(SimpleDataType.of(RawTypeCategory.INTEGER)).build());
-		fuga.store(new JmColumnBuilder("GRAULT").type(SimpleDataType.of(RawTypeCategory.INTEGER)).build());
+		fuga.add(new JmColumnBuilder("QUX").type(SimpleDataType.of(RawTypeCategory.INTEGER)).build());
+		fuga.add(new JmColumnBuilder("QUUX").type(SimpleDataType.of(RawTypeCategory.INTEGER)).build());
+		fuga.add(new JmColumnBuilder("CORGE").type(SimpleDataType.of(RawTypeCategory.INTEGER)).build());
+		fuga.add(new JmColumnBuilder("GRAULT").type(SimpleDataType.of(RawTypeCategory.INTEGER)).build());
 		
 	}
 	

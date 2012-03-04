@@ -89,7 +89,7 @@ public class JiemamyStaxSerializerSqlTest {
 		JiemamyContext context = new JiemamyContext(SqlFacet.PROVIDER);
 		
 		JmTable table = new JmTable(tableId);
-		context.store(table);
+		context.add(table);
 		
 		SimpleJmAroundScript aroundScript = new SimpleJmAroundScript(scriptId);
 		aroundScript.setCoreModelRef(table.toReference());

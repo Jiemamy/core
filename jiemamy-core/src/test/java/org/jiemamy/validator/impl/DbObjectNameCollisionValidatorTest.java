@@ -82,14 +82,14 @@ public class DbObjectNameCollisionValidatorTest {
 		
 		JmTable table1 = new JmTable(UUIDUtil.valueOfOrRandom("a"));
 		table1.setName("foo");
-		context.store(table1);
+		context.add(table1);
 		
 		Collection<? extends Problem> result1 = validator.validate(context);
 		assertThat(result1.size(), is(0)); // 問題なし
 		
 		JmTable table2 = new JmTable(UUIDUtil.valueOfOrRandom("b"));
 		table2.setName("foo");
-		context.store(table2);
+		context.add(table2);
 		
 		Collection<? extends Problem> result2 = validator.validate(context);
 		assertThat(result2.size(), is(1)); // 問題1つ
@@ -101,18 +101,18 @@ public class DbObjectNameCollisionValidatorTest {
 		
 		JmTable table3 = new JmTable(UUIDUtil.valueOfOrRandom("c"));
 		table3.setName("foo");
-		context.store(table3);
+		context.add(table3);
 		
 		Collection<? extends Problem> result3 = validator.validate(context);
 		assertThat(result3.size(), is(1)); // 3つ重なっていても、問題は1つ
 		
 		JmTable table4 = new JmTable(UUIDUtil.valueOfOrRandom("d"));
 		table4.setName("bar");
-		context.store(table4);
+		context.add(table4);
 		
 		JmTable table5 = new JmTable(UUIDUtil.valueOfOrRandom("e"));
 		table5.setName("bar");
-		context.store(table5);
+		context.add(table5);
 		
 		Collection<? extends Problem> result4 = validator.validate(context);
 		assertThat(result4.size(), is(2)); // 2件の衝突の場合、問題は2つ

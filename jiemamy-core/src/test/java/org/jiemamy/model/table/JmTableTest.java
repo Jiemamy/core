@@ -20,6 +20,7 @@ package org.jiemamy.model.table;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasItems;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.jiemamy.utils.RandomUtil.bool;
 import static org.jiemamy.utils.RandomUtil.integer;
 import static org.jiemamy.utils.RandomUtil.meta;
@@ -71,14 +72,14 @@ public class JmTableTest {
 		// columnをランダムで追加
 		int count = integer(5) + 1;
 		for (int i = 0; i < count; i++) {
-			model.store(JmColumnTest.random());
+			model.add(JmColumnTest.random());
 		}
 		
 		// PKをランダム追加
 		if (bool() && model.getColumns().size() > 0) {
 			JmPrimaryKeyConstraint pk = JmPrimaryKeyConstraintTest.random(model);
 			if (pk.getKeyColumns().size() > 0) {
-				model.store(pk);
+				model.add(pk);
 			}
 		}
 		
@@ -86,21 +87,21 @@ public class JmTableTest {
 		if (bool() && model.getColumns().size() > 0) {
 			JmUniqueKeyConstraint uk = JmUniqueKeyConstraintTest.random(model);
 			if (uk.getKeyColumns().size() > 0) {
-				model.store(uk);
+				model.add(uk);
 			}
 		}
 		
 		// CCをランダム追加
 		count = integer(5) + 1;
 		for (int i = 0; i < count; i++) {
-			model.store(JmCheckConstraintTest.random());
+			model.add(JmCheckConstraintTest.random());
 		}
 		
 		// NNをランダム追加
 		for (JmColumn column : model.getColumns()) {
 			if (bool()) {
 				column.setNotNull(true);
-				model.store(column);
+				model.add(column);
 			}
 		}
 		
@@ -226,12 +227,12 @@ public class JmTableTest {
 		assertThat(clone.getName(), is("name3"));
 		
 		// cloneにcolumnを追加してもoriginalに影響しない
-		clone.store(new JmColumn(UUIDUtil.valueOfOrRandom("b")));
+		clone.add(new JmColumn(UUIDUtil.valueOfOrRandom("b")));
 		assertThat(clone.getColumns().size(), is(1));
 		assertThat(original.getColumns().size(), is(0));
 		
 		// originalにcolumnを追加してもcloneに影響しない
-		original.store(new JmColumn(UUIDUtil.valueOfOrRandom("c")));
+		original.add(new JmColumn(UUIDUtil.valueOfOrRandom("c")));
 		assertThat(original.getColumns().size(), is(1));
 		assertThat(clone.getColumns().size(), is(1));
 	}
@@ -251,13 +252,13 @@ public class JmTableTest {
 		// 最初はcolumn数0のはず
 		assertThat(table.getColumns().size(), is(0));
 		
-		table.store(foo);
-		table.store(bar);
+		table.add(foo);
+		table.add(bar);
 		
 		// 2つstoreした
 		assertThat(table.getColumns().size(), is(2));
 		
-		ctx.store(table);
+		ctx.add(table);
 		
 		// contextにstoreしても特に変わらず
 		assertThat(table.getColumns().size(), is(2));
@@ -266,7 +267,7 @@ public class JmTableTest {
 		assertThat(table.getColumn("FOO"), is(foo));
 		assertThat(table.getColumn("BAR"), is(bar));
 		
-		table.deleteColumn(bar.toReference());
+		table.removeColumn(bar.toReference());
 		
 		// 消したら1つになる
 		assertThat(table.getColumns().size(), is(1));
@@ -283,7 +284,7 @@ public class JmTableTest {
 		}
 		
 		// FOOと別IDだが同名のカラムをstoreした
-		table.store(foo2);
+		table.add(foo2);
 		
 		// 名前では解決できなくなる
 		try {
@@ -306,14 +307,29 @@ public class JmTableTest {
 	public void test07_column_lifecycle3() throws Exception {
 		JmTable table1 = new JmTableBuilder().build();
 		JmTable table2 = new JmTableBuilder().build();
-		
 		JmColumn column = new JmColumnBuilder().build();
 		
-		table1.store(column);
-		table1.deleteColumn(column.toReference());
-		table2.store(column);
-		table2.deleteColumn(column.toReference());
+		table1.add(column);
+		table1.removeColumn(column.toReference());
+		table2.add(column);
+		table2.removeColumn(column.toReference());
 		
-		table1.store(column);
+		table1.add(column);
+	}
+	
+	@Test
+	public void test08_column_lifecycle() throws Exception {
+		JmTable table1 = new JmTableBuilder().build();
+		JmColumn column = new JmColumnBuilder().name("foo").build();
+		
+		table1.add(column);
+		try {
+			table1.getColumn("bar");
+			fail();
+		} catch (ColumnNotFoundException e) {
+			// success
+		}
+		column.setName("bar");
+		assertThat(table1.getColumn("bar"), is(notNullValue()));
 	}
 }

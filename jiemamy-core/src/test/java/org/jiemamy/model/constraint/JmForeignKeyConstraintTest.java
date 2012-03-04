@@ -97,9 +97,9 @@ public class JmForeignKeyConstraintTest {
 				.with(fk32 = JmForeignKeyConstraint.of(e, d))
 				.build();
 		
-		ctx.store(t1);
-		ctx.store(t2);
-		ctx.store(t3);
+		ctx.add(t1);
+		ctx.add(t2);
+		ctx.add(t3);
 		
 		assertThat(fk21.findDeclaringTable(ctx.getTables()), is(t2));
 		assertThat(fk32.findDeclaringTable(ctx.getTables()), is(t3));

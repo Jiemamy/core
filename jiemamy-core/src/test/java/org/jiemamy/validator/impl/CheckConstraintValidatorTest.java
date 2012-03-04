@@ -84,15 +84,15 @@ public class CheckConstraintValidatorTest {
 		column.setName("bar");
 //		column.setDataType(factory.newDataType(BuiltinDataTypeMold.UNKNOWN));
 		
-		table1.store(column);
-		context.store(table1);
+		table1.add(column);
+		context.add(table1);
 		
 		Collection<? extends Problem> result1 = validator.validate(context);
 		assertThat(result1.size(), is(0)); // 問題なし
 		
 		JmCheckConstraint checkConstraint = JmCheckConstraint.of("");
-		table1.store(checkConstraint);
-		context.store(table1);
+		table1.add(checkConstraint);
+		context.add(table1);
 		
 		Collection<? extends Problem> result2 = validator.validate(context);
 		assertThat(result2.size(), is(1)); // 問題1つ
@@ -102,11 +102,11 @@ public class CheckConstraintValidatorTest {
 		assertThat(problem1.getMessage(Locale.JAPAN), is("テーブルfooの1番目のチェック制約に制約式がありません。"));
 		assertThat(problem1.getErrorCode(), is("E0031"));
 		
-		table1.deleteConstraint(checkConstraint.toReference());
+		table1.removeConstraint(checkConstraint.toReference());
 		
 		checkConstraint = JmCheckConstraint.of("", "cc");
-		table1.store(checkConstraint);
-		context.store(table1);
+		table1.add(checkConstraint);
+		context.add(table1);
 		
 		Collection<? extends Problem> result3 = validator.validate(context);
 		assertThat(result3.size(), is(1)); // 問題1つ
@@ -116,11 +116,11 @@ public class CheckConstraintValidatorTest {
 		assertThat(problem2.getMessage(Locale.JAPAN), is("テーブルfooに設定されたチェック制約ccに制約式がありません。"));
 		assertThat(problem2.getErrorCode(), is("E0030"));
 		
-		table1.deleteConstraint(checkConstraint.toReference());
+		table1.removeConstraint(checkConstraint.toReference());
 		
 		checkConstraint = JmCheckConstraint.of("bar > 0", "cc");
-		table1.store(checkConstraint);
-		context.store(table1);
+		table1.add(checkConstraint);
+		context.add(table1);
 		
 		Collection<? extends Problem> result4 = validator.validate(context);
 		assertThat(result4.size(), describedAs(result4.toString(), is(0))); // 問題なし

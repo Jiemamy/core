@@ -272,7 +272,7 @@ public class CoreTestModelBuilder2 extends AbstractTestModelBuilder {
 		dataSetEn.getRecords().put(tableUser.toReference(), createDataSetEnUser());
 		dataSetEn.getRecords().put(tableOrder.toReference(), createDataSetEnOrder());
 		dataSetEn.getRecords().put(tableDetail.toReference(), createDataSetEnDetail());
-		jiemamy.store(dataSetEn);
+		jiemamy.add(dataSetEn);
 		
 		// データセットの生成・追加(2)
 		SimpleJmDataSet dataSetJa = new SimpleJmDataSet();
@@ -281,7 +281,7 @@ public class CoreTestModelBuilder2 extends AbstractTestModelBuilder {
 		dataSetJa.getRecords().put(tableUser.toReference(), createDataSetJaUser());
 		dataSetJa.getRecords().put(tableOrder.toReference(), createDataSetJaOrder());
 		dataSetJa.getRecords().put(tableDetail.toReference(), createDataSetJaDetail());
-		jiemamy.store(dataSetJa);
+		jiemamy.add(dataSetJa);
 	}
 	
 	/**
@@ -289,13 +289,13 @@ public class CoreTestModelBuilder2 extends AbstractTestModelBuilder {
 	 */
 	protected void createDbObjects() {
 		createTableItem();
-		jiemamy.store(tableItem);
+		jiemamy.add(tableItem);
 		createTableUser();
-		jiemamy.store(tableUser);
+		jiemamy.add(tableUser);
 		createTableOrder();
-		jiemamy.store(tableOrder);
+		jiemamy.add(tableOrder);
 		createTableDetail();
-		jiemamy.store(tableDetail);
+		jiemamy.add(tableDetail);
 	}
 	
 	/**
@@ -309,19 +309,19 @@ public class CoreTestModelBuilder2 extends AbstractTestModelBuilder {
 		fkDetailItem = new JmForeignKeyConstraint(uuid.get("df781ad0-112a-4db7-a76c-4395b15600b2"));
 		fkDetailItem.addReferencing(detailItemId.toReference(), itemId.toReference());
 		fkDetailItem.setOnDelete(ReferentialAction.RESTRICT);
-		tableDetail.store(fkDetailItem);
+		tableDetail.add(fkDetailItem);
 		
 		fkDetailOrder = new JmForeignKeyConstraint(uuid.get("fca97c96-db8c-44b4-8427-6207601eaa94"));
 		fkDetailOrder.addReferencing(detailOrderId.toReference(), orderId.toReference());
 		fkDetailOrder.setOnDelete(ReferentialAction.CASCADE);
 		fkDetailOrder.setDeferrability(JmDeferrability.DEFERRABLE_DEFERRED);
-		tableDetail.store(fkDetailOrder);
+		tableDetail.add(fkDetailOrder);
 		
 		fkOrderUser = new JmForeignKeyConstraint(uuid.get("325b5aa9-821e-4791-aac5-2d3eb64f9392"));
 		fkOrderUser.addReferencing(orderUserId.toReference(), userId.toReference());
 		fkOrderUser.setOnDelete(ReferentialAction.RESTRICT);
 		fkOrderUser.setDeferrability(JmDeferrability.DEFERRABLE_IMMEDIATE);
-		tableOrder.store(fkOrderUser);
+		tableOrder.add(fkOrderUser);
 	}
 	
 	/**
@@ -337,7 +337,7 @@ public class CoreTestModelBuilder2 extends AbstractTestModelBuilder {
 		idDomain.setDataType(ModelUtil.createDataType(jiemamy, RawTypeCategory.INTEGER));
 		idDomain.setNotNull(true);
 		idDomain.putParam(TypeParameterKey.SERIAL, true);
-		jiemamy.store(idDomain);
+		jiemamy.add(idDomain);
 		
 		nameDomain = new JmDomain(uuid.get("e2ebf8a7-90d8-48d4-9b5d-8d2e2601b193"));
 		nameDomain.setName("NAME");
@@ -345,7 +345,7 @@ public class CoreTestModelBuilder2 extends AbstractTestModelBuilder {
 		dataType.putParam(TypeParameterKey.SIZE, 32); // CHECKSTYLE IGNORE THIS LINE
 		nameDomain.setDataType(dataType);
 		nameDomain.setDescription("人名用の型です。");
-		jiemamy.store(nameDomain);
+		jiemamy.add(nameDomain);
 	}
 	
 	private List<JmRecord> createDataSetEnDetail() {
@@ -660,26 +660,26 @@ public class CoreTestModelBuilder2 extends AbstractTestModelBuilder {
 			detailId.setDataType(new SimpleDataType(idDomain.asType(jiemamy)));
 		}
 		detailId.setLogicalName("ユーザID");
-		tableDetail.store(detailId);
+		tableDetail.add(detailId);
 		
 		detailOrderId = new JmColumn(uuid.get("a28c64c6-b379-41a4-9563-b774f5bce165"));
 		detailOrderId.setName("ORDER_ID");
 		detailOrderId.setDataType(ModelUtil.createDataType(jiemamy, RawTypeCategory.INTEGER));
-		tableDetail.store(detailOrderId);
+		tableDetail.add(detailOrderId);
 		
 		detailItemId = new JmColumn(uuid.get("b4d50786-3b3e-4557-baa3-b739159f0530"));
 		detailItemId.setName("ITEM_ID");
 		detailItemId.setDataType(ModelUtil.createDataType(jiemamy, RawTypeCategory.INTEGER));
-		tableDetail.store(detailItemId);
+		tableDetail.add(detailItemId);
 		
 		detailQuantity = new JmColumn(uuid.get("77bb21f4-e793-4198-a695-42363dac2216"));
 		detailQuantity.setName("QUANTITY");
 		detailQuantity.setDataType(ModelUtil.createDataType(jiemamy, RawTypeCategory.INTEGER));
-		tableDetail.store(detailQuantity);
+		tableDetail.add(detailQuantity);
 		
 		detailPk = new JmPrimaryKeyConstraint(uuid.get("90243681-19af-4bc0-9e6f-f814fbc58f85"));
 		detailPk.addKeyColumn(detailId.toReference());
-		tableDetail.store(detailPk);
+		tableDetail.add(detailPk);
 		
 		for (JmColumn column : Arrays.asList(detailOrderId, detailItemId, detailQuantity)) {
 			column.setNotNull(true);
@@ -703,7 +703,7 @@ public class CoreTestModelBuilder2 extends AbstractTestModelBuilder {
 			itemId.setDataType(new SimpleDataType(idDomain.asType(jiemamy)));
 		}
 		itemId.setLogicalName("商品ID");
-		tableItem.store(itemId);
+		tableItem.add(itemId);
 		
 		itemName = new JmColumn(uuid.get("5c9b38e1-2cc9-45f9-ad3f-20b02471cc40"));
 		itemName.setName("NAME");
@@ -711,7 +711,7 @@ public class CoreTestModelBuilder2 extends AbstractTestModelBuilder {
 		itemNameDataType.putParam(TypeParameterKey.SIZE, 20);
 		itemName.setDataType(itemNameDataType);
 		itemName.setLogicalName("商品名");
-		tableItem.store(itemName);
+		tableItem.add(itemName);
 		
 		itemPrice = new JmColumn(uuid.get("7a0cabe3-d382-4e5d-845b-dadd1b637a5f"));
 		itemPrice.setName("PRICE");
@@ -719,11 +719,11 @@ public class CoreTestModelBuilder2 extends AbstractTestModelBuilder {
 		itemPriceDataType.putParam(TypeParameterKey.SIZE, 20);
 		itemPrice.setDataType(itemPriceDataType);
 		itemPrice.setLogicalName("価格");
-		tableItem.store(itemPrice);
+		tableItem.add(itemPrice);
 		
 		itemPk = new JmPrimaryKeyConstraint(uuid.get("32b2b2f3-e668-404b-9478-56f1e680f915"));
 		itemPk.addKeyColumn(itemId.toReference());
-		tableItem.store(itemPk);
+		tableItem.add(itemPk);
 		
 		for (JmColumn column : Arrays.asList(itemName, itemPrice)) {
 			column.setNotNull(true);
@@ -744,22 +744,22 @@ public class CoreTestModelBuilder2 extends AbstractTestModelBuilder {
 			orderId.setDataType(new SimpleDataType(idDomain.asType(jiemamy)));
 		}
 		orderId.setLogicalName("注文ID");
-		tableOrder.store(orderId);
+		tableOrder.add(orderId);
 		
 		orderUserId = new JmColumn(uuid.get("db7a2f62-9658-406a-9dc1-8b90ae2da47c"));
 		orderUserId.setName("USER_ID");
 		orderUserId.setDataType(ModelUtil.createDataType(jiemamy, RawTypeCategory.INTEGER));
 		orderUserId.setLogicalName("オーダーユーザID");
-		tableOrder.store(orderUserId);
+		tableOrder.add(orderUserId);
 		
 		orderDate = new JmColumn(uuid.get("4ce761b0-137b-4105-ad2a-2efcba5e6bc4"));
 		orderDate.setName("ORDER_DATE");
 		orderDate.setDataType(ModelUtil.createDataType(jiemamy, RawTypeCategory.TIMESTAMP));
-		tableOrder.store(orderDate);
+		tableOrder.add(orderDate);
 		
 		orderPk = new JmPrimaryKeyConstraint(uuid.get("b204ff42-537b-4e14-bf61-e9baf1b119dc"));
 		orderPk.addKeyColumn(orderId.toReference());
-		tableOrder.store(orderPk);
+		tableOrder.add(orderPk);
 		
 		for (JmColumn column : Arrays.asList(orderUserId, orderDate)) {
 			column.setNotNull(true);
@@ -780,7 +780,7 @@ public class CoreTestModelBuilder2 extends AbstractTestModelBuilder {
 			userId.setDataType(new SimpleDataType(idDomain.asType(jiemamy)));
 		}
 		userId.setLogicalName("ユーザID");
-		tableUser.store(userId);
+		tableUser.add(userId);
 		
 		userName = new JmColumn(uuid.get("dacc68d2-fe32-4f4b-8082-9d55232ba7da"));
 		userName.setName("NAME");
@@ -793,11 +793,11 @@ public class CoreTestModelBuilder2 extends AbstractTestModelBuilder {
 		}
 		userName.setLogicalName("ユーザ名");
 		userName.setDefaultValue("'no name'");
-		tableUser.store(userName);
+		tableUser.add(userName);
 		
 		userPk = new JmPrimaryKeyConstraint(uuid.get("dac295e3-c390-46ee-9a5b-e89636ab9d7e"));
 		userPk.addKeyColumn(userId.toReference());
-		tableUser.store(userPk);
+		tableUser.add(userPk);
 		
 		userName.setNotNull(true);
 	}

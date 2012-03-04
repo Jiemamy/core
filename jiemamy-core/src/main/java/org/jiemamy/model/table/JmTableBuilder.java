@@ -68,10 +68,10 @@ public class JmTableBuilder extends AbstractEntityFactory<JmTable> {
 		JmTable table = new JmTable(id);
 		table.setName(name);
 		for (JmColumn column : columns) {
-			table.store(column);
+			table.add(column);
 		}
 		for (JmConstraint constraint : constraints) {
-			table.store(constraint);
+			table.add(constraint);
 		}
 		return table;
 	}

@@ -55,7 +55,7 @@ public class DataSetUtilTest {
 			SimpleJmDataSet dataSet = (SimpleJmDataSet) context.getDataSets().get(0);
 			JmTable table = context.getTable("TABLE_1");
 			DataSetUtil.importFromCsv(dataSet, table, inCsv);
-			context.store(dataSet);
+			context.add(dataSet);
 			
 			JmRecord record = dataSet.getRecord(table.toReference()).get(0);
 			assertThat(record.getValues().get(table.getColumn("a").toReference()).getScript(), is("a"));

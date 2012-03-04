@@ -51,7 +51,7 @@ public class SimpleDbConnectionConfig implements DbConnectionConfig {
 		if (driverJarPaths == null) {
 			return new URL[0];
 		}
-		return driverJarPaths.clone();
+		return driverJarPaths;
 	}
 	
 	public String getPassword() {
@@ -81,11 +81,7 @@ public class SimpleDbConnectionConfig implements DbConnectionConfig {
 	 * @param driverJarPaths ドライバJARファイルのパス配列
 	 */
 	public void setDriverJarPaths(URL[] driverJarPaths) {
-		if (driverJarPaths != null) {
-			this.driverJarPaths = driverJarPaths.clone();
-		} else {
-			this.driverJarPaths = null;
-		}
+		this.driverJarPaths = driverJarPaths;
 	}
 	
 	/**

@@ -175,8 +175,8 @@ public class JmColumnTest {
 				.build();
 		// FORMAT-ON
 		
-		ctx.store(t1);
-		ctx.store(t2);
+		ctx.add(t1);
+		ctx.add(t2);
 		
 		Collection<JmTable> tables = ctx.getTables();
 		

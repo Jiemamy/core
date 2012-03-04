@@ -93,11 +93,11 @@ public class SqlFacetTest {
 	public void test02_テーブルにASを定義したら_getAroundScriptForで取得できる() throws Exception {
 		JmTable table = new JmTable(UUIDUtil.valueOfOrRandom("a"));
 		table.setName("T_FOO");
-		context.store(table);
+		context.add(table);
 		
 		JmTable table2 = new JmTable(UUIDUtil.valueOfOrRandom("b"));
 		table2.setName("T_BAR");
-		context.store(table2);
+		context.add(table2);
 		
 		SimpleJmAroundScript asm = new SimpleJmAroundScript(UUIDUtil.valueOfOrRandom("b"));
 		asm.setScript(Position.BEGIN, "-- BEGIN", PlainScriptEngine.class);

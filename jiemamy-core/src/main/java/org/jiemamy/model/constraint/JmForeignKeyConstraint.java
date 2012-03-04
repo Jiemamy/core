@@ -175,7 +175,6 @@ public class JmForeignKeyConstraint extends JmKeyConstraint {
 		for (DbObject dbObject : dbObjects) {
 			Validate.notNull(dbObject);
 			if (dbObject instanceof HierarchicalEntity) {
-				@SuppressWarnings("unchecked")
 				HierarchicalEntity he = (HierarchicalEntity) dbObject;
 				for (Entity subEntity : he.getSubEntities()) {
 					if (columnRef.isReferenceOf(subEntity)) {

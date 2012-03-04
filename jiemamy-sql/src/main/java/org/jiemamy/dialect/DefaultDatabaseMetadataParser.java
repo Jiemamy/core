@@ -128,7 +128,7 @@ public class DefaultDatabaseMetadataParser implements DatabaseMetadataParser {
 					}
 				});
 			}
-			context.store(dataSet);
+			context.add(dataSet);
 		}
 		
 		tearDownRead(connection);

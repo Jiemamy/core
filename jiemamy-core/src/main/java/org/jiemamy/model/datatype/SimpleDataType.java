@@ -104,7 +104,7 @@ public final class SimpleDataType implements DataType {
 	}
 	
 	public ParameterMap getParams() {
-		return params.clone();
+		return params;
 	}
 	
 	public RawTypeDescriptor getRawTypeDescriptor() {

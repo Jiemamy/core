@@ -56,7 +56,7 @@ import org.jiemamy.model.datatype.SimpleRawTypeDescriptor;
 import org.jiemamy.model.datatype.SimpleRawTypeDescriptorStaxHandler;
 import org.jiemamy.model.domain.JmDomain;
 import org.jiemamy.model.domain.JmDomainStaxHandler;
-import org.jiemamy.model.domain.SimpleJmDomainTypeStaxHandler;
+import org.jiemamy.model.domain.JmDomainTypeStaxHandler;
 import org.jiemamy.model.table.JmTable;
 import org.jiemamy.model.table.JmTableStaxHandler;
 import org.jiemamy.model.view.JmView;
@@ -105,7 +105,7 @@ public class StaxDirector {
 		addHandler(SimpleDataType.class, CoreQName.DATA_TYPE, new SimpleDataTypeStaxHandler(this));
 		
 		// CoreQName.TYPE_DESCのデフォルトハンドラはSimpleRawTypeDescriptorの為、それを最後に登録すること
-		addHandler(JmDomain.DomainType.class, CoreQName.TYPE_DESC, new SimpleJmDomainTypeStaxHandler(this));
+		addHandler(JmDomain.DomainType.class, CoreQName.TYPE_DESC, new JmDomainTypeStaxHandler(this));
 		addHandler(SimpleRawTypeDescriptor.class, CoreQName.TYPE_DESC, new SimpleRawTypeDescriptorStaxHandler(this));
 		
 		addHandler(JmPrimaryKeyConstraint.class, CoreQName.PRIMARY_KEY, new JmPrimaryKeyConstraintStaxHandler(this));

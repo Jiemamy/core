@@ -93,9 +93,9 @@ public class DefaultForeignKeyImportVisitor extends AbstractCollectionVisitor<Ke
 			JmDeferrability deferrability = JmDeferrability.fromDeferrability(keys.deferrability);
 			foreignKey.setDeferrability(deferrability);
 			
-			constrainedTable.store(foreignKey);
+			constrainedTable.add(foreignKey);
 		}
-		context.store(constrainedTable);
+		context.add(constrainedTable);
 		return null;
 	}
 }

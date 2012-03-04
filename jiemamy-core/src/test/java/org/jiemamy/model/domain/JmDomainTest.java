@@ -62,14 +62,14 @@ public class JmDomainTest {
 		SimpleDataType t = SimpleDataType.of(RawTypeCategory.VARCHAR);
 		t.putParam(TypeParameterKey.SIZE, 32);
 		domain.setDataType(t);
-		context.store(domain);
+		context.add(domain);
 		
 		// FORMAT-OFF
 		JmTable table = new JmTableBuilder("HOGE")
 			.with(new JmColumnBuilder("FOO").type(new SimpleDataType(domain.asType(context))).build())
 			.build();
 		// FORMAT-ON
-		context.store(table);
+		context.add(table);
 		
 		DataType type = table.getColumn("FOO").getDataType();
 		assertThat(type.getRawTypeDescriptor().getCategory(), is(RawTypeCategory.VARCHAR));
@@ -93,7 +93,7 @@ public class JmDomainTest {
 		JmDomain domain = new JmDomain();
 		domain.setName("NAME");
 		domain.setDataType(varchar32);
-		context.store(domain);
+		context.add(domain);
 		
 		SimpleDataType domainType = new SimpleDataType(domain.asType(context));
 		
@@ -102,9 +102,9 @@ public class JmDomainTest {
 				.with(new JmColumnBuilder("ID").type(integer).build())
 				.with(new JmColumnBuilder("FOONAME").type(domainType).build()).build();
 		// FORMAT-ON
-		table.store(JmPrimaryKeyConstraint.of(table.getColumn("ID")));
+		table.add(JmPrimaryKeyConstraint.of(table.getColumn("ID")));
 		
-		context.store(table);
+		context.add(table);
 		
 		// UNDONE 続きをなんか書かないと。
 //		ByteArrayOutputStream baos = new ByteArrayOutputStream();

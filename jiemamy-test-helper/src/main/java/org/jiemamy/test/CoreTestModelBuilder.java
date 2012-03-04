@@ -255,14 +255,14 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		dataSetEn.setName("データ群en");
 		dataSetEn.putRecord(tableDept.toReference(), createDataSetEnDept());
 		dataSetEn.putRecord(tableEmp.toReference(), createDataSetEnEmp());
-		context.store(dataSetEn);
+		context.add(dataSetEn);
 		
 		// データセットの生成・追加(2)
 		SimpleJmDataSet dataSetJa = new SimpleJmDataSet(uuid.get("91246ed4-1ef3-440e-bf12-40fa4439a71b"));
 		dataSetJa.setName("データ群ja");
 		dataSetJa.putRecord(tableDept.toReference(), createDataSetJaDept());
 		dataSetJa.putRecord(tableEmp.toReference(), createDataSetJaEmp());
-		context.store(dataSetJa);
+		context.add(dataSetJa);
 	}
 	
 	/**
@@ -270,12 +270,12 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 	 */
 	protected void createDbObjects() {
 		createTableDept();
-		context.store(tableDept);
+		context.add(tableDept);
 		createTableEmp();
-		context.store(tableEmp);
-		context.store(empNameIndex);
+		context.add(tableEmp);
+		context.add(empNameIndex);
 		createViewHighSal();
-		context.store(viewHighSal);
+		context.add(viewHighSal);
 	}
 	
 	/**
@@ -295,7 +295,7 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		check.setExpression("VALUE > 0");
 		domainId.addCheckConstraint(check);
 		domainId.putParam(TypeParameterKey.SERIAL, true);
-		context.store(domainId);
+		context.add(domainId);
 		
 		domainName = new JmDomain(uuid.get("62f1e6ec-e6aa-4d52-a6c3-27dac086f2d7"));
 		domainName.setName("NAME");
@@ -303,7 +303,7 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		dataType.putParam(TypeParameterKey.SIZE, 32); // CHECKSTYLE IGNORE THIS LINE
 		domainName.setDataType(dataType);
 		domainName.setDescription("人名用の型です。");
-		context.store(domainName);
+		context.add(domainName);
 	}
 	
 	/**
@@ -320,12 +320,12 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		fkEmpEmp.setOnDelete(ReferentialAction.SET_NULL);
 		JmDeferrability deferrability = JmDeferrability.DEFERRABLE_DEFERRED;
 		fkEmpEmp.setDeferrability(deferrability);
-		tableEmp.store(fkEmpEmp);
+		tableEmp.add(fkEmpEmp);
 		
 		fkEmpDept = new JmForeignKeyConstraint(uuid.get("e7dd92b4-1d97-4be6-bab6-fa9fe26eb6ed"));
 		fkEmpDept.setName("emp_dept_id_fkey");
 		fkEmpDept.addReferencing(empDeptId.toReference(), deptId.toReference());
-		tableEmp.store(fkEmpDept);
+		tableEmp.add(fkEmpDept);
 	}
 	
 	private List<JmRecord> createDataSetEnDept() {
@@ -594,18 +594,18 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 			deptId.setDataType(new SimpleDataType(domainId.asType(context)));
 		}
 		deptId.setLogicalName("部署ID");
-		tableDept.store(deptId);
+		tableDept.add(deptId);
 		
 		deptPk = new JmPrimaryKeyConstraint(uuid.get("8de55e65-ec48-467a-bac5-8eee2d71d41c"));
 		deptPk.setName("dept_pkey");
 		deptPk.addKeyColumn(deptId.toReference());
-		tableDept.store(deptPk);
+		tableDept.add(deptPk);
 		
 		deptDeptNo = new JmColumn(uuid.get("2d951389-6bc7-49d7-8631-1d26fe17047e"));
 		deptDeptNo.setName("DEPT_NO");
 		deptDeptNo.setDataType(ModelUtil.createDataType(context, RawTypeCategory.INTEGER));
 		deptDeptNo.setLogicalName("部署番号");
-		tableDept.store(deptDeptNo);
+		tableDept.add(deptDeptNo);
 		
 		deptDeptName = new JmColumn(uuid.get("1fcd63d3-974e-4d2e-a0d8-3b9c233104d9"));
 		deptDeptName.setName("DEPT_NAME");
@@ -613,7 +613,7 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		deptDeptNameDataType.putParam(TypeParameterKey.SIZE, 20);
 		deptDeptName.setDataType(deptDeptNameDataType);
 		deptDeptName.setLogicalName("部署名");
-		tableDept.store(deptDeptName);
+		tableDept.add(deptDeptName);
 		
 		deptLoc = new JmColumn(uuid.get("7bf79e76-07b8-43b6-a993-b8ef374a31f5"));
 		deptLoc.setName("LOC");
@@ -622,7 +622,7 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		deptLoc.setDataType(deptLocDataType);
 		deptLoc.setLogicalName("ロケーション");
 		deptLoc.setDefaultValue("'secret'");
-		tableDept.store(deptLoc);
+		tableDept.add(deptLoc);
 		
 		Map<UUID, UUID> columnNotNullMap = Maps.newHashMap();
 		columnNotNullMap.put(deptDeptNo.getId(), uuid.get("cc709f63-a886-4207-a316-58ad7f279e10"));
@@ -630,7 +630,7 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		
 		for (JmColumn column : Arrays.asList(deptDeptNo, deptDeptName)) {
 			column.setNotNull(true);
-			tableDept.store(column);
+			tableDept.add(column);
 		}
 	}
 	
@@ -651,14 +651,14 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 			empId.setDataType(new SimpleDataType(domainId.asType(context)));
 		}
 		empId.setLogicalName("従業員ID");
-		tableEmp.store(empId);
+		tableEmp.add(empId);
 		
 		empEmpNo = new JmColumn(uuid.get("248a429b-2159-4ebd-a791-eee42a059374"));
 		empEmpNo.setName("EMP_NO");
 		empEmpNo.setDataType(ModelUtil.createDataType(context, RawTypeCategory.INTEGER));
 		empEmpNo.setLogicalName("従業員番号");
 		empEmpNo.setNotNull(true);
-		tableEmp.store(empEmpNo);
+		tableEmp.add(empEmpNo);
 		
 		empEmpName = new JmColumn(uuid.get("0e51b6df-43ab-408c-90ef-de13c6aab881"));
 		empEmpName.setName("EMP_NAME");
@@ -671,18 +671,18 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		}
 		empEmpName.setLogicalName("従業員名");
 		empEmpName.setDefaultValue("'no name'");
-		tableEmp.store(empEmpName);
+		tableEmp.add(empEmpName);
 		
 		empMgrId = new JmColumn(uuid.get("3d21a85a-72de-41b3-99dd-f4cb94e58d84"));
 		empMgrId.setName("MGR_ID");
 		empMgrId.setDataType(ModelUtil.createDataType(context, RawTypeCategory.INTEGER));
 		empMgrId.setLogicalName("上司ID");
-		tableEmp.store(empMgrId);
+		tableEmp.add(empMgrId);
 		
 		empHiredate = new JmColumn(uuid.get("f0b57eed-98ab-4c21-9855-218c592814dc"));
 		empHiredate.setName("HIREDATE");
 		empHiredate.setDataType(ModelUtil.createDataType(context, RawTypeCategory.DATE));
-		tableEmp.store(empHiredate);
+		tableEmp.add(empHiredate);
 		
 		empSal = new JmColumn(uuid.get("80786549-dc2c-4c1c-bcbd-9f6fdec911d2"));
 		empSal.setName("SAL");
@@ -690,22 +690,22 @@ public class CoreTestModelBuilder extends AbstractTestModelBuilder {
 		dataType.putParam(TypeParameterKey.PRECISION, 7);
 		dataType.putParam(TypeParameterKey.SCALE, 2);
 		empSal.setDataType(dataType);
-		tableEmp.store(empSal);
+		tableEmp.add(empSal);
 		
 		JmCheckConstraint checkConstraint = new JmCheckConstraint(uuid.get("873f6660-7a61-4c2c-87a0-e922fa03b88c"));
 		checkConstraint.setName("positive_sal");
 		checkConstraint.setExpression("SAL >= 0");
-		tableEmp.store(checkConstraint);
+		tableEmp.add(checkConstraint);
 		
 		empDeptId = new JmColumn(uuid.get("4ae69b7a-7a0e-422a-89dc-0f0cff77565b"));
 		empDeptId.setName("DEPT_ID");
 		empDeptId.setDataType(ModelUtil.createDataType(context, RawTypeCategory.INTEGER));
-		tableEmp.store(empDeptId);
+		tableEmp.add(empDeptId);
 		
 		empPk = new JmPrimaryKeyConstraint(uuid.get("6145e6a0-9ff7-4033-999d-99d80392a48f"));
 		empPk.setName("emp_pkey");
 		empPk.addKeyColumn(empId.toReference());
-		tableEmp.store(empPk);
+		tableEmp.add(empPk);
 		
 		Map<UUID, UUID> columnNotNullMap = Maps.newHashMap();
 		columnNotNullMap.put(empEmpName.getId(), uuid.get("41f178b9-2cb5-4dad-a6c0-48df2d5b1300"));

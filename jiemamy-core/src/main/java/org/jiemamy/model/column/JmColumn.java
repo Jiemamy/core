@@ -122,10 +122,7 @@ public final class JmColumn extends AbstractOrderedEntity {
 	 * @since 0.3
 	 */
 	public DataType getDataType() {
-		if (dataType == null) {
-			return null;
-		}
-		return dataType.clone();
+		return dataType;
 	}
 	
 	/**
@@ -181,7 +178,7 @@ public final class JmColumn extends AbstractOrderedEntity {
 	}
 	
 	public ParameterMap getParams() {
-		return params.clone();
+		return params;
 	}
 	
 	/**
@@ -221,11 +218,7 @@ public final class JmColumn extends AbstractOrderedEntity {
 	 * @since 0.3
 	 */
 	public void setDataType(DataType dataType) {
-		if (dataType == null) {
-			this.dataType = null;
-		} else {
-			this.dataType = dataType.clone();
-		}
+		this.dataType = dataType;
 	}
 	
 	/**

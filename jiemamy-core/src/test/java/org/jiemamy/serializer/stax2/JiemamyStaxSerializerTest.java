@@ -121,7 +121,7 @@ public class JiemamyStaxSerializerTest {
 		UUID tid = UUID.fromString("d23695f8-76dd-4f8c-b5a2-1e02087ba44d");
 		JmTable t = new JmTable(tid);
 		t.setName("foo");
-		context.store(t);
+		context.add(t);
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		serializer.serialize(context, baos);
@@ -161,8 +161,8 @@ public class JiemamyStaxSerializerTest {
 		c.setLogicalName("baz");
 		c.setDescription("");
 		c.setDataType(SimpleDataType.of(RawTypeCategory.INTEGER));
-		t.store(c);
-		context.store(t);
+		t.add(c);
+		context.add(t);
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		serializer.serialize(context, baos);
@@ -191,12 +191,12 @@ public class JiemamyStaxSerializerTest {
 		UUID id1 = UUID.fromString("cbe160fd-e229-4ede-ae01-3a0ea44ae5d6");
 		JmTable t1 = new JmTable(id1);
 		t1.setName("FOO");
-		ctx.store(t1);
+		ctx.add(t1);
 		
 		UUID id2 = UUID.fromString("76d03b4d-c959-48e9-bd0e-d6c2f61ec54d");
 		JmTable t2 = new JmTable(id2);
 		t2.setName("BAR");
-		ctx.store(t2);
+		ctx.add(t2);
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		serializer.serialize(ctx, baos);
@@ -228,15 +228,15 @@ public class JiemamyStaxSerializerTest {
 		JmColumn c1 = new JmColumn(cid1);
 		c1.setName("CCCC1");
 		c1.setDataType(SimpleDataType.of(RawTypeCategory.INTEGER));
-		t.store(c1);
+		t.add(c1);
 		
 		UUID cid2 = UUID.fromString("7774052e-40ee-4796-b990-2411be64fb35");
 		JmColumn c2 = new JmColumn(cid2);
 		c2.setName("CCCC2");
 		c2.setDataType(SimpleDataType.of(RawTypeCategory.INTEGER));
-		t.store(c2);
+		t.add(c2);
 		
-		ctx.store(t);
+		ctx.add(t);
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		serializer.serialize(ctx, baos);
@@ -422,8 +422,8 @@ public class JiemamyStaxSerializerTest {
 			.with(fk)
 		.build();
 		// FORMAT-ON
-		ctx.store(foo);
-		ctx.store(bar);
+		ctx.add(foo);
+		ctx.add(bar);
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		serializer.serialize(ctx, baos);

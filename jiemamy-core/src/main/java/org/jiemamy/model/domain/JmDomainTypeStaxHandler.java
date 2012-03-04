@@ -43,7 +43,7 @@ import org.jiemamy.xml.CoreQName;
  * @version $Id$
  * @author yamkazu
  */
-public final class SimpleJmDomainTypeStaxHandler extends StaxHandler<JmDomain.DomainType> {
+public final class JmDomainTypeStaxHandler extends StaxHandler<JmDomain.DomainType> {
 	
 //	private static Logger logger = LoggerFactory.getLogger(SimpleJmDomainTypeStaxHandler.class);
 	
@@ -53,7 +53,7 @@ public final class SimpleJmDomainTypeStaxHandler extends StaxHandler<JmDomain.Do
 	 * @param director 親となるディレクタ
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 */
-	public SimpleJmDomainTypeStaxHandler(StaxDirector director) {
+	public JmDomainTypeStaxHandler(StaxDirector director) {
 		super(director);
 	}
 	

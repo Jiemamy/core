@@ -126,7 +126,7 @@ public class DefaultSqlEmitterTest {
 				.with(new JmColumnBuilder("PIYO").type(new SimpleDataType(TIMESTAMP)).build())
 				.build();
 		// FORMAT-ON
-		context.store(table);
+		context.add(table);
 		
 		List<SqlStatement> statements = emitter.emit(context, config);
 		for (SqlStatement statement : statements) {
@@ -155,7 +155,7 @@ public class DefaultSqlEmitterTest {
 				.with(new JmColumnBuilder("PIYO").type(new SimpleDataType(TIMESTAMP)).build())
 				.build();
 		// FORMAT-ON
-		context.store(table);
+		context.add(table);
 		
 		config.setEmitDropStatements(false);
 		
@@ -204,8 +204,8 @@ public class DefaultSqlEmitterTest {
 				.with(JmForeignKeyConstraint.of(empMgrId, empId))
 				.build();
 		// FORMAT-ON
-		context.store(dept);
-		context.store(emp);
+		context.add(dept);
+		context.add(emp);
 		
 		List<SqlStatement> statements = emitter.emit(context, config);
 		for (SqlStatement statement : statements) {
@@ -255,12 +255,12 @@ public class DefaultSqlEmitterTest {
 				.with(new JmColumnBuilder("PIYO").type(new SimpleDataType(TIMESTAMP)).build())
 				.build();
 		// FORMAT-ON
-		context.store(table);
+		context.add(table);
 		
 		JmView view = new JmView();
 		view.setName("V_BAR");
 		view.setDefinition("SELECT * FROM T_FOO WHERE HOGE > 0");
-		context.store(view);
+		context.add(view);
 		
 		List<SqlStatement> statements = emitter.emit(context, config);
 		for (SqlStatement statement : statements) {
@@ -296,7 +296,7 @@ public class DefaultSqlEmitterTest {
 				.with(JmPrimaryKeyConstraint.of(colFoo))
 				.build();
 		// FORMAT-ON
-		context.store(table);
+		context.add(table);
 		
 		SimpleJmDataSet dataSet1 = new SimpleJmDataSet();
 		dataSet1.setName("type-1");
@@ -311,7 +311,7 @@ public class DefaultSqlEmitterTest {
 		values1.put(colBaz.toReference(), new ScriptString("2011-01-25 09:34:05"));
 		records1.add(new SimpleJmRecord(values1));
 		dataSet1.putRecord(table.toReference(), records1);
-		context.store(dataSet1);
+		context.add(dataSet1);
 		
 		SimpleJmDataSet dataSet2 = new SimpleJmDataSet();
 		dataSet2.setName("type-2");
@@ -330,7 +330,7 @@ public class DefaultSqlEmitterTest {
 		values2.put(colBaz.toReference(), new ScriptString("2011-02-17 10:55:59"));
 		records2.add(new SimpleJmRecord(values2));
 		dataSet2.putRecord(table.toReference(), records2);
-		context.store(dataSet2);
+		context.add(dataSet2);
 		
 		config.setEmitDropStatements(false);
 		config.setDataSetIndex(0);
@@ -389,7 +389,7 @@ public class DefaultSqlEmitterTest {
 				.with(JmPrimaryKeyConstraint.of(hoge))
 				.build();
 		// FORMAT-ON
-		context.store(table);
+		context.add(table);
 		
 		List<SqlStatement> statements = emitter.emit(context, config);
 		for (SqlStatement statement : statements) {

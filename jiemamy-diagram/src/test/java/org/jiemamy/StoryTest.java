@@ -71,7 +71,7 @@ public class StoryTest {
 		
 		DiagramFacet diagramFacet = ctx.getFacet(DiagramFacet.class);
 		
-		ctx.store(table);
+		ctx.add(table);
 		diagramFacet.store(diagram);
 		
 		assertThat(diagramFacet.getDiagrams().size(), is(1));

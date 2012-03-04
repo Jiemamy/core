@@ -102,12 +102,12 @@ public class JiemamyContextTest {
 		// tableの生成
 		int size = integer(5) + 1;
 		for (int i = 0; i < size; i++) {
-			context.store(JmTableTest.random());
+			context.add(JmTableTest.random());
 		}
 		// viewの生成
 		size = integer(5) + 1;
 		for (int i = 0; i < size; i++) {
-			context.store(JmViewTest.random());
+			context.add(JmViewTest.random());
 		}
 		
 		// TODO domain, indexとかもstoreする
@@ -115,7 +115,7 @@ public class JiemamyContextTest {
 		// dateSetの生成
 		size = integer(5) + 1;
 		for (int i = 0; i < size; i++) {
-			context.store(SimpleJmDataSetTest.random(context.getTables()));
+			context.add(SimpleJmDataSetTest.random(context.getTables()));
 		}
 		
 		return context;
@@ -183,8 +183,8 @@ public class JiemamyContextTest {
 	 */
 	@Test
 	public void test00_IDが違うテーブルを同じctxに追加できる() throws Exception {
-		ctx1.store(t1a);
-		ctx1.store(t3); // ID違うのでOK
+		ctx1.add(t1a);
+		ctx1.add(t3); // ID違うのでOK
 		assertThat(((JmTable) ctx1.resolve(TID1)).getName(), is("A"));
 		assertThat(((JmTable) ctx1.resolve(TID3)).getName(), is(nullValue()));
 	}
@@ -196,8 +196,8 @@ public class JiemamyContextTest {
 	 */
 	@Test
 	public void test01_IDが同じテーブルを同じctxに追加すると置換更新となる() throws Exception {
-		ctx1.store(t1a);
-		ctx1.store(t1b); // 等価なので置換
+		ctx1.add(t1a);
+		ctx1.add(t1b); // 等価なので置換
 		assertThat(((JmTable) ctx1.resolve(TID1)).getName(), is("B"));
 	}
 	
@@ -208,8 +208,8 @@ public class JiemamyContextTest {
 	 */
 	@Test
 	public void test02_IDが同じであってもctxが違えば普通に別管理となる() throws Exception {
-		ctx1.store(t1a);
-		ctx2.store(t1b); // 等価だけどctxが違うので変化なし
+		ctx1.add(t1a);
+		ctx2.add(t1b); // 等価だけどctxが違うので変化なし
 		assertThat(((JmTable) ctx1.resolve(TID1)).getName(), is("A"));
 		assertThat(((JmTable) ctx2.resolve(TID1)).getName(), is("B"));
 	}
@@ -221,8 +221,8 @@ public class JiemamyContextTest {
 	 */
 	@Test
 	public void test03_同一テーブルを同じctx内にaddする意味はあまりない() throws Exception {
-		ctx1.store(t1a);
-		ctx1.store(t1a); // 同一なので置き換えるが無意味
+		ctx1.add(t1a);
+		ctx1.add(t1a); // 同一なので置き換えるが無意味
 		assertThat(((JmTable) ctx1.resolve(TID1)).getName(), is("A"));
 	}
 	
@@ -233,14 +233,14 @@ public class JiemamyContextTest {
 	 */
 	@Test
 	public void test04_同一テーブルを2つの異なるctxにaddしてもお互い影響しない() throws Exception {
-		ctx1.store(t1a);
-		ctx2.store(t1a); // ctxは違えど同一なのでexception
+		ctx1.add(t1a);
+		ctx2.add(t1a); // ctxは違えど同一なのでexception
 		assertThat(((JmTable) ctx1.resolve(TID1)).getName(), is("A"));
 		assertThat(((JmTable) ctx2.resolve(TID1)).getName(), is("A"));
 		t1a.setName("A2");
 		assertThat(((JmTable) ctx1.resolve(TID1)).getName(), is("A"));
 		assertThat(((JmTable) ctx2.resolve(TID1)).getName(), is("A"));
-		ctx1.store(t1a);
+		ctx1.add(t1a);
 		assertThat(((JmTable) ctx1.resolve(TID1)).getName(), is("A2"));
 		assertThat(((JmTable) ctx2.resolve(TID1)).getName(), is("A"));
 	}
@@ -252,9 +252,9 @@ public class JiemamyContextTest {
 	 */
 	@Test
 	public void test05_removeしたテーブルを同じctxに追加できる() throws Exception {
-		ctx1.store(t1a);
+		ctx1.add(t1a);
 		ctx1.deleteDbObject(t1a.toReference());
-		ctx1.store(t1a);
+		ctx1.add(t1a);
 	}
 	
 	/**
@@ -264,9 +264,9 @@ public class JiemamyContextTest {
 	 */
 	@Test
 	public void test06_もちろんremoveしたテーブルを他のctxに追加してもよい() throws Exception {
-		ctx1.store(t1a);
+		ctx1.add(t1a);
 		ctx1.deleteDbObject(t1a.toReference());
-		ctx2.store(t1a);
+		ctx2.add(t1a);
 	}
 	
 	/**
@@ -276,7 +276,7 @@ public class JiemamyContextTest {
 	 */
 	@Test
 	public void test07_ctx1で管理したのはt1bじゃなくてt1aだけどIDが同じなのでremoveできる() throws Exception {
-		ctx1.store(t1a);
+		ctx1.add(t1a);
 		ctx1.deleteDbObject(t1b.toReference());
 		try {
 			ctx1.resolve(t1a.toReference());
@@ -303,7 +303,7 @@ public class JiemamyContextTest {
 	 */
 	@Test(expected = EntityNotFoundException.class)
 	public void test09_t1aを管理しているのはctx2じゃないので例外() throws Exception {
-		ctx1.store(t1a);
+		ctx1.add(t1a);
 		ctx2.deleteDbObject(t1a.toReference());
 	}
 	
@@ -314,8 +314,8 @@ public class JiemamyContextTest {
 	 */
 	@Test
 	public void test10_IDが違うカラムを同じctxに追加できる() throws Exception {
-		t1a.store(c1a);
-		t1a.store(c3); // ID違うのでOK
+		t1a.add(c1a);
+		t1a.add(c3); // ID違うのでOK
 		assertThat(t1a.getColumn(c1a.toReference()).getName(), is("A"));
 		assertThat(t1a.getColumn(c3.toReference()).getName(), is(nullValue()));
 	}
@@ -327,8 +327,8 @@ public class JiemamyContextTest {
 	 */
 	@Test
 	public void test11_IDが同じカラムを同じテーブル内に置くことはできない() throws Exception {
-		t1a.store(c1a);
-		t1a.store(c1b); // 等価なので置き換え
+		t1a.add(c1a);
+		t1a.add(c1b); // 等価なので置き換え
 		assertThat(t1a.getColumn(c1a.toReference()).getName(), is("B"));
 	}
 	
@@ -339,8 +339,8 @@ public class JiemamyContextTest {
 	 */
 	@Test
 	public void test12_カラムのIDが同じであってもテーブルが違えば置くことができる() throws Exception {
-		t1a.store(c1a);
-		t2.store(c1b); // 等価だけどテーブルが違うのでOK
+		t1a.add(c1a);
+		t2.add(c1b); // 等価だけどテーブルが違うのでOK
 		assertThat(t1a.getColumn(c1a.toReference()).getName(), is("A"));
 		assertThat(t2.getColumn(c1b.toReference()).getName(), is("B"));
 	}
@@ -352,8 +352,8 @@ public class JiemamyContextTest {
 	 */
 	@Test
 	public void test12b_カラムのIDが同じであってもテーブルのインスタンスが違えば置くことができる() throws Exception {
-		t1a.store(c1a);
-		t1b.store(c1b); // 等価だけどテーブルが違うのでOK
+		t1a.add(c1a);
+		t1b.add(c1b); // 等価だけどテーブルが違うのでOK
 		assertThat(t1a.getColumn(c1a.toReference()).getName(), is("A"));
 		assertThat(t1b.getColumn(c1b.toReference()).getName(), is("B"));
 	}
@@ -365,10 +365,10 @@ public class JiemamyContextTest {
 	 */
 	@Test
 	public void test12c_カラムとIDのIDが同じであってもコンテキストが違えば置くことができる() throws Exception {
-		t1a.store(c1a);
-		t1b.store(c1b);
-		ctx1.store(t1a);
-		ctx2.store(t1b); // コンテキストが違うからOK
+		t1a.add(c1a);
+		t1b.add(c1b);
+		ctx1.add(t1a);
+		ctx2.add(t1b); // コンテキストが違うからOK
 		
 		assertThat(ctx1.resolve(c1a.toReference()).getName(), is("A"));
 		assertThat(ctx2.resolve(c1b.toReference()).getName(), is("B"));
@@ -381,10 +381,10 @@ public class JiemamyContextTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void test12d_カラムとIDのIDが同じセットを同じコンテキストに置こうとすると例外() throws Exception {
-		t1a.store(c1a);
-		t2.store(c1b);
-		ctx1.store(t1a);
-		ctx1.store(t2); // 既に管理済みのt1aが持つc1aと同じIDを持つc1bをt2が持ってるからダメ
+		t1a.add(c1a);
+		t2.add(c1b);
+		ctx1.add(t1a);
+		ctx1.add(t2); // 既に管理済みのt1aが持つc1aと同じIDを持つc1bをt2が持ってるからダメ
 	}
 	
 	/**
@@ -394,10 +394,10 @@ public class JiemamyContextTest {
 	 */
 	@Test
 	public void test12e_() throws Exception {
-		t1a.store(c1a);
-		t2.store(c1b);
-		ctx1.store(t1a);
-		ctx2.store(t2); // でもコンテキストが違えばOK
+		t1a.add(c1a);
+		t2.add(c1b);
+		ctx1.add(t1a);
+		ctx2.add(t2); // でもコンテキストが違えばOK
 		
 		assertThat(ctx1.resolve(c1a.toReference()).getName(), is("A"));
 		assertThat(ctx2.resolve(c1b.toReference()).getName(), is("B"));
@@ -410,8 +410,8 @@ public class JiemamyContextTest {
 	 */
 	@Test
 	public void test13_同一カラムを同じテーブル内に置くことはできない() throws Exception {
-		t1a.store(c1a);
-		t1a.store(c1a); // 同一なので置き換え
+		t1a.add(c1a);
+		t1a.add(c1a); // 同一なので置き換え
 		
 		assertThat(t1a.getColumn(c1a.toReference()).getName(), is("A"));
 	}
@@ -423,8 +423,8 @@ public class JiemamyContextTest {
 	 */
 	@Test
 	public void test14_たとえテーブルが違っていても同一カラムだったら置けない() throws Exception {
-		t1a.store(c1a);
-		t2.store(c1a); // テーブルは違えど同一なのでexception
+		t1a.add(c1a);
+		t2.add(c1a); // テーブルは違えど同一なのでexception
 		
 		assertThat(t1a.getColumn(c1a.toReference()).getName(), is("A"));
 		assertThat(t2.getColumn(c1a.toReference()).getName(), is("A"));
@@ -437,9 +437,9 @@ public class JiemamyContextTest {
 	 */
 	@Test
 	public void test15_removeしたカラムを同じテーブルに追加できる() throws Exception {
-		t1a.store(c1a);
-		t1a.deleteColumn(c1a.toReference());
-		t1a.store(c1a); // removeしたら再addできる
+		t1a.add(c1a);
+		t1a.removeColumn(c1a.toReference());
+		t1a.add(c1a); // removeしたら再addできる
 	}
 	
 	/**
@@ -449,9 +449,9 @@ public class JiemamyContextTest {
 	 */
 	@Test
 	public void test16_もちろんremoveしたカラムを他のテーブルに追加してもよい() throws Exception {
-		t1a.store(c1a);
-		t1a.deleteColumn(c1a.toReference());
-		t2.store(c1a); // removeしたら再addできる
+		t1a.add(c1a);
+		t1a.removeColumn(c1a.toReference());
+		t2.add(c1a); // removeしたら再addできる
 	}
 	
 	/**
@@ -461,8 +461,8 @@ public class JiemamyContextTest {
 	 */
 	@Test
 	public void test17_t1aで管理したのはc1bじゃなくてc1だけどremoveできる() throws Exception {
-		t1a.store(c1a);
-		t1a.deleteColumn(c1b.toReference());
+		t1a.add(c1a);
+		t1a.removeColumn(c1b.toReference());
 	}
 	
 	/**
@@ -472,7 +472,7 @@ public class JiemamyContextTest {
 	 */
 	@Test(expected = EntityNotFoundException.class)
 	public void test18_管理していないカラムをremoveできない() throws Exception {
-		t1a.deleteColumn(c1a.toReference());
+		t1a.removeColumn(c1a.toReference());
 	}
 	
 	/**
@@ -482,8 +482,8 @@ public class JiemamyContextTest {
 	 */
 	@Test(expected = EntityNotFoundException.class)
 	public void test19_c1aを管理しているのはt2じゃないので例外() throws Exception {
-		t1a.store(c1a);
-		t2.deleteColumn(c1a.toReference());
+		t1a.add(c1a);
+		t2.removeColumn(c1a.toReference());
 	}
 	
 	/**
@@ -493,9 +493,9 @@ public class JiemamyContextTest {
 	 */
 	@Test
 	public void test20a() throws Exception {
-		t1a.store(c1a);
-		t2.store(c2);
-		t3.store(c3);
+		t1a.add(c1a);
+		t2.add(c2);
+		t3.add(c3);
 		
 		try {
 			ctx1.resolve(TID1);
@@ -538,11 +538,11 @@ public class JiemamyContextTest {
 	@Test
 	@SuppressWarnings("javadoc")
 	public void test20b() {
-		t1a.store(c1a);
-		t2.store(c2);
-		t3.store(c3);
+		t1a.add(c1a);
+		t2.add(c2);
+		t3.add(c3);
 		
-		ctx1.store(t1a);
+		ctx1.add(t1a);
 		
 		assertThat(ctx1.resolve(TID1), is((Entity) t1a));
 		assertThat(ctx1.resolve(CID1), is((Entity) c1a));
@@ -576,11 +576,11 @@ public class JiemamyContextTest {
 	@Test
 	@SuppressWarnings("javadoc")
 	public void test20c() {
-		t1a.store(c1a);
-		t2.store(c2);
-		t3.store(c3);
+		t1a.add(c1a);
+		t2.add(c2);
+		t3.add(c3);
 		
-		ctx1.store(t1a);
+		ctx1.add(t1a);
 		ctx1.deleteDbObject(t1a.toReference());
 		
 		try {
@@ -635,9 +635,9 @@ public class JiemamyContextTest {
 	public void test31_double_add() {
 		JmTable table = spy(new JmTable());
 		
-		ctx1.store(table);
-		ctx1.store(table);
-		ctx2.store(table);
+		ctx1.add(table);
+		ctx1.add(table);
+		ctx2.add(table);
 		ctx2.deleteDbObject(table.toReference());
 		ctx1.deleteDbObject(table.toReference());
 		
@@ -655,11 +655,11 @@ public class JiemamyContextTest {
 		JmTable table1 = new JmTable(ctx1.toUUID("a"));
 		JmTable table2 = new JmTable(ctx1.toUUID("a"));
 		
-		ctx1.store(table1);
-		ctx1.store(table1);
-		ctx1.store(table2);
-		ctx2.store(table1);
-		ctx2.store(table2);
+		ctx1.add(table1);
+		ctx1.add(table1);
+		ctx1.add(table2);
+		ctx2.add(table1);
+		ctx2.add(table2);
 		ctx2.deleteDbObject(table1.toReference());
 		ctx1.deleteDbObject(table2.toReference());
 		
@@ -699,7 +699,7 @@ public class JiemamyContextTest {
 		}
 		
 		JmTable table = new JmTable(id);
-		ctx1.store(table);
+		ctx1.add(table);
 		
 		assertThat(ctx1.resolve(id), is((Entity) table));
 		assertThat(ctx1.resolve(tableRef), is((Entity) table));
@@ -731,9 +731,9 @@ public class JiemamyContextTest {
 				.with(JmForeignKeyConstraint.of(e, d))
 				.build();
 		
-		ctx1.store(t1);
-		ctx1.store(t2);
-		ctx1.store(t3);
+		ctx1.add(t1);
+		ctx1.add(t2);
+		ctx1.add(t3);
 		
 		assertThat(ctx1.findSubDbObjectsNonRecursive(t1).size(), is(1));
 		assertThat(ctx1.findSubDbObjectsNonRecursive(t2).size(), is(1));
@@ -768,12 +768,12 @@ public class JiemamyContextTest {
 		JmColumn col2 = new JmColumnBuilder().name("VALUE").build();
 		
 		JmTable table = new JmTableBuilder().name("T_PROPERTY").build();
-		table.store(col1);
-		table.store(col2);
+		table.add(col1);
+		table.add(col2);
 		List<EntityRef<? extends JmColumn>> pk = new ArrayList<EntityRef<? extends JmColumn>>();
 		pk.add(col1.toReference());
-		table.store(JmPrimaryKeyConstraint.of(pk));
-		ctx1.store(table);
+		table.add(JmPrimaryKeyConstraint.of(pk));
+		ctx1.add(table);
 		
 		assertThat(table.getColumns().size(), is(2));
 		assertThat(table.getConstraints().size(), is(1));
@@ -790,7 +790,7 @@ public class JiemamyContextTest {
 				.with(JmPrimaryKeyConstraint.of(pkColumn))
 				.build();
 		// FORMAT-ON
-		ctx1.store(table);
+		ctx1.add(table);
 		
 		assertThat(table.getColumns().size(), is(2));
 		assertThat(table.getConstraints().size(), is(1));
@@ -820,8 +820,8 @@ public class JiemamyContextTest {
 				.with(JmForeignKeyConstraint.of(fkColumn2,pkColumn))
 				.build();
 		// FORMAT-ON
-		ctx1.store(dept);
-		ctx1.store(emp);
+		ctx1.add(dept);
+		ctx1.add(emp);
 		
 		assertThat(dept.getColumns().size(), is(3));
 		assertThat(dept.getConstraints().size(), is(1));
@@ -834,10 +834,10 @@ public class JiemamyContextTest {
 	public void test41() {
 		JmTable t1 = new JmTable();
 		t1.setName("TBL");
-		ctx1.store(t1);
+		ctx1.add(t1);
 		JmTable t2 = new JmTable();
 		t2.setName("TBL");
-		ctx1.store(t2);
+		ctx1.add(t2);
 		
 		try {
 			ctx1.getTable("XXX");

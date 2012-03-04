@@ -51,7 +51,7 @@ public class NamingUtilTest {
 		context = new JiemamyContext();
 		t1 = new JmTable();
 		t1.setName("TABLE_1");
-		context.store(t1);
+		context.add(t1);
 	}
 	
 	/**
@@ -65,7 +65,7 @@ public class NamingUtilTest {
 		NamingUtil.autoName(t2, context);
 		
 		assertThat(t2.getName(), is(not("TABLE_1")));
-		context.store(t2);
+		context.add(t2);
 		
 		JmTable t3 = new JmTable();
 		NamingUtil.autoName(t3, context);
