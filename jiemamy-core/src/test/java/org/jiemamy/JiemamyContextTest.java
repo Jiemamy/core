@@ -227,25 +227,6 @@ public class JiemamyContextTest {
 	}
 	
 	/**
-	 * 同一テーブルを2つの異なるctxにaddしてもお互い影響しない。
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
-	@Test
-	public void test04_同一テーブルを2つの異なるctxにaddしてもお互い影響しない() throws Exception {
-		ctx1.add(t1a);
-		ctx2.add(t1a); // ctxは違えど同一なのでexception
-		assertThat(((JmTable) ctx1.resolve(TID1)).getName(), is("A"));
-		assertThat(((JmTable) ctx2.resolve(TID1)).getName(), is("A"));
-		t1a.setName("A2");
-		assertThat(((JmTable) ctx1.resolve(TID1)).getName(), is("A"));
-		assertThat(((JmTable) ctx2.resolve(TID1)).getName(), is("A"));
-		ctx1.add(t1a);
-		assertThat(((JmTable) ctx1.resolve(TID1)).getName(), is("A2"));
-		assertThat(((JmTable) ctx2.resolve(TID1)).getName(), is("A"));
-	}
-	
-	/**
 	 * removeしたテーブルを同じctxに追加できる。
 	 * 
 	 * @throws Exception 例外が発生した場合
